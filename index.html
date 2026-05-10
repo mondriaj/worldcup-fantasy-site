@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>World Cup Fantasy Helper</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__content">
+        <p class="eyebrow">Family AI Project</p>
+        <h1>World Cup Fantasy Helper</h1>
+        <p class="hero__text">
+          A simple dashboard to help you make quick fantasy team decisions.
+        </p>
+        <button id="build-team-btn" class="primary-button">
+          Build My Team
+        </button>
+      </div>
+    </header>
+
+    <main class="page-shell">
+      <section class="panel">
+        <div class="section-heading">
+          <h2>Homepage Decision Dashboard</h2>
+          <p>Simple picks for this sample fantasy matchday.</p>
+        </div>
+
+        <div class="dashboard-grid">
+          <!-- These cards keep the homepage visual and easy to scan. -->
+          <article class="info-card">
+            <span class="info-card__label">Best Captain</span>
+            <strong>Leo Santos</strong>
+            <p>Strong fixture and reliable attacking role.</p>
+          </article>
+          <article class="info-card">
+            <span class="info-card__label">Safe Captain</span>
+            <strong>Marco Vale</strong>
+            <p>Likely starter with steady points potential.</p>
+          </article>
+          <article class="info-card">
+            <span class="info-card__label">Risky Captain</span>
+            <strong>Tariq Noor</strong>
+            <p>High upside, but less certain minutes.</p>
+          </article>
+          <article class="info-card">
+            <span class="info-card__label">Best Value</span>
+            <strong>Emil Costa</strong>
+            <p>Budget-friendly pick with good involvement.</p>
+          </article>
+          <article class="info-card">
+            <span class="info-card__label">Avoid</span>
+            <strong>Niko Petrov</strong>
+            <p>Rotation risk makes this a dangerous pick.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <h2>Captain Picks</h2>
+          <p>Sample captain options with simple placeholder scores.</p>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Player</th>
+                <th>Country</th>
+                <th>Opponent</th>
+                <th>Safety</th>
+                <th>Upside</th>
+                <th>Risk</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Leo Santos</td>
+                <td>Brazil</td>
+                <td>Japan</td>
+                <td>High</td>
+                <td>High</td>
+                <td>Low</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Marco Vale</td>
+                <td>Portugal</td>
+                <td>Mexico</td>
+                <td>High</td>
+                <td>Medium</td>
+                <td>Low</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Tariq Noor</td>
+                <td>Morocco</td>
+                <td>USA</td>
+                <td>Medium</td>
+                <td>High</td>
+                <td>High</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <h2>Team Advice</h2>
+          <p>Short and simple recommendations for sample players.</p>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Player</th>
+                <th>Country</th>
+                <th>Position</th>
+                <th>Price</th>
+                <th>Role</th>
+                <th>Risk</th>
+                <th>Recommendation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Emil Costa</td>
+                <td>Spain</td>
+                <td>Midfielder</td>
+                <td>$6.0</td>
+                <td>Value</td>
+                <td>Medium</td>
+                <td>Good Value</td>
+              </tr>
+              <tr>
+                <td>Jules Martin</td>
+                <td>France</td>
+                <td>Defender</td>
+                <td>$5.0</td>
+                <td>Safe</td>
+                <td>Low</td>
+                <td>Strong Pick</td>
+              </tr>
+              <tr>
+                <td>Niko Petrov</td>
+                <td>Croatia</td>
+                <td>Forward</td>
+                <td>$8.5</td>
+                <td>Risky</td>
+                <td>High</td>
+                <td>Avoid</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel panel--team">
+        <div class="section-heading">
+          <h2>Our Team Reveal</h2>
+          <p>The sample 11-player team will appear on the soccer field below.</p>
+        </div>
+
+        <div class="team-summary">
+          <div class="summary-chip">
+            <span>Captain</span>
+            <strong>Leo Santos</strong>
+          </div>
+          <div class="summary-chip">
+            <span>Vice Captain</span>
+            <strong>Marco Vale</strong>
+          </div>
+          <div class="summary-chip">
+            <span>Watchlist</span>
+            <strong>Akira Sato, Owen Reed</strong>
+          </div>
+        </div>
+
+        <!-- JavaScript fills this field with player cards after the button is clicked. -->
+        <div id="team-field" class="soccer-field hidden" aria-live="polite">
+          <div class="field-markings">
+            <div class="center-circle"></div>
+            <div class="center-line"></div>
+            <div class="goal-box goal-box--top"></div>
+            <div class="goal-box goal-box--bottom"></div>
+          </div>
+          <div id="team-players" class="team-players"></div>
+        </div>
+
+        <p id="team-message" class="team-message">
+          Click "Build My Team" to generate a fake team of 11 players.
+        </p>
+      </section>
+
+      <section class="panel panel--run">
+        <div class="section-heading">
+          <h2>How To Run It</h2>
+          <p>This project is intentionally simple and does not need a server.</p>
+        </div>
+
+        <ol class="steps-list">
+          <li>Open the `project` folder on your computer.</li>
+          <li>Double-click `index.html`.</li>
+          <li>Your browser will open the website locally.</li>
+          <li>Click the "Build My Team" button to show the fake team.</li>
+        </ol>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
