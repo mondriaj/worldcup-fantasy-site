@@ -1,0 +1,9 @@
+{
+  "instructions": [
+    "Add real national teams here after checking a trusted source.",
+    "Use the player id from players.json as the key.",
+    "Do not guess. Leave the country blank if it still needs checking.",
+    "After filling in some countries, run: node applyCountryMappings.js"
+  ],
+  "mappings": {}
+}
