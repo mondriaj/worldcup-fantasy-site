@@ -1,4 +1,5 @@
-[
+// Generated from players.json so the website can run by double-clicking index.html.
+window.PLAYERS_DATA = [
   {
     "id": "1",
     "name": "David Raya Martín",
@@ -10099,4 +10100,4 @@
     "risk_adjusted_expected_points_estimate": 3.37,
     "risk_adjusted_overall_score": 46
   }
-]
+];

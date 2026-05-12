@@ -28,6 +28,23 @@ Important note:
 - It was used to enrich `players.json`
 - It is not the original source for player names, clubs, or prices
 
+## Scoring Rules Source
+
+We also use the official UEFA EURO 2024 fantasy rules as the model for performance measures:
+
+- UEFA EURO 2024 fantasy rules
+- Link: https://www.uefa.com/uefaeuro/history/news/0268-121c6d842f48-45f4db182115-1000--euro-2024-fantasy-football-rules/
+
+This source is used for:
+- score ideas
+- point weights
+- fantasy-style performance measures
+
+Important note:
+- The EURO rules are used as a scoring model
+- they are not the source of the raw player stats
+- our EURO-style score fields are still estimates built from our available data
+
 ## What This Source Is Used For
 
 ### Player names
