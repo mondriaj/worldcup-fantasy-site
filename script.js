@@ -114,6 +114,7 @@ const buildTeamButtonBottom = document.getElementById("build-team-btn-bottom");
 const tacticSelect = document.getElementById("tactic-select");
 const measureSelect = document.getElementById("measure-select");
 const adviceMeasureSelect = document.getElementById("advice-measure-select");
+const advicePositionSelect = document.getElementById("advice-position-select");
 const cardStatSelect = document.getElementById("card-stat-select");
 const measureInfo = document.getElementById("measure-info");
 const scoreInfoButton = document.getElementById("score-info-btn");
@@ -872,10 +873,15 @@ function renderDashboardSections() {
 
 function renderAdviceTable() {
   const measureKey = adviceMeasureSelect.value || "balanced";
+  const positionFilterValue = advicePositionSelect.value || "All";
   const measure = activeAdviceMeasure();
-  const ranked = sortPlayers(players, measure);
+  const advicePlayers = positionFilterValue === "All"
+    ? players
+    : players.filter((player) => player.position === positionFilterValue);
+  const ranked = sortPlayers(advicePlayers, measure);
+  const positionLabel = positionFilterValue === "All" ? "all positions" : positionFilterValue.toLowerCase();
 
-  adviceStyleNote.textContent = `Showing team advice for ${measure.label}. This filter is independent from the Team Builder filter.`;
+  adviceStyleNote.textContent = `Showing ${positionLabel} advice for ${measure.label}. These filters are independent from the Team Builder filters.`;
 
   adviceTableBody.innerHTML = ranked.slice(0, 8).map((player) => `
     <tr>
@@ -889,6 +895,14 @@ function renderAdviceTable() {
       <td>${styleReason(player, measureKey)}</td>
     </tr>
   `).join("");
+
+  if (!ranked.length) {
+    adviceTableBody.innerHTML = `
+      <tr>
+        <td colspan="8">No players match this Team Advice filter yet.</td>
+      </tr>
+    `;
+  }
 }
 
 function buildTeam() {
@@ -1030,6 +1044,7 @@ function setupBuilder() {
     }
   });
   adviceMeasureSelect.addEventListener("change", renderAdviceTable);
+  advicePositionSelect.addEventListener("change", renderAdviceTable);
   cardStatSelect.addEventListener("change", () => {
     renderTeam(currentRenderedTeam, currentBenchPlayers, currentIgnoredLockedPlayers, currentRenderMode);
   });

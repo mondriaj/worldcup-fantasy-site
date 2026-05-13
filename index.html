@@ -9,11 +9,31 @@
   <body>
     <header class="hero">
       <div class="hero__content">
-        <p class="eyebrow">Family AI Project</p>
-        <h1>World Cup Fantasy Helper</h1>
+        <p class="eyebrow">Week 4 Public Preview</p>
+        <h1>World Cup Fantasy Team Builder</h1>
         <p class="hero__text">
-          Build a real-player fantasy team using tactics, performance scores, and risk measures.
+          Explore real-player fantasy picks, compare risk-adjusted styles, and build a 15-player squad on a soccer-field dashboard.
         </p>
+
+        <div class="hero__actions" aria-label="Homepage actions">
+          <a class="primary-button primary-button--hero" href="#team-builder">Start Team Builder</a>
+          <a class="secondary-link" href="#team-advice">Compare Player Advice</a>
+        </div>
+
+        <div class="hero-highlights" aria-label="Website highlights">
+          <article>
+            <span>100</span>
+            <p>real-player sample database</p>
+          </article>
+          <article>
+            <span>15</span>
+            <p>player squad with bench</p>
+          </article>
+          <article>
+            <span>8</span>
+            <p>performance and risk styles</p>
+          </article>
+        </div>
       </div>
     </header>
 
@@ -126,11 +146,11 @@
         </div>
       </details>
 
-      <details class="panel collapsible-panel">
+      <details id="team-advice" class="panel collapsible-panel">
         <summary class="collapsible-summary">
           <span>
             <h2>Team Advice</h2>
-            <p>Open this to rank useful player ideas by the style you care about.</p>
+            <p>Open this to rank useful player ideas by style and position.</p>
           </span>
           <span class="collapsible-action" aria-hidden="true"></span>
         </summary>
@@ -140,6 +160,17 @@
             <label class="control-group" for="advice-measure-select">
               <span>Advice Style</span>
               <select id="advice-measure-select"></select>
+            </label>
+
+            <label class="control-group" for="advice-position-select">
+              <span>Player Position</span>
+              <select id="advice-position-select">
+                <option value="All">All positions</option>
+                <option value="Goalkeeper">Goalkeepers</option>
+                <option value="Defender">Defenders</option>
+                <option value="Midfielder">Midfielders</option>
+                <option value="Forward">Forwards</option>
+              </select>
             </label>
 
             <p id="advice-style-note">Simple player notes using expected points and risk scores.</p>
@@ -193,7 +224,7 @@
         </div>
       </details>
 
-      <section class="panel panel--team">
+      <section id="team-builder" class="panel panel--team">
         <div class="section-heading">
           <h2>Team Builder</h2>
           <p>Choose a tactic, pick a ranking measure, lock favorite players, and let the builder fill the rest.</p>
