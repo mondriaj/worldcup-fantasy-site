@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header class="hero">
+    <header id="top" class="hero">
       <div class="hero__content">
         <p class="eyebrow">Public Preview</p>
         <h1>World Cup Fantasy Helper</h1>
@@ -91,7 +91,7 @@
         </div>
       </section>
 
-      <details class="panel collapsible-panel">
+      <details id="captain-picks" class="panel collapsible-panel">
         <summary class="collapsible-summary">
           <span>
             <h2>Captain Picks</h2>
@@ -351,7 +351,7 @@
         </div>
       </section>
 
-      <details class="panel collapsible-panel stats-method-panel">
+      <details id="methodology" class="panel collapsible-panel stats-method-panel">
         <summary class="collapsible-summary">
           <span>
             <h2>How The Stats Are Made</h2>
@@ -725,7 +725,96 @@
         </div>
       </details>
 
+      <section id="data-sources" class="panel trust-panel">
+        <div class="section-heading">
+          <h2>Data Sources</h2>
+          <p>What the current preview uses and what will change later.</p>
+        </div>
+
+        <div class="trust-grid">
+          <article>
+            <h3>Current Preview</h3>
+            <p>This public preview uses a 100-player EPL/FPL-style test dataset so the tools can be tested before final World Cup squads, prices, and fantasy rules are available.</p>
+          </article>
+          <article>
+            <h3>World Cup Data Plan</h3>
+            <p>The current player list, prices, clubs, and model fields are for preview use. The data will be replaced or expanded when reliable World Cup squads and official fantasy information are available.</p>
+          </article>
+          <article>
+            <h3>Independence</h3>
+            <p>This site is independent. It is not official FIFA fantasy advice, and it does not include betting or gambling content.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="changelog" class="panel trust-panel">
+        <div class="section-heading">
+          <h2>Changelog</h2>
+          <p>Recent improvements in this public preview.</p>
+        </div>
+
+        <div class="change-entry">
+          <h3>May 13, 2026</h3>
+          <ul class="compact-list">
+            <li>Public preview status and data notes added.</li>
+            <li>SEO, sharing metadata, and no-JS fallback cleaned up.</li>
+            <li>Mobile tables and Team Builder layout improved.</li>
+            <li>Quick Picks and pick-style labels rewritten for fantasy users.</li>
+            <li>Country display and relative risk wording cleaned up.</li>
+            <li>Team Builder controls added: reset, clear locks, remove players, and restore removed players.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="about" class="panel trust-panel">
+        <div class="section-heading">
+          <h2>About</h2>
+          <p>An independent fantasy football helper built for the World Cup workflow.</p>
+        </div>
+
+        <div class="trust-grid trust-grid--about">
+          <article>
+            <h3>Purpose</h3>
+            <p>World Cup Fantasy Helper is an independent fantasy football tool built to compare picks, captain options, and squad ideas in one place.</p>
+          </article>
+          <article>
+            <h3>Current Status</h3>
+            <p>The site is structured to become World Cup-specific once official squads, player prices, fixtures, and fantasy rules are available. For now, current picks use test data, so they should be treated as a preview of the tools rather than final World Cup recommendations.</p>
+          </article>
+          <article>
+            <h3>Known Limits</h3>
+            <ul class="compact-list">
+              <li>Final World Cup squads are not loaded yet.</li>
+              <li>Official fantasy prices and rules are pending.</li>
+              <li>Fixture-adjusted fantasy advice and matchday-specific captain picks are not loaded yet.</li>
+              <li>The current model uses available test data and estimated risk fields.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
     </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <div>
+          <h2>World Cup Fantasy Helper</h2>
+          <p>Independent fantasy football tools for picks, rankings, and squad ideas. Public preview using test data while final World Cup fantasy information is pending.</p>
+          <p class="site-footer__note">Not official FIFA fantasy advice. No betting or gambling content.</p>
+        </div>
+
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <a href="#top">Home</a>
+          <a href="#quick-picks">Quick Picks</a>
+          <a href="#captain-picks">Captain Picks</a>
+          <a href="#team-builder">Team Builder</a>
+          <a href="#data-sources">Data Sources</a>
+          <a href="#methodology">Methodology</a>
+          <a href="#changelog">Changelog</a>
+          <a href="#about">About</a>
+        </nav>
+      </div>
+    </footer>
 
     <script src="playersData.js"></script>
     <script src="script.js"></script>
