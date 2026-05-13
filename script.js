@@ -133,8 +133,14 @@ const cardStats = {
 };
 
 const lockedPlayerIds = new Set();
+const excludedPlayerIds = new Set();
 
 const buildTeamButtonBottom = document.getElementById("build-team-btn-bottom");
+const resetTeamButton = document.getElementById("reset-team-btn");
+const clearLockedButton = document.getElementById("clear-locked-btn");
+const removeSelectedPlayerButton = document.getElementById("remove-selected-player-btn");
+const removedPlayersPanel = document.getElementById("removed-players-panel");
+const removedPlayersList = document.getElementById("removed-players-list");
 const tacticSelect = document.getElementById("tactic-select");
 const measureSelect = document.getElementById("measure-select");
 const adviceMeasureSelect = document.getElementById("advice-measure-select");
@@ -171,6 +177,8 @@ let currentBenchPlayers = [];
 let currentIgnoredLockedPlayers = [];
 let currentRenderMode = "preview";
 let selectedSwap = null;
+let currentStarterSlotsByPosition = {};
+let currentBenchSlotsByPosition = {};
 
 function value(number) {
   return Number(number) || 0;
@@ -230,6 +238,10 @@ function playerSearchText(player) {
 
 function topByPosition(position, measure) {
   return sortPlayers(players.filter((player) => player.position === position), measure)[0];
+}
+
+function playerById(playerId) {
+  return players.find((player) => player.id === playerId);
 }
 
 function captainScore(player) {
@@ -467,6 +479,7 @@ function renderPlayerPicker() {
   const measure = activeMeasure();
   const searchValue = playerSearch.value.trim().toLowerCase();
   const visiblePlayers = sortPlayers(players, measure)
+    .filter((player) => !excludedPlayerIds.has(player.id))
     .filter((player) => selectedPositionFilter === "All" || player.position === selectedPositionFilter)
     .filter(priceMatchesFilters)
     .filter((player) => playerSearchText(player).includes(searchValue))
@@ -524,13 +537,14 @@ function updateLockedPlayers(event) {
     lockedPlayerIds.delete(event.target.value);
   }
 
+  updateControlStates();
   renderLockedPreview();
 }
 
 // Locked players are kept first, but only while they fit the 15-player squad limits.
 function getValidLockedSquadPlayers(measure) {
   const lockedPlayers = sortPlayers(
-    players.filter((player) => lockedPlayerIds.has(player.id)),
+    players.filter((player) => lockedPlayerIds.has(player.id) && !excludedPlayerIds.has(player.id)),
     measure
   );
   const usedByPosition = { Goalkeeper: 0, Defender: 0, Midfielder: 0, Forward: 0 };
@@ -588,6 +602,7 @@ function buildSuggestedSquad() {
       players.filter((player) =>
         player.position === position &&
         !usedIds.has(player.id) &&
+        !excludedPlayerIds.has(player.id) &&
         priceMatchesFilters(player)
       ),
       measure
@@ -626,6 +641,50 @@ function fieldLayoutForTactic(tacticName) {
 
 function clearTeamPreview() {
   renderTeam([], [], [], "preview");
+}
+
+function updateControlStates() {
+  clearLockedButton.classList.toggle("hidden", lockedPlayerIds.size === 0);
+  clearLockedButton.disabled = lockedPlayerIds.size === 0;
+}
+
+function renderRemovedPlayers() {
+  const removedPlayers = Array.from(excludedPlayerIds)
+    .map(playerById)
+    .filter(Boolean)
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  removedPlayersPanel.classList.toggle("hidden", removedPlayers.length === 0);
+
+  if (!removedPlayers.length) {
+    removedPlayersList.innerHTML = "";
+    return;
+  }
+
+  removedPlayersList.innerHTML = removedPlayers.map((player) => `
+    <span class="removed-player-chip">
+      <span>${player.name}</span>
+      <button type="button" data-add-back-player-id="${player.id}">Add Back</button>
+    </span>
+  `).join("");
+}
+
+function clearRenderedTeam(message, options = {}) {
+  if (options.clearExclusions) {
+    excludedPlayerIds.clear();
+  }
+
+  selectedSwap = null;
+  renderTeam([], [], [], "preview");
+  builderWarning.classList.add("hidden");
+  builderWarning.textContent = "";
+  summaryTactic.textContent = tacticSelect.value;
+  summaryPrice.textContent = "$0.0";
+  summaryRisk.textContent = "0";
+  summaryLocked.textContent = "0 / 15";
+  teamMessage.textContent = message;
+  updateControlStates();
+  renderRemovedPlayers();
 }
 
 function renderWarning(tacticName, ignoredLockedPlayers, missingStarterSlots, missingSquadSlots = 0) {
@@ -696,11 +755,56 @@ function benchRequirementsForTactic(tacticName) {
   };
 }
 
-function renderPlayerCard(player, slot) {
+function compactSlotMap(slotMap) {
+  return positionOrder.flatMap((position) =>
+    (slotMap[position] || []).filter(Boolean)
+  );
+}
+
+function starterSlotMapForTeam(starters, layout, mode) {
+  const groupedPlayers = playersByPosition(starters);
+  const slotMap = {};
+
+  positionOrder.forEach((position) => {
+    const slots = layout[position];
+    const positionPlayers = groupedPlayers[position];
+    const slotPlayers = new Array(slots.length).fill(null);
+    const startIndex = mode === "preview"
+      ? Math.max(0, Math.floor((slots.length - positionPlayers.length) / 2))
+      : 0;
+
+    positionPlayers.slice(0, slots.length).forEach((player, index) => {
+      const slotIndex = Math.min(startIndex + index, slots.length - 1);
+      slotPlayers[slotIndex] = player;
+    });
+
+    slotMap[position] = slotPlayers;
+  });
+
+  return slotMap;
+}
+
+function benchSlotMapForTeam(bench, requirements) {
+  const groupedBench = playersByPosition(bench);
+  const slotMap = {};
+
+  positionOrder.forEach((position) => {
+    const positionBench = groupedBench[position];
+    slotMap[position] = new Array(requirements[position]).fill(null);
+
+    positionBench.slice(0, requirements[position]).forEach((player, index) => {
+      slotMap[position][index] = player;
+    });
+  });
+
+  return slotMap;
+}
+
+function renderPlayerCard(player, slot, position, slotIndex) {
   const stat = activeCardStat();
 
   return `
-    <article class="player-card player-card--selectable" role="button" tabindex="0" data-area="starter" data-player-id="${player.id}" style="top: ${slot.top}; left: ${slot.left};">
+    <article class="player-card player-card--selectable" role="button" tabindex="0" data-area="starter" data-position="${position}" data-slot-index="${slotIndex}" data-player-id="${player.id}" style="top: ${slot.top}; left: ${slot.left};">
       <span class="player-card__role">${player.position}</span>
       <strong>${player.name}</strong>
       <p>${playerCountryText(player)} · ${player.club}</p>
@@ -710,9 +814,9 @@ function renderPlayerCard(player, slot) {
   `;
 }
 
-function renderPlaceholderCard(position, slot) {
+function renderPlaceholderCard(position, slot, slotIndex) {
   return `
-    <article class="player-card player-card--placeholder" style="top: ${slot.top}; left: ${slot.left};">
+    <article class="player-card player-card--placeholder" data-position="${position}" data-slot-index="${slotIndex}" style="top: ${slot.top}; left: ${slot.left};">
       <span class="player-card__role">${position}</span>
       <div class="player-silhouette" aria-hidden="true"></div>
       <strong>Open Slot</strong>
@@ -721,11 +825,11 @@ function renderPlaceholderCard(position, slot) {
   `;
 }
 
-function renderBenchCard(player) {
+function renderBenchCard(player, position, slotIndex) {
   const stat = activeCardStat();
 
   return `
-    <article class="bench-card bench-card--selectable" role="button" tabindex="0" data-area="bench" data-player-id="${player.id}">
+    <article class="bench-card bench-card--selectable" role="button" tabindex="0" data-area="bench" data-position="${position}" data-slot-index="${slotIndex}" data-player-id="${player.id}">
       <span>${player.position}</span>
       <strong>${player.name}</strong>
       <p>${playerCountryText(player)} · ${player.club}</p>
@@ -734,9 +838,9 @@ function renderBenchCard(player) {
   `;
 }
 
-function renderBenchPlaceholder(position) {
+function renderBenchPlaceholder(position, slotIndex) {
   return `
-    <article class="bench-card bench-card--placeholder">
+    <article class="bench-card bench-card--placeholder" data-position="${position}" data-slot-index="${slotIndex}">
       <span>${position}</span>
       <strong>Bench Slot</strong>
       <p>Build the squad to fill this substitute spot.</p>
@@ -744,39 +848,37 @@ function renderBenchPlaceholder(position) {
   `;
 }
 
-function renderPositionRow(position, slots, positionPlayers, mode) {
-  const slotPlayers = new Array(slots.length).fill(null);
-  const startIndex = mode === "preview"
-    ? Math.max(0, Math.floor((slots.length - positionPlayers.length) / 2))
-    : 0;
-
-  positionPlayers.slice(0, slots.length).forEach((player, index) => {
-    const slotIndex = Math.min(startIndex + index, slots.length - 1);
-    slotPlayers[slotIndex] = player;
-  });
-
+function renderPositionRow(position, slots, slotPlayers) {
   return slots.map((slot, index) => {
     const player = slotPlayers[index];
-    return player ? renderPlayerCard(player, slot) : renderPlaceholderCard(position, slot);
+    return player
+      ? renderPlayerCard(player, slot, position, index)
+      : renderPlaceholderCard(position, slot, index);
   }).join("");
 }
 
-function renderBench(bench, requirements) {
-  const groupedBench = playersByPosition(bench);
+function renderBenchSlots(slotMap) {
   const benchCards = [];
 
   positionOrder.forEach((position) => {
-    const positionBench = groupedBench[position];
+    const positionBench = slotMap[position] || [];
 
-    for (let index = 0; index < requirements[position]; index += 1) {
+    for (let index = 0; index < positionBench.length; index += 1) {
       const player = positionBench[index];
-      benchCards.push(player ? renderBenchCard(player) : renderBenchPlaceholder(position));
+      benchCards.push(player
+        ? renderBenchCard(player, position, index)
+        : renderBenchPlaceholder(position, index));
     }
   });
 
   benchPlayers.innerHTML = benchCards.join("");
-  benchCount.textContent = `${bench.length} / 4`;
+  benchCount.textContent = `${compactSlotMap(slotMap).length} / 4`;
   benchPanel.classList.remove("hidden");
+}
+
+function renderBench(bench, requirements) {
+  currentBenchSlotsByPosition = benchSlotMapForTeam(bench, requirements);
+  renderBenchSlots(currentBenchSlotsByPosition);
 }
 
 function updateSwapPrompt() {
@@ -805,7 +907,7 @@ function updateSwapPrompt() {
 function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built") {
   const tacticName = tacticSelect.value;
   const layout = fieldLayoutForTactic(tacticName);
-  const groupedPlayers = playersByPosition(starters);
+  currentStarterSlotsByPosition = starterSlotMapForTeam(starters, layout, mode);
   const squad = [...starters, ...bench];
   const totalSlots = Object.values(tactics[tacticName]).reduce((sum, count) => sum + count, 0);
   const missingStarterSlots = Math.max(0, totalSlots - starters.length);
@@ -821,7 +923,7 @@ function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built") {
   currentRenderMode = mode;
 
   teamPlayers.innerHTML = ["Forward", "Midfielder", "Defender", "Goalkeeper"]
-    .map((position) => renderPositionRow(position, layout[position], groupedPlayers[position], mode))
+    .map((position) => renderPositionRow(position, layout[position], currentStarterSlotsByPosition[position]))
     .join("");
 
   summaryTactic.textContent = tacticName;
@@ -833,9 +935,9 @@ function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built") {
   renderBench(bench, benchRequirementsForTactic(tacticName));
 
   if (mode === "preview" && squad.length === 0) {
-    teamMessage.textContent = "Transparent slots show the selected starting tactic. Build My Team will create a 15-player squad with four bench players below.";
+    teamMessage.textContent = "Transparent slots show the selected starting tactic. Build My Squad will create a 15-player squad with four bench players below.";
   } else if (mode === "preview") {
-    teamMessage.textContent = `Previewing ${squad.length} locked squad player${squad.length === 1 ? "" : "s"}. Click Build My Team to fill the full 15-player squad.`;
+    teamMessage.textContent = `Previewing ${squad.length} locked squad player${squad.length === 1 ? "" : "s"}. Click Build My Squad to fill the full 15-player squad.`;
   } else if (missingStarterSlots > 0 || missingSquadSlots > 0) {
     teamMessage.textContent = `Built ${squad.length} squad player${squad.length === 1 ? "" : "s"} using ${activeMeasure().label}. Some spots are still open because the filters are too tight.`;
   } else {
@@ -849,6 +951,41 @@ function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built") {
     missingSquadSlots
   );
   updateSwapPrompt();
+}
+
+function renderCurrentSlotState(message) {
+  const tacticName = tacticSelect.value;
+  const layout = fieldLayoutForTactic(tacticName);
+  const starters = compactSlotMap(currentStarterSlotsByPosition);
+  const bench = compactSlotMap(currentBenchSlotsByPosition);
+  const squad = [...starters, ...bench];
+  const totalPrice = squad.reduce((sum, player) => sum + value(player.price), 0);
+  const averageRisk = squad.length
+    ? squad.reduce((sum, player) => sum + value(player.risk_composite_score), 0) / squad.length
+    : 0;
+
+  currentRenderedTeam = starters;
+  currentBenchPlayers = bench;
+  currentIgnoredLockedPlayers = [];
+  currentRenderMode = "built";
+
+  teamPlayers.innerHTML = ["Forward", "Midfielder", "Defender", "Goalkeeper"]
+    .map((position) => renderPositionRow(position, layout[position], currentStarterSlotsByPosition[position]))
+    .join("");
+
+  summaryTactic.textContent = tacticName;
+  summaryPrice.textContent = money(totalPrice);
+  summaryRisk.textContent = averageRisk.toFixed(0);
+  summaryLocked.textContent = `${squad.length} / 15`;
+
+  teamField.classList.remove("hidden");
+  renderBenchSlots(currentBenchSlotsByPosition);
+  builderWarning.classList.add("hidden");
+  builderWarning.textContent = "";
+  teamMessage.textContent = message;
+  updateSwapPrompt();
+  updateControlStates();
+  renderRemovedPlayers();
 }
 
 // This preview appears as soon as someone locks players, before building the full team.
@@ -990,6 +1127,79 @@ function buildTeam() {
   const { starters, bench, ignoredLockedPlayers } = buildSuggestedSquad();
   selectedSwap = null;
   renderTeam(starters, bench, ignoredLockedPlayers);
+  renderRemovedPlayers();
+}
+
+function resetTeam() {
+  clearRenderedTeam("Team reset. Locked players and filters are still available; click Build My Squad when ready.", {
+    clearExclusions: true
+  });
+  renderPlayerPicker();
+}
+
+function addBackRemovedPlayer(playerId) {
+  const player = playerById(playerId);
+
+  if (!player) {
+    return;
+  }
+
+  excludedPlayerIds.delete(playerId);
+  renderPlayerPicker();
+  renderRemovedPlayers();
+  teamMessage.textContent = `${player.name} is available again. Click Build My Squad to include him if he fits.`;
+}
+
+function clearLockedPlayers() {
+  lockedPlayerIds.clear();
+  document.querySelectorAll("#player-picker input[type=\"checkbox\"]").forEach((checkbox) => {
+    checkbox.checked = false;
+  });
+  selectedSwap = null;
+  currentIgnoredLockedPlayers = [];
+  builderWarning.classList.add("hidden");
+  builderWarning.textContent = "";
+  renderPlayerPicker();
+
+  if (currentRenderMode === "built") {
+    updateSwapPrompt();
+    teamMessage.textContent = "Cleared locked players. Current squad stays on screen; rebuild anytime for unlocked suggestions.";
+    updateControlStates();
+    return;
+  }
+
+  clearRenderedTeam("Cleared locked players. Current squad stays on screen; rebuild anytime for unlocked suggestions.");
+}
+
+function removeSelectedPlayer() {
+  if (currentRenderMode !== "built") {
+    showBuilderWarning("Build a full squad before removing a player.");
+    return;
+  }
+
+  const selection = selectedVisibleSquadPlayer();
+
+  if (!selection) {
+    showBuilderWarning("Select a starter or bench player first, then click Remove Selected Player.");
+    return;
+  }
+
+  const { player, area, position, slotIndex } = selection;
+  const slotMap = area === "starter"
+    ? currentStarterSlotsByPosition
+    : currentBenchSlotsByPosition;
+
+  excludedPlayerIds.add(player.id);
+  lockedPlayerIds.delete(player.id);
+
+  if (slotMap[position] && slotIndex >= 0) {
+    slotMap[position][slotIndex] = null;
+  }
+
+  selectedSwap = null;
+  renderPlayerPicker();
+  renderRemovedPlayers();
+  renderCurrentSlotState(`Removed ${player.name}. The slot is now open. Click Build My Squad to refill it without that player. Reset Team clears removed-player exclusions.`);
 }
 
 function showBuilderWarning(message) {
@@ -1000,6 +1210,46 @@ function showBuilderWarning(message) {
 function findCurrentPlayer(playerId) {
   return [...currentRenderedTeam, ...currentBenchPlayers]
     .find((player) => player.id === playerId);
+}
+
+function selectedVisibleSquadPlayer() {
+  const selectedCard = document.querySelector(".is-selected-swap[data-player-id][data-area]");
+
+  if (selectedCard) {
+    const player = findCurrentPlayer(selectedCard.dataset.playerId);
+
+    if (player) {
+      return {
+        player,
+        area: selectedCard.dataset.area,
+        position: selectedCard.dataset.position,
+        slotIndex: Number(selectedCard.dataset.slotIndex)
+      };
+    }
+  }
+
+  if (!selectedSwap) {
+    return null;
+  }
+
+  const player = findCurrentPlayer(selectedSwap.playerId);
+
+  if (!player) {
+    return null;
+  }
+
+  const slotMap = selectedSwap.area === "starter"
+    ? currentStarterSlotsByPosition
+    : currentBenchSlotsByPosition;
+  const slotIndex = (slotMap[player.position] || [])
+    .findIndex((slotPlayer) => slotPlayer?.id === player.id);
+
+  return {
+    player,
+    area: selectedSwap.area,
+    position: player.position,
+    slotIndex
+  };
 }
 
 function swapStarterWithBench(starterId, benchId) {
@@ -1094,6 +1344,16 @@ function handleSquadCardKeydown(event) {
   handleSquadCardClick(event);
 }
 
+function handleRemovedPlayersClick(event) {
+  const button = event.target.closest("[data-add-back-player-id]");
+
+  if (!button) {
+    return;
+  }
+
+  addBackRemovedPlayer(button.dataset.addBackPlayerId);
+}
+
 function setupBuilder() {
   organizeStatExamples();
 
@@ -1111,8 +1371,14 @@ function setupBuilder() {
   renderDashboardSections();
   renderAdviceTable();
   renderLockedPreview();
+  updateControlStates();
+  renderRemovedPlayers();
 
   buildTeamButtonBottom.addEventListener("click", buildTeam);
+  resetTeamButton.addEventListener("click", resetTeam);
+  clearLockedButton.addEventListener("click", clearLockedPlayers);
+  removeSelectedPlayerButton.addEventListener("click", removeSelectedPlayer);
+  removedPlayersList.addEventListener("click", handleRemovedPlayersClick);
   scoreInfoButton.addEventListener("click", toggleScoreInfo);
   measureSelect.addEventListener("change", () => {
     renderMeasureInfo();

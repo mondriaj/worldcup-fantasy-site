@@ -271,11 +271,24 @@
                 </p>
               </details>
 
-              <div id="player-picker" class="player-picker"></div>
+              <div class="builder-actions" aria-label="Team Builder actions">
+                <button id="build-team-btn-bottom" class="primary-button builder-action-button">
+                  Build My Squad
+                </button>
 
-              <button id="build-team-btn-bottom" class="primary-button builder-action-button">
-                Build My Team
-              </button>
+                <div class="builder-secondary-actions">
+                  <button id="reset-team-btn" class="utility-button" type="button">Reset Team</button>
+                  <button id="clear-locked-btn" class="utility-button hidden" type="button">Clear Locked Players</button>
+                  <button id="remove-selected-player-btn" class="utility-button" type="button">Remove Selected Player</button>
+                </div>
+
+                <div id="removed-players-panel" class="removed-players-panel hidden" aria-live="polite">
+                  <h4>Removed Players</h4>
+                  <div id="removed-players-list" class="removed-players-list"></div>
+                </div>
+              </div>
+
+              <div id="player-picker" class="player-picker"></div>
             </div>
           </div>
 
@@ -332,7 +345,7 @@
             </p>
 
             <p id="team-message" class="team-message">
-              Lock a few players first, then click "Build My Team" to fill the 15-player squad.
+              Lock a few players first, then click "Build My Squad" to fill the 15-player squad.
             </p>
           </div>
         </div>
