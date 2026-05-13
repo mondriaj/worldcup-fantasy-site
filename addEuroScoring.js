@@ -67,6 +67,24 @@ function cvar(values, tailShare) {
   return mean(sorted.slice(0, tailCount));
 }
 
+function percentileIndex(values, currentValue) {
+  const sorted = values
+    .filter((value) => Number.isFinite(value))
+    .sort((a, b) => a - b);
+
+  if (sorted.length <= 1) return 50;
+
+  const firstIndex = sorted.findIndex((value) => value === currentValue);
+  const lastIndex = sorted.length - 1 - [...sorted].reverse().findIndex((value) => value === currentValue);
+
+  if (firstIndex < 0) return 0;
+  if (currentValue === sorted[0]) return 0;
+  if (currentValue === sorted[sorted.length - 1]) return 100;
+
+  const averageRank = (firstIndex + lastIndex) / 2;
+  return clamp(Math.round((averageRank / (sorted.length - 1)) * 100), 0, 100);
+}
+
 function toNumber(value) {
   if (typeof value === "number") return value;
   if (value === null || value === undefined || value === "") return 0;
@@ -249,7 +267,7 @@ const positionBaselines = {};
   positionBaselines[position] = values.length ? mean(values) : 0;
 });
 
-const enrichedPlayers = firstPass.map((player) => {
+const playersWithRawRisk = firstPass.map((player) => {
   const calc = player._calc;
   const weeklySeries = (seriesByPlayer[player.id] || [])
     .sort((a, b) => a.gw - b.gw)
@@ -324,7 +342,7 @@ const enrichedPlayers = firstPass.map((player) => {
   const yellowPer90 = calc.nineties > 0 ? toNumber(player.fbref_yellow_cards || player.yellow_cards) / calc.nineties : 0;
   const redPer90 = calc.nineties > 0 ? toNumber(player.fbref_red_cards || player.red_cards) / calc.nineties : 0;
   const disciplineRiskScore = clamp(
-    Math.round((yellowPer90 * 14) + (redPer90 * 45) + (toNumber(player.penalties_missed) * 8)),
+    Math.round((yellowPer90 * 14) + (redPer90 * 45)),
     0,
     100
   );
@@ -422,8 +440,8 @@ const enrichedPlayers = firstPass.map((player) => {
     risk_volatility_score: volatilityRiskScore,
     risk_tail_score: tailRiskScore,
     risk_composite_score: compositeRiskScore,
-    risk_adjusted_sharpe_like: round(sharpeLike),
-    risk_adjusted_sortino_like: round(sortinoLike),
+    risk_adjusted_sharpe_raw: round(sharpeLike),
+    risk_adjusted_sortino_raw: round(sortinoLike),
     risk_adjusted_expected_points_estimate: round(riskAdjustedExpectedPoints),
     risk_adjusted_overall_score: riskAdjustedOverallScore,
     euro_style_scoring_note:
@@ -435,8 +453,18 @@ const enrichedPlayers = firstPass.map((player) => {
       shrunkPointsPerAppearanceEstimate
     )
   };
-}).map((player) => {
-  const copy = { ...player };
+});
+
+const sharpeRawValues = playersWithRawRisk.map((player) => player.risk_adjusted_sharpe_raw);
+const sortinoRawValues = playersWithRawRisk.map((player) => player.risk_adjusted_sortino_raw);
+
+const enrichedPlayers = playersWithRawRisk.map((player) => {
+  const copy = {
+    ...player,
+    risk_adjusted_sharpe_like: percentileIndex(sharpeRawValues, player.risk_adjusted_sharpe_raw),
+    risk_adjusted_sortino_like: percentileIndex(sortinoRawValues, player.risk_adjusted_sortino_raw)
+  };
+
   delete copy._calc;
   return copy;
 });

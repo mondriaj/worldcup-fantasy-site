@@ -96,6 +96,8 @@ Position scoring:
 - `risk_volatility_score`
 - `risk_tail_score`
 - `risk_composite_score`
+- `risk_adjusted_sharpe_raw`
+- `risk_adjusted_sortino_raw`
 - `risk_adjusted_sharpe_like`
 - `risk_adjusted_sortino_like`
 - `risk_adjusted_expected_points_estimate`
@@ -108,7 +110,7 @@ Position scoring:
 - `risk_event_points_stddev`
   - week-to-week volatility in actual fantasy points
 - `risk_downside_deviation`
-  - downside-only volatility below a simple target
+  - downside-only movement below a simple target; this is not directly comparable to standard deviation because good weeks count as zero downside
 - `risk_value_at_risk_10`
   - rough 10th percentile bad-week estimate
 - `risk_conditional_value_at_risk_20`
@@ -119,15 +121,15 @@ Position scoring:
 ### Practical fantasy risk
 
 - `risk_availability_score`
-  - injury, status, and chance-of-playing risk
+  - 0 to 100 index from status penalty, chance of playing, and missed-game share
 - `risk_minutes_score`
   - benching, sub appearance, or low-minute risk
 - `risk_discipline_score`
-  - yellow/red card and similar downside risk
+  - yellow/red card risk only; missed penalties are not included, and penalties committed are not available in the current source data
 - `risk_volatility_score`
   - overall week-to-week instability
 - `risk_tail_score`
-  - bad left-tail or blow-up week risk
+  - weighted bad left-tail risk: bad-week rate is weighted most heavily, then Value at Risk and Conditional Value at Risk shortfalls
 - `risk_composite_score`
   - combined risk score from the separate components
 
@@ -136,9 +138,13 @@ Position scoring:
 These fields are inspired by finance ideas:
 
 - `risk_adjusted_sharpe_like`
-  - expected points above a simple baseline divided by weekly volatility
+  - 0 to 100 percentile index based on the raw Sharpe-style ratio
 - `risk_adjusted_sortino_like`
-  - expected points above a simple baseline divided by downside volatility
+  - 0 to 100 percentile index based on the raw Sortino-style ratio
+- `risk_adjusted_sharpe_raw`
+  - raw ratio: expected points above a simple baseline divided by weekly volatility
+- `risk_adjusted_sortino_raw`
+  - raw ratio: expected points above a simple baseline divided by downside deviation
 - `risk_adjusted_expected_points_estimate`
   - expected value after a simple risk penalty
 - `risk_adjusted_overall_score`

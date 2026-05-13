@@ -10,6 +10,16 @@ const tactics = {
   "3-5-2": { Goalkeeper: 1, Defender: 3, Midfielder: 5, Forward: 2 }
 };
 
+// A classic fantasy squad has 15 players: 11 starters plus 4 substitutes.
+const squadRequirements = {
+  Goalkeeper: 2,
+  Defender: 5,
+  Midfielder: 5,
+  Forward: 3
+};
+
+const positionOrder = ["Goalkeeper", "Defender", "Midfielder", "Forward"];
+
 // Each measure has a score function and a beginner explanation for the info panel.
 const measures = {
   balanced: {
@@ -27,7 +37,7 @@ const measures = {
   safe: {
     label: "Safe Picks",
     description: "Favors steady players with lower risk before chasing upside.",
-    formula: "Score = (100 - composite risk) + expected points x 8. Composite risk includes availability, minutes, cards, volatility, and bad-week risk.",
+    formula: "Score = (100 - composite risk) + expected points x 8. Composite risk includes availability, minutes, cards, volatility, and clearly weighted bad-week risk.",
     score: (player) => (100 - value(player.risk_composite_score)) + value(player.risk_adjusted_expected_points_estimate) * 8
   },
   upside: {
@@ -39,7 +49,7 @@ const measures = {
   minutes: {
     label: "Reliable Minutes",
     description: "Looks for players who are more likely to play regularly.",
-    formula: "Uses reliability score, built from sample confidence, availability, and minutes risk. Higher means the player appears safer for playing time.",
+    formula: "Uses reliability score, built from sample confidence, availability risk, and minutes risk. Sample confidence is confidence weight x 100, so players with more 90s get trusted more.",
     score: (player) => value(player.euro_style_reliability_score)
   },
   lowTailRisk: {
@@ -50,14 +60,14 @@ const measures = {
   },
   sharpe: {
     label: "Sharpe Style",
-    description: "Compares expected points with week-to-week volatility.",
-    formula: "Formula: (expected points per appearance - 2) / standard deviation of weekly fantasy points. Higher means more expected reward for each unit of volatility.",
+    description: "Compares expected points with week-to-week volatility, then converts the result to a 0-100 index.",
+    formula: "Raw formula: (expected points per appearance - 2) / standard deviation of weekly fantasy points. The site then converts the raw ratio into a 0-100 percentile index across the player database.",
     score: (player) => value(player.risk_adjusted_sharpe_like)
   },
   sortino: {
     label: "Sortino Style",
-    description: "Similar to Sharpe Style, but it focuses only on bad volatility.",
-    formula: "Formula: (expected points per appearance - 2) / downside deviation. Downside deviation looks at weeks below a simple 2-point target.",
+    description: "Similar to Sharpe Style, but it focuses only on bad volatility, then converts the result to a 0-100 index.",
+    formula: "Raw formula: (expected points per appearance - 2) / downside deviation. Downside deviation only counts weeks below a 2-point target, so it is not directly comparable with total volatility. The site converts the raw ratio into a 0-100 percentile index.",
     score: (player) => value(player.risk_adjusted_sortino_like)
   }
 };
@@ -116,6 +126,10 @@ const playerPicker = document.getElementById("player-picker");
 const builderWarning = document.getElementById("builder-warning");
 const teamField = document.getElementById("team-field");
 const teamPlayers = document.getElementById("team-players");
+const benchPanel = document.getElementById("bench-panel");
+const benchPlayers = document.getElementById("bench-players");
+const benchCount = document.getElementById("bench-count");
+const swapMessage = document.getElementById("swap-message");
 const teamMessage = document.getElementById("team-message");
 const summaryTactic = document.getElementById("summary-tactic");
 const summaryPrice = document.getElementById("summary-price");
@@ -128,8 +142,10 @@ const adviceStyleNote = document.getElementById("advice-style-note");
 
 let selectedPositionFilter = "All";
 let currentRenderedTeam = [];
+let currentBenchPlayers = [];
 let currentIgnoredLockedPlayers = [];
 let currentRenderMode = "preview";
+let selectedSwap = null;
 
 function value(number) {
   return Number(number) || 0;
@@ -219,11 +235,11 @@ function styleReason(player, measureKey) {
   }
 
   if (measureKey === "sharpe") {
-    return `Good reward for the weekly volatility, with a Sharpe-style score of ${displayNumber(player.risk_adjusted_sharpe_like)}.`;
+    return `Good reward for weekly volatility, with a Sharpe-style index of ${displayNumber(player.risk_adjusted_sharpe_like)} out of 100.`;
   }
 
   if (measureKey === "sortino") {
-    return `Good reward after focusing on bad volatility, with a Sortino-style score of ${displayNumber(player.risk_adjusted_sortino_like)}.`;
+    return `Good reward after focusing on bad volatility, with a Sortino-style index of ${displayNumber(player.risk_adjusted_sortino_like)} out of 100.`;
   }
 
   return `Good mix of expected points (${expected}), reliability (${reliability}), and risk (${risk}).`;
@@ -460,12 +476,11 @@ function updateLockedPlayers(event) {
     lockedPlayerIds.delete(event.target.value);
   }
 
-  summaryLocked.textContent = String(lockedPlayerIds.size);
   renderLockedPreview();
 }
 
-// Locked players are kept first, but only while they fit the selected tactic.
-function getValidLockedPlayers(requirements, measure) {
+// Locked players are kept first, but only while they fit the 15-player squad limits.
+function getValidLockedSquadPlayers(measure) {
   const lockedPlayers = sortPlayers(
     players.filter((player) => lockedPlayerIds.has(player.id)),
     measure
@@ -475,7 +490,7 @@ function getValidLockedPlayers(requirements, measure) {
   const ignoredLockedPlayers = [];
 
   lockedPlayers.forEach((player) => {
-    if (usedByPosition[player.position] < requirements[player.position]) {
+    if (usedByPosition[player.position] < squadRequirements[player.position]) {
       usedByPosition[player.position] += 1;
       validLockedPlayers.push(player);
     } else {
@@ -486,17 +501,40 @@ function getValidLockedPlayers(requirements, measure) {
   return { validLockedPlayers, ignoredLockedPlayers, usedByPosition };
 }
 
-// Fill each position separately so every tactic keeps the correct shape.
-function buildSuggestedTeam() {
+function chooseStartersFromSquad(squad, requirements, measure) {
+  const starters = [];
+  const starterIds = new Set();
+
+  positionOrder.forEach((position) => {
+    const lockedOptions = sortPlayers(
+      squad.filter((player) => player.position === position && lockedPlayerIds.has(player.id)),
+      measure
+    );
+    const otherOptions = sortPlayers(
+      squad.filter((player) => player.position === position && !lockedPlayerIds.has(player.id)),
+      measure
+    );
+
+    [...lockedOptions, ...otherOptions].slice(0, requirements[position]).forEach((player) => {
+      starters.push(player);
+      starterIds.add(player.id);
+    });
+  });
+
+  return { starters, starterIds };
+}
+
+// Fill each position separately so the final squad always aims for 2-5-5-3.
+function buildSuggestedSquad() {
   const tacticName = tacticSelect.value;
   const requirements = tactics[tacticName];
   const measure = activeMeasure();
   const { validLockedPlayers, ignoredLockedPlayers, usedByPosition } =
-    getValidLockedPlayers(requirements, measure);
-  const team = [...validLockedPlayers];
-  const usedIds = new Set(team.map((player) => player.id));
+    getValidLockedSquadPlayers(measure);
+  const squad = [...validLockedPlayers];
+  const usedIds = new Set(squad.map((player) => player.id));
 
-  Object.entries(requirements).forEach(([position, neededCount]) => {
+  Object.entries(squadRequirements).forEach(([position, neededCount]) => {
     const remainingCount = neededCount - usedByPosition[position];
     const candidates = sortPlayers(
       players.filter((player) =>
@@ -508,10 +546,13 @@ function buildSuggestedTeam() {
     ).slice(0, remainingCount);
 
     candidates.forEach((player) => usedIds.add(player.id));
-    team.push(...candidates);
+    squad.push(...candidates);
   });
 
-  return { team, ignoredLockedPlayers };
+  const { starters, starterIds } = chooseStartersFromSquad(squad, requirements, measure);
+  const bench = squad.filter((player) => !starterIds.has(player.id));
+
+  return { starters, bench, squad, ignoredLockedPlayers };
 }
 
 function evenlySpacedPositions(count, top) {
@@ -528,18 +569,18 @@ function fieldLayoutForTactic(tacticName) {
   const requirements = tactics[tacticName];
 
   return {
-    Goalkeeper: evenlySpacedPositions(1, "88%"),
-    Defender: evenlySpacedPositions(requirements.Defender, "68%"),
-    Midfielder: evenlySpacedPositions(requirements.Midfielder, "46%"),
-    Forward: evenlySpacedPositions(requirements.Forward, "22%")
+    Goalkeeper: evenlySpacedPositions(1, "85%"),
+    Defender: evenlySpacedPositions(requirements.Defender, "62%"),
+    Midfielder: evenlySpacedPositions(requirements.Midfielder, "39%"),
+    Forward: evenlySpacedPositions(requirements.Forward, "16%")
   };
 }
 
 function clearTeamPreview() {
-  renderTeam([], [], "preview");
+  renderTeam([], [], [], "preview");
 }
 
-function renderWarning(tacticName, ignoredLockedPlayers, missingSlots) {
+function renderWarning(tacticName, ignoredLockedPlayers, missingStarterSlots, missingSquadSlots = 0) {
   const messages = [];
 
   if (priceFiltersAreInvalid()) {
@@ -547,11 +588,15 @@ function renderWarning(tacticName, ignoredLockedPlayers, missingSlots) {
   }
 
   if (ignoredLockedPlayers.length) {
-    messages.push(`Some locked players did not fit ${tacticName}: ${ignoredLockedPlayers.map((player) => player.name).join(", ")}.`);
+    messages.push(`Some locked players did not fit the 15-player squad limits: ${ignoredLockedPlayers.map((player) => player.name).join(", ")}.`);
   }
 
-  if (missingSlots > 0) {
-    messages.push(`${missingSlots} tactic slot${missingSlots === 1 ? "" : "s"} could not be filled. Try widening the price filters.`);
+  if (missingStarterSlots > 0) {
+    messages.push(`${missingStarterSlots} starting slot${missingStarterSlots === 1 ? "" : "s"} could not be filled for ${tacticName}. Try widening the price filters.`);
+  }
+
+  if (missingSquadSlots > 0) {
+    messages.push(`${missingSquadSlots} squad spot${missingSquadSlots === 1 ? "" : "s"} could not be filled. Try widening the price filters.`);
   }
 
   if (!messages.length) {
@@ -573,11 +618,41 @@ function playersByPosition(team) {
   };
 }
 
+function countsByPosition(team) {
+  const counts = { Goalkeeper: 0, Defender: 0, Midfielder: 0, Forward: 0 };
+
+  team.forEach((player) => {
+    counts[player.position] += 1;
+  });
+
+  return counts;
+}
+
+function tacticNameForCounts(counts) {
+  return Object.entries(tactics).find(([, requirements]) =>
+    requirements.Goalkeeper === counts.Goalkeeper &&
+    requirements.Defender === counts.Defender &&
+    requirements.Midfielder === counts.Midfielder &&
+    requirements.Forward === counts.Forward
+  )?.[0] || null;
+}
+
+function benchRequirementsForTactic(tacticName) {
+  const starterRequirements = tactics[tacticName];
+
+  return {
+    Goalkeeper: Math.max(0, squadRequirements.Goalkeeper - starterRequirements.Goalkeeper),
+    Defender: Math.max(0, squadRequirements.Defender - starterRequirements.Defender),
+    Midfielder: Math.max(0, squadRequirements.Midfielder - starterRequirements.Midfielder),
+    Forward: Math.max(0, squadRequirements.Forward - starterRequirements.Forward)
+  };
+}
+
 function renderPlayerCard(player, slot) {
   const stat = activeCardStat();
 
   return `
-    <article class="player-card" style="top: ${slot.top}; left: ${slot.left};">
+    <article class="player-card player-card--selectable" role="button" tabindex="0" data-area="starter" data-player-id="${player.id}" style="top: ${slot.top}; left: ${slot.left};">
       <span class="player-card__role">${player.position}</span>
       <strong>${player.name}</strong>
       <p>${player.country} · ${player.club}</p>
@@ -594,6 +669,29 @@ function renderPlaceholderCard(position, slot) {
       <div class="player-silhouette" aria-hidden="true"></div>
       <strong>Open Slot</strong>
       <p>Lock a ${position.toLowerCase()}</p>
+    </article>
+  `;
+}
+
+function renderBenchCard(player) {
+  const stat = activeCardStat();
+
+  return `
+    <article class="bench-card bench-card--selectable" role="button" tabindex="0" data-area="bench" data-player-id="${player.id}">
+      <span>${player.position}</span>
+      <strong>${player.name}</strong>
+      <p>${player.country} · ${player.club}</p>
+      <small>Price ${money(player.price)} · ${stat.label}: ${displayNumber(stat.value(player))}</small>
+    </article>
+  `;
+}
+
+function renderBenchPlaceholder(position) {
+  return `
+    <article class="bench-card bench-card--placeholder">
+      <span>${position}</span>
+      <strong>Bench Slot</strong>
+      <p>Build the squad to fill this substitute spot.</p>
     </article>
   `;
 }
@@ -615,18 +713,62 @@ function renderPositionRow(position, slots, positionPlayers, mode) {
   }).join("");
 }
 
-function renderTeam(team, ignoredLockedPlayers, mode = "built") {
+function renderBench(bench, requirements) {
+  const groupedBench = playersByPosition(bench);
+  const benchCards = [];
+
+  positionOrder.forEach((position) => {
+    const positionBench = groupedBench[position];
+
+    for (let index = 0; index < requirements[position]; index += 1) {
+      const player = positionBench[index];
+      benchCards.push(player ? renderBenchCard(player) : renderBenchPlaceholder(position));
+    }
+  });
+
+  benchPlayers.innerHTML = benchCards.join("");
+  benchCount.textContent = `${bench.length} / 4`;
+  benchPanel.classList.remove("hidden");
+}
+
+function updateSwapPrompt() {
+  document.querySelectorAll("[data-player-id]").forEach((card) => {
+    const isSelected = selectedSwap &&
+      card.dataset.playerId === selectedSwap.playerId &&
+      card.dataset.area === selectedSwap.area;
+
+    card.classList.toggle("is-selected-swap", Boolean(isSelected));
+  });
+
+  if (!selectedSwap) {
+    swapMessage.textContent = currentRenderMode === "built"
+      ? "Tip: click a starter, then click a bench player to try a legal swap."
+      : "Build a full 15-player squad first, then click a starter and a bench player to swap them.";
+    return;
+  }
+
+  const selectedPlayer = [...currentRenderedTeam, ...currentBenchPlayers]
+    .find((player) => player.id === selectedSwap.playerId);
+  const nextArea = selectedSwap.area === "starter" ? "bench player" : "starter";
+
+  swapMessage.textContent = `Selected ${selectedPlayer?.name || "one player"}. Now click a ${nextArea} to try the swap.`;
+}
+
+function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built") {
   const tacticName = tacticSelect.value;
   const layout = fieldLayoutForTactic(tacticName);
-  const groupedPlayers = playersByPosition(team);
+  const groupedPlayers = playersByPosition(starters);
+  const squad = [...starters, ...bench];
   const totalSlots = Object.values(tactics[tacticName]).reduce((sum, count) => sum + count, 0);
-  const missingSlots = Math.max(0, totalSlots - team.length);
-  const totalPrice = team.reduce((sum, player) => sum + value(player.price), 0);
-  const averageRisk = team.length
-    ? team.reduce((sum, player) => sum + value(player.risk_composite_score), 0) / team.length
+  const missingStarterSlots = Math.max(0, totalSlots - starters.length);
+  const missingSquadSlots = mode === "built" ? Math.max(0, 15 - squad.length) : 0;
+  const totalPrice = squad.reduce((sum, player) => sum + value(player.price), 0);
+  const averageRisk = squad.length
+    ? squad.reduce((sum, player) => sum + value(player.risk_composite_score), 0) / squad.length
     : 0;
 
-  currentRenderedTeam = [...team];
+  currentRenderedTeam = [...starters];
+  currentBenchPlayers = [...bench];
   currentIgnoredLockedPlayers = [...ignoredLockedPlayers];
   currentRenderMode = mode;
 
@@ -637,20 +779,28 @@ function renderTeam(team, ignoredLockedPlayers, mode = "built") {
   summaryTactic.textContent = tacticName;
   summaryPrice.textContent = money(totalPrice);
   summaryRisk.textContent = averageRisk.toFixed(0);
-  summaryLocked.textContent = String(lockedPlayerIds.size);
+  summaryLocked.textContent = `${squad.length} / 15`;
 
   teamField.classList.remove("hidden");
-  if (mode === "preview" && team.length === 0) {
-    teamMessage.textContent = "Transparent slots show the selected tactic. Lock players to fill them, then click Build My Team.";
+  renderBench(bench, benchRequirementsForTactic(tacticName));
+
+  if (mode === "preview" && squad.length === 0) {
+    teamMessage.textContent = "Transparent slots show the selected starting tactic. Build My Team will create a 15-player squad with four bench players below.";
   } else if (mode === "preview") {
-    teamMessage.textContent = `Previewing ${team.length} locked player${team.length === 1 ? "" : "s"} on the field. Click Build My Team to fill the remaining positions.`;
-  } else if (missingSlots > 0) {
-    teamMessage.textContent = `Built ${team.length} players using ${activeMeasure().label}. Some slots are still open because the filters are too tight.`;
+    teamMessage.textContent = `Previewing ${squad.length} locked squad player${squad.length === 1 ? "" : "s"}. Click Build My Team to fill the full 15-player squad.`;
+  } else if (missingStarterSlots > 0 || missingSquadSlots > 0) {
+    teamMessage.textContent = `Built ${squad.length} squad player${squad.length === 1 ? "" : "s"} using ${activeMeasure().label}. Some spots are still open because the filters are too tight.`;
   } else {
-    teamMessage.textContent = `Built ${team.length} players using ${activeMeasure().label}.`;
+    teamMessage.textContent = `Built a 15-player squad using ${activeMeasure().label}: 11 starters on the field and 4 substitutes below.`;
   }
 
-  renderWarning(tacticName, ignoredLockedPlayers, mode === "built" ? missingSlots : 0);
+  renderWarning(
+    tacticName,
+    ignoredLockedPlayers,
+    mode === "built" ? missingStarterSlots : 0,
+    missingSquadSlots
+  );
+  updateSwapPrompt();
 }
 
 // This preview appears as soon as someone locks players, before building the full team.
@@ -658,14 +808,16 @@ function renderLockedPreview() {
   const tacticName = tacticSelect.value;
   const requirements = tactics[tacticName];
   const measure = activeMeasure();
-  const { validLockedPlayers, ignoredLockedPlayers } = getValidLockedPlayers(requirements, measure);
+  const { validLockedPlayers, ignoredLockedPlayers } = getValidLockedSquadPlayers(measure);
+  const { starters, starterIds } = chooseStartersFromSquad(validLockedPlayers, requirements, measure);
+  const bench = validLockedPlayers.filter((player) => !starterIds.has(player.id));
 
   if (!validLockedPlayers.length && !ignoredLockedPlayers.length) {
     clearTeamPreview();
     return;
   }
 
-  renderTeam(validLockedPlayers, ignoredLockedPlayers, "preview");
+  renderTeam(starters, bench, ignoredLockedPlayers, "preview");
 }
 
 function renderCaptainPicks() {
@@ -740,8 +892,111 @@ function renderAdviceTable() {
 }
 
 function buildTeam() {
-  const { team, ignoredLockedPlayers } = buildSuggestedTeam();
-  renderTeam(team, ignoredLockedPlayers);
+  const { starters, bench, ignoredLockedPlayers } = buildSuggestedSquad();
+  selectedSwap = null;
+  renderTeam(starters, bench, ignoredLockedPlayers);
+}
+
+function showBuilderWarning(message) {
+  builderWarning.classList.remove("hidden");
+  builderWarning.textContent = message;
+}
+
+function findCurrentPlayer(playerId) {
+  return [...currentRenderedTeam, ...currentBenchPlayers]
+    .find((player) => player.id === playerId);
+}
+
+function swapStarterWithBench(starterId, benchId) {
+  if (currentRenderMode !== "built") {
+    selectedSwap = null;
+    updateSwapPrompt();
+    showBuilderWarning("Build the full 15-player squad before trying substitutions.");
+    return;
+  }
+
+  const starter = findCurrentPlayer(starterId);
+  const benchPlayer = findCurrentPlayer(benchId);
+
+  if (!starter || !benchPlayer) {
+    selectedSwap = null;
+    updateSwapPrompt();
+    return;
+  }
+
+  const nextCounts = countsByPosition(currentRenderedTeam);
+  nextCounts[starter.position] -= 1;
+  nextCounts[benchPlayer.position] += 1;
+
+  const nextTactic = tacticNameForCounts(nextCounts);
+
+  if (!nextTactic) {
+    selectedSwap = null;
+    updateSwapPrompt();
+    showBuilderWarning("That swap would create a formation this simple builder does not support yet. Try a same-position swap or a swap that creates 5-3-2, 4-3-3, 4-4-2, 3-4-3, or 3-5-2.");
+    return;
+  }
+
+  const nextStarters = currentRenderedTeam.map((player) =>
+    player.id === starterId ? benchPlayer : player
+  );
+  const nextBench = currentBenchPlayers.map((player) =>
+    player.id === benchId ? starter : player
+  );
+
+  tacticSelect.value = nextTactic;
+  selectedSwap = null;
+  renderTeam(nextStarters, nextBench, currentIgnoredLockedPlayers, "built");
+  swapMessage.textContent = `Swapped ${benchPlayer.name} into the starters and moved ${starter.name} to the bench.`;
+}
+
+function handleSquadCardClick(event) {
+  const card = event.target.closest("[data-player-id][data-area]");
+
+  if (!card) {
+    return;
+  }
+
+  if (currentRenderMode !== "built") {
+    selectedSwap = null;
+    updateSwapPrompt();
+    showBuilderWarning("Build the full 15-player squad before trying substitutions.");
+    return;
+  }
+
+  const nextSelection = {
+    playerId: card.dataset.playerId,
+    area: card.dataset.area
+  };
+
+  if (
+    selectedSwap &&
+    selectedSwap.playerId === nextSelection.playerId &&
+    selectedSwap.area === nextSelection.area
+  ) {
+    selectedSwap = null;
+    updateSwapPrompt();
+    return;
+  }
+
+  if (!selectedSwap || selectedSwap.area === nextSelection.area) {
+    selectedSwap = nextSelection;
+    updateSwapPrompt();
+    return;
+  }
+
+  const starterId = selectedSwap.area === "starter" ? selectedSwap.playerId : nextSelection.playerId;
+  const benchId = selectedSwap.area === "bench" ? selectedSwap.playerId : nextSelection.playerId;
+  swapStarterWithBench(starterId, benchId);
+}
+
+function handleSquadCardKeydown(event) {
+  if (event.key !== "Enter" && event.key !== " ") {
+    return;
+  }
+
+  event.preventDefault();
+  handleSquadCardClick(event);
 }
 
 function setupBuilder() {
@@ -776,7 +1031,7 @@ function setupBuilder() {
   });
   adviceMeasureSelect.addEventListener("change", renderAdviceTable);
   cardStatSelect.addEventListener("change", () => {
-    renderTeam(currentRenderedTeam, currentIgnoredLockedPlayers, currentRenderMode);
+    renderTeam(currentRenderedTeam, currentBenchPlayers, currentIgnoredLockedPlayers, currentRenderMode);
   });
   tacticSelect.addEventListener("change", () => {
     summaryTactic.textContent = tacticSelect.value;
@@ -791,6 +1046,10 @@ function setupBuilder() {
   minPriceFilter.addEventListener("input", updateBuilderFilters);
   maxPriceFilter.addEventListener("input", updateBuilderFilters);
   playerPicker.addEventListener("change", updateLockedPlayers);
+  teamPlayers.addEventListener("click", handleSquadCardClick);
+  benchPlayers.addEventListener("click", handleSquadCardClick);
+  teamPlayers.addEventListener("keydown", handleSquadCardKeydown);
+  benchPlayers.addEventListener("keydown", handleSquadCardKeydown);
 }
 
 setupBuilder();

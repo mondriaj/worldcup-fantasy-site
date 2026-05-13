@@ -224,7 +224,8 @@
             <div class="locked-player-area">
               <div class="section-heading section-heading--compact">
                 <h3>Lock Players</h3>
-                <p>Optional: choose players you want to keep, then the builder suggests the remaining positions.</p>
+                <p>Optional: choose players you want to keep, then the builder suggests the remaining squad spots.</p>
+                <p class="squad-rule-note">Full fantasy squad target: 2 goalkeepers, 5 defenders, 5 midfielders, and 3 forwards.</p>
               </div>
 
               <label class="control-group player-search" for="player-search">
@@ -293,12 +294,12 @@
                 <strong id="summary-risk">0</strong>
               </div>
               <div class="summary-chip">
-                <span>Locked Players</span>
-                <strong id="summary-locked">0</strong>
+                <span>Squad Size</span>
+                <strong id="summary-locked">0 / 15</strong>
               </div>
             </div>
 
-            <!-- JavaScript fills this field with player cards after players are locked or the button is clicked. -->
+            <!-- JavaScript fills this field with starter cards after players are locked or the button is clicked. -->
             <div id="team-field" class="soccer-field hidden" aria-live="polite">
               <div class="field-markings">
                 <div class="goal goal--top"></div>
@@ -313,8 +314,23 @@
               <div id="team-players" class="team-players"></div>
             </div>
 
+            <section id="bench-panel" class="bench-panel hidden" aria-live="polite">
+              <div class="bench-panel__heading">
+                <div>
+                  <h3>Bench</h3>
+                  <p>Four substitutes sit outside the field. Click a starter and a bench player to try a swap.</p>
+                </div>
+                <span id="bench-count">0 / 4</span>
+              </div>
+              <div id="bench-players" class="bench-players"></div>
+            </section>
+
+            <p id="swap-message" class="swap-message">
+              Build a full 15-player squad first, then click a starter and a bench player to swap them.
+            </p>
+
             <p id="team-message" class="team-message">
-              Lock a few players first, then click "Build My Team" to fill the remaining spots.
+              Lock a few players first, then click "Build My Team" to fill the 15-player squad.
             </p>
           </div>
         </div>
@@ -367,7 +383,7 @@
               <p><strong>Goalkeeper save points:</strong> for goalkeepers only, <code>floor(saves / 3)</code>.</p>
               <p><strong>Penalty save points:</strong> penalties saved x 5.</p>
               <p><strong>Goals conceded penalty:</strong> for goalkeepers and defenders, <code>floor(goals_conceded / 2) x -1</code>.</p>
-              <p><strong>Discipline penalty:</strong> yellow cards x -1, red cards x -3, own goals x -2, missed penalties x -2.</p>
+              <p><strong>Negative points:</strong> yellow cards x -1, red cards x -3, own goals x -2, missed penalties x -2.</p>
               <p><strong>Total estimate:</strong> all the positive points and negative penalties above added together.</p>
             </div>
 
@@ -417,8 +433,8 @@
             </details>
 
             <details class="stat-example">
-              <summary>Example: Discipline penalty</summary>
-              <p>If a player has 5 yellow cards, 1 red card, and 1 missed penalty, discipline penalty = <code>5 x -1 + 1 x -3 + 1 x -2 = -10</code>.</p>
+              <summary>Example: Negative points</summary>
+              <p>If a player has 5 yellow cards, 1 red card, and 1 missed penalty, negative points = <code>5 x -1 + 1 x -3 + 1 x -2 = -10</code>.</p>
             </details>
 
             <details class="stat-example">
@@ -435,6 +451,7 @@
               <p><strong>Raw points per 90:</strong> total performance estimate divided by 90s played.</p>
               <p><strong>Position baseline:</strong> average raw points per 90 for players in the same position.</p>
               <p><strong>Confidence weight:</strong> <code>90s / (90s + 8)</code>. A player with more minutes gets a weight closer to 1. A player with very few minutes gets pulled closer to the position average.</p>
+              <p><strong>Sample confidence score:</strong> confidence weight x 100. This is the 0 to 100 version used inside Reliability.</p>
               <p><strong>Confidence-adjusted per 90:</strong> <code>confidence_weight x player_raw_per90 + (1 - confidence_weight) x position_average_per90</code>.</p>
               <p><strong>Confidence-adjusted expected points:</strong> confidence-adjusted per 90 multiplied by the player's average minutes per appearance divided by 90.</p>
             </div>
@@ -452,6 +469,11 @@
             <details class="stat-example">
               <summary>Example: Confidence weight</summary>
               <p>If a player has played 0.67 full-match equivalents, confidence weight = <code>0.67 / (0.67 + 8) = 0.08</code>. The model trusts only 8% of the player's raw rate and leans heavily on the position baseline.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Sample confidence score</summary>
+              <p>If confidence weight = <code>0.08</code>, sample confidence score = <code>0.08 x 100 = 8</code>. If confidence weight = <code>0.79</code>, sample confidence score = <code>79</code>.</p>
             </details>
 
             <details class="stat-example">
@@ -477,18 +499,18 @@
 
           <div class="formula-section">
             <h3>Risk Measures</h3>
-            <p>Risk fields use weekly fantasy point history, player status, chance of playing, minutes, starts, appearances, cards, missed penalties, and the player's bad-week pattern.</p>
+            <p>Risk fields use weekly fantasy point history, player status, chance of playing, minutes, starts, appearances, cards, and the player's bad-week pattern. Missed penalties are counted in performance scoring, but not in discipline risk.</p>
 
             <div class="formula-list">
               <p><strong>Volatility:</strong> standard deviation of weekly fantasy points. It measures how much the player moves around their own average.</p>
-              <p><strong>Downside deviation:</strong> standard deviation of only the bad side. Weeks at or above 2 points count as zero downside. Weeks below 2 points count by how far below 2 they were.</p>
+              <p><strong>Downside deviation:</strong> downside-only movement below a 2-point target. Note: this is not directly comparable to volatility because good weeks are ignored and only bad shortfalls count.</p>
               <p><strong>Bad-week rate:</strong> share of weeks with 1 point or fewer.</p>
               <p><strong>Value at Risk 10:</strong> rough 10th percentile weekly score.</p>
               <p><strong>Conditional Value at Risk 20:</strong> average of the worst 20% of weekly scores.</p>
-              <p><strong>Availability risk:</strong> player status, chance of playing, and missed-game share.</p>
+              <p><strong>Availability risk:</strong> an index from 0 to 100. It uses <code>status penalty + (100 - chance of playing) x 0.5 + missed-game share x 35</code>.</p>
               <p><strong>Minutes risk:</strong> start rate, 60-minute rate, and average minutes per appearance.</p>
-              <p><strong>Discipline risk:</strong> yellow cards per 90, red cards per 90, and missed penalties.</p>
-              <p><strong>Tail risk:</strong> combines bad-week rate, Value at Risk 10, and Conditional Value at Risk 20.</p>
+              <p><strong>Discipline risk:</strong> yellow cards per 90 and red cards per 90. Penalties committed would fit here, but the current source data does not include them.</p>
+              <p><strong>Tail risk:</strong> a weighted bad-week index: bad-week rate has weight 55, Value at Risk shortfall has weight 12, and Conditional Value at Risk shortfall has weight 10.</p>
               <p><strong>Composite risk:</strong> availability 28%, minutes 24%, discipline 12%, volatility 20%, tail risk 16%.</p>
             </div>
 
@@ -499,7 +521,7 @@
 
             <details class="stat-example">
               <summary>Example: downside deviation</summary>
-              <p>Use a target of 2 points. For weekly points <code>[8, 2, 1, 0]</code>, the downside shortfalls are <code>[0, 0, 1, 2]</code>. Downside deviation is the square root of the average squared shortfall: <code>sqrt((0^2 + 0^2 + 1^2 + 2^2) / 4) = 1.12</code>. Good weeks above 2 do not increase this risk measure.</p>
+              <p>Use a target of 2 points. For weekly points <code>[8, 2, 1, 0]</code>, the downside shortfalls are <code>[0, 0, 1, 2]</code>. Downside deviation is <code>sqrt((0^2 + 0^2 + 1^2 + 2^2) / 4) = 1.12</code>. This should not be compared one-to-one with volatility because the 8-point good week counts as zero downside.</p>
             </details>
 
             <details class="stat-example">
@@ -519,7 +541,7 @@
 
             <details class="stat-example">
               <summary>Example: availability risk</summary>
-              <p>If a player has a doubtful status penalty of 25, a 75% chance of playing, and missed 20% of gameweeks, availability risk = <code>25 + (100 - 75) x 0.5 + 0.20 x 35 = 44.5</code>, rounded to 45.</p>
+              <p>Status penalty is based on the source status field: available = 0, doubtful = 25, injured/suspended = 40, unavailable = 45, and not available = 35. If a player has a doubtful status penalty of 25, a 75% chance of playing, and missed 20% of gameweeks, availability risk = <code>25 + (100 - 75) x 0.5 + 0.20 x 35 = 44.5</code>, rounded to 45.</p>
             </details>
 
             <details class="stat-example">
@@ -529,12 +551,12 @@
 
             <details class="stat-example">
               <summary>Example: discipline risk</summary>
-              <p>If yellow cards per 90 = 0.25, red cards per 90 = 0.02, and missed penalties = 1, discipline risk = <code>0.25 x 14 + 0.02 x 45 + 1 x 8 = 12.4</code>, rounded to 12.</p>
+              <p>If yellow cards per 90 = 0.25 and red cards per 90 = 0.02, discipline risk = <code>0.25 x 14 + 0.02 x 45 = 4.4</code>, rounded to 4. Missed penalties are not included here because they are finishing events, not discipline events.</p>
             </details>
 
             <details class="stat-example">
               <summary>Example: tail risk</summary>
-              <p>If bad-week rate = 30%, Value at Risk 10 = 0, and CVaR 20 = 0.5, tail risk = <code>0.30 x 55 + (2 - 0) x 12 + (2 - 0.5) x 10 = 55.5</code>, rounded to 56.</p>
+              <p>If bad-week rate = 30%, Value at Risk 10 = 0, and CVaR 20 = 0.5, tail risk = <code>0.30 x 55 + (2 - 0) x 12 + (2 - 0.5) x 10 = 55.5</code>, rounded to 56. This intentionally gives the most weight to how often a player has very bad weeks.</p>
             </details>
 
             <details class="stat-example">
@@ -546,16 +568,16 @@
           <div class="formula-section">
             <h3>Risk-Adjusted Scores Used By The Builder</h3>
             <div class="formula-list">
-              <p><strong>Reliability score:</strong> sample confidence 45%, low availability risk 30%, and low minutes risk 25%.</p>
+              <p><strong>Reliability score:</strong> sample confidence score 45%, low availability risk 30%, and low minutes risk 25%.</p>
               <p><strong>Risk-adjusted expected points:</strong> confidence-adjusted expected points reduced when composite risk is high: <code>points x (1 - risk / 150)</code>.</p>
-              <p><strong>Sharpe Style:</strong> <code>(expected points - 2) / weekly point volatility</code>.</p>
-              <p><strong>Sortino Style:</strong> <code>(expected points - 2) / downside volatility</code>.</p>
+              <p><strong>Sharpe Style:</strong> raw ratio = <code>(expected points - 2) / weekly point volatility</code>, then converted to a 0 to 100 index by percentile rank in the player database.</p>
+              <p><strong>Sortino Style:</strong> raw ratio = <code>(expected points - 2) / downside deviation</code>, then converted to a 0 to 100 index by percentile rank in the player database.</p>
               <p><strong>Balanced score:</strong> combines risk-adjusted expected points, reliability, and lower composite risk into a 0 to 100 score.</p>
             </div>
 
             <details class="stat-example">
               <summary>Example: reliability</summary>
-              <p>If sample confidence = 80, availability risk = 20, and minutes risk = 30, reliability = <code>80 x 0.45 + (100 - 20) x 0.30 + (100 - 30) x 0.25 = 77.5</code>.</p>
+              <p>If sample confidence score = 80, availability risk = 20, and minutes risk = 30, reliability = <code>80 x 0.45 + (100 - 20) x 0.30 + (100 - 30) x 0.25 = 77.5</code>.</p>
             </details>
 
             <details class="stat-example">
@@ -565,12 +587,12 @@
 
             <details class="stat-example">
               <summary>Example: Sharpe Style</summary>
-              <p>If expected points = 5, baseline = 2, and weekly volatility = 3, Sharpe Style = <code>(5 - 2) / 3 = 1.0</code>.</p>
+              <p>If expected points = 5, baseline = 2, and weekly volatility = 3, raw Sharpe ratio = <code>(5 - 2) / 3 = 1.0</code>. If that raw ratio ranks around the 75th percentile among players, the displayed Sharpe Style index is about <code>75</code>.</p>
             </details>
 
             <details class="stat-example">
               <summary>Example: Sortino Style</summary>
-              <p>If expected points = 5, baseline = 2, and downside deviation = 1.5, Sortino Style = <code>(5 - 2) / 1.5 = 2.0</code>. Sortino is higher than Sharpe when most of the player's volatility comes from good weeks rather than bad weeks.</p>
+              <p>If expected points = 5, baseline = 2, and downside deviation = 1.5, raw Sortino ratio = <code>(5 - 2) / 1.5 = 2.0</code>. If that raw ratio ranks around the 85th percentile among players, the displayed Sortino Style index is about <code>85</code>.</p>
             </details>
 
             <details class="stat-example">
@@ -657,12 +679,12 @@
 
             <details class="stat-example">
               <summary>Example: Sharpe Style on the page</summary>
-              <p>If Sharpe Style = 1.2, the player has 1.2 units of expected reward above the baseline for each unit of weekly volatility.</p>
+              <p>If Sharpe Style = 82, that player ranks around the 82nd percentile for reward above baseline per unit of weekly volatility in this database.</p>
             </details>
 
             <details class="stat-example">
               <summary>Example: Sortino Style on the page</summary>
-              <p>If Sortino Style = 2.0, the player has strong expected reward compared with downside-only volatility. This is useful when you care more about bad surprises than all volatility.</p>
+              <p>If Sortino Style = 88, that player ranks around the 88th percentile for reward above baseline per unit of downside-only volatility. This is useful when you care more about bad surprises than all volatility.</p>
             </details>
 
             <details class="stat-example">

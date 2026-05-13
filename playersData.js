@@ -96,10 +96,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 33,
     "risk_tail_score": 32,
     "risk_composite_score": 12,
-    "risk_adjusted_sharpe_like": 1.64,
-    "risk_adjusted_sortino_like": 8.69,
+    "risk_adjusted_sharpe_like": 100,
+    "risk_adjusted_sortino_like": 93,
     "risk_adjusted_expected_points_estimate": 5.95,
-    "risk_adjusted_overall_score": 70
+    "risk_adjusted_overall_score": 70,
+    "risk_adjusted_sharpe_raw": 1.64,
+    "risk_adjusted_sortino_raw": 8.69
   },
   {
     "id": "470",
@@ -197,10 +199,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 28,
     "risk_tail_score": 39,
     "risk_composite_score": 13,
-    "risk_adjusted_sharpe_like": 1.45,
-    "risk_adjusted_sortino_like": 5.17,
+    "risk_adjusted_sharpe_like": 96,
+    "risk_adjusted_sortino_like": 85,
     "risk_adjusted_expected_points_estimate": 4.96,
-    "risk_adjusted_overall_score": 64
+    "risk_adjusted_overall_score": 64,
+    "risk_adjusted_sharpe_raw": 1.45,
+    "risk_adjusted_sortino_raw": 5.17
   },
   {
     "id": "287",
@@ -298,10 +302,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 42,
     "risk_tail_score": 40,
     "risk_composite_score": 16,
-    "risk_adjusted_sharpe_like": 1.16,
-    "risk_adjusted_sortino_like": 6.6,
+    "risk_adjusted_sharpe_like": 91,
+    "risk_adjusted_sortino_like": 89,
     "risk_adjusted_expected_points_estimate": 5.43,
-    "risk_adjusted_overall_score": 66
+    "risk_adjusted_overall_score": 66,
+    "risk_adjusted_sharpe_raw": 1.16,
+    "risk_adjusted_sortino_raw": 6.6
   },
   {
     "id": "101",
@@ -399,10 +405,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 41,
     "risk_tail_score": 38,
     "risk_composite_score": 15,
-    "risk_adjusted_sharpe_like": 1.19,
-    "risk_adjusted_sortino_like": 6.88,
+    "risk_adjusted_sharpe_like": 92,
+    "risk_adjusted_sortino_like": 91,
     "risk_adjusted_expected_points_estimate": 5.48,
-    "risk_adjusted_overall_score": 67
+    "risk_adjusted_overall_score": 67,
+    "risk_adjusted_sharpe_raw": 1.19,
+    "risk_adjusted_sortino_raw": 6.88
   },
   {
     "id": "220",
@@ -500,10 +508,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 35,
     "risk_tail_score": 53,
     "risk_composite_score": 17,
-    "risk_adjusted_sharpe_like": 1.39,
-    "risk_adjusted_sortino_like": 3.66,
+    "risk_adjusted_sharpe_like": 95,
+    "risk_adjusted_sortino_like": 72,
     "risk_adjusted_expected_points_estimate": 5.33,
-    "risk_adjusted_overall_score": 65
+    "risk_adjusted_overall_score": 65,
+    "risk_adjusted_sharpe_raw": 1.39,
+    "risk_adjusted_sortino_raw": 3.66
   },
   {
     "id": "736",
@@ -601,10 +611,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 33,
     "risk_tail_score": 59,
     "risk_composite_score": 18,
-    "risk_adjusted_sharpe_like": 1.47,
-    "risk_adjusted_sortino_like": 4.51,
+    "risk_adjusted_sharpe_like": 98,
+    "risk_adjusted_sortino_like": 82,
     "risk_adjusted_expected_points_estimate": 5.36,
-    "risk_adjusted_overall_score": 65
+    "risk_adjusted_overall_score": 65,
+    "risk_adjusted_sharpe_raw": 1.47,
+    "risk_adjusted_sortino_raw": 4.51
   },
   {
     "id": "139",
@@ -702,10 +714,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 34,
     "risk_tail_score": 40,
     "risk_composite_score": 14,
-    "risk_adjusted_sharpe_like": 1.46,
-    "risk_adjusted_sortino_like": 6.71,
+    "risk_adjusted_sharpe_like": 97,
+    "risk_adjusted_sortino_like": 90,
     "risk_adjusted_expected_points_estimate": 5.58,
-    "risk_adjusted_overall_score": 67
+    "risk_adjusted_overall_score": 67,
+    "risk_adjusted_sharpe_raw": 1.46,
+    "risk_adjusted_sortino_raw": 6.71
   },
   {
     "id": "5",
@@ -803,10 +817,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 55,
     "risk_tail_score": 62,
     "risk_composite_score": 23,
-    "risk_adjusted_sharpe_like": 0.67,
-    "risk_adjusted_sortino_like": 3.06,
+    "risk_adjusted_sharpe_like": 47,
+    "risk_adjusted_sortino_like": 58,
     "risk_adjusted_expected_points_estimate": 4.32,
-    "risk_adjusted_overall_score": 57
+    "risk_adjusted_overall_score": 57,
+    "risk_adjusted_sharpe_raw": 0.67,
+    "risk_adjusted_sortino_raw": 3.06
   },
   {
     "id": "373",
@@ -904,10 +920,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 42,
     "risk_tail_score": 29,
     "risk_composite_score": 14,
-    "risk_adjusted_sharpe_like": 0.56,
-    "risk_adjusted_sortino_like": 4.1,
+    "risk_adjusted_sharpe_like": 29,
+    "risk_adjusted_sortino_like": 79,
     "risk_adjusted_expected_points_estimate": 3.61,
-    "risk_adjusted_overall_score": 55
+    "risk_adjusted_overall_score": 55,
+    "risk_adjusted_sharpe_raw": 0.56,
+    "risk_adjusted_sortino_raw": 4.1
   },
   {
     "id": "260",
@@ -1005,10 +1023,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 50,
     "risk_tail_score": 54,
     "risk_composite_score": 25,
-    "risk_adjusted_sharpe_like": 1.37,
-    "risk_adjusted_sortino_like": 6.97,
+    "risk_adjusted_sharpe_like": 94,
+    "risk_adjusted_sortino_like": 92,
     "risk_adjusted_expected_points_estimate": 6.45,
-    "risk_adjusted_overall_score": 68
+    "risk_adjusted_overall_score": 68,
+    "risk_adjusted_sharpe_raw": 1.37,
+    "risk_adjusted_sortino_raw": 6.97
   },
   {
     "id": "72",
@@ -1106,10 +1126,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 41,
     "risk_tail_score": 30,
     "risk_composite_score": 14,
-    "risk_adjusted_sharpe_like": 0.58,
-    "risk_adjusted_sortino_like": 3.44,
+    "risk_adjusted_sharpe_like": 32,
+    "risk_adjusted_sortino_like": 66,
     "risk_adjusted_expected_points_estimate": 3.59,
-    "risk_adjusted_overall_score": 54
+    "risk_adjusted_overall_score": 54,
+    "risk_adjusted_sharpe_raw": 0.58,
+    "risk_adjusted_sortino_raw": 3.44
   },
   {
     "id": "8",
@@ -1207,10 +1229,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 58,
     "risk_tail_score": 60,
     "risk_composite_score": 35,
-    "risk_adjusted_sharpe_like": 0.66,
-    "risk_adjusted_sortino_like": 3.48,
+    "risk_adjusted_sharpe_like": 44,
+    "risk_adjusted_sortino_like": 68,
     "risk_adjusted_expected_points_estimate": 4,
-    "risk_adjusted_overall_score": 51
+    "risk_adjusted_overall_score": 51,
+    "risk_adjusted_sharpe_raw": 0.66,
+    "risk_adjusted_sortino_raw": 3.48
   },
   {
     "id": "575",
@@ -1308,10 +1332,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 60,
     "risk_tail_score": 81,
     "risk_composite_score": 27,
-    "risk_adjusted_sharpe_like": 0.39,
-    "risk_adjusted_sortino_like": 1.31,
+    "risk_adjusted_sharpe_like": 5,
+    "risk_adjusted_sortino_like": 11,
     "risk_adjusted_expected_points_estimate": 3.26,
-    "risk_adjusted_overall_score": 50
+    "risk_adjusted_overall_score": 50,
+    "risk_adjusted_sharpe_raw": 0.39,
+    "risk_adjusted_sortino_raw": 1.31
   },
   {
     "id": "411",
@@ -1409,10 +1435,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 58,
     "risk_tail_score": 68,
     "risk_composite_score": 26,
-    "risk_adjusted_sharpe_like": 0.64,
-    "risk_adjusted_sortino_like": 2.83,
+    "risk_adjusted_sharpe_like": 42,
+    "risk_adjusted_sortino_like": 55,
     "risk_adjusted_expected_points_estimate": 4.19,
-    "risk_adjusted_overall_score": 56
+    "risk_adjusted_overall_score": 56,
+    "risk_adjusted_sharpe_raw": 0.64,
+    "risk_adjusted_sortino_raw": 2.83
   },
   {
     "id": "224",
@@ -1510,10 +1538,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 36,
     "risk_tail_score": 76,
     "risk_composite_score": 23,
-    "risk_adjusted_sharpe_like": 0.63,
-    "risk_adjusted_sortino_like": 1.36,
+    "risk_adjusted_sharpe_like": 41,
+    "risk_adjusted_sortino_like": 12,
     "risk_adjusted_expected_points_estimate": 3.28,
-    "risk_adjusted_overall_score": 50
+    "risk_adjusted_overall_score": 50,
+    "risk_adjusted_sharpe_raw": 0.63,
+    "risk_adjusted_sortino_raw": 1.36
   },
   {
     "id": "6",
@@ -1611,10 +1641,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 40,
     "risk_tail_score": 65,
     "risk_composite_score": 21,
-    "risk_adjusted_sharpe_like": 0.77,
-    "risk_adjusted_sortino_like": 2.61,
+    "risk_adjusted_sharpe_like": 65,
+    "risk_adjusted_sortino_like": 49,
     "risk_adjusted_expected_points_estimate": 3.9,
-    "risk_adjusted_overall_score": 55
+    "risk_adjusted_overall_score": 55,
+    "risk_adjusted_sharpe_raw": 0.77,
+    "risk_adjusted_sortino_raw": 2.61
   },
   {
     "id": "291",
@@ -1712,10 +1744,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 41,
     "risk_tail_score": 35,
     "risk_composite_score": 15,
-    "risk_adjusted_sharpe_like": 0.54,
-    "risk_adjusted_sortino_like": 3.36,
+    "risk_adjusted_sharpe_like": 24,
+    "risk_adjusted_sortino_like": 64,
     "risk_adjusted_expected_points_estimate": 3.44,
-    "risk_adjusted_overall_score": 53
+    "risk_adjusted_overall_score": 53,
+    "risk_adjusted_sharpe_raw": 0.54,
+    "risk_adjusted_sortino_raw": 3.36
   },
   {
     "id": "568",
@@ -1813,10 +1847,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 39,
     "risk_tail_score": 73,
     "risk_composite_score": 22,
-    "risk_adjusted_sharpe_like": 0.61,
-    "risk_adjusted_sortino_like": 1.8,
+    "risk_adjusted_sharpe_like": 36,
+    "risk_adjusted_sortino_like": 22,
     "risk_adjusted_expected_points_estimate": 3.41,
-    "risk_adjusted_overall_score": 51
+    "risk_adjusted_overall_score": 51,
+    "risk_adjusted_sharpe_raw": 0.61,
+    "risk_adjusted_sortino_raw": 1.8
   },
   {
     "id": "151",
@@ -1914,10 +1950,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 41,
     "risk_tail_score": 51,
     "risk_composite_score": 18,
-    "risk_adjusted_sharpe_like": 0.63,
-    "risk_adjusted_sortino_like": 2.76,
+    "risk_adjusted_sharpe_like": 41,
+    "risk_adjusted_sortino_like": 52,
     "risk_adjusted_expected_points_estimate": 3.67,
-    "risk_adjusted_overall_score": 54
+    "risk_adjusted_overall_score": 54,
+    "risk_adjusted_sharpe_raw": 0.63,
+    "risk_adjusted_sortino_raw": 2.76
   },
   {
     "id": "226",
@@ -2015,10 +2053,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 44,
     "risk_tail_score": 63,
     "risk_composite_score": 21,
-    "risk_adjusted_sharpe_like": 0.62,
-    "risk_adjusted_sortino_like": 1.87,
+    "risk_adjusted_sharpe_like": 38,
+    "risk_adjusted_sortino_like": 24,
     "risk_adjusted_expected_points_estimate": 3.65,
-    "risk_adjusted_overall_score": 53
+    "risk_adjusted_overall_score": 53,
+    "risk_adjusted_sharpe_raw": 0.62,
+    "risk_adjusted_sortino_raw": 1.87
   },
   {
     "id": "694",
@@ -2116,10 +2156,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 52,
     "risk_tail_score": 68,
     "risk_composite_score": 23,
-    "risk_adjusted_sharpe_like": 0.57,
-    "risk_adjusted_sortino_like": 2.04,
+    "risk_adjusted_sharpe_like": 30,
+    "risk_adjusted_sortino_like": 28,
     "risk_adjusted_expected_points_estimate": 3.77,
-    "risk_adjusted_overall_score": 54
+    "risk_adjusted_overall_score": 54,
+    "risk_adjusted_sharpe_raw": 0.57,
+    "risk_adjusted_sortino_raw": 2.04
   },
   {
     "id": "256",
@@ -2217,10 +2259,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 49,
     "risk_tail_score": 68,
     "risk_composite_score": 24,
-    "risk_adjusted_sharpe_like": 0.73,
-    "risk_adjusted_sortino_like": 2.57,
+    "risk_adjusted_sharpe_like": 58,
+    "risk_adjusted_sortino_like": 48,
     "risk_adjusted_expected_points_estimate": 4.16,
-    "risk_adjusted_overall_score": 55
+    "risk_adjusted_overall_score": 55,
+    "risk_adjusted_sharpe_raw": 0.73,
+    "risk_adjusted_sortino_raw": 2.57
   },
   {
     "id": "36",
@@ -2318,10 +2362,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 42,
     "risk_tail_score": 63,
     "risk_composite_score": 20,
-    "risk_adjusted_sharpe_like": 0.54,
-    "risk_adjusted_sortino_like": 1.76,
+    "risk_adjusted_sharpe_like": 24,
+    "risk_adjusted_sortino_like": 19,
     "risk_adjusted_expected_points_estimate": 3.39,
-    "risk_adjusted_overall_score": 52
+    "risk_adjusted_overall_score": 52,
+    "risk_adjusted_sharpe_raw": 0.54,
+    "risk_adjusted_sortino_raw": 1.76
   },
   {
     "id": "77",
@@ -2419,10 +2465,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 35,
     "risk_tail_score": 73,
     "risk_composite_score": 25,
-    "risk_adjusted_sharpe_like": 0.52,
-    "risk_adjusted_sortino_like": 1.19,
+    "risk_adjusted_sharpe_like": 20,
+    "risk_adjusted_sortino_like": 10,
     "risk_adjusted_expected_points_estimate": 2.93,
-    "risk_adjusted_overall_score": 46
+    "risk_adjusted_overall_score": 46,
+    "risk_adjusted_sharpe_raw": 0.52,
+    "risk_adjusted_sortino_raw": 1.19
   },
   {
     "id": "38",
@@ -2520,10 +2568,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 30,
     "risk_tail_score": 54,
     "risk_composite_score": 16,
-    "risk_adjusted_sharpe_like": 0.69,
-    "risk_adjusted_sortino_like": 2.08,
+    "risk_adjusted_sharpe_like": 52,
+    "risk_adjusted_sortino_like": 30,
     "risk_adjusted_expected_points_estimate": 3.32,
-    "risk_adjusted_overall_score": 52
+    "risk_adjusted_overall_score": 52,
+    "risk_adjusted_sharpe_raw": 0.69,
+    "risk_adjusted_sortino_raw": 2.08
   },
   {
     "id": "191",
@@ -2621,10 +2671,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 26,
     "risk_tail_score": 71,
     "risk_composite_score": 18,
-    "risk_adjusted_sharpe_like": 0.38,
-    "risk_adjusted_sortino_like": 0.69,
+    "risk_adjusted_sharpe_like": 3,
+    "risk_adjusted_sortino_like": 4,
     "risk_adjusted_expected_points_estimate": 2.48,
-    "risk_adjusted_overall_score": 46
+    "risk_adjusted_overall_score": 46,
+    "risk_adjusted_sharpe_raw": 0.38,
+    "risk_adjusted_sortino_raw": 0.69
   },
   {
     "id": "225",
@@ -2722,10 +2774,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 45,
     "risk_tail_score": 72,
     "risk_composite_score": 34,
-    "risk_adjusted_sharpe_like": 0.66,
-    "risk_adjusted_sortino_like": 2.34,
+    "risk_adjusted_sharpe_like": 44,
+    "risk_adjusted_sortino_like": 40,
     "risk_adjusted_expected_points_estimate": 3.46,
-    "risk_adjusted_overall_score": 47
+    "risk_adjusted_overall_score": 47,
+    "risk_adjusted_sharpe_raw": 0.66,
+    "risk_adjusted_sortino_raw": 2.34
   },
   {
     "id": "683",
@@ -2823,10 +2877,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 44,
     "risk_tail_score": 72,
     "risk_composite_score": 23,
-    "risk_adjusted_sharpe_like": 0.49,
-    "risk_adjusted_sortino_like": 1.71,
+    "risk_adjusted_sharpe_like": 10,
+    "risk_adjusted_sortino_like": 18,
     "risk_adjusted_expected_points_estimate": 3.23,
-    "risk_adjusted_overall_score": 50
+    "risk_adjusted_overall_score": 50,
+    "risk_adjusted_sharpe_raw": 0.49,
+    "risk_adjusted_sortino_raw": 1.71
   },
   {
     "id": "7",
@@ -2924,10 +2980,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 43,
     "risk_tail_score": 75,
     "risk_composite_score": 28,
-    "risk_adjusted_sharpe_like": 0.66,
-    "risk_adjusted_sortino_like": 1.79,
+    "risk_adjusted_sharpe_like": 44,
+    "risk_adjusted_sortino_like": 21,
     "risk_adjusted_expected_points_estimate": 3.57,
-    "risk_adjusted_overall_score": 50
+    "risk_adjusted_overall_score": 50,
+    "risk_adjusted_sharpe_raw": 0.66,
+    "risk_adjusted_sortino_raw": 1.79
   },
   {
     "id": "257",
@@ -3025,10 +3083,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 42,
     "risk_tail_score": 39,
     "risk_composite_score": 16,
-    "risk_adjusted_sharpe_like": 0.56,
-    "risk_adjusted_sortino_like": 2.76,
+    "risk_adjusted_sharpe_like": 29,
+    "risk_adjusted_sortino_like": 52,
     "risk_adjusted_expected_points_estimate": 3.53,
-    "risk_adjusted_overall_score": 54
+    "risk_adjusted_overall_score": 54,
+    "risk_adjusted_sharpe_raw": 0.56,
+    "risk_adjusted_sortino_raw": 2.76
   },
   {
     "id": "684",
@@ -3126,10 +3186,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 53,
     "risk_tail_score": 68,
     "risk_composite_score": 24,
-    "risk_adjusted_sharpe_like": 0.39,
-    "risk_adjusted_sortino_like": 1.63,
+    "risk_adjusted_sharpe_like": 5,
+    "risk_adjusted_sortino_like": 14,
     "risk_adjusted_expected_points_estimate": 3.13,
-    "risk_adjusted_overall_score": 49
+    "risk_adjusted_overall_score": 49,
+    "risk_adjusted_sharpe_raw": 0.39,
+    "risk_adjusted_sortino_raw": 1.63
   },
   {
     "id": "370",
@@ -3227,10 +3289,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 29,
     "risk_tail_score": 81,
     "risk_composite_score": 33,
-    "risk_adjusted_sharpe_like": 0.61,
-    "risk_adjusted_sortino_like": 0.98,
+    "risk_adjusted_sharpe_like": 36,
+    "risk_adjusted_sortino_like": 8,
     "risk_adjusted_expected_points_estimate": 2.71,
-    "risk_adjusted_overall_score": 41
+    "risk_adjusted_overall_score": 41,
+    "risk_adjusted_sharpe_raw": 0.61,
+    "risk_adjusted_sortino_raw": 0.98
   },
   {
     "id": "508",
@@ -3328,10 +3392,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 50,
     "risk_tail_score": 72,
     "risk_composite_score": 23,
-    "risk_adjusted_sharpe_like": 0.53,
-    "risk_adjusted_sortino_like": 1.94,
+    "risk_adjusted_sharpe_like": 22,
+    "risk_adjusted_sortino_like": 26,
     "risk_adjusted_expected_points_estimate": 3.56,
-    "risk_adjusted_overall_score": 53
+    "risk_adjusted_overall_score": 53,
+    "risk_adjusted_sharpe_raw": 0.53,
+    "risk_adjusted_sortino_raw": 1.94
   },
   {
     "id": "74",
@@ -3429,10 +3495,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 41,
     "risk_tail_score": 57,
     "risk_composite_score": 18,
-    "risk_adjusted_sharpe_like": 0.69,
-    "risk_adjusted_sortino_like": 2.73,
+    "risk_adjusted_sharpe_like": 52,
+    "risk_adjusted_sortino_like": 51,
     "risk_adjusted_expected_points_estimate": 3.82,
-    "risk_adjusted_overall_score": 55
+    "risk_adjusted_overall_score": 55,
+    "risk_adjusted_sharpe_raw": 0.69,
+    "risk_adjusted_sortino_raw": 2.73
   },
   {
     "id": "317",
@@ -3530,10 +3598,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 36,
     "risk_tail_score": 56,
     "risk_composite_score": 18,
-    "risk_adjusted_sharpe_like": 0.5,
-    "risk_adjusted_sortino_like": 1.79,
+    "risk_adjusted_sharpe_like": 13,
+    "risk_adjusted_sortino_like": 21,
     "risk_adjusted_expected_points_estimate": 3.08,
-    "risk_adjusted_overall_score": 50
+    "risk_adjusted_overall_score": 50,
+    "risk_adjusted_sharpe_raw": 0.5,
+    "risk_adjusted_sortino_raw": 1.79
   },
   {
     "id": "610",
@@ -3631,10 +3701,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 30,
     "risk_tail_score": 78,
     "risk_composite_score": 23,
-    "risk_adjusted_sharpe_like": 0.5,
-    "risk_adjusted_sortino_like": 0.89,
+    "risk_adjusted_sharpe_like": 13,
+    "risk_adjusted_sortino_like": 7,
     "risk_adjusted_expected_points_estimate": 2.74,
-    "risk_adjusted_overall_score": 46
+    "risk_adjusted_overall_score": 46,
+    "risk_adjusted_sharpe_raw": 0.5,
+    "risk_adjusted_sortino_raw": 0.89
   },
   {
     "id": "440",
@@ -3732,10 +3804,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 46,
     "risk_tail_score": 64,
     "risk_composite_score": 23,
-    "risk_adjusted_sharpe_like": 0.54,
-    "risk_adjusted_sortino_like": 2.27,
+    "risk_adjusted_sharpe_like": 24,
+    "risk_adjusted_sortino_like": 38,
     "risk_adjusted_expected_points_estimate": 3.47,
-    "risk_adjusted_overall_score": 51
+    "risk_adjusted_overall_score": 51,
+    "risk_adjusted_sharpe_raw": 0.54,
+    "risk_adjusted_sortino_raw": 2.27
   },
   {
     "id": "82",
@@ -3829,14 +3903,16 @@ window.PLAYERS_DATA = [
     "risk_conditional_value_at_risk_20": 0.57,
     "risk_availability_score": 22,
     "risk_minutes_score": 0,
-    "risk_discipline_score": 9,
+    "risk_discipline_score": 1,
     "risk_volatility_score": 55,
     "risk_tail_score": 44,
-    "risk_composite_score": 25,
-    "risk_adjusted_sharpe_like": 1.64,
-    "risk_adjusted_sortino_like": 10.24,
-    "risk_adjusted_expected_points_estimate": 7.88,
-    "risk_adjusted_overall_score": 78
+    "risk_composite_score": 24,
+    "risk_adjusted_sharpe_like": 100,
+    "risk_adjusted_sortino_like": 96,
+    "risk_adjusted_expected_points_estimate": 7.94,
+    "risk_adjusted_overall_score": 78,
+    "risk_adjusted_sharpe_raw": 1.64,
+    "risk_adjusted_sortino_raw": 10.24
   },
   {
     "id": "449",
@@ -3930,14 +4006,16 @@ window.PLAYERS_DATA = [
     "risk_conditional_value_at_risk_20": 0.57,
     "risk_availability_score": 5,
     "risk_minutes_score": 0,
-    "risk_discipline_score": 18,
+    "risk_discipline_score": 2,
     "risk_volatility_score": 56,
     "risk_tail_score": 43,
-    "risk_composite_score": 22,
-    "risk_adjusted_sharpe_like": 0.92,
-    "risk_adjusted_sortino_like": 5.34,
-    "risk_adjusted_expected_points_estimate": 5.37,
-    "risk_adjusted_overall_score": 65
+    "risk_composite_score": 20,
+    "risk_adjusted_sharpe_like": 84,
+    "risk_adjusted_sortino_like": 86,
+    "risk_adjusted_expected_points_estimate": 5.45,
+    "risk_adjusted_overall_score": 65,
+    "risk_adjusted_sharpe_raw": 0.92,
+    "risk_adjusted_sortino_raw": 5.34
   },
   {
     "id": "47",
@@ -4035,10 +4113,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 49,
     "risk_tail_score": 21,
     "risk_composite_score": 14,
-    "risk_adjusted_sharpe_like": 0.79,
-    "risk_adjusted_sortino_like": 9.27,
+    "risk_adjusted_sharpe_like": 66,
+    "risk_adjusted_sortino_like": 94,
     "risk_adjusted_expected_points_estimate": 4.69,
-    "risk_adjusted_overall_score": 62
+    "risk_adjusted_overall_score": 62,
+    "risk_adjusted_sharpe_raw": 0.79,
+    "risk_adjusted_sortino_raw": 9.27
   },
   {
     "id": "21",
@@ -4136,10 +4216,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 48,
     "risk_tail_score": 23,
     "risk_composite_score": 14,
-    "risk_adjusted_sharpe_like": 0.81,
-    "risk_adjusted_sortino_like": 6.05,
+    "risk_adjusted_sharpe_like": 71,
+    "risk_adjusted_sortino_like": 88,
     "risk_adjusted_expected_points_estimate": 4.79,
-    "risk_adjusted_overall_score": 62
+    "risk_adjusted_overall_score": 62,
+    "risk_adjusted_sharpe_raw": 0.81,
+    "risk_adjusted_sortino_raw": 6.05
   },
   {
     "id": "329",
@@ -4237,10 +4319,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 49,
     "risk_tail_score": 36,
     "risk_composite_score": 18,
-    "risk_adjusted_sharpe_like": 0.73,
-    "risk_adjusted_sortino_like": 4.84,
+    "risk_adjusted_sharpe_like": 58,
+    "risk_adjusted_sortino_like": 84,
     "risk_adjusted_expected_points_estimate": 4.39,
-    "risk_adjusted_overall_score": 59
+    "risk_adjusted_overall_score": 59,
+    "risk_adjusted_sharpe_raw": 0.73,
+    "risk_adjusted_sortino_raw": 4.84
   },
   {
     "id": "119",
@@ -4338,10 +4422,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 45,
     "risk_tail_score": 56,
     "risk_composite_score": 21,
-    "risk_adjusted_sharpe_like": 0.75,
-    "risk_adjusted_sortino_like": 3.33,
+    "risk_adjusted_sharpe_like": 62,
+    "risk_adjusted_sortino_like": 63,
     "risk_adjusted_expected_points_estimate": 4.12,
-    "risk_adjusted_overall_score": 56
+    "risk_adjusted_overall_score": 56,
+    "risk_adjusted_sharpe_raw": 0.75,
+    "risk_adjusted_sortino_raw": 3.33
   },
   {
     "id": "235",
@@ -4439,10 +4525,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 52,
     "risk_tail_score": 72,
     "risk_composite_score": 27,
-    "risk_adjusted_sharpe_like": 0.69,
-    "risk_adjusted_sortino_like": 2.4,
+    "risk_adjusted_sharpe_like": 52,
+    "risk_adjusted_sortino_like": 43,
     "risk_adjusted_expected_points_estimate": 4.1,
-    "risk_adjusted_overall_score": 54
+    "risk_adjusted_overall_score": 54,
+    "risk_adjusted_sharpe_raw": 0.69,
+    "risk_adjusted_sortino_raw": 2.4
   },
   {
     "id": "381",
@@ -4540,10 +4628,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 40,
     "risk_tail_score": 63,
     "risk_composite_score": 30,
-    "risk_adjusted_sharpe_like": 1,
-    "risk_adjusted_sortino_like": 3.1,
+    "risk_adjusted_sharpe_like": 87,
+    "risk_adjusted_sortino_like": 59,
     "risk_adjusted_expected_points_estimate": 4.25,
-    "risk_adjusted_overall_score": 53
+    "risk_adjusted_overall_score": 53,
+    "risk_adjusted_sharpe_raw": 1,
+    "risk_adjusted_sortino_raw": 3.1
   },
   {
     "id": "417",
@@ -4641,10 +4731,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 49,
     "risk_tail_score": 73,
     "risk_composite_score": 31,
-    "risk_adjusted_sharpe_like": 0.62,
-    "risk_adjusted_sortino_like": 2.27,
+    "risk_adjusted_sharpe_like": 38,
+    "risk_adjusted_sortino_like": 38,
     "risk_adjusted_expected_points_estimate": 3.59,
-    "risk_adjusted_overall_score": 49
+    "risk_adjusted_overall_score": 49,
+    "risk_adjusted_sharpe_raw": 0.62,
+    "risk_adjusted_sortino_raw": 2.27
   },
   {
     "id": "387",
@@ -4738,14 +4830,16 @@ window.PLAYERS_DATA = [
     "risk_conditional_value_at_risk_20": 0.57,
     "risk_availability_score": 4,
     "risk_minutes_score": 0,
-    "risk_discipline_score": 13,
+    "risk_discipline_score": 5,
     "risk_volatility_score": 42,
     "risk_tail_score": 39,
-    "risk_composite_score": 17,
-    "risk_adjusted_sharpe_like": 0.81,
-    "risk_adjusted_sortino_like": 4.05,
-    "risk_adjusted_expected_points_estimate": 4.31,
-    "risk_adjusted_overall_score": 58
+    "risk_composite_score": 16,
+    "risk_adjusted_sharpe_like": 71,
+    "risk_adjusted_sortino_like": 77,
+    "risk_adjusted_expected_points_estimate": 4.34,
+    "risk_adjusted_overall_score": 59,
+    "risk_adjusted_sharpe_raw": 0.81,
+    "risk_adjusted_sortino_raw": 4.05
   },
   {
     "id": "515",
@@ -4843,10 +4937,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 50,
     "risk_tail_score": 3,
     "risk_composite_score": 12,
-    "risk_adjusted_sharpe_like": 0.81,
-    "risk_adjusted_sortino_like": 19.51,
+    "risk_adjusted_sharpe_like": 71,
+    "risk_adjusted_sortino_like": 100,
     "risk_adjusted_expected_points_estimate": 4.92,
-    "risk_adjusted_overall_score": 63
+    "risk_adjusted_overall_score": 63,
+    "risk_adjusted_sharpe_raw": 0.81,
+    "risk_adjusted_sortino_raw": 19.51
   },
   {
     "id": "237",
@@ -4944,10 +5040,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 43,
     "risk_tail_score": 39,
     "risk_composite_score": 17,
-    "risk_adjusted_sharpe_like": 0.81,
-    "risk_adjusted_sortino_like": 4.1,
+    "risk_adjusted_sharpe_like": 71,
+    "risk_adjusted_sortino_like": 79,
     "risk_adjusted_expected_points_estimate": 4.34,
-    "risk_adjusted_overall_score": 59
+    "risk_adjusted_overall_score": 59,
+    "risk_adjusted_sharpe_raw": 0.81,
+    "risk_adjusted_sortino_raw": 4.1
   },
   {
     "id": "582",
@@ -5045,10 +5143,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 37,
     "risk_tail_score": 73,
     "risk_composite_score": 36,
-    "risk_adjusted_sharpe_like": 1.05,
-    "risk_adjusted_sortino_like": 2.4,
+    "risk_adjusted_sharpe_like": 88,
+    "risk_adjusted_sortino_like": 43,
     "risk_adjusted_expected_points_estimate": 4,
-    "risk_adjusted_overall_score": 49
+    "risk_adjusted_overall_score": 49,
+    "risk_adjusted_sharpe_raw": 1.05,
+    "risk_adjusted_sortino_raw": 2.4
   },
   {
     "id": "382",
@@ -5146,10 +5246,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 40,
     "risk_tail_score": 54,
     "risk_composite_score": 20,
-    "risk_adjusted_sharpe_like": 0.81,
-    "risk_adjusted_sortino_like": 3.25,
+    "risk_adjusted_sharpe_like": 71,
+    "risk_adjusted_sortino_like": 62,
     "risk_adjusted_expected_points_estimate": 4.05,
-    "risk_adjusted_overall_score": 56
+    "risk_adjusted_overall_score": 56,
+    "risk_adjusted_sharpe_raw": 0.81,
+    "risk_adjusted_sortino_raw": 3.25
   },
   {
     "id": "427",
@@ -5247,10 +5349,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 37,
     "risk_tail_score": 75,
     "risk_composite_score": 29,
-    "risk_adjusted_sharpe_like": 0.6,
-    "risk_adjusted_sortino_like": 1.65,
+    "risk_adjusted_sharpe_like": 34,
+    "risk_adjusted_sortino_like": 16,
     "risk_adjusted_expected_points_estimate": 3.11,
-    "risk_adjusted_overall_score": 46
+    "risk_adjusted_overall_score": 46,
+    "risk_adjusted_sharpe_raw": 0.6,
+    "risk_adjusted_sortino_raw": 1.65
   },
   {
     "id": "450",
@@ -5348,10 +5452,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 36,
     "risk_tail_score": 49,
     "risk_composite_score": 25,
-    "risk_adjusted_sharpe_like": 0.96,
-    "risk_adjusted_sortino_like": 3.78,
+    "risk_adjusted_sharpe_like": 86,
+    "risk_adjusted_sortino_like": 74,
     "risk_adjusted_expected_points_estimate": 4.08,
-    "risk_adjusted_overall_score": 54
+    "risk_adjusted_overall_score": 54,
+    "risk_adjusted_sharpe_raw": 0.96,
+    "risk_adjusted_sortino_raw": 3.78
   },
   {
     "id": "266",
@@ -5449,10 +5555,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 51,
     "risk_tail_score": 70,
     "risk_composite_score": 30,
-    "risk_adjusted_sharpe_like": 0.51,
-    "risk_adjusted_sortino_like": 2.09,
+    "risk_adjusted_sharpe_like": 16,
+    "risk_adjusted_sortino_like": 32,
     "risk_adjusted_expected_points_estimate": 3.35,
-    "risk_adjusted_overall_score": 48
+    "risk_adjusted_overall_score": 48,
+    "risk_adjusted_sharpe_raw": 0.51,
+    "risk_adjusted_sortino_raw": 2.09
   },
   {
     "id": "414",
@@ -5550,10 +5658,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 54,
     "risk_tail_score": 68,
     "risk_composite_score": 29,
-    "risk_adjusted_sharpe_like": 0.55,
-    "risk_adjusted_sortino_like": 2.46,
+    "risk_adjusted_sharpe_like": 27,
+    "risk_adjusted_sortino_like": 45,
     "risk_adjusted_expected_points_estimate": 3.6,
-    "risk_adjusted_overall_score": 50
+    "risk_adjusted_overall_score": 50,
+    "risk_adjusted_sharpe_raw": 0.55,
+    "risk_adjusted_sortino_raw": 2.46
   },
   {
     "id": "517",
@@ -5651,10 +5761,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 30,
     "risk_tail_score": 6,
     "risk_composite_score": 8,
-    "risk_adjusted_sharpe_like": 1.36,
-    "risk_adjusted_sortino_like": 14,
+    "risk_adjusted_sharpe_like": 93,
+    "risk_adjusted_sortino_like": 98,
     "risk_adjusted_expected_points_estimate": 5.11,
-    "risk_adjusted_overall_score": 65
+    "risk_adjusted_overall_score": 65,
+    "risk_adjusted_sharpe_raw": 1.36,
+    "risk_adjusted_sortino_raw": 14
   },
   {
     "id": "241",
@@ -5752,10 +5864,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 38,
     "risk_tail_score": 65,
     "risk_composite_score": 21,
-    "risk_adjusted_sharpe_like": 0.75,
-    "risk_adjusted_sortino_like": 2.08,
+    "risk_adjusted_sharpe_like": 62,
+    "risk_adjusted_sortino_like": 30,
     "risk_adjusted_expected_points_estimate": 3.75,
-    "risk_adjusted_overall_score": 54
+    "risk_adjusted_overall_score": 54,
+    "risk_adjusted_sharpe_raw": 0.75,
+    "risk_adjusted_sortino_raw": 2.08
   },
   {
     "id": "16",
@@ -5853,10 +5967,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 43,
     "risk_tail_score": 60,
     "risk_composite_score": 23,
-    "risk_adjusted_sharpe_like": 0.85,
-    "risk_adjusted_sortino_like": 3.21,
+    "risk_adjusted_sharpe_like": 79,
+    "risk_adjusted_sortino_like": 61,
     "risk_adjusted_expected_points_estimate": 4.29,
-    "risk_adjusted_overall_score": 56
+    "risk_adjusted_overall_score": 56,
+    "risk_adjusted_sharpe_raw": 0.85,
+    "risk_adjusted_sortino_raw": 3.21
   },
   {
     "id": "242",
@@ -5954,10 +6070,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 54,
     "risk_tail_score": 62,
     "risk_composite_score": 24,
-    "risk_adjusted_sharpe_like": 0.76,
-    "risk_adjusted_sortino_like": 3.52,
+    "risk_adjusted_sharpe_like": 64,
+    "risk_adjusted_sortino_like": 69,
     "risk_adjusted_expected_points_estimate": 4.55,
-    "risk_adjusted_overall_score": 58
+    "risk_adjusted_overall_score": 58,
+    "risk_adjusted_sharpe_raw": 0.76,
+    "risk_adjusted_sortino_raw": 3.52
   },
   {
     "id": "384",
@@ -6055,10 +6173,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 35,
     "risk_tail_score": 36,
     "risk_composite_score": 15,
-    "risk_adjusted_sharpe_like": 0.83,
-    "risk_adjusted_sortino_like": 3.95,
+    "risk_adjusted_sharpe_like": 75,
+    "risk_adjusted_sortino_like": 75,
     "risk_adjusted_expected_points_estimate": 4,
-    "risk_adjusted_overall_score": 56
+    "risk_adjusted_overall_score": 56,
+    "risk_adjusted_sharpe_raw": 0.83,
+    "risk_adjusted_sortino_raw": 3.95
   },
   {
     "id": "419",
@@ -6156,10 +6276,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 43,
     "risk_tail_score": 76,
     "risk_composite_score": 38,
-    "risk_adjusted_sharpe_like": 0.84,
-    "risk_adjusted_sortino_like": 2.1,
+    "risk_adjusted_sharpe_like": 76,
+    "risk_adjusted_sortino_like": 33,
     "risk_adjusted_expected_points_estimate": 3.73,
-    "risk_adjusted_overall_score": 47
+    "risk_adjusted_overall_score": 47,
+    "risk_adjusted_sharpe_raw": 0.84,
+    "risk_adjusted_sortino_raw": 2.1
   },
   {
     "id": "84",
@@ -6257,10 +6379,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 41,
     "risk_tail_score": 57,
     "risk_composite_score": 20,
-    "risk_adjusted_sharpe_like": 0.85,
-    "risk_adjusted_sortino_like": 3.37,
+    "risk_adjusted_sharpe_like": 79,
+    "risk_adjusted_sortino_like": 65,
     "risk_adjusted_expected_points_estimate": 4.24,
-    "risk_adjusted_overall_score": 57
+    "risk_adjusted_overall_score": 57,
+    "risk_adjusted_sharpe_raw": 0.85,
+    "risk_adjusted_sortino_raw": 3.37
   },
   {
     "id": "488",
@@ -6358,10 +6482,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 50,
     "risk_tail_score": 62,
     "risk_composite_score": 24,
-    "risk_adjusted_sharpe_like": 0.87,
-    "risk_adjusted_sortino_like": 3.46,
+    "risk_adjusted_sharpe_like": 81,
+    "risk_adjusted_sortino_like": 67,
     "risk_adjusted_expected_points_estimate": 4.75,
-    "risk_adjusted_overall_score": 59
+    "risk_adjusted_overall_score": 59,
+    "risk_adjusted_sharpe_raw": 0.87,
+    "risk_adjusted_sortino_raw": 3.46
   },
   {
     "id": "299",
@@ -6459,10 +6585,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 35,
     "risk_tail_score": 51,
     "risk_composite_score": 17,
-    "risk_adjusted_sharpe_like": 1.14,
-    "risk_adjusted_sortino_like": 3.99,
+    "risk_adjusted_sharpe_like": 90,
+    "risk_adjusted_sortino_like": 76,
     "risk_adjusted_expected_points_estimate": 4.75,
-    "risk_adjusted_overall_score": 61
+    "risk_adjusted_overall_score": 61,
+    "risk_adjusted_sharpe_raw": 1.14,
+    "risk_adjusted_sortino_raw": 3.99
   },
   {
     "id": "485",
@@ -6560,10 +6688,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 40,
     "risk_tail_score": 68,
     "risk_composite_score": 31,
-    "risk_adjusted_sharpe_like": 0.72,
-    "risk_adjusted_sortino_like": 1.95,
+    "risk_adjusted_sharpe_like": 55,
+    "risk_adjusted_sortino_like": 27,
     "risk_adjusted_expected_points_estimate": 3.5,
-    "risk_adjusted_overall_score": 48
+    "risk_adjusted_overall_score": 48,
+    "risk_adjusted_sharpe_raw": 0.72,
+    "risk_adjusted_sortino_raw": 1.95
   },
   {
     "id": "457",
@@ -6661,10 +6791,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 47,
     "risk_tail_score": 52,
     "risk_composite_score": 20,
-    "risk_adjusted_sharpe_like": 0.74,
-    "risk_adjusted_sortino_like": 3.63,
+    "risk_adjusted_sharpe_like": 60,
+    "risk_adjusted_sortino_like": 71,
     "risk_adjusted_expected_points_estimate": 4.26,
-    "risk_adjusted_overall_score": 57
+    "risk_adjusted_overall_score": 57,
+    "risk_adjusted_sharpe_raw": 0.74,
+    "risk_adjusted_sortino_raw": 3.63
   },
   {
     "id": "236",
@@ -6762,10 +6894,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 36,
     "risk_tail_score": 49,
     "risk_composite_score": 19,
-    "risk_adjusted_sharpe_like": 0.81,
-    "risk_adjusted_sortino_like": 2.88,
+    "risk_adjusted_sharpe_like": 71,
+    "risk_adjusted_sortino_like": 56,
     "risk_adjusted_expected_points_estimate": 3.86,
-    "risk_adjusted_overall_score": 54
+    "risk_adjusted_overall_score": 54,
+    "risk_adjusted_sharpe_raw": 0.81,
+    "risk_adjusted_sortino_raw": 2.88
   },
   {
     "id": "267",
@@ -6863,10 +6997,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 43,
     "risk_tail_score": 67,
     "risk_composite_score": 24,
-    "risk_adjusted_sharpe_like": 0.81,
-    "risk_adjusted_sortino_like": 2.47,
+    "risk_adjusted_sharpe_like": 71,
+    "risk_adjusted_sortino_like": 46,
     "risk_adjusted_expected_points_estimate": 4.12,
-    "risk_adjusted_overall_score": 55
+    "risk_adjusted_overall_score": 55,
+    "risk_adjusted_sharpe_raw": 0.81,
+    "risk_adjusted_sortino_raw": 2.47
   },
   {
     "id": "303",
@@ -6964,10 +7100,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 35,
     "risk_tail_score": 6,
     "risk_composite_score": 9,
-    "risk_adjusted_sharpe_like": 0.89,
-    "risk_adjusted_sortino_like": 10.8,
+    "risk_adjusted_sharpe_like": 82,
+    "risk_adjusted_sortino_like": 97,
     "risk_adjusted_expected_points_estimate": 4.34,
-    "risk_adjusted_overall_score": 60
+    "risk_adjusted_overall_score": 60,
+    "risk_adjusted_sharpe_raw": 0.89,
+    "risk_adjusted_sortino_raw": 10.8
   },
   {
     "id": "390",
@@ -7065,10 +7203,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 40,
     "risk_tail_score": 38,
     "risk_composite_score": 16,
-    "risk_adjusted_sharpe_like": 0.75,
-    "risk_adjusted_sortino_like": 3.7,
+    "risk_adjusted_sharpe_like": 62,
+    "risk_adjusted_sortino_like": 73,
     "risk_adjusted_expected_points_estimate": 4.05,
-    "risk_adjusted_overall_score": 57
+    "risk_adjusted_overall_score": 57,
+    "risk_adjusted_sharpe_raw": 0.75,
+    "risk_adjusted_sortino_raw": 3.7
   },
   {
     "id": "668",
@@ -7166,10 +7306,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 28,
     "risk_tail_score": 49,
     "risk_composite_score": 16,
-    "risk_adjusted_sharpe_like": 1.05,
-    "risk_adjusted_sortino_like": 3.2,
+    "risk_adjusted_sharpe_like": 88,
+    "risk_adjusted_sortino_like": 60,
     "risk_adjusted_expected_points_estimate": 3.98,
-    "risk_adjusted_overall_score": 56
+    "risk_adjusted_overall_score": 56,
+    "risk_adjusted_sharpe_raw": 1.05,
+    "risk_adjusted_sortino_raw": 3.2
   },
   {
     "id": "26",
@@ -7267,10 +7409,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 39,
     "risk_tail_score": 30,
     "risk_composite_score": 14,
-    "risk_adjusted_sharpe_like": 0.72,
-    "risk_adjusted_sortino_like": 4.09,
+    "risk_adjusted_sharpe_like": 55,
+    "risk_adjusted_sortino_like": 78,
     "risk_adjusted_expected_points_estimate": 3.92,
-    "risk_adjusted_overall_score": 56
+    "risk_adjusted_overall_score": 56,
+    "risk_adjusted_sharpe_raw": 0.72,
+    "risk_adjusted_sortino_raw": 4.09
   },
   {
     "id": "486",
@@ -7368,10 +7512,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 12,
     "risk_tail_score": 73,
     "risk_composite_score": 29,
-    "risk_adjusted_sharpe_like": 0.41,
-    "risk_adjusted_sortino_like": 0.4,
+    "risk_adjusted_sharpe_like": 6,
+    "risk_adjusted_sortino_like": 2,
     "risk_adjusted_expected_points_estimate": 1.94,
-    "risk_adjusted_overall_score": 37
+    "risk_adjusted_overall_score": 37,
+    "risk_adjusted_sharpe_raw": 0.41,
+    "risk_adjusted_sortino_raw": 0.4
   },
   {
     "id": "418",
@@ -7469,10 +7615,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 41,
     "risk_tail_score": 76,
     "risk_composite_score": 29,
-    "risk_adjusted_sharpe_like": 0.67,
-    "risk_adjusted_sortino_like": 1.91,
+    "risk_adjusted_sharpe_like": 47,
+    "risk_adjusted_sortino_like": 25,
     "risk_adjusted_expected_points_estimate": 3.48,
-    "risk_adjusted_overall_score": 49
+    "risk_adjusted_overall_score": 49,
+    "risk_adjusted_sharpe_raw": 0.67,
+    "risk_adjusted_sortino_raw": 1.91
   },
   {
     "id": "90",
@@ -7570,10 +7718,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 35,
     "risk_tail_score": 30,
     "risk_composite_score": 14,
-    "risk_adjusted_sharpe_like": 0.84,
-    "risk_adjusted_sortino_like": 4.23,
+    "risk_adjusted_sharpe_like": 76,
+    "risk_adjusted_sortino_like": 81,
     "risk_adjusted_expected_points_estimate": 4,
-    "risk_adjusted_overall_score": 57
+    "risk_adjusted_overall_score": 57,
+    "risk_adjusted_sharpe_raw": 0.84,
+    "risk_adjusted_sortino_raw": 4.23
   },
   {
     "id": "413",
@@ -7671,10 +7821,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 26,
     "risk_tail_score": 89,
     "risk_composite_score": 43,
-    "risk_adjusted_sharpe_like": 0.13,
-    "risk_adjusted_sortino_like": 0.18,
+    "risk_adjusted_sharpe_like": 1,
+    "risk_adjusted_sortino_like": 1,
     "risk_adjusted_expected_points_estimate": 1.62,
-    "risk_adjusted_overall_score": 30
+    "risk_adjusted_overall_score": 30,
+    "risk_adjusted_sharpe_raw": 0.13,
+    "risk_adjusted_sortino_raw": 0.18
   },
   {
     "id": "160",
@@ -7772,10 +7924,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 35,
     "risk_tail_score": 62,
     "risk_composite_score": 22,
-    "risk_adjusted_sharpe_like": 0.79,
-    "risk_adjusted_sortino_like": 2.5,
+    "risk_adjusted_sharpe_like": 66,
+    "risk_adjusted_sortino_like": 47,
     "risk_adjusted_expected_points_estimate": 3.64,
-    "risk_adjusted_overall_score": 52
+    "risk_adjusted_overall_score": 52,
+    "risk_adjusted_sharpe_raw": 0.79,
+    "risk_adjusted_sortino_raw": 2.5
   },
   {
     "id": "430",
@@ -7869,14 +8023,16 @@ window.PLAYERS_DATA = [
     "risk_conditional_value_at_risk_20": 1,
     "risk_availability_score": 4,
     "risk_minutes_score": 1,
-    "risk_discipline_score": 9,
+    "risk_discipline_score": 1,
     "risk_volatility_score": 64,
     "risk_tail_score": 25,
-    "risk_composite_score": 19,
-    "risk_adjusted_sharpe_like": 0.67,
-    "risk_adjusted_sortino_like": 5.76,
-    "risk_adjusted_expected_points_estimate": 4.86,
-    "risk_adjusted_overall_score": 62
+    "risk_composite_score": 18,
+    "risk_adjusted_sharpe_like": 47,
+    "risk_adjusted_sortino_like": 87,
+    "risk_adjusted_expected_points_estimate": 4.89,
+    "risk_adjusted_overall_score": 62,
+    "risk_adjusted_sharpe_raw": 0.67,
+    "risk_adjusted_sortino_raw": 5.76
   },
   {
     "id": "249",
@@ -7974,10 +8130,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 56,
     "risk_tail_score": 36,
     "risk_composite_score": 20,
-    "risk_adjusted_sharpe_like": 0.62,
-    "risk_adjusted_sortino_like": 4.66,
+    "risk_adjusted_sharpe_like": 38,
+    "risk_adjusted_sortino_like": 83,
     "risk_adjusted_expected_points_estimate": 4.23,
-    "risk_adjusted_overall_score": 57
+    "risk_adjusted_overall_score": 57,
+    "risk_adjusted_sharpe_raw": 0.62,
+    "risk_adjusted_sortino_raw": 4.66
   },
   {
     "id": "136",
@@ -8071,14 +8229,16 @@ window.PLAYERS_DATA = [
     "risk_conditional_value_at_risk_20": 1.57,
     "risk_availability_score": 2,
     "risk_minutes_score": 1,
-    "risk_discipline_score": 11,
+    "risk_discipline_score": 3,
     "risk_volatility_score": 53,
     "risk_tail_score": 9,
-    "risk_composite_score": 14,
-    "risk_adjusted_sharpe_like": 0.68,
-    "risk_adjusted_sortino_like": 10.14,
-    "risk_adjusted_expected_points_estimate": 4.54,
-    "risk_adjusted_overall_score": 61
+    "risk_composite_score": 13,
+    "risk_adjusted_sharpe_like": 49,
+    "risk_adjusted_sortino_like": 95,
+    "risk_adjusted_expected_points_estimate": 4.58,
+    "risk_adjusted_overall_score": 61,
+    "risk_adjusted_sharpe_raw": 0.68,
+    "risk_adjusted_sortino_raw": 10.14
   },
   {
     "id": "661",
@@ -8176,10 +8336,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 55,
     "risk_tail_score": 67,
     "risk_composite_score": 40,
-    "risk_adjusted_sharpe_like": 0.51,
-    "risk_adjusted_sortino_like": 2.37,
+    "risk_adjusted_sharpe_like": 16,
+    "risk_adjusted_sortino_like": 41,
     "risk_adjusted_expected_points_estimate": 3.18,
-    "risk_adjusted_overall_score": 43
+    "risk_adjusted_overall_score": 43,
+    "risk_adjusted_sharpe_raw": 0.51,
+    "risk_adjusted_sortino_raw": 2.37
   },
   {
     "id": "64",
@@ -8277,10 +8439,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 46,
     "risk_tail_score": 30,
     "risk_composite_score": 16,
-    "risk_adjusted_sharpe_like": 0.52,
-    "risk_adjusted_sortino_like": 3.55,
+    "risk_adjusted_sharpe_like": 20,
+    "risk_adjusted_sortino_like": 70,
     "risk_adjusted_expected_points_estimate": 3.59,
-    "risk_adjusted_overall_score": 54
+    "risk_adjusted_overall_score": 54,
+    "risk_adjusted_sharpe_raw": 0.52,
+    "risk_adjusted_sortino_raw": 3.55
   },
   {
     "id": "624",
@@ -8378,10 +8542,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 41,
     "risk_tail_score": 3,
     "risk_composite_score": 9,
-    "risk_adjusted_sharpe_like": 0.92,
-    "risk_adjusted_sortino_like": 18.47,
+    "risk_adjusted_sharpe_like": 84,
+    "risk_adjusted_sortino_like": 99,
     "risk_adjusted_expected_points_estimate": 4.86,
-    "risk_adjusted_overall_score": 63
+    "risk_adjusted_overall_score": 63,
+    "risk_adjusted_sharpe_raw": 0.92,
+    "risk_adjusted_sortino_raw": 18.47
   },
   {
     "id": "691",
@@ -8475,14 +8641,16 @@ window.PLAYERS_DATA = [
     "risk_conditional_value_at_risk_20": 0.29,
     "risk_availability_score": 6,
     "risk_minutes_score": 7,
-    "risk_discipline_score": 9,
+    "risk_discipline_score": 1,
     "risk_volatility_score": 43,
     "risk_tail_score": 56,
-    "risk_composite_score": 22,
-    "risk_adjusted_sharpe_like": 0.58,
-    "risk_adjusted_sortino_like": 2.44,
-    "risk_adjusted_expected_points_estimate": 3.46,
-    "risk_adjusted_overall_score": 51
+    "risk_composite_score": 21,
+    "risk_adjusted_sharpe_like": 32,
+    "risk_adjusted_sortino_like": 44,
+    "risk_adjusted_expected_points_estimate": 3.48,
+    "risk_adjusted_overall_score": 52,
+    "risk_adjusted_sharpe_raw": 0.58,
+    "risk_adjusted_sortino_raw": 2.44
   },
   {
     "id": "666",
@@ -8580,10 +8748,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 42,
     "risk_tail_score": 57,
     "risk_composite_score": 23,
-    "risk_adjusted_sharpe_like": 0.52,
-    "risk_adjusted_sortino_like": 2.13,
+    "risk_adjusted_sharpe_like": 20,
+    "risk_adjusted_sortino_like": 34,
     "risk_adjusted_expected_points_estimate": 3.24,
-    "risk_adjusted_overall_score": 49
+    "risk_adjusted_overall_score": 49,
+    "risk_adjusted_sharpe_raw": 0.52,
+    "risk_adjusted_sortino_raw": 2.13
   },
   {
     "id": "178",
@@ -8677,14 +8847,16 @@ window.PLAYERS_DATA = [
     "risk_conditional_value_at_risk_20": 0.57,
     "risk_availability_score": 3,
     "risk_minutes_score": 24,
-    "risk_discipline_score": 19,
+    "risk_discipline_score": 3,
     "risk_volatility_score": 45,
     "risk_tail_score": 49,
-    "risk_composite_score": 26,
-    "risk_adjusted_sharpe_like": 0.46,
-    "risk_adjusted_sortino_like": 2.08,
-    "risk_adjusted_expected_points_estimate": 3.07,
-    "risk_adjusted_overall_score": 47
+    "risk_composite_score": 24,
+    "risk_adjusted_sharpe_like": 7,
+    "risk_adjusted_sortino_like": 30,
+    "risk_adjusted_expected_points_estimate": 3.12,
+    "risk_adjusted_overall_score": 48,
+    "risk_adjusted_sharpe_raw": 0.46,
+    "risk_adjusted_sortino_raw": 2.08
   },
   {
     "id": "283",
@@ -8782,10 +8954,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 45,
     "risk_tail_score": 62,
     "risk_composite_score": 23,
-    "risk_adjusted_sharpe_like": 0.55,
-    "risk_adjusted_sortino_like": 2.14,
+    "risk_adjusted_sharpe_like": 27,
+    "risk_adjusted_sortino_like": 35,
     "risk_adjusted_expected_points_estimate": 3.45,
-    "risk_adjusted_overall_score": 51
+    "risk_adjusted_overall_score": 51,
+    "risk_adjusted_sharpe_raw": 0.55,
+    "risk_adjusted_sortino_raw": 2.14
   },
   {
     "id": "714",
@@ -8883,10 +9057,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 37,
     "risk_tail_score": 69,
     "risk_composite_score": 27,
-    "risk_adjusted_sharpe_like": 0.52,
-    "risk_adjusted_sortino_like": 1.67,
+    "risk_adjusted_sharpe_like": 20,
+    "risk_adjusted_sortino_like": 17,
     "risk_adjusted_expected_points_estimate": 2.97,
-    "risk_adjusted_overall_score": 46
+    "risk_adjusted_overall_score": 46,
+    "risk_adjusted_sharpe_raw": 0.52,
+    "risk_adjusted_sortino_raw": 1.67
   },
   {
     "id": "681",
@@ -8984,10 +9160,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 40,
     "risk_tail_score": 67,
     "risk_composite_score": 30,
-    "risk_adjusted_sharpe_like": 0.48,
-    "risk_adjusted_sortino_like": 1.65,
+    "risk_adjusted_sharpe_like": 9,
+    "risk_adjusted_sortino_like": 16,
     "risk_adjusted_expected_points_estimate": 2.9,
-    "risk_adjusted_overall_score": 44
+    "risk_adjusted_overall_score": 44,
+    "risk_adjusted_sharpe_raw": 0.48,
+    "risk_adjusted_sortino_raw": 1.65
   },
   {
     "id": "597",
@@ -9085,10 +9263,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 38,
     "risk_tail_score": 68,
     "risk_composite_score": 29,
-    "risk_adjusted_sharpe_like": 0.59,
-    "risk_adjusted_sortino_like": 1.82,
+    "risk_adjusted_sharpe_like": 33,
+    "risk_adjusted_sortino_like": 23,
     "risk_adjusted_expected_points_estimate": 3.13,
-    "risk_adjusted_overall_score": 46
+    "risk_adjusted_overall_score": 46,
+    "risk_adjusted_sharpe_raw": 0.59,
+    "risk_adjusted_sortino_raw": 1.82
   },
   {
     "id": "100",
@@ -9186,10 +9366,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 36,
     "risk_tail_score": 68,
     "risk_composite_score": 30,
-    "risk_adjusted_sharpe_like": 0.47,
-    "risk_adjusted_sortino_like": 1.41,
+    "risk_adjusted_sharpe_like": 8,
+    "risk_adjusted_sortino_like": 13,
     "risk_adjusted_expected_points_estimate": 2.73,
-    "risk_adjusted_overall_score": 43
+    "risk_adjusted_overall_score": 43,
+    "risk_adjusted_sharpe_raw": 0.47,
+    "risk_adjusted_sortino_raw": 1.41
   },
   {
     "id": "252",
@@ -9287,10 +9469,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 10,
     "risk_tail_score": 96,
     "risk_composite_score": 46,
-    "risk_adjusted_sharpe_like": -0.1,
-    "risk_adjusted_sortino_like": -0.05,
+    "risk_adjusted_sharpe_like": 0,
+    "risk_adjusted_sortino_like": 0,
     "risk_adjusted_expected_points_estimate": 1.33,
-    "risk_adjusted_overall_score": 24
+    "risk_adjusted_overall_score": 24,
+    "risk_adjusted_sharpe_raw": -0.1,
+    "risk_adjusted_sortino_raw": -0.05
   },
   {
     "id": "525",
@@ -9388,10 +9572,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 30,
     "risk_tail_score": 86,
     "risk_composite_score": 33,
-    "risk_adjusted_sharpe_like": 0.51,
-    "risk_adjusted_sortino_like": 0.76,
+    "risk_adjusted_sharpe_like": 16,
+    "risk_adjusted_sortino_like": 5,
     "risk_adjusted_expected_points_estimate": 2.56,
-    "risk_adjusted_overall_score": 40
+    "risk_adjusted_overall_score": 40,
+    "risk_adjusted_sharpe_raw": 0.51,
+    "risk_adjusted_sortino_raw": 0.76
   },
   {
     "id": "499",
@@ -9489,10 +9675,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 26,
     "risk_tail_score": 84,
     "risk_composite_score": 35,
-    "risk_adjusted_sharpe_like": 0.5,
-    "risk_adjusted_sortino_like": 0.67,
+    "risk_adjusted_sharpe_like": 13,
+    "risk_adjusted_sortino_like": 3,
     "risk_adjusted_expected_points_estimate": 2.36,
-    "risk_adjusted_overall_score": 37
+    "risk_adjusted_overall_score": 37,
+    "risk_adjusted_sharpe_raw": 0.5,
+    "risk_adjusted_sortino_raw": 0.67
   },
   {
     "id": "311",
@@ -9590,10 +9778,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 41,
     "risk_tail_score": 57,
     "risk_composite_score": 39,
-    "risk_adjusted_sharpe_like": 0.22,
-    "risk_adjusted_sortino_like": 0.85,
+    "risk_adjusted_sharpe_like": 2,
+    "risk_adjusted_sortino_like": 6,
     "risk_adjusted_expected_points_estimate": 2.05,
-    "risk_adjusted_overall_score": 35
+    "risk_adjusted_overall_score": 35,
+    "risk_adjusted_sharpe_raw": 0.22,
+    "risk_adjusted_sortino_raw": 0.85
   },
   {
     "id": "97",
@@ -9691,10 +9881,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 28,
     "risk_tail_score": 39,
     "risk_composite_score": 14,
-    "risk_adjusted_sharpe_like": 0.85,
-    "risk_adjusted_sortino_like": 2.81,
+    "risk_adjusted_sharpe_like": 79,
+    "risk_adjusted_sortino_like": 54,
     "risk_adjusted_expected_points_estimate": 3.62,
-    "risk_adjusted_overall_score": 54
+    "risk_adjusted_overall_score": 54,
+    "risk_adjusted_sharpe_raw": 0.85,
+    "risk_adjusted_sortino_raw": 2.81
   },
   {
     "id": "337",
@@ -9792,10 +9984,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 31,
     "risk_tail_score": 41,
     "risk_composite_score": 19,
-    "risk_adjusted_sharpe_like": 0.72,
-    "risk_adjusted_sortino_like": 2.88,
+    "risk_adjusted_sharpe_like": 55,
+    "risk_adjusted_sortino_like": 56,
     "risk_adjusted_expected_points_estimate": 3.36,
-    "risk_adjusted_overall_score": 51
+    "risk_adjusted_overall_score": 51,
+    "risk_adjusted_sharpe_raw": 0.72,
+    "risk_adjusted_sortino_raw": 2.88
   },
   {
     "id": "526",
@@ -9893,10 +10087,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 37,
     "risk_tail_score": 43,
     "risk_composite_score": 21,
-    "risk_adjusted_sharpe_like": 0.5,
-    "risk_adjusted_sortino_like": 2.34,
+    "risk_adjusted_sharpe_like": 13,
+    "risk_adjusted_sortino_like": 40,
     "risk_adjusted_expected_points_estimate": 3.06,
-    "risk_adjusted_overall_score": 48
+    "risk_adjusted_overall_score": 48,
+    "risk_adjusted_sharpe_raw": 0.5,
+    "risk_adjusted_sortino_raw": 2.34
   },
   {
     "id": "596",
@@ -9994,10 +10190,12 @@ window.PLAYERS_DATA = [
     "risk_volatility_score": 28,
     "risk_tail_score": 83,
     "risk_composite_score": 36,
-    "risk_adjusted_sharpe_like": 0.73,
-    "risk_adjusted_sortino_like": 1.11,
+    "risk_adjusted_sharpe_like": 58,
+    "risk_adjusted_sortino_like": 9,
     "risk_adjusted_expected_points_estimate": 2.82,
-    "risk_adjusted_overall_score": 41
+    "risk_adjusted_overall_score": 41,
+    "risk_adjusted_sharpe_raw": 0.73,
+    "risk_adjusted_sortino_raw": 1.11
   },
   {
     "id": "654",
@@ -10091,13 +10289,15 @@ window.PLAYERS_DATA = [
     "risk_conditional_value_at_risk_20": 0.29,
     "risk_availability_score": 25,
     "risk_minutes_score": 10,
-    "risk_discipline_score": 11,
+    "risk_discipline_score": 3,
     "risk_volatility_score": 28,
     "risk_tail_score": 69,
-    "risk_composite_score": 27,
-    "risk_adjusted_sharpe_like": 0.9,
-    "risk_adjusted_sortino_like": 2.17,
-    "risk_adjusted_expected_points_estimate": 3.37,
-    "risk_adjusted_overall_score": 46
+    "risk_composite_score": 26,
+    "risk_adjusted_sharpe_like": 83,
+    "risk_adjusted_sortino_like": 36,
+    "risk_adjusted_expected_points_estimate": 3.4,
+    "risk_adjusted_overall_score": 47,
+    "risk_adjusted_sharpe_raw": 0.9,
+    "risk_adjusted_sortino_raw": 2.17
   }
 ];
