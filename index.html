@@ -3,73 +3,90 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>World Cup Fantasy Helper</title>
+    <title>World Cup Fantasy Helper | Captain Picks, Rankings, and Team Builder</title>
+    <meta name="description" content="Compare captain picks, player rankings, and squad ideas in a simple World Cup fantasy football hub. Public preview with test data while final squads and rules are pending." />
+    <meta property="og:site_name" content="World Cup Fantasy Helper" />
+    <meta property="og:title" content="World Cup Fantasy Helper" />
+    <meta property="og:description" content="Compare captain picks, player rankings, and squad ideas in one simple fantasy football hub." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="World Cup Fantasy Helper" />
+    <meta name="twitter:description" content="Compare captain picks, player rankings, and squad ideas in one simple fantasy football hub." />
+    <!-- Add canonical and og:url once the final production URL is available. -->
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <header class="hero">
       <div class="hero__content">
-        <p class="eyebrow">Week 4 Public Preview</p>
-        <h1>World Cup Fantasy Team Builder</h1>
+        <p class="eyebrow">Public Preview</p>
+        <h1>World Cup Fantasy Helper</h1>
         <p class="hero__text">
-          Explore real-player fantasy picks, compare risk-adjusted styles, and build a 15-player squad on a soccer-field dashboard.
+          Compare captain picks, player rankings, and squad ideas in one simple fantasy football hub.
         </p>
 
         <div class="hero__actions" aria-label="Homepage actions">
-          <a class="primary-button primary-button--hero" href="#team-builder">Start Team Builder</a>
-          <a class="secondary-link" href="#team-advice">Compare Player Advice</a>
+          <a class="primary-button primary-button--hero" href="#quick-picks">See Quick Picks</a>
+          <a class="secondary-link" href="#team-builder">Build My Squad</a>
         </div>
 
         <div class="hero-highlights" aria-label="Website highlights">
           <article>
             <span>100</span>
-            <p>real-player sample database</p>
+            <p>player data preview</p>
           </article>
           <article>
             <span>15</span>
-            <p>player squad with bench</p>
+            <p>squad builder with bench</p>
           </article>
           <article>
             <span>8</span>
-            <p>performance and risk styles</p>
+            <p>pick styles and risk checks</p>
           </article>
         </div>
       </div>
     </header>
 
+    <aside class="data-status" aria-label="Data status">
+      <span class="data-status__label">Data status</span>
+      <div class="data-status__body">
+        <p>This public preview currently uses a 100-player EPL/FPL-style test dataset while final World Cup squads, prices, and fantasy rules are pending.</p>
+        <p>Built so the same tools can be updated with World Cup data once official squads and fantasy rules are available.</p>
+        <p class="data-status__meta">Current snapshot: FPL-style GW34 test data. Page updated: May 13, 2026.</p>
+      </div>
+    </aside>
+
     <main class="page-shell">
-      <section class="panel">
+      <noscript>
+        <section class="panel no-js-panel" aria-label="JavaScript required">
+          <h2>Interactive Tools Need JavaScript</h2>
+          <p>This page uses JavaScript to load the current dataset, build Quick Picks, rank captain options, and power the Team Builder.</p>
+          <p>You can still read the methodology below, but player recommendations and squad tools are available only when JavaScript is enabled.</p>
+        </section>
+      </noscript>
+
+      <section id="quick-picks" class="panel">
         <div class="section-heading">
-          <h2>Top Recommendations Dashboard</h2>
-          <p>Simple picks for this sample fantasy matchday.</p>
+          <h2>Quick Picks</h2>
+          <p>Fast model-backed picks for your fantasy squad.</p>
         </div>
 
-        <div id="dashboard-grid" class="dashboard-grid">
-          <!-- These cards keep the homepage visual and easy to scan. -->
-          <article class="info-card">
-            <span class="info-card__label">Best Captain</span>
-            <strong>Leo Santos</strong>
-            <p>Strong fixture and reliable attacking role.</p>
+        <p class="section-note">Current picks use test data. This section is designed to become World Cup-specific once official squads and fantasy rules are available.</p>
+
+        <div id="dashboard-grid" class="dashboard-grid" aria-live="polite">
+          <article class="info-card info-card--fallback">
+            <span class="info-card__label">Captain Picks</span>
+            <strong>Interactive shortlist</strong>
+            <p>Enable JavaScript to see captain options from the current fantasy dataset.</p>
           </article>
-          <article class="info-card">
-            <span class="info-card__label">Safe Captain</span>
-            <strong>Marco Vale</strong>
-            <p>Likely starter with steady points potential.</p>
+          <article class="info-card info-card--fallback">
+            <span class="info-card__label">Player Rankings</span>
+            <strong>Model-backed rankings</strong>
+            <p>Enable JavaScript to compare players by expected points, value, reliability, and risk.</p>
           </article>
-          <article class="info-card">
-            <span class="info-card__label">Risky Captain</span>
-            <strong>Tariq Noor</strong>
-            <p>High upside, but less certain minutes.</p>
-          </article>
-          <article class="info-card">
-            <span class="info-card__label">Best Value</span>
-            <strong>Emil Costa</strong>
-            <p>Budget-friendly pick with good involvement.</p>
-          </article>
-          <article class="info-card">
-            <span class="info-card__label">Avoid</span>
-            <strong>Niko Petrov</strong>
-            <p>Rotation risk makes this a dangerous pick.</p>
+          <article class="info-card info-card--fallback">
+            <span class="info-card__label">Team Builder</span>
+            <strong>Interactive squad tool</strong>
+            <p>Enable JavaScript to lock players, choose a tactic, and build a fantasy squad.</p>
           </article>
         </div>
       </section>
@@ -78,7 +95,7 @@
         <summary class="collapsible-summary">
           <span>
             <h2>Captain Picks</h2>
-            <p>Simple captain shortlist using steady attacking players from the real database.</p>
+            <p>Simple captain shortlist using projected points, reliability, and risk.</p>
           </span>
           <span class="collapsible-action" aria-hidden="true"></span>
         </summary>
@@ -113,32 +130,8 @@
                 </tr>
               </thead>
               <tbody id="captain-table-body">
-                <tr>
-                  <td>1</td>
-                  <td>Leo Santos</td>
-                  <td>Brazil</td>
-                  <td>Japan</td>
-                  <td>High</td>
-                  <td>High</td>
-                  <td>Low</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Marco Vale</td>
-                  <td>Portugal</td>
-                  <td>Mexico</td>
-                  <td>High</td>
-                  <td>Medium</td>
-                  <td>Low</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Tariq Noor</td>
-                  <td>Morocco</td>
-                  <td>USA</td>
-                  <td>Medium</td>
-                  <td>High</td>
-                  <td>High</td>
+                <tr class="fallback-table-row">
+                  <td colspan="8">Enable JavaScript to see captain rankings from the current fantasy dataset.</td>
                 </tr>
               </tbody>
             </table>
@@ -150,7 +143,7 @@
         <summary class="collapsible-summary">
           <span>
             <h2>Team Advice</h2>
-            <p>Open this to rank useful player ideas by style and position.</p>
+            <p>Compare player ideas by pick style and position.</p>
           </span>
           <span class="collapsible-action" aria-hidden="true"></span>
         </summary>
@@ -160,6 +153,7 @@
             <label class="control-group" for="advice-measure-select">
               <span>Advice Style</span>
               <select id="advice-measure-select"></select>
+              <small class="control-helper">Advanced styles use risk-adjusted scoring to compare players with different reliability and downside risk.</small>
             </label>
 
             <label class="control-group" for="advice-position-select">
@@ -191,32 +185,8 @@
                 </tr>
               </thead>
               <tbody id="advice-table-body">
-                <tr>
-                  <td>Emil Costa</td>
-                  <td>Spain</td>
-                  <td>Midfielder</td>
-                  <td>$6.0</td>
-                  <td>Value</td>
-                  <td>Medium</td>
-                  <td>Good Value</td>
-                </tr>
-                <tr>
-                  <td>Jules Martin</td>
-                  <td>France</td>
-                  <td>Defender</td>
-                  <td>$5.0</td>
-                  <td>Safe</td>
-                  <td>Low</td>
-                  <td>Strong Pick</td>
-                </tr>
-                <tr>
-                  <td>Niko Petrov</td>
-                  <td>Croatia</td>
-                  <td>Forward</td>
-                  <td>$8.5</td>
-                  <td>Risky</td>
-                  <td>High</td>
-                  <td>Avoid</td>
+                <tr class="fallback-table-row">
+                  <td colspan="8">Enable JavaScript to see player advice by style, position, expected points, and risk.</td>
                 </tr>
               </tbody>
             </table>
@@ -227,7 +197,7 @@
       <section id="team-builder" class="panel panel--team">
         <div class="section-heading">
           <h2>Team Builder</h2>
-          <p>Choose a tactic, pick a ranking measure, lock favorite players, and let the builder fill the rest.</p>
+          <p>Choose a tactic, pick a style, lock players, and let the builder fill the rest.</p>
         </div>
 
         <div class="builder-workspace">
@@ -245,7 +215,7 @@
               </label>
 
               <label class="control-group" for="card-stat-select">
-                <span>Extra Stat On Field Cards</span>
+                <span>Card Stat</span>
                 <select id="card-stat-select"></select>
               </label>
             </div>
@@ -280,8 +250,9 @@
                   </label>
 
                   <label class="control-group" for="measure-select">
-                    <span>Score Filter / Player Style</span>
+                    <span>Pick Style</span>
                     <select id="measure-select"></select>
+                    <small class="control-helper">Advanced styles use risk-adjusted scoring to compare players with different reliability and downside risk.</small>
                   </label>
 
                   <label class="control-group" for="min-price-filter">
