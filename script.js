@@ -62,16 +62,56 @@ const measures = {
   }
 };
 
+// This menu controls the extra stat shown on each player card on the field.
+const cardStats = {
+  balanced: {
+    label: "Balanced Score",
+    value: (player) => value(player.risk_adjusted_overall_score)
+  },
+  expected: {
+    label: "Expected Points",
+    value: (player) => value(player.risk_adjusted_expected_points_estimate)
+  },
+  reliability: {
+    label: "Reliability",
+    value: (player) => value(player.euro_style_reliability_score)
+  },
+  per90: {
+    label: "Per 90",
+    value: (player) => value(player.euro_style_points_per90_estimate)
+  },
+  risk: {
+    label: "Risk",
+    value: (player) => value(player.risk_composite_score)
+  },
+  tailRisk: {
+    label: "Tail Risk",
+    value: (player) => value(player.risk_tail_score)
+  },
+  sharpe: {
+    label: "Sharpe Style",
+    value: (player) => value(player.risk_adjusted_sharpe_like)
+  },
+  sortino: {
+    label: "Sortino Style",
+    value: (player) => value(player.risk_adjusted_sortino_like)
+  }
+};
+
 const lockedPlayerIds = new Set();
 
-const buildTeamButton = document.getElementById("build-team-btn");
 const buildTeamButtonBottom = document.getElementById("build-team-btn-bottom");
 const tacticSelect = document.getElementById("tactic-select");
 const measureSelect = document.getElementById("measure-select");
+const adviceMeasureSelect = document.getElementById("advice-measure-select");
+const cardStatSelect = document.getElementById("card-stat-select");
 const measureInfo = document.getElementById("measure-info");
 const scoreInfoButton = document.getElementById("score-info-btn");
 const scoreInfo = document.getElementById("score-info");
 const playerSearch = document.getElementById("player-search");
+const positionFilter = document.getElementById("position-filter");
+const minPriceFilter = document.getElementById("min-price-filter");
+const maxPriceFilter = document.getElementById("max-price-filter");
 const playerPicker = document.getElementById("player-picker");
 const builderWarning = document.getElementById("builder-warning");
 const teamField = document.getElementById("team-field");
@@ -84,6 +124,12 @@ const summaryLocked = document.getElementById("summary-locked");
 const dashboardGrid = document.getElementById("dashboard-grid");
 const captainTableBody = document.getElementById("captain-table-body");
 const adviceTableBody = document.getElementById("advice-table-body");
+const adviceStyleNote = document.getElementById("advice-style-note");
+
+let selectedPositionFilter = "All";
+let currentRenderedTeam = [];
+let currentIgnoredLockedPlayers = [];
+let currentRenderMode = "preview";
 
 function value(number) {
   return Number(number) || 0;
@@ -93,8 +139,24 @@ function money(number) {
   return `$${value(number).toFixed(1)}`;
 }
 
+function displayNumber(number) {
+  return value(number).toFixed(1).replace(".0", "");
+}
+
+function measureFromSelect(selectElement) {
+  return measures[selectElement.value] || measures.balanced;
+}
+
 function activeMeasure() {
-  return measures[measureSelect.value] || measures.balanced;
+  return measureFromSelect(measureSelect);
+}
+
+function activeAdviceMeasure() {
+  return measureFromSelect(adviceMeasureSelect);
+}
+
+function activeCardStat() {
+  return cardStats[cardStatSelect.value] || cardStats.balanced;
 }
 
 function measureScore(player, measure = activeMeasure()) {
@@ -117,9 +179,68 @@ function playerSearchText(player) {
   return `${player.name} ${player.club} ${player.country} ${player.position}`.toLowerCase();
 }
 
+function topByPosition(position, measure) {
+  return sortPlayers(players.filter((player) => player.position === position), measure)[0];
+}
+
+function captainScore(player) {
+  const expectedPoints = value(player.risk_adjusted_expected_points_estimate);
+  const reliability = value(player.euro_style_reliability_score);
+  const riskPenalty = value(player.risk_composite_score) * 0.08;
+
+  return expectedPoints * 10 + reliability * 0.35 - riskPenalty;
+}
+
+function styleReason(player, measureKey) {
+  const expected = displayNumber(player.risk_adjusted_expected_points_estimate);
+  const per90 = displayNumber(player.euro_style_points_per90_estimate);
+  const reliability = displayNumber(player.euro_style_reliability_score);
+  const risk = displayNumber(player.risk_composite_score);
+  const tailRisk = displayNumber(player.risk_tail_score);
+
+  if (measureKey === "expected") {
+    return `Strong estimated points after the risk adjustment: ${expected}.`;
+  }
+
+  if (measureKey === "safe") {
+    return `Lower risk score of ${risk}, while still keeping useful expected points.`;
+  }
+
+  if (measureKey === "upside") {
+    return `High production when on the field, with ${per90} estimated points per 90.`;
+  }
+
+  if (measureKey === "minutes") {
+    return `Good reliability score of ${reliability}, useful when you want likely playing time.`;
+  }
+
+  if (measureKey === "lowTailRisk") {
+    return `Lower bad-week risk score of ${tailRisk}, useful when avoiding painful downside.`;
+  }
+
+  if (measureKey === "sharpe") {
+    return `Good reward for the weekly volatility, with a Sharpe-style score of ${displayNumber(player.risk_adjusted_sharpe_like)}.`;
+  }
+
+  if (measureKey === "sortino") {
+    return `Good reward after focusing on bad volatility, with a Sortino-style score of ${displayNumber(player.risk_adjusted_sortino_like)}.`;
+  }
+
+  return `Good mix of expected points (${expected}), reliability (${reliability}), and risk (${risk}).`;
+}
+
 function renderMeasureOptions() {
-  measureSelect.innerHTML = Object.entries(measures)
+  const measureOptions = Object.entries(measures)
     .map(([key, measure]) => `<option value="${key}">${measure.label}</option>`)
+    .join("");
+
+  measureSelect.innerHTML = measureOptions;
+  adviceMeasureSelect.innerHTML = measureOptions;
+}
+
+function renderCardStatOptions() {
+  cardStatSelect.innerHTML = Object.entries(cardStats)
+    .map(([key, stat]) => `<option value="${key}">${stat.label}</option>`)
     .join("");
 }
 
@@ -132,6 +253,147 @@ function renderMeasureInfo() {
   `;
 }
 
+function normalizeText(text) {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+}
+
+function directChildElements(parent, selector) {
+  return Array.from(parent.children).filter((child) => child.matches(selector));
+}
+
+function statNameFromParagraph(paragraph) {
+  const strongText = paragraph.querySelector("strong")?.textContent || "";
+  return normalizeText(strongText.replace(":", ""));
+}
+
+function exampleSummaryText(example) {
+  return normalizeText(example.querySelector("summary")?.textContent || "");
+}
+
+function exampleMatchesStat(example, statName) {
+  const summary = exampleSummaryText(example);
+  const exactMatches = {
+    "total estimate": ["example performance total"],
+    "reliability score": ["example reliability"],
+    "price": ["example price"],
+    "reliability": ["example reliability on the page"],
+    "per 90": ["example per 90 on the page"],
+    "risk": ["example risk on the page"],
+    "style score": [
+      "example style score",
+      "example balanced style",
+      "example expected points style",
+      "example safe picks style",
+      "example high upside style",
+      "example reliable minutes style",
+      "example low tail risk style",
+      "example sharpe style on the page",
+      "example sortino style on the page"
+    ],
+    "expected": ["example expected"],
+    "best value": ["example best value"],
+    "risk watch": ["example risk watch"]
+  };
+
+  if (exactMatches[statName]?.includes(summary)) {
+    return true;
+  }
+
+  const shortStatNames = new Set(["price", "risk", "expected", "per 90"]);
+
+  return !shortStatNames.has(statName) && summary.includes(statName);
+}
+
+// The HTML stays easy to read, then this helper makes the Stats section nicer:
+// each stat definition becomes a small card with its matching example beside it.
+function organizeStatExamples() {
+  document.querySelectorAll(".formula-section").forEach((section) => {
+    const formulaList = directChildElements(section, ".formula-list")[0];
+
+    if (!formulaList || formulaList.dataset.organized === "true") {
+      return;
+    }
+
+    const statParagraphs = directChildElements(formulaList, "p");
+    const examples = directChildElements(section, ".stat-example");
+
+    if (!statParagraphs.length || !examples.length) {
+      return;
+    }
+
+    const usedExamples = new Set();
+    const organizedStats = document.createDocumentFragment();
+
+    statParagraphs.forEach((paragraph) => {
+      const statName = statNameFromParagraph(paragraph);
+      const statCard = document.createElement("article");
+      const exampleColumn = document.createElement("div");
+      statCard.className = "formula-item";
+      exampleColumn.className = "formula-examples";
+      statCard.appendChild(paragraph);
+
+      examples.forEach((example) => {
+        if (!usedExamples.has(example) && exampleMatchesStat(example, statName)) {
+          exampleColumn.appendChild(example);
+          usedExamples.add(example);
+        }
+      });
+
+      if (exampleColumn.children.length) {
+        statCard.appendChild(exampleColumn);
+      }
+
+      organizedStats.appendChild(statCard);
+    });
+
+    const groupExamples = examples.filter((example) => !usedExamples.has(example));
+
+    if (groupExamples.length) {
+      const groupCard = document.createElement("article");
+      const groupIntro = document.createElement("p");
+      groupCard.className = "formula-item formula-item--wide";
+      groupIntro.innerHTML = "<strong>Extra group example:</strong> broader examples that explain how this group of stats behaves.";
+      groupCard.appendChild(groupIntro);
+      groupExamples.forEach((example) => groupCard.appendChild(example));
+      organizedStats.appendChild(groupCard);
+    }
+
+    formulaList.replaceChildren(organizedStats);
+    formulaList.dataset.organized = "true";
+  });
+}
+
+function priceFilterValue(input) {
+  return input.value === "" ? null : Number(input.value);
+}
+
+function priceFiltersAreInvalid() {
+  const minPrice = priceFilterValue(minPriceFilter);
+  const maxPrice = priceFilterValue(maxPriceFilter);
+
+  return minPrice !== null && maxPrice !== null && minPrice > maxPrice;
+}
+
+function priceMatchesFilters(player) {
+  if (priceFiltersAreInvalid()) {
+    return false;
+  }
+
+  const minPrice = priceFilterValue(minPriceFilter);
+  const maxPrice = priceFilterValue(maxPriceFilter);
+  const playerPrice = value(player.price);
+
+  if (minPrice !== null && playerPrice < minPrice) {
+    return false;
+  }
+
+  if (maxPrice !== null && playerPrice > maxPrice) {
+    return false;
+  }
+
+  return true;
+}
+
 function toggleScoreInfo() {
   const isHidden = scoreInfo.classList.toggle("hidden");
   scoreInfoButton.setAttribute("aria-expanded", String(!isHidden));
@@ -141,8 +403,17 @@ function renderPlayerPicker() {
   const measure = activeMeasure();
   const searchValue = playerSearch.value.trim().toLowerCase();
   const visiblePlayers = sortPlayers(players, measure)
+    .filter((player) => selectedPositionFilter === "All" || player.position === selectedPositionFilter)
+    .filter(priceMatchesFilters)
     .filter((player) => playerSearchText(player).includes(searchValue))
     .slice(0, 80);
+
+  if (!visiblePlayers.length) {
+    playerPicker.innerHTML = `
+      <p class="empty-picker">No players match these filters yet. Try changing the position, price range, or search text.</p>
+    `;
+    return;
+  }
 
   playerPicker.innerHTML = visiblePlayers.map((player) => {
     const isChecked = lockedPlayerIds.has(player.id) ? "checked" : "";
@@ -154,10 +425,28 @@ function renderPlayerPicker() {
           <strong>${player.name}</strong>
           <small>${player.position} · ${player.club} · ${player.country}</small>
         </span>
-        <em>${Math.round(measureScore(player, measure))}</em>
+        <span class="player-option__metrics">
+          <em><span>Price</span>${money(player.price)}</em>
+          <em><span>${measure.label}</span>${Math.round(measureScore(player, measure))}</em>
+        </span>
       </label>
     `;
   }).join("");
+}
+
+function updatePositionFilter(event) {
+  selectedPositionFilter = event.target.value;
+  renderPlayerPicker();
+}
+
+function updateBuilderFilters() {
+  renderPlayerPicker();
+
+  if (currentRenderMode === "built") {
+    buildTeam();
+  } else {
+    renderLockedPreview();
+  }
 }
 
 function updateLockedPlayers(event) {
@@ -210,7 +499,11 @@ function buildSuggestedTeam() {
   Object.entries(requirements).forEach(([position, neededCount]) => {
     const remainingCount = neededCount - usedByPosition[position];
     const candidates = sortPlayers(
-      players.filter((player) => player.position === position && !usedIds.has(player.id)),
+      players.filter((player) =>
+        player.position === position &&
+        !usedIds.has(player.id) &&
+        priceMatchesFilters(player)
+      ),
       measure
     ).slice(0, remainingCount);
 
@@ -242,65 +535,104 @@ function fieldLayoutForTactic(tacticName) {
   };
 }
 
-// The locked-player preview may have fewer than 11 players, so each row centers only the locked players.
-function fieldLayoutForPreview(team) {
-  const counts = { Goalkeeper: 0, Defender: 0, Midfielder: 0, Forward: 0 };
+function clearTeamPreview() {
+  renderTeam([], [], "preview");
+}
 
-  team.forEach((player) => {
-    counts[player.position] += 1;
-  });
+function renderWarning(tacticName, ignoredLockedPlayers, missingSlots) {
+  const messages = [];
 
+  if (priceFiltersAreInvalid()) {
+    messages.push("Minimum price is higher than maximum price, so no filtered players can be suggested.");
+  }
+
+  if (ignoredLockedPlayers.length) {
+    messages.push(`Some locked players did not fit ${tacticName}: ${ignoredLockedPlayers.map((player) => player.name).join(", ")}.`);
+  }
+
+  if (missingSlots > 0) {
+    messages.push(`${missingSlots} tactic slot${missingSlots === 1 ? "" : "s"} could not be filled. Try widening the price filters.`);
+  }
+
+  if (!messages.length) {
+    builderWarning.classList.add("hidden");
+    builderWarning.textContent = "";
+    return;
+  }
+
+  builderWarning.classList.remove("hidden");
+  builderWarning.textContent = messages.join(" ");
+}
+
+function playersByPosition(team) {
   return {
-    Goalkeeper: evenlySpacedPositions(counts.Goalkeeper, "88%"),
-    Defender: evenlySpacedPositions(counts.Defender, "68%"),
-    Midfielder: evenlySpacedPositions(counts.Midfielder, "46%"),
-    Forward: evenlySpacedPositions(counts.Forward, "22%")
+    Goalkeeper: team.filter((player) => player.position === "Goalkeeper"),
+    Defender: team.filter((player) => player.position === "Defender"),
+    Midfielder: team.filter((player) => player.position === "Midfielder"),
+    Forward: team.filter((player) => player.position === "Forward")
   };
 }
 
-function clearTeamPreview() {
-  teamPlayers.innerHTML = "";
-  teamField.classList.add("hidden");
-  teamMessage.textContent = "Lock players to preview them on the field, or click Build My Team to generate a full 11-player team.";
-  summaryPrice.textContent = money(0);
-  summaryRisk.textContent = "0";
-  summaryLocked.textContent = String(lockedPlayerIds.size);
-  builderWarning.classList.add("hidden");
-  builderWarning.textContent = "";
+function renderPlayerCard(player, slot) {
+  const stat = activeCardStat();
+
+  return `
+    <article class="player-card" style="top: ${slot.top}; left: ${slot.left};">
+      <span class="player-card__role">${player.position}</span>
+      <strong>${player.name}</strong>
+      <p>${player.country} · ${player.club}</p>
+      <p class="player-card__price">Price ${money(player.price)}</p>
+      <p>${stat.label}: ${displayNumber(stat.value(player))}</p>
+    </article>
+  `;
 }
 
-function renderWarning(tacticName, ignoredLockedPlayers) {
-  if (ignoredLockedPlayers.length) {
-    builderWarning.classList.remove("hidden");
-    builderWarning.textContent = `Some locked players did not fit ${tacticName}: ${ignoredLockedPlayers.map((player) => player.name).join(", ")}.`;
-  } else {
-    builderWarning.classList.add("hidden");
-    builderWarning.textContent = "";
-  }
+function renderPlaceholderCard(position, slot) {
+  return `
+    <article class="player-card player-card--placeholder" style="top: ${slot.top}; left: ${slot.left};">
+      <span class="player-card__role">${position}</span>
+      <div class="player-silhouette" aria-hidden="true"></div>
+      <strong>Open Slot</strong>
+      <p>Lock a ${position.toLowerCase()}</p>
+    </article>
+  `;
+}
+
+function renderPositionRow(position, slots, positionPlayers, mode) {
+  const slotPlayers = new Array(slots.length).fill(null);
+  const startIndex = mode === "preview"
+    ? Math.max(0, Math.floor((slots.length - positionPlayers.length) / 2))
+    : 0;
+
+  positionPlayers.slice(0, slots.length).forEach((player, index) => {
+    const slotIndex = Math.min(startIndex + index, slots.length - 1);
+    slotPlayers[slotIndex] = player;
+  });
+
+  return slots.map((slot, index) => {
+    const player = slotPlayers[index];
+    return player ? renderPlayerCard(player, slot) : renderPlaceholderCard(position, slot);
+  }).join("");
 }
 
 function renderTeam(team, ignoredLockedPlayers, mode = "built") {
   const tacticName = tacticSelect.value;
-  const layout = mode === "preview" ? fieldLayoutForPreview(team) : fieldLayoutForTactic(tacticName);
-  const positionIndexes = { Goalkeeper: 0, Defender: 0, Midfielder: 0, Forward: 0 };
+  const layout = fieldLayoutForTactic(tacticName);
+  const groupedPlayers = playersByPosition(team);
+  const totalSlots = Object.values(tactics[tacticName]).reduce((sum, count) => sum + count, 0);
+  const missingSlots = Math.max(0, totalSlots - team.length);
   const totalPrice = team.reduce((sum, player) => sum + value(player.price), 0);
   const averageRisk = team.length
     ? team.reduce((sum, player) => sum + value(player.risk_composite_score), 0) / team.length
     : 0;
 
-  teamPlayers.innerHTML = team.map((player) => {
-    const slot = layout[player.position][positionIndexes[player.position]];
-    positionIndexes[player.position] += 1;
+  currentRenderedTeam = [...team];
+  currentIgnoredLockedPlayers = [...ignoredLockedPlayers];
+  currentRenderMode = mode;
 
-    return `
-      <article class="player-card" style="top: ${slot.top}; left: ${slot.left};">
-        <span class="player-card__role">${player.position}</span>
-        <strong>${player.name}</strong>
-        <p>${player.country} · ${player.club}</p>
-        <p>Score ${value(player.risk_adjusted_overall_score)} · Risk ${value(player.risk_composite_score)}</p>
-      </article>
-    `;
-  }).join("");
+  teamPlayers.innerHTML = ["Forward", "Midfielder", "Defender", "Goalkeeper"]
+    .map((position) => renderPositionRow(position, layout[position], groupedPlayers[position], mode))
+    .join("");
 
   summaryTactic.textContent = tacticName;
   summaryPrice.textContent = money(totalPrice);
@@ -308,13 +640,17 @@ function renderTeam(team, ignoredLockedPlayers, mode = "built") {
   summaryLocked.textContent = String(lockedPlayerIds.size);
 
   teamField.classList.remove("hidden");
-  if (mode === "preview") {
+  if (mode === "preview" && team.length === 0) {
+    teamMessage.textContent = "Transparent slots show the selected tactic. Lock players to fill them, then click Build My Team.";
+  } else if (mode === "preview") {
     teamMessage.textContent = `Previewing ${team.length} locked player${team.length === 1 ? "" : "s"} on the field. Click Build My Team to fill the remaining positions.`;
+  } else if (missingSlots > 0) {
+    teamMessage.textContent = `Built ${team.length} players using ${activeMeasure().label}. Some slots are still open because the filters are too tight.`;
   } else {
     teamMessage.textContent = `Built ${team.length} players using ${activeMeasure().label}.`;
   }
 
-  renderWarning(tacticName, ignoredLockedPlayers);
+  renderWarning(tacticName, ignoredLockedPlayers, mode === "built" ? missingSlots : 0);
 }
 
 // This preview appears as soon as someone locks players, before building the full team.
@@ -332,21 +668,46 @@ function renderLockedPreview() {
   renderTeam(validLockedPlayers, ignoredLockedPlayers, "preview");
 }
 
+function renderCaptainPicks() {
+  const captainCandidates = [...players]
+    .filter((player) => player.position !== "Goalkeeper")
+    .sort((a, b) => captainScore(b) - captainScore(a));
+
+  captainTableBody.innerHTML = captainCandidates.slice(0, 6).map((player, index) => `
+    <tr>
+      <td>${index + 1}</td>
+      <td>${player.name}</td>
+      <td>${player.country}</td>
+      <td>${player.club}</td>
+      <td>${displayNumber(captainScore(player))}</td>
+      <td>${value(player.euro_style_reliability_score)}</td>
+      <td>${value(player.euro_style_points_per90_estimate)}</td>
+      <td>${value(player.risk_composite_score)}</td>
+    </tr>
+  `).join("");
+}
+
 function renderDashboardSections() {
-  const balanced = sortPlayers(players, measures.balanced);
-  const safe = sortPlayers(players, measures.safe)[0];
-  const upside = sortPlayers(players, measures.upside)[0];
+  const measureKey = measureSelect.value || "balanced";
+  const measure = activeMeasure();
+  const ranked = sortPlayers(players, measure);
+  const captainCandidates = sortPlayers(
+    players.filter((player) => player.position !== "Goalkeeper"),
+    measure
+  );
+  const defenderPick = topByPosition("Defender", measure);
   const valuePick = sortPlayers(players, {
-    score: (player) => value(player.risk_adjusted_expected_points_estimate) / Math.max(value(player.price), 1)
+    score: (player) => measureScore(player, measure) / Math.max(value(player.price), 1)
   })[0];
-  const avoid = [...players].sort((a, b) => value(b.risk_composite_score) - value(a.risk_composite_score))[0];
+  const riskWatch = ranked.find((player) => value(player.risk_composite_score) >= 65)
+    || [...players].sort((a, b) => value(b.risk_composite_score) - value(a.risk_composite_score))[0];
 
   dashboardGrid.innerHTML = [
-    ["Best Captain", balanced[0], "Top balanced score"],
-    ["Safe Captain", safe, "Low risk with solid expected points"],
-    ["Risky Captain", upside, "Highest points-per-90 upside"],
-    ["Best Value", valuePick, "Strong expected points for the price"],
-    ["Avoid", avoid, "Highest composite risk in the sample"]
+    [`Top ${measure.label}`, ranked[0], styleReason(ranked[0], measureKey)],
+    ["Captain Pick", captainCandidates[0], styleReason(captainCandidates[0], measureKey)],
+    ["Defender Pick", defenderPick, styleReason(defenderPick, measureKey)],
+    ["Best Value", valuePick, `Strong ${measure.label.toLowerCase()} score for the price.`],
+    ["Risk Watch", riskWatch, `Higher risk score of ${displayNumber(riskWatch.risk_composite_score)}. Only choose if the upside is worth it.`]
   ].map(([label, player, reason]) => `
     <article class="info-card">
       <span class="info-card__label">${label}</span>
@@ -355,28 +716,25 @@ function renderDashboardSections() {
       <p>${reason}</p>
     </article>
   `).join("");
+}
 
-  captainTableBody.innerHTML = balanced.slice(0, 5).map((player, index) => `
-    <tr>
-      <td>${index + 1}</td>
-      <td>${player.name}</td>
-      <td>${player.country}</td>
-      <td>${player.club}</td>
-      <td>${value(player.euro_style_reliability_score)}</td>
-      <td>${value(player.euro_style_points_per90_estimate)}</td>
-      <td>${value(player.risk_composite_score)}</td>
-    </tr>
-  `).join("");
+function renderAdviceTable() {
+  const measureKey = adviceMeasureSelect.value || "balanced";
+  const measure = activeAdviceMeasure();
+  const ranked = sortPlayers(players, measure);
 
-  adviceTableBody.innerHTML = balanced.slice(0, 8).map((player) => `
+  adviceStyleNote.textContent = `Showing team advice for ${measure.label}. This filter is independent from the Team Builder filter.`;
+
+  adviceTableBody.innerHTML = ranked.slice(0, 8).map((player) => `
     <tr>
       <td>${player.name}</td>
       <td>${player.country}</td>
       <td>${player.position}</td>
       <td>${money(player.price)}</td>
+      <td>${displayNumber(measureScore(player, measure))}</td>
       <td>${value(player.risk_adjusted_expected_points_estimate)}</td>
       <td>${value(player.risk_composite_score)}</td>
-      <td>${player.euro_style_short_reason}</td>
+      <td>${styleReason(player, measureKey)}</td>
     </tr>
   `).join("");
 }
@@ -387,31 +745,51 @@ function buildTeam() {
 }
 
 function setupBuilder() {
+  organizeStatExamples();
+
   if (!players.length) {
     teamMessage.textContent = "Player data could not be loaded.";
-    buildTeamButton.disabled = true;
     buildTeamButtonBottom.disabled = true;
     return;
   }
 
   renderMeasureOptions();
+  renderCardStatOptions();
   renderMeasureInfo();
   renderPlayerPicker();
+  renderCaptainPicks();
   renderDashboardSections();
+  renderAdviceTable();
+  renderLockedPreview();
 
-  buildTeamButton.addEventListener("click", buildTeam);
   buildTeamButtonBottom.addEventListener("click", buildTeam);
   scoreInfoButton.addEventListener("click", toggleScoreInfo);
   measureSelect.addEventListener("change", () => {
     renderMeasureInfo();
     renderPlayerPicker();
-    renderLockedPreview();
+    renderDashboardSections();
+    if (currentRenderMode === "built") {
+      buildTeam();
+    } else {
+      renderLockedPreview();
+    }
+  });
+  adviceMeasureSelect.addEventListener("change", renderAdviceTable);
+  cardStatSelect.addEventListener("change", () => {
+    renderTeam(currentRenderedTeam, currentIgnoredLockedPlayers, currentRenderMode);
   });
   tacticSelect.addEventListener("change", () => {
     summaryTactic.textContent = tacticSelect.value;
-    renderLockedPreview();
+    if (currentRenderMode === "built") {
+      buildTeam();
+    } else {
+      renderLockedPreview();
+    }
   });
   playerSearch.addEventListener("input", renderPlayerPicker);
+  positionFilter.addEventListener("change", updatePositionFilter);
+  minPriceFilter.addEventListener("input", updateBuilderFilters);
+  maxPriceFilter.addEventListener("input", updateBuilderFilters);
   playerPicker.addEventListener("change", updateLockedPlayers);
 }
 

@@ -14,16 +14,13 @@
         <p class="hero__text">
           Build a real-player fantasy team using tactics, performance scores, and risk measures.
         </p>
-        <button id="build-team-btn" class="primary-button">
-          Build My Team
-        </button>
       </div>
     </header>
 
     <main class="page-shell">
       <section class="panel">
         <div class="section-heading">
-          <h2>Homepage Decision Dashboard</h2>
+          <h2>Top Recommendations Dashboard</h2>
           <p>Simple picks for this sample fantasy matchday.</p>
         </div>
 
@@ -57,119 +54,144 @@
         </div>
       </section>
 
-      <section class="panel">
-        <div class="section-heading section-heading--with-action">
-          <h2>Captain Picks</h2>
-          <p>Top real-player options using the selected scoring model.</p>
-          <button id="score-info-btn" class="info-button info-button--small" type="button" aria-expanded="false" aria-controls="score-info">
-            ?
-          </button>
-        </div>
+      <details class="panel collapsible-panel">
+        <summary class="collapsible-summary">
+          <span>
+            <h2>Captain Picks</h2>
+            <p>Simple captain shortlist using steady attacking players from the real database.</p>
+          </span>
+          <span class="collapsible-action" aria-hidden="true"></span>
+        </summary>
 
-        <div id="score-info" class="measure-info hidden">
-          <strong>What these columns mean</strong>
-          <p><strong>Reliability</strong> is a 0 to 100 score for how dependable the player looks based on playing time, availability, and data confidence.</p>
-          <p><strong>Per 90</strong> estimates fantasy points if the player played a full 90 minutes.</p>
-          <p><strong>Risk</strong> is a 0 to 100 score where lower is better. It combines injury/status risk, minutes risk, card risk, weekly volatility, and bad-week risk.</p>
-        </div>
+        <div class="collapsible-body">
+          <div class="table-toolbar">
+            <p>Open the info button if you want the table definitions.</p>
+            <button id="score-info-btn" class="info-button info-button--small" type="button" aria-expanded="false" aria-controls="score-info">
+              ?
+            </button>
+          </div>
 
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Rank</th>
-                <th>Player</th>
-                <th>Country</th>
-                <th>Club</th>
-                <th>Reliability</th>
-                <th>Per 90</th>
-                <th>Risk</th>
-              </tr>
-            </thead>
-            <tbody id="captain-table-body">
-              <tr>
-                <td>1</td>
-                <td>Leo Santos</td>
-                <td>Brazil</td>
-                <td>Japan</td>
-                <td>High</td>
-                <td>High</td>
-                <td>Low</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Marco Vale</td>
-                <td>Portugal</td>
-                <td>Mexico</td>
-                <td>High</td>
-                <td>Medium</td>
-                <td>Low</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Tariq Noor</td>
-                <td>Morocco</td>
-                <td>USA</td>
-                <td>Medium</td>
-                <td>High</td>
-                <td>High</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+          <div id="score-info" class="measure-info hidden">
+            <strong>What these columns mean</strong>
+            <p><strong>Reliability</strong> is a 0 to 100 score for how dependable the player looks based on playing time, availability, and data confidence.</p>
+            <p><strong>Per 90</strong> estimates fantasy points if the player played a full 90 minutes.</p>
+            <p><strong>Risk</strong> is a 0 to 100 score where lower is better. It combines injury/status risk, minutes risk, card risk, weekly volatility, and bad-week risk.</p>
+          </div>
 
-      <section class="panel">
-        <div class="section-heading">
-          <h2>Team Advice</h2>
-          <p>Simple player notes using expected points and risk scores.</p>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Player</th>
+                  <th>Country</th>
+                  <th>Club</th>
+                  <th>Captain Score</th>
+                  <th>Reliability</th>
+                  <th>Per 90</th>
+                  <th>Risk</th>
+                </tr>
+              </thead>
+              <tbody id="captain-table-body">
+                <tr>
+                  <td>1</td>
+                  <td>Leo Santos</td>
+                  <td>Brazil</td>
+                  <td>Japan</td>
+                  <td>High</td>
+                  <td>High</td>
+                  <td>Low</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Marco Vale</td>
+                  <td>Portugal</td>
+                  <td>Mexico</td>
+                  <td>High</td>
+                  <td>Medium</td>
+                  <td>Low</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>Tariq Noor</td>
+                  <td>Morocco</td>
+                  <td>USA</td>
+                  <td>Medium</td>
+                  <td>High</td>
+                  <td>High</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
+      </details>
 
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Player</th>
-                <th>Country</th>
-                <th>Position</th>
-                <th>Price</th>
-                <th>Expected</th>
-                <th>Risk</th>
-                <th>Reason</th>
-              </tr>
-            </thead>
-            <tbody id="advice-table-body">
-              <tr>
-                <td>Emil Costa</td>
-                <td>Spain</td>
-                <td>Midfielder</td>
-                <td>$6.0</td>
-                <td>Value</td>
-                <td>Medium</td>
-                <td>Good Value</td>
-              </tr>
-              <tr>
-                <td>Jules Martin</td>
-                <td>France</td>
-                <td>Defender</td>
-                <td>$5.0</td>
-                <td>Safe</td>
-                <td>Low</td>
-                <td>Strong Pick</td>
-              </tr>
-              <tr>
-                <td>Niko Petrov</td>
-                <td>Croatia</td>
-                <td>Forward</td>
-                <td>$8.5</td>
-                <td>Risky</td>
-                <td>High</td>
-                <td>Avoid</td>
-              </tr>
-            </tbody>
-          </table>
+      <details class="panel collapsible-panel">
+        <summary class="collapsible-summary">
+          <span>
+            <h2>Team Advice</h2>
+            <p>Open this to rank useful player ideas by the style you care about.</p>
+          </span>
+          <span class="collapsible-action" aria-hidden="true"></span>
+        </summary>
+
+        <div class="collapsible-body">
+          <div class="table-toolbar advice-toolbar">
+            <label class="control-group" for="advice-measure-select">
+              <span>Advice Style</span>
+              <select id="advice-measure-select"></select>
+            </label>
+
+            <p id="advice-style-note">Simple player notes using expected points and risk scores.</p>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Player</th>
+                  <th>Country</th>
+                  <th>Position</th>
+                  <th>Price</th>
+                  <th>Style Score</th>
+                  <th>Expected</th>
+                  <th>Risk</th>
+                  <th>Reason</th>
+                </tr>
+              </thead>
+              <tbody id="advice-table-body">
+                <tr>
+                  <td>Emil Costa</td>
+                  <td>Spain</td>
+                  <td>Midfielder</td>
+                  <td>$6.0</td>
+                  <td>Value</td>
+                  <td>Medium</td>
+                  <td>Good Value</td>
+                </tr>
+                <tr>
+                  <td>Jules Martin</td>
+                  <td>France</td>
+                  <td>Defender</td>
+                  <td>$5.0</td>
+                  <td>Safe</td>
+                  <td>Low</td>
+                  <td>Strong Pick</td>
+                </tr>
+                <tr>
+                  <td>Niko Petrov</td>
+                  <td>Croatia</td>
+                  <td>Forward</td>
+                  <td>$8.5</td>
+                  <td>Risky</td>
+                  <td>High</td>
+                  <td>Avoid</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </section>
+      </details>
 
       <section class="panel panel--team">
         <div class="section-heading">
@@ -177,84 +199,494 @@
           <p>Choose a tactic, pick a ranking measure, lock favorite players, and let the builder fill the rest.</p>
         </div>
 
-        <div class="builder-controls">
-          <label class="control-group" for="tactic-select">
-            <span>Tactic</span>
-            <select id="tactic-select">
-              <option value="5-3-2">5-3-2</option>
-              <option value="4-3-3" selected>4-3-3</option>
-              <option value="4-4-2">4-4-2</option>
-              <option value="3-4-3">3-4-3</option>
-              <option value="3-5-2">3-5-2</option>
-            </select>
-          </label>
+        <div class="builder-workspace">
+          <div class="builder-sidebar">
+            <div class="builder-controls">
+              <label class="control-group" for="tactic-select">
+                <span>Tactic</span>
+                <select id="tactic-select">
+                  <option value="5-3-2">5-3-2</option>
+                  <option value="4-3-3" selected>4-3-3</option>
+                  <option value="4-4-2">4-4-2</option>
+                  <option value="3-4-3">3-4-3</option>
+                  <option value="3-5-2">3-5-2</option>
+                </select>
+              </label>
 
-          <label class="control-group" for="measure-select">
-            <span>Ranking Measure</span>
-            <select id="measure-select"></select>
-          </label>
+              <label class="control-group" for="card-stat-select">
+                <span>Extra Stat On Field Cards</span>
+                <select id="card-stat-select"></select>
+              </label>
+            </div>
+
+            <div id="measure-info" class="measure-info"></div>
+
+            <div class="locked-player-area">
+              <div class="section-heading section-heading--compact">
+                <h3>Lock Players</h3>
+                <p>Optional: choose players you want to keep, then the builder suggests the remaining positions.</p>
+              </div>
+
+              <label class="control-group player-search" for="player-search">
+                <span>Search players</span>
+                <input id="player-search" type="search" placeholder="Search by name, club, country, or position" />
+              </label>
+
+              <details class="builder-filter-panel">
+                <summary>Filters</summary>
+
+                <div class="builder-filter-grid">
+                  <label class="control-group" for="position-filter">
+                    <span>Position</span>
+                    <select id="position-filter">
+                      <option value="All">All positions</option>
+                      <option value="Goalkeeper">Goalkeepers</option>
+                      <option value="Defender">Defenders</option>
+                      <option value="Midfielder">Midfielders</option>
+                      <option value="Forward">Forwards</option>
+                    </select>
+                  </label>
+
+                  <label class="control-group" for="measure-select">
+                    <span>Score Filter / Player Style</span>
+                    <select id="measure-select"></select>
+                  </label>
+
+                  <label class="control-group" for="min-price-filter">
+                    <span>Minimum Price</span>
+                    <input id="min-price-filter" type="number" min="0" step="0.1" placeholder="No min" />
+                  </label>
+
+                  <label class="control-group" for="max-price-filter">
+                    <span>Maximum Price</span>
+                    <input id="max-price-filter" type="number" min="0" step="0.1" placeholder="No max" />
+                  </label>
+                </div>
+
+                <p class="filter-note">
+                  These filters change the lock list and the suggested fill-in players.
+                </p>
+              </details>
+
+              <div id="player-picker" class="player-picker"></div>
+
+              <button id="build-team-btn-bottom" class="primary-button builder-action-button">
+                Build My Team
+              </button>
+            </div>
+          </div>
+
+          <div class="builder-field-panel">
+            <div id="builder-warning" class="builder-warning hidden"></div>
+
+            <div class="team-summary">
+              <div class="summary-chip">
+                <span>Tactic</span>
+                <strong id="summary-tactic">4-3-3</strong>
+              </div>
+              <div class="summary-chip">
+                <span>Total Price</span>
+                <strong id="summary-price">$0.0</strong>
+              </div>
+              <div class="summary-chip">
+                <span>Average Risk</span>
+                <strong id="summary-risk">0</strong>
+              </div>
+              <div class="summary-chip">
+                <span>Locked Players</span>
+                <strong id="summary-locked">0</strong>
+              </div>
+            </div>
+
+            <!-- JavaScript fills this field with player cards after players are locked or the button is clicked. -->
+            <div id="team-field" class="soccer-field hidden" aria-live="polite">
+              <div class="field-markings">
+                <div class="goal goal--top"></div>
+                <div class="goal goal--bottom"></div>
+                <div class="penalty-box penalty-box--top"></div>
+                <div class="penalty-box penalty-box--bottom"></div>
+                <div class="center-circle"></div>
+                <div class="center-line"></div>
+                <div class="goal-box goal-box--top"></div>
+                <div class="goal-box goal-box--bottom"></div>
+              </div>
+              <div id="team-players" class="team-players"></div>
+            </div>
+
+            <p id="team-message" class="team-message">
+              Lock a few players first, then click "Build My Team" to fill the remaining spots.
+            </p>
+          </div>
         </div>
-
-        <div id="measure-info" class="measure-info"></div>
-
-        <div class="locked-player-area">
-          <div class="section-heading section-heading--compact">
-            <h3>Lock Players</h3>
-            <p>Optional: choose players you want to keep, then the builder suggests the remaining positions.</p>
-          </div>
-
-          <label class="control-group player-search" for="player-search">
-            <span>Search players</span>
-            <input id="player-search" type="search" placeholder="Search by name, club, country, or position" />
-          </label>
-
-          <div id="player-picker" class="player-picker"></div>
-
-          <button id="build-team-btn-bottom" class="primary-button builder-action-button">
-            Build My Team
-          </button>
-        </div>
-
-        <div id="builder-warning" class="builder-warning hidden"></div>
-
-        <div class="team-summary">
-          <div class="summary-chip">
-            <span>Tactic</span>
-            <strong id="summary-tactic">4-3-3</strong>
-          </div>
-          <div class="summary-chip">
-            <span>Total Price</span>
-            <strong id="summary-price">$0.0</strong>
-          </div>
-          <div class="summary-chip">
-            <span>Average Risk</span>
-            <strong id="summary-risk">0</strong>
-          </div>
-          <div class="summary-chip">
-            <span>Locked Players</span>
-            <strong id="summary-locked">0</strong>
-          </div>
-        </div>
-
-        <!-- JavaScript fills this field with player cards after the button is clicked. -->
-        <div id="team-field" class="soccer-field hidden" aria-live="polite">
-          <div class="field-markings">
-            <div class="goal goal--top"></div>
-            <div class="goal goal--bottom"></div>
-            <div class="penalty-box penalty-box--top"></div>
-            <div class="penalty-box penalty-box--bottom"></div>
-            <div class="center-circle"></div>
-            <div class="center-line"></div>
-            <div class="goal-box goal-box--top"></div>
-            <div class="goal-box goal-box--bottom"></div>
-          </div>
-          <div id="team-players" class="team-players"></div>
-        </div>
-
-        <p id="team-message" class="team-message">
-          Click "Build My Team" to generate an 11-player team from the real player database.
-        </p>
       </section>
+
+      <details class="panel collapsible-panel stats-method-panel">
+        <summary class="collapsible-summary">
+          <span>
+            <h2>How The Stats Are Made</h2>
+            <p>Open this to see which fields come from source data and which fields are calculated estimates.</p>
+          </span>
+          <span class="collapsible-action" aria-hidden="true"></span>
+        </summary>
+
+        <div class="collapsible-body">
+          <div class="method-grid">
+            <article class="method-card">
+              <h3>1. Player Identity Data</h3>
+              <p><strong>Source:</strong> FPL-Core-Insights, documented in <code>dataSources.md</code>.</p>
+              <p><strong>Used for:</strong> player name, club, position, price, total points, minutes, starts, goals, assists, clean sheets, cards, saves, expected goals, expected assists, status, and fantasy-style fields.</p>
+              <p><strong>GitHub:</strong> <a href="https://github.com/olbauday/FPL-Core-Insights">FPL-Core-Insights</a></p>
+            </article>
+
+            <article class="method-card">
+              <h3>2. Country And Extra Stats</h3>
+              <p><strong>Source:</strong> local file <code>source-nationalities.csv</code>.</p>
+              <p><strong>Used for:</strong> country, FBref-style position detail, age, appearances, starts, minutes, 90s, goals, assists, non-penalty goals, penalties, cards, and per-90 attacking stats.</p>
+              <p><strong>Important:</strong> this file enriches the player list. It is not the original source for names, clubs, or prices.</p>
+            </article>
+
+            <article class="method-card">
+              <h3>3. Scoring Rules Model</h3>
+              <p><strong>Source idea:</strong> UEFA EURO 2024 fantasy rules.</p>
+              <p><strong>Used for:</strong> the point weights for goals, assists, clean sheets, saves, recoveries, cards, penalties, and goals conceded.</p>
+              <p><strong>Rules link:</strong> <a href="https://www.uefa.com/uefaeuro/history/news/0268-121c6d842f48-45f4db182115-1000--euro-2024-fantasy-football-rules/">UEFA EURO fantasy rules</a></p>
+            </article>
+          </div>
+
+          <div class="formula-section">
+            <h3>Performance Stats</h3>
+            <p>These are estimated fantasy points made from available season stats and EURO-style scoring rules. They are not official tournament points.</p>
+
+            <div class="formula-list">
+              <p><strong>Appearance points:</strong> appearances x 1.</p>
+              <p><strong>60-minute points:</strong> estimated 60+ minute matches x 1. A 60+ minute match is estimated as <code>min(appearances, max(starts, floor(minutes / 60)))</code>.</p>
+              <p><strong>Goal points:</strong> goalkeeper or defender goal = 6, midfielder goal = 5, forward goal = 4.</p>
+              <p><strong>Assist points:</strong> assists x 3.</p>
+              <p><strong>Clean sheet points:</strong> goalkeeper or defender clean sheet = 4, midfielder clean sheet = 1, forward clean sheet = 0.</p>
+              <p><strong>Recovery points:</strong> <code>floor(recoveries / 3)</code>.</p>
+              <p><strong>Goalkeeper save points:</strong> for goalkeepers only, <code>floor(saves / 3)</code>.</p>
+              <p><strong>Penalty save points:</strong> penalties saved x 5.</p>
+              <p><strong>Goals conceded penalty:</strong> for goalkeepers and defenders, <code>floor(goals_conceded / 2) x -1</code>.</p>
+              <p><strong>Discipline penalty:</strong> yellow cards x -1, red cards x -3, own goals x -2, missed penalties x -2.</p>
+              <p><strong>Total estimate:</strong> all the positive points and negative penalties above added together.</p>
+            </div>
+
+            <details class="stat-example">
+              <summary>Example: Appearance points</summary>
+              <p>If a player appeared in 24 matches, appearance points = <code>24 x 1 = 24</code>.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: 60-minute points</summary>
+              <p>If a player made 18 appearances, 12 starts, and played 1,050 minutes, then estimated 60-minute matches = <code>min(18, max(12, floor(1050 / 60))) = min(18, 17) = 17</code>. 60-minute points = <code>17</code>.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Goal points</summary>
+              <p>If a midfielder scores 7 goals, goal points = <code>7 x 5 = 35</code>. If a forward scores 7 goals, goal points = <code>7 x 4 = 28</code>.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Assist points</summary>
+              <p>If a player has 9 assists, assist points = <code>9 x 3 = 27</code>.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Clean sheet points</summary>
+              <p>If a defender has 10 clean sheets, clean sheet points = <code>10 x 4 = 40</code>. If a midfielder has 10 clean sheets, clean sheet points = <code>10 x 1 = 10</code>.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Recovery points</summary>
+              <p>If a player has 137 recoveries, recovery points = <code>floor(137 / 3) = 45</code>. The extra 2 recoveries do not make another full point.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Goalkeeper save points</summary>
+              <p>If a goalkeeper has 88 saves, goalkeeper save points = <code>floor(88 / 3) = 29</code>. This only applies to goalkeepers.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Penalty save points</summary>
+              <p>If a goalkeeper saves 2 penalties, penalty save points = <code>2 x 5 = 10</code>.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Goals conceded penalty</summary>
+              <p>If a defender's team conceded 31 goals, goals conceded penalty = <code>floor(31 / 2) x -1 = -15</code>. This penalty applies only to goalkeepers and defenders.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Discipline penalty</summary>
+              <p>If a player has 5 yellow cards, 1 red card, and 1 missed penalty, discipline penalty = <code>5 x -1 + 1 x -3 + 1 x -2 = -10</code>.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Performance total</summary>
+              <p>A midfielder with 20 appearances, 15 estimated 60-minute matches, 6 goals, 5 assists, 8 clean sheets, 90 recoveries, and 4 yellow cards gets: appearances 20, minutes 15, goals <code>6 x 5 = 30</code>, assists <code>5 x 3 = 15</code>, clean sheets <code>8 x 1 = 8</code>, recoveries <code>floor(90 / 3) = 30</code>, cards <code>4 x -1 = -4</code>. Total estimate = <code>114</code>.</p>
+            </details>
+          </div>
+
+          <div class="formula-section">
+            <h3>Small-Sample Correction: Confidence Adjustment</h3>
+            <p>This protects the builder from overrating a player who played very little but had one big moment. Instead of trusting every raw per-90 number equally, we blend the player's raw rate with the average rate for their position.</p>
+
+            <div class="formula-list">
+              <p><strong>Raw points per 90:</strong> total performance estimate divided by 90s played.</p>
+              <p><strong>Position baseline:</strong> average raw points per 90 for players in the same position.</p>
+              <p><strong>Confidence weight:</strong> <code>90s / (90s + 8)</code>. A player with more minutes gets a weight closer to 1. A player with very few minutes gets pulled closer to the position average.</p>
+              <p><strong>Confidence-adjusted per 90:</strong> <code>confidence_weight x player_raw_per90 + (1 - confidence_weight) x position_average_per90</code>.</p>
+              <p><strong>Confidence-adjusted expected points:</strong> confidence-adjusted per 90 multiplied by the player's average minutes per appearance divided by 90.</p>
+            </div>
+
+            <details class="stat-example">
+              <summary>Example: Raw points per 90 with 60 minutes played</summary>
+              <p>If a player has a total performance estimate of 6 points from 60 minutes, then 90s played = <code>60 / 90 = 0.67</code>. Raw points per 90 = <code>6 / 0.67 = 9.0</code>. This looks excellent, but it is based on a tiny sample.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Position baseline</summary>
+              <p>If defenders in the database have raw points per 90 of <code>[3.8, 4.2, 5.0, 5.4]</code>, the defender baseline = <code>(3.8 + 4.2 + 5.0 + 5.4) / 4 = 4.6</code>.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Confidence weight</summary>
+              <p>If a player has played 0.67 full-match equivalents, confidence weight = <code>0.67 / (0.67 + 8) = 0.08</code>. The model trusts only 8% of the player's raw rate and leans heavily on the position baseline.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Confidence-adjusted per 90</summary>
+              <p>Using raw per 90 = 9.0, position baseline = 4.6, and confidence weight = 0.08, confidence-adjusted per 90 = <code>0.08 x 9.0 + 0.92 x 4.6 = 4.95</code>.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Confidence-adjusted expected points</summary>
+              <p>If confidence-adjusted per 90 = 4.95 and the player usually plays 60 minutes, expected points per appearance = <code>4.95 x (60 / 90) = 3.3</code>.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: why the correction matters</summary>
+              <p>Player A has a raw score of 10 points per 90, but only played 2 full-match equivalents. The position average is 5. Confidence weight = <code>2 / (2 + 8) = 0.20</code>. Confidence-adjusted per 90 = <code>0.20 x 10 + 0.80 x 5 = 6.0</code>. The player still gets credit, but not full credit for a tiny sample.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: a larger sample gets trusted more</summary>
+              <p>Player B also has a raw score of 10 points per 90, but played 30 full-match equivalents. Confidence weight = <code>30 / (30 + 8) = 0.79</code>. Confidence-adjusted per 90 = <code>0.79 x 10 + 0.21 x 5 = 8.95</code>. Because the sample is much larger, the estimate stays closer to the player's own rate.</p>
+            </details>
+          </div>
+
+          <div class="formula-section">
+            <h3>Risk Measures</h3>
+            <p>Risk fields use weekly fantasy point history, player status, chance of playing, minutes, starts, appearances, cards, missed penalties, and the player's bad-week pattern.</p>
+
+            <div class="formula-list">
+              <p><strong>Volatility:</strong> standard deviation of weekly fantasy points. It measures how much the player moves around their own average.</p>
+              <p><strong>Downside deviation:</strong> standard deviation of only the bad side. Weeks at or above 2 points count as zero downside. Weeks below 2 points count by how far below 2 they were.</p>
+              <p><strong>Bad-week rate:</strong> share of weeks with 1 point or fewer.</p>
+              <p><strong>Value at Risk 10:</strong> rough 10th percentile weekly score.</p>
+              <p><strong>Conditional Value at Risk 20:</strong> average of the worst 20% of weekly scores.</p>
+              <p><strong>Availability risk:</strong> player status, chance of playing, and missed-game share.</p>
+              <p><strong>Minutes risk:</strong> start rate, 60-minute rate, and average minutes per appearance.</p>
+              <p><strong>Discipline risk:</strong> yellow cards per 90, red cards per 90, and missed penalties.</p>
+              <p><strong>Tail risk:</strong> combines bad-week rate, Value at Risk 10, and Conditional Value at Risk 20.</p>
+              <p><strong>Composite risk:</strong> availability 28%, minutes 24%, discipline 12%, volatility 20%, tail risk 16%.</p>
+            </div>
+
+            <details class="stat-example">
+              <summary>Example: volatility</summary>
+              <p>If a player scores <code>[2, 3, 4, 5]</code>, their weeks are steady. If another player scores <code>[0, 0, 8, 10]</code>, their average may look useful, but the standard deviation is much higher.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: downside deviation</summary>
+              <p>Use a target of 2 points. For weekly points <code>[8, 2, 1, 0]</code>, the downside shortfalls are <code>[0, 0, 1, 2]</code>. Downside deviation is the square root of the average squared shortfall: <code>sqrt((0^2 + 0^2 + 1^2 + 2^2) / 4) = 1.12</code>. Good weeks above 2 do not increase this risk measure.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: bad-week rate</summary>
+              <p>For weekly points <code>[0, 1, 2, 4, 8]</code>, bad-week rate is <code>2 / 5 = 40%</code> because two weeks are 1 point or lower.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Value at Risk 10</summary>
+              <p>For sorted weekly points <code>[0, 1, 2, 4, 8]</code>, the 10th percentile is close to the low end of the distribution. It answers: "What does a pretty bad week look like for this player?"</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Conditional Value at Risk 20</summary>
+              <p>For weekly points <code>[0, 1, 2, 4, 8]</code>, the worst 20% is the single worst week, so CVaR 20 = <code>0</code>. With 10 weeks, it would average the worst 2 weeks.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: availability risk</summary>
+              <p>If a player has a doubtful status penalty of 25, a 75% chance of playing, and missed 20% of gameweeks, availability risk = <code>25 + (100 - 75) x 0.5 + 0.20 x 35 = 44.5</code>, rounded to 45.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: minutes risk</summary>
+              <p>If start rate = 70%, 60-minute rate = 60%, and average minutes = 65, minutes risk = <code>(1 - 0.70) x 45 + (1 - 0.60) x 30 + (75 - 65) x 0.7 = 32.5</code>, rounded to 33.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: discipline risk</summary>
+              <p>If yellow cards per 90 = 0.25, red cards per 90 = 0.02, and missed penalties = 1, discipline risk = <code>0.25 x 14 + 0.02 x 45 + 1 x 8 = 12.4</code>, rounded to 12.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: tail risk</summary>
+              <p>If bad-week rate = 30%, Value at Risk 10 = 0, and CVaR 20 = 0.5, tail risk = <code>0.30 x 55 + (2 - 0) x 12 + (2 - 0.5) x 10 = 55.5</code>, rounded to 56.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: composite risk</summary>
+              <p>If availability risk = 20, minutes risk = 30, discipline risk = 10, volatility risk = 40, and tail risk = 25, then composite risk = <code>20 x 0.28 + 30 x 0.24 + 10 x 0.12 + 40 x 0.20 + 25 x 0.16 = 26.0</code>.</p>
+            </details>
+          </div>
+
+          <div class="formula-section">
+            <h3>Risk-Adjusted Scores Used By The Builder</h3>
+            <div class="formula-list">
+              <p><strong>Reliability score:</strong> sample confidence 45%, low availability risk 30%, and low minutes risk 25%.</p>
+              <p><strong>Risk-adjusted expected points:</strong> confidence-adjusted expected points reduced when composite risk is high: <code>points x (1 - risk / 150)</code>.</p>
+              <p><strong>Sharpe Style:</strong> <code>(expected points - 2) / weekly point volatility</code>.</p>
+              <p><strong>Sortino Style:</strong> <code>(expected points - 2) / downside volatility</code>.</p>
+              <p><strong>Balanced score:</strong> combines risk-adjusted expected points, reliability, and lower composite risk into a 0 to 100 score.</p>
+            </div>
+
+            <details class="stat-example">
+              <summary>Example: reliability</summary>
+              <p>If sample confidence = 80, availability risk = 20, and minutes risk = 30, reliability = <code>80 x 0.45 + (100 - 20) x 0.30 + (100 - 30) x 0.25 = 77.5</code>.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: risk-adjusted expected points</summary>
+              <p>If confidence-adjusted expected points = 5.0 and composite risk = 30, risk-adjusted expected points = <code>5.0 x (1 - 30 / 150) = 4.0</code>.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Sharpe Style</summary>
+              <p>If expected points = 5, baseline = 2, and weekly volatility = 3, Sharpe Style = <code>(5 - 2) / 3 = 1.0</code>.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Sortino Style</summary>
+              <p>If expected points = 5, baseline = 2, and downside deviation = 1.5, Sortino Style = <code>(5 - 2) / 1.5 = 2.0</code>. Sortino is higher than Sharpe when most of the player's volatility comes from good weeks rather than bad weeks.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Balanced score</summary>
+              <p>Balanced score gives most weight to risk-adjusted expected points, then adds reliability, then rewards lower composite risk. This is the default team-builder score because it avoids choosing only high-upside players or only low-risk players.</p>
+            </details>
+          </div>
+
+          <div class="formula-section">
+            <h3>Stats Shown On This Page</h3>
+            <p>These labels appear in the dashboard, captain table, team advice table, lock-player list, and team builder cards. They are listed here at the end because they combine the source fields and calculated fields above.</p>
+
+            <div class="formula-list">
+              <p><strong>Price:</strong> fantasy-style player price from the source data. The builder shows total team price, but it does not enforce a budget yet.</p>
+              <p><strong>Captain Score:</strong> a stable captain shortlist score using expected points, reliability, and a small risk penalty.</p>
+              <p><strong>Reliability:</strong> a 0 to 100 score for playing-time confidence. It combines sample size, availability, and minutes security.</p>
+              <p><strong>Per 90:</strong> estimated fantasy performance for a full 90 minutes before the confidence adjustment.</p>
+              <p><strong>Risk:</strong> composite risk from availability, minutes, discipline, weekly volatility, and bad-week risk. Lower is better.</p>
+              <p><strong>Style Score:</strong> the score for the selected Player Style, such as Balanced, Safe Picks, High Upside, Reliable Minutes, Low Tail Risk, Sharpe Style, or Sortino Style.</p>
+              <p><strong>Expected:</strong> risk-adjusted expected points for one appearance.</p>
+              <p><strong>Best Value:</strong> selected Player Style score divided by player price.</p>
+              <p><strong>Risk Watch:</strong> a good player whose composite risk is high enough to deserve attention before selecting them.</p>
+            </div>
+
+            <details class="stat-example">
+              <summary>Example: Price</summary>
+              <p>If a player has price <code>7.5</code>, the site shows <code>$7.5</code>. If 11 selected players add to 82.0, total team price shows <code>$82.0</code>.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Captain Score</summary>
+              <p>If a player has expected points of 5.4, reliability of 82, and risk of 30, then Captain Score = <code>5.4 x 10 + 82 x 0.35 - 30 x 0.08 = 80.3</code>.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Reliability on the page</summary>
+              <p>A reliability score of 85 means the player has strong data confidence, looks available, and usually plays meaningful minutes. A score of 35 means the player may be useful but has more playing-time uncertainty.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Per 90 on the page</summary>
+              <p>If the card says <code>Per 90: 6.2</code>, it means the player's estimated performance is 6.2 fantasy-style points for a full 90 minutes before adjusting for confidence and typical minutes.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Risk on the page</summary>
+              <p>If Risk = 22, the player is relatively safer. If Risk = 72, the player has more availability, minutes, discipline, volatility, or bad-week concerns.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Style Score</summary>
+              <p>If Player Style is Safe Picks, the score shown in the lock list ranks players by low composite risk plus useful expected points. If Player Style changes to High Upside, the score changes to focus on points per 90.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Balanced style</summary>
+              <p>Balanced uses the 0 to 100 balanced score. A player with strong expected points, high reliability, and low risk should beat a player who is excellent in only one category.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Expected Points style</summary>
+              <p>If Player A has risk-adjusted expected points of 4.8 and Player B has 3.9, Expected Points style ranks Player A higher, even if Player B is cheaper.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Safe Picks style</summary>
+              <p>If composite risk = 25 and expected points = 4, Safe Picks score = <code>(100 - 25) + 4 x 8 = 107</code>. It rewards low risk first, then adds expected points.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: High Upside style</summary>
+              <p>If a player has <code>Per 90: 7.4</code>, High Upside likes that player because they produce a lot when they are on the field. The tradeoff is that this style may select players with less certain minutes.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Reliable Minutes style</summary>
+              <p>If Player A has reliability 88 and Player B has reliability 52, Reliable Minutes style ranks Player A higher because the goal is to avoid players who might not start or might play very little.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Low Tail Risk style</summary>
+              <p>If tail risk = 20 and expected points = 4, Low Tail Risk score = <code>(100 - 20) + 4 x 5 = 100</code>. It favors players less likely to produce very bad weeks.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Sharpe Style on the page</summary>
+              <p>If Sharpe Style = 1.2, the player has 1.2 units of expected reward above the baseline for each unit of weekly volatility.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Sortino Style on the page</summary>
+              <p>If Sortino Style = 2.0, the player has strong expected reward compared with downside-only volatility. This is useful when you care more about bad surprises than all volatility.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Expected</summary>
+              <p>If confidence-adjusted expected points are 5.0 and risk is 30, Expected = <code>5.0 x (1 - 30 / 150) = 4.0</code>.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Best Value</summary>
+              <p>If Player A has style score 80 and price 10, value = <code>80 / 10 = 8</code>. If Player B has style score 60 and price 5, value = <code>60 / 5 = 12</code>, so Player B is better value even with a lower raw score.</p>
+            </details>
+
+            <details class="stat-example">
+              <summary>Example: Risk Watch</summary>
+              <p>If a player ranks well but has composite risk above 65, the dashboard can flag them as Risk Watch. It does not mean "never pick"; it means check the reason before relying on them.</p>
+            </details>
+          </div>
+
+          <div class="method-note method-note--warning">
+            <strong>Important limits:</strong>
+            These are learning-project estimates, not official World Cup predictions. Some official fantasy stats are missing because the source data does not include them yet, including Player of the Match, penalty won, penalty conceded, and goals from outside the box.
+          </div>
+        </div>
+      </details>
 
     </main>
 
