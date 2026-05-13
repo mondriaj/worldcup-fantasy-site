@@ -24,6 +24,9 @@ http://127.0.0.1:8766/index.html
 - `index.html` - page structure and content
 - `style.css` - responsive layout and visual styling
 - `script.js` - Quick Picks, Captain Picks, Team Advice, and Team Builder logic
+- `world-cup.html` - separate tournament information page
+- `worldCupData.js` - static World Cup groups, bracket paths, and source notes
+- `worldCupPage.js` - renderer for the tournament information page
 - `playersData.js` - browser-ready player dataset
 - `players.json` - source player dataset
 - `dataSources.md` - data source notes
@@ -43,6 +46,8 @@ http://127.0.0.1:8766/index.html
 When reliable World Cup data becomes available, update the player database, squad status, fixtures, official rules, prices, and matchday-specific advice.
 
 Stage B will first add fixture and group structure, then connect real fixture data only after the source and schema are approved.
+
+Future Stage C: add national team pages after official squads are announced.
 
 ## Deployment
 

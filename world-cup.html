@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>World Cup 2026 Groups and Bracket | World Cup Fantasy Helper</title>
+    <meta name="description" content="Track World Cup 2026 groups and bracket structure before fantasy picks become fixture-aware." />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header id="top" class="hero hero--tournament">
+      <div class="hero__content">
+        <p class="eyebrow">Tournament Guide</p>
+        <h1>World Cup 2026 Groups and Bracket</h1>
+        <p class="hero__text">
+          Track the tournament structure before fantasy picks become fixture-aware.
+        </p>
+
+        <div class="hero__actions" aria-label="World Cup page actions">
+          <a class="primary-button primary-button--hero" href="#groups">View Groups</a>
+          <a class="secondary-link" href="index.html">Back To Fantasy Tools</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-shell tournament-page">
+      <section class="panel tournament-status" aria-label="Data status">
+        <strong>Tournament information only</strong>
+        <p>This page shows World Cup groups and bracket paths. Fantasy player picks are not fixture-adjusted yet. Final fantasy prices, official fantasy rules, and player squads are handled separately.</p>
+      </section>
+
+      <section id="groups" class="panel">
+        <div class="section-heading">
+          <h2>Groups</h2>
+          <p>All 12 groups using FIFA public tournament names.</p>
+        </div>
+
+        <noscript>
+          <p class="section-note">Enable JavaScript to see the group cards from the local tournament data file.</p>
+        </noscript>
+
+        <div id="groups-grid" class="groups-grid" aria-live="polite"></div>
+      </section>
+
+      <section id="group-stage" class="panel">
+        <div class="section-heading">
+          <h2>Group-Stage Matches</h2>
+          <p>The full 72-match group-stage list is not loaded yet. It can be added after the complete fixture list is reviewed against FIFA's schedule.</p>
+        </div>
+
+        <div class="method-note">
+          <strong>Next data step:</strong>
+          Add all group-stage fixtures by group after the full list is reviewed against FIFA's schedule.
+        </div>
+      </section>
+
+      <section id="bracket" class="panel">
+        <div class="section-heading">
+          <h2>Knockout Bracket Structure</h2>
+          <p>Official-style path placeholders for the knockout rounds. These are not predictions.</p>
+        </div>
+
+        <p id="bracket-note" class="section-note"></p>
+        <div id="bracket-rounds" class="bracket-rounds" aria-live="polite"></div>
+      </section>
+
+      <section id="sources" class="panel trust-panel">
+        <div class="section-heading">
+          <h2>Sources And Status</h2>
+          <p>FIFA is the primary public source for display. OpenFootball is used only as a technical cross-check.</p>
+        </div>
+
+        <div class="trust-grid">
+          <article>
+            <h3>Fantasy status</h3>
+            <p>This tournament page does not change Quick Picks, Captain Picks, Team Advice, or the Team Builder. Player recommendations remain separate until official squads, prices, and fantasy rules are available.</p>
+          </article>
+          <article>
+            <h3>Source checked</h3>
+            <p>Sources last checked: <span id="source-checked-date">May 13, 2026</span>.</p>
+          </article>
+          <article>
+            <h3>No odds</h3>
+            <p>This page does not use betting odds or gambling content.</p>
+          </article>
+        </div>
+
+        <ul id="world-cup-sources" class="source-list"></ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <div>
+          <h2>World Cup Fantasy Helper</h2>
+          <p>Independent fantasy football tools for picks, rankings, and squad ideas. Tournament facts stay separate from fantasy player recommendations until official data is available.</p>
+          <p class="site-footer__note">Not official FIFA fantasy advice. No betting or gambling content.</p>
+        </div>
+
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <a href="index.html">Home</a>
+          <a href="index.html#quick-picks">Quick Picks</a>
+          <a href="index.html#captain-picks">Captain Picks</a>
+          <a href="index.html#team-builder">Team Builder</a>
+          <a href="#top">World Cup Fixtures</a>
+          <a href="index.html#data-sources">Data Sources</a>
+          <a href="index.html#methodology">Methodology</a>
+          <a href="index.html#changelog">Changelog</a>
+          <a href="index.html#about">About</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script src="worldCupData.js"></script>
+    <script src="worldCupPage.js"></script>
+  </body>
+</html>
