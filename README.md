@@ -42,6 +42,8 @@ http://127.0.0.1:8766/index.html
 
 When reliable World Cup data becomes available, update the player database, squad status, fixtures, official rules, prices, and matchday-specific advice.
 
+Stage B will first add fixture and group structure, then connect real fixture data only after the source and schema are approved.
+
 ## Deployment
 
 The site is static and can be hosted on GitHub Pages from the `project/` repository.

@@ -513,6 +513,10 @@ html {
   grid-template-columns: 1fr 1.25fr 1fr;
 }
 
+.trust-grid--fixtures {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 .trust-grid article,
 .change-entry {
   border: 1px solid rgba(24, 78, 119, 0.12);
@@ -1418,7 +1422,8 @@ input[type="number"] {
   }
 
   .trust-grid,
-  .trust-grid--about {
+  .trust-grid--about,
+  .trust-grid--fixtures {
     grid-template-columns: 1fr;
   }
 
