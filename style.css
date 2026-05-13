@@ -1377,7 +1377,7 @@ input[type="number"] {
   }
 
   #advice-table-body td:nth-child(6)::before {
-    content: "Expected";
+    content: "Projected";
   }
 
   #advice-table-body td:nth-child(7)::before {

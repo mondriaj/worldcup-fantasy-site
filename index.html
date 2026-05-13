@@ -81,7 +81,7 @@
           <article class="info-card info-card--fallback">
             <span class="info-card__label">Player Rankings</span>
             <strong>Model-backed rankings</strong>
-            <p>Enable JavaScript to compare players by expected points, value, reliability, and risk.</p>
+            <p>Enable JavaScript to compare players by projected points, value, reliability, and risk.</p>
           </article>
           <article class="info-card info-card--fallback">
             <span class="info-card__label">Team Builder</span>
@@ -167,7 +167,7 @@
               </select>
             </label>
 
-            <p id="advice-style-note">Simple player notes using expected points and risk scores.</p>
+            <p id="advice-style-note">Simple player notes using projected points and risk scores.</p>
           </div>
 
           <div class="table-wrapper">
@@ -179,14 +179,14 @@
                   <th>Position</th>
                   <th>Price</th>
                   <th>Style Score</th>
-                  <th>Expected</th>
+                  <th>Projected</th>
                   <th>Risk</th>
                   <th>Reason</th>
                 </tr>
               </thead>
               <tbody id="advice-table-body">
                 <tr class="fallback-table-row">
-                  <td colspan="8">Enable JavaScript to see player advice by style, position, expected points, and risk.</td>
+                  <td colspan="8">Enable JavaScript to see player advice by style, position, projected points, and risk.</td>
                 </tr>
               </tbody>
             </table>
@@ -572,9 +572,9 @@
             <div class="formula-list">
               <p><strong>Reliability score:</strong> sample confidence score 45%, low availability risk 30%, and low minutes risk 25%.</p>
               <p><strong>Risk-adjusted expected points:</strong> confidence-adjusted expected points reduced when composite risk is high: <code>points x (1 - risk / 150)</code>.</p>
-              <p><strong>Sharpe Style:</strong> raw ratio = <code>(expected points - 2) / weekly point volatility</code>, then converted to a 0 to 100 index by percentile rank in the player database.</p>
-              <p><strong>Sortino Style:</strong> raw ratio = <code>(expected points - 2) / downside deviation</code>, then converted to a 0 to 100 index by percentile rank in the player database.</p>
-              <p><strong>Balanced score:</strong> combines risk-adjusted expected points, reliability, and lower composite risk into a 0 to 100 score.</p>
+              <p><strong>Risk-Adjusted Pick (Sharpe-style):</strong> balances projected points against overall risk. Raw ratio = <code>(expected points - 2) / weekly point volatility</code>, then converted to a 0 to 100 index by percentile rank in the player database.</p>
+              <p><strong>Downside Protection Pick (Sortino-style):</strong> focuses more on avoiding bad outcomes. Raw ratio = <code>(expected points - 2) / downside deviation</code>, then converted to a 0 to 100 index by percentile rank in the player database.</p>
+              <p><strong>Best Overall score:</strong> combines risk-adjusted expected points, reliability, and lower composite risk into a 0 to 100 score.</p>
             </div>
 
             <details class="stat-example">
@@ -588,18 +588,18 @@
             </details>
 
             <details class="stat-example">
-              <summary>Example: Sharpe Style</summary>
-              <p>If expected points = 5, baseline = 2, and weekly volatility = 3, raw Sharpe ratio = <code>(5 - 2) / 3 = 1.0</code>. If that raw ratio ranks around the 75th percentile among players, the displayed Sharpe Style index is about <code>75</code>.</p>
+              <summary>Example: Risk-Adjusted Pick (Sharpe-style)</summary>
+              <p>If expected points = 5, baseline = 2, and weekly volatility = 3, raw Sharpe-style ratio = <code>(5 - 2) / 3 = 1.0</code>. If that raw ratio ranks around the 75th percentile among players, the displayed Risk-Adjusted Pick index is about <code>75</code>.</p>
             </details>
 
             <details class="stat-example">
-              <summary>Example: Sortino Style</summary>
-              <p>If expected points = 5, baseline = 2, and downside deviation = 1.5, raw Sortino ratio = <code>(5 - 2) / 1.5 = 2.0</code>. If that raw ratio ranks around the 85th percentile among players, the displayed Sortino Style index is about <code>85</code>.</p>
+              <summary>Example: Downside Protection Pick (Sortino-style)</summary>
+              <p>If expected points = 5, baseline = 2, and downside deviation = 1.5, raw Sortino-style ratio = <code>(5 - 2) / 1.5 = 2.0</code>. If that raw ratio ranks around the 85th percentile among players, the displayed Downside Protection Pick index is about <code>85</code>.</p>
             </details>
 
             <details class="stat-example">
-              <summary>Example: Balanced score</summary>
-              <p>Balanced score gives most weight to risk-adjusted expected points, then adds reliability, then rewards lower composite risk. This is the default team-builder score because it avoids choosing only high-upside players or only low-risk players.</p>
+              <summary>Example: Best Overall score</summary>
+              <p>Best Overall gives most weight to risk-adjusted expected points, then adds reliability, then rewards lower composite risk. This is the default team-builder score because it avoids choosing only upside players or only low-risk players.</p>
             </details>
           </div>
 
@@ -609,14 +609,14 @@
 
             <div class="formula-list">
               <p><strong>Price:</strong> fantasy-style player price from the source data. The builder shows total team price, but it does not enforce a budget yet.</p>
-              <p><strong>Captain Score:</strong> a stable captain shortlist score using expected points, reliability, and a small risk penalty.</p>
+              <p><strong>Captain Score:</strong> a stable captain shortlist score using projected points, reliability, and a small risk penalty.</p>
               <p><strong>Reliability:</strong> a 0 to 100 score for playing-time confidence. It combines sample size, availability, and minutes security.</p>
               <p><strong>Per 90:</strong> estimated fantasy performance for a full 90 minutes before the confidence adjustment.</p>
-              <p><strong>Risk:</strong> composite risk from availability, minutes, discipline, weekly volatility, and bad-week risk. Lower is better.</p>
-              <p><strong>Style Score:</strong> the score for the selected Player Style, such as Balanced, Safe Picks, High Upside, Reliable Minutes, Low Tail Risk, Sharpe Style, or Sortino Style.</p>
-              <p><strong>Expected:</strong> risk-adjusted expected points for one appearance.</p>
-              <p><strong>Best Value:</strong> selected Player Style score divided by player price.</p>
-              <p><strong>Risk Watch:</strong> a good player whose composite risk is high enough to deserve attention before selecting them.</p>
+              <p><strong>Risk:</strong> a composite score from availability, minutes, discipline, volatility, and bad-week risk. Lower is better. In this public preview, read risk relative to the loaded test dataset rather than as a final World Cup warning.</p>
+              <p><strong>Style Score:</strong> the score for the selected pick style, such as Best Overall, Projected Points, Reliable Pick, Upside Pick, Likely Minutes, Risk-Adjusted Pick (Sharpe-style), Downside Protection Pick (Sortino-style), or Avoid Bad Weeks (low tail-risk).</p>
+              <p><strong>Projected:</strong> risk-adjusted expected points for one appearance.</p>
+              <p><strong>Best Value:</strong> selected pick style score divided by player price.</p>
+              <p><strong>Highest Risk In Test Data:</strong> selects the player with the highest composite risk in the loaded test dataset. It does not mean the player is unusable. It means check role, minutes, and availability before relying on them.</p>
             </div>
 
             <details class="stat-example">
@@ -626,7 +626,7 @@
 
             <details class="stat-example">
               <summary>Example: Captain Score</summary>
-              <p>If a player has expected points of 5.4, reliability of 82, and risk of 30, then Captain Score = <code>5.4 x 10 + 82 x 0.35 - 30 x 0.08 = 80.3</code>.</p>
+              <p>If a player has projected points of 5.4, reliability of 82, and risk of 30, then Captain Score = <code>5.4 x 10 + 82 x 0.35 - 30 x 0.08 = 80.3</code>.</p>
             </details>
 
             <details class="stat-example">
@@ -641,57 +641,57 @@
 
             <details class="stat-example">
               <summary>Example: Risk on the page</summary>
-              <p>If Risk = 22, the player is relatively safer. If Risk = 72, the player has more availability, minutes, discipline, volatility, or bad-week concerns.</p>
+              <p>If Risk = 22, the player is relatively safer in the loaded dataset. If Risk is near the top of the loaded dataset, check availability, minutes, discipline, volatility, and bad-week concerns before relying on that player.</p>
             </details>
 
             <details class="stat-example">
               <summary>Example: Style Score</summary>
-              <p>If Player Style is Safe Picks, the score shown in the lock list ranks players by low composite risk plus useful expected points. If Player Style changes to High Upside, the score changes to focus on points per 90.</p>
+              <p>If Pick Style is Reliable Pick, the score shown in the lock list ranks players by low composite risk plus useful projected points. If Pick Style changes to Upside Pick, the score changes to focus on points per 90.</p>
             </details>
 
             <details class="stat-example">
-              <summary>Example: Balanced style</summary>
-              <p>Balanced uses the 0 to 100 balanced score. A player with strong expected points, high reliability, and low risk should beat a player who is excellent in only one category.</p>
+              <summary>Example: Best Overall style</summary>
+              <p>Best Overall uses the 0 to 100 balanced score. A player with strong projected points, high reliability, and low risk should beat a player who is excellent in only one category.</p>
             </details>
 
             <details class="stat-example">
-              <summary>Example: Expected Points style</summary>
-              <p>If Player A has risk-adjusted expected points of 4.8 and Player B has 3.9, Expected Points style ranks Player A higher, even if Player B is cheaper.</p>
+              <summary>Example: Projected Points style</summary>
+              <p>If Player A has risk-adjusted expected points of 4.8 and Player B has 3.9, Projected Points style ranks Player A higher, even if Player B is cheaper.</p>
             </details>
 
             <details class="stat-example">
-              <summary>Example: Safe Picks style</summary>
-              <p>If composite risk = 25 and expected points = 4, Safe Picks score = <code>(100 - 25) + 4 x 8 = 107</code>. It rewards low risk first, then adds expected points.</p>
+              <summary>Example: Reliable Pick style</summary>
+              <p>If composite risk = 25 and expected points = 4, Reliable Pick score = <code>(100 - 25) + 4 x 8 = 107</code>. It rewards low risk first, then adds expected points.</p>
             </details>
 
             <details class="stat-example">
-              <summary>Example: High Upside style</summary>
-              <p>If a player has <code>Per 90: 7.4</code>, High Upside likes that player because they produce a lot when they are on the field. The tradeoff is that this style may select players with less certain minutes.</p>
+              <summary>Example: Upside Pick style</summary>
+              <p>If a player has <code>Per 90: 7.4</code>, Upside Pick likes that player because they produce a lot when they are on the field. The tradeoff is that this style may select players with less certain minutes.</p>
             </details>
 
             <details class="stat-example">
-              <summary>Example: Reliable Minutes style</summary>
-              <p>If Player A has reliability 88 and Player B has reliability 52, Reliable Minutes style ranks Player A higher because the goal is to avoid players who might not start or might play very little.</p>
+              <summary>Example: Likely Minutes style</summary>
+              <p>If Player A has reliability 88 and Player B has reliability 52, Likely Minutes style ranks Player A higher because the goal is to avoid players who might not start or might play very little.</p>
             </details>
 
             <details class="stat-example">
-              <summary>Example: Low Tail Risk style</summary>
-              <p>If tail risk = 20 and expected points = 4, Low Tail Risk score = <code>(100 - 20) + 4 x 5 = 100</code>. It favors players less likely to produce very bad weeks.</p>
+              <summary>Example: Avoid Bad Weeks (low tail-risk)</summary>
+              <p>If tail risk = 20 and expected points = 4, Avoid Bad Weeks score = <code>(100 - 20) + 4 x 5 = 100</code>. It looks for players less likely to produce a very poor score.</p>
             </details>
 
             <details class="stat-example">
-              <summary>Example: Sharpe Style on the page</summary>
-              <p>If Sharpe Style = 82, that player ranks around the 82nd percentile for reward above baseline per unit of weekly volatility in this database.</p>
+              <summary>Example: Risk-Adjusted Pick (Sharpe-style) on the page</summary>
+              <p>If Risk-Adjusted Pick = 82, that player ranks around the 82nd percentile for reward above baseline per unit of weekly volatility in this database.</p>
             </details>
 
             <details class="stat-example">
-              <summary>Example: Sortino Style on the page</summary>
-              <p>If Sortino Style = 88, that player ranks around the 88th percentile for reward above baseline per unit of downside-only volatility. This is useful when you care more about bad surprises than all volatility.</p>
+              <summary>Example: Downside Protection Pick (Sortino-style) on the page</summary>
+              <p>If Downside Protection Pick = 88, that player ranks around the 88th percentile for reward above baseline per unit of downside-only volatility. This is useful when you care more about bad surprises than all volatility.</p>
             </details>
 
             <details class="stat-example">
-              <summary>Example: Expected</summary>
-              <p>If confidence-adjusted expected points are 5.0 and risk is 30, Expected = <code>5.0 x (1 - 30 / 150) = 4.0</code>.</p>
+              <summary>Example: Projected</summary>
+              <p>If confidence-adjusted expected points are 5.0 and risk is 30, Projected = <code>5.0 x (1 - 30 / 150) = 4.0</code>.</p>
             </details>
 
             <details class="stat-example">
@@ -700,8 +700,8 @@
             </details>
 
             <details class="stat-example">
-              <summary>Example: Risk Watch</summary>
-              <p>If a player ranks well but has composite risk above 65, the dashboard can flag them as Risk Watch. It does not mean "never pick"; it means check the reason before relying on them.</p>
+              <summary>Example: Highest Risk In Test Data</summary>
+              <p>Highest Risk In Test Data selects the player with the highest composite risk in the loaded test dataset. It does not mean the player is unusable. It means check role, minutes, and availability before relying on them.</p>
             </details>
           </div>
 

@@ -20,24 +20,42 @@ const squadRequirements = {
 
 const positionOrder = ["Goalkeeper", "Defender", "Midfielder", "Forward"];
 
+const countryDisplayNames = {
+  ARG: "Argentina",
+  BEL: "Belgium",
+  CMR: "Cameroon",
+  COD: "DR Congo",
+  CIV: "Ivory Coast",
+  ECU: "Ecuador",
+  EGY: "Egypt",
+  GAM: "Gambia",
+  GER: "Germany",
+  GHA: "Ghana",
+  GNB: "Guinea-Bissau",
+  HUN: "Hungary",
+  NOR: "Norway",
+  SEN: "Senegal",
+  SUI: "Switzerland"
+};
+
 // Each measure has a score function and a beginner explanation for the info panel.
 const measures = {
   balanced: {
     label: "Best Overall",
     description: "Best all-around option. It balances projected points, reliability, and risk.",
-    formula: "Uses risk-adjusted overall score: expected points after risk penalty, plus reliability, plus lower composite risk.",
+    formula: "Uses risk-adjusted overall score: projected points after risk penalty, plus reliability, plus lower composite risk.",
     score: (player) => value(player.risk_adjusted_overall_score)
   },
   expected: {
     label: "Projected Points",
     description: "Ranks players by projected points for one match after a risk penalty.",
-    formula: "Starts with expected points per appearance, then reduces it when composite risk is high: expected points x (1 - risk / 150).",
+    formula: "Starts with projected points per appearance, then reduces it when composite risk is high: projected points x (1 - risk / 150).",
     score: (player) => value(player.risk_adjusted_expected_points_estimate)
   },
   safe: {
     label: "Reliable Pick",
     description: "Favors steady players with lower risk before chasing upside.",
-    formula: "Score = (100 - composite risk) + expected points x 8. Composite risk includes availability, minutes, cards, volatility, and clearly weighted bad-week risk.",
+    formula: "Score = (100 - composite risk) + projected points x 8. Composite risk includes availability, minutes, cards, volatility, and clearly weighted bad-week risk.",
     score: (player) => (100 - value(player.risk_composite_score)) + value(player.risk_adjusted_expected_points_estimate) * 8
   },
   upside: {
@@ -57,7 +75,7 @@ const measures = {
     optionLabel: "Avoid Bad Weeks (low tail-risk)",
     secondaryLabel: "Advanced: low tail-risk score",
     description: "Looks for players less likely to produce a very poor score.",
-    formula: "Score = (100 - tail risk) + expected points x 5. Tail risk uses bad-week rate, 10th percentile points, and the average of the worst 20% of weeks.",
+    formula: "Score = (100 - tail risk) + projected points x 5. Tail risk uses bad-week rate, 10th percentile points, and the average of the worst 20% of weeks.",
     score: (player) => (100 - value(player.risk_tail_score)) + value(player.risk_adjusted_expected_points_estimate) * 5
   },
   sharpe: {
@@ -65,7 +83,7 @@ const measures = {
     optionLabel: "Risk-Adjusted Pick (Sharpe-style)",
     secondaryLabel: "Advanced: Sharpe-style score",
     description: "Balances projected points against overall risk.",
-    formula: "Raw formula: (expected points per appearance - 2) / standard deviation of weekly fantasy points. The site then converts the raw ratio into a 0-100 percentile index across the player database.",
+    formula: "Raw formula: (projected points per appearance - 2) / standard deviation of weekly fantasy points. The site then converts the raw ratio into a 0-100 percentile index across the player database.",
     score: (player) => value(player.risk_adjusted_sharpe_like)
   },
   sortino: {
@@ -73,7 +91,7 @@ const measures = {
     optionLabel: "Downside Protection Pick (Sortino-style)",
     secondaryLabel: "Advanced: Sortino-style score",
     description: "Focuses more on avoiding bad outcomes.",
-    formula: "Raw formula: (expected points per appearance - 2) / downside deviation. Downside deviation only counts weeks below a 2-point target, so it is not directly comparable with total volatility. The site converts the raw ratio into a 0-100 percentile index.",
+    formula: "Raw formula: (projected points per appearance - 2) / downside deviation. Downside deviation only counts weeks below a 2-point target, so it is not directly comparable with total volatility. The site converts the raw ratio into a 0-100 percentile index.",
     score: (player) => value(player.risk_adjusted_sortino_like)
   }
 };
@@ -198,8 +216,16 @@ function sortPlayers(playerList, measure = activeMeasure()) {
   });
 }
 
+function displayCountry(country) {
+  return countryDisplayNames[country] || country || "Unknown";
+}
+
+function playerCountryText(player) {
+  return displayCountry(player.country);
+}
+
 function playerSearchText(player) {
-  return `${player.name} ${player.club} ${player.country} ${player.position}`.toLowerCase();
+  return `${player.name} ${player.club} ${player.country} ${playerCountryText(player)} ${player.position}`.toLowerCase();
 }
 
 function topByPosition(position, measure) {
@@ -249,7 +275,7 @@ function styleReason(player, measureKey) {
     return `Focuses on downside volatility, with a Sortino-style score of ${displayNumber(player.risk_adjusted_sortino_like)}.`;
   }
 
-  return `Good mix of expected points (${expected}), reliability (${reliability}), and risk (${risk}).`;
+  return `Good mix of projected points (${expected}), reliability (${reliability}), and risk (${risk}).`;
 }
 
 function renderMeasureOptions() {
@@ -319,25 +345,25 @@ function exampleMatchesStat(example, statName) {
     "risk": ["example risk on the page"],
     "style score": [
       "example style score",
-      "example balanced style",
-      "example expected points style",
-      "example safe picks style",
-      "example high upside style",
-      "example reliable minutes style",
-      "example low tail risk style",
-      "example sharpe style on the page",
-      "example sortino style on the page"
+      "example best overall style",
+      "example projected points style",
+      "example reliable pick style",
+      "example upside pick style",
+      "example likely minutes style",
+      "example avoid bad weeks low tail risk",
+      "example risk adjusted pick sharpe style on the page",
+      "example downside protection pick sortino style on the page"
     ],
-    "expected": ["example expected"],
+    "projected": ["example projected"],
     "best value": ["example best value"],
-    "risk watch": ["example risk watch"]
+    "highest risk in test data": ["example highest risk in test data"]
   };
 
   if (exactMatches[statName]?.includes(summary)) {
     return true;
   }
 
-  const shortStatNames = new Set(["price", "risk", "expected", "per 90"]);
+  const shortStatNames = new Set(["price", "risk", "expected", "projected", "per 90"]);
 
   return !shortStatNames.has(statName) && summary.includes(statName);
 }
@@ -461,7 +487,7 @@ function renderPlayerPicker() {
         <input type="checkbox" value="${player.id}" ${isChecked} />
         <span>
           <strong>${player.name}</strong>
-          <small>${player.position} · ${player.club} · ${player.country}</small>
+          <small>${player.position} · ${player.club} · ${playerCountryText(player)}</small>
         </span>
         <span class="player-option__metrics">
           <em><span>Price</span>${money(player.price)}</em>
@@ -677,7 +703,7 @@ function renderPlayerCard(player, slot) {
     <article class="player-card player-card--selectable" role="button" tabindex="0" data-area="starter" data-player-id="${player.id}" style="top: ${slot.top}; left: ${slot.left};">
       <span class="player-card__role">${player.position}</span>
       <strong>${player.name}</strong>
-      <p>${player.country} · ${player.club}</p>
+      <p>${playerCountryText(player)} · ${player.club}</p>
       <p class="player-card__price">Price ${money(player.price)}</p>
       <p>${stat.label}: ${displayNumber(stat.value(player))}</p>
     </article>
@@ -702,7 +728,7 @@ function renderBenchCard(player) {
     <article class="bench-card bench-card--selectable" role="button" tabindex="0" data-area="bench" data-player-id="${player.id}">
       <span>${player.position}</span>
       <strong>${player.name}</strong>
-      <p>${player.country} · ${player.club}</p>
+      <p>${playerCountryText(player)} · ${player.club}</p>
       <small>Price ${money(player.price)} · ${stat.label}: ${displayNumber(stat.value(player))}</small>
     </article>
   `;
@@ -851,7 +877,7 @@ function renderCaptainPicks() {
     <tr>
       <td>${index + 1}</td>
       <td>${player.name}</td>
-      <td>${player.country}</td>
+      <td>${playerCountryText(player)}</td>
       <td>${player.club}</td>
       <td>${displayNumber(captainScore(player))}</td>
       <td>${value(player.euro_style_reliability_score)}</td>
@@ -912,14 +938,14 @@ function renderDashboardSections() {
     {
       label: "Highest Risk In Test Data",
       player: highestRiskPick,
-      stat: `Risk: ${displayNumber(highestRiskPick.risk_composite_score)}`,
-      reason: "Check role and minutes before relying on this pick."
+      stat: `Highest current risk score: ${displayNumber(highestRiskPick.risk_composite_score)}`,
+      reason: "Highest relative risk in this test dataset. Check minutes, role, and availability before relying on this pick."
     }
   ].map(({ label, player, stat, reason }) => `
     <article class="info-card">
       <span class="info-card__label">${label}</span>
       <strong>${player.name}</strong>
-      <p>${player.country} · ${player.club}</p>
+      <p>${playerCountryText(player)} · ${player.club}</p>
       <p class="info-card__stat">${stat}</p>
       <p>${reason}</p>
     </article>
@@ -941,7 +967,7 @@ function renderAdviceTable() {
   adviceTableBody.innerHTML = ranked.slice(0, 8).map((player) => `
     <tr>
       <td>${player.name}</td>
-      <td>${player.country}</td>
+      <td>${playerCountryText(player)}</td>
       <td>${player.position}</td>
       <td>${money(player.price)}</td>
       <td>${displayNumber(measureScore(player, measure))}</td>
