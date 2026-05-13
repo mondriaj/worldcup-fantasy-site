@@ -4,7 +4,7 @@ A static fantasy football website for comparing quick picks, captain options, pl
 
 ## Current Status
 
-This is a public preview. The site is built with a World Cup fantasy structure, but it currently uses a 100-player EPL/FPL-style test dataset while final World Cup squads, prices, fixtures, and fantasy rules are pending.
+This is a public preview. The site is built with a World Cup fantasy structure, but it currently uses a 100-player EPL/FPL-style test dataset while final World Cup squads, fantasy prices, and fantasy rules are pending. Tournament groups and group-stage fixtures are shown separately on the World Cup page.
 
 ## Run Locally
 
@@ -25,7 +25,7 @@ http://127.0.0.1:8766/index.html
 - `style.css` - responsive layout and visual styling
 - `script.js` - Quick Picks, Captain Picks, Team Advice, and Team Builder logic
 - `world-cup.html` - separate tournament information page
-- `worldCupData.js` - static World Cup groups, bracket paths, and source notes
+- `worldCupData.js` - static World Cup groups, group-stage fixtures, bracket paths, and source notes
 - `worldCupPage.js` - renderer for the tournament information page
 - `playersData.js` - browser-ready player dataset
 - `players.json` - source player dataset
@@ -43,9 +43,9 @@ http://127.0.0.1:8766/index.html
 
 ## Future World Cup Data Plan
 
-When reliable World Cup data becomes available, update the player database, squad status, fixtures, official rules, prices, and matchday-specific advice.
+When reliable World Cup fantasy data becomes available, update the player database, squad status, official rules, prices, and matchday-specific advice.
 
-Stage B will first add fixture and group structure, then connect real fixture data only after the source and schema are approved.
+Stage B adds FIFA-sourced tournament structure and group-stage fixture data while keeping player recommendations separate.
 
 Future Stage C: add national team pages after official squads are announced.
 

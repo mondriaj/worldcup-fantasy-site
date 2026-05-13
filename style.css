@@ -156,6 +156,15 @@ html {
   background: rgba(255, 255, 255, 0.2);
 }
 
+.secondary-link--quiet {
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.secondary-link--quiet:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
 .hero-highlights {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -648,6 +657,83 @@ html {
 .bracket-rounds {
   display: grid;
   gap: 12px;
+}
+
+.fixtures-by-group {
+  display: grid;
+  gap: 12px;
+}
+
+.fixture-group {
+  border: 1px solid rgba(24, 78, 119, 0.12);
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.fixture-group summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  color: var(--accent-cool);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.fixture-group summary span:last-child {
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: rgba(15, 143, 79, 0.12);
+  color: var(--accent-dark);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.fixture-list {
+  display: grid;
+  gap: 10px;
+  padding: 0 16px 16px;
+}
+
+.fixture-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.28fr) minmax(210px, 0.72fr) minmax(180px, 0.5fr);
+  align-items: center;
+  gap: 12px;
+  border: 1px solid rgba(24, 78, 119, 0.1);
+  border-radius: 14px;
+  padding: 12px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+}
+
+.fixture-row__meta {
+  display: grid;
+  gap: 4px;
+}
+
+.fixture-row__meta span {
+  width: fit-content;
+  border-radius: 999px;
+  padding: 4px 8px;
+  background: rgba(24, 78, 119, 0.1);
+  color: var(--accent-cool);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.fixture-row__meta time,
+.fixture-row__venue {
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.35;
+}
+
+.fixture-row__teams {
+  color: var(--text);
+  line-height: 1.35;
 }
 
 .bracket-round {
@@ -1692,6 +1778,15 @@ input[type="number"] {
 
   .fixture-gateway__cta {
     width: 100%;
+  }
+
+  .fixture-group summary {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .fixture-row {
+    grid-template-columns: 1fr;
   }
 
   .data-status {

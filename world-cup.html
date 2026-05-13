@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>World Cup 2026 Groups and Bracket | World Cup Fantasy Helper</title>
-    <meta name="description" content="Track World Cup 2026 groups and bracket structure before fantasy picks become fixture-aware." />
+    <title>World Cup 2026 Groups, Fixtures, and Bracket | World Cup Fantasy Helper</title>
+    <meta name="description" content="Track World Cup 2026 groups, group-stage fixtures, and bracket structure before fantasy picks become fixture-aware." />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <header id="top" class="hero hero--tournament">
       <div class="hero__content">
         <p class="eyebrow">Tournament Guide</p>
-        <h1>World Cup 2026 Groups and Bracket</h1>
+        <h1>World Cup 2026 Groups, Fixtures, and Bracket</h1>
         <p class="hero__text">
           Track the tournament structure before fantasy picks become fixture-aware.
         </p>
@@ -26,7 +26,7 @@
     <main class="page-shell tournament-page">
       <section class="panel tournament-status" aria-label="Data status">
         <strong>Tournament information only</strong>
-        <p>This page shows World Cup groups and bracket paths. Fantasy player picks are not fixture-adjusted yet. Final fantasy prices, official fantasy rules, and player squads are handled separately.</p>
+        <p>This page shows World Cup groups, group-stage fixtures, and bracket paths. Fantasy player picks are not fixture-adjusted yet. Final fantasy prices, official fantasy rules, and player squads are handled separately.</p>
       </section>
 
       <section id="groups" class="panel">
@@ -45,13 +45,11 @@
       <section id="group-stage" class="panel">
         <div class="section-heading">
           <h2>Group-Stage Matches</h2>
-          <p>The full 72-match group-stage list is not loaded yet. It can be added after the complete fixture list is reviewed against FIFA's schedule.</p>
+          <p>All 72 group-stage fixtures are shown from a static FIFA API-derived snapshot.</p>
         </div>
 
-        <div class="method-note">
-          <strong>Next data step:</strong>
-          Add all group-stage fixtures by group after the full list is reviewed against FIFA's schedule.
-        </div>
+        <p class="section-note">Tournament fixtures only. Kickoff times are shown in ET. Fantasy picks are not fixture-adjusted yet.</p>
+        <div id="fixtures-by-group" class="fixtures-by-group" aria-live="polite"></div>
       </section>
 
       <section id="bracket" class="panel">
