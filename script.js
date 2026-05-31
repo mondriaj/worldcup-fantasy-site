@@ -1,24 +1,185 @@
-// The player database comes from playersData.js, which is generated from players.json.
+// Source data lives in JSON files:
+// players.json stores players, and fantasyRules.json stores draft rules.
+// The browser loads script-friendly copies first:
+// playersData.js defines window.PLAYERS_DATA, and fantasyRulesData.js defines window.FANTASY_RULES_DATA.
+// script.js then uses both datasets together without fetching JSON at runtime.
 const players = window.PLAYERS_DATA || [];
 
-// These are the tactical shapes the builder can fill.
-const tactics = {
-  "5-3-2": { Goalkeeper: 1, Defender: 5, Midfielder: 3, Forward: 2 },
-  "4-3-3": { Goalkeeper: 1, Defender: 4, Midfielder: 3, Forward: 3 },
-  "4-4-2": { Goalkeeper: 1, Defender: 4, Midfielder: 4, Forward: 2 },
-  "3-4-3": { Goalkeeper: 1, Defender: 3, Midfielder: 4, Forward: 3 },
-  "3-5-2": { Goalkeeper: 1, Defender: 3, Midfielder: 5, Forward: 2 }
+const positionCodeLabels = {
+  GK: "Goalkeeper",
+  DEF: "Defender",
+  MID: "Midfielder",
+  FWD: "Forward"
 };
 
-// A classic fantasy squad has 15 players: 11 starters plus 4 substitutes.
-const squadRequirements = {
-  Goalkeeper: 2,
-  Defender: 5,
-  Midfielder: 5,
-  Forward: 3
-};
+const positionLabelCodes = Object.entries(positionCodeLabels).reduce((codes, [code, label]) => {
+  codes[label] = code;
+  return codes;
+}, {});
 
-const positionOrder = ["Goalkeeper", "Defender", "Midfielder", "Forward"];
+let fantasyRules = null;
+let tactics = {};
+let squadRequirements = {};
+let squadTotalPlayers = 0;
+let startingLineupTotal = 0;
+let benchTotalPlayers = 0;
+let initialBudget = 0;
+let budgetCurrencyLabel = "fantasy units";
+let groupStageCountryLimit = 0;
+let positionOrder = Object.values(positionCodeLabels);
+
+function pluralize(count, singular, plural = `${singular}s`) {
+  return `${count} ${count === 1 ? singular : plural}`;
+}
+
+function listText(items) {
+  if (items.length <= 1) {
+    return items[0] || "";
+  }
+
+  return `${items.slice(0, -1).join(", ")}, and ${items[items.length - 1]}`;
+}
+
+function emptyPositionCounts() {
+  return positionOrder.reduce((counts, position) => {
+    counts[position] = 0;
+    return counts;
+  }, {});
+}
+
+function positionRequirementsFromRules(positionRules) {
+  const requirements = {};
+
+  Object.entries(positionCodeLabels).forEach(([code, label]) => {
+    const count = Number(positionRules?.[code]);
+
+    if (!Number.isFinite(count)) {
+      throw new Error(`Missing squad rule for ${code}`);
+    }
+
+    requirements[label] = count;
+  });
+
+  return requirements;
+}
+
+function formationToRequirements(formation) {
+  const match = String(formation).match(/^(\d)-(\d)-(\d)$/);
+
+  if (!match) {
+    throw new Error(`Unsupported formation in rules file: ${formation}`);
+  }
+
+  return {
+    Goalkeeper: 1,
+    Defender: Number(match[1]),
+    Midfielder: Number(match[2]),
+    Forward: Number(match[3])
+  };
+}
+
+function requirementsTotal(requirements) {
+  return Object.values(requirements).reduce((sum, count) => sum + Number(count), 0);
+}
+
+function budgetUnitLabel() {
+  return budgetCurrencyLabel === "fantasy units" ? "units" : budgetCurrencyLabel;
+}
+
+function budgetText(number) {
+  return `${value(number).toFixed(1)} ${budgetUnitLabel()}`;
+}
+
+function squadCost(squad) {
+  return squad.reduce((sum, player) => sum + value(player.price), 0);
+}
+
+function remainingBudgetText(totalPrice) {
+  return budgetText(initialBudget - totalPrice);
+}
+
+function loadFantasyRules() {
+  if (!window.FANTASY_RULES_DATA) {
+    throw new Error("Fantasy rules data is missing. Load fantasyRulesData.js before script.js.");
+  }
+
+  return window.FANTASY_RULES_DATA;
+}
+
+function applyFantasyRules(rules) {
+  const totalPlayers = Number(rules?.squad?.total_players);
+  const starterTotal = Number(rules?.starting_lineup?.total_players);
+  const budgetLimit = Number(rules?.budget?.initial_budget);
+  const countryLimit = Number(rules?.country_limits?.group_stage_max_per_country);
+  const allowedFormations = rules?.starting_lineup?.allowed_formations;
+  const nextSquadRequirements = positionRequirementsFromRules(rules?.squad?.positions);
+
+  if (!Number.isFinite(totalPlayers) || !Number.isFinite(starterTotal)) {
+    throw new Error("Fantasy rules are missing squad or starting-lineup totals.");
+  }
+
+  if (!Number.isFinite(budgetLimit)) {
+    throw new Error("Fantasy rules are missing budget.initial_budget.");
+  }
+
+  if (!Number.isFinite(countryLimit)) {
+    throw new Error("Fantasy rules are missing country_limits.group_stage_max_per_country.");
+  }
+
+  if (!Array.isArray(allowedFormations) || !allowedFormations.length) {
+    throw new Error("Fantasy rules are missing allowed formations.");
+  }
+
+  if (requirementsTotal(nextSquadRequirements) !== totalPlayers) {
+    throw new Error("Fantasy squad position counts do not match total_players.");
+  }
+
+  const nextTactics = allowedFormations.reduce((formations, formation) => {
+    const requirements = formationToRequirements(formation);
+
+    if (requirementsTotal(requirements) !== starterTotal) {
+      throw new Error(`Formation ${formation} does not match starting_lineup.total_players.`);
+    }
+
+    formations[formation] = requirements;
+    return formations;
+  }, {});
+
+  fantasyRules = rules;
+  tactics = nextTactics;
+  squadRequirements = nextSquadRequirements;
+  squadTotalPlayers = totalPlayers;
+  startingLineupTotal = starterTotal;
+  benchTotalPlayers = Math.max(0, squadTotalPlayers - startingLineupTotal);
+  initialBudget = budgetLimit;
+  budgetCurrencyLabel = rules?.budget?.currency_label || "fantasy units";
+  groupStageCountryLimit = countryLimit;
+  positionOrder = Object.values(positionCodeLabels);
+}
+
+function squadLabel() {
+  return `${squadTotalPlayers}-player squad`;
+}
+
+function benchLabel() {
+  return pluralize(benchTotalPlayers, "substitute");
+}
+
+function positionRequirementText() {
+  return listText(positionOrder.map((position) =>
+    pluralize(squadRequirements[position], position.toLowerCase())
+  ));
+}
+
+function compactPositionRequirementText(requirements = squadRequirements) {
+  return positionOrder
+    .map((position) => `${requirements[position] || 0} ${positionLabelCodes[position] || position}`)
+    .join(", ");
+}
+
+function formationListText() {
+  return listText(Object.keys(tactics));
+}
 
 const countryDisplayNames = {
   ARG: "Argentina",
@@ -139,8 +300,14 @@ const buildTeamButtonBottom = document.getElementById("build-team-btn-bottom");
 const resetTeamButton = document.getElementById("reset-team-btn");
 const clearLockedButton = document.getElementById("clear-locked-btn");
 const removeSelectedPlayerButton = document.getElementById("remove-selected-player-btn");
+const exportTeamJsonButton = document.getElementById("export-team-json-btn");
 const removedPlayersPanel = document.getElementById("removed-players-panel");
 const removedPlayersList = document.getElementById("removed-players-list");
+const teamExportPanel = document.getElementById("team-export-panel");
+const teamExportOutput = document.getElementById("team-export-output");
+const heroSquadTotal = document.getElementById("hero-squad-total");
+const heroSquadCopy = document.getElementById("hero-squad-copy");
+const squadRuleNote = document.getElementById("squad-rule-note");
 const tacticSelect = document.getElementById("tactic-select");
 const measureSelect = document.getElementById("measure-select");
 const adviceMeasureSelect = document.getElementById("advice-measure-select");
@@ -155,15 +322,20 @@ const minPriceFilter = document.getElementById("min-price-filter");
 const maxPriceFilter = document.getElementById("max-price-filter");
 const playerPicker = document.getElementById("player-picker");
 const builderWarning = document.getElementById("builder-warning");
+const ruleCheckSummary = document.getElementById("rule-check-summary");
+const rulesValidationList = document.getElementById("rules-validation-list");
+const countryCountsList = document.getElementById("country-counts-list");
 const teamField = document.getElementById("team-field");
 const teamPlayers = document.getElementById("team-players");
 const benchPanel = document.getElementById("bench-panel");
 const benchPlayers = document.getElementById("bench-players");
+const benchDescription = document.getElementById("bench-description");
 const benchCount = document.getElementById("bench-count");
 const swapMessage = document.getElementById("swap-message");
 const teamMessage = document.getElementById("team-message");
 const summaryTactic = document.getElementById("summary-tactic");
 const summaryPrice = document.getElementById("summary-price");
+const summaryBudget = document.getElementById("summary-budget");
 const summaryRisk = document.getElementById("summary-risk");
 const summaryLocked = document.getElementById("summary-locked");
 const dashboardGrid = document.getElementById("dashboard-grid");
@@ -185,11 +357,21 @@ function value(number) {
 }
 
 function money(number) {
-  return `$${value(number).toFixed(1)}`;
+  return budgetText(number);
 }
 
 function displayNumber(number) {
   return value(number).toFixed(1).replace(".0", "");
+}
+
+function compactCount(number) {
+  const count = Number(number) || 0;
+
+  if (count >= 1000) {
+    return `${Math.round(count / 1000)}k`;
+  }
+
+  return String(count);
 }
 
 function measureFromSelect(selectElement) {
@@ -228,8 +410,20 @@ function displayCountry(country) {
   return countryDisplayNames[country] || country || "Unknown";
 }
 
+function hasNeedsCheckCountry(player) {
+  return !player.country || String(player.country).toLowerCase() === "needs_check";
+}
+
+function playerCountryKey(player) {
+  return hasNeedsCheckCountry(player) ? "needs_check" : displayCountry(player.country);
+}
+
+function countryCountLabel(countryKey) {
+  return countryKey === "needs_check" ? "Needs check" : countryKey;
+}
+
 function playerCountryText(player) {
-  return displayCountry(player.country);
+  return countryCountLabel(playerCountryKey(player));
 }
 
 function playerSearchText(player) {
@@ -288,6 +482,358 @@ function styleReason(player, measureKey) {
   }
 
   return `Good mix of projected points (${expected}), reliability (${reliability}), and risk (${risk}).`;
+}
+
+function renderTacticOptions() {
+  const previousValue = tacticSelect.value;
+  const formationNames = Object.keys(tactics);
+  const preferredValue = tactics[previousValue]
+    ? previousValue
+    : tactics["4-3-3"]
+      ? "4-3-3"
+      : formationNames[0];
+
+  tacticSelect.innerHTML = formationNames
+    .map((formation) => `<option value="${formation}">${formation}</option>`)
+    .join("");
+
+  tacticSelect.value = preferredValue;
+  summaryTactic.textContent = preferredValue;
+}
+
+function renderPositionFilterOptions() {
+  const previousValue = positionFilter.value || "All";
+  const positionOptions = positionOrder
+    .map((position) => `<option value="${position}">${position}s</option>`)
+    .join("");
+
+  positionFilter.innerHTML = `
+    <option value="All">All positions</option>
+    ${positionOptions}
+  `;
+
+  selectedPositionFilter = previousValue === "All" || positionOrder.includes(previousValue)
+    ? previousValue
+    : "All";
+  positionFilter.value = selectedPositionFilter;
+}
+
+function updateRuleCopy() {
+  if (heroSquadTotal) {
+    heroSquadTotal.textContent = squadTotalPlayers;
+  }
+
+  if (heroSquadCopy) {
+    heroSquadCopy.textContent = `squad builder with ${benchTotalPlayers}-player bench`;
+  }
+
+  if (squadRuleNote) {
+    squadRuleNote.textContent = `Full fantasy squad target: ${positionRequirementText()}. Rules loaded from fantasyRules.json.`;
+  }
+
+  if (benchDescription) {
+    benchDescription.textContent = `${benchLabel()} sit outside the field. Click a starter and a bench player to try a swap.`;
+  }
+
+  benchCount.textContent = `0 / ${benchTotalPlayers}`;
+  summaryLocked.textContent = `0 / ${squadTotalPlayers}`;
+  summaryPrice.textContent = budgetText(0);
+  summaryBudget.textContent = budgetText(initialBudget);
+  renderRuleChecks();
+  teamExportOutput.value = "";
+  teamExportPanel.classList.add("hidden");
+  swapMessage.textContent = `Build a full ${squadLabel()} first, then click a starter and a bench player to swap them.`;
+  teamMessage.textContent = `Lock a few players first, then click "Build My Squad" to optimize the ${squadLabel()}.`;
+}
+
+function updateTeamSummary(tacticName, totalPrice, averageRisk, squadCount) {
+  summaryTactic.textContent = tacticName;
+  summaryPrice.textContent = budgetText(totalPrice);
+  summaryBudget.textContent = remainingBudgetText(totalPrice);
+  summaryBudget.closest(".summary-chip")?.classList.toggle("summary-chip--warning", totalPrice > initialBudget);
+  summaryRisk.textContent = averageRisk.toFixed(0);
+  summaryLocked.textContent = `${squadCount} / ${squadTotalPlayers}`;
+}
+
+function countryCountsFromPlayers(playerList) {
+  return playerList.reduce((counts, player) => {
+    const countryKey = playerCountryKey(player);
+    counts[countryKey] = (counts[countryKey] || 0) + 1;
+    return counts;
+  }, {});
+}
+
+function countryCountEntries(countryCounts) {
+  return Object.entries(countryCounts).sort((a, b) => {
+    const countDifference = b[1] - a[1];
+
+    if (countDifference !== 0) {
+      return countDifference;
+    }
+
+    return countryCountLabel(a[0]).localeCompare(countryCountLabel(b[0]));
+  });
+}
+
+function countryLimitViolations(countryCounts) {
+  return countryCountEntries(countryCounts).filter(([, count]) => count > groupStageCountryLimit);
+}
+
+function canAddCountry(player, countryCounts) {
+  const countryKey = playerCountryKey(player);
+  return (countryCounts[countryKey] || 0) < groupStageCountryLimit;
+}
+
+function incrementCountryCount(countryCounts, player) {
+  const countryKey = playerCountryKey(player);
+  countryCounts[countryKey] = (countryCounts[countryKey] || 0) + 1;
+}
+
+function positionsMatchRequirements(positionCounts, requirements) {
+  return positionOrder.every((position) => positionCounts[position] === requirements[position]);
+}
+
+function validationItem(label, passed, detail) {
+  return { label, passed, detail };
+}
+
+function buildRuleValidations(starters, bench, tacticName) {
+  const squad = [...starters, ...bench];
+  const totalPrice = squadCost(squad);
+  const positionCounts = countsByPosition(squad);
+  const countryCounts = countryCountsFromPlayers(squad);
+  const countryViolations = countryLimitViolations(countryCounts);
+  const startingCounts = countsByPosition(starters);
+  const tacticRequirements = tactics[tacticName];
+  const formationAllowed = Boolean(tacticRequirements) && positionsMatchRequirements(startingCounts, tacticRequirements);
+
+  return [
+    validationItem(
+      "Squad size",
+      squad.length === squadTotalPlayers,
+      squad.length === squadTotalPlayers
+        ? `Squad has exactly ${squadTotalPlayers} players.`
+        : `Squad has ${squad.length} of ${squadTotalPlayers} players.`
+    ),
+    validationItem(
+      "Positions",
+      positionsMatchRequirements(positionCounts, squadRequirements),
+      positionsMatchRequirements(positionCounts, squadRequirements)
+        ? `Position counts match ${compactPositionRequirementText()}.`
+        : `Current positions are ${compactPositionRequirementText(positionCounts)}; required is ${compactPositionRequirementText()}.`
+    ),
+    validationItem(
+      "Budget",
+      totalPrice <= initialBudget + 0.001,
+      totalPrice <= initialBudget + 0.001
+        ? `Total price is ${budgetText(totalPrice)} of ${budgetText(initialBudget)}.`
+        : `Total price is ${budgetText(totalPrice)}, which is over the ${budgetText(initialBudget)} budget.`
+    ),
+    validationItem(
+      "Country limit",
+      countryViolations.length === 0,
+      countryViolations.length === 0
+        ? `No country has more than ${groupStageCountryLimit} players.`
+        : `${countryViolations.map(([countryKey, count]) => `${countryCountLabel(countryKey)} has ${count}`).join(", ")}; max is ${groupStageCountryLimit}.`
+    ),
+    validationItem(
+      "Starting 11",
+      starters.length === startingLineupTotal,
+      starters.length === startingLineupTotal
+        ? `Starting lineup has exactly ${startingLineupTotal} players.`
+        : `Starting lineup has ${starters.length} of ${startingLineupTotal} players.`
+    ),
+    validationItem(
+      "Formation",
+      formationAllowed,
+      formationAllowed
+        ? `${tacticName} is allowed and the starters match it.`
+        : `${tacticName} is not valid for the current starters. Allowed formations: ${formationListText()}.`
+    )
+  ];
+}
+
+function renderValidationList(validations) {
+  rulesValidationList.innerHTML = validations.map((rule) => `
+    <li class="rule-validation-item ${rule.passed ? "rule-validation-item--pass" : "rule-validation-item--fail"}">
+      <span class="rule-validation-status">${rule.passed ? "PASS" : "FAIL"}</span>
+      <div>
+        <strong>${rule.label}</strong>
+        <p>${rule.detail}</p>
+      </div>
+    </li>
+  `).join("");
+}
+
+function renderRuleChecks(starters = [], bench = [], tacticName = tacticSelect.value) {
+  const squad = [...starters, ...bench];
+  const countryCounts = countryCountsFromPlayers(squad);
+  const entries = countryCountEntries(countryCounts);
+  const violations = countryLimitViolations(countryCounts);
+  const needsCheckCount = countryCounts.needs_check || 0;
+
+  if (!squad.length) {
+    ruleCheckSummary.textContent = `Build a squad to validate squad size, positions, budget, country limits, starting 11, and formation.`;
+    rulesValidationList.innerHTML = "";
+    countryCountsList.innerHTML = "";
+    return;
+  }
+
+  renderValidationList(buildRuleValidations(starters, bench, tacticName));
+
+  const summaryParts = violations.length
+    ? [`Country limit issue: ${violations.map(([countryKey, count]) => `${countryCountLabel(countryKey)} has ${count}`).join(", ")}.`]
+    : [`Validation complete. Country limit passed: no country has more than ${groupStageCountryLimit} players.`];
+
+  if (needsCheckCount) {
+    summaryParts.push("Needs check players have unverified country data, so they are counted together until the country is confirmed.");
+  }
+
+  ruleCheckSummary.textContent = summaryParts.join(" ");
+  countryCountsList.innerHTML = entries.map(([countryKey, count]) => {
+    const isOverLimit = count > groupStageCountryLimit;
+    const needsCheck = countryKey === "needs_check";
+    const classes = [
+      "country-count-chip",
+      isOverLimit ? "country-count-chip--warning" : "",
+      needsCheck ? "country-count-chip--needs-check" : ""
+    ].filter(Boolean).join(" ");
+
+    return `
+      <span class="${classes}">
+        ${countryCountLabel(countryKey)}
+        <strong>${count}/${groupStageCountryLimit}</strong>
+      </span>
+    `;
+  }).join("");
+}
+
+function exportedPlayer(player) {
+  return {
+    id: player.id,
+    name: player.name,
+    position: player.position,
+    country: playerCountryText(player),
+    club: player.club,
+    price: value(player.price),
+    projected_points: value(player.risk_adjusted_expected_points_estimate),
+    risk_score: value(player.risk_composite_score),
+    captain_score: Number(captainScore(player).toFixed(1))
+  };
+}
+
+function ruleChecksForExport(starters, bench, tacticName) {
+  const checks = {};
+
+  buildRuleValidations(starters, bench, tacticName).forEach((rule) => {
+    const key = normalizeText(rule.label).replace(/\s+/g, "_");
+    checks[key] = {
+      status: rule.passed ? "PASS" : "FAIL",
+      passed: rule.passed,
+      explanation: rule.detail
+    };
+  });
+
+  checks.country_counts = countryCountsFromPlayers([...starters, ...bench]);
+  return checks;
+}
+
+function exportCaptain(starters) {
+  const captain = [...starters]
+    .filter((player) => player.position !== "Goalkeeper")
+    .sort((a, b) => captainScore(b) - captainScore(a))[0] || starters[0];
+
+  return captain?.name || "";
+}
+
+function scoreAverage(playerList, fieldName) {
+  return playerList.length
+    ? value(playerList.reduce((sum, player) => sum + value(player[fieldName]), 0) / playerList.length).toFixed(1)
+    : 0;
+}
+
+function roleScore(playerList, roles) {
+  const rolePlayers = playerList.filter((player) => roles.includes(player.position));
+  return Number(scoreAverage(rolePlayers, "risk_adjusted_expected_points_estimate"));
+}
+
+function exportExplanation(starters, bench) {
+  const squad = [...starters, ...bench];
+  const totalPrice = squadCost(squad);
+  const countryCounts = countryCountEntries(countryCountsFromPlayers(squad))
+    .map(([countryKey, count]) => `${countryCountLabel(countryKey)} ${count}/${groupStageCountryLimit}`)
+    .join(", ");
+
+  return `Generated by Optimizer v0 using ${activeMeasure().label}. The squad costs ${budgetText(totalPrice)} with ${remainingBudgetText(totalPrice)} remaining. Country counts: ${countryCounts || "none"}. Current data is a public preview test dataset, not final World Cup squad data.`;
+}
+
+function teamExportPayload() {
+  const tacticName = tacticSelect.value;
+  const starters = [...currentRenderedTeam];
+  const bench = [...currentBenchPlayers];
+  const squad = [...starters, ...bench];
+  const totalPrice = squadCost(squad);
+  const captain = exportCaptain(starters);
+
+  return {
+    site_name: "World Cup Fantasy Helper",
+    user_prompt: "Build a fantasy squad using the current Team Builder settings.",
+    team_name: `World Cup Fantasy Helper ${tacticName} Draft`,
+    formation: tacticName,
+    players: squad.map(exportedPlayer),
+    starting_11: starters.map(exportedPlayer),
+    bench: bench.map(exportedPlayer),
+    captain,
+    total_price: Number(totalPrice.toFixed(1)),
+    remaining_budget: Number((initialBudget - totalPrice).toFixed(1)),
+    strategy: activeMeasure().label,
+    risk_score: Number(scoreAverage(squad, "risk_composite_score")),
+    attack_score: roleScore(starters, ["Midfielder", "Forward"]),
+    defense_score: roleScore(starters, ["Goalkeeper", "Defender"]),
+    rule_checks: ruleChecksForExport(starters, bench, tacticName),
+    explanation: exportExplanation(starters, bench),
+    data_sources: [
+      "players.json",
+      "playersData.js",
+      "dataSources.md",
+      "Current public preview uses EPL/FPL-style test player data."
+    ],
+    rules_sources: [
+      "fantasyRules.json",
+      "fantasyRulesData.js",
+      "rulesSources.md",
+      fantasyRules?.rules_status || "Draft rules, not official FIFA World Cup 2026 fantasy rules."
+    ]
+  };
+}
+
+function downloadJsonFile(fileName, jsonText) {
+  const blob = new Blob([jsonText], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function exportTeamJson() {
+  const squad = [...currentRenderedTeam, ...currentBenchPlayers];
+
+  if (currentRenderMode !== "built" || !squad.length) {
+    showBuilderWarning("Build a squad before exporting Team JSON.");
+    return;
+  }
+
+  const payload = teamExportPayload();
+  const jsonText = JSON.stringify(payload, null, 2);
+
+  teamExportOutput.value = jsonText;
+  teamExportPanel.classList.remove("hidden");
+  teamMessage.textContent = "Team JSON export ready. A download was created and the export preview is shown in the Team Builder controls.";
+  downloadJsonFile("world-cup-fantasy-team.json", jsonText);
 }
 
 function renderMeasureOptions() {
@@ -470,6 +1016,16 @@ function priceMatchesFilters(player) {
   return true;
 }
 
+function availableFillCandidates(position, usedIds, countryCounts = null) {
+  return players.filter((player) =>
+    player.position === position &&
+    !usedIds.has(player.id) &&
+    !excludedPlayerIds.has(player.id) &&
+    priceMatchesFilters(player) &&
+    (!countryCounts || canAddCountry(player, countryCounts))
+  );
+}
+
 function toggleScoreInfo() {
   const isHidden = scoreInfo.classList.toggle("hidden");
   scoreInfoButton.setAttribute("aria-expanded", String(!isHidden));
@@ -541,26 +1097,31 @@ function updateLockedPlayers(event) {
   renderLockedPreview();
 }
 
-// Locked players are kept first, but only while they fit the 15-player squad limits.
+// Locked players are kept first, but only while they fit the loaded squad limits.
 function getValidLockedSquadPlayers(measure) {
   const lockedPlayers = sortPlayers(
     players.filter((player) => lockedPlayerIds.has(player.id) && !excludedPlayerIds.has(player.id)),
     measure
   );
-  const usedByPosition = { Goalkeeper: 0, Defender: 0, Midfielder: 0, Forward: 0 };
+  const usedByPosition = emptyPositionCounts();
+  const usedByCountry = {};
   const validLockedPlayers = [];
   const ignoredLockedPlayers = [];
 
   lockedPlayers.forEach((player) => {
-    if (usedByPosition[player.position] < squadRequirements[player.position]) {
+    if (
+      usedByPosition[player.position] < squadRequirements[player.position] &&
+      canAddCountry(player, usedByCountry)
+    ) {
       usedByPosition[player.position] += 1;
+      incrementCountryCount(usedByCountry, player);
       validLockedPlayers.push(player);
     } else {
       ignoredLockedPlayers.push(player);
     }
   });
 
-  return { validLockedPlayers, ignoredLockedPlayers, usedByPosition };
+  return { validLockedPlayers, ignoredLockedPlayers, usedByPosition, usedByCountry };
 }
 
 function chooseStartersFromSquad(squad, requirements, measure) {
@@ -586,36 +1147,182 @@ function chooseStartersFromSquad(squad, requirements, measure) {
   return { starters, starterIds };
 }
 
-// Fill each position separately so the final squad always aims for 2-5-5-3.
-function buildSuggestedSquad() {
-  const tacticName = tacticSelect.value;
-  const requirements = tactics[tacticName];
-  const measure = activeMeasure();
-  const { validLockedPlayers, ignoredLockedPlayers, usedByPosition } =
-    getValidLockedSquadPlayers(measure);
-  const squad = [...validLockedPlayers];
-  const usedIds = new Set(squad.map((player) => player.id));
+function optimizerStateFromPlayers(playerList, measure) {
+  return {
+    squad: [...playerList],
+    usedIds: new Set(playerList.map((player) => player.id)),
+    countryCounts: countryCountsFromPlayers(playerList),
+    positionCounts: countsByPosition(playerList),
+    totalPrice: squadCost(playerList),
+    score: playerList.reduce((sum, player) => sum + measureScore(player, measure), 0)
+  };
+}
 
-  Object.entries(squadRequirements).forEach(([position, neededCount]) => {
-    const remainingCount = neededCount - usedByPosition[position];
-    const candidates = sortPlayers(
+function optimizerStateWithPlayer(state, player, measure) {
+  const nextUsedIds = new Set(state.usedIds);
+  const nextCountryCounts = { ...state.countryCounts };
+  const nextPositionCounts = { ...state.positionCounts };
+
+  nextUsedIds.add(player.id);
+  incrementCountryCount(nextCountryCounts, player);
+  nextPositionCounts[player.position] = (nextPositionCounts[player.position] || 0) + 1;
+
+  return {
+    squad: [...state.squad, player],
+    usedIds: nextUsedIds,
+    countryCounts: nextCountryCounts,
+    positionCounts: nextPositionCounts,
+    totalPrice: state.totalPrice + value(player.price),
+    score: state.score + measureScore(player, measure)
+  };
+}
+
+function optimizerStateIsValidFullSquad(state) {
+  return (
+    state.squad.length === squadTotalPlayers &&
+    state.totalPrice <= initialBudget + 0.001 &&
+    positionsMatchRequirements(state.positionCounts, squadRequirements) &&
+    countryLimitViolations(state.countryCounts).length === 0
+  );
+}
+
+function optimizerStateRank(state, measure, tacticName) {
+  if (state.squad.length < squadTotalPlayers) {
+    const targetCostSoFar = initialBudget * (state.squad.length / squadTotalPlayers);
+    const overBudgetPacePenalty = Math.max(0, state.totalPrice - targetCostSoFar) * 8;
+    return state.score + Math.max(0, initialBudget - state.totalPrice) * 0.1 - overBudgetPacePenalty;
+  }
+
+  const requirements = tactics[tacticName] || {};
+  const { starters, starterIds } = chooseStartersFromSquad(state.squad, requirements, measure);
+  const bench = state.squad.filter((player) => !starterIds.has(player.id));
+  const starterScore = starters.reduce((sum, player) => sum + measureScore(player, measure), 0);
+  const benchScore = bench.reduce((sum, player) => sum + measureScore(player, measure), 0);
+  const captain = [...starters]
+    .filter((player) => player.position !== "Goalkeeper")
+    .sort((a, b) => captainScore(b) - captainScore(a))[0];
+  const captainBonus = captain ? captainScore(captain) * 0.04 : 0;
+  const budgetBuffer = Math.max(0, initialBudget - state.totalPrice) * 0.02;
+
+  return starterScore + benchScore * 0.35 + captainBonus + budgetBuffer;
+}
+
+function optimizerSlotOrder(positionCounts) {
+  return [...positionOrder]
+    .sort((a, b) => squadRequirements[a] - squadRequirements[b])
+    .flatMap((position) =>
+      Array.from({ length: Math.max(0, squadRequirements[position] - (positionCounts[position] || 0)) }, () => position)
+    );
+}
+
+function optimizerCandidatePools(measure) {
+  return positionOrder.reduce((pools, position) => {
+    pools[position] = sortPlayers(
       players.filter((player) =>
         player.position === position &&
-        !usedIds.has(player.id) &&
         !excludedPlayerIds.has(player.id) &&
         priceMatchesFilters(player)
       ),
       measure
-    ).slice(0, remainingCount);
+    );
+    return pools;
+  }, {});
+}
 
-    candidates.forEach((player) => usedIds.add(player.id));
-    squad.push(...candidates);
+function pruneOptimizerStates(states, measure, tacticName) {
+  const stateKeys = new Set();
+  const uniqueStates = [];
+
+  states.forEach((state) => {
+    const key = [...state.usedIds].sort().join("|");
+
+    if (!stateKeys.has(key)) {
+      stateKeys.add(key);
+      uniqueStates.push(state);
+    }
   });
 
+  return uniqueStates
+    .sort((a, b) => optimizerStateRank(b, measure, tacticName) - optimizerStateRank(a, measure, tacticName))
+    .slice(0, 750);
+}
+
+// Optimizer v0 searches several legal squad paths instead of accepting the first fill.
+function buildSuggestedSquad() {
+  const tacticName = tacticSelect.value;
+  const requirements = tactics[tacticName];
+  const measure = activeMeasure();
+  const { validLockedPlayers, ignoredLockedPlayers, usedByCountry } =
+    getValidLockedSquadPlayers(measure);
+  const lockedState = optimizerStateFromPlayers(validLockedPlayers, measure);
+  let states = [lockedState];
+  let bestPartialState = lockedState;
+  let evaluatedPaths = 0;
+  const slotOrder = optimizerSlotOrder(lockedState.positionCounts);
+  const candidatePools = optimizerCandidatePools(measure);
+  let budgetCouldNotFit = lockedState.totalPrice > initialBudget;
+  let countryLimitCouldNotFit = ignoredLockedPlayers.some((player) =>
+    !canAddCountry(player, { ...usedByCountry })
+  );
+
+  for (const nextPosition of slotOrder) {
+    const nextStates = [];
+
+    states.forEach((state) => {
+      const candidates = candidatePools[nextPosition].filter((player) =>
+        !state.usedIds.has(player.id) &&
+        (state.positionCounts[player.position] || 0) < squadRequirements[player.position] &&
+        canAddCountry(player, state.countryCounts)
+      );
+      const unblockedCandidates = candidatePools[nextPosition].filter((player) =>
+        !state.usedIds.has(player.id)
+      );
+
+      if (!candidates.length && unblockedCandidates.length) {
+        countryLimitCouldNotFit = true;
+      }
+
+      candidates.forEach((player) => {
+        const nextState = optimizerStateWithPlayer(state, player, measure);
+
+        if (nextState.totalPrice > initialBudget + 0.001) {
+          budgetCouldNotFit = true;
+          return;
+        }
+
+        nextStates.push(nextState);
+      });
+    });
+
+    if (!nextStates.length) {
+      break;
+    }
+
+    evaluatedPaths += nextStates.length;
+    states = pruneOptimizerStates(nextStates, measure, tacticName);
+    bestPartialState = states[0] || bestPartialState;
+  }
+
+  const validFullStates = states.filter(optimizerStateIsValidFullSquad);
+  const selectedState = validFullStates.length
+    ? pruneOptimizerStates(validFullStates, measure, tacticName)[0]
+    : bestPartialState;
+  const foundValidSquad = validFullStates.length > 0;
+  const squad = selectedState.squad;
   const { starters, starterIds } = chooseStartersFromSquad(squad, requirements, measure);
   const bench = squad.filter((player) => !starterIds.has(player.id));
 
-  return { starters, bench, squad, ignoredLockedPlayers };
+  return {
+    starters,
+    bench,
+    squad,
+    ignoredLockedPlayers,
+    budgetCouldNotFit: !foundValidSquad && budgetCouldNotFit,
+    countryLimitCouldNotFit,
+    optimizerFoundValidSquad: foundValidSquad,
+    optimizerEvaluatedPaths: evaluatedPaths,
+    optimizerScore: optimizerStateRank(selectedState, measure, tacticName)
+  };
 }
 
 function evenlySpacedPositions(count, top) {
@@ -678,16 +1385,15 @@ function clearRenderedTeam(message, options = {}) {
   renderTeam([], [], [], "preview");
   builderWarning.classList.add("hidden");
   builderWarning.textContent = "";
-  summaryTactic.textContent = tacticSelect.value;
-  summaryPrice.textContent = "$0.0";
-  summaryRisk.textContent = "0";
-  summaryLocked.textContent = "0 / 15";
+  updateTeamSummary(tacticSelect.value, 0, 0, 0);
+  teamExportOutput.value = "";
+  teamExportPanel.classList.add("hidden");
   teamMessage.textContent = message;
   updateControlStates();
   renderRemovedPlayers();
 }
 
-function renderWarning(tacticName, ignoredLockedPlayers, missingStarterSlots, missingSquadSlots = 0) {
+function renderWarning(tacticName, ignoredLockedPlayers, missingStarterSlots, missingSquadSlots = 0, budgetInfo = {}, countryInfo = {}, optimizerInfo = {}) {
   const messages = [];
 
   if (priceFiltersAreInvalid()) {
@@ -695,7 +1401,7 @@ function renderWarning(tacticName, ignoredLockedPlayers, missingStarterSlots, mi
   }
 
   if (ignoredLockedPlayers.length) {
-    messages.push(`Some locked players did not fit the 15-player squad limits: ${ignoredLockedPlayers.map((player) => player.name).join(", ")}.`);
+    messages.push(`Some locked players did not fit the ${squadLabel()} position or country limits: ${ignoredLockedPlayers.map((player) => player.name).join(", ")}.`);
   }
 
   if (missingStarterSlots > 0) {
@@ -704,6 +1410,20 @@ function renderWarning(tacticName, ignoredLockedPlayers, missingStarterSlots, mi
 
   if (missingSquadSlots > 0) {
     messages.push(`${missingSquadSlots} squad spot${missingSquadSlots === 1 ? "" : "s"} could not be filled. Try widening the price filters.`);
+  }
+
+  if (budgetInfo.isOverBudget) {
+    messages.push(`This squad costs ${budgetText(budgetInfo.totalPrice)}, which is over the ${budgetText(initialBudget)} budget. Try removing expensive locked players or relaxing price filters.`);
+  } else if (budgetInfo.budgetCouldNotFit) {
+    messages.push(`The builder could not fill every squad spot while staying under the ${budgetText(initialBudget)} budget with the current locks and filters.`);
+  }
+
+  if (countryInfo.countryLimitCouldNotFit) {
+    messages.push(`The builder could not add more players from one country because the Week 5 rule allows only ${groupStageCountryLimit} per country.`);
+  }
+
+  if (optimizerInfo.ran && !optimizerInfo.foundValidSquad) {
+    messages.push(`Optimizer v0 could not find a full legal ${squadLabel()} with the current locks, filters, removals, budget, and country limit.`);
   }
 
   if (!messages.length) {
@@ -717,19 +1437,19 @@ function renderWarning(tacticName, ignoredLockedPlayers, missingStarterSlots, mi
 }
 
 function playersByPosition(team) {
-  return {
-    Goalkeeper: team.filter((player) => player.position === "Goalkeeper"),
-    Defender: team.filter((player) => player.position === "Defender"),
-    Midfielder: team.filter((player) => player.position === "Midfielder"),
-    Forward: team.filter((player) => player.position === "Forward")
-  };
+  return positionOrder.reduce((groupedPlayers, position) => {
+    groupedPlayers[position] = team.filter((player) => player.position === position);
+    return groupedPlayers;
+  }, {});
 }
 
 function countsByPosition(team) {
-  const counts = { Goalkeeper: 0, Defender: 0, Midfielder: 0, Forward: 0 };
+  const counts = emptyPositionCounts();
 
   team.forEach((player) => {
-    counts[player.position] += 1;
+    if (counts[player.position] !== undefined) {
+      counts[player.position] += 1;
+    }
   });
 
   return counts;
@@ -747,12 +1467,10 @@ function tacticNameForCounts(counts) {
 function benchRequirementsForTactic(tacticName) {
   const starterRequirements = tactics[tacticName];
 
-  return {
-    Goalkeeper: Math.max(0, squadRequirements.Goalkeeper - starterRequirements.Goalkeeper),
-    Defender: Math.max(0, squadRequirements.Defender - starterRequirements.Defender),
-    Midfielder: Math.max(0, squadRequirements.Midfielder - starterRequirements.Midfielder),
-    Forward: Math.max(0, squadRequirements.Forward - starterRequirements.Forward)
-  };
+  return positionOrder.reduce((requirements, position) => {
+    requirements[position] = Math.max(0, squadRequirements[position] - starterRequirements[position]);
+    return requirements;
+  }, {});
 }
 
 function compactSlotMap(slotMap) {
@@ -848,7 +1566,7 @@ function renderBenchPlaceholder(position, slotIndex) {
   `;
 }
 
-function renderPositionRow(position, slots, slotPlayers) {
+function renderPositionRow(position, slots = [], slotPlayers = []) {
   return slots.map((slot, index) => {
     const player = slotPlayers[index];
     return player
@@ -872,7 +1590,7 @@ function renderBenchSlots(slotMap) {
   });
 
   benchPlayers.innerHTML = benchCards.join("");
-  benchCount.textContent = `${compactSlotMap(slotMap).length} / 4`;
+  benchCount.textContent = `${compactSlotMap(slotMap).length} / ${benchTotalPlayers}`;
   benchPanel.classList.remove("hidden");
 }
 
@@ -893,7 +1611,7 @@ function updateSwapPrompt() {
   if (!selectedSwap) {
     swapMessage.textContent = currentRenderMode === "built"
       ? "Tip: click a starter, then click a bench player to try a legal swap."
-      : "Build a full 15-player squad first, then click a starter and a bench player to swap them.";
+      : `Build a full ${squadLabel()} first, then click a starter and a bench player to swap them.`;
     return;
   }
 
@@ -904,15 +1622,16 @@ function updateSwapPrompt() {
   swapMessage.textContent = `Selected ${selectedPlayer?.name || "one player"}. Now click a ${nextArea} to try the swap.`;
 }
 
-function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built") {
+function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built", options = {}) {
   const tacticName = tacticSelect.value;
   const layout = fieldLayoutForTactic(tacticName);
   currentStarterSlotsByPosition = starterSlotMapForTeam(starters, layout, mode);
   const squad = [...starters, ...bench];
   const totalSlots = Object.values(tactics[tacticName]).reduce((sum, count) => sum + count, 0);
   const missingStarterSlots = Math.max(0, totalSlots - starters.length);
-  const missingSquadSlots = mode === "built" ? Math.max(0, 15 - squad.length) : 0;
+  const missingSquadSlots = mode === "built" ? Math.max(0, squadTotalPlayers - squad.length) : 0;
   const totalPrice = squad.reduce((sum, player) => sum + value(player.price), 0);
+  const isOverBudget = mode === "built" && totalPrice > initialBudget + 0.001;
   const averageRisk = squad.length
     ? squad.reduce((sum, player) => sum + value(player.risk_composite_score), 0) / squad.length
     : 0;
@@ -922,33 +1641,48 @@ function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built") {
   currentIgnoredLockedPlayers = [...ignoredLockedPlayers];
   currentRenderMode = mode;
 
-  teamPlayers.innerHTML = ["Forward", "Midfielder", "Defender", "Goalkeeper"]
+  teamPlayers.innerHTML = positionOrder.slice().reverse()
     .map((position) => renderPositionRow(position, layout[position], currentStarterSlotsByPosition[position]))
     .join("");
 
-  summaryTactic.textContent = tacticName;
-  summaryPrice.textContent = money(totalPrice);
-  summaryRisk.textContent = averageRisk.toFixed(0);
-  summaryLocked.textContent = `${squad.length} / 15`;
+  updateTeamSummary(tacticName, totalPrice, averageRisk, squad.length);
+  renderRuleChecks(starters, bench, tacticName);
 
   teamField.classList.remove("hidden");
   renderBench(bench, benchRequirementsForTactic(tacticName));
 
   if (mode === "preview" && squad.length === 0) {
-    teamMessage.textContent = "Transparent slots show the selected starting tactic. Build My Squad will create a 15-player squad with four bench players below.";
+    teamMessage.textContent = `Transparent slots show the selected starting tactic. Build My Squad will create a ${squadLabel()} with ${benchLabel()} below.`;
   } else if (mode === "preview") {
-    teamMessage.textContent = `Previewing ${squad.length} locked squad player${squad.length === 1 ? "" : "s"}. Click Build My Squad to fill the full 15-player squad.`;
+    teamMessage.textContent = `Previewing ${squad.length} locked squad player${squad.length === 1 ? "" : "s"}. Click Build My Squad to fill the full ${squadLabel()}.`;
   } else if (missingStarterSlots > 0 || missingSquadSlots > 0) {
-    teamMessage.textContent = `Built ${squad.length} squad player${squad.length === 1 ? "" : "s"} using ${activeMeasure().label}. Some spots are still open because the filters are too tight.`;
+    teamMessage.textContent = `Optimizer v0 found ${squad.length} squad player${squad.length === 1 ? "" : "s"} using ${activeMeasure().label}. Some spots are still open because the current locks, filters, removals, budget, or country limit are too tight.`;
+  } else if (isOverBudget) {
+    teamMessage.textContent = `Optimizer v0 built a ${squadLabel()} using ${activeMeasure().label}, but it is over the ${budgetText(initialBudget)} budget. Try removing expensive locked players or relaxing filters.`;
   } else {
-    teamMessage.textContent = `Built a 15-player squad using ${activeMeasure().label}: 11 starters on the field and 4 substitutes below.`;
+    const pathText = options.optimizerEvaluatedPaths
+      ? ` after comparing ${compactCount(options.optimizerEvaluatedPaths)} candidate squad path${options.optimizerEvaluatedPaths === 1 ? "" : "s"}`
+      : "";
+    teamMessage.textContent = `Optimizer v0 built a ${squadLabel()} within the ${budgetText(initialBudget)} budget using ${activeMeasure().label}${pathText}: ${startingLineupTotal} starters on the field and ${benchLabel()} below.`;
   }
 
   renderWarning(
     tacticName,
     ignoredLockedPlayers,
     mode === "built" ? missingStarterSlots : 0,
-    missingSquadSlots
+    missingSquadSlots,
+    {
+      budgetCouldNotFit: Boolean(options.budgetCouldNotFit),
+      isOverBudget,
+      totalPrice
+    },
+    {
+      countryLimitCouldNotFit: Boolean(options.countryLimitCouldNotFit)
+    },
+    {
+      ran: options.optimizerFoundValidSquad !== undefined,
+      foundValidSquad: Boolean(options.optimizerFoundValidSquad)
+    }
   );
   updateSwapPrompt();
 }
@@ -969,14 +1703,12 @@ function renderCurrentSlotState(message) {
   currentIgnoredLockedPlayers = [];
   currentRenderMode = "built";
 
-  teamPlayers.innerHTML = ["Forward", "Midfielder", "Defender", "Goalkeeper"]
+  teamPlayers.innerHTML = positionOrder.slice().reverse()
     .map((position) => renderPositionRow(position, layout[position], currentStarterSlotsByPosition[position]))
     .join("");
 
-  summaryTactic.textContent = tacticName;
-  summaryPrice.textContent = money(totalPrice);
-  summaryRisk.textContent = averageRisk.toFixed(0);
-  summaryLocked.textContent = `${squad.length} / 15`;
+  updateTeamSummary(tacticName, totalPrice, averageRisk, squad.length);
+  renderRuleChecks(starters, bench, tacticName);
 
   teamField.classList.remove("hidden");
   renderBenchSlots(currentBenchSlotsByPosition);
@@ -1124,9 +1856,22 @@ function renderAdviceTable() {
 }
 
 function buildTeam() {
-  const { starters, bench, ignoredLockedPlayers } = buildSuggestedSquad();
+  const {
+    starters,
+    bench,
+    ignoredLockedPlayers,
+    budgetCouldNotFit,
+    countryLimitCouldNotFit,
+    optimizerFoundValidSquad,
+    optimizerEvaluatedPaths
+  } = buildSuggestedSquad();
   selectedSwap = null;
-  renderTeam(starters, bench, ignoredLockedPlayers);
+  renderTeam(starters, bench, ignoredLockedPlayers, "built", {
+    budgetCouldNotFit,
+    countryLimitCouldNotFit,
+    optimizerFoundValidSquad,
+    optimizerEvaluatedPaths
+  });
   renderRemovedPlayers();
 }
 
@@ -1173,7 +1918,7 @@ function clearLockedPlayers() {
 
 function removeSelectedPlayer() {
   if (currentRenderMode !== "built") {
-    showBuilderWarning("Build a full squad before removing a player.");
+    showBuilderWarning(`Build a full ${squadLabel()} before removing a player.`);
     return;
   }
 
@@ -1256,7 +2001,7 @@ function swapStarterWithBench(starterId, benchId) {
   if (currentRenderMode !== "built") {
     selectedSwap = null;
     updateSwapPrompt();
-    showBuilderWarning("Build the full 15-player squad before trying substitutions.");
+    showBuilderWarning(`Build the full ${squadLabel()} before trying substitutions.`);
     return;
   }
 
@@ -1278,7 +2023,7 @@ function swapStarterWithBench(starterId, benchId) {
   if (!nextTactic) {
     selectedSwap = null;
     updateSwapPrompt();
-    showBuilderWarning("That swap would create a formation this simple builder does not support yet. Try a same-position swap or a swap that creates 5-3-2, 4-3-3, 4-4-2, 3-4-3, or 3-5-2.");
+    showBuilderWarning(`That swap would create a formation this simple builder does not support yet. Try a same-position swap or a swap that creates ${formationListText()}.`);
     return;
   }
 
@@ -1305,7 +2050,7 @@ function handleSquadCardClick(event) {
   if (currentRenderMode !== "built") {
     selectedSwap = null;
     updateSwapPrompt();
-    showBuilderWarning("Build the full 15-player squad before trying substitutions.");
+    showBuilderWarning(`Build the full ${squadLabel()} before trying substitutions.`);
     return;
   }
 
@@ -1360,9 +2105,13 @@ function setupBuilder() {
   if (!players.length) {
     teamMessage.textContent = "Player data could not be loaded.";
     buildTeamButtonBottom.disabled = true;
+    exportTeamJsonButton.disabled = true;
     return;
   }
 
+  renderTacticOptions();
+  renderPositionFilterOptions();
+  updateRuleCopy();
   renderMeasureOptions();
   renderCardStatOptions();
   renderMeasureInfo();
@@ -1378,6 +2127,7 @@ function setupBuilder() {
   resetTeamButton.addEventListener("click", resetTeam);
   clearLockedButton.addEventListener("click", clearLockedPlayers);
   removeSelectedPlayerButton.addEventListener("click", removeSelectedPlayer);
+  exportTeamJsonButton.addEventListener("click", exportTeamJson);
   removedPlayersList.addEventListener("click", handleRemovedPlayersClick);
   scoreInfoButton.addEventListener("click", toggleScoreInfo);
   measureSelect.addEventListener("change", () => {
@@ -1414,4 +2164,26 @@ function setupBuilder() {
   benchPlayers.addEventListener("keydown", handleSquadCardKeydown);
 }
 
-setupBuilder();
+function showDataLoadError(error) {
+  console.error("Website data could not be loaded from playersData.js and fantasyRulesData.js.", error);
+  buildTeamButtonBottom.disabled = true;
+  resetTeamButton.disabled = true;
+  clearLockedButton.disabled = true;
+  removeSelectedPlayerButton.disabled = true;
+  exportTeamJsonButton.disabled = true;
+  builderWarning.classList.remove("hidden");
+  builderWarning.textContent = "Website data could not load. Make sure playersData.js and fantasyRulesData.js are included before script.js, then refresh.";
+  teamMessage.textContent = "Team Builder is waiting for the player and rules data.";
+}
+
+function initializeBuilder() {
+  try {
+    const rules = loadFantasyRules();
+    applyFantasyRules(rules);
+    setupBuilder();
+  } catch (error) {
+    showDataLoadError(error);
+  }
+}
+
+initializeBuilder();

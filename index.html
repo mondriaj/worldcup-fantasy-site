@@ -37,8 +37,8 @@
             <p>player data preview</p>
           </article>
           <article>
-            <span>15</span>
-            <p>squad builder with bench</p>
+            <span id="hero-squad-total">Rules</span>
+            <p id="hero-squad-copy">squad builder from rules data</p>
           </article>
           <article>
             <span>8</span>
@@ -199,7 +199,7 @@
       <section id="team-builder" class="panel panel--team">
         <div class="section-heading">
           <h2>Team Builder</h2>
-          <p>Choose a tactic, pick a style, lock players, and let the builder fill the rest.</p>
+          <p>Choose a tactic, pick a style, lock players, and let the optimizer search for a rules-valid squad.</p>
         </div>
 
         <div class="builder-workspace">
@@ -208,11 +208,7 @@
               <label class="control-group" for="tactic-select">
                 <span>Tactic</span>
                 <select id="tactic-select">
-                  <option value="5-3-2">5-3-2</option>
-                  <option value="4-3-3" selected>4-3-3</option>
-                  <option value="4-4-2">4-4-2</option>
-                  <option value="3-4-3">3-4-3</option>
-                  <option value="3-5-2">3-5-2</option>
+                  <option>Loading formations</option>
                 </select>
               </label>
 
@@ -223,12 +219,16 @@
             </div>
 
             <div id="measure-info" class="measure-info"></div>
+            <div class="optimizer-note">
+              <strong>Optimizer v0</strong>
+              <p>Searches for a 15-player squad that fits the draft rules: positions, selected formation, budget, country limit, locked players, filters, and removed players.</p>
+            </div>
 
             <div class="locked-player-area">
               <div class="section-heading section-heading--compact">
                 <h3>Lock Players</h3>
                 <p>Optional: choose players you want to keep, then the builder suggests the remaining squad spots.</p>
-                <p class="squad-rule-note">Full fantasy squad target: 2 goalkeepers, 5 defenders, 5 midfielders, and 3 forwards.</p>
+                <p id="squad-rule-note" class="squad-rule-note">Fantasy squad rules load from fantasyRules.json.</p>
               </div>
 
               <label class="control-group player-search" for="player-search">
@@ -243,11 +243,7 @@
                   <label class="control-group" for="position-filter">
                     <span>Position</span>
                     <select id="position-filter">
-                      <option value="All">All positions</option>
-                      <option value="Goalkeeper">Goalkeepers</option>
-                      <option value="Defender">Defenders</option>
-                      <option value="Midfielder">Midfielders</option>
-                      <option value="Forward">Forwards</option>
+                      <option>Loading positions</option>
                     </select>
                   </label>
 
@@ -282,11 +278,18 @@
                   <button id="reset-team-btn" class="utility-button" type="button">Reset Team</button>
                   <button id="clear-locked-btn" class="utility-button hidden" type="button">Clear Locked Players</button>
                   <button id="remove-selected-player-btn" class="utility-button" type="button">Remove Selected Player</button>
+                  <button id="export-team-json-btn" class="utility-button" type="button">Export Team JSON</button>
                 </div>
 
                 <div id="removed-players-panel" class="removed-players-panel hidden" aria-live="polite">
                   <h4>Removed Players</h4>
                   <div id="removed-players-list" class="removed-players-list"></div>
+                </div>
+
+                <div id="team-export-panel" class="team-export-panel hidden" aria-live="polite">
+                  <h4>Team JSON Export</h4>
+                  <p>Latest export preview. The same JSON is downloaded when you click Export Team JSON.</p>
+                  <textarea id="team-export-output" readonly rows="8"></textarea>
                 </div>
               </div>
 
@@ -300,11 +303,15 @@
             <div class="team-summary">
               <div class="summary-chip">
                 <span>Tactic</span>
-                <strong id="summary-tactic">4-3-3</strong>
+                <strong id="summary-tactic">Rules loading</strong>
               </div>
               <div class="summary-chip">
                 <span>Total Price</span>
-                <strong id="summary-price">$0.0</strong>
+                <strong id="summary-price">0.0 units</strong>
+              </div>
+              <div class="summary-chip">
+                <span>Remaining Budget</span>
+                <strong id="summary-budget">0.0 units</strong>
               </div>
               <div class="summary-chip">
                 <span>Average Risk</span>
@@ -312,8 +319,17 @@
               </div>
               <div class="summary-chip">
                 <span>Squad Size</span>
-                <strong id="summary-locked">0 / 15</strong>
+                <strong id="summary-locked">0 / 0</strong>
               </div>
+            </div>
+
+            <div id="rule-checks" class="rule-checks" aria-live="polite">
+              <div>
+                <h3>Rule Checks</h3>
+                <p id="rule-check-summary">Build a squad to check budget, squad size, and country limits.</p>
+                <ul id="rules-validation-list" class="rules-validation-list"></ul>
+              </div>
+              <div id="country-counts-list" class="country-counts-list"></div>
             </div>
 
             <!-- JavaScript fills this field with starter cards after players are locked or the button is clicked. -->
@@ -335,19 +351,19 @@
               <div class="bench-panel__heading">
                 <div>
                   <h3>Bench</h3>
-                  <p>Four substitutes sit outside the field. Click a starter and a bench player to try a swap.</p>
+                  <p id="bench-description">Bench rules load from fantasyRules.json. Click a starter and a bench player to try a swap.</p>
                 </div>
-                <span id="bench-count">0 / 4</span>
+                <span id="bench-count">0 / 0</span>
               </div>
               <div id="bench-players" class="bench-players"></div>
             </section>
 
             <p id="swap-message" class="swap-message">
-              Build a full 15-player squad first, then click a starter and a bench player to swap them.
+              Build a full squad first, then click a starter and a bench player to swap them.
             </p>
 
             <p id="team-message" class="team-message">
-              Lock a few players first, then click "Build My Squad" to fill the 15-player squad.
+              Lock a few players first, then click "Build My Squad" to optimize the squad.
             </p>
           </div>
         </div>
@@ -846,6 +862,7 @@
     </footer>
 
     <script src="playersData.js"></script>
+    <script src="fantasyRulesData.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

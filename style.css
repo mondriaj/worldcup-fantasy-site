@@ -910,7 +910,7 @@ th {
 
 .team-summary {
   display: grid;
-  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  grid-template-columns: repeat(5, minmax(120px, 1fr));
   gap: 12px;
   margin-bottom: 20px;
 }
@@ -928,6 +928,108 @@ th {
   margin-bottom: 6px;
   color: var(--muted);
   font-size: 0.85rem;
+}
+
+.summary-chip--warning strong {
+  color: #b45309;
+}
+
+.rule-checks {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.85fr) minmax(220px, 1.15fr);
+  gap: 12px;
+  align-items: start;
+  margin: 0 0 20px;
+  padding: 14px 16px;
+  border: 1px solid rgba(24, 78, 119, 0.14);
+  border-radius: 14px;
+  background: #f8fbff;
+}
+
+.rule-checks h3 {
+  margin-bottom: 6px;
+  font-size: 1rem;
+}
+
+.rule-checks p {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.rules-validation-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+  list-style: none;
+}
+
+.rule-validation-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: start;
+  padding: 10px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid rgba(24, 78, 119, 0.12);
+}
+
+.rule-validation-status {
+  min-width: 44px;
+  padding: 4px 6px;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+}
+
+.rule-validation-item--pass .rule-validation-status {
+  background: #15803d;
+}
+
+.rule-validation-item--fail .rule-validation-status {
+  background: #b45309;
+}
+
+.rule-validation-item strong {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 0.9rem;
+}
+
+.rule-validation-item p {
+  font-size: 0.82rem;
+}
+
+.country-counts-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.country-count-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 9px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid rgba(24, 78, 119, 0.14);
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.country-count-chip--warning {
+  border-color: rgba(180, 83, 9, 0.45);
+  color: #92400e;
+  background: #fffbeb;
+}
+
+.country-count-chip--needs-check {
+  border-style: dashed;
 }
 
 .builder-controls {
@@ -1007,6 +1109,7 @@ input[type="number"] {
 }
 
 .measure-info,
+.optimizer-note,
 .builder-warning {
   margin-bottom: 16px;
   border-radius: 8px;
@@ -1018,9 +1121,25 @@ input[type="number"] {
   border: 1px solid rgba(24, 78, 119, 0.16);
 }
 
+.optimizer-note {
+  background: #fff8e8;
+  border: 1px solid rgba(255, 159, 28, 0.26);
+}
+
+.optimizer-note strong {
+  color: #8a4d00;
+  font-size: 0.92rem;
+}
+
 .measure-info p {
   margin: 6px 0 0;
   color: var(--muted);
+}
+
+.optimizer-note p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
 }
 
 .measure-info__secondary {
@@ -1213,6 +1332,38 @@ input[type="number"] {
   font-size: 0.76rem;
   font-weight: 800;
   cursor: pointer;
+}
+
+.team-export-panel {
+  padding: 12px;
+  border: 1px solid rgba(24, 78, 119, 0.14);
+  border-radius: 12px;
+  background: #f8fbff;
+}
+
+.team-export-panel h4 {
+  margin-bottom: 6px;
+  color: var(--accent-cool);
+  font-size: 0.9rem;
+}
+
+.team-export-panel p {
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.team-export-panel textarea {
+  width: 100%;
+  min-height: 160px;
+  padding: 10px;
+  border: 1px solid rgba(24, 78, 119, 0.16);
+  border-radius: 10px;
+  background: #ffffff;
+  color: var(--text);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.78rem;
+  resize: vertical;
 }
 
 .player-option {
@@ -1949,6 +2100,10 @@ input[type="number"] {
 
   .team-summary {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .rule-checks {
+    grid-template-columns: 1fr;
   }
 
   .soccer-field {
