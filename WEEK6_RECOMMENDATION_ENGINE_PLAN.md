@@ -557,6 +557,40 @@ Tests after this step:
 - Confirm missing IDs are warned instead of guessed.
 - Confirm desktop and mobile Team Builder controls still fit.
 
+### 9.6. Saved Squad Decision Mode v0
+
+Status: `DONE`
+
+Goal: let the manual captain-change and substitution tools use the current built or imported Team Builder squad without requiring user accounts, live scoring, or full live squad tracking.
+
+Tasks:
+
+- Add saved-squad panels to Captain Change Advisor and Substitution Advisor.
+- Show an inactive state until a full Team Builder squad is built or imported.
+- Let captain users fill current captain and new captain from saved-squad buttons.
+- Let substitution users fill played starter and bench player from saved-squad buttons.
+- Keep manual search available.
+- Keep user-entered points and manual played/unplayed checks required.
+- Document that this is a workflow layer, not a new projection model.
+
+Completion note, June 1, 2026:
+
+- Added saved-squad decision panels to the captain-change and substitution sections.
+- Captain cards fill the existing current/new captain fields.
+- Substitution cards fill the existing played-starter/bench-player fields.
+- Saved-squad cards use selected advisor matchday and risk style to show fixture, start, minutes, and compressed decision signal context.
+- Added `data/savedSquadDecisionMode_v0.md`.
+- Updated the advisor model notes, README, data sources, data quality report, and source manifest.
+- Validation passed: tracked JSON parse, JS syntax checks, desktop saved-squad advisor flow, export/reset/import panel restore, invalid empty-state behavior, and mobile page-overflow check.
+
+Tests after this step:
+
+- Build a Team Builder squad and confirm saved-squad panels activate.
+- Use a saved captain button pair and confirm the captain advisor returns a result after points are entered.
+- Use saved starter and bench buttons and confirm the substitution advisor returns a result after points are entered.
+- Confirm manual mode still appears before a full squad is built or imported.
+- Confirm mobile layout has no horizontal overflow.
+
 ### 10. Full Feature Test Pass
 
 Status: `DONE`

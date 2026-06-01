@@ -4,7 +4,7 @@ Status: active prototype, quick-check scope.
 
 ## Scope
 
-Captain Change Advisor v0 is the Quick Captain Switch Check. It does not ask the user to enter a full squad. The user manually enters:
+Captain Change Advisor v0 is the Quick Captain Switch Check. It does not require the user to enter a full squad. The user manually enters:
 
 - matchday
 - current captain, optional but useful for display and same-player checks
@@ -12,7 +12,7 @@ Captain Change Advisor v0 is the Quick Captain Switch Check. It does not ask the
 - one replacement captain candidate
 - risk style: safer, balanced, or upside
 
-The replacement candidate should be in the user's squad and should not have played yet in the selected matchday. The tool cannot verify that until a future saved-squad or live-match state exists.
+The replacement candidate should be in the user's squad and should not have played yet in the selected matchday. Saved Squad Decision Mode v0 can fill the current and replacement fields from a built or imported Team Builder squad, but the user still confirms played/unplayed status.
 
 ## Inputs
 
@@ -59,11 +59,15 @@ The UI returns:
 
 It also shows current raw points, the selected raw switch score, raw expected/floor/upside signals, fixture difficulty, start probability, expected minutes, QA flags, and the PELE-forward match environment reason.
 
+## Saved Squad Mode
+
+If the Team Builder has a full built or imported squad, the advisor shows saved-squad buttons for current captain and new captain. These buttons only fill the existing quick-check fields. They do not create live squad tracking and they do not save a captain-change decision into Team Export JSON v1.
+
 ## Caveats
 
 - No live fantasy scores are invented or fetched.
 - Current captain points must be entered by the user.
-- The tool does not know the user's full squad.
+- Without a built or imported Team Builder squad, the tool does not know the user's full squad.
 - The tool does not know whether the replacement has already played.
 - Official 2026 captain-switch rules may differ from previous tournament fantasy rules and must be checked once FIFA publishes the rule set.
 - All projections are prototype model outputs, not official fantasy advice or betting odds.

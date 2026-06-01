@@ -396,6 +396,121 @@ html {
   line-height: 1.45;
 }
 
+.decision-squad-panel {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 16px;
+  border: 1px solid rgba(24, 78, 119, 0.14);
+  border-radius: 8px;
+  padding: 12px;
+  background: #ffffff;
+}
+
+.decision-squad-panel--empty {
+  border-style: dashed;
+  background: rgba(248, 251, 255, 0.78);
+}
+
+.decision-squad-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.decision-squad-heading h3 {
+  margin: 0;
+  color: var(--accent-cool);
+  font-size: 0.95rem;
+}
+
+.decision-squad-heading p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.35;
+}
+
+.decision-squad-tag {
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: rgba(24, 78, 119, 0.1);
+  color: var(--accent-cool);
+  font-size: 0.74rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.decision-squad-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+}
+
+.decision-squad-group {
+  display: grid;
+  gap: 8px;
+}
+
+.decision-squad-group h4 {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.84rem;
+}
+
+.decision-squad-card {
+  display: grid;
+  gap: 7px;
+  border: 1px solid rgba(24, 78, 119, 0.12);
+  border-radius: 8px;
+  padding: 9px;
+  background: #f8fbff;
+}
+
+.decision-squad-card strong,
+.decision-squad-card small {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.decision-squad-card strong {
+  color: var(--text);
+  font-size: 0.88rem;
+}
+
+.decision-squad-card small {
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.decision-squad-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.decision-squad-actions--single {
+  grid-template-columns: 1fr;
+}
+
+.decision-squad-button {
+  min-height: 34px;
+  border: 1px solid rgba(24, 78, 119, 0.18);
+  border-radius: 8px;
+  padding: 7px 8px;
+  background: #ffffff;
+  color: var(--accent-cool);
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.decision-squad-button:hover {
+  border-color: rgba(24, 78, 119, 0.42);
+}
+
 .captain-change-form {
   display: grid;
   grid-template-columns: minmax(150px, 0.7fr) minmax(190px, 1fr) minmax(120px, 0.55fr) minmax(190px, 1fr) minmax(150px, 0.7fr);

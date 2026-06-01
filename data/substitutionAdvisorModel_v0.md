@@ -4,7 +4,7 @@ Status: active prototype, quick-check scope.
 
 ## Scope
 
-Substitution Advisor v0 is a manual quick check. It does not ask the user to enter a full squad. The user manually enters:
+Substitution Advisor v0 is a manual quick check. It does not require the user to enter a full squad. The user manually enters:
 
 - matchday
 - played starter, optional but useful for display and position checks
@@ -12,7 +12,7 @@ Substitution Advisor v0 is a manual quick check. It does not ask the user to ent
 - one bench player candidate
 - risk style: safer, balanced, or upside
 
-The bench candidate should be in the user's squad and should not have played yet in the selected matchday. The tool cannot verify squad membership or played/unplayed state until a future saved-squad or live-match state exists.
+The bench candidate should be in the user's squad and should not have played yet in the selected matchday. Saved Squad Decision Mode v0 can fill starter and bench fields from a built or imported Team Builder squad, but the user still confirms played/unplayed status and formation legality.
 
 ## Inputs
 
@@ -50,11 +50,15 @@ The UI returns:
 
 It also shows starter raw points, the selected sub score, raw expected/floor/upside signals, fixture difficulty, start probability, expected minutes, QA flags, and the PELE-forward match environment reason.
 
+## Saved Squad Mode
+
+If the Team Builder has a full built or imported squad, the advisor shows saved starter and saved bench buttons. These buttons only fill the existing quick-check fields. They do not create live squad tracking and they do not save a substitution decision into Team Export JSON v1.
+
 ## Caveats
 
 - No live fantasy scores are invented or fetched.
 - Starter points must be entered by the user.
-- The tool does not know the user's full squad.
+- Without a built or imported Team Builder squad, the tool does not know the user's full squad.
 - The tool does not know whether the bench player has already played.
 - The tool does not fully validate formation legality. Different-position substitutions are flagged for manual formation checks.
 - Official 2026 substitution rules may differ from previous tournament fantasy rules and must be checked once FIFA publishes the rule set.

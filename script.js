@@ -673,6 +673,7 @@ const captainChangeCurrentPointsInput = document.getElementById("captain-change-
 const captainChangeCandidateInput = document.getElementById("captain-change-candidate-input");
 const captainChangeRiskSelect = document.getElementById("captain-change-risk-select");
 const captainChangeResetButton = document.getElementById("captain-change-reset-btn");
+const captainChangeSquadPanel = document.getElementById("captain-change-squad-panel");
 const captainChangePlayerList = document.getElementById("captain-change-player-list");
 const captainChangeResult = document.getElementById("captain-change-result");
 const substitutionAdvisorForm = document.getElementById("substitution-advisor-form");
@@ -682,6 +683,7 @@ const substitutionAdvisorPointsInput = document.getElementById("substitution-adv
 const substitutionAdvisorBenchInput = document.getElementById("substitution-advisor-bench-input");
 const substitutionAdvisorRiskSelect = document.getElementById("substitution-advisor-risk-select");
 const substitutionAdvisorResetButton = document.getElementById("substitution-advisor-reset-btn");
+const substitutionAdvisorSquadPanel = document.getElementById("substitution-advisor-squad-panel");
 const substitutionAdvisorPlayerList = document.getElementById("substitution-advisor-player-list");
 const substitutionAdvisorResult = document.getElementById("substitution-advisor-result");
 const cardStatSelect = document.getElementById("card-stat-select");
@@ -2321,6 +2323,221 @@ function renderCaptainChangeOptions() {
   playerLists.forEach((list) => {
     list.innerHTML = optionHtml;
   });
+}
+
+function savedDecisionSquad() {
+  const starters = [...currentRenderedTeam];
+  const bench = [...currentBenchPlayers];
+  const squad = [...starters, ...bench];
+  const starterIds = new Set(starters.map((player) => player.id));
+  const isFull = currentRenderMode === "built" &&
+    starters.length === startingLineupTotal &&
+    squad.length === squadTotalPlayers;
+
+  return {
+    starters,
+    bench,
+    squad,
+    starterIds,
+    isFull
+  };
+}
+
+function savedDecisionSquadEmptyHtml(toolName) {
+  return `
+    <div class="decision-squad-heading">
+      <div>
+        <h3>Saved Squad Mode</h3>
+        <p>Build or import a full Team Builder squad to fill ${escapeHtml(toolName)} fields from your saved players. Manual search still works.</p>
+      </div>
+      <span class="decision-squad-tag">Manual</span>
+    </div>
+  `;
+}
+
+function decisionProjectionSummary(player, matchdayId, mode, scoreFunction, areaLabel) {
+  const projection = projectionForMatchday(player, matchdayId);
+
+  if (!projection) {
+    return {
+      score: -Infinity,
+      text: `${areaLabel} · ${player.position} · projection needs check`
+    };
+  }
+
+  const startProbability = fieldNumber(projection, "start_probability_percent") ?? scoreValue(player, "start_probability_percent");
+  const expectedMinutes = fieldNumber(projection, "expected_minutes_v0") ?? scoreValue(player, "expected_minutes_v0");
+  const score = scoreFunction(projection, mode);
+
+  return {
+    score,
+    text: `${areaLabel} · ${player.position} · vs ${projection.opponent} · ${displayNumber(score)} signal · ${displayNumber(startProbability)}% start · ${displayNumber(expectedMinutes)} min`
+  };
+}
+
+function decisionSquadCard(player, summaryText, actionsHtml) {
+  return `
+    <article class="decision-squad-card">
+      <strong>${escapeHtml(player.name)}</strong>
+      <small>${escapeHtml(summaryText)}</small>
+      ${actionsHtml}
+    </article>
+  `;
+}
+
+function renderCaptainSavedSquadPanel() {
+  if (!captainChangeSquadPanel) {
+    return;
+  }
+
+  const { squad, starterIds, isFull } = savedDecisionSquad();
+
+  if (!isFull) {
+    captainChangeSquadPanel.className = "decision-squad-panel decision-squad-panel--empty";
+    captainChangeSquadPanel.innerHTML = savedDecisionSquadEmptyHtml("captain switch");
+    return;
+  }
+
+  const matchdayId = captainChangeMatchdaySelect?.value || "md1";
+  const mode = captainChangeMode();
+  const rows = squad
+    .map((player) => {
+      const areaLabel = starterIds.has(player.id) ? "Starter" : "Bench";
+      const summary = decisionProjectionSummary(player, matchdayId, mode, captainChangeProjectionScore, areaLabel);
+      return { player, summary };
+    })
+    .sort((a, b) => b.summary.score - a.summary.score || a.player.name.localeCompare(b.player.name));
+
+  captainChangeSquadPanel.className = "decision-squad-panel";
+  captainChangeSquadPanel.innerHTML = `
+    <div class="decision-squad-heading">
+      <div>
+        <h3>Saved Squad Captain Options</h3>
+        <p>Use these buttons to fill the current captain or new captain fields from the Team Builder squad. Still confirm the new captain has not played.</p>
+      </div>
+      <span class="decision-squad-tag">${squad.length} players</span>
+    </div>
+    <div class="decision-squad-grid">
+      ${rows.map(({ player, summary }) => decisionSquadCard(player, summary.text, `
+        <div class="decision-squad-actions">
+          <button class="decision-squad-button" type="button" data-captain-fill="current" data-player-id="${escapeHtml(player.id)}">Current</button>
+          <button class="decision-squad-button" type="button" data-captain-fill="candidate" data-player-id="${escapeHtml(player.id)}">New</button>
+        </div>
+      `)).join("")}
+    </div>
+  `;
+}
+
+function renderSubstitutionSavedSquadPanel() {
+  if (!substitutionAdvisorSquadPanel) {
+    return;
+  }
+
+  const { starters, bench, isFull } = savedDecisionSquad();
+
+  if (!isFull) {
+    substitutionAdvisorSquadPanel.className = "decision-squad-panel decision-squad-panel--empty";
+    substitutionAdvisorSquadPanel.innerHTML = savedDecisionSquadEmptyHtml("substitution");
+    return;
+  }
+
+  const matchdayId = substitutionAdvisorMatchdaySelect?.value || "md1";
+  const mode = substitutionAdvisorMode();
+  const starterCards = starters.map((player) => {
+    const summary = decisionProjectionSummary(player, matchdayId, mode, substitutionAdvisorProjectionScore, "Starter");
+    return decisionSquadCard(player, summary.text, `
+      <div class="decision-squad-actions decision-squad-actions--single">
+        <button class="decision-squad-button" type="button" data-substitution-fill="starter" data-player-id="${escapeHtml(player.id)}">Played starter</button>
+      </div>
+    `);
+  });
+  const benchCards = bench
+    .map((player) => {
+      const summary = decisionProjectionSummary(player, matchdayId, mode, substitutionAdvisorProjectionScore, "Bench");
+      return { player, summary };
+    })
+    .sort((a, b) => b.summary.score - a.summary.score || a.player.name.localeCompare(b.player.name))
+    .map(({ player, summary }) => decisionSquadCard(player, summary.text, `
+      <div class="decision-squad-actions decision-squad-actions--single">
+        <button class="decision-squad-button" type="button" data-substitution-fill="bench" data-player-id="${escapeHtml(player.id)}">Bench option</button>
+      </div>
+    `));
+
+  substitutionAdvisorSquadPanel.className = "decision-squad-panel";
+  substitutionAdvisorSquadPanel.innerHTML = `
+    <div class="decision-squad-heading">
+      <div>
+        <h3>Saved Squad Substitution Options</h3>
+        <p>Use the starter and bench buttons from the Team Builder squad. Still confirm the bench player has not played and the final formation is legal.</p>
+      </div>
+      <span class="decision-squad-tag">${starters.length} + ${bench.length}</span>
+    </div>
+    <div class="decision-squad-group">
+      <h4>Played starter</h4>
+      <div class="decision-squad-grid">${starterCards.join("")}</div>
+    </div>
+    <div class="decision-squad-group">
+      <h4>Bench candidate</h4>
+      <div class="decision-squad-grid">${benchCards.join("")}</div>
+    </div>
+  `;
+}
+
+function renderSavedSquadDecisionPanels() {
+  renderCaptainSavedSquadPanel();
+  renderSubstitutionSavedSquadPanel();
+}
+
+function setDecisionPlayerInput(input, player) {
+  if (!input || !player) {
+    return;
+  }
+
+  input.value = captainChangePlayerLabel(player);
+}
+
+function handleCaptainSavedSquadClick(event) {
+  const button = event.target.closest("[data-captain-fill][data-player-id]");
+
+  if (!button) {
+    return;
+  }
+
+  const player = playerById(button.dataset.playerId);
+
+  if (!player) {
+    return;
+  }
+
+  if (button.dataset.captainFill === "current") {
+    setDecisionPlayerInput(captainChangeCurrentPlayerInput, player);
+  } else {
+    setDecisionPlayerInput(captainChangeCandidateInput, player);
+  }
+
+  renderCaptainChangeAdvisor();
+}
+
+function handleSubstitutionSavedSquadClick(event) {
+  const button = event.target.closest("[data-substitution-fill][data-player-id]");
+
+  if (!button) {
+    return;
+  }
+
+  const player = playerById(button.dataset.playerId);
+
+  if (!player) {
+    return;
+  }
+
+  if (button.dataset.substitutionFill === "starter") {
+    setDecisionPlayerInput(substitutionAdvisorStarterInput, player);
+  } else {
+    setDecisionPlayerInput(substitutionAdvisorBenchInput, player);
+  }
+
+  renderSubstitutionAdvisor();
 }
 
 function findCaptainChangePlayer(rawInput) {
@@ -5505,6 +5722,7 @@ function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built", optio
     }
   );
   updateSwapPrompt();
+  renderSavedSquadDecisionPanels();
 }
 
 function renderCurrentSlotState(message) {
@@ -5547,6 +5765,7 @@ function renderCurrentSlotState(message) {
   updateSwapPrompt();
   updateControlStates();
   renderRemovedPlayers();
+  renderSavedSquadDecisionPanels();
 }
 
 // This preview appears as soon as someone locks players, before building the full team.
@@ -6068,7 +6287,11 @@ function setupBuilder() {
     .forEach((input) => input.addEventListener("input", renderCaptainChangeAdvisor));
   [captainChangeMatchdaySelect, captainChangeRiskSelect]
     .filter(Boolean)
-    .forEach((select) => select.addEventListener("change", renderCaptainChangeAdvisor));
+    .forEach((select) => select.addEventListener("change", () => {
+      renderSavedSquadDecisionPanels();
+      renderCaptainChangeAdvisor();
+    }));
+  captainChangeSquadPanel?.addEventListener("click", handleCaptainSavedSquadClick);
   captainChangeResetButton?.addEventListener("click", resetCaptainChangeAdvisor);
   substitutionAdvisorForm?.addEventListener("submit", renderSubstitutionAdvisor);
   [substitutionAdvisorStarterInput, substitutionAdvisorPointsInput, substitutionAdvisorBenchInput]
@@ -6076,7 +6299,11 @@ function setupBuilder() {
     .forEach((input) => input.addEventListener("input", renderSubstitutionAdvisor));
   [substitutionAdvisorMatchdaySelect, substitutionAdvisorRiskSelect]
     .filter(Boolean)
-    .forEach((select) => select.addEventListener("change", renderSubstitutionAdvisor));
+    .forEach((select) => select.addEventListener("change", () => {
+      renderSavedSquadDecisionPanels();
+      renderSubstitutionAdvisor();
+    }));
+  substitutionAdvisorSquadPanel?.addEventListener("click", handleSubstitutionSavedSquadClick);
   substitutionAdvisorResetButton?.addEventListener("click", resetSubstitutionAdvisor);
   cardStatSelect.addEventListener("change", () => {
     renderTeam(currentRenderedTeam, currentBenchPlayers, currentIgnoredLockedPlayers, currentRenderMode);

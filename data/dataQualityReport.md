@@ -929,6 +929,24 @@ Missing or caveated:
 - Import does not know official fantasy IDs, live points, played/unplayed status, user-confirmed captains, transfers, or official-game legality.
 - Old exports may need a migration step after official fantasy players and IDs replace the current prototype IDs.
 
+## Saved Squad Decision Mode v0
+
+Complete:
+
+- Captain Change Advisor and Substitution Advisor now read the current full Team Builder squad after a build or import.
+- Captain Change Advisor shows saved-squad buttons for current captain and new captain.
+- Substitution Advisor shows saved starter buttons and saved bench buttons.
+- Saved-squad cards display the selected advisor matchday, fixture opponent, compressed decision signal, start probability, and expected minutes.
+- Manual search remains available when no full Team Builder squad exists.
+- `data/savedSquadDecisionMode_v0.md` documents the workflow and caveats.
+
+Missing or caveated:
+
+- The mode does not infer live points.
+- The mode does not infer played/unplayed state.
+- The mode does not save a captain-change or substitution decision into Team Export JSON v1.
+- Different-position substitutions still require manual formation checks.
+
 ## Not Ready Yet
 
 - Official fantasy prices and player IDs have not been imported into `data/players.json`.

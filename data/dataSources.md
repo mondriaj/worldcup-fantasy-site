@@ -1074,6 +1074,27 @@ Fallback rule:
 - Do not migrate prototype IDs to future official fantasy IDs until a deliberate migration step exists.
 - Do not treat an imported squad as official-game legal until official rules, prices, positions, and player IDs are imported.
 
+### Saved Squad Decision Mode v0
+
+Model notes: `data/savedSquadDecisionMode_v0.md`
+Browser state: current full Team Builder squad from a build or Team Import v0 restore
+Input files: `financePlayersData.js`, `matchdayProjectionsData.js`, `scorePredictionsData.js`, `fantasyRulesData.js`
+Use for: filling Captain Change Advisor and Substitution Advisor manual fields from saved-squad buttons.
+
+Current scope:
+
+- Shows saved-squad captain buttons for current captain and new captain.
+- Shows saved starter and saved bench buttons for substitution checks.
+- Uses the selected advisor matchday and risk style to display fixture, start, minutes, and compressed decision signal context.
+- Leaves manual search available when no full saved squad exists.
+
+Fallback rule:
+
+- Do not infer live points.
+- Do not infer played/unplayed state.
+- Do not save a captain-change or substitution decision into Team Export JSON v1 until a deliberate saved-decision schema exists.
+- Do not treat saved-squad buttons as official-game legality checks.
+
 ### Recommendation QA v2
 
 Output file: `data/recommendationQa_v2.json`  

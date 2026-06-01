@@ -1137,9 +1137,10 @@
       ],
       "plannedUse": [
         "Quick Captain Switch Check",
-        "manual same-matchday captain-change decision support"
+        "manual same-matchday captain-change decision support",
+        "saved-squad field fill when Team Builder squad is available"
       ],
-      "caveat": "No live fantasy score, squad membership, or played/unplayed state is inferred. The user must enter current points and choose a valid unplayed squad candidate."
+      "caveat": "No live fantasy score or played/unplayed state is inferred. Saved Squad Decision Mode can fill fields from a built/imported Team Builder squad, but the user must enter current points and confirm the replacement has not played."
     },
     {
       "file": "substitutionAdvisorModel_v0.md",
@@ -1162,9 +1163,10 @@
       ],
       "plannedUse": [
         "Quick Substitution Check",
-        "manual same-matchday substitution decision support"
+        "manual same-matchday substitution decision support",
+        "saved-squad field fill when Team Builder squad is available"
       ],
-      "caveat": "No live fantasy score, squad membership, played/unplayed state, or formation legality is inferred. The user must enter current points, choose a valid unplayed bench candidate, and manually confirm different-position substitutions remain legal."
+      "caveat": "No live fantasy score, played/unplayed state, or formation legality is inferred. Saved Squad Decision Mode can fill fields from a built/imported Team Builder squad, but the user must enter current points and manually confirm the bench player has not played and different-position substitutions remain legal."
     },
     {
       "file": "teamExportModel_v1.md",
@@ -1212,6 +1214,29 @@
         "local saved-squad workflow before user accounts or official fantasy IDs"
       ],
       "caveat": "Import restores exact current prototype player IDs and warns about missing IDs. It does not infer replacements, migrate to official fantasy IDs, or validate live matchday legality."
+    },
+    {
+      "file": "savedSquadDecisionMode_v0.md",
+      "outputType": "saved_squad_decision_mode_note",
+      "generatedAt": "2026-06-01",
+      "sourceChecked": "2026-06-01",
+      "sourceFiles": [
+        "../index.html",
+        "../script.js",
+        "../financePlayersData.js",
+        "../matchdayProjectionsData.js",
+        "../scorePredictionsData.js",
+        "../fantasyRulesData.js",
+        "captainChangeAdvisorModel_v0.md",
+        "substitutionAdvisorModel_v0.md",
+        "teamImportModel_v0.md"
+      ],
+      "plannedUse": [
+        "Saved Squad Decision Mode v0",
+        "Captain Change Advisor saved-squad field fill",
+        "Substitution Advisor saved-squad field fill"
+      ],
+      "caveat": "This is a workflow layer over manual advisor inputs. It does not infer live points, played/unplayed state, official-game legality, or saved captain/substitution decisions."
     },
     {
       "file": "fullFeatureTestReport_v0.md",
