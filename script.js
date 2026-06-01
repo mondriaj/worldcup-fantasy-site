@@ -675,6 +675,7 @@ const captainChangeRiskSelect = document.getElementById("captain-change-risk-sel
 const captainChangeResetButton = document.getElementById("captain-change-reset-btn");
 const captainChangeSquadPanel = document.getElementById("captain-change-squad-panel");
 const captainChangePlayerList = document.getElementById("captain-change-player-list");
+const captainChangeStatus = document.getElementById("captain-change-status");
 const captainChangeResult = document.getElementById("captain-change-result");
 const substitutionAdvisorForm = document.getElementById("substitution-advisor-form");
 const substitutionAdvisorMatchdaySelect = document.getElementById("substitution-advisor-matchday-select");
@@ -685,6 +686,7 @@ const substitutionAdvisorRiskSelect = document.getElementById("substitution-advi
 const substitutionAdvisorResetButton = document.getElementById("substitution-advisor-reset-btn");
 const substitutionAdvisorSquadPanel = document.getElementById("substitution-advisor-squad-panel");
 const substitutionAdvisorPlayerList = document.getElementById("substitution-advisor-player-list");
+const substitutionAdvisorStatus = document.getElementById("substitution-advisor-status");
 const substitutionAdvisorResult = document.getElementById("substitution-advisor-result");
 const savedSquadTimelineMatchdaySelect = document.getElementById("saved-squad-timeline-matchday-select");
 const savedSquadTimelineContent = document.getElementById("saved-squad-timeline-content");
@@ -2986,9 +2988,51 @@ function savedDecisionBase(tool, matchdayId, riskStyle, mode, verdict, resultCla
   };
 }
 
+function renderDecisionToolStatus(container, decision, manualText, savedText) {
+  if (!container) {
+    return;
+  }
+
+  let stateClass = "decision-tool-status";
+  let badge = "Manual";
+  let text = manualText;
+
+  if (decision?.imported_requires_rerun || decision?.imported) {
+    stateClass += " decision-tool-status--imported";
+    badge = "Imported - rerun needed";
+    text = "Fields were restored from Team Import. Rerun the advisor before acting.";
+  } else if (decision?.saved) {
+    stateClass += " decision-tool-status--saved";
+    badge = "Saved";
+    text = savedText;
+  }
+
+  container.className = stateClass;
+  container.innerHTML = `
+    <span class="decision-tool-status__badge">${escapeHtml(badge)}</span>
+    <span>${escapeHtml(text)}</span>
+  `;
+}
+
+function renderDecisionToolStatuses() {
+  renderDecisionToolStatus(
+    captainChangeStatus,
+    lastCaptainChangeDecision,
+    "Enter raw points and one unplayed replacement, then run the check.",
+    "Latest captain check will be included in Team Export JSON."
+  );
+  renderDecisionToolStatus(
+    substitutionAdvisorStatus,
+    lastSubstitutionDecision,
+    "Enter the starter score and one unplayed bench option, then run the check.",
+    "Latest substitution check will be included in Team Export JSON."
+  );
+}
+
 function clearSavedDecisionExports() {
   lastCaptainChangeDecision = null;
   lastSubstitutionDecision = null;
+  renderDecisionToolStatuses();
 }
 
 function cloneDecisionForImport(decision, toolLabel) {
@@ -3064,6 +3108,7 @@ function renderImportedCaptainDecision(decision, currentPlayer, candidate, point
       <span class="captain-change-badge">Imported</span>
       <strong>Imported saved captain check</strong>
     </div>
+    <div class="captain-change-import-warning">Rerun this advisor before acting. Imported checks do not verify live points, played/unplayed status, deadlines, or official-game legality.</div>
     <p>Restored ${escapeHtml(candidate.name)} as the replacement captain with ${displayNumber(points)} raw points kept from ${escapeHtml(currentPlayer?.name || "the current captain")}. This is imported context, not a fresh live recommendation. Click Check Switch to recalculate before acting.</p>
     <div class="captain-change-metrics">
       ${importedDecisionMetric("Imported result", decision.result || "Needs rerun", decision.result_class || "review")}
@@ -3087,6 +3132,7 @@ function renderImportedSubstitutionDecision(decision, starter, benchPlayer, poin
       <span class="captain-change-badge">Imported</span>
       <strong>Imported saved substitution check</strong>
     </div>
+    <div class="captain-change-import-warning">Rerun this advisor before acting. Imported checks do not verify live points, played/unplayed status, deadlines, or formation legality.</div>
     <p>Restored ${escapeHtml(benchPlayer.name)} as the bench candidate against ${displayNumber(points)} raw points from ${escapeHtml(starter?.name || "the played starter")}. This is imported context, not a fresh live recommendation. Click Check Sub to recalculate before acting.</p>
     <div class="captain-change-metrics">
       ${importedDecisionMetric("Imported result", decision.result || "Needs rerun", decision.result_class || "review")}
@@ -3131,6 +3177,7 @@ function restoreImportedCaptainDecision(decision) {
   }
   setDecisionPlayerInput(captainChangeCandidateInput, candidate);
   lastCaptainChangeDecision = cloneDecisionForImport(decision, "captain-change");
+  renderDecisionToolStatuses();
   renderImportedCaptainDecision(decision, currentPlayer, candidate, points);
 
   return { imported: true, warnings };
@@ -3169,6 +3216,7 @@ function restoreImportedSubstitutionDecision(decision) {
   }
   setDecisionPlayerInput(substitutionAdvisorBenchInput, benchPlayer);
   lastSubstitutionDecision = cloneDecisionForImport(decision, "substitution");
+  renderDecisionToolStatuses();
   renderImportedSubstitutionDecision(decision, starter, benchPlayer, points);
 
   return { imported: true, warnings };
@@ -3206,6 +3254,7 @@ function renderCaptainChangeAdvisor(event) {
 
   if (!rawCurrentPoints || !Number.isFinite(currentPoints) || currentPoints < 0) {
     lastCaptainChangeDecision = null;
+    renderDecisionToolStatuses();
     captainChangeResult.className = "captain-change-result captain-change-result--empty";
     captainChangeResult.innerHTML = `
       <strong>Enter the current captain's raw points.</strong>
@@ -3216,6 +3265,7 @@ function renderCaptainChangeAdvisor(event) {
 
   if (!candidate) {
     lastCaptainChangeDecision = null;
+    renderDecisionToolStatuses();
     captainChangeResult.className = "captain-change-result captain-change-result--empty";
     captainChangeResult.innerHTML = `
       <strong>Choose a replacement captain from the player list.</strong>
@@ -3247,6 +3297,7 @@ function renderCaptainChangeAdvisor(event) {
       projection: null,
       qa_flags: decisionQaFlagSnapshot(candidate, "captain", matchdayId)
     };
+    renderDecisionToolStatuses();
     captainChangeResult.className = "captain-change-result captain-change-result--review";
     captainChangeResult.innerHTML = `
       <div class="captain-change-verdict">
@@ -3318,6 +3369,7 @@ function renderCaptainChangeAdvisor(event) {
     projection: decisionProjectionSnapshot(projection),
     qa_flags: decisionQaFlagSnapshot(candidate, "captain", matchdayId)
   };
+  renderDecisionToolStatuses();
 
   captainChangeResult.className = `captain-change-result captain-change-result--${resultClass}`;
   captainChangeResult.innerHTML = `
@@ -3341,6 +3393,7 @@ function renderCaptainChangeAdvisor(event) {
 
 function resetCaptainChangeAdvisor() {
   lastCaptainChangeDecision = null;
+  renderDecisionToolStatuses();
   if (captainChangeCurrentPlayerInput) captainChangeCurrentPlayerInput.value = "";
   if (captainChangeCurrentPointsInput) captainChangeCurrentPointsInput.value = "";
   if (captainChangeCandidateInput) captainChangeCandidateInput.value = "";
@@ -3439,6 +3492,7 @@ function renderSubstitutionAdvisor(event) {
 
   if (!rawCurrentPoints || !Number.isFinite(currentPoints) || currentPoints < 0) {
     lastSubstitutionDecision = null;
+    renderDecisionToolStatuses();
     substitutionAdvisorResult.className = "captain-change-result substitution-advisor-result captain-change-result--empty";
     substitutionAdvisorResult.innerHTML = `
       <strong>Enter the played starter's raw points.</strong>
@@ -3449,6 +3503,7 @@ function renderSubstitutionAdvisor(event) {
 
   if (!benchPlayer) {
     lastSubstitutionDecision = null;
+    renderDecisionToolStatuses();
     substitutionAdvisorResult.className = "captain-change-result substitution-advisor-result captain-change-result--empty";
     substitutionAdvisorResult.innerHTML = `
       <strong>Choose a bench player from the player list.</strong>
@@ -3482,6 +3537,7 @@ function renderSubstitutionAdvisor(event) {
       projection: null,
       qa_flags: decisionQaFlagSnapshot(benchPlayer, "risk_adjusted", matchdayId)
     };
+    renderDecisionToolStatuses();
     substitutionAdvisorResult.className = "captain-change-result substitution-advisor-result captain-change-result--review";
     substitutionAdvisorResult.innerHTML = `
       <div class="captain-change-verdict">
@@ -3555,6 +3611,7 @@ function renderSubstitutionAdvisor(event) {
     projection: decisionProjectionSnapshot(projection),
     qa_flags: decisionQaFlagSnapshot(benchPlayer, "risk_adjusted", matchdayId)
   };
+  renderDecisionToolStatuses();
 
   substitutionAdvisorResult.className = `captain-change-result substitution-advisor-result captain-change-result--${resultClass}`;
   substitutionAdvisorResult.innerHTML = `
@@ -3578,6 +3635,7 @@ function renderSubstitutionAdvisor(event) {
 
 function resetSubstitutionAdvisor() {
   lastSubstitutionDecision = null;
+  renderDecisionToolStatuses();
   if (substitutionAdvisorStarterInput) substitutionAdvisorStarterInput.value = "";
   if (substitutionAdvisorPointsInput) substitutionAdvisorPointsInput.value = "";
   if (substitutionAdvisorBenchInput) substitutionAdvisorBenchInput.value = "";
@@ -6919,6 +6977,7 @@ function setupBuilder() {
   renderMatchEnvironmentOptions();
   renderMatchEnvironmentTable();
   renderMeasureInfo();
+  renderDecisionToolStatuses();
   renderPlayerPicker();
   renderCaptainPicks();
   renderDashboardSections();

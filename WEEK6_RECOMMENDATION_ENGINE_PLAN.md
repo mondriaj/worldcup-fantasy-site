@@ -695,6 +695,37 @@ Tests after this step:
 - Rerun advisors and confirm imported metadata is replaced by fresh manual results.
 - Confirm missing IDs are warned instead of guessed.
 
+### 9.10. Decision Tools QA Polish v0
+
+Status: `DONE`
+
+Goal: make Captain Change Advisor and Substitution Advisor state clearer and harder to misuse during real matchday workflows.
+
+Tasks:
+
+- Add visible Manual, Saved, and Imported - rerun needed status badges.
+- Make imported saved-check warnings harder to miss.
+- Keep concise instructions visible inside the advisor sections.
+- Preserve conservative handling for high raw-point scores.
+- Run focused browser QA across desktop/mobile for saved, imported, rerun, and reset states.
+
+Completion note, June 1, 2026:
+
+- Added advisor status panels to Captain Change Advisor and Substitution Advisor.
+- Status updates after checks, resets, invalid inputs, imports, and squad-changing actions.
+- Imported saved-check result panels now include a highlighted rerun warning.
+- Added `data/decisionToolsQaPolish_v0.md`.
+- Updated README, data source notes, data quality report, roadmap, and source manifest.
+
+Tests after this step:
+
+- Confirm default status is Manual on page load.
+- Run captain and substitution checks and confirm status becomes Saved.
+- Import saved scenarios and confirm status becomes Imported - rerun needed.
+- Rerun imported checks and confirm status becomes Saved.
+- Reset advisors and confirm status returns to Manual.
+- Confirm mobile layout has no horizontal overflow.
+
 ### 10. Full Feature Test Pass
 
 Status: `DONE`

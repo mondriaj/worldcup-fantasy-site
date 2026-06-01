@@ -1168,6 +1168,26 @@ Fallback rule:
 - Do not infer official-game legality.
 - Treat imported decisions as review context until rerun.
 
+### Decision Tools QA Polish v0
+
+Model notes: `data/decisionToolsQaPolish_v0.md`
+Browser files: `index.html`, `style.css`, `script.js`
+Input files: `financePlayersData.js`, `matchdayProjectionsData.js`, `scorePredictionsData.js`, `fantasyRulesData.js`
+Use for: making manual captain-change and substitution tool state clear to users.
+
+Current scope:
+
+- Adds visible Manual, Saved, and Imported - rerun needed status badges to both advisors.
+- Makes imported saved-check warnings more prominent in the advisor result panels.
+- Keeps concise in-section instructions visible under the advisor headings.
+- Preserves conservative handling for high raw scores.
+
+Fallback rule:
+
+- Do not treat a status badge as official fantasy legality.
+- Do not infer live points or played/unplayed state.
+- Imported checks remain review context until rerun.
+
 ### Recommendation QA v2
 
 Output file: `data/recommendationQa_v2.json`  

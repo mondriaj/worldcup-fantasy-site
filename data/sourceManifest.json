@@ -1318,6 +1318,32 @@
       "caveat": "Restores saved advisor scenarios by exact current player IDs and marks them as requiring rerun. It does not infer live points, played/unplayed state, official deadlines, or official-game legality."
     },
     {
+      "file": "decisionToolsQaPolish_v0.md",
+      "outputType": "decision_tools_qa_polish_model_note",
+      "generatedAt": "2026-06-01",
+      "sourceChecked": "2026-06-01",
+      "sourceFiles": [
+        "../index.html",
+        "../script.js",
+        "../style.css",
+        "../financePlayersData.js",
+        "../matchdayProjectionsData.js",
+        "../scorePredictionsData.js",
+        "../fantasyRulesData.js",
+        "captainChangeAdvisorModel_v0.md",
+        "substitutionAdvisorModel_v0.md",
+        "savedDecisionExport_v0.md",
+        "savedDecisionImport_v0.md"
+      ],
+      "plannedUse": [
+        "Decision Tools QA Polish v0",
+        "manual advisor status badges",
+        "imported saved-decision rerun warnings",
+        "focused captain/substitution browser QA"
+      ],
+      "caveat": "This is a UI clarity and QA layer. It does not infer live points, played/unplayed state, official deadlines, or official-game legality."
+    },
+    {
       "file": "fullFeatureTestReport_v0.md",
       "outputType": "full_feature_validation_report",
       "generatedAt": "2026-06-01",

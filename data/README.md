@@ -53,6 +53,7 @@ Use camelCase file names for new data-engine files because the site already uses
 - `savedSquadMatchdayTimeline_v0.md` - plain-language model note for grouping the current built or imported Team Builder squad by matchday kickoff and quick-filling decision tools.
 - `savedDecisionExport_v0.md` - plain-language model note for including the latest manual captain/substitution quick-check result in Team Export JSON v1.
 - `savedDecisionImport_v0.md` - plain-language model note for restoring saved decision scenarios as imported review context.
+- `decisionToolsQaPolish_v0.md` - plain-language model note for advisor status badges, imported-rerun warnings, and focused decision-tool QA.
 - `fullFeatureTestReport_v0.md` - human-readable report for the Step 10 browser/static validation pass across the main homepage, World Cup page, Team Builder, export, and manual decision tools.
 - `squadPortfolioAnalytics_v0.md` - plain-language model note for Team Builder portfolio analytics, including expected return, risk-adjusted return, VaR/CVaR, QA load, country concentration, fixture concentration, and premium squeeze.
 - `portfolioOptimizerModel_v0.md` - plain-language model note for the small portfolio-aware adjustment used when the Team Builder ranks completed candidate squads.

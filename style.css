@@ -396,6 +396,56 @@ html {
   line-height: 1.45;
 }
 
+.decision-tool-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 0 0 14px;
+  border: 1px solid rgba(24, 78, 119, 0.14);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: #f8fbff;
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.decision-tool-status__badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  border-radius: 999px;
+  padding: 4px 9px;
+  background: rgba(24, 78, 119, 0.1);
+  color: var(--accent-cool);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.decision-tool-status--saved {
+  border-color: rgba(15, 143, 79, 0.26);
+  background: rgba(15, 143, 79, 0.08);
+}
+
+.decision-tool-status--saved .decision-tool-status__badge {
+  background: rgba(15, 143, 79, 0.14);
+  color: var(--accent-dark);
+}
+
+.decision-tool-status--imported {
+  border-color: rgba(255, 159, 28, 0.36);
+  background: #fff8e8;
+  color: #7a4a00;
+}
+
+.decision-tool-status--imported .decision-tool-status__badge {
+  background: rgba(255, 159, 28, 0.22);
+  color: #7a4a00;
+}
+
 .decision-squad-panel {
   display: grid;
   gap: 12px;
@@ -736,6 +786,15 @@ html {
 
 .captain-change-result--empty {
   border-style: dashed;
+}
+
+.captain-change-import-warning {
+  border: 1px solid rgba(180, 83, 9, 0.24);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: rgba(255, 159, 28, 0.16);
+  color: #7a4a00;
+  font-weight: 800;
 }
 
 .captain-change-verdict {

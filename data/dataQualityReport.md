@@ -1007,6 +1007,22 @@ Missing or caveated:
 - Played/unplayed status, official deadlines, and official-game legality are still manual checks.
 - Substitution formation legality is still not fully validated.
 
+## Decision Tools QA Polish v0
+
+Complete:
+
+- `data/decisionToolsQaPolish_v0.md` documents the UI safety layer.
+- Captain Change Advisor and Substitution Advisor now show visible state badges.
+- States are Manual, Saved, and Imported - rerun needed.
+- Imported saved-check result panels now include a prominent rerun warning.
+- Advisor heading copy now states that each tool compares one scored player against one unplayed option.
+- Status badges update after valid checks, invalid inputs, resets, imports, and squad-changing actions.
+
+Missing or caveated:
+
+- Status badges are guidance, not official-game validation.
+- Live points, played/unplayed state, official deadlines, and official-game legality remain manual checks.
+
 ## Not Ready Yet
 
 - Official fantasy prices and player IDs have not been imported into `data/players.json`.
