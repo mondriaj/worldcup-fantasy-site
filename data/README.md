@@ -49,6 +49,7 @@ Use camelCase file names for new data-engine files because the site already uses
 - `substitutionAdvisorModel_v0.md` - plain-language model note for the manual Quick Substitution Check, including inputs, thresholds, formation caveats, and played/unplayed limitations.
 - `teamExportModel_v1.md` - plain-language model note for Team Export JSON v1, including model metadata, builder settings, squad state, and decision-tool fields.
 - `teamImportModel_v0.md` - plain-language model note for restoring Team Export JSON v1 files by exact current player IDs.
+- `userSquadSelection_v0.md` - plain-language model note for user-selected captain, vice captain, and bench order on built/imported Team Builder squads.
 - `savedSquadDecisionMode_v0.md` - plain-language model note for filling manual captain/substitution advisor fields from the current built or imported Team Builder squad.
 - `savedSquadMatchdayTimeline_v0.md` - plain-language model note for grouping the current built or imported Team Builder squad by matchday kickoff and quick-filling decision tools.
 - `savedDecisionExport_v0.md` - plain-language model note for including the latest manual captain/substitution quick-check result in Team Export JSON v1.

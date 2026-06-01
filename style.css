@@ -2418,6 +2418,72 @@ input[type="number"] {
   font-weight: 700;
 }
 
+.squad-selection-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 22px;
+  margin: 0 0 7px 4px;
+  border-radius: 8px;
+  padding: 3px 7px;
+  background: rgba(255, 159, 28, 0.16);
+  color: #7a3d00;
+  font-size: 0.67rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.squad-selection-badge--vice {
+  background: rgba(24, 78, 119, 0.12);
+  color: var(--accent-cool);
+}
+
+.squad-selection-badge--bench {
+  background: rgba(15, 143, 79, 0.12);
+  color: var(--accent-dark);
+}
+
+.squad-selection-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.squad-selection-controls--bench {
+  justify-content: flex-start;
+}
+
+.squad-selection-button {
+  appearance: none;
+  min-width: 30px;
+  height: 26px;
+  border: 1px solid rgba(24, 78, 119, 0.16);
+  border-radius: 8px;
+  background: #f8fbff;
+  color: var(--accent-cool);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.squad-selection-button:hover,
+.squad-selection-button:focus-visible {
+  border-color: rgba(255, 159, 28, 0.55);
+  background: rgba(255, 159, 28, 0.14);
+  color: #7a3d00;
+  outline: none;
+}
+
+.squad-selection-button.is-active {
+  border-color: rgba(15, 143, 79, 0.45);
+  background: var(--accent-dark);
+  color: #ffffff;
+}
+
 .player-card strong {
   display: block;
   font-size: 0.82rem;
@@ -2506,6 +2572,7 @@ input[type="number"] {
 
 .bench-card {
   appearance: none;
+  position: relative;
   min-width: 0;
   border: 1px solid rgba(24, 78, 119, 0.14);
   border-radius: 16px;
@@ -2530,6 +2597,13 @@ input[type="number"] {
   color: var(--accent-cool);
   font-size: 0.72rem;
   font-weight: 800;
+}
+
+.bench-card .squad-selection-badge {
+  margin-left: 0;
+  border-radius: 8px;
+  background: rgba(15, 143, 79, 0.12);
+  color: var(--accent-dark);
 }
 
 .bench-card strong,

@@ -1046,12 +1046,13 @@ Current scope:
 - Preserves readable legacy fields such as players, starting 11, bench, captain, rule checks, and portfolio analytics.
 - Adds `schema_version: team-export-v1`, model metadata, builder settings, squad state, recommendation notes, and decision-tool fields.
 - Records locked players, removed players, ignored locked players, starter slots, and bench slots.
+- Records user-selected captain, vice captain, and bench order when the user sets them on the built/imported squad.
 - Includes null-safe Captain Change Advisor v0 and Substitution Advisor v0 fields.
 - Includes the latest saved manual quick-check result after a user runs Captain Change Advisor or Substitution Advisor.
 
 Fallback rule:
 
-- Treat exported captain and vice-captain as prototype model suggestions until user-selected captain state exists.
+- Treat exported captain and vice-captain as prototype model suggestions only when the user has not selected them.
 - Keep decision-tool scenario fields null unless a user has run a specific manual quick check.
 - Restore saved decision-tool results only as imported review context that requires an advisor rerun.
 - Do not treat proxy prices, draft rules, or prototype projections as official fantasy data.
@@ -1067,6 +1068,7 @@ Current scope:
 
 - Accepts only `schema_version: team-export-v1`.
 - Restores formation, matchday, recommendation style, trust mode, price filters, risk controls, locked players, removed players, starters, and bench.
+- Restores user-selected captain, vice captain, and bench order by exact current player ID when those players are still valid in the restored squad.
 - Uses exact current player IDs and warns when IDs are missing.
 - Renders the saved squad directly instead of rerunning the optimizer.
 - Restores saved captain-change and substitution scenarios as imported review context when their saved player IDs still exist.
@@ -1074,6 +1076,7 @@ Current scope:
 Fallback rule:
 
 - Do not infer missing player IDs or replacement players.
+- Do not infer missing captain, vice-captain, or bench-order selections.
 - Do not migrate prototype IDs to future official fantasy IDs until a deliberate migration step exists.
 - Do not treat an imported squad as official-game legal until official rules, prices, positions, and player IDs are imported.
 - Do not treat imported saved decisions as fresh live recommendations. The user must rerun the advisor before acting.
@@ -1121,6 +1124,30 @@ Fallback rule:
 - Timeline quick-fill actions alone are not saved user decisions.
 - Only a completed advisor quick check is saved into Team Export JSON v1.
 - Re-check this workflow once official 2026 fantasy rules and deadlines are published.
+
+### User Squad Selection v0
+
+Model notes: `data/userSquadSelection_v0.md`
+Browser state: current full Team Builder squad from a build or Team Import v0 restore
+Input files: `script.js`, `financePlayersData.js`, `matchdayProjectionsData.js`, `scorePredictionsData.js`
+Use for: marking captain, vice captain, and bench order on a built/imported Team Builder squad.
+
+Current scope:
+
+- Adds `C` and `VC` controls to starter cards.
+- Adds `B1`, `B2`, `B3`, and `B4` controls to bench cards.
+- Requires captain and vice captain to be different starters.
+- Requires bench-order selections to be current bench players.
+- Uses selected labels in Captain Change Advisor, Substitution Advisor, and Saved Squad Timeline.
+- Writes selected IDs and source labels into Team Export JSON v1.
+- Restores selected IDs during Team Import v0 when the exact current player IDs still exist in the restored squad.
+
+Fallback rule:
+
+- Do not infer captain, vice captain, or bench order when the user has not selected them.
+- Keep model captain and vice-captain fallbacks only as clearly labeled fallback export values.
+- Do not infer live points, played/unplayed state, deadlines, or official-game legality.
+- Warn instead of guessing if imported selection IDs no longer match the restored squad.
 
 ### Saved Decision Export v0
 

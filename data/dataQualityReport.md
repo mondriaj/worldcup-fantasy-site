@@ -786,13 +786,14 @@ Complete:
 - The export adds `model_metadata` for finance data, matchday projections, score predictions, and fantasy rules.
 - The export adds `builder_settings` for formation, render mode, matchday, recommendation style, trust mode, advice pool, filters, risk controls, and budget.
 - The export adds `squad_state` with squad IDs, starter IDs, bench IDs, captain and vice-captain references, locked players, removed players, ignored locked players, starter slots, and bench slots.
+- The export now records user-selected captain, vice captain, and bench order when present, with source labels that distinguish user selections from model fallbacks.
 - The export adds null-safe fields for Captain Change Advisor v0 and Substitution Advisor v0.
 - The export now includes the latest saved manual captain-change or substitution quick-check result after the user runs one.
 - `data/teamExportModel_v1.md` documents the payload behavior and caveats.
 
 Missing or caveated:
 
-- Exported captain and vice-captain are prototype model suggestions, not confirmed user selections.
+- Captain, vice captain, and bench order are official only if the eventual fantasy game accepts the same choices. Current selections are local prototype user state.
 - Official fantasy player IDs, official prices, official positions, final squads, and final rules are still pending.
 - Decision-tool scenario fields remain null until a user runs a quick check.
 - Saved decision-tool results are restored by Team Import v0 only as imported review context.
@@ -922,6 +923,7 @@ Complete:
 
 - Team Builder now imports the same `team-export-v1` JSON created by Export Team JSON.
 - Import restores formation, matchday view, recommendation style, trust mode, price filters, risk controls, locked players, removed players, starter IDs, and bench IDs where the IDs still exist in the current browser dataset.
+- Import restores user-selected captain, vice captain, and bench order when the saved IDs still match valid restored starters or bench players.
 - Import restores saved captain-change and substitution scenarios as imported review context when the saved player IDs still exist.
 - The importer restores the saved squad by exact player ID and does not rerun the optimizer.
 - `data/teamImportModel_v0.md` documents the behavior and caveats.
@@ -929,7 +931,8 @@ Complete:
 Missing or caveated:
 
 - Import does not infer or migrate missing player IDs.
-- Import does not know official fantasy IDs, live points, played/unplayed status, user-confirmed captains, transfers, or official-game legality.
+- Import does not know official fantasy IDs, live points, played/unplayed status, transfers, or official-game legality.
+- Import warns instead of guessing missing captain, vice-captain, or bench-order IDs.
 - Imported saved decisions must be rerun before acting.
 - Old exports may need a migration step after official fantasy players and IDs replace the current prototype IDs.
 
@@ -959,7 +962,7 @@ Complete:
 - Saved Squad Timeline now reads the current full Team Builder squad after a build or import.
 - Timeline selector supports MD1, MD2, and MD3.
 - Saved players are grouped by fixture kickoff label from `matchdayProjectionsData.js`.
-- Player cards show starter/bench status, opponent, fixture difficulty, balanced captain signal, balanced substitution signal, start probability, and expected minutes.
+- Player cards show user captain/vice/bench-order labels when present, otherwise starter/bench status, plus opponent, fixture difficulty, balanced captain signal, balanced substitution signal, start probability, and expected minutes.
 - Quick-fill buttons can send players to Captain Change Advisor or Substitution Advisor fields.
 - `data/savedSquadMatchdayTimeline_v0.md` documents the workflow and caveats.
 
@@ -970,6 +973,25 @@ Missing or caveated:
 - The timeline does not know official fantasy deadlines or official same-day captain/substitution windows.
 - Timeline quick-fill actions alone are not saved into Team Export JSON v1.
 - Completed advisor quick checks can now be included in Team Export JSON v1 by Saved Decision Export v0.
+
+## User Squad Selection v0
+
+Complete:
+
+- `data/userSquadSelection_v0.md` documents the workflow.
+- Team Builder starter cards now include `C` and `VC` controls.
+- Team Builder bench cards now include `B1`-`B4` controls.
+- Captain and vice captain can only be restored or selected from current starters, and they cannot be the same player.
+- Bench order can only be restored or selected from current bench players.
+- Team Export JSON v1 records selected captain, vice captain, and bench order in `squad_state`.
+- Team Import v0 restores those selections by exact current player ID and warns instead of guessing missing IDs.
+- Captain Change Advisor, Substitution Advisor, and Saved Squad Timeline use the user labels as context.
+
+Missing or caveated:
+
+- This is local prototype user state, not an official FIFA fantasy selection.
+- It does not infer live scores, played/unplayed state, official deadlines, or official-game legality.
+- It depends on the current prototype player IDs staying stable until an official fantasy-ID migration exists.
 
 ## Saved Decision Export v0
 

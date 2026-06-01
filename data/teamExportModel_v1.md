@@ -49,6 +49,10 @@ The export records:
 - squad player IDs
 - starter player IDs
 - bench player IDs
+- user-selected captain ID when set
+- user-selected vice-captain ID when set
+- bench-order player IDs
+- captain and vice-captain source labels
 - captain and vice-captain player references
 - locked players
 - removed players
@@ -56,7 +60,7 @@ The export records:
 - starter slots
 - bench slots
 
-Captain and vice-captain are still prototype recommendations from the current captain score model. They are placeholders for future official fantasy captain selection or user-selected captain state.
+Captain and vice-captain now use explicit user selections when the user marks them on the built or imported squad. If the user has not selected them, the export falls back to the current prototype captain score model and labels the source as model-based.
 
 ## Decision Tools
 
@@ -71,7 +75,7 @@ Saved decision fields are cleared when the related advisor is reset, advisor inp
 
 ## Import Compatibility
 
-Team Import v0 reads this same `team-export-v1` schema. It restores builder settings, locked/removed players, starter IDs, and bench IDs by exact current player IDs. It warns about missing IDs instead of guessing replacements.
+Team Import v0 reads this same `team-export-v1` schema. It restores builder settings, locked/removed players, starter IDs, bench IDs, user-selected captain/vice captain, and bench order by exact current player IDs. It warns about missing IDs instead of guessing replacements.
 
 Team Import v0 restores saved manual decision scenarios as imported review context. Imported decisions are tagged with `imported_requires_rerun: true` when re-exported until the user reruns the advisor.
 
@@ -80,4 +84,4 @@ Team Import v0 restores saved manual decision scenarios as imported review conte
 - This is not an official FIFA fantasy export.
 - Official fantasy player IDs, official prices, official positions, final squads, and final rules are still pending.
 - Decision-tool fields remain null until a user runs a quick check. Imported saved decisions are review context until the user reruns the advisor.
-- Exported captain and vice-captain are model suggestions, not confirmed user choices.
+- Captain, vice-captain, and bench order are prototype user state when selected. They are not official-game confirmations and do not validate deadlines, live points, or eligibility.

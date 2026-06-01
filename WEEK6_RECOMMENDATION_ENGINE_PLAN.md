@@ -726,6 +726,43 @@ Tests after this step:
 - Reset advisors and confirm status returns to Manual.
 - Confirm mobile layout has no horizontal overflow.
 
+### 9.11. User Squad Selection v0
+
+Status: `DONE`
+
+Goal: let users mark captain, vice captain, and bench order on a built or imported Team Builder squad without asking them to enter a full squad manually.
+
+Tasks:
+
+- Add compact captain and vice-captain controls to starter cards.
+- Add compact bench-order controls to bench cards.
+- Keep captain and vice captain limited to different starters.
+- Keep bench-order choices limited to current bench players.
+- Preserve user selections in Team Export JSON v1.
+- Restore user selections in Team Import v0 by exact current player ID.
+- Use user labels inside Captain Change Advisor, Substitution Advisor, and Saved Squad Timeline.
+- Preserve model captain/vice fallback only when the user has not selected those roles.
+- Document the behavior and limitations.
+
+Completion note, June 1, 2026:
+
+- Added `C` and `VC` controls to Team Builder starter cards.
+- Added `B1`-`B4` controls to Team Builder bench cards.
+- Team Export JSON v1 now records `user_squad_selection_version`, selected captain/vice IDs, bench-order IDs, bench-order references, and source labels.
+- Team Import v0 restores those selections only when the exact player IDs are valid in the restored squad.
+- Saved Squad Decision Mode and Saved Squad Timeline now show user captain/vice/bench-order labels as context.
+- Added `data/userSquadSelection_v0.md`.
+- Updated README, data source notes, data quality report, Team Export/Import docs, and source manifest.
+
+Tests after this step:
+
+- Build a Team Builder squad and select captain, vice captain, and bench order.
+- Export Team JSON and confirm the selected IDs and source labels are present.
+- Import the exported JSON and confirm the selected labels are restored.
+- Confirm advisor saved-squad panels and the saved-squad timeline use the selected labels.
+- Confirm stale saved decision results clear when squad selections change.
+- Confirm JSON parsing, JavaScript syntax, desktop browser flow, and mobile overflow checks still pass.
+
 ### 10. Full Feature Test Pass
 
 Status: `DONE`

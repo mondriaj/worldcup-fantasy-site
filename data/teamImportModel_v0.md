@@ -20,6 +20,9 @@ It is meant for saving a draft squad locally, then restoring it later in the sam
 - removed players
 - starter player IDs
 - bench player IDs
+- user-selected captain ID when the player is still a restored starter
+- user-selected vice-captain ID when the player is still a restored starter and differs from captain
+- bench-order player IDs when the players are still restored bench players
 - saved Captain Change Advisor scenario fields when present
 - saved Substitution Advisor scenario fields when present
 
@@ -33,7 +36,8 @@ Saved decision scenarios are restored as imported review context. The advisor fi
 - Missing player IDs are shown as warnings instead of guessed.
 - If the starter positions do not match an allowed formation, the saved squad is not forced into the field layout.
 - If only part of the file can be restored, settings and available locks are kept, but the user is told the full squad was not restored.
-- Import does not infer official fantasy player IDs, prices, live scores, captain choices, played/unplayed status, or official-game legality.
+- Import does not infer official fantasy player IDs, prices, live scores, missing captain choices, played/unplayed status, or official-game legality.
+- Missing user-selected captain, vice-captain, or bench-order IDs are warned instead of guessed from names.
 - Imported saved decisions are tagged with `imported_requires_rerun: true` when re-exported.
 
 ## Caveats

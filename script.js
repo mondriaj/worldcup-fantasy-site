@@ -756,6 +756,9 @@ let currentBenchSlotsByPosition = {};
 let lastPlayerDetailTrigger = null;
 let lastCaptainChangeDecision = null;
 let lastSubstitutionDecision = null;
+let userCaptainId = null;
+let userViceCaptainId = null;
+let userBenchOrderIds = [];
 let optimizerPriceFloorCache = null;
 let optimizerStateRankCache = new WeakMap();
 const qaFlagsCache = new Map();
@@ -2349,6 +2352,211 @@ function savedDecisionSquad() {
   };
 }
 
+function clearUserSquadSelections() {
+  userCaptainId = null;
+  userViceCaptainId = null;
+  userBenchOrderIds = [];
+}
+
+function normalizeUserSquadSelections(starters = currentRenderedTeam, bench = currentBenchPlayers) {
+  const starterIds = new Set(starters.map((player) => player.id));
+  const benchIds = bench.map((player) => player.id);
+  const benchIdSet = new Set(benchIds);
+
+  if (!starterIds.has(userCaptainId)) {
+    userCaptainId = null;
+  }
+
+  if (!starterIds.has(userViceCaptainId) || userViceCaptainId === userCaptainId) {
+    userViceCaptainId = null;
+  }
+
+  if (userBenchOrderIds.length) {
+    const orderedIds = userBenchOrderIds.filter((playerId) => benchIdSet.has(playerId));
+    benchIds.forEach((playerId) => {
+      if (!orderedIds.includes(playerId)) {
+        orderedIds.push(playerId);
+      }
+    });
+    userBenchOrderIds = orderedIds;
+  }
+}
+
+function effectiveBenchOrderIds(bench = currentBenchPlayers) {
+  const benchIds = bench.map((player) => player.id);
+  const benchIdSet = new Set(benchIds);
+
+  if (!userBenchOrderIds.length) {
+    return benchIds;
+  }
+
+  const orderedIds = userBenchOrderIds.filter((playerId) => benchIdSet.has(playerId));
+  benchIds.forEach((playerId) => {
+    if (!orderedIds.includes(playerId)) {
+      orderedIds.push(playerId);
+    }
+  });
+
+  return orderedIds;
+}
+
+function benchOrderRank(playerId, bench = currentBenchPlayers) {
+  const rank = effectiveBenchOrderIds(bench).indexOf(playerId);
+  return rank >= 0 ? rank + 1 : null;
+}
+
+function userSelectionContextLabel(player, starterIds = new Set(currentRenderedTeam.map((starter) => starter.id))) {
+  if (!player) {
+    return "";
+  }
+
+  if (player.id === userCaptainId) {
+    return "Captain";
+  }
+
+  if (player.id === userViceCaptainId) {
+    return "Vice captain";
+  }
+
+  const benchRank = benchOrderRank(player.id);
+
+  if (benchRank) {
+    return `Bench ${benchRank}`;
+  }
+
+  return starterIds.has(player.id) ? "Starter" : "Bench";
+}
+
+function squadSelectionBadgeHtml(player, area) {
+  if (area === "starter") {
+    if (player.id === userCaptainId) {
+      return `<span class="squad-selection-badge squad-selection-badge--captain">Captain</span>`;
+    }
+
+    if (player.id === userViceCaptainId) {
+      return `<span class="squad-selection-badge squad-selection-badge--vice">Vice</span>`;
+    }
+
+    return "";
+  }
+
+  const rank = benchOrderRank(player.id);
+  return rank
+    ? `<span class="squad-selection-badge squad-selection-badge--bench">Bench ${rank}</span>`
+    : "";
+}
+
+function starterSelectionControlsHtml(player) {
+  const captainSelected = player.id === userCaptainId;
+  const viceSelected = player.id === userViceCaptainId;
+
+  return `
+    <div class="squad-selection-controls" aria-label="Captain selection controls">
+      <button class="squad-selection-button${captainSelected ? " is-active" : ""}" type="button" data-squad-role-action="captain" data-player-id="${escapeHtml(player.id)}" aria-label="Set ${escapeHtml(player.name)} as captain" title="Set captain" aria-pressed="${captainSelected}">C</button>
+      <button class="squad-selection-button${viceSelected ? " is-active" : ""}" type="button" data-squad-role-action="vice" data-player-id="${escapeHtml(player.id)}" aria-label="Set ${escapeHtml(player.name)} as vice captain" title="Set vice captain" aria-pressed="${viceSelected}">VC</button>
+    </div>
+  `;
+}
+
+function benchSelectionControlsHtml(player) {
+  const currentRank = benchOrderRank(player.id);
+  const orderIds = effectiveBenchOrderIds();
+
+  return `
+    <div class="squad-selection-controls squad-selection-controls--bench" aria-label="Bench order controls">
+      ${orderIds.map((_, index) => {
+        const rank = index + 1;
+        return `<button class="squad-selection-button${currentRank === rank ? " is-active" : ""}" type="button" data-squad-role-action="bench-order" data-player-id="${escapeHtml(player.id)}" data-bench-rank="${rank}" aria-label="Set ${escapeHtml(player.name)} as bench ${rank}" title="Set bench ${rank}" aria-pressed="${currentRank === rank}">B${rank}</button>`;
+      }).join("")}
+    </div>
+  `;
+}
+
+function setUserCaptain(playerId) {
+  const starterIds = new Set(currentRenderedTeam.map((player) => player.id));
+
+  if (!starterIds.has(playerId)) {
+    showBuilderWarning("Choose a starter as captain.");
+    return false;
+  }
+
+  userCaptainId = userCaptainId === playerId ? null : playerId;
+
+  if (userViceCaptainId === userCaptainId) {
+    userViceCaptainId = null;
+  }
+
+  return true;
+}
+
+function setUserViceCaptain(playerId) {
+  const starterIds = new Set(currentRenderedTeam.map((player) => player.id));
+
+  if (!starterIds.has(playerId)) {
+    showBuilderWarning("Choose a starter as vice captain.");
+    return false;
+  }
+
+  if (playerId === userCaptainId) {
+    showBuilderWarning("Captain and vice captain must be different players.");
+    return false;
+  }
+
+  userViceCaptainId = userViceCaptainId === playerId ? null : playerId;
+
+  return true;
+}
+
+function setUserBenchOrder(playerId, rank) {
+  const benchIds = currentBenchPlayers.map((player) => player.id);
+
+  if (!benchIds.includes(playerId)) {
+    showBuilderWarning("Choose a bench player for bench order.");
+    return false;
+  }
+
+  const orderedIds = effectiveBenchOrderIds();
+  const nextRank = Math.min(Math.max(Number(rank) || 1, 1), orderedIds.length);
+  const withoutPlayer = orderedIds.filter((id) => id !== playerId);
+  withoutPlayer.splice(nextRank - 1, 0, playerId);
+
+  if (withoutPlayer.join("|") === orderedIds.join("|")) {
+    return false;
+  }
+
+  userBenchOrderIds = withoutPlayer;
+
+  return true;
+}
+
+function handleSquadRoleAction(button) {
+  const playerId = button.dataset.playerId;
+
+  if (!playerId || currentRenderMode !== "built") {
+    return;
+  }
+
+  let updated = false;
+
+  if (button.dataset.squadRoleAction === "captain") {
+    updated = setUserCaptain(playerId);
+  } else if (button.dataset.squadRoleAction === "vice") {
+    updated = setUserViceCaptain(playerId);
+  } else if (button.dataset.squadRoleAction === "bench-order") {
+    updated = setUserBenchOrder(playerId, button.dataset.benchRank);
+  }
+
+  if (!updated) {
+    teamMessage.textContent = builderWarning.textContent || "No captain, vice, or bench order change was made.";
+    return;
+  }
+
+  clearSavedDecisionExports();
+  renderTeam(currentRenderedTeam, currentBenchPlayers, currentIgnoredLockedPlayers, currentRenderMode);
+  renderSavedSquadDecisionPanels();
+  teamMessage.textContent = "Updated captain, vice, or bench order selection. Rerun any manual advisor checks before exporting decisions.";
+}
+
 function savedDecisionSquadEmptyHtml(toolName) {
   return `
     <div class="decision-squad-heading">
@@ -2408,7 +2616,10 @@ function renderCaptainSavedSquadPanel() {
   const mode = captainChangeMode();
   const rows = squad
     .map((player) => {
-      const areaLabel = starterIds.has(player.id) ? "Starter" : "Bench";
+      const contextLabel = userSelectionContextLabel(player, starterIds);
+      const areaLabel = starterIds.has(player.id)
+        ? contextLabel
+        : `${contextLabel} option`;
       const summary = decisionProjectionSummary(player, matchdayId, mode, captainChangeProjectionScore, areaLabel);
       return { player, summary };
     })
@@ -2450,7 +2661,13 @@ function renderSubstitutionSavedSquadPanel() {
   const matchdayId = substitutionAdvisorMatchdaySelect?.value || "md1";
   const mode = substitutionAdvisorMode();
   const starterCards = starters.map((player) => {
-    const summary = decisionProjectionSummary(player, matchdayId, mode, substitutionAdvisorProjectionScore, "Starter");
+    const summary = decisionProjectionSummary(
+      player,
+      matchdayId,
+      mode,
+      substitutionAdvisorProjectionScore,
+      userSelectionContextLabel(player, new Set(starters.map((starter) => starter.id)))
+    );
     return decisionSquadCard(player, summary.text, `
       <div class="decision-squad-actions decision-squad-actions--single">
         <button class="decision-squad-button" type="button" data-substitution-fill="starter" data-player-id="${escapeHtml(player.id)}">Played starter</button>
@@ -2459,10 +2676,14 @@ function renderSubstitutionSavedSquadPanel() {
   });
   const benchCards = bench
     .map((player) => {
-      const summary = decisionProjectionSummary(player, matchdayId, mode, substitutionAdvisorProjectionScore, "Bench");
+      const summary = decisionProjectionSummary(player, matchdayId, mode, substitutionAdvisorProjectionScore, userSelectionContextLabel(player));
       return { player, summary };
     })
-    .sort((a, b) => b.summary.score - a.summary.score || a.player.name.localeCompare(b.player.name))
+    .sort((a, b) =>
+      value(benchOrderRank(a.player.id)) - value(benchOrderRank(b.player.id)) ||
+      b.summary.score - a.summary.score ||
+      a.player.name.localeCompare(b.player.name)
+    )
     .map(({ player, summary }) => decisionSquadCard(player, summary.text, `
       <div class="decision-squad-actions decision-squad-actions--single">
         <button class="decision-squad-button" type="button" data-substitution-fill="bench" data-player-id="${escapeHtml(player.id)}">Bench option</button>
@@ -2631,6 +2852,7 @@ function timelinePlayerRow(player, area, matchdayId) {
     groupKey: timelineGroupKey(projection, matchdayId),
     captainSignal,
     substitutionSignal,
+    contextLabel: userSelectionContextLabel(player),
     startProbability: projection
       ? fieldNumber(projection, "start_probability_percent") ?? scoreValue(player, "start_probability_percent")
       : scoreValue(player, "start_probability_percent"),
@@ -2689,7 +2911,7 @@ function renderTimelinePlayerCard(row) {
           <strong>${escapeHtml(row.player.name)}</strong>
           <small>${escapeHtml(playerCountryText(row.player))} · ${escapeHtml(row.player.position)} · vs ${escapeHtml(opponent)}</small>
         </div>
-        <span class="timeline-player-tag">${row.area === "starter" ? "Starter" : "Bench"}</span>
+        <span class="timeline-player-tag">${escapeHtml(row.contextLabel || (row.area === "starter" ? "Starter" : "Bench"))}</span>
       </div>
       <small>${escapeHtml(kickoff)} · ${escapeHtml(difficulty)}</small>
       <div class="timeline-player-stats">
@@ -4627,15 +4849,32 @@ function selectedPlayerReferences(playerIds) {
 
 function squadStateForExport(starters, bench, ignoredLockedPlayers, captainPlayer, viceCaptainPlayer) {
   const squad = [...starters, ...bench];
+  const benchOrderIds = effectiveBenchOrderIds(bench);
 
   return {
+    user_squad_selection_version: "user_squad_selection_v0",
     squad_player_ids: squad.map((player) => player.id),
     starter_player_ids: starters.map((player) => player.id),
     bench_player_ids: bench.map((player) => player.id),
+    user_captain_id: userCaptainId,
+    user_vice_captain_id: userViceCaptainId,
+    bench_order_player_ids: benchOrderIds,
+    bench_order_source: userBenchOrderIds.length ? "user_selected" : "builder_default",
+    bench_order: benchOrderIds
+      .map(playerById)
+      .filter(Boolean)
+      .map((player, index) => ({
+        order: index + 1,
+        ...exportedPlayerReference(player)
+      })),
     captain: exportedPlayerReference(captainPlayer),
     vice_captain: exportedPlayerReference(viceCaptainPlayer),
-    captain_source: captainPlayer ? "highest_current_captain_score_non_goalkeeper" : "not_available",
-    vice_captain_source: viceCaptainPlayer ? "second_highest_current_captain_score_non_goalkeeper" : "not_available",
+    captain_source: userCaptainId && captainPlayer?.id === userCaptainId
+      ? "user_selected"
+      : captainPlayer ? "model_highest_current_captain_score_non_goalkeeper" : "not_available",
+    vice_captain_source: userViceCaptainId && viceCaptainPlayer?.id === userViceCaptainId
+      ? "user_selected"
+      : viceCaptainPlayer ? "model_second_highest_current_captain_score_non_goalkeeper" : "not_available",
     locked_players: selectedPlayerReferences(lockedPlayerIds),
     removed_players: selectedPlayerReferences(excludedPlayerIds),
     ignored_locked_players: ignoredLockedPlayers.map(exportedPlayerReference),
@@ -4733,20 +4972,33 @@ function savedDecisionTextForExport() {
 }
 
 function exportCaptain(starters) {
-  const captain = [...starters]
-    .filter((player) => player.position !== "Goalkeeper")
-    .sort((a, b) => captainRecommendationScore(b) - captainRecommendationScore(a))[0] || starters[0];
+  const captain = exportCaptainPlayer(starters);
 
   return captain?.name || "";
 }
 
-function exportCaptainPlayer(starters) {
+function modelCaptainPlayer(starters) {
   return [...starters]
     .filter((player) => player.position !== "Goalkeeper")
-    .sort((a, b) => captainRecommendationScore(b) - captainRecommendationScore(a))[0] || starters[0] || null;
+    .sort((a, b) => captainRecommendationScore(b) - captainRecommendationScore(a))[0] || starters[0];
+}
+
+function exportCaptainPlayer(starters) {
+  return starters.find((player) => player.id === userCaptainId) ||
+    modelCaptainPlayer(starters) ||
+    null;
 }
 
 function exportViceCaptainPlayer(starters, captain) {
+  const userVice = starters.find((player) =>
+    player.id === userViceCaptainId &&
+    player.id !== captain?.id
+  );
+
+  if (userVice) {
+    return userVice;
+  }
+
   return [...starters]
     .filter((player) => player.id !== captain?.id && player.position !== "Goalkeeper")
     .sort((a, b) => captainRecommendationScore(b) - captainRecommendationScore(a))[0] ||
@@ -5066,6 +5318,61 @@ function validateImportedLineup(starters, bench) {
   return warnings;
 }
 
+function restoreImportedUserSquadSelections(squadState, starters, bench) {
+  const warnings = [];
+  const starterIds = new Set(starters.map((player) => player.id));
+  const benchIds = bench.map((player) => player.id);
+  const benchIdSet = new Set(benchIds);
+  const captainId = squadState.user_captain_id;
+  const viceCaptainId = squadState.user_vice_captain_id;
+  const benchOrderIds = Array.isArray(squadState.bench_order_player_ids)
+    ? squadState.bench_order_player_ids
+    : [];
+  const restoreUserBenchOrder = squadState.bench_order_source === "user_selected";
+
+  clearUserSquadSelections();
+
+  if (captainId) {
+    if (starterIds.has(captainId)) {
+      userCaptainId = captainId;
+    } else {
+      warnings.push(`Imported user captain ID was not found in restored starters: ${captainId}.`);
+    }
+  }
+
+  if (viceCaptainId) {
+    if (starterIds.has(viceCaptainId) && viceCaptainId !== userCaptainId) {
+      userViceCaptainId = viceCaptainId;
+    } else {
+      warnings.push(`Imported user vice captain ID was not found in restored starters or matched captain: ${viceCaptainId}.`);
+    }
+  }
+
+  if (benchOrderIds.length && restoreUserBenchOrder) {
+    const restoredOrderIds = [];
+
+    benchOrderIds.forEach((playerId) => {
+      if (benchIdSet.has(playerId) && !restoredOrderIds.includes(playerId)) {
+        restoredOrderIds.push(playerId);
+      } else if (!benchIdSet.has(playerId)) {
+        warnings.push(`Imported bench order ID was not found in restored bench: ${playerId}.`);
+      }
+    });
+
+    benchIds.forEach((playerId) => {
+      if (!restoredOrderIds.includes(playerId)) {
+        restoredOrderIds.push(playerId);
+      }
+    });
+
+    userBenchOrderIds = restoredOrderIds;
+  }
+
+  normalizeUserSquadSelections(starters, bench);
+
+  return warnings;
+}
+
 function restoreTeamFromExportPayload(payload) {
   if (!payload || payload.schema_version !== "team-export-v1") {
     throw new Error("Import needs a Team JSON v1 file exported from this Team Builder.");
@@ -5089,6 +5396,11 @@ function restoreTeamFromExportPayload(payload) {
   const restoreIsComplete = starterImport.foundPlayers.length === startingLineupTotal &&
     benchImport.foundPlayers.length === squadTotalPlayers - startingLineupTotal &&
     tacticNameForCounts(countsByPosition(starterImport.foundPlayers));
+  const userSelectionWarnings = restoreImportedUserSquadSelections(
+    squadState,
+    starterImport.foundPlayers,
+    benchImport.foundPlayers
+  );
 
   selectedSwap = null;
   renderMeasureInfo();
@@ -5116,6 +5428,7 @@ function restoreTeamFromExportPayload(payload) {
 
   const importWarnings = [
     ...lineupWarnings,
+    ...userSelectionWarnings,
     ...decisionImport.warnings
   ];
 
@@ -6121,6 +6434,7 @@ function renderRemovedPlayers() {
 
 function clearRenderedTeam(message, options = {}) {
   clearSavedDecisionExports();
+  clearUserSquadSelections();
 
   if (options.clearExclusions) {
     excludedPlayerIds.clear();
@@ -6281,11 +6595,13 @@ function renderPlayerCard(player, slot, position, slotIndex) {
   return `
     <article class="player-card player-card--selectable" role="button" tabindex="0" data-area="starter" data-position="${position}" data-slot-index="${slotIndex}" data-player-id="${player.id}" style="top: ${slot.top}; left: ${slot.left};">
       <span class="player-card__role">${player.position}</span>
+      ${squadSelectionBadgeHtml(player, "starter")}
       <strong>${playerDetailButton(player, "player-name-button--card", measureKeyForTrust(activeMeasure()))}</strong>
       <p>${playerCountryText(player)} · ${player.club}${fixtureText}</p>
       <p class="player-card__price">Price ${playerPriceText(player)}</p>
       ${roleLine}
       <p>${stat.label}: ${displayNumber(stat.value(player))}</p>
+      ${starterSelectionControlsHtml(player)}
     </article>
   `;
 }
@@ -6311,9 +6627,11 @@ function renderBenchCard(player, position, slotIndex) {
   return `
     <article class="bench-card bench-card--selectable" role="button" tabindex="0" data-area="bench" data-position="${position}" data-slot-index="${slotIndex}" data-player-id="${player.id}">
       <span>${player.position}</span>
+      ${squadSelectionBadgeHtml(player, "bench")}
       <strong>${playerDetailButton(player, "player-name-button--bench", measureKeyForTrust(activeMeasure()))}</strong>
       <p>${playerCountryText(player)} · ${player.club}${fixtureText}</p>
       <small>Price ${playerPriceText(player)}${roleDetail} · ${stat.label}: ${displayNumber(stat.value(player))}</small>
+      ${benchSelectionControlsHtml(player)}
     </article>
   `;
 }
@@ -6387,6 +6705,7 @@ function updateSwapPrompt() {
 function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built", options = {}) {
   const tacticName = tacticSelect.value;
   const layout = fieldLayoutForTactic(tacticName);
+  normalizeUserSquadSelections(starters, bench);
   currentStarterSlotsByPosition = starterSlotMapForTeam(starters, layout, mode);
   const squad = [...starters, ...bench];
   const totalSlots = Object.values(tactics[tacticName]).reduce((sum, count) => sum + count, 0);
@@ -6469,6 +6788,7 @@ function renderCurrentSlotState(message) {
   const layout = fieldLayoutForTactic(tacticName);
   const starters = compactSlotMap(currentStarterSlotsByPosition);
   const bench = compactSlotMap(currentBenchSlotsByPosition);
+  normalizeUserSquadSelections(starters, bench);
   const squad = [...starters, ...bench];
   const totalPrice = squad.reduce((sum, player) => sum + value(player.price), 0);
   const averageRisk = squad.length
@@ -6510,6 +6830,7 @@ function renderCurrentSlotState(message) {
 // This preview appears as soon as someone locks players, before building the full team.
 function renderLockedPreview() {
   clearSavedDecisionExports();
+  clearUserSquadSelections();
 
   const tacticName = tacticSelect.value;
   const requirements = tactics[tacticName];
@@ -6683,6 +7004,7 @@ function renderAdviceTable() {
 
 function buildTeam() {
   clearSavedDecisionExports();
+  clearUserSquadSelections();
 
   const {
     starters,
@@ -6872,6 +7194,13 @@ function swapStarterWithBench(starterId, benchId) {
 }
 
 function handleSquadCardClick(event) {
+  const roleButton = event.target.closest("[data-squad-role-action][data-player-id]");
+
+  if (roleButton) {
+    handleSquadRoleAction(roleButton);
+    return;
+  }
+
   if (event.target.closest("[data-player-detail-id]")) {
     return;
   }
@@ -6916,7 +7245,7 @@ function handleSquadCardClick(event) {
 }
 
 function handleSquadCardKeydown(event) {
-  if (event.target.closest("[data-player-detail-id]")) {
+  if (event.target.closest("[data-player-detail-id], [data-squad-role-action]")) {
     return;
   }
 

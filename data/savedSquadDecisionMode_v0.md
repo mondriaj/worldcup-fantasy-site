@@ -12,6 +12,7 @@ It does not replace the quick manual checks. It only narrows the player-picking 
 
 - Captain Change Advisor shows saved-squad player cards with buttons for current captain and new captain.
 - Substitution Advisor shows saved starters and saved bench players with buttons for played starter and bench option.
+- The cards use user-selected captain, vice-captain, and bench-order labels when available.
 - The cards use the selected advisor matchday and risk style to show fixture, start, minutes, and compressed decision signal context.
 - Manual search still works when no saved squad is available.
 
@@ -22,7 +23,8 @@ It does not replace the quick manual checks. It only narrows the player-picking 
 - It does not infer who has already played.
 - It does not infer live fantasy points.
 - It does not validate official-game legality beyond the existing different-position substitution warning.
-- It does not save captain-change or substitution decisions into the exported JSON yet.
+- Filling fields alone does not save a captain-change or substitution decision.
+- Completed quick checks can be included in Team Export JSON v1 by Saved Decision Export v0.
 
 ## Caveats
 

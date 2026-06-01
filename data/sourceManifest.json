@@ -1184,15 +1184,17 @@
         "playerValueModel_v1.json",
         "captainChangeAdvisorModel_v0.md",
         "substitutionAdvisorModel_v0.md",
+        "userSquadSelection_v0.md",
         "savedDecisionExport_v0.md"
       ],
       "plannedUse": [
         "Team Export JSON v1",
         "saved squad payload foundation",
         "active Team Import v0 restore input",
-        "decision-tool saved result support"
+        "decision-tool saved result support",
+        "user captain, vice-captain, and bench-order state support"
       ],
-      "caveat": "Official fantasy player IDs, official prices, official positions, final squads, and final fantasy rules are still pending. Captain and vice-captain are prototype suggestions. Decision-tool fields are null unless a user runs a manual quick check; imported saved decisions are review context until rerun."
+      "caveat": "Official fantasy player IDs, official prices, official positions, final squads, and final fantasy rules are still pending. Captain and vice-captain use user selections when set, otherwise prototype model fallbacks. Decision-tool fields are null unless a user runs a manual quick check; imported saved decisions are review context until rerun."
     },
     {
       "file": "teamImportModel_v0.md",
@@ -1207,6 +1209,7 @@
         "../scorePredictionsData.js",
         "../fantasyRulesData.js",
         "teamExportModel_v1.md",
+        "userSquadSelection_v0.md",
         "savedDecisionImport_v0.md"
       ],
       "inputSchema": "team-export-v1",
@@ -1214,9 +1217,10 @@
         "Team Import v0",
         "restore saved Team Builder JSON",
         "local saved-squad workflow before user accounts or official fantasy IDs",
-        "restore saved decision scenarios as imported review context"
+        "restore saved decision scenarios as imported review context",
+        "restore user captain, vice-captain, and bench-order state"
       ],
-      "caveat": "Import restores exact current prototype player IDs and warns about missing IDs. It does not infer replacements, migrate to official fantasy IDs, validate live matchday legality, or treat imported saved decisions as fresh recommendations."
+      "caveat": "Import restores exact current prototype player IDs and warns about missing IDs, including missing user captain, vice-captain, and bench-order IDs. It does not infer replacements, migrate to official fantasy IDs, validate live matchday legality, or treat imported saved decisions as fresh recommendations."
     },
     {
       "file": "savedSquadDecisionMode_v0.md",
@@ -1232,14 +1236,15 @@
         "../fantasyRulesData.js",
         "captainChangeAdvisorModel_v0.md",
         "substitutionAdvisorModel_v0.md",
-        "teamImportModel_v0.md"
+        "teamImportModel_v0.md",
+        "userSquadSelection_v0.md"
       ],
       "plannedUse": [
         "Saved Squad Decision Mode v0",
         "Captain Change Advisor saved-squad field fill",
         "Substitution Advisor saved-squad field fill"
       ],
-      "caveat": "This is a workflow layer over manual advisor inputs. It does not infer live points, played/unplayed state, or official-game legality. Filling fields alone is not saved; completed quick checks can be exported by Saved Decision Export v0."
+      "caveat": "This is a workflow layer over manual advisor inputs. User captain, vice-captain, and bench-order labels are context only. It does not infer live points, played/unplayed state, or official-game legality. Filling fields alone is not saved; completed quick checks can be exported by Saved Decision Export v0."
     },
     {
       "file": "savedSquadMatchdayTimeline_v0.md",
@@ -1254,7 +1259,8 @@
         "../matchdayProjectionsData.js",
         "../scorePredictionsData.js",
         "savedSquadDecisionMode_v0.md",
-        "teamImportModel_v0.md"
+        "teamImportModel_v0.md",
+        "userSquadSelection_v0.md"
       ],
       "plannedUse": [
         "Saved Squad Matchday Timeline v0",
@@ -1262,7 +1268,33 @@
         "captain-change quick fill",
         "substitution quick fill"
       ],
-      "caveat": "This is a workflow layer over prototype matchday projection timing. It does not infer live scores, played/unplayed state, or official fantasy deadlines. Timeline quick-fill actions alone are not saved decisions; completed quick checks can be exported by Saved Decision Export v0."
+      "caveat": "This is a workflow layer over prototype matchday projection timing. User captain, vice-captain, and bench-order labels are context only. It does not infer live scores, played/unplayed state, or official fantasy deadlines. Timeline quick-fill actions alone are not saved decisions; completed quick checks can be exported by Saved Decision Export v0."
+    },
+    {
+      "file": "userSquadSelection_v0.md",
+      "outputType": "user_squad_selection_model_note",
+      "generatedAt": "2026-06-01",
+      "sourceChecked": "2026-06-01",
+      "sourceFiles": [
+        "../index.html",
+        "../script.js",
+        "../style.css",
+        "../financePlayersData.js",
+        "../matchdayProjectionsData.js",
+        "../scorePredictionsData.js",
+        "teamExportModel_v1.md",
+        "teamImportModel_v0.md",
+        "savedSquadDecisionMode_v0.md",
+        "savedSquadMatchdayTimeline_v0.md"
+      ],
+      "plannedUse": [
+        "User Squad Selection v0",
+        "Team Builder captain and vice-captain marking",
+        "Team Builder bench-order marking",
+        "Team Export JSON v1 squad_state selection fields",
+        "Team Import v0 selection restore"
+      ],
+      "caveat": "This is local prototype user state. It does not infer live points, played/unplayed state, official deadlines, official fantasy eligibility, or official-game legality."
     },
     {
       "file": "savedDecisionExport_v0.md",
