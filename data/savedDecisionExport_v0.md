@@ -46,7 +46,7 @@ This keeps exports from carrying a manual decision that was made against an old 
 
 ## Import Behavior
 
-Team Import v0 does not restore saved decisions yet. It restores the saved squad and builder settings only.
+Saved Decision Import v0 restores saved decision scenarios as imported review context. It fills the advisor fields and keeps the imported result available for re-export, but marks the scenario as requiring an advisor rerun before acting.
 
 ## Caveats
 
@@ -54,4 +54,5 @@ Team Import v0 does not restore saved decisions yet. It restores the saved squad
 - Saved user-entered points are stored exactly from the quick-check input.
 - Played/unplayed status is not verified.
 - Formation legality is not fully verified for substitution decisions.
+- Imported saved decisions are not fresh live recommendations until rerun.
 - Official 2026 fantasy rules, deadlines, captain switching, and substitution rules must still be checked when FIFA publishes them.

@@ -73,11 +73,11 @@ Saved decision fields are cleared when the related advisor is reset, advisor inp
 
 Team Import v0 reads this same `team-export-v1` schema. It restores builder settings, locked/removed players, starter IDs, and bench IDs by exact current player IDs. It warns about missing IDs instead of guessing replacements.
 
-Team Import v0 does not restore saved manual decision results yet.
+Team Import v0 restores saved manual decision scenarios as imported review context. Imported decisions are tagged with `imported_requires_rerun: true` when re-exported until the user reruns the advisor.
 
 ## Caveats
 
 - This is not an official FIFA fantasy export.
 - Official fantasy player IDs, official prices, official positions, final squads, and final rules are still pending.
-- Decision-tool fields remain null until a user runs a quick check. Saved manual decisions are not restored on import yet.
+- Decision-tool fields remain null until a user runs a quick check. Imported saved decisions are review context until the user reruns the advisor.
 - Exported captain and vice-captain are model suggestions, not confirmed user choices.

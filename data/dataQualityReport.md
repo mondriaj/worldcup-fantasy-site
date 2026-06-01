@@ -795,7 +795,7 @@ Missing or caveated:
 - Exported captain and vice-captain are prototype model suggestions, not confirmed user selections.
 - Official fantasy player IDs, official prices, official positions, final squads, and final rules are still pending.
 - Decision-tool scenario fields remain null until a user runs a quick check.
-- Saved decision-tool results are not restored by Team Import v0 yet.
+- Saved decision-tool results are restored by Team Import v0 only as imported review context.
 
 ## Full Feature Test Pass v0
 
@@ -922,6 +922,7 @@ Complete:
 
 - Team Builder now imports the same `team-export-v1` JSON created by Export Team JSON.
 - Import restores formation, matchday view, recommendation style, trust mode, price filters, risk controls, locked players, removed players, starter IDs, and bench IDs where the IDs still exist in the current browser dataset.
+- Import restores saved captain-change and substitution scenarios as imported review context when the saved player IDs still exist.
 - The importer restores the saved squad by exact player ID and does not rerun the optimizer.
 - `data/teamImportModel_v0.md` documents the behavior and caveats.
 
@@ -929,6 +930,7 @@ Missing or caveated:
 
 - Import does not infer or migrate missing player IDs.
 - Import does not know official fantasy IDs, live points, played/unplayed status, user-confirmed captains, transfers, or official-game legality.
+- Imported saved decisions must be rerun before acting.
 - Old exports may need a migration step after official fantasy players and IDs replace the current prototype IDs.
 
 ## Saved Squad Decision Mode v0
@@ -983,9 +985,27 @@ Complete:
 
 Missing or caveated:
 
-- Team Import v0 does not restore saved decision results yet.
+- Team Import v0 restores saved decision results as imported review context only.
 - The export does not infer live points, played/unplayed state, official deadlines, or official-game legality.
 - Substitution formation legality is still a warning field, not a full rules engine.
+
+## Saved Decision Import v0
+
+Complete:
+
+- `data/savedDecisionImport_v0.md` documents the import workflow.
+- Team Import v0 now reads saved Captain Change Advisor and Substitution Advisor scenarios from `decision_tools`.
+- Imported advisor scenarios restore matchday, risk style, user-entered raw points, and exact current player IDs where available.
+- Imported scenarios render review-state advisor panels instead of silently becoming fresh recommendations.
+- Imported saved decisions are re-exported with `imported: true`, `saved_decision_import_version: saved_decision_import_v0`, and `imported_requires_rerun: true`.
+- User reruns replace imported context with fresh manual advisor results.
+
+Missing or caveated:
+
+- Missing player IDs are warned and not guessed from names.
+- Imported decisions are not live score tracking.
+- Played/unplayed status, official deadlines, and official-game legality are still manual checks.
+- Substitution formation legality is still not fully validated.
 
 ## Not Ready Yet
 

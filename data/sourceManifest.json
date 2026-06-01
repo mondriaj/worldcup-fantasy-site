@@ -1192,7 +1192,7 @@
         "active Team Import v0 restore input",
         "decision-tool saved result support"
       ],
-      "caveat": "Official fantasy player IDs, official prices, official positions, final squads, and final fantasy rules are still pending. Captain and vice-captain are prototype suggestions. Decision-tool fields are null unless a user runs a manual quick check; saved decisions are not restored by Team Import v0 yet."
+      "caveat": "Official fantasy player IDs, official prices, official positions, final squads, and final fantasy rules are still pending. Captain and vice-captain are prototype suggestions. Decision-tool fields are null unless a user runs a manual quick check; imported saved decisions are review context until rerun."
     },
     {
       "file": "teamImportModel_v0.md",
@@ -1206,15 +1206,17 @@
         "../matchdayProjectionsData.js",
         "../scorePredictionsData.js",
         "../fantasyRulesData.js",
-        "teamExportModel_v1.md"
+        "teamExportModel_v1.md",
+        "savedDecisionImport_v0.md"
       ],
       "inputSchema": "team-export-v1",
       "plannedUse": [
         "Team Import v0",
         "restore saved Team Builder JSON",
-        "local saved-squad workflow before user accounts or official fantasy IDs"
+        "local saved-squad workflow before user accounts or official fantasy IDs",
+        "restore saved decision scenarios as imported review context"
       ],
-      "caveat": "Import restores exact current prototype player IDs and warns about missing IDs. It does not infer replacements, migrate to official fantasy IDs, or validate live matchday legality."
+      "caveat": "Import restores exact current prototype player IDs and warns about missing IDs. It does not infer replacements, migrate to official fantasy IDs, validate live matchday legality, or treat imported saved decisions as fresh recommendations."
     },
     {
       "file": "savedSquadDecisionMode_v0.md",
@@ -1286,7 +1288,34 @@
         "manual captain-change scenario export",
         "manual substitution scenario export"
       ],
-      "caveat": "Captures latest manual advisor results only. It does not infer live points, played/unplayed state, official-game legality, or import saved decisions yet."
+      "caveat": "Captures latest manual advisor results only. It does not infer live points, played/unplayed state, or official-game legality. Saved Decision Import v0 restores these as imported review context only."
+    },
+    {
+      "file": "savedDecisionImport_v0.md",
+      "outputType": "saved_decision_import_model_note",
+      "generatedAt": "2026-06-01",
+      "sourceChecked": "2026-06-01",
+      "sourceFiles": [
+        "../index.html",
+        "../script.js",
+        "../financePlayersData.js",
+        "../matchdayProjectionsData.js",
+        "../scorePredictionsData.js",
+        "../fantasyRulesData.js",
+        "teamExportModel_v1.md",
+        "teamImportModel_v0.md",
+        "savedDecisionExport_v0.md",
+        "captainChangeAdvisorModel_v0.md",
+        "substitutionAdvisorModel_v0.md"
+      ],
+      "inputSchema": "team-export-v1",
+      "plannedUse": [
+        "Saved Decision Import v0",
+        "Team Import v0 decision_tools restore",
+        "imported captain-change review context",
+        "imported substitution review context"
+      ],
+      "caveat": "Restores saved advisor scenarios by exact current player IDs and marks them as requiring rerun. It does not infer live points, played/unplayed state, official deadlines, or official-game legality."
     },
     {
       "file": "fullFeatureTestReport_v0.md",

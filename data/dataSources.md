@@ -1053,7 +1053,7 @@ Fallback rule:
 
 - Treat exported captain and vice-captain as prototype model suggestions until user-selected captain state exists.
 - Keep decision-tool scenario fields null unless a user has run a specific manual quick check.
-- Do not restore saved decision-tool results on Team Import v0 until a deliberate import behavior exists.
+- Restore saved decision-tool results only as imported review context that requires an advisor rerun.
 - Do not treat proxy prices, draft rules, or prototype projections as official fantasy data.
 
 ### Team Import v0
@@ -1069,12 +1069,14 @@ Current scope:
 - Restores formation, matchday, recommendation style, trust mode, price filters, risk controls, locked players, removed players, starters, and bench.
 - Uses exact current player IDs and warns when IDs are missing.
 - Renders the saved squad directly instead of rerunning the optimizer.
+- Restores saved captain-change and substitution scenarios as imported review context when their saved player IDs still exist.
 
 Fallback rule:
 
 - Do not infer missing player IDs or replacement players.
 - Do not migrate prototype IDs to future official fantasy IDs until a deliberate migration step exists.
 - Do not treat an imported squad as official-game legal until official rules, prices, positions, and player IDs are imported.
+- Do not treat imported saved decisions as fresh live recommendations. The user must rerun the advisor before acting.
 
 ### Saved Squad Decision Mode v0
 
@@ -1141,7 +1143,30 @@ Fallback rule:
 - Do not infer live points.
 - Do not infer played/unplayed state.
 - Do not infer official-game legality.
-- Do not restore saved decision results on Team Import v0 yet.
+- Imported saved decision results must be tagged as requiring an advisor rerun.
+
+### Saved Decision Import v0
+
+Model notes: `data/savedDecisionImport_v0.md`
+Browser input: `decision_tools` inside Team Export JSON v1
+Input files: `script.js`, `financePlayersData.js`, `matchdayProjectionsData.js`, `scorePredictionsData.js`, `fantasyRulesData.js`
+Use for: restoring saved captain-change and substitution quick-check scenarios after Team Import v0.
+
+Current scope:
+
+- Reads saved Captain Change Advisor and Substitution Advisor scenarios from `team-export-v1`.
+- Restores matchday, risk style, user-entered raw points, and exact current player IDs where available.
+- Shows imported saved-check panels in the advisor result areas.
+- Re-exports imported scenarios with `imported: true`, `saved_decision_import_version: saved_decision_import_v0`, and `imported_requires_rerun: true`.
+- Replaces imported context with a fresh manual decision when the user reruns the advisor.
+
+Fallback rule:
+
+- Do not guess missing player IDs from names.
+- Do not infer live points.
+- Do not infer played/unplayed state.
+- Do not infer official-game legality.
+- Treat imported decisions as review context until rerun.
 
 ### Recommendation QA v2
 

@@ -20,8 +20,12 @@ It is meant for saving a draft squad locally, then restoring it later in the sam
 - removed players
 - starter player IDs
 - bench player IDs
+- saved Captain Change Advisor scenario fields when present
+- saved Substitution Advisor scenario fields when present
 
 The imported squad is restored by exact player IDs from the current browser dataset.
+
+Saved decision scenarios are restored as imported review context. The advisor fields are filled, the imported result is shown, and the user is told to rerun the advisor before acting.
 
 ## Guardrails
 
@@ -29,7 +33,8 @@ The imported squad is restored by exact player IDs from the current browser data
 - Missing player IDs are shown as warnings instead of guessed.
 - If the starter positions do not match an allowed formation, the saved squad is not forced into the field layout.
 - If only part of the file can be restored, settings and available locks are kept, but the user is told the full squad was not restored.
-- Import does not infer official fantasy player IDs, prices, live scores, captain choices, or played/unplayed status.
+- Import does not infer official fantasy player IDs, prices, live scores, captain choices, played/unplayed status, or official-game legality.
+- Imported saved decisions are tagged with `imported_requires_rerun: true` when re-exported.
 
 ## Caveats
 

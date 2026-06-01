@@ -2991,6 +2991,204 @@ function clearSavedDecisionExports() {
   lastSubstitutionDecision = null;
 }
 
+function cloneDecisionForImport(decision, toolLabel) {
+  return {
+    ...decision,
+    imported: true,
+    imported_at: new Date().toISOString(),
+    saved_decision_import_version: "saved_decision_import_v0",
+    imported_requires_rerun: true,
+    source: "imported_team_export",
+    note: `Imported saved ${toolLabel} scenario. Review the restored fields and rerun the advisor before acting; live points, played/unplayed status, and official-game legality are not verified.`
+  };
+}
+
+function importedDecisionNumber(valueToParse) {
+  const parsed = Number(valueToParse);
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : null;
+}
+
+function importedDecisionPlayer(decision, idKey, label, warnings) {
+  const playerId = decision?.[idKey];
+
+  if (!playerId) {
+    return null;
+  }
+
+  const player = playerById(playerId);
+
+  if (!player) {
+    warnings.push(`Imported ${label} ID was not found: ${playerId}.`);
+  }
+
+  return player || null;
+}
+
+function setImportedRiskStyle(select, modes, riskStyle, label, warnings) {
+  if (!select) {
+    return;
+  }
+
+  if (riskStyle && modes[riskStyle]) {
+    select.value = riskStyle;
+  } else if (riskStyle) {
+    warnings.push(`Imported ${label} risk style was not recognized: ${riskStyle}.`);
+  }
+}
+
+function setImportedMatchday(select, matchdayId, label, warnings) {
+  if (!select) {
+    return;
+  }
+
+  if (matchdayId && captainChangeMatchdayIds().includes(matchdayId)) {
+    select.value = matchdayId;
+  } else if (matchdayId) {
+    warnings.push(`Imported ${label} matchday was not recognized: ${matchdayId}.`);
+  }
+}
+
+function importedDecisionMetric(label, valueToDisplay, note = "") {
+  return captainChangeMetric(label, valueToDisplay === null || valueToDisplay === undefined ? "N/A" : String(valueToDisplay), note);
+}
+
+function renderImportedCaptainDecision(decision, currentPlayer, candidate, points) {
+  if (!captainChangeResult) {
+    return;
+  }
+
+  const matchdayId = captainChangeMatchdaySelect?.value || decision.selected_matchday_id || "md1";
+  captainChangeResult.className = "captain-change-result captain-change-result--review";
+  captainChangeResult.innerHTML = `
+    <div class="captain-change-verdict">
+      <span class="captain-change-badge">Imported</span>
+      <strong>Imported saved captain check</strong>
+    </div>
+    <p>Restored ${escapeHtml(candidate.name)} as the replacement captain with ${displayNumber(points)} raw points kept from ${escapeHtml(currentPlayer?.name || "the current captain")}. This is imported context, not a fresh live recommendation. Click Check Switch to recalculate before acting.</p>
+    <div class="captain-change-metrics">
+      ${importedDecisionMetric("Imported result", decision.result || "Needs rerun", decision.result_class || "review")}
+      ${importedDecisionMetric("Matchday", matchdayLabelFromId(matchdayId), decision.risk_style_label || decision.risk_style || "risk style needs check")}
+      ${importedDecisionMetric("Old switch score", decision.switch_score, `threshold ${decision.switch_threshold ?? "N/A"}`)}
+      ${importedDecisionMetric("Saved at", decision.saved_at ? new Date(decision.saved_at).toLocaleString() : "N/A", "from imported file")}
+    </div>
+    <p>Played/unplayed state, official deadlines, and squad legality are still manual checks.</p>
+  `;
+}
+
+function renderImportedSubstitutionDecision(decision, starter, benchPlayer, points) {
+  if (!substitutionAdvisorResult) {
+    return;
+  }
+
+  const matchdayId = substitutionAdvisorMatchdaySelect?.value || decision.selected_matchday_id || "md1";
+  substitutionAdvisorResult.className = "captain-change-result substitution-advisor-result captain-change-result--review";
+  substitutionAdvisorResult.innerHTML = `
+    <div class="captain-change-verdict">
+      <span class="captain-change-badge">Imported</span>
+      <strong>Imported saved substitution check</strong>
+    </div>
+    <p>Restored ${escapeHtml(benchPlayer.name)} as the bench candidate against ${displayNumber(points)} raw points from ${escapeHtml(starter?.name || "the played starter")}. This is imported context, not a fresh live recommendation. Click Check Sub to recalculate before acting.</p>
+    <div class="captain-change-metrics">
+      ${importedDecisionMetric("Imported result", decision.result || "Needs rerun", decision.result_class || "review")}
+      ${importedDecisionMetric("Matchday", matchdayLabelFromId(matchdayId), decision.risk_style_label || decision.risk_style || "risk style needs check")}
+      ${importedDecisionMetric("Old sub score", decision.substitution_score, `threshold ${decision.substitution_threshold ?? "N/A"}`)}
+      ${importedDecisionMetric("Saved at", decision.saved_at ? new Date(decision.saved_at).toLocaleString() : "N/A", "from imported file")}
+    </div>
+    <p>Played/unplayed state, official deadlines, and formation legality are still manual checks.</p>
+  `;
+}
+
+function restoreImportedCaptainDecision(decision) {
+  const warnings = [];
+
+  if (!decision?.saved) {
+    return { imported: false, warnings };
+  }
+
+  const currentPlayer = importedDecisionPlayer(decision, "current_captain_id", "captain current player", warnings);
+  const candidate = importedDecisionPlayer(decision, "replacement_candidate_id", "captain replacement player", warnings);
+  const points = importedDecisionNumber(decision.current_captain_raw_points);
+
+  if (!candidate) {
+    warnings.push("Imported captain check was skipped because the replacement captain is missing from the current player data.");
+    return { imported: false, warnings };
+  }
+
+  if (points === null) {
+    warnings.push("Imported captain check was skipped because current captain raw points were missing or invalid.");
+    return { imported: false, warnings };
+  }
+
+  setImportedMatchday(captainChangeMatchdaySelect, decision.selected_matchday_id, "captain check", warnings);
+  setImportedRiskStyle(captainChangeRiskSelect, captainChangeRiskModes, decision.risk_style, "captain check", warnings);
+  if (currentPlayer) {
+    setDecisionPlayerInput(captainChangeCurrentPlayerInput, currentPlayer);
+  } else if (captainChangeCurrentPlayerInput) {
+    captainChangeCurrentPlayerInput.value = "";
+  }
+  if (captainChangeCurrentPointsInput) {
+    captainChangeCurrentPointsInput.value = String(points);
+  }
+  setDecisionPlayerInput(captainChangeCandidateInput, candidate);
+  lastCaptainChangeDecision = cloneDecisionForImport(decision, "captain-change");
+  renderImportedCaptainDecision(decision, currentPlayer, candidate, points);
+
+  return { imported: true, warnings };
+}
+
+function restoreImportedSubstitutionDecision(decision) {
+  const warnings = [];
+
+  if (!decision?.saved) {
+    return { imported: false, warnings };
+  }
+
+  const starter = importedDecisionPlayer(decision, "played_starter_id", "substitution starter", warnings);
+  const benchPlayer = importedDecisionPlayer(decision, "bench_candidate_id", "substitution bench player", warnings);
+  const points = importedDecisionNumber(decision.played_starter_raw_points);
+
+  if (!benchPlayer) {
+    warnings.push("Imported substitution check was skipped because the bench candidate is missing from the current player data.");
+    return { imported: false, warnings };
+  }
+
+  if (points === null) {
+    warnings.push("Imported substitution check was skipped because starter raw points were missing or invalid.");
+    return { imported: false, warnings };
+  }
+
+  setImportedMatchday(substitutionAdvisorMatchdaySelect, decision.selected_matchday_id, "substitution check", warnings);
+  setImportedRiskStyle(substitutionAdvisorRiskSelect, substitutionAdvisorRiskModes, decision.risk_style, "substitution check", warnings);
+  if (starter) {
+    setDecisionPlayerInput(substitutionAdvisorStarterInput, starter);
+  } else if (substitutionAdvisorStarterInput) {
+    substitutionAdvisorStarterInput.value = "";
+  }
+  if (substitutionAdvisorPointsInput) {
+    substitutionAdvisorPointsInput.value = String(points);
+  }
+  setDecisionPlayerInput(substitutionAdvisorBenchInput, benchPlayer);
+  lastSubstitutionDecision = cloneDecisionForImport(decision, "substitution");
+  renderImportedSubstitutionDecision(decision, starter, benchPlayer, points);
+
+  return { imported: true, warnings };
+}
+
+function restoreImportedDecisionTools(payload) {
+  const decisionTools = payload?.decision_tools || {};
+  const captainImport = restoreImportedCaptainDecision(decisionTools.captain_change_advisor);
+  const substitutionImport = restoreImportedSubstitutionDecision(decisionTools.substitution_advisor);
+  const importedCount = [captainImport, substitutionImport].filter((result) => result.imported).length;
+
+  return {
+    importedCount,
+    warnings: [
+      ...captainImport.warnings,
+      ...substitutionImport.warnings
+    ]
+  };
+}
+
 function renderCaptainChangeAdvisor(event) {
   event?.preventDefault();
 
@@ -4457,8 +4655,23 @@ function decisionToolPlaceholdersForExport() {
   };
 }
 
-function savedDecisionCountForExport() {
-  return [lastCaptainChangeDecision, lastSubstitutionDecision].filter(Boolean).length;
+function savedDecisionTextForExport() {
+  const decisions = [lastCaptainChangeDecision, lastSubstitutionDecision].filter(Boolean);
+  const importedCount = decisions.filter((decision) => decision.imported_requires_rerun || decision.imported).length;
+
+  if (!decisions.length) {
+    return "";
+  }
+
+  if (importedCount === decisions.length) {
+    return ` with ${decisions.length} imported saved decision scenario${decisions.length === 1 ? "" : "s"} needing advisor rerun`;
+  }
+
+  if (importedCount) {
+    return ` with ${decisions.length} saved manual decision${decisions.length === 1 ? "" : "s"} (${importedCount} imported review)`;
+  }
+
+  return ` with ${decisions.length} saved manual decision${decisions.length === 1 ? "" : "s"}`;
 }
 
 function exportCaptain(starters) {
@@ -4633,10 +4846,7 @@ function exportTeamJson() {
 
   teamExportOutput.value = jsonText;
   teamExportPanel.classList.remove("hidden");
-  const savedDecisionCount = savedDecisionCountForExport();
-  const decisionText = savedDecisionCount
-    ? ` with ${savedDecisionCount} saved manual decision${savedDecisionCount === 1 ? "" : "s"}`
-    : "";
+  const decisionText = savedDecisionTextForExport();
   teamMessage.textContent = `Team JSON v1 export ready${decisionText}. A download was created and the export preview is shown in the Team Builder controls.`;
   downloadJsonFile("world-cup-fantasy-team-v1.json", jsonText);
 }
@@ -4831,20 +5041,32 @@ function restoreTeamFromExportPayload(payload) {
   renderRemovedPlayers();
   updateControlStates();
 
+  let importMessage = "";
   if (restoreIsComplete) {
     renderTeam(starterImport.foundPlayers, benchImport.foundPlayers, [], "built");
-    teamMessage.textContent = `Imported ${payload.team_name || "saved Team JSON v1"} with ${startingLineupTotal} starters and ${benchLabel()}. Rebuild only if you want the optimizer to change it.`;
+    importMessage = `Imported ${payload.team_name || "saved Team JSON v1"} with ${startingLineupTotal} starters and ${benchLabel()}. Rebuild only if you want the optimizer to change it.`;
   } else {
     renderLockedPreview();
-    teamMessage.textContent = "Imported the settings and available locked players, but the saved squad could not be fully restored.";
+    importMessage = "Imported the settings and available locked players, but the saved squad could not be fully restored.";
   }
 
-  if (missingIds.length || lineupWarnings.length) {
+  const decisionImport = restoreImportedDecisionTools(payload);
+  renderSavedSquadDecisionPanels();
+  teamMessage.textContent = decisionImport.importedCount
+    ? `${importMessage} Restored ${decisionImport.importedCount} saved decision scenario${decisionImport.importedCount === 1 ? "" : "s"} as imported review context; rerun the advisor before acting.`
+    : importMessage;
+
+  const importWarnings = [
+    ...lineupWarnings,
+    ...decisionImport.warnings
+  ];
+
+  if (missingIds.length || importWarnings.length) {
     const uniqueMissingIds = Array.from(new Set(missingIds));
     const missingText = uniqueMissingIds.length
       ? ` Missing player IDs: ${uniqueMissingIds.join(", ")}.`
       : "";
-    showBuilderWarning(`${lineupWarnings.join(" ")}${missingText}`.trim());
+    showBuilderWarning(`${importWarnings.join(" ")}${missingText}`.trim());
   }
 }
 

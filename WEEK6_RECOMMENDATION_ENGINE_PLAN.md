@@ -640,7 +640,7 @@ Tasks:
 - Save the latest Substitution Advisor result after the user runs a quick check.
 - Store user-entered raw points, selected matchday, risk style, result, thresholds, edge, player references, projection context, QA flags, and warnings.
 - Clear saved decisions when advisor inputs become invalid or the Team Builder squad changes.
-- Document that Team Import v0 does not restore saved decisions yet.
+- Document that saved decision import needs explicit review/rerun behavior.
 
 Completion note, June 1, 2026:
 
@@ -660,6 +660,40 @@ Tests after this step:
 - Confirm the exported raw points match the user-entered inputs.
 - Confirm reset or squad changes clear stale saved decisions.
 - Confirm JSON parsing, JavaScript syntax, and browser export flow still pass.
+
+### 9.9. Saved Decision Import v0
+
+Status: `DONE`
+
+Goal: restore saved captain-change and substitution quick-check scenarios from Team Export JSON v1 without treating them as fresh live recommendations.
+
+Tasks:
+
+- Read saved `decision_tools` during Team Import v0.
+- Restore advisor matchday, risk style, user-entered raw points, and exact current player IDs where available.
+- Show imported saved-check result panels.
+- Re-export imported scenarios with review metadata.
+- Warn instead of guessing missing player IDs.
+- Replace imported context with fresh manual results when the user reruns an advisor.
+- Document the behavior and caveats.
+
+Completion note, June 1, 2026:
+
+- Added Saved Decision Import v0 to Team Import v0.
+- Captain Change Advisor and Substitution Advisor fields are restored from saved exports when the referenced player IDs still exist.
+- Imported scenarios are tagged with `imported_requires_rerun: true` when re-exported.
+- Advisor result panels clearly show imported review context.
+- Added `data/savedDecisionImport_v0.md`.
+- Updated README, data source notes, data quality report, Team Export/Import docs, Saved Decision Export docs, and source manifest.
+
+Tests after this step:
+
+- Export a team with both saved manual advisor checks.
+- Import that export and confirm both advisor fields restore.
+- Confirm imported result panels appear and require rerun before acting.
+- Export immediately after import and confirm imported review metadata is present.
+- Rerun advisors and confirm imported metadata is replaced by fresh manual results.
+- Confirm missing IDs are warned instead of guessed.
 
 ### 10. Full Feature Test Pass
 
