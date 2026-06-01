@@ -527,6 +527,36 @@ Tests after this step:
 - Confirm exported portfolio analytics match the visible Team Builder panel.
 - Confirm future matchday-decision fields are present or safely null.
 
+### 9.5. Import Saved Team v0
+
+Status: `DONE`
+
+Goal: let a user restore a previously exported Team Builder JSON file without requiring accounts or live storage.
+
+Tasks:
+
+- Add an Import Team JSON control beside Export Team JSON.
+- Accept only the existing `team-export-v1` schema.
+- Restore builder settings, locked players, removed players, starter IDs, and bench IDs.
+- Render the saved squad by exact current player IDs instead of rerunning the optimizer.
+- Warn clearly when imported player IDs are missing or the saved lineup cannot be fully restored.
+- Document the import behavior and caveats.
+
+Completion note, June 1, 2026:
+
+- Added Team Import v0 to the Team Builder controls.
+- Import restores formation, matchday, pick style, trust mode, price filters, risk controls, locked players, removed players, starters, and bench where current player IDs still exist.
+- Added `data/teamImportModel_v0.md`.
+- Updated `README.md`, `data/dataQualityReport.md`, `data/sourceManifest.json`, and `data/teamExportModel_v1.md`.
+
+Tests after this step:
+
+- Export a built squad, import it back, and confirm starters and bench counts restore.
+- Confirm the imported squad does not rerun the optimizer.
+- Confirm invalid JSON or wrong schema shows a clear warning.
+- Confirm missing IDs are warned instead of guessed.
+- Confirm desktop and mobile Team Builder controls still fit.
+
 ### 10. Full Feature Test Pass
 
 Status: `DONE`

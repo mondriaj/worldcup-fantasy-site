@@ -1038,7 +1038,7 @@ Fallback rule:
 Model notes: `data/teamExportModel_v1.md`  
 Browser output: downloaded `world-cup-fantasy-team-v1.json`  
 Input files: `financePlayersData.js`, `matchdayProjectionsData.js`, `scorePredictionsData.js`, `fantasyRulesData.js`  
-Use for: saving, sharing, testing, and future import flows for Team Builder squads.
+Use for: saving, sharing, testing, and Team Import v0 restore flows for Team Builder squads.
 
 Current scope:
 
@@ -1053,6 +1053,26 @@ Fallback rule:
 - Treat exported captain and vice-captain as prototype model suggestions until user-selected captain state exists.
 - Keep future decision-tool fields null unless a user has saved a specific manual scenario.
 - Do not treat proxy prices, draft rules, or prototype projections as official fantasy data.
+
+### Team Import v0
+
+Model notes: `data/teamImportModel_v0.md`
+Browser input: uploaded `world-cup-fantasy-team-v1.json` or another valid `team-export-v1` file
+Input files: `financePlayersData.js`, `matchdayProjectionsData.js`, `scorePredictionsData.js`, `fantasyRulesData.js`
+Use for: restoring a saved Team Builder squad without user accounts or live storage.
+
+Current scope:
+
+- Accepts only `schema_version: team-export-v1`.
+- Restores formation, matchday, recommendation style, trust mode, price filters, risk controls, locked players, removed players, starters, and bench.
+- Uses exact current player IDs and warns when IDs are missing.
+- Renders the saved squad directly instead of rerunning the optimizer.
+
+Fallback rule:
+
+- Do not infer missing player IDs or replacement players.
+- Do not migrate prototype IDs to future official fantasy IDs until a deliberate migration step exists.
+- Do not treat an imported squad as official-game legal until official rules, prices, positions, and player IDs are imported.
 
 ### Recommendation QA v2
 

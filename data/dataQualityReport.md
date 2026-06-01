@@ -914,6 +914,21 @@ Upgrade timing:
 - The next model upgrade should happen after final squads, official fantasy prices, official fantasy positions, official scoring rules, injuries, and updated national-team form are imported.
 - A later calibration pass should happen after the PELE-backed model is stable and we can backtest or calibrate low-score behavior with Dixon-Coles-style adjustment.
 
+## Team Import v0
+
+Complete:
+
+- Team Builder now imports the same `team-export-v1` JSON created by Export Team JSON.
+- Import restores formation, matchday view, recommendation style, trust mode, price filters, risk controls, locked players, removed players, starter IDs, and bench IDs where the IDs still exist in the current browser dataset.
+- The importer restores the saved squad by exact player ID and does not rerun the optimizer.
+- `data/teamImportModel_v0.md` documents the behavior and caveats.
+
+Missing or caveated:
+
+- Import does not infer or migrate missing player IDs.
+- Import does not know official fantasy IDs, live points, played/unplayed status, user-confirmed captains, transfers, or official-game legality.
+- Old exports may need a migration step after official fantasy players and IDs replace the current prototype IDs.
+
 ## Not Ready Yet
 
 - Official fantasy prices and player IDs have not been imported into `data/players.json`.

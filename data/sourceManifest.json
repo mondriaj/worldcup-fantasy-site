@@ -1186,9 +1186,32 @@
       "plannedUse": [
         "Team Export JSON v1",
         "saved squad payload foundation",
-        "future import and decision-tool prefill support"
+        "active Team Import v0 restore input",
+        "future decision-tool prefill support"
       ],
       "caveat": "Official fantasy player IDs, official prices, official positions, final squads, and final fantasy rules are still pending. Captain, vice-captain, and decision-tool fields are prototype placeholders unless user state is saved later."
+    },
+    {
+      "file": "teamImportModel_v0.md",
+      "outputType": "team_import_restore_model_note",
+      "generatedAt": "2026-06-01",
+      "sourceChecked": "2026-06-01",
+      "sourceFiles": [
+        "../index.html",
+        "../script.js",
+        "../financePlayersData.js",
+        "../matchdayProjectionsData.js",
+        "../scorePredictionsData.js",
+        "../fantasyRulesData.js",
+        "teamExportModel_v1.md"
+      ],
+      "inputSchema": "team-export-v1",
+      "plannedUse": [
+        "Team Import v0",
+        "restore saved Team Builder JSON",
+        "local saved-squad workflow before user accounts or official fantasy IDs"
+      ],
+      "caveat": "Import restores exact current prototype player IDs and warns about missing IDs. It does not infer replacements, migrate to official fantasy IDs, or validate live matchday legality."
     },
     {
       "file": "fullFeatureTestReport_v0.md",

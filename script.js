@@ -644,6 +644,7 @@ const resetTeamButton = document.getElementById("reset-team-btn");
 const clearLockedButton = document.getElementById("clear-locked-btn");
 const removeSelectedPlayerButton = document.getElementById("remove-selected-player-btn");
 const exportTeamJsonButton = document.getElementById("export-team-json-btn");
+const importTeamJsonInput = document.getElementById("import-team-json-input");
 const removedPlayersPanel = document.getElementById("removed-players-panel");
 const removedPlayersList = document.getElementById("removed-players-list");
 const teamExportPanel = document.getElementById("team-export-panel");
@@ -3969,6 +3970,231 @@ function exportTeamJson() {
   downloadJsonFile("world-cup-fantasy-team-v1.json", jsonText);
 }
 
+function importedIdList(primaryValue, fallbackValue = []) {
+  const rawList = Array.isArray(primaryValue) && primaryValue.length
+    ? primaryValue
+    : Array.isArray(fallbackValue)
+      ? fallbackValue
+      : [];
+  const ids = [];
+  const seenIds = new Set();
+
+  rawList.forEach((item) => {
+    const id = typeof item === "string" ? item : item?.id;
+
+    if (id && !seenIds.has(id)) {
+      ids.push(id);
+      seenIds.add(id);
+    }
+  });
+
+  return ids;
+}
+
+function importedPlayersFromIds(playerIds) {
+  const foundPlayers = [];
+  const missingIds = [];
+
+  playerIds.forEach((playerId) => {
+    const player = playerById(playerId);
+
+    if (player) {
+      foundPlayers.push(player);
+    } else {
+      missingIds.push(playerId);
+    }
+  });
+
+  return { foundPlayers, missingIds };
+}
+
+function setImportedBuilderSettings(payload) {
+  const settings = payload.builder_settings || {};
+  const filters = settings.filters || {};
+  const riskControls = filters.risk_controls || {};
+  const formation = settings.formation || payload.formation;
+  const matchdayId = settings.matchday?.id || payload.matchday_view;
+  const styleKey = settings.recommendation_style?.key || payload.strategy_key;
+  const trustModeId = settings.trust_mode?.id || payload.trust_mode;
+
+  if (formation && tactics[formation]) {
+    tacticSelect.value = formation;
+    summaryTactic.textContent = formation;
+  }
+
+  if (matchdayId && matchdayOptions.some((option) => option.matchday_id === matchdayId)) {
+    activeMatchdayId = matchdayId;
+    [adviceMatchdaySelect, builderMatchdaySelect].filter(Boolean).forEach((select) => {
+      select.value = activeMatchdayId;
+    });
+  }
+
+  if (styleKey && measures[styleKey]) {
+    measureSelect.value = styleKey;
+  }
+
+  if (trustModeId && trustModes[trustModeId]) {
+    activeTrustModeId = trustModeId;
+    syncTrustModeControls();
+  }
+
+  if (filters.position === "All" || positionOrder.includes(filters.position)) {
+    selectedPositionFilter = filters.position;
+    positionFilter.value = filters.position;
+  } else {
+    selectedPositionFilter = "All";
+    positionFilter.value = "All";
+  }
+
+  if (typeof filters.min_price === "number") {
+    minPriceFilter.value = filters.min_price;
+  } else {
+    minPriceFilter.value = "";
+  }
+
+  if (typeof filters.max_price === "number") {
+    maxPriceFilter.value = filters.max_price;
+  } else {
+    maxPriceFilter.value = "";
+  }
+
+  if (minStartFilter) {
+    minStartFilter.value = riskControls.minStartProbability ?? "";
+  }
+
+  if (minMinutesFilter) {
+    minMinutesFilter.value = riskControls.minExpectedMinutes ?? "";
+  }
+
+  if (maxQaReviewFilter) {
+    maxQaReviewFilter.value = riskControls.maxQaReviewPlayers ?? "";
+  }
+
+  if (allowRiskyPicksToggle) {
+    allowRiskyPicksToggle.checked = riskControls.allowRiskyPicks !== false;
+  }
+}
+
+function applyImportedPlayerSets(payload) {
+  const squadState = payload.squad_state || {};
+  const lockedIds = importedIdList(squadState.locked_players);
+  const removedIds = importedIdList(squadState.removed_players);
+  const missingSetIds = [];
+
+  lockedPlayerIds.clear();
+  excludedPlayerIds.clear();
+
+  lockedIds.forEach((playerId) => {
+    if (playerById(playerId)) {
+      lockedPlayerIds.add(playerId);
+    } else {
+      missingSetIds.push(playerId);
+    }
+  });
+
+  removedIds.forEach((playerId) => {
+    if (playerById(playerId)) {
+      excludedPlayerIds.add(playerId);
+    } else {
+      missingSetIds.push(playerId);
+    }
+  });
+
+  return missingSetIds;
+}
+
+function validateImportedLineup(starters, bench) {
+  const warnings = [];
+  const expectedBenchPlayers = squadTotalPlayers - startingLineupTotal;
+  const detectedTactic = tacticNameForCounts(countsByPosition(starters));
+
+  if (starters.length !== startingLineupTotal) {
+    warnings.push(`Imported starters restored ${starters.length}/${startingLineupTotal}.`);
+  }
+
+  if (bench.length !== expectedBenchPlayers) {
+    warnings.push(`Imported bench restored ${bench.length}/${expectedBenchPlayers}.`);
+  }
+
+  if (!detectedTactic) {
+    warnings.push("Imported starter positions do not match an allowed formation.");
+  } else if (detectedTactic !== tacticSelect.value) {
+    tacticSelect.value = detectedTactic;
+    summaryTactic.textContent = detectedTactic;
+    warnings.push(`Formation changed to ${detectedTactic} to match the imported starters.`);
+  }
+
+  return warnings;
+}
+
+function restoreTeamFromExportPayload(payload) {
+  if (!payload || payload.schema_version !== "team-export-v1") {
+    throw new Error("Import needs a Team JSON v1 file exported from this Team Builder.");
+  }
+
+  setImportedBuilderSettings(payload);
+
+  const squadState = payload.squad_state || {};
+  const starterIds = importedIdList(squadState.starter_player_ids, payload.starting_11);
+  const benchIds = importedIdList(squadState.bench_player_ids, payload.bench);
+  const starterImport = importedPlayersFromIds(starterIds);
+  const benchImport = importedPlayersFromIds(benchIds);
+  const missingSetIds = applyImportedPlayerSets(payload);
+  const missingIds = [
+    ...starterImport.missingIds,
+    ...benchImport.missingIds,
+    ...missingSetIds
+  ];
+  const lineupWarnings = validateImportedLineup(starterImport.foundPlayers, benchImport.foundPlayers);
+  const restoreIsComplete = starterImport.foundPlayers.length === startingLineupTotal &&
+    benchImport.foundPlayers.length === squadTotalPlayers - startingLineupTotal &&
+    tacticNameForCounts(countsByPosition(starterImport.foundPlayers));
+
+  selectedSwap = null;
+  renderMeasureInfo();
+  renderPlayerPicker();
+  renderCaptainPicks();
+  renderDashboardSections();
+  renderAdviceTable();
+  renderRemovedPlayers();
+  updateControlStates();
+
+  if (restoreIsComplete) {
+    renderTeam(starterImport.foundPlayers, benchImport.foundPlayers, [], "built");
+    teamMessage.textContent = `Imported ${payload.team_name || "saved Team JSON v1"} with ${startingLineupTotal} starters and ${benchLabel()}. Rebuild only if you want the optimizer to change it.`;
+  } else {
+    renderLockedPreview();
+    teamMessage.textContent = "Imported the settings and available locked players, but the saved squad could not be fully restored.";
+  }
+
+  if (missingIds.length || lineupWarnings.length) {
+    const uniqueMissingIds = Array.from(new Set(missingIds));
+    const missingText = uniqueMissingIds.length
+      ? ` Missing player IDs: ${uniqueMissingIds.join(", ")}.`
+      : "";
+    showBuilderWarning(`${lineupWarnings.join(" ")}${missingText}`.trim());
+  }
+}
+
+async function importTeamJson(event) {
+  const file = event.target.files?.[0];
+
+  if (!file) {
+    return;
+  }
+
+  try {
+    const jsonText = await file.text();
+    const payload = JSON.parse(jsonText);
+    restoreTeamFromExportPayload(payload);
+  } catch (error) {
+    showBuilderWarning(error.message || "Team JSON import failed. Check that the file came from Export Team JSON.");
+    teamMessage.textContent = "Team JSON import failed. The current squad was left unchanged.";
+  } finally {
+    event.target.value = "";
+  }
+}
+
 function renderMeasureOptions() {
   const simpleMeasureKeys = ["balanced", "expected", "safe", "upside", "minutes"];
   const valueMeasureKeys = ["bestValue", "cheapEnabler", "premiumWorthIt"];
@@ -5806,6 +6032,7 @@ function setupBuilder() {
   clearLockedButton.addEventListener("click", clearLockedPlayers);
   removeSelectedPlayerButton.addEventListener("click", removeSelectedPlayer);
   exportTeamJsonButton.addEventListener("click", exportTeamJson);
+  importTeamJsonInput?.addEventListener("change", importTeamJson);
   removedPlayersList.addEventListener("click", handleRemovedPlayersClick);
   scoreInfoButton.addEventListener("click", toggleScoreInfo);
   measureSelect.addEventListener("change", () => {
@@ -5884,6 +6111,9 @@ function showDataLoadError(error) {
   clearLockedButton.disabled = true;
   removeSelectedPlayerButton.disabled = true;
   exportTeamJsonButton.disabled = true;
+  if (importTeamJsonInput) {
+    importTeamJsonInput.disabled = true;
+  }
   builderWarning.classList.remove("hidden");
   builderWarning.textContent = "Website data could not load. Make sure playersData.js and fantasyRulesData.js are included before script.js, then refresh.";
   teamMessage.textContent = "Team Builder is waiting for the player and rules data.";

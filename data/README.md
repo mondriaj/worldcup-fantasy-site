@@ -48,6 +48,7 @@ Use camelCase file names for new data-engine files because the site already uses
 - `captainChangeAdvisorModel_v0.md` - plain-language model note for the manual Quick Captain Switch Check, including inputs, thresholds, and caveats.
 - `substitutionAdvisorModel_v0.md` - plain-language model note for the manual Quick Substitution Check, including inputs, thresholds, formation caveats, and played/unplayed limitations.
 - `teamExportModel_v1.md` - plain-language model note for Team Export JSON v1, including model metadata, builder settings, squad state, and future decision-tool placeholders.
+- `teamImportModel_v0.md` - plain-language model note for restoring Team Export JSON v1 files by exact current player IDs.
 - `fullFeatureTestReport_v0.md` - human-readable report for the Step 10 browser/static validation pass across the main homepage, World Cup page, Team Builder, export, and manual decision tools.
 - `squadPortfolioAnalytics_v0.md` - plain-language model note for Team Builder portfolio analytics, including expected return, risk-adjusted return, VaR/CVaR, QA load, country concentration, fixture concentration, and premium squeeze.
 - `portfolioOptimizerModel_v0.md` - plain-language model note for the small portfolio-aware adjustment used when the Team Builder ranks completed candidate squads.

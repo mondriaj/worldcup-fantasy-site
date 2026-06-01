@@ -1713,11 +1713,14 @@ input[type="number"] {
 
 .builder-secondary-actions {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
   gap: 8px;
 }
 
 .utility-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 42px;
   border: 1px solid rgba(24, 78, 119, 0.2);
   border-radius: 8px;
@@ -1728,6 +1731,7 @@ input[type="number"] {
   font-size: 0.88rem;
   font-weight: 800;
   cursor: pointer;
+  text-align: center;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
@@ -1740,6 +1744,14 @@ input[type="number"] {
 .utility-button:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+.file-input-control {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .removed-players-panel {

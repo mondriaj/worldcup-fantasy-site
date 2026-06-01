@@ -4,7 +4,7 @@ Status: active export format.
 
 ## Scope
 
-Team Export JSON v1 makes the Team Builder export useful for saving, sharing, testing, and future squad import flows.
+Team Export JSON v1 makes the Team Builder export useful for saving, sharing, testing, and the active Team Import v0 restore flow.
 
 It preserves the older readable fields such as `players`, `starting_11`, `bench`, `captain`, `total_price`, `remaining_budget`, `rule_checks`, and `portfolio_analytics`, then adds structured v1 metadata and state.
 
@@ -65,7 +65,11 @@ The export includes null-safe placeholders for:
 - Captain Change Advisor v0
 - Substitution Advisor v0
 
-These placeholders do not claim a saved user decision. They exist so a future import/save flow has stable field names for manual decision scenarios.
+These placeholders do not claim a saved user decision. They exist so a future saved-decision flow has stable field names for manual decision scenarios.
+
+## Import Compatibility
+
+Team Import v0 reads this same `team-export-v1` schema. It restores builder settings, locked/removed players, starter IDs, and bench IDs by exact current player IDs. It warns about missing IDs instead of guessing replacements.
 
 ## Caveats
 
