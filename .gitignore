@@ -1,0 +1,10 @@
+# Large local source/intermediate data artifacts.
+# Keep these on disk for audits/regeneration, but do not publish them with the static site.
+data/espnDetailedMatchPlayerStats.json
+data/espnSummaryMatchedPlayerStats.json
+data/oneFootballAllRosterMatchPlayerStats.json
+data/oneFootballAllSeasonPlayerStats.json
+data/playerRecommendationInputs_v0.json
+data/playerMatchdayProjections_v0.json
+data/playerMatchdayProjections_v1.json
+data/playerMatchdayProjections_v2.json
