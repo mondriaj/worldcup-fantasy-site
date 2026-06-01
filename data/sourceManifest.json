@@ -1,0 +1,1217 @@
+{
+  "schemaVersion": "week6-sources-v3",
+  "dataStatus": "active_week6_import",
+  "_comment": "Source registry for the Week 6 World Cup data engine. URLs are listed here so processed data can reference sourceIds instead of repeating source text everywhere.",
+  "sources": [
+    {
+      "sourceId": "fifaSchedule",
+      "name": "FIFA World Cup 2026 match schedule",
+      "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/match-schedule-fixtures-results-teams-stadiums",
+      "sourceType": "official",
+      "priority": "primary",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "fixtures",
+        "venues",
+        "kickoff times",
+        "match numbers"
+      ],
+      "fallbackRule": "FIFA schedule wins if another source disagrees."
+    },
+    {
+      "sourceId": "fifaFantasy",
+      "name": "FIFA World Cup Fantasy",
+      "url": "https://play.fifa.com/fantasy/",
+      "sourceType": "official",
+      "priority": "primary",
+      "lastChecked": null,
+      "plannedUse": [
+        "fantasy players",
+        "prices",
+        "positions",
+        "rules"
+      ],
+      "fallbackRule": "Use only official fantasy values for player price and fantasy position once available."
+    },
+    {
+      "sourceId": "fifaSquads",
+      "name": "FIFA World Cup 2026 squad announcements",
+      "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/all-world-cup-squad-announcements",
+      "sourceType": "official",
+      "priority": "primary",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "provisional squads",
+        "final squads",
+        "replacement status",
+        "player roster identity",
+        "roster status"
+      ],
+      "fallbackRule": "Official FIFA final squads win over provisional announcements."
+    },
+    {
+      "sourceId": "worldCupStatsSquadTracker",
+      "name": "World Cup 2026 Stats squad tracker",
+      "url": "https://worldcupstats.football/squads/",
+      "sourceType": "reputable_tracker",
+      "priority": "secondary_roster_enrichment",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "current club",
+        "age",
+        "international caps",
+        "international goals",
+        "tracker-backed roster rows when FIFA article coverage is incomplete"
+      ],
+      "fallbackRule": "Use for club/caps enrichment and for teams not fully parseable from FIFA. Re-check against FIFA final lists before production recommendations."
+    },
+    {
+      "sourceId": "nbcSquadTracker",
+      "name": "NBC Sports 2026 World Cup squads tracker",
+      "url": "https://www.nbcsports.com/soccer/news/2026-world-cup-squads-confirmed-rosters-for-all-48-teams",
+      "sourceType": "reputable_media_tracker",
+      "priority": "secondary_roster_enrichment",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "current club cross-check",
+        "final roster cross-check for published 26-player teams"
+      ],
+      "fallbackRule": "Use as a cross-check and club source. FIFA and federation sources win on roster identity and replacements."
+    },
+    {
+      "sourceId": "fifaWorldCupNewsEcuador",
+      "name": "FIFAWorldCupNews Ecuador preliminary squad article",
+      "url": "https://www.fifaworldcupnews.com/ecuador-world-cup-2026-squad-official/",
+      "sourceType": "secondary_media_tracker",
+      "priority": "fallback_roster_source",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "Ecuador preliminary roster fallback",
+        "Ecuador current club fallback"
+      ],
+      "fallbackRule": "Use only until FIFA or the Ecuador federation publishes a complete final roster source."
+    },
+    {
+      "sourceId": "fifaRankings",
+      "name": "FIFA/Coca-Cola Men's World Ranking",
+      "url": "https://inside.fifa.com/fifa-world-ranking/men",
+      "sourceType": "official",
+      "priority": "primary",
+      "lastChecked": null,
+      "plannedUse": [
+        "team strength",
+        "fixture difficulty",
+        "score prediction seed"
+      ],
+      "fallbackRule": "Use the latest published FIFA ranking snapshot and store its ranking date."
+    },
+    {
+      "sourceId": "worldFootballElo",
+      "name": "World Football Elo Ratings",
+      "url": "https://www.eloratings.net/",
+      "sourceType": "reputable_rating_model",
+      "priority": "primary_model_input",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "team Elo rating",
+        "team strength",
+        "fixture difficulty",
+        "score prediction seed"
+      ],
+      "fallbackRule": "Use World Football Elo where available. Keep values as null if a team cannot be matched cleanly."
+    },
+    {
+      "sourceId": "peleRatings",
+      "name": "PELE International Football Rankings",
+      "url": "https://www.natesilver.net/p/pele-international-football-rankings-soccer-ratings-projections",
+      "sourceType": "reputable_rating_model",
+      "priority": "primary_model_input",
+      "lastChecked": "2026-06-01",
+      "plannedUse": [
+        "PELE rating",
+        "PELE rank",
+        "Tilt rating",
+        "round-robin offense and defense model inputs",
+        "team quality v2",
+        "score prediction v2"
+      ],
+      "fallbackRule": "Use downloaded Silver Bulletin/Datawrapper CSV values where matched. If a PELE numeric value is missing in a future update, leave it null and exclude it from that weighted blend; do not impute.",
+      "currentUse": [
+        "peleRatings_v1.json",
+        "teams.json",
+        "teamQuality.json",
+        "scorePredictions_v2.json",
+        "playerMatchdayProjections_v2.json"
+      ]
+    },
+    {
+      "sourceId": "openFootballWorldCup",
+      "name": "OpenFootball World Cup JSON",
+      "url": "https://github.com/openfootball/worldcup.json",
+      "sourceType": "community",
+      "priority": "secondary",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "machine-readable fixture seed",
+        "technical cross-check"
+      ],
+      "fallbackRule": "Use only after cross-checking against FIFA. FIFA wins conflicts."
+    },
+    {
+      "sourceId": "fjelstulWorldCup",
+      "name": "Fjelstul World Cup Database",
+      "url": "https://github.com/jfjelstul/worldcup",
+      "sourceType": "reputable_open_database",
+      "priority": "historical_model_input",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "historical World Cup appearances",
+        "historical World Cup match record",
+        "historical World Cup goals for and against",
+        "historical clean-sheet rate",
+        "historical knockout experience",
+        "historical best and recent tournament performance"
+      ],
+      "fallbackRule": "Use only for historical World Cup data through the available database. Teams with no history stay at zero appearances instead of receiving guessed values."
+    },
+    {
+      "sourceId": "localFplCoreInsights",
+      "name": "Local FPL-Core-Insights snapshot",
+      "url": "https://github.com/olbauday/FPL-Core-Insights",
+      "sourceType": "local_reference",
+      "priority": "supporting",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "club-season performance estimates",
+        "prototype risk fields",
+        "Premier League playerPerformance rows",
+        "expected goals and assists",
+        "fantasy points and availability fields",
+        "defensive and goalkeeper contribution fields"
+      ],
+      "fallbackRule": "Do not use as World Cup roster, fantasy price, or official fantasy position source."
+    },
+    {
+      "sourceId": "localSourceNationalities",
+      "name": "Local source-nationalities.csv",
+      "url": "../source-nationalities.csv",
+      "sourceType": "local_reference",
+      "priority": "supporting",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "manual player matching help",
+        "FBref-style season stats already in the project",
+        "Premier League standard playerPerformance rows",
+        "minutes, starts, goals, assists, cards, and per-90 rates"
+      ],
+      "fallbackRule": "Use only as supporting enrichment and mark imported fields as estimated or external."
+    },
+    {
+      "sourceId": "understatBig5",
+      "name": "Understat Big 5 league player season data",
+      "url": "https://understat.com/",
+      "sourceType": "public_stats_site",
+      "priority": "primary_club_performance_input",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "Premier League playerPerformance rows",
+        "La Liga playerPerformance rows",
+        "Bundesliga playerPerformance rows",
+        "Serie A playerPerformance rows",
+        "Ligue 1 playerPerformance rows",
+        "minutes and appearances",
+        "goals and assists",
+        "xG and xA",
+        "shots and key passes",
+        "cards"
+      ],
+      "fallbackRule": "Use only on safe player-name and club matches. Keep starts and clean sheets null because the endpoint used here does not expose them."
+    },
+    {
+      "sourceId": "uefaEuropeanQualifiersStats",
+      "name": "UEFA European Qualifiers 2026 player statistics",
+      "url": "https://www.uefa.com/european-qualifiers/statistics/players/",
+      "sourceType": "official",
+      "priority": "primary_national_team_performance_input_for_uefa",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "UEFA qualifier appearances",
+        "UEFA qualifier minutes",
+        "UEFA qualifier goals and assists",
+        "UEFA qualifier attempts",
+        "UEFA qualifier cards",
+        "UEFA qualifier distance covered and top speed",
+        "country usage signal"
+      ],
+      "fallbackRule": "Use only on safe country/name matches. Keep starts null until a lineup-level source is imported."
+    },
+    {
+      "sourceId": "statbunkerBig5Fantasy",
+      "name": "StatBunker Big 5 fantasy-style player stats",
+      "url": "https://www.statbunker.com/competitions/FantasyFootballPlayersStats",
+      "sourceType": "public_stats_site",
+      "priority": "supporting_fantasy_style_performance_input",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "fantasy-style league points",
+        "starts",
+        "clean sheets",
+        "partial clean sheets",
+        "substitute usage",
+        "goals conceded",
+        "penalties saved and missed",
+        "own goals"
+      ],
+      "fallbackRule": "Use only on safe player-name and club matches. Treat Bundesliga 24/25 rows as previous-season context only. Treat StatBunker points as league fantasy-style points, not FIFA World Cup fantasy points."
+    },
+    {
+      "sourceId": "githubSoccerStatsTopic",
+      "name": "GitHub soccer-stats topic",
+      "url": "https://github.com/topics/soccer-stats",
+      "sourceType": "source_discovery",
+      "priority": "candidate_non_big5_source_discovery",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "non-Big-5 source scouting",
+        "MLS source discovery",
+        "Brazil source discovery",
+        "Football-Data.org wrapper discovery",
+        "fantasy soccer model reference discovery"
+      ],
+      "fallbackRule": "Use only as a source-discovery index. Do not import numeric player data from linked repos until the underlying source, freshness, field definitions, and usage terms are verified."
+    },
+    {
+      "sourceId": "usfootballR",
+      "name": "sportsdataverse usfootballR",
+      "url": "https://github.com/sportsdataverse/usfootballR",
+      "sourceType": "open_source_package",
+      "priority": "candidate_mls_performance_input",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "MLS play-by-play",
+        "MLS box scores",
+        "MLS standings",
+        "MLS results",
+        "MLS player usage context"
+      ],
+      "fallbackRule": "Candidate source only until ESPN-backed MLS fields are tested for current-season freshness, match coverage, and player-level reliability."
+    },
+    {
+      "sourceId": "footballDataOrgCandidate",
+      "name": "Football-Data.org API candidate via GitHub wrappers",
+      "url": "https://www.football-data.org/",
+      "sourceType": "credentialed_api_candidate",
+      "priority": "candidate_non_big5_context_input",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "fixtures",
+        "results",
+        "standings",
+        "top scorers",
+        "assists",
+        "penalties",
+        "non-Big-5 league context"
+      ],
+      "fallbackRule": "Requires an API key and plan review. Use only for public/allowed fields, and do not treat scorer tables as full player-performance data."
+    },
+    {
+      "sourceId": "espnSoccerStatsPages",
+      "name": "ESPN soccer stats pages and public site APIs",
+      "url": "https://www.espn.com/soccer/stats/_/league/",
+      "sourceType": "public_stats_site",
+      "priority": "candidate_non_big5_player_context_input",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "non-Big-5 player leaderboards",
+        "ESPN player IDs",
+        "ESPN team IDs",
+        "goals",
+        "assists",
+        "appearances",
+        "fixtures",
+        "team lists"
+      ],
+      "currentUse": [
+        "espnLeagueCoverage.json",
+        "espnLeagueLeaderboards.json",
+        "espnRosterLeaderboardMatches.json"
+      ],
+      "fallbackRule": "Use as a first public leaderboard and identity layer only. Do not treat it as full minutes, starts, clean-sheet, defensive, goalkeeper, or fantasy-point coverage."
+    },
+    {
+      "sourceId": "footyStatsDatasetsApi",
+      "name": "FootyStats datasets and player API",
+      "url": "https://footystats.org/api/documentations/player-individual",
+      "sourceType": "credentialed_api_candidate",
+      "priority": "candidate_full_non_big5_player_performance_input",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "non-Big-5 player season stats",
+        "starts",
+        "sub appearances",
+        "goals",
+        "assists",
+        "cards",
+        "xG",
+        "xA",
+        "shots",
+        "defensive actions",
+        "goalkeeper stats",
+        "per-90 percentiles"
+      ],
+      "fallbackRule": "Use only if API or CSV access is available and approved. Keep credentials out of the repo. Public dataset row counts alone are source metadata, not imported player stats."
+    },
+    {
+      "sourceId": "excel4soccerWorkbooks",
+      "name": "Excel4Soccer ESPN-derived workbooks",
+      "url": "https://www.excel4soccer.com/category/soccer/",
+      "sourceType": "public_workbook_candidate",
+      "priority": "candidate_validation_and_lineup_input",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "player statistics",
+        "team rosters",
+        "team statistics",
+        "lineups",
+        "match plays",
+        "fixtures",
+        "league tables"
+      ],
+      "fallbackRule": "Use only after direct workbook download and sheet schema are verified. Treat as a validation source for ESPN-derived data, not an official source."
+    },
+    {
+      "sourceId": "fbrefWorldwideStatsCandidate",
+      "name": "FBref worldwide league player stats",
+      "url": "https://fbref.com/en/",
+      "sourceType": "public_stats_site_blocked_in_local_fetch",
+      "priority": "candidate_cached_or_manual_stats_input",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "minutes",
+        "starts",
+        "standard stats",
+        "shooting",
+        "passing",
+        "defensive actions",
+        "possession",
+        "keeper stats"
+      ],
+      "fallbackRule": "Do not rely on direct automated fetch in the current environment because Cloudflare challenge pages were returned. Use only through allowed cached exports, manual verification, or a reliable future access path."
+    },
+    {
+      "sourceId": "espnSoccerMatchSummaryCoreStats",
+      "name": "ESPN soccer match summaries and core player-stat endpoints",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/",
+      "sourceType": "public_api",
+      "priority": "primary_non_big5_minutes_and_starts_candidate",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "match-level player appearances",
+        "minutes",
+        "starts",
+        "substitute appearances",
+        "sub-outs",
+        "goals",
+        "assists",
+        "shots",
+        "shots on target",
+        "discipline",
+        "goalkeeper saves",
+        "goals conceded",
+        "clean-sheet flag",
+        "penalty stats",
+        "free-kick stats"
+      ],
+      "currentUse": [
+        "espnDetailedMatchPlayerStats.json",
+        "espnDetailedSeasonPlayerStats.json",
+        "espnDetailedRosterPlayerStats.json"
+      ],
+      "fallbackRule": "Use only with explicit league and event labels. Treat name-only roster matches as review-only. Do not assume defensive fields are complete until cross-checked because some core defensive stats are sparse or zero-filled."
+    },
+    {
+      "sourceId": "espnSoccerSummaryRosterStats",
+      "name": "ESPN soccer site summary roster stats",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/",
+      "sourceType": "public_api",
+      "priority": "fallback_non_big5_roster_player_context_input",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "match-level roster appearances",
+        "starts",
+        "substitute appearances",
+        "estimated minutes",
+        "goals",
+        "assists",
+        "shots",
+        "shots on target",
+        "discipline",
+        "goalkeeper saves",
+        "goals conceded",
+        "non-Big-5 player context"
+      ],
+      "currentUse": [
+        "espnSummaryImportReport.json",
+        "espnSummaryMatchedPlayerStats.json",
+        "espnSummaryMatchedSeasonStats.json",
+        "worldCupLeagueCoverageMap.json"
+      ],
+      "fallbackRule": "Use when ESPN core per-player endpoints are blocked or unavailable. Minutes are estimated unless source minutes are present. Name-only matches require review before user-facing recommendations."
+    },
+    {
+      "sourceId": "oneFootballWebStats",
+      "name": "OneFootball public web and app endpoints",
+      "url": "https://onefootball.com/",
+      "sourceType": "public_web_api_undocumented",
+      "priority": "broad_supplemental_player_context_input",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "competition search",
+        "fixtures",
+        "standings",
+        "league leaderboards",
+        "confirmed lineups",
+        "substitutions",
+        "goals",
+        "assists",
+        "discipline",
+        "estimated minutes",
+        "clean-sheet context",
+        "goals conceded context",
+        "team match stats",
+        "team standings context"
+      ],
+      "currentUse": [
+        "oneFootballKoreaQatarImportReport.json",
+        "oneFootballKoreaQatarLeagueStats.json",
+        "oneFootballKoreaQatarMatchPlayerStats.json",
+        "oneFootballKoreaQatarSeasonPlayerStats.json",
+        "oneFootballKoreaQatarRosterMatches.json",
+        "oneFootballLeagueCoverageProbe.json",
+        "oneFootballAllImportReport.json",
+        "oneFootballAllLeagueStats.json",
+        "oneFootballAllSeasonPlayerStats.json",
+        "oneFootballAllRosterMatches.json",
+        "oneFootballAllRosterMatchPlayerStats.json",
+        "nonEnglishLeagueSourceProbe.json",
+        "worldCupLeagueCoverageMap.json"
+      ],
+      "fallbackRule": "Use as broad supplemental player context. Minutes are estimated from lineup and substitution timing. High-confidence name-and-club matches can support modeling; review-only roster matches need manual checking before user-facing recommendations."
+    },
+    {
+      "sourceId": "oneFootballQualifierStats",
+      "name": "OneFootball World Cup qualifier match pages",
+      "url": "https://onefootball.com/",
+      "sourceType": "public_web_api_undocumented",
+      "priority": "supplemental_national_team_qualifier_context",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "World Cup qualifier appearances",
+        "World Cup qualifier starts",
+        "estimated qualifier minutes",
+        "qualifier goals",
+        "qualifier assists",
+        "qualifier discipline",
+        "qualifier clean-sheet context",
+        "qualifier goals conceded context",
+        "national-team role signals"
+      ],
+      "currentUse": [
+        "oneFootballNationalTeamMatchProbe.json",
+        "oneFootballQualifierImportReport.json",
+        "oneFootballQualifierRosterSeasonStats.json",
+        "oneFootballQualifierRosterMatchStats.json",
+        "playerNationalTeamPerformance.json",
+        "playerPerformance.json"
+      ],
+      "urls": [
+        "https://scores-api.onefootball.com/v1/en/competitions/69/matches?number_next=0&number_previous=1000",
+        "https://scores-api.onefootball.com/v1/en/competitions/70/matches?number_next=0&number_previous=1000",
+        "https://scores-api.onefootball.com/v1/en/competitions/71/matches?number_next=0&number_previous=1000",
+        "https://scores-api.onefootball.com/v1/en/competitions/72/matches?number_next=0&number_previous=1000",
+        "https://scores-api.onefootball.com/v1/en/competitions/73/matches?number_next=0&number_previous=1000",
+        "https://scores-api.onefootball.com/v1/en/competitions/74/matches?number_next=0&number_previous=1000",
+        "https://onefootball.com/en/match/{match_id}"
+      ],
+      "fallbackRule": "Keep official UEFA public stats where present. Use OneFootball for non-UEFA qualifier coverage and for lineup-derived starts, clean-sheet context, and goals-conceded context. Minutes are estimated from lineup and substitution timing."
+    },
+    {
+      "sourceId": "kLeagueOfficialPlayerRank",
+      "name": "K League official player rank and data portal",
+      "url": "https://www.kleague.com/record/player.do?leagueId=1",
+      "sourceType": "official_league_site",
+      "priority": "korea_cross_check_candidate",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "goals",
+        "assists",
+        "attack points",
+        "goals conceded",
+        "corner kicks",
+        "fouls",
+        "shots",
+        "offsides",
+        "yellow cards",
+        "red cards",
+        "clean sheets",
+        "played",
+        "substitutions"
+      ],
+      "currentUse": [
+        "nonEnglishLeagueSourceProbe.json"
+      ],
+      "fallbackRule": "Use as an official cross-check for K League data. The visible player rank page exposes top rows; inspect the deeper Data Portal for full export/API access before broad import."
+    },
+    {
+      "sourceId": "qslOfficial",
+      "name": "Qatar Stars League official site",
+      "url": "https://qsl.qa/en/qatar-stars-league-20252026",
+      "sourceType": "official_league_site",
+      "priority": "qatar_schedule_news_match_document_cross_check",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "league context",
+        "schedule/news context",
+        "match documents",
+        "club/player cross-checks"
+      ],
+      "currentUse": [
+        "nonEnglishLeagueSourceProbe.json"
+      ],
+      "fallbackRule": "Use for official Qatar league context and match-document validation. No clean automated player-stat table endpoint was identified in this pass."
+    },
+    {
+      "sourceId": "footyStatsKoreaQatarCandidate",
+      "name": "FootyStats Korea and Qatar candidate player/dataset pages",
+      "url": "https://footystats.org/",
+      "sourceType": "public_stats_site_or_dataset_candidate",
+      "priority": "backup_korea_qatar_player_stats_candidate",
+      "lastChecked": "2026-05-31",
+      "plannedUse": [
+        "player stat cross-checks",
+        "dataset row-count validation",
+        "backup Korea/Qatar source if access path is acceptable"
+      ],
+      "currentUse": [
+        "nonEnglishLeagueSourceProbe.json"
+      ],
+      "fallbackRule": "Do not import until an allowed access path is confirmed. Treat as candidate backup to OneFootball and official league sources."
+    }
+  ],
+  "generatedOutputs": [
+    {
+      "file": "playerRecommendationInputs_v0.json",
+      "outputType": "merged_modeling_input",
+      "generatedAt": "2026-05-31T22:30:58.359Z",
+      "sourceChecked": "2026-05-31",
+      "rowCount": 1339,
+      "sourceFiles": [
+        "players.json",
+        "playerPerformance.json",
+        "espnDetailedRosterPlayerStats.json",
+        "espnSummaryMatchedSeasonStats.json",
+        "oneFootballAllRosterMatches.json",
+        "playerNationalTeamPerformance.json",
+        "teams.json",
+        "fixtures.json"
+      ],
+      "plannedUse": [
+        "player recommendation feature inputs",
+        "data confidence scoring",
+        "later recommendation tiers",
+        "later fixture-aware advice"
+      ],
+      "caveat": "Input layer only; not final advice. Review flags and estimated-minute flags must remain visible."
+    },
+    {
+      "file": "playerRecommendationTiers_v0.json",
+      "outputType": "recommendation_readiness_tiers",
+      "generatedAt": "2026-05-31T23:54:53.955Z",
+      "sourceChecked": "2026-05-31",
+      "rowCount": 1339,
+      "inputFile": "playerRecommendationInputs_v0.json",
+      "tierCounts": {
+        "ready_high_confidence": 489,
+        "ready_medium_confidence": 427,
+        "usable_low_confidence": 169,
+        "needs_review": 87,
+        "insufficient_data": 167
+      },
+      "plannedUse": [
+        "recommendation readiness filtering",
+        "watchlist/fallback labeling",
+        "manual review queue",
+        "later scoring model guardrails"
+      ],
+      "caveat": "Tier file is readiness, not final fantasy advice. Final squads and official fantasy prices can change tiers."
+    },
+    {
+      "file": "playerFinanceMetrics_v0.json",
+      "outputType": "finance_style_fantasy_metrics",
+      "generatedAt": "2026-06-01T00:05:59.889Z",
+      "sourceChecked": "2026-05-31",
+      "rowCount": 1339,
+      "inputFile": "playerRecommendationInputs_v0.json",
+      "modelNotesFile": "fantasyFinanceModel_v0.md",
+      "plannedUse": [
+        "risk-adjusted player recommendations",
+        "VaR and CVaR downside analysis",
+        "attack-heavy recommendations",
+        "defensive-heavy recommendations",
+        "high-risk high-upside recommendations",
+        "tail-risk avoidance filters",
+        "Player Profile finance metric cards"
+      ],
+      "caveat": "Prototype finance-style metrics. Price-adjusted return fields stay null until official World Cup fantasy prices are imported."
+    },
+    {
+      "file": "scorePredictions_v0.json",
+      "outputType": "preserved_pre_pele_score_prediction_model",
+      "generatedAt": "2026-06-01T11:34:00.342Z",
+      "sourceChecked": "2026-06-01",
+      "fixturePredictionCount": 72,
+      "teamFixturePredictionCount": 144,
+      "sourceFiles": [
+        "fixtures.json",
+        "matchdays.json",
+        "teams.json",
+        "teamQuality_v0.json"
+      ],
+      "modelNotesFile": "scorePredictionModelRoadmap.md",
+      "plannedUse": [
+        "expected goals by fixture",
+        "clean-sheet probability",
+        "goal environment",
+        "upset risk",
+        "future player recommendation multipliers"
+      ],
+      "caveat": "Preserved pre-PELE prototype score model. Active browser data now uses scorePredictions_v2.json.",
+      "hardeningStatus": "pass_with_prototype_caveats",
+      "hardeningCheckedAt": "2026-06-01T18:14:29.429Z",
+      "qaFile": "scorePredictionQa_v0.json",
+      "qaReportFile": "scorePredictionQaReport_v0.md"
+    },
+    {
+      "file": "scorePredictionQa_v0.json",
+      "outputType": "score_prediction_quality_audit",
+      "generatedAt": "2026-06-01T18:14:29.429Z",
+      "sourceChecked": "2026-06-01",
+      "overallStatus": "pass_with_prototype_caveats",
+      "checksTotal": 21,
+      "checksPassed": 20,
+      "checksFailed": 0,
+      "caveats": 1,
+      "reportFile": "scorePredictionQaReport_v0.md",
+      "sourceFiles": [
+        "scorePredictions_v0.json",
+        "fixtures.json",
+        "matchdays.json",
+        "teams.json",
+        "teamQuality_v0.json",
+        "playerMatchdayProjections_v0.json"
+      ],
+      "plannedUse": [
+        "score-prediction coverage validation",
+        "probability and expected-goals guardrails",
+        "team-quality input coverage review",
+        "player-matchday projection integration checks",
+        "Match Environment model QA status"
+      ],
+      "caveat": "Preserved pre-PELE QA audit. Active score QA now uses scorePredictionQa_v2.json."
+    },
+    {
+      "file": "../scorePredictionsData.js",
+      "outputType": "browser_ready_score_prediction_data",
+      "generatedAt": "2026-06-01T19:09:25.131Z",
+      "sourceChecked": "2026-06-01",
+      "fixturePredictionCount": 72,
+      "sourceFiles": [
+        "scorePredictions_v2.json"
+      ],
+      "plannedUse": [
+        "homepage Match Environment panel",
+        "fixture xG inspection",
+        "clean-sheet watch filters",
+        "goal-environment filters",
+        "upset-risk filters"
+      ],
+      "caveat": "Browser-ready copy of prototype score predictions. It is not an official forecast and uses no betting odds.",
+      "hardeningStatus": "pass",
+      "qaFile": "scorePredictionQa_v2.json",
+      "qaReportFile": "scorePredictionQaReport_v2.md"
+    },
+    {
+      "file": "playerMatchdayProjections_v0.json",
+      "outputType": "score_environment_adjusted_player_matchday_projections",
+      "generatedAt": "2026-06-01T12:51:47.301Z",
+      "sourceChecked": "2026-06-01",
+      "rowCount": 4017,
+      "sourceFiles": [
+        "playerFinanceMetrics_v0.json",
+        "playerRecommendationInputs_v0.json",
+        "playerMinutesModel_v0.json",
+        "scorePredictions_v0.json",
+        "fixtures.json",
+        "matchdays.json"
+      ],
+      "plannedUse": [
+        "matchday-specific player recommendations",
+        "attack-heavy and defensive-heavy fixture adjustments",
+        "captain environment scoring",
+        "very-risky upset and volatility scoring",
+        "homepage matchday filters",
+        "Team Advice and Quick Picks explanation text",
+        "Player Profile fixture table"
+      ],
+      "caveat": "Prototype player matchday model. It uses score environment as a fantasy signal, not as official score forecasting."
+    },
+    {
+      "file": "recommendationQa_v0.json",
+      "outputType": "preserved_pre_pele_recommendation_quality_audit",
+      "generatedAt": "2026-06-01T14:12:18.134Z",
+      "sourceChecked": "2026-06-01",
+      "topPickRowsAudited": 1700,
+      "uniqueTopPoolPlayers": 259,
+      "reportFile": "recommendationQaReport_v0.md",
+      "sourceFiles": [
+        "../financePlayersData.js",
+        "../matchdayProjectionsData.js",
+        "playerFinanceMetrics_v0.json",
+        "playerRecommendationInputs_v0.json",
+        "playerMinutesModel_v0.json",
+        "playerMatchdayProjections_v0.json",
+        "scorePredictions_v0.json"
+      ],
+      "plannedUse": [
+        "top-pick data-quality audit",
+        "position coverage review",
+        "country concentration review",
+        "matchday fixture-context review",
+        "role-risk and tail-risk warning labels",
+        "future Player Profile QA warning chips"
+      ],
+      "caveat": "Preserved pre-PELE QA audit. Active recommendation QA now uses recommendationQa_v2.json."
+    },
+    {
+      "file": "peleRatings_v1.json",
+      "outputType": "imported_pele_rating_data",
+      "generatedAt": "2026-06-01T18:45:08.922Z",
+      "sourceChecked": "2026-06-01",
+      "rowCount": 211,
+      "sourceFiles": [
+        "https://datawrapper.dwcdn.net/4oVop/19/dataset.csv",
+        "https://datawrapper.dwcdn.net/dxUJw/15/dataset.csv",
+        "https://datawrapper.dwcdn.net/DcqkH/13/dataset.csv"
+      ],
+      "plannedUse": [
+        "team quality v1",
+        "score predictions v1",
+        "score environment context"
+      ],
+      "caveat": "Downloaded source values only. No PELE value is inferred when missing."
+    },
+    {
+      "file": "teamQuality.json",
+      "outputType": "active_team_quality_model",
+      "generatedAt": "2026-06-01T19:09:25.131Z",
+      "sourceChecked": "2026-06-01",
+      "rowCount": 48,
+      "modelVersion": "team_quality_v2",
+      "previousModelFile": "teamQuality_v0.json",
+      "sourceFiles": [
+        "teams.json",
+        "peleRatings_v1.json",
+        "FIFA rankings",
+        "World Football Elo",
+        "Fjelstul World Cup database"
+      ],
+      "plannedUse": [
+        "team strength",
+        "fixture difficulty",
+        "score prediction v2",
+        "matchday projection v2"
+      ],
+      "caveat": "Prototype PELE-forward team-quality signal. PELE is the dominant current-strength input, not an official forecast.",
+      "previousModelFiles": [
+        "teamQuality_v1.json",
+        "teamQuality_v0.json"
+      ]
+    },
+    {
+      "file": "teamQuality_v0.json",
+      "outputType": "preserved_pre_pele_team_quality_model",
+      "generatedAt": "2026-05-31T13:05:55.256Z",
+      "sourceChecked": "2026-05-31",
+      "rowCount": 48,
+      "plannedUse": [
+        "audit previous pre-PELE team quality model"
+      ],
+      "caveat": "Preserved for comparison. Active teamQuality.json now uses PELE-forward team_quality_v2."
+    },
+    {
+      "file": "scorePredictions_v1.json",
+      "outputType": "preserved_score_prediction_model_v1_with_pele",
+      "generatedAt": "2026-06-01T18:45:08.925Z",
+      "sourceChecked": "2026-06-01",
+      "fixturePredictionCount": 72,
+      "teamFixturePredictionCount": 144,
+      "sourceFiles": [
+        "fixtures.json",
+        "matchdays.json",
+        "teams.json",
+        "teamQuality.json",
+        "peleRatings_v1.json"
+      ],
+      "modelNotesFile": "scorePredictionModelRoadmap.md",
+      "plannedUse": [
+        "expected goals by fixture",
+        "clean-sheet probability",
+        "goal environment",
+        "upset risk",
+        "player recommendation multipliers"
+      ],
+      "caveat": "Preserved PELE-backed v1 score model. Active browser data now uses scorePredictions_v2.json.",
+      "hardeningStatus": "pass",
+      "qaFile": "scorePredictionQa_v1.json",
+      "qaReportFile": "scorePredictionQaReport_v1.md"
+    },
+    {
+      "file": "scorePredictionQa_v1.json",
+      "outputType": "preserved_score_prediction_quality_audit_v1",
+      "generatedAt": "2026-06-01T18:45:08.925Z",
+      "sourceChecked": "2026-06-01",
+      "overallStatus": "pass",
+      "checksTotal": 11,
+      "checksPassed": 11,
+      "checksFailed": 0,
+      "caveats": 0,
+      "reportFile": "scorePredictionQaReport_v1.md",
+      "sourceFiles": [
+        "scorePredictions_v1.json",
+        "fixtures.json",
+        "matchdays.json",
+        "teams.json",
+        "teamQuality.json",
+        "peleRatings_v1.json",
+        "playerMatchdayProjections_v1.json"
+      ],
+      "plannedUse": [
+        "score-prediction coverage validation",
+        "probability and expected-goals guardrails",
+        "team-quality PELE input coverage review",
+        "player-matchday projection integration checks",
+        "Match Environment model QA status"
+      ],
+      "caveat": "Preserved v1 QA audit. Active score QA now uses scorePredictionQa_v2.json."
+    },
+    {
+      "file": "playerMatchdayProjections_v1.json",
+      "outputType": "preserved_player_matchday_projections_v1_with_pele",
+      "generatedAt": "2026-06-01T18:45:08.925Z",
+      "sourceChecked": "2026-06-01",
+      "rowCount": 4017,
+      "sourceFiles": [
+        "playerFinanceMetrics_v0.json",
+        "playerRecommendationInputs_v0.json",
+        "playerMinutesModel_v0.json",
+        "scorePredictions_v1.json",
+        "fixtures.json",
+        "matchdays.json"
+      ],
+      "plannedUse": [
+        "matchday-specific player recommendations",
+        "attack-heavy and defensive-heavy fixture adjustments",
+        "captain environment scoring",
+        "very-risky upset and volatility scoring",
+        "homepage matchday filters",
+        "Player Profile fixture table"
+      ],
+      "caveat": "Preserved v1 player matchday projections. Active browser data now uses playerMatchdayProjections_v2.json."
+    },
+    {
+      "file": "matchdayRecommendations_v1.json",
+      "outputType": "preserved_matchday_recommendation_shortlists_v1_with_pele",
+      "generatedAt": "2026-06-01T18:45:08.925Z",
+      "sourceChecked": "2026-06-01",
+      "sourceFiles": [
+        "playerMatchdayProjections_v1.json"
+      ],
+      "plannedUse": [
+        "matchday shortlist audit",
+        "future recommendation export support"
+      ],
+      "caveat": "Preserved v1 shortlist output. Active recommendations now use matchdayRecommendations_v2.json."
+    },
+    {
+      "file": "recommendationQa_v1.json",
+      "outputType": "preserved_recommendation_quality_audit_v1",
+      "generatedAt": "2026-06-01T18:45:08.925Z",
+      "sourceChecked": "2026-06-01",
+      "topPickRowsAudited": 1000,
+      "uniqueTopPoolPlayers": 224,
+      "reportFile": "recommendationQaReport_v1.md",
+      "sourceFiles": [
+        "../financePlayersData.js",
+        "../matchdayProjectionsData.js",
+        "playerFinanceMetrics_v0.json",
+        "playerRecommendationInputs_v0.json",
+        "playerMinutesModel_v0.json",
+        "playerMatchdayProjections_v1.json",
+        "scorePredictions_v1.json"
+      ],
+      "plannedUse": [
+        "top-pick data-quality audit",
+        "position coverage review",
+        "matchday fixture-context review",
+        "role-risk and tail-risk warning labels"
+      ],
+      "caveat": "Preserved v1 QA audit. Active recommendation QA now uses recommendationQa_v2.json."
+    },
+    {
+      "file": "../matchdayProjectionsData.js",
+      "outputType": "browser_ready_matchday_projection_data",
+      "generatedAt": "2026-06-01T19:09:25.131Z",
+      "sourceChecked": "2026-06-01",
+      "rowCount": 4005,
+      "sourceFiles": [
+        "playerMatchdayProjections_v2.json",
+        "matchdayRecommendations_v2.json",
+        "playerMinutesModel_v0.json",
+        "scorePredictions_v2.json"
+      ],
+      "plannedUse": [
+        "homepage matchday opponent adjustments",
+        "Team Advice fixture context",
+        "Player Profile fixture table"
+      ],
+      "caveat": "Browser-ready prototype projections generated from scorePredictions_v2."
+    },
+    {
+      "file": "teamQuality_v1.json",
+      "outputType": "preserved_pele_team_quality_model_v1",
+      "generatedAt": "2026-06-01T18:44:04.083Z",
+      "sourceChecked": "2026-06-01",
+      "rowCount": 48,
+      "plannedUse": [
+        "audit previous PELE-backed team quality model"
+      ],
+      "caveat": "Preserved for comparison. Active teamQuality.json now uses PELE-forward team_quality_v2."
+    },
+    {
+      "file": "scorePredictions_v2.json",
+      "outputType": "prototype_score_prediction_model_pele_forward",
+      "generatedAt": "2026-06-01T19:09:25.131Z",
+      "sourceChecked": "2026-06-01",
+      "fixturePredictionCount": 72,
+      "teamFixturePredictionCount": 144,
+      "sourceFiles": [
+        "fixtures.json",
+        "matchdays.json",
+        "teams.json",
+        "teamQuality.json",
+        "peleRatings_v1.json"
+      ],
+      "modelNotesFile": "scorePredictionModelRoadmap.md",
+      "plannedUse": [
+        "expected goals by fixture",
+        "clean-sheet probability",
+        "goal environment",
+        "upset risk",
+        "player recommendation multipliers"
+      ],
+      "caveat": "Prototype PELE-forward score model. It uses no betting odds and does not include final rosters, official fantasy prices, or official fantasy scoring rules.",
+      "hardeningStatus": "pass",
+      "qaFile": "scorePredictionQa_v2.json",
+      "qaReportFile": "scorePredictionQaReport_v2.md"
+    },
+    {
+      "file": "scorePredictionQa_v2.json",
+      "outputType": "score_prediction_quality_audit",
+      "generatedAt": "2026-06-01T19:09:25.131Z",
+      "sourceChecked": "2026-06-01",
+      "overallStatus": "pass",
+      "checksTotal": 11,
+      "checksPassed": 11,
+      "checksFailed": 0,
+      "caveats": 0,
+      "reportFile": "scorePredictionQaReport_v2.md",
+      "sourceFiles": [
+        "scorePredictions_v2.json",
+        "fixtures.json",
+        "matchdays.json",
+        "teams.json",
+        "teamQuality.json",
+        "peleRatings_v1.json",
+        "playerMatchdayProjections_v2.json"
+      ],
+      "plannedUse": [
+        "score-prediction coverage validation",
+        "probability and expected-goals guardrails",
+        "team-quality PELE input coverage review",
+        "player-matchday projection integration checks",
+        "Match Environment model QA status"
+      ],
+      "caveat": "QA validates internal consistency and bounds, not predictive accuracy."
+    },
+    {
+      "file": "playerMatchdayProjections_v2.json",
+      "outputType": "score_environment_adjusted_player_matchday_projections_pele_forward",
+      "generatedAt": "2026-06-01T19:09:25.131Z",
+      "sourceChecked": "2026-06-01",
+      "rowCount": 4017,
+      "sourceFiles": [
+        "playerFinanceMetrics_v0.json",
+        "playerRecommendationInputs_v0.json",
+        "playerMinutesModel_v0.json",
+        "scorePredictions_v2.json",
+        "fixtures.json",
+        "matchdays.json"
+      ],
+      "plannedUse": [
+        "matchday-specific player recommendations",
+        "attack-heavy and defensive-heavy fixture adjustments",
+        "captain environment scoring",
+        "very-risky upset and volatility scoring",
+        "homepage matchday filters",
+        "Player Profile fixture table"
+      ],
+      "caveat": "Prototype player matchday model. It uses score environment as a fantasy signal, not official score forecasting."
+    },
+    {
+      "file": "matchdayRecommendations_v2.json",
+      "outputType": "matchday_recommendation_shortlists_pele_forward",
+      "generatedAt": "2026-06-01T19:09:25.131Z",
+      "sourceChecked": "2026-06-01",
+      "sourceFiles": [
+        "playerMatchdayProjections_v2.json"
+      ],
+      "plannedUse": [
+        "matchday shortlist audit",
+        "future recommendation export support"
+      ],
+      "caveat": "Prototype shortlist output generated from v2 matchday projections."
+    },
+    {
+      "file": "recommendationQa_v2.json",
+      "outputType": "recommendation_quality_audit",
+      "generatedAt": "2026-06-01T19:09:25.131Z",
+      "sourceChecked": "2026-06-01",
+      "topPickRowsAudited": 1000,
+      "uniqueTopPoolPlayers": 218,
+      "reportFile": "recommendationQaReport_v2.md",
+      "sourceFiles": [
+        "../financePlayersData.js",
+        "../matchdayProjectionsData.js",
+        "playerFinanceMetrics_v0.json",
+        "playerRecommendationInputs_v0.json",
+        "playerMinutesModel_v0.json",
+        "playerMatchdayProjections_v2.json",
+        "scorePredictions_v2.json"
+      ],
+      "plannedUse": [
+        "top-pick data-quality audit",
+        "position coverage review",
+        "matchday fixture-context review",
+        "role-risk and tail-risk warning labels"
+      ],
+      "caveat": "Prototype QA audit. Rerun after official squads, prices, positions, rules, injuries, and lineups are imported."
+    },
+    {
+      "file": "captainChangeAdvisorModel_v0.md",
+      "outputType": "manual_captain_switch_check_model_note",
+      "generatedAt": "2026-06-01",
+      "sourceChecked": "2026-06-01",
+      "sourceFiles": [
+        "../financePlayersData.js",
+        "../matchdayProjectionsData.js",
+        "../scorePredictionsData.js",
+        "playerMatchdayProjections_v2.json",
+        "scorePredictions_v2.json"
+      ],
+      "manualInputs": [
+        "current captain raw points before captain double",
+        "current captain name if provided",
+        "replacement captain candidate",
+        "selected matchday",
+        "risk style"
+      ],
+      "plannedUse": [
+        "Quick Captain Switch Check",
+        "manual same-matchday captain-change decision support"
+      ],
+      "caveat": "No live fantasy score, squad membership, or played/unplayed state is inferred. The user must enter current points and choose a valid unplayed squad candidate."
+    },
+    {
+      "file": "substitutionAdvisorModel_v0.md",
+      "outputType": "manual_substitution_check_model_note",
+      "generatedAt": "2026-06-01",
+      "sourceChecked": "2026-06-01",
+      "sourceFiles": [
+        "../financePlayersData.js",
+        "../matchdayProjectionsData.js",
+        "../scorePredictionsData.js",
+        "playerMatchdayProjections_v2.json",
+        "scorePredictions_v2.json"
+      ],
+      "manualInputs": [
+        "played starter raw fantasy points",
+        "played starter name if provided",
+        "bench player candidate",
+        "selected matchday",
+        "risk style"
+      ],
+      "plannedUse": [
+        "Quick Substitution Check",
+        "manual same-matchday substitution decision support"
+      ],
+      "caveat": "No live fantasy score, squad membership, played/unplayed state, or formation legality is inferred. The user must enter current points, choose a valid unplayed bench candidate, and manually confirm different-position substitutions remain legal."
+    },
+    {
+      "file": "teamExportModel_v1.md",
+      "outputType": "team_export_payload_model_note",
+      "generatedAt": "2026-06-01",
+      "sourceChecked": "2026-06-01",
+      "sourceFiles": [
+        "../financePlayersData.js",
+        "../matchdayProjectionsData.js",
+        "../scorePredictionsData.js",
+        "../fantasyRulesData.js",
+        "playerFinanceMetrics_v0.json",
+        "playerMatchdayProjections_v2.json",
+        "scorePredictions_v2.json",
+        "playerValueModel_v1.json",
+        "captainChangeAdvisorModel_v0.md",
+        "substitutionAdvisorModel_v0.md"
+      ],
+      "plannedUse": [
+        "Team Export JSON v1",
+        "saved squad payload foundation",
+        "future import and decision-tool prefill support"
+      ],
+      "caveat": "Official fantasy player IDs, official prices, official positions, final squads, and final fantasy rules are still pending. Captain, vice-captain, and decision-tool fields are prototype placeholders unless user state is saved later."
+    },
+    {
+      "file": "fullFeatureTestReport_v0.md",
+      "outputType": "full_feature_validation_report",
+      "generatedAt": "2026-06-01",
+      "sourceChecked": "2026-06-01",
+      "sourceFiles": [
+        "../index.html",
+        "../script.js",
+        "../style.css",
+        "../world-cup.html",
+        "../worldCupPage.js",
+        "../financePlayersData.js",
+        "../matchdayProjectionsData.js",
+        "../scorePredictionsData.js",
+        "../fantasyRulesData.js"
+      ],
+      "plannedUse": [
+        "Step 10 full feature test pass",
+        "desktop and mobile browser QA record",
+        "static JSON and JavaScript validation record"
+      ],
+      "caveat": "Validation confirms current browser behavior and internal consistency, not predictive accuracy or official fantasy-data readiness."
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "week6-non-english-source-probe-v1",
+  "generated_at": "2026-05-31T20:50:25.751Z",
+  "source_checked": "2026-05-31",
+  "status": "source_probe_with_onefootball_import_for_korea_qatar",
+  "sources": [
+    {
+      "source_id": "oneFootballWebStats",
+      "name": "OneFootball public web and app endpoints",
+      "urls": [
+        "https://search-api.onefootball.com/v2/en/search?q=K%20League%201",
+        "https://search-api.onefootball.com/v2/en/search?q=Qatar%20Stars%20League",
+        "https://scores-api.onefootball.com/v1/en/competitions/130/matches?number_next=0&number_previous=1000",
+        "https://scores-api.onefootball.com/v1/en/competitions/158/matches?number_next=0&number_previous=1000",
+        "https://feedmonster.onefootball.com/feeds/il/en/competitions/130/43358/league_statistics.json",
+        "https://feedmonster.onefootball.com/feeds/il/en/competitions/158/43062/league_statistics.json"
+      ],
+      "result": "usable",
+      "fields_found": [
+        "fixtures",
+        "standings",
+        "top scorers",
+        "assists",
+        "goals plus assists",
+        "yellow cards",
+        "red cards",
+        "confirmed lineups",
+        "substitutions",
+        "goals",
+        "assists",
+        "team match stats"
+      ],
+      "caveat": "Undocumented public endpoints; match-level minutes are estimated from lineups and substitution clocks."
+    },
+    {
+      "source_id": "kLeagueOfficialPlayerRank",
+      "name": "K League official player rank page",
+      "urls": [
+        "https://www.kleague.com/record/player.do?leagueId=1",
+        "https://data.kleague.com"
+      ],
+      "result": "usable_for_cross_check",
+      "fields_found": [
+        "goals",
+        "assists",
+        "attack points",
+        "goals conceded",
+        "corner kicks",
+        "fouls",
+        "shots",
+        "offsides",
+        "yellow cards",
+        "red cards",
+        "clean sheets",
+        "played",
+        "substitutions"
+      ],
+      "caveat": "The public ranking page exposes visible top rows. The deeper Data Portal should be inspected separately for a complete export or API."
+    },
+    {
+      "source_id": "qslOfficial",
+      "name": "Qatar Stars League official site",
+      "urls": [
+        "https://qsl.qa/en/qatar-stars-league-20252026",
+        "https://qsl.qa/en/doha-bank-stars-league"
+      ],
+      "result": "usable_for_schedule_news_and_match_documents",
+      "fields_found": [
+        "league page",
+        "schedule/news context",
+        "match report PDFs in search results"
+      ],
+      "caveat": "Automated player-stat tables were not found in this pass; use OneFootball/FootyStats/FCtables for player stats until a QSL endpoint is identified."
+    },
+    {
+      "source_id": "footyStatsKoreaQatarCandidate",
+      "name": "FootyStats Korea and Qatar player pages/datasets",
+      "urls": [
+        "https://footystats.org/kr/south-korea/k-league-1/players",
+        "https://footystats.org/qatar/stars-league/players",
+        "https://footystats.org/qatar/stars-league/datasets"
+      ],
+      "result": "candidate",
+      "fields_found": [
+        "player stats pages",
+        "dataset row-count pages"
+      ],
+      "caveat": "Needs access-path check before import; dataset pages may require account or manual export."
+    }
+  ]
+}

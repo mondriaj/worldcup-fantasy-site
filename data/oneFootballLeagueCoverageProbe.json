@@ -1,0 +1,5337 @@
+{
+  "schemaVersion": "week6-onefootball-all-target-league-coverage-probe-v1",
+  "generated_at": "2026-05-31T21:13:06.822Z",
+  "source_checked": "2026-05-31",
+  "source_id": "oneFootballWebStats",
+  "status": "coverage_probe_not_full_import",
+  "summary": {
+    "target_leagues": 32,
+    "onefootball_competitions_found": 30,
+    "match_feeds_ok": 30,
+    "league_statistics_ok": 30,
+    "standings_ok": 30,
+    "sample_match_pages_ok": 30,
+    "sample_match_pages_with_lineups": 30,
+    "sample_match_pages_with_events": 30,
+    "sample_match_pages_with_team_stats": 26,
+    "likely_useful_complements": 30,
+    "strong_complement_leagues": [
+      "Argentina: Liga Profesional Argentina",
+      "Australia: A-League Men",
+      "Austria: Austrian Bundesliga",
+      "Belgium: Pro League",
+      "Colombia: Primera A",
+      "Denmark: Superligaen",
+      "England: Premier League",
+      "France: Ligue 1",
+      "Germany: Bundesliga",
+      "Greece: Super League Greece",
+      "Japan: J1 League",
+      "Korea Republic: K League 1",
+      "Mexico: Liga BBVA MX",
+      "Netherlands: Eredivisie",
+      "Portugal: Liga Portugal",
+      "Qatar: Qatar Stars League",
+      "Saudi Arabia: Saudi Pro League",
+      "Scotland: Scottish Premiership",
+      "South Africa: Premier Soccer League",
+      "Spain: LaLiga",
+      "Switzerland: Super League",
+      "Türkiye: Süper Lig",
+      "USA: Major League Soccer"
+    ]
+  },
+  "rows": [
+    {
+      "country": "Argentina",
+      "query": "Argentine Liga Profesional",
+      "expectedCountryCode": "ar",
+      "existingSource": "espn",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Argentine%20Liga%20Profesional",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 83,
+          "name": "Liga Profesional Argentina",
+          "country": {
+            "name": "Argentina",
+            "code": "ar"
+          },
+          "url": "/en/competition/liga-profesional-argentina-83",
+          "candidate_score": 14
+        }
+      ],
+      "selected_competition": {
+        "id": 83,
+        "name": "Liga Profesional Argentina",
+        "country": {
+          "name": "Argentina",
+          "code": "ar"
+        },
+        "url": "/en/competition/liga-profesional-argentina-83",
+        "candidate_score": 14
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/83/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 255,
+      "full_time_match_count": 255,
+      "first_match_date": "2026-01-22T20:00:00Z",
+      "last_match_date": "2026-05-24T18:30:00Z",
+      "detected_season_id": "43311",
+      "season_match_counts": {
+        "43311": 255
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/83/43311/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 29689,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 30
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/83/43311/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 38365,
+        "group_count": 4,
+        "team_count": 60,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2683386",
+        "bytes": 494404,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 6,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 5,
+          "googleAdsPlaceholder": 3,
+          "grid": 2,
+          "horizontalSeparator": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "relatedVideos": 1,
+          "substitution": 9,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Australia",
+      "query": "A-League Men",
+      "expectedCountryCode": "au",
+      "existingSource": "espn",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=A-League%20Men",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 84,
+          "name": "A-League Men",
+          "country": {
+            "name": "Australia",
+            "code": "au"
+          },
+          "url": "/en/competition/a-league-men-84",
+          "candidate_score": 14
+        }
+      ],
+      "selected_competition": {
+        "id": 84,
+        "name": "A-League Men",
+        "country": {
+          "name": "Australia",
+          "code": "au"
+        },
+        "url": "/en/competition/a-league-men-84",
+        "candidate_score": 14
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/84/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 163,
+      "full_time_match_count": 163,
+      "first_match_date": "2025-10-17T08:00:00Z",
+      "last_match_date": "2026-05-23T08:10:00Z",
+      "detected_season_id": "43216",
+      "season_match_counts": {
+        "43216": 163
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/84/43216/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 27654,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 18
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/84/43216/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 7939,
+        "group_count": 1,
+        "team_count": 12,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2650298",
+        "bytes": 453848,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 6,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 1,
+          "googleAdsPlaceholder": 3,
+          "grid": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "substitution": 8,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Austria",
+      "query": "Austrian Bundesliga",
+      "expectedCountryCode": "at",
+      "existingSource": "espn",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Austrian%20Bundesliga",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 26,
+          "name": "Austrian Bundesliga",
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/competition/austrian-bundesliga-26",
+          "candidate_score": 14
+        },
+        {
+          "id": 116,
+          "name": "2. Liga",
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/competition/2-liga-116",
+          "candidate_score": 8
+        }
+      ],
+      "selected_competition": {
+        "id": 26,
+        "name": "Austrian Bundesliga",
+        "country": {
+          "name": "Austria",
+          "code": "at"
+        },
+        "url": "/en/competition/austrian-bundesliga-26",
+        "candidate_score": 14
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/26/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 195,
+      "full_time_match_count": 195,
+      "first_match_date": "2025-08-01T18:30:00Z",
+      "last_match_date": "2026-05-25T15:00:00Z",
+      "detected_season_id": "43077",
+      "season_match_counts": {
+        "43077": 195
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/26/43077/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 29171,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 30
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/26/43077/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 15382,
+        "group_count": 3,
+        "team_count": 24,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2683383",
+        "bytes": 445659,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 2,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 3,
+          "googleAdsPlaceholder": 3,
+          "grid": 2,
+          "horizontalSeparator": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "relatedVideos": 1,
+          "substitution": 6,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Belgium",
+      "query": "Belgian Pro League",
+      "expectedCountryCode": "be",
+      "existingSource": "espn",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Belgian%20Pro%20League",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 58,
+          "name": "Pro League",
+          "country": {
+            "name": "Belgium",
+            "code": "be"
+          },
+          "url": "/en/competition/pro-league-58",
+          "candidate_score": 14
+        },
+        {
+          "id": 2788,
+          "name": "Challenger Pro League",
+          "country": {
+            "name": "Belgium",
+            "code": "be"
+          },
+          "url": "/en/competition/challenger-pro-league-2788",
+          "candidate_score": 14
+        }
+      ],
+      "selected_competition": {
+        "id": 58,
+        "name": "Pro League",
+        "country": {
+          "name": "Belgium",
+          "code": "be"
+        },
+        "url": "/en/competition/pro-league-58",
+        "candidate_score": 14
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/58/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 313,
+      "full_time_match_count": 313,
+      "first_match_date": "2025-07-25T18:45:00Z",
+      "last_match_date": "2026-05-31T16:30:00Z",
+      "detected_season_id": "43056",
+      "season_match_counts": {
+        "43056": 313
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/58/43056/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 29932,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 30
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/58/43056/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 20661,
+        "group_count": 4,
+        "team_count": 32,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2683953",
+        "bytes": 457549,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 5,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 2,
+          "googleAdsPlaceholder": 3,
+          "grid": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "penaltyShootout": 10,
+          "substitution": 10,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Brazil",
+      "query": "Brasileirao",
+      "expectedCountryCode": "br",
+      "existingSource": "espn",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Brasileirao",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 16,
+          "name": "Brasileirão Betano",
+          "country": {
+            "name": "Brazil",
+            "code": "br"
+          },
+          "url": "/en/competition/brasileirao-betano-16",
+          "candidate_score": 31
+        },
+        {
+          "id": 119,
+          "name": "Brasileirão Série B Superbet",
+          "country": {
+            "name": "Brazil",
+            "code": "br"
+          },
+          "url": "/en/competition/brasileirao-serie-b-superbet-119",
+          "candidate_score": 11
+        },
+        {
+          "id": 195,
+          "name": "Brasileirão Série C",
+          "country": {
+            "name": "Brazil",
+            "code": "br"
+          },
+          "url": "/en/competition/brasileirao-serie-c-195",
+          "candidate_score": 11
+        },
+        {
+          "id": 216,
+          "name": "Brasileirão Série D",
+          "country": {
+            "name": "Brazil",
+            "code": "br"
+          },
+          "url": "/en/competition/brasileirao-serie-d-216",
+          "candidate_score": 11
+        },
+        {
+          "id": 1882,
+          "name": "Brasileirão Women",
+          "country": {
+            "name": "Brazil",
+            "code": "br"
+          },
+          "url": "/en/competition/brasileirao-women-1882",
+          "candidate_score": 11
+        }
+      ],
+      "selected_competition": {
+        "id": 16,
+        "name": "Brasileirão Betano",
+        "country": {
+          "name": "Brazil",
+          "code": "br"
+        },
+        "url": "/en/competition/brasileirao-betano-16",
+        "candidate_score": 31
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/16/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 180,
+      "full_time_match_count": 175,
+      "first_match_date": "2026-01-28T22:00:00Z",
+      "last_match_date": "2026-05-31T23:30:00Z",
+      "detected_season_id": "43318",
+      "season_match_counts": {
+        "43318": 180
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/16/43318/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 183,
+        "groups": {
+          "scorers": 0,
+          "assists": 0,
+          "goal_assists": 0,
+          "yellow_cards": 0,
+          "red_cards": 0
+        },
+        "fields_by_group": {
+          "scorers": [],
+          "assists": [],
+          "goal_assists": [],
+          "yellow_cards": [],
+          "red_cards": []
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/16/43318/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 13196,
+        "group_count": 1,
+        "team_count": 20,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2652380",
+        "bytes": 500920,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 4,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 3,
+          "googleAdsPlaceholder": 3,
+          "grid": 2,
+          "horizontalSeparator": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "relatedVideos": 1,
+          "standings": 1,
+          "substitution": 10,
+          "title": 1,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": false,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Colombia",
+      "query": "Colombian Primera A",
+      "expectedCountryCode": "co",
+      "existingSource": "espn",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Colombian%20Primera%20A",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 109,
+          "name": "Primera A",
+          "country": {
+            "name": "Colombia",
+            "code": "co"
+          },
+          "url": "/en/competition/primera-a-109",
+          "candidate_score": 11
+        },
+        {
+          "id": 206,
+          "name": "Primera B",
+          "country": {
+            "name": "Colombia",
+            "code": "co"
+          },
+          "url": "/en/competition/primera-b-206",
+          "candidate_score": 11
+        }
+      ],
+      "selected_competition": {
+        "id": 109,
+        "name": "Primera A",
+        "country": {
+          "name": "Colombia",
+          "code": "co"
+        },
+        "url": "/en/competition/primera-a-109",
+        "candidate_score": 11
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/109/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 202,
+      "full_time_match_count": 202,
+      "first_match_date": "2026-01-16T23:20:00Z",
+      "last_match_date": "2026-05-24T01:30:00Z",
+      "detected_season_id": "43326",
+      "season_match_counts": {
+        "43326": 202
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/109/43326/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 30006,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 30
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/109/43326/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 25590,
+        "group_count": 2,
+        "team_count": 40,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2683059",
+        "bytes": 442439,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 7,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "googleAdsPlaceholder": 3,
+          "grid": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "penaltyShootout": 10,
+          "substitution": 10,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Costa Rica",
+      "query": "Liga FPD Costa Rica",
+      "expectedCountryCode": "cr",
+      "existingSource": "espn_zero_roster_matches",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Liga%20FPD%20Costa%20Rica",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 2716,
+          "name": "Liga FPD",
+          "country": {
+            "name": "Costa Rica",
+            "code": "cr"
+          },
+          "url": "/en/competition/liga-fpd-2716",
+          "candidate_score": 34
+        }
+      ],
+      "selected_competition": {
+        "id": 2716,
+        "name": "Liga FPD",
+        "country": {
+          "name": "Costa Rica",
+          "code": "cr"
+        },
+        "url": "/en/competition/liga-fpd-2716",
+        "candidate_score": 34
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/2716/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 192,
+      "full_time_match_count": 192,
+      "first_match_date": "2025-07-25T02:00:00Z",
+      "last_match_date": "2026-05-17T02:00:00Z",
+      "detected_season_id": "43104",
+      "season_match_counts": {
+        "43104": 192
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/2716/43104/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 185,
+        "groups": {
+          "scorers": 0,
+          "assists": 0,
+          "goal_assists": 0,
+          "yellow_cards": 0,
+          "red_cards": 0
+        },
+        "fields_by_group": {
+          "scorers": [],
+          "assists": [],
+          "goal_assists": [],
+          "yellow_cards": [],
+          "red_cards": []
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/2716/43104/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 12843,
+        "group_count": 2,
+        "team_count": 20,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2649838",
+        "bytes": 429641,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": false,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 6,
+          "flat": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 2,
+          "googleAdsPlaceholder": 3,
+          "grid": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "substitution": 9,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": false,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Denmark",
+      "query": "Superligaen Denmark",
+      "expectedCountryCode": "dk",
+      "existingSource": "espn",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Superligaen%20Denmark",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 57,
+          "name": "Superligaen",
+          "country": {
+            "name": "Denmark",
+            "code": "dk"
+          },
+          "url": "/en/competition/superligaen-57",
+          "candidate_score": 31
+        }
+      ],
+      "selected_competition": {
+        "id": 57,
+        "name": "Superligaen",
+        "country": {
+          "name": "Denmark",
+          "code": "dk"
+        },
+        "url": "/en/competition/superligaen-57",
+        "candidate_score": 31
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/57/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 193,
+      "full_time_match_count": 193,
+      "first_match_date": "2025-07-18T17:00:00Z",
+      "last_match_date": "2026-05-21T16:30:00Z",
+      "detected_season_id": "43010",
+      "season_match_counts": {
+        "43010": 193
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/57/43010/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 28807,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 27
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/57/43010/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 15417,
+        "group_count": 3,
+        "team_count": 24,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2683403",
+        "bytes": 465179,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 13,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 4,
+          "googleAdsPlaceholder": 3,
+          "grid": 2,
+          "horizontalSeparator": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "relatedVideos": 1,
+          "substitution": 10,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Ecuador",
+      "query": "LigaPro Ecuador",
+      "expectedCountryCode": "ec",
+      "existingSource": "espn_zero_roster_matches",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=LigaPro%20Ecuador",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 172,
+          "name": "LigaPro Serie A",
+          "country": {
+            "name": "Ecuador",
+            "code": "ec"
+          },
+          "url": "/en/competition/ligapro-serie-a-172",
+          "candidate_score": 11
+        }
+      ],
+      "selected_competition": {
+        "id": 172,
+        "name": "LigaPro Serie A",
+        "country": {
+          "name": "Ecuador",
+          "code": "ec"
+        },
+        "url": "/en/competition/ligapro-serie-a-172",
+        "candidate_score": 11
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/172/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 128,
+      "full_time_match_count": 123,
+      "first_match_date": "2026-02-21T00:00:00Z",
+      "last_match_date": "2026-06-02T00:30:00Z",
+      "detected_season_id": "43386",
+      "season_match_counts": {
+        "43386": 128
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/172/43386/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 184,
+        "groups": {
+          "scorers": 0,
+          "assists": 0,
+          "goal_assists": 0,
+          "yellow_cards": 0,
+          "red_cards": 0
+        },
+        "fields_by_group": {
+          "scorers": [],
+          "assists": [],
+          "goal_assists": [],
+          "yellow_cards": [],
+          "red_cards": []
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/172/43386/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 10252,
+        "group_count": 1,
+        "team_count": 16,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2668589",
+        "bytes": 450329,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 9,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "googleAdsPlaceholder": 3,
+          "grid": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "standings": 1,
+          "substitution": 7,
+          "title": 1,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": false,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "England",
+      "query": "English Premier League",
+      "expectedCountryCode": "gb",
+      "existingSource": "espn_big5",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=English%20Premier%20League",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 9,
+          "name": "Premier League",
+          "country": {
+            "name": "England",
+            "code": "gb-eng"
+          },
+          "url": "/en/competition/premier-league-9",
+          "candidate_score": 14
+        }
+      ],
+      "selected_competition": {
+        "id": 9,
+        "name": "Premier League",
+        "country": {
+          "name": "England",
+          "code": "gb-eng"
+        },
+        "url": "/en/competition/premier-league-9",
+        "candidate_score": 14
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/9/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 380,
+      "full_time_match_count": 380,
+      "first_match_date": "2025-08-15T19:00:00Z",
+      "last_match_date": "2026-05-24T15:00:00Z",
+      "detected_season_id": "43029",
+      "season_match_counts": {
+        "43029": 380
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/9/43029/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 29560,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 30
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/9/43029/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 13229,
+        "group_count": 1,
+        "team_count": 20,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2595940",
+        "bytes": 494204,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 5,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 1,
+          "googleAdsPlaceholder": 3,
+          "grid": 2,
+          "horizontalSeparator": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "relatedVideos": 1,
+          "standings": 1,
+          "substitution": 10,
+          "title": 1,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "France",
+      "query": "Ligue 1 France",
+      "expectedCountryCode": "fr",
+      "existingSource": "espn_big5",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Ligue%201%20France",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 23,
+          "name": "Ligue 1",
+          "country": {
+            "name": "France",
+            "code": "fr"
+          },
+          "url": "/en/competition/ligue-1-23",
+          "candidate_score": 31
+        },
+        {
+          "id": 29,
+          "name": "Ligue 2",
+          "country": {
+            "name": "France",
+            "code": "fr"
+          },
+          "url": "/en/competition/ligue-2-29",
+          "candidate_score": 11
+        },
+        {
+          "id": 3006,
+          "name": "Ligue 1 Playoffs",
+          "country": {
+            "name": "France",
+            "code": "fr"
+          },
+          "url": "/en/competition/ligue-1-playoffs-3006",
+          "candidate_score": 11
+        },
+        {
+          "id": 2703,
+          "name": "Première Ligue Women",
+          "country": {
+            "name": "France",
+            "code": "fr"
+          },
+          "url": "/en/competition/premiere-ligue-women-2703",
+          "candidate_score": 11
+        }
+      ],
+      "selected_competition": {
+        "id": 23,
+        "name": "Ligue 1",
+        "country": {
+          "name": "France",
+          "code": "fr"
+        },
+        "url": "/en/competition/ligue-1-23",
+        "candidate_score": 31
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/23/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 306,
+      "full_time_match_count": 306,
+      "first_match_date": "2025-08-15T18:45:00Z",
+      "last_match_date": "2026-05-17T19:00:00Z",
+      "detected_season_id": "43075",
+      "season_match_counts": {
+        "43075": 306
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/23/43075/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 28828,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 30
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/23/43075/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 11800,
+        "group_count": 1,
+        "team_count": 18,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2603213",
+        "bytes": 489024,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 3,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 9,
+          "googleAdsPlaceholder": 3,
+          "grid": 2,
+          "horizontalSeparator": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "relatedVideos": 1,
+          "standings": 1,
+          "substitution": 7,
+          "title": 1,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Germany",
+      "query": "German Bundesliga",
+      "expectedCountryCode": "de",
+      "existingSource": "espn_big5",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=German%20Bundesliga",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 1,
+          "name": "Bundesliga",
+          "country": {
+            "name": "Germany",
+            "code": "de"
+          },
+          "url": "/en/competition/bundesliga-1",
+          "candidate_score": 11
+        }
+      ],
+      "selected_competition": {
+        "id": 1,
+        "name": "Bundesliga",
+        "country": {
+          "name": "Germany",
+          "code": "de"
+        },
+        "url": "/en/competition/bundesliga-1",
+        "candidate_score": 11
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/1/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 306,
+      "full_time_match_count": 306,
+      "first_match_date": "2025-08-22T18:30:00Z",
+      "last_match_date": "2026-05-16T13:30:00Z",
+      "detected_season_id": "43023",
+      "season_match_counts": {
+        "43023": 306
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/1/43023/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 29672,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 30
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/1/43023/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 11901,
+        "group_count": 1,
+        "team_count": 18,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2603705",
+        "bytes": 490291,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 2,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 6,
+          "googleAdsPlaceholder": 3,
+          "grid": 2,
+          "horizontalSeparator": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "relatedVideos": 1,
+          "standings": 1,
+          "substitution": 10,
+          "title": 1,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Ghana",
+      "query": "Ghanaian Premier League",
+      "expectedCountryCode": "gh",
+      "existingSource": "espn_zero_roster_matches",
+      "status": "no_onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Ghanaian%20Premier%20League",
+      "search_status": 200,
+      "candidates": []
+    },
+    {
+      "country": "Greece",
+      "query": "Super League Greece",
+      "expectedCountryCode": "gr",
+      "existingSource": "espn",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Super%20League%20Greece",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 56,
+          "name": "Super League Greece",
+          "country": {
+            "name": "Greece",
+            "code": "gr"
+          },
+          "url": "/en/competition/super-league-greece-56",
+          "candidate_score": 37
+        },
+        {
+          "id": 2865,
+          "name": "Superleague 2",
+          "country": {
+            "name": "Greece",
+            "code": "gr"
+          },
+          "url": "/en/competition/superleague-2-2865",
+          "candidate_score": 14
+        }
+      ],
+      "selected_competition": {
+        "id": 56,
+        "name": "Super League Greece",
+        "country": {
+          "name": "Greece",
+          "code": "gr"
+        },
+        "url": "/en/competition/super-league-greece-56",
+        "candidate_score": 37
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/56/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 236,
+      "full_time_match_count": 236,
+      "first_match_date": "2025-08-23T17:00:00Z",
+      "last_match_date": "2026-05-21T16:00:00Z",
+      "detected_season_id": "43121",
+      "season_match_counts": {
+        "43121": 236
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/56/43121/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 29289,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 30
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/56/43121/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 17994,
+        "group_count": 4,
+        "team_count": 28,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2678002",
+        "bytes": 452252,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 2,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 6,
+          "googleAdsPlaceholder": 3,
+          "grid": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "substitution": 9,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Japan",
+      "query": "J1 League",
+      "expectedCountryCode": "jp",
+      "existingSource": "espn",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=J1%20League",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 38,
+          "name": "J1 League",
+          "country": {
+            "name": "Japan",
+            "code": "jp"
+          },
+          "url": "/en/competition/j1-league-38",
+          "candidate_score": 31
+        },
+        {
+          "id": 2999,
+          "name": "J1 100 Year Vision League",
+          "country": {
+            "name": "Japan",
+            "code": "jp"
+          },
+          "url": "/en/competition/j1-100-year-vision-league-2999",
+          "candidate_score": 11
+        }
+      ],
+      "selected_competition": {
+        "id": 38,
+        "name": "J1 League",
+        "country": {
+          "name": "Japan",
+          "code": "jp"
+        },
+        "url": "/en/competition/j1-league-38",
+        "candidate_score": 31
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/38/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 380,
+      "full_time_match_count": 380,
+      "first_match_date": "2025-02-14T10:00:00Z",
+      "last_match_date": "2025-12-06T05:00:00Z",
+      "detected_season_id": "42064",
+      "season_match_counts": {
+        "42064": 380
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/38/42064/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 27541,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 18
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/38/42064/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 13148,
+        "group_count": 1,
+        "team_count": 20,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2561836",
+        "bytes": 447990,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 1,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 4,
+          "googleAdsPlaceholder": 3,
+          "grid": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "standings": 1,
+          "substitution": 9,
+          "title": 1,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Korea Republic",
+      "query": "K League 1",
+      "expectedCountryCode": "kr",
+      "existingSource": "onefootball_imported",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=K%20League%201",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 130,
+          "name": "K League 1",
+          "country": {
+            "name": "Korea, South",
+            "code": "kr"
+          },
+          "url": "/en/competition/k-league-1-130",
+          "candidate_score": 31
+        },
+        {
+          "id": 2735,
+          "name": "K-League Promotion Playoff",
+          "country": {
+            "name": "Korea, South",
+            "code": "kr"
+          },
+          "url": "/en/competition/k-league-promotion-playoff-2735",
+          "candidate_score": 11
+        }
+      ],
+      "selected_competition": {
+        "id": 130,
+        "name": "K League 1",
+        "country": {
+          "name": "Korea, South",
+          "code": "kr"
+        },
+        "url": "/en/competition/k-league-1-130",
+        "candidate_score": 31
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/130/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 90,
+      "full_time_match_count": 90,
+      "first_match_date": "2026-02-28T05:00:00Z",
+      "last_match_date": "2026-05-17T10:00:00Z",
+      "detected_season_id": "43358",
+      "season_match_counts": {
+        "43358": 90
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/130/43358/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 26735,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 18
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/130/43358/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 7853,
+        "group_count": 1,
+        "team_count": 12,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2662180",
+        "bytes": 490872,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": false,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 3,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 2,
+          "googleAdsPlaceholder": 3,
+          "grid": 2,
+          "horizontalSeparator": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "relatedVideos": 1,
+          "standings": 1,
+          "substitution": 10,
+          "title": 1,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Mexico",
+      "query": "Mexican Liga MX",
+      "expectedCountryCode": "mx",
+      "existingSource": "espn",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Mexican%20Liga%20MX",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 89,
+          "name": "Liga BBVA MX",
+          "country": {
+            "name": "Mexico",
+            "code": "mx"
+          },
+          "url": "/en/competition/liga-bbva-mx-89",
+          "candidate_score": 11
+        }
+      ],
+      "selected_competition": {
+        "id": 89,
+        "name": "Liga BBVA MX",
+        "country": {
+          "name": "Mexico",
+          "code": "mx"
+        },
+        "url": "/en/competition/liga-bbva-mx-89",
+        "candidate_score": 11
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/89/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 337,
+      "full_time_match_count": 337,
+      "first_match_date": "2025-07-12T01:00:00Z",
+      "last_match_date": "2026-05-25T01:00:00Z",
+      "detected_season_id": "43006",
+      "season_match_counts": {
+        "43006": 337
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/89/43006/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 29426,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 30
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/89/43006/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 22946,
+        "group_count": 2,
+        "team_count": 36,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2683415",
+        "bytes": 478596,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 3,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 3,
+          "googleAdsPlaceholder": 3,
+          "grid": 2,
+          "horizontalSeparator": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "relatedVideos": 1,
+          "substitution": 5,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Netherlands",
+      "query": "Eredivisie",
+      "expectedCountryCode": "nl",
+      "existingSource": "espn",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Eredivisie",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 36,
+          "name": "Eredivisie",
+          "country": {
+            "name": "Netherlands",
+            "code": "nl"
+          },
+          "url": "/en/competition/eredivisie-36",
+          "candidate_score": 31
+        },
+        {
+          "id": 3003,
+          "name": "Eredivisie Playoffs",
+          "country": {
+            "name": "Netherlands",
+            "code": "nl"
+          },
+          "url": "/en/competition/eredivisie-playoffs-3003",
+          "candidate_score": 11
+        },
+        {
+          "id": 2814,
+          "name": "Eredivisie Women",
+          "country": {
+            "name": "Netherlands",
+            "code": "nl"
+          },
+          "url": "/en/competition/eredivisie-women-2814",
+          "candidate_score": 11
+        }
+      ],
+      "selected_competition": {
+        "id": 36,
+        "name": "Eredivisie",
+        "country": {
+          "name": "Netherlands",
+          "code": "nl"
+        },
+        "url": "/en/competition/eredivisie-36",
+        "candidate_score": 31
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/36/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 309,
+      "full_time_match_count": 309,
+      "first_match_date": "2025-08-08T18:00:00Z",
+      "last_match_date": "2026-05-24T10:15:00Z",
+      "detected_season_id": "43042",
+      "season_match_counts": {
+        "43042": 309
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/36/43042/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 29100,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 30
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/36/43042/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 11943,
+        "group_count": 1,
+        "team_count": 18,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2683402",
+        "bytes": 492483,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 3,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 2,
+          "googleAdsPlaceholder": 3,
+          "grid": 2,
+          "horizontalSeparator": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "penaltyShootout": 9,
+          "relatedVideos": 1,
+          "substitution": 10,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Nigeria",
+      "query": "Nigerian Professional League",
+      "expectedCountryCode": "ng",
+      "existingSource": "espn_zero_roster_matches",
+      "status": "no_onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Nigerian%20Professional%20League",
+      "search_status": 200,
+      "candidates": []
+    },
+    {
+      "country": "Norway",
+      "query": "Norwegian Eliteserien",
+      "expectedCountryCode": "no",
+      "existingSource": "espn",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Norwegian%20Eliteserien",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 67,
+          "name": "Eliteserien",
+          "country": {
+            "name": "Norway",
+            "code": "no"
+          },
+          "url": "/en/competition/eliteserien-67",
+          "candidate_score": 11
+        },
+        {
+          "id": 2910,
+          "name": "Eliteserien Relegation Play-offs",
+          "country": {
+            "name": "Norway",
+            "code": "no"
+          },
+          "url": "/en/competition/eliteserien-relegation-play-offs-2910",
+          "candidate_score": 11
+        }
+      ],
+      "selected_competition": {
+        "id": 67,
+        "name": "Eliteserien",
+        "country": {
+          "name": "Norway",
+          "code": "no"
+        },
+        "url": "/en/competition/eliteserien-67",
+        "candidate_score": 11
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/67/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 112,
+      "full_time_match_count": 89,
+      "first_match_date": "2026-03-14T15:00:00Z",
+      "last_match_date": "2026-08-16T17:15:00Z",
+      "detected_season_id": "43327",
+      "season_match_counts": {
+        "43327": 112
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/67/43327/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 183,
+        "groups": {
+          "scorers": 0,
+          "assists": 0,
+          "goal_assists": 0,
+          "yellow_cards": 0,
+          "red_cards": 0
+        },
+        "fields_by_group": {
+          "scorers": [],
+          "assists": [],
+          "goal_assists": [],
+          "yellow_cards": [],
+          "red_cards": []
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/67/43327/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 10395,
+        "group_count": 1,
+        "team_count": 16,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2655168",
+        "bytes": 501593,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 4,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 3,
+          "googleAdsPlaceholder": 3,
+          "grid": 2,
+          "horizontalSeparator": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "relatedVideos": 1,
+          "standings": 1,
+          "substitution": 10,
+          "title": 1,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": false,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Paraguay",
+      "query": "Copa de Primera Paraguay",
+      "expectedCountryCode": "py",
+      "existingSource": "espn_zero_roster_matches",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Copa%20de%20Primera%20Paraguay",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 174,
+          "name": "Copa de Primera",
+          "country": {
+            "name": "Paraguay",
+            "code": "py"
+          },
+          "url": "/en/competition/copa-de-primera-174",
+          "candidate_score": 34
+        }
+      ],
+      "selected_competition": {
+        "id": 174,
+        "name": "Copa de Primera",
+        "country": {
+          "name": "Paraguay",
+          "code": "py"
+        },
+        "url": "/en/competition/copa-de-primera-174",
+        "candidate_score": 34
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/174/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 132,
+      "full_time_match_count": 132,
+      "first_match_date": "2026-01-23T21:00:00Z",
+      "last_match_date": "2026-05-24T20:00:00Z",
+      "detected_season_id": "43298",
+      "season_match_counts": {
+        "43298": 132
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/174/43298/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 184,
+        "groups": {
+          "scorers": 0,
+          "assists": 0,
+          "goal_assists": 0,
+          "yellow_cards": 0,
+          "red_cards": 0
+        },
+        "fields_by_group": {
+          "scorers": [],
+          "assists": [],
+          "goal_assists": [],
+          "yellow_cards": [],
+          "red_cards": []
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/174/43298/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 15314,
+        "group_count": 2,
+        "team_count": 24,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2660142",
+        "bytes": 458007,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": false,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 5,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 3,
+          "googleAdsPlaceholder": 3,
+          "grid": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "standings": 1,
+          "substitution": 8,
+          "title": 1,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": false,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Portugal",
+      "query": "Liga Portugal",
+      "expectedCountryCode": "pt",
+      "existingSource": "espn",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Liga%20Portugal",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 35,
+          "name": "Liga Portugal",
+          "country": {
+            "name": "Portugal",
+            "code": "pt"
+          },
+          "url": "/en/competition/liga-portugal-35",
+          "candidate_score": 34
+        },
+        {
+          "id": 142,
+          "name": "Liga Portugal 2",
+          "country": {
+            "name": "Portugal",
+            "code": "pt"
+          },
+          "url": "/en/competition/liga-portugal-2-142",
+          "candidate_score": 14
+        },
+        {
+          "id": 3008,
+          "name": "Liga Portugal 2 Playoffs",
+          "country": {
+            "name": "Portugal",
+            "code": "pt"
+          },
+          "url": "/en/competition/liga-portugal-2-playoffs-3008",
+          "candidate_score": 14
+        },
+        {
+          "id": 3007,
+          "name": "Liga Portugal Playoffs",
+          "country": {
+            "name": "Portugal",
+            "code": "pt"
+          },
+          "url": "/en/competition/liga-portugal-playoffs-3007",
+          "candidate_score": 14
+        },
+        {
+          "id": 2767,
+          "name": "Liga Portugal 3",
+          "country": {
+            "name": "Portugal",
+            "code": "pt"
+          },
+          "url": "/en/competition/liga-portugal-3-2767",
+          "candidate_score": 14
+        }
+      ],
+      "selected_competition": {
+        "id": 35,
+        "name": "Liga Portugal",
+        "country": {
+          "name": "Portugal",
+          "code": "pt"
+        },
+        "url": "/en/competition/liga-portugal-35",
+        "candidate_score": 34
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/35/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 306,
+      "full_time_match_count": 306,
+      "first_match_date": "2025-08-08T19:15:00Z",
+      "last_match_date": "2026-05-16T19:30:00Z",
+      "detected_season_id": "43101",
+      "season_match_counts": {
+        "43101": 306
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/35/43101/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 29020,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 30
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/35/43101/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 11830,
+        "group_count": 1,
+        "team_count": 18,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2609477",
+        "bytes": 488485,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 5,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 4,
+          "googleAdsPlaceholder": 3,
+          "grid": 2,
+          "horizontalSeparator": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "relatedVideos": 1,
+          "standings": 1,
+          "substitution": 10,
+          "title": 1,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Qatar",
+      "query": "Qatar Stars League",
+      "expectedCountryCode": "qa",
+      "existingSource": "onefootball_imported",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Qatar%20Stars%20League",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 158,
+          "name": "Qatar Stars League",
+          "country": {
+            "name": "Qatar",
+            "code": "qa"
+          },
+          "url": "/en/competition/qatar-stars-league-158",
+          "candidate_score": 37
+        }
+      ],
+      "selected_competition": {
+        "id": 158,
+        "name": "Qatar Stars League",
+        "country": {
+          "name": "Qatar",
+          "code": "qa"
+        },
+        "url": "/en/competition/qatar-stars-league-158",
+        "candidate_score": 37
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/158/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 132,
+      "full_time_match_count": 132,
+      "first_match_date": "2025-08-14T15:30:00Z",
+      "last_match_date": "2026-04-27T16:30:00Z",
+      "detected_season_id": "43062",
+      "season_match_counts": {
+        "43062": 132
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/158/43062/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 29355,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 30
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/158/43062/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 7956,
+        "group_count": 1,
+        "team_count": 12,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2651080",
+        "bytes": 502285,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 7,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 6,
+          "googleAdsPlaceholder": 3,
+          "grid": 2,
+          "horizontalSeparator": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "relatedVideos": 1,
+          "standings": 1,
+          "substitution": 8,
+          "title": 1,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Saudi Arabia",
+      "query": "Saudi Pro League",
+      "expectedCountryCode": "sa",
+      "existingSource": "espn",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Saudi%20Pro%20League",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 111,
+          "name": "Saudi Pro League",
+          "country": {
+            "name": "Saudi Arabia",
+            "code": "sa"
+          },
+          "url": "/en/competition/saudi-pro-league-111",
+          "candidate_score": 17
+        }
+      ],
+      "selected_competition": {
+        "id": 111,
+        "name": "Saudi Pro League",
+        "country": {
+          "name": "Saudi Arabia",
+          "code": "sa"
+        },
+        "url": "/en/competition/saudi-pro-league-111",
+        "candidate_score": 17
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/111/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 306,
+      "full_time_match_count": 306,
+      "first_match_date": "2025-08-28T16:05:00Z",
+      "last_match_date": "2026-05-21T18:00:00Z",
+      "detected_season_id": "43191",
+      "season_match_counts": {
+        "43191": 306
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/111/43191/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 28781,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 29,
+          "red_cards": 28
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/111/43191/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 11795,
+        "group_count": 1,
+        "team_count": 18,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2633245",
+        "bytes": 511379,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "boolValue": 1,
+          "card": 4,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 6,
+          "googleAdsPlaceholder": 3,
+          "grid": 3,
+          "horizontalSeparator": 1,
+          "intValue": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "relatedVideos": 1,
+          "standings": 1,
+          "stringValue": 8,
+          "substitution": 10,
+          "title": 1,
+          "upcomingMatches": 1,
+          "videojsPlayer": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Scotland",
+      "query": "Scottish Premiership",
+      "expectedCountryCode": "gb",
+      "existingSource": "espn",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Scottish%20Premiership",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 39,
+          "name": "Scottish Premiership",
+          "country": {
+            "name": "Scotland",
+            "code": "gb-sct"
+          },
+          "url": "/en/competition/scottish-premiership-39",
+          "candidate_score": 14
+        },
+        {
+          "id": 2791,
+          "name": "Scottish Premiership Playoffs",
+          "country": {
+            "name": "Scotland",
+            "code": "gb-sct"
+          },
+          "url": "/en/competition/scottish-premiership-playoffs-2791",
+          "candidate_score": 14
+        }
+      ],
+      "selected_competition": {
+        "id": 39,
+        "name": "Scottish Premiership",
+        "country": {
+          "name": "Scotland",
+          "code": "gb-sct"
+        },
+        "url": "/en/competition/scottish-premiership-39",
+        "candidate_score": 14
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/39/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 228,
+      "full_time_match_count": 228,
+      "first_match_date": "2025-08-02T14:00:00Z",
+      "last_match_date": "2026-05-17T13:00:00Z",
+      "detected_season_id": "43055",
+      "season_match_counts": {
+        "43055": 228
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/39/43055/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 29082,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 30
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/39/43055/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 15426,
+        "group_count": 3,
+        "team_count": 24,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2680343",
+        "bytes": 495481,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "boolValue": 1,
+          "card": 3,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 5,
+          "googleAdsPlaceholder": 3,
+          "grid": 3,
+          "horizontalSeparator": 1,
+          "intValue": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "relatedVideos": 1,
+          "standings": 1,
+          "stringValue": 8,
+          "substitution": 10,
+          "title": 1,
+          "upcomingMatches": 1,
+          "videojsPlayer": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "South Africa",
+      "query": "Premier Soccer League South Africa",
+      "expectedCountryCode": "za",
+      "existingSource": "espn",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Premier%20Soccer%20League%20South%20Africa",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 118,
+          "name": "Premier Soccer League",
+          "country": {
+            "name": "South Africa",
+            "code": "za"
+          },
+          "url": "/en/competition/premier-soccer-league-118",
+          "candidate_score": 37
+        },
+        {
+          "id": 3014,
+          "name": "Premier Soccer League Playoffs",
+          "country": {
+            "name": "South Africa",
+            "code": "za"
+          },
+          "url": "/en/competition/premier-soccer-league-playoffs-3014",
+          "candidate_score": 17
+        }
+      ],
+      "selected_competition": {
+        "id": 118,
+        "name": "Premier Soccer League",
+        "country": {
+          "name": "South Africa",
+          "code": "za"
+        },
+        "url": "/en/competition/premier-soccer-league-118",
+        "candidate_score": 37
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/118/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 240,
+      "full_time_match_count": 240,
+      "first_match_date": "2025-08-09T13:00:00Z",
+      "last_match_date": "2026-05-23T13:00:00Z",
+      "detected_season_id": "43174",
+      "season_match_counts": {
+        "43174": 240
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/118/43174/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 29960,
+        "groups": {
+          "scorers": 30,
+          "assists": 29,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 30
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/118/43174/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 10536,
+        "group_count": 1,
+        "team_count": 16,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2628014",
+        "bytes": 463383,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 3,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 2,
+          "googleAdsPlaceholder": 3,
+          "grid": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "standings": 1,
+          "substitution": 10,
+          "title": 1,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Spain",
+      "query": "LaLiga",
+      "expectedCountryCode": "es",
+      "existingSource": "espn_big5",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=LaLiga",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 10,
+          "name": "LaLiga",
+          "country": {
+            "name": "Spain",
+            "code": "es"
+          },
+          "url": "/en/competition/laliga-10",
+          "candidate_score": 31
+        },
+        {
+          "id": 28,
+          "name": "La Liga 2",
+          "country": {
+            "name": "Spain",
+            "code": "es"
+          },
+          "url": "/en/competition/la-liga-2-28",
+          "candidate_score": 8
+        },
+        {
+          "id": 191,
+          "name": "League of Ireland Premier Division",
+          "country": {
+            "name": "Ireland",
+            "code": "ie"
+          },
+          "url": "/en/competition/league-of-ireland-premier-division-191",
+          "candidate_score": 0
+        },
+        {
+          "id": 3001,
+          "name": "Copa de la Liga de Chile",
+          "country": {
+            "name": "Chile",
+            "code": "cl"
+          },
+          "url": "/en/competition/copa-de-la-liga-de-chile-3001",
+          "candidate_score": 0
+        }
+      ],
+      "selected_competition": {
+        "id": 10,
+        "name": "LaLiga",
+        "country": {
+          "name": "Spain",
+          "code": "es"
+        },
+        "url": "/en/competition/laliga-10",
+        "candidate_score": 31
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/10/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 380,
+      "full_time_match_count": 380,
+      "first_match_date": "2025-08-15T17:00:00Z",
+      "last_match_date": "2026-05-24T19:00:00Z",
+      "detected_season_id": "43086",
+      "season_match_counts": {
+        "43086": 380
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/10/43086/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 29194,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 30
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/10/43086/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 13156,
+        "group_count": 1,
+        "team_count": 20,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2605624",
+        "bytes": 502408,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 1,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 6,
+          "googleAdsPlaceholder": 3,
+          "grid": 2,
+          "horizontalSeparator": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "relatedVideos": 1,
+          "standings": 1,
+          "substitution": 10,
+          "title": 1,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Sweden",
+      "query": "Allsvenskan",
+      "expectedCountryCode": "se",
+      "existingSource": "espn",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Allsvenskan",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 62,
+          "name": "Allsvenskan",
+          "country": {
+            "name": "Sweden",
+            "code": "se"
+          },
+          "url": "/en/competition/allsvenskan-62",
+          "candidate_score": 31
+        },
+        {
+          "id": 2909,
+          "name": "Allsvenskan Relegation Play-off",
+          "country": {
+            "name": "Sweden",
+            "code": "se"
+          },
+          "url": "/en/competition/allsvenskan-relegation-play-off-2909",
+          "candidate_score": 11
+        }
+      ],
+      "selected_competition": {
+        "id": 62,
+        "name": "Allsvenskan",
+        "country": {
+          "name": "Sweden",
+          "code": "se"
+        },
+        "url": "/en/competition/allsvenskan-62",
+        "candidate_score": 31
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/62/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 88,
+      "full_time_match_count": 81,
+      "first_match_date": "2026-04-04T13:00:00Z",
+      "last_match_date": "2026-09-03T17:00:00Z",
+      "detected_season_id": "43323",
+      "season_match_counts": {
+        "43323": 88
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/62/43323/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 183,
+        "groups": {
+          "scorers": 0,
+          "assists": 0,
+          "goal_assists": 0,
+          "yellow_cards": 0,
+          "red_cards": 0
+        },
+        "fields_by_group": {
+          "scorers": [],
+          "assists": [],
+          "goal_assists": [],
+          "yellow_cards": [],
+          "red_cards": []
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/62/43323/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 10369,
+        "group_count": 1,
+        "team_count": 16,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2654414",
+        "bytes": 450257,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 3,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 9,
+          "googleAdsPlaceholder": 3,
+          "grid": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "standings": 1,
+          "substitution": 11,
+          "title": 1,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": false,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Switzerland",
+      "query": "Super League Switzerland",
+      "expectedCountryCode": "ch",
+      "existingSource": "espn",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Super%20League%20Switzerland",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 25,
+          "name": "Super League",
+          "country": {
+            "name": "Switzerland",
+            "code": "ch"
+          },
+          "url": "/en/competition/super-league-25",
+          "candidate_score": 34
+        },
+        {
+          "id": 3009,
+          "name": "Swiss Super League Playoffs",
+          "country": {
+            "name": "Switzerland",
+            "code": "ch"
+          },
+          "url": "/en/competition/swiss-super-league-playoffs-3009",
+          "candidate_score": 14
+        },
+        {
+          "id": 2818,
+          "name": "Swiss Women's Super League",
+          "country": {
+            "name": "Switzerland",
+            "code": "ch"
+          },
+          "url": "/en/competition/swiss-womens-super-league-2818",
+          "candidate_score": 14
+        }
+      ],
+      "selected_competition": {
+        "id": 25,
+        "name": "Super League",
+        "country": {
+          "name": "Switzerland",
+          "code": "ch"
+        },
+        "url": "/en/competition/super-league-25",
+        "candidate_score": 34
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/25/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 228,
+      "full_time_match_count": 228,
+      "first_match_date": "2025-07-25T18:30:00Z",
+      "last_match_date": "2026-05-17T14:30:00Z",
+      "detected_season_id": "43058",
+      "season_match_counts": {
+        "43058": 228
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/25/43058/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 29432,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 30
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/25/43058/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 15443,
+        "group_count": 3,
+        "team_count": 24,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2678839",
+        "bytes": 447323,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 5,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 2,
+          "googleAdsPlaceholder": 3,
+          "grid": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "standings": 1,
+          "substitution": 10,
+          "title": 1,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Türkiye",
+      "query": "Super Lig Turkey",
+      "expectedCountryCode": "tr",
+      "existingSource": "espn",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Super%20Lig%20Turkey",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 8,
+          "name": "Süper Lig",
+          "country": {
+            "name": "Türkiye",
+            "code": "tr"
+          },
+          "url": "/en/competition/sueper-lig-8",
+          "candidate_score": 33
+        }
+      ],
+      "selected_competition": {
+        "id": 8,
+        "name": "Süper Lig",
+        "country": {
+          "name": "Türkiye",
+          "code": "tr"
+        },
+        "url": "/en/competition/sueper-lig-8",
+        "candidate_score": 33
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/8/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 306,
+      "full_time_match_count": 306,
+      "first_match_date": "2025-08-08T18:30:00Z",
+      "last_match_date": "2026-05-17T17:00:00Z",
+      "detected_season_id": "43100",
+      "season_match_counts": {
+        "43100": 306
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/8/43100/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 29377,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 30
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/8/43100/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 11834,
+        "group_count": 1,
+        "team_count": 18,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2608788",
+        "bytes": 475231,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "card": 2,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 3,
+          "googleAdsPlaceholder": 3,
+          "grid": 2,
+          "horizontalSeparator": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "relatedVideos": 1,
+          "standings": 1,
+          "substitution": 8,
+          "title": 1,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "Uruguay",
+      "query": "Liga AUF Uruguaya",
+      "expectedCountryCode": "uy",
+      "existingSource": "espn_zero_roster_matches",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Liga%20AUF%20Uruguaya",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 103,
+          "name": "Liga AUF Uruguaya",
+          "country": {
+            "name": "Uruguay",
+            "code": "uy"
+          },
+          "url": "/en/competition/liga-auf-uruguaya-103",
+          "candidate_score": 17
+        }
+      ],
+      "selected_competition": {
+        "id": 103,
+        "name": "Liga AUF Uruguaya",
+        "country": {
+          "name": "Uruguay",
+          "code": "uy"
+        },
+        "url": "/en/competition/liga-auf-uruguaya-103",
+        "candidate_score": 17
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/103/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 144,
+      "full_time_match_count": 140,
+      "first_match_date": "2026-02-06T22:00:00Z",
+      "last_match_date": "2026-06-01T23:00:00Z",
+      "detected_season_id": "43379",
+      "season_match_counts": {
+        "43379": 144
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/103/43379/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 184,
+        "groups": {
+          "scorers": 0,
+          "assists": 0,
+          "goal_assists": 0,
+          "yellow_cards": 0,
+          "red_cards": 0
+        },
+        "fields_by_group": {
+          "scorers": [],
+          "assists": [],
+          "goal_assists": [],
+          "yellow_cards": [],
+          "red_cards": []
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/103/43379/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 30338,
+        "group_count": 4,
+        "team_count": 48,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2683020",
+        "bytes": 425239,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": false,
+        "has_player_ratings": false,
+        "component_cases": {
+          "empty": 1,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 7,
+          "googleAdsPlaceholder": 3,
+          "grid": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "standings": 1,
+          "title": 1,
+          "upcomingMatches": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": false,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    },
+    {
+      "country": "USA",
+      "query": "Major League Soccer",
+      "expectedCountryCode": "us",
+      "existingSource": "espn",
+      "status": "onefootball_competition_found",
+      "search_url": "https://search-api.onefootball.com/v2/en/search?q=Major%20League%20Soccer",
+      "search_status": 200,
+      "candidates": [
+        {
+          "id": 15,
+          "name": "Major League Soccer",
+          "country": {
+            "name": "United States of America",
+            "code": "us"
+          },
+          "url": "/en/competition/major-league-soccer-15",
+          "candidate_score": 37
+        }
+      ],
+      "selected_competition": {
+        "id": 15,
+        "name": "Major League Soccer",
+        "country": {
+          "name": "United States of America",
+          "code": "us"
+        },
+        "url": "/en/competition/major-league-soccer-15",
+        "candidate_score": 37
+      },
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/15/matches?number_next=0&number_previous=1000",
+      "matches_status": 200,
+      "match_count": 220,
+      "full_time_match_count": 218,
+      "first_match_date": "2026-02-21T19:30:00Z",
+      "last_match_date": "2026-09-24T01:30:00Z",
+      "detected_season_id": "43279",
+      "season_match_counts": {
+        "43279": 220
+      },
+      "league_statistics": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/15/43279/league_statistics.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 29711,
+        "groups": {
+          "scorers": 30,
+          "assists": 30,
+          "goal_assists": 30,
+          "yellow_cards": 30,
+          "red_cards": 30
+        },
+        "fields_by_group": {
+          "scorers": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoals"
+          ],
+          "assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonAssists"
+          ],
+          "goal_assists": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonGoalsAndAssists"
+          ],
+          "yellow_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonYellowCards"
+          ],
+          "red_cards": [
+            "index",
+            "playerId",
+            "internalTeamId",
+            "teamName",
+            "name",
+            "thumbnailSrc",
+            "seasonRedCards"
+          ]
+        }
+      },
+      "standings": {
+        "url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/15/43279/standings.json",
+        "ok": true,
+        "status": 200,
+        "bytes": 19488,
+        "group_count": 2,
+        "team_count": 30,
+        "teamstat_fields": [
+          "played",
+          "playedHome",
+          "playedAway",
+          "diff",
+          "diffHome",
+          "diffAway",
+          "goalsShot",
+          "goalsShotHome",
+          "goalsShotAway",
+          "goalsGot",
+          "goalsGotHome",
+          "goalsGotAway",
+          "points",
+          "pointsHome",
+          "pointsAway",
+          "won",
+          "wonHome",
+          "wonAway",
+          "drawn",
+          "drawnHome",
+          "drawnAway",
+          "lost",
+          "lostHome",
+          "lostAway",
+          "redCards",
+          "yellowCards",
+          "topScorer"
+        ]
+      },
+      "sample_match_page": {
+        "ok": true,
+        "status": 200,
+        "url": "https://onefootball.com/en/match/2647153",
+        "bytes": 499622,
+        "has_match_lineup": true,
+        "has_match_events": true,
+        "has_match_stats": true,
+        "has_player_ratings": false,
+        "component_cases": {
+          "boolValue": 1,
+          "formation": 2,
+          "formGuide": 2,
+          "fullWidth": 6,
+          "gallery": 1,
+          "goal": 1,
+          "googleAdsPlaceholder": 3,
+          "grid": 3,
+          "horizontalSeparator": 1,
+          "intValue": 1,
+          "lineup": 1,
+          "matchEvents": 1,
+          "matchInfo": 1,
+          "matchLineup": 1,
+          "matchPrediction": 1,
+          "matchScore": 1,
+          "matchStats": 1,
+          "relatedVideos": 1,
+          "standings": 1,
+          "stringValue": 8,
+          "substitution": 9,
+          "title": 1,
+          "upcomingMatches": 1,
+          "videojsPlayer": 1
+        }
+      },
+      "complement_value": {
+        "has_league_leaderboards": true,
+        "has_standings_team_stats": true,
+        "has_lineups_events_stats": true,
+        "likely_useful_as_complement": true
+      }
+    }
+  ]
+}

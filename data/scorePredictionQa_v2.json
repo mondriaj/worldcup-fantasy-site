@@ -1,0 +1,222 @@
+{
+  "schema_version": "week6-score-prediction-qa-v2",
+  "generated_at": "2026-06-01T19:09:25.131Z",
+  "source_checked": "2026-06-01",
+  "data_status": "score_prediction_hardening_v2_pele_forward",
+  "overall_status": "pass",
+  "source_files": [
+    "data/scorePredictions_v2.json",
+    "data/fixtures.json",
+    "data/matchdays.json",
+    "data/teams.json",
+    "data/teamQuality.json",
+    "data/peleRatings_v1.json",
+    "data/playerMatchdayProjections_v2.json"
+  ],
+  "summary": {
+    "checks_total": 11,
+    "checks_passed": 11,
+    "checks_failed": 0,
+    "caveats": 0,
+    "fixture_prediction_count": 72,
+    "team_fixture_prediction_count": 144,
+    "player_matchday_projection_count": 4017,
+    "player_matchday_rows_with_score_context": 4017,
+    "goal_environment_counts": {
+      "low_goal_environment": 27,
+      "medium_goal_environment": 28,
+      "high_goal_environment": 7,
+      "medium_high_goal_environment": 10
+    },
+    "upset_risk_counts": {
+      "low": 28,
+      "high": 17,
+      "medium_high": 12,
+      "medium": 15
+    }
+  },
+  "input_coverage": {
+    "fixtures_total": 72,
+    "fixture_predictions": 72,
+    "unique_fixture_predictions": 72,
+    "team_fixture_predictions": 144,
+    "teams_total": 48,
+    "team_quality_rows": 48,
+    "world_football_elo_available": 48,
+    "fifa_ranking_available": 48,
+    "fifa_ranking_points_available": 48,
+    "pele_rating_available": 48,
+    "pele_rating_missing": 0,
+    "pele_handling": "Imported from Silver Bulletin Datawrapper CSV. Missing PELE numeric values would remain null and be excluded from weighted blends; none are missing for the 48 World Cup teams."
+  },
+  "guardrails": {
+    "team_expected_goals_min": 0,
+    "team_expected_goals_max": 4,
+    "total_expected_goals_max": 5.5,
+    "probability_min": 0,
+    "probability_max": 1,
+    "win_draw_loss_sum_tolerance": 0.003,
+    "top_scoreline_team_goals_max": 5,
+    "team_environment_score_min": 0,
+    "team_environment_score_max": 100,
+    "player_environment_multiplier_min": 0.45,
+    "player_environment_multiplier_max": 1.45
+  },
+  "range_summary": {
+    "home_expected_goals": {
+      "min": 0.35,
+      "max": 3.089,
+      "average": 1.405
+    },
+    "away_expected_goals": {
+      "min": 0.35,
+      "max": 2.779,
+      "average": 1.046
+    },
+    "total_expected_goals": {
+      "min": 1.762,
+      "max": 3.439,
+      "average": 2.451
+    },
+    "favorite_win_probability": {
+      "min": 0.3727,
+      "max": 0.901,
+      "average": 0.661
+    },
+    "upset_risk_probability": {
+      "min": 0.0402,
+      "max": 0.4017,
+      "average": 0.1807
+    },
+    "home_clean_sheet_probability": {
+      "min": 0.0621,
+      "max": 0.7047,
+      "average": 0.423
+    },
+    "away_clean_sheet_probability": {
+      "min": 0.0456,
+      "max": 0.7047,
+      "average": 0.3216
+    },
+    "over_2_5_goals_probability": {
+      "min": 0.2592,
+      "max": 0.6676,
+      "average": 0.4402
+    },
+    "both_teams_to_score_probability": {
+      "min": 0.2338,
+      "max": 0.5435,
+      "average": 0.3472
+    }
+  },
+  "player_matchday_context_summary": {
+    "row_count": 4017,
+    "rows_with_score_prediction_context": 4017,
+    "multiplier_ranges": {
+      "attack_environment_multiplier": {
+        "min": 0.682,
+        "max": 1.344,
+        "average": 0.987
+      },
+      "defense_environment_multiplier": {
+        "min": 0.603,
+        "max": 1.071,
+        "average": 0.821
+      },
+      "position_environment_multiplier": {
+        "min": 0.603,
+        "max": 1.311,
+        "average": 0.898
+      },
+      "volatility_environment_multiplier": {
+        "min": 0.99,
+        "max": 1.094,
+        "average": 1.03
+      },
+      "risk_discount_lift": {
+        "min": -0.1,
+        "max": 0.087,
+        "average": -0.035
+      }
+    }
+  },
+  "checks": [
+    {
+      "check_id": "fixture_coverage",
+      "label": "Fixture prediction coverage",
+      "status": "pass",
+      "severity": "error",
+      "detail": "72/72 fixtures have one score prediction row; 72 unique fixture IDs."
+    },
+    {
+      "check_id": "team_fixture_coverage",
+      "label": "Team-fixture prediction coverage",
+      "status": "pass",
+      "severity": "error",
+      "detail": "144/144 team-fixture views exist."
+    },
+    {
+      "check_id": "pele_coverage",
+      "label": "PELE input coverage",
+      "status": "pass",
+      "severity": "error",
+      "detail": "48/48 World Cup teams have imported PELE ratings."
+    },
+    {
+      "check_id": "probability_bounds",
+      "label": "Probability bounds",
+      "status": "pass",
+      "severity": "error",
+      "detail": "All probability fields stay between 0 and 1."
+    },
+    {
+      "check_id": "win_draw_loss_sum",
+      "label": "Win/draw/loss probability sum",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Home/draw/away probabilities sum to 1 within tolerance."
+    },
+    {
+      "check_id": "expected_goals_bounds",
+      "label": "Expected goals guardrail",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Expected goals are non-negative and total expected goals stay below the guardrail."
+    },
+    {
+      "check_id": "favorite_consistency",
+      "label": "Favorite consistency",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Favorite matches the higher home/away win probability."
+    },
+    {
+      "check_id": "top_scorelines",
+      "label": "Top scorelines present",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Every fixture has top scorelines inside the reporting guardrail."
+    },
+    {
+      "check_id": "matchday_fixture_refs",
+      "label": "Fantasy matchday references resolve",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Every fixture prediction has a prototype fantasy matchday ID."
+    },
+    {
+      "check_id": "player_matchday_score_context",
+      "label": "Player matchday score context",
+      "status": "pass",
+      "severity": "error",
+      "detail": "4017/4017 player-matchday rows have score-prediction context."
+    },
+    {
+      "check_id": "player_multiplier_bounds",
+      "label": "Player environment multiplier bounds",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Player-matchday environment multipliers stay inside guardrails."
+    }
+  ]
+}

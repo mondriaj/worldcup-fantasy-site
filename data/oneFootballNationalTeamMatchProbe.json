@@ -1,0 +1,5320 @@
+{
+  "schemaVersion": "week6-onefootball-national-team-match-probe-v1",
+  "generated_at": "2026-05-31T21:56:13.792Z",
+  "source_checked": "2026-05-31",
+  "status": "coverage_probe_not_full_import",
+  "summary": {
+    "teams": 48,
+    "selected": 46,
+    "no_selected_team": [
+      "Türkiye",
+      "Côte d'Ivoire"
+    ],
+    "competition_counts": {
+      "37 | Copa América": 45,
+      "2730 | CONCACAF Nations League": 28,
+      "87 | CONCACAF Gold Cup": 30,
+      "24 | International Friendlies": 111,
+      "72 | CAF World Cup Qualifying": 90,
+      "2755 | African Nations Championship": 25,
+      "49 | Africa Cup of Nations": 34,
+      "73 | AFC Asian Qualifiers – Road to 26": 152,
+      "2823 | EAFF E-1 Football Championship": 6,
+      "2936 | UEFA Women's Euro Qualifying": 10,
+      "2819 | UEFA Women's Nations League": 8,
+      "2773 | Women's World Cup UEFA Qualifiers": 4,
+      "2734 | Friendlies Women": 1,
+      "22 | Euro 2024 Qualifying": 111,
+      "69 | UEFA World Cup Qualifying": 102,
+      "2776 | FIFA Arab Cup": 35,
+      "2805 | Hybrid Friendlies": 1,
+      "20 | EURO 2024": 55,
+      "74 | CONMEBOL World Cup Qualifying": 108,
+      "71 | CONCACAF World Cup Qualifying": 30,
+      "2845 | OFC Men's Nations Cup": 5,
+      "70 | OFC World Cup Qualifying": 5,
+      "2796 | Finalissima": 2,
+      "114 | FIFA World Cup™ Play-Off Tournament": 1
+    }
+  },
+  "rows": [
+    {
+      "country": "Mexico",
+      "query": "Mexico national team",
+      "selected_team": {
+        "id": 69,
+        "name": "Mexico",
+        "country": {
+          "name": "Mexico",
+          "code": "mx"
+        },
+        "url": "/en/team/mexico-69",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 69,
+          "name": "Mexico",
+          "is_national": true,
+          "country": {
+            "name": "Mexico",
+            "code": "mx"
+          },
+          "url": "/en/team/mexico-69",
+          "candidate_score": 34
+        },
+        {
+          "id": 865,
+          "name": "Mexico Women",
+          "is_national": true,
+          "country": {
+            "name": "Mexico",
+            "code": "mx"
+          },
+          "url": "/en/team/mexico-women-865",
+          "candidate_score": 4
+        },
+        {
+          "id": 5132,
+          "name": "Mexico U20",
+          "is_national": true,
+          "country": {
+            "name": "Mexico",
+            "code": "mx"
+          },
+          "url": "/en/team/mexico-u20-5132",
+          "candidate_score": 4
+        },
+        {
+          "id": 6208,
+          "name": "Mexico U17",
+          "is_national": true,
+          "country": {
+            "name": "Mexico",
+            "code": "mx"
+          },
+          "url": "/en/team/mexico-u17-6208",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 13240,
+          "name": "New Mexico Utd",
+          "is_national": false,
+          "country": {
+            "name": "United States of America",
+            "code": "us"
+          },
+          "url": "/en/team/new-mexico-utd-13240",
+          "candidate_score": -100
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 20,
+      "competitions": {
+        "37 | Copa América": 3,
+        "2730 | CONCACAF Nations League": 4,
+        "87 | CONCACAF Gold Cup": 6,
+        "24 | International Friendlies": 7
+      }
+    },
+    {
+      "country": "South Africa",
+      "query": "South Africa national team",
+      "selected_team": {
+        "id": 39,
+        "name": "South Africa",
+        "country": {
+          "name": "South Africa",
+          "code": "za"
+        },
+        "url": "/en/team/south-africa-39",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 39,
+          "name": "South Africa",
+          "is_national": true,
+          "country": {
+            "name": "South Africa",
+            "code": "za"
+          },
+          "url": "/en/team/south-africa-39",
+          "candidate_score": 34
+        },
+        {
+          "id": 7814,
+          "name": "South Africa U20",
+          "is_national": true,
+          "country": {
+            "name": "South Africa",
+            "code": "za"
+          },
+          "url": "/en/team/south-africa-u20-7814",
+          "candidate_score": 4
+        },
+        {
+          "id": 1131,
+          "name": "South Africa Women",
+          "is_national": true,
+          "country": {
+            "name": "South Africa",
+            "code": "za"
+          },
+          "url": "/en/team/south-africa-women-1131",
+          "candidate_score": 4
+        },
+        {
+          "id": 70,
+          "name": "Korea Republic",
+          "is_national": true,
+          "country": {
+            "name": "Korea, South",
+            "code": "kr"
+          },
+          "url": "/en/team/korea-republic-70",
+          "candidate_score": 0
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 9949,
+          "name": "South Georgia Tormenta",
+          "is_national": false,
+          "country": {
+            "name": "United States of America",
+            "code": "us"
+          },
+          "url": "/en/team/south-georgia-tormenta-9949",
+          "candidate_score": -100
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 7481,
+          "name": "South Hobart",
+          "is_national": false,
+          "country": {
+            "name": "Australia",
+            "code": "au"
+          },
+          "url": "/en/team/south-hobart-7481",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 21,
+      "competitions": {
+        "72 | CAF World Cup Qualifying": 10,
+        "2755 | African Nations Championship": 4,
+        "49 | Africa Cup of Nations": 4,
+        "24 | International Friendlies": 3
+      }
+    },
+    {
+      "country": "Korea Republic",
+      "query": "South Korea national team",
+      "selected_team": {
+        "id": 70,
+        "name": "Korea Republic",
+        "country": {
+          "name": "Korea, South",
+          "code": "kr"
+        },
+        "url": "/en/team/korea-republic-70",
+        "candidate_score": 28
+      },
+      "candidates": [
+        {
+          "id": 70,
+          "name": "Korea Republic",
+          "is_national": true,
+          "country": {
+            "name": "Korea, South",
+            "code": "kr"
+          },
+          "url": "/en/team/korea-republic-70",
+          "candidate_score": 28
+        },
+        {
+          "id": 33,
+          "name": "DPR Korea",
+          "is_national": true,
+          "country": {
+            "name": "Korea, North",
+            "code": "kp"
+          },
+          "url": "/en/team/dpr-korea-33",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 39,
+          "name": "South Africa",
+          "is_national": true,
+          "country": {
+            "name": "South Africa",
+            "code": "za"
+          },
+          "url": "/en/team/south-africa-39",
+          "candidate_score": 0
+        },
+        {
+          "id": 1119,
+          "name": "Korea Republic U23",
+          "is_national": true,
+          "country": {
+            "name": "Korea, South",
+            "code": "kr"
+          },
+          "url": "/en/team/korea-republic-u23-1119",
+          "candidate_score": -2
+        },
+        {
+          "id": 7812,
+          "name": "Korea Republic U20",
+          "is_national": true,
+          "country": {
+            "name": "Korea, South",
+            "code": "kr"
+          },
+          "url": "/en/team/korea-republic-u20-7812",
+          "candidate_score": -2
+        },
+        {
+          "id": 866,
+          "name": "Korea DPR Women",
+          "is_national": true,
+          "country": {
+            "name": "Korea, North",
+            "code": "kp"
+          },
+          "url": "/en/team/korea-dpr-women-866",
+          "candidate_score": -6
+        },
+        {
+          "id": 7814,
+          "name": "South Africa U20",
+          "is_national": true,
+          "country": {
+            "name": "South Africa",
+            "code": "za"
+          },
+          "url": "/en/team/south-africa-u20-7814",
+          "candidate_score": -10
+        }
+      ],
+      "match_count": 22,
+      "competitions": {
+        "73 | AFC Asian Qualifiers – Road to 26": 16,
+        "2823 | EAFF E-1 Football Championship": 3,
+        "24 | International Friendlies": 3
+      }
+    },
+    {
+      "country": "Czechia",
+      "query": "Czech Republic national team",
+      "selected_team": {
+        "id": 16004,
+        "name": "Czechia Women",
+        "country": {
+          "name": "Czechia",
+          "code": "cz"
+        },
+        "url": "/en/team/czechia-women-16004",
+        "candidate_score": 4
+      },
+      "candidates": [
+        {
+          "id": 16004,
+          "name": "Czechia Women",
+          "is_national": true,
+          "country": {
+            "name": "Czechia",
+            "code": "cz"
+          },
+          "url": "/en/team/czechia-women-16004",
+          "candidate_score": 4
+        },
+        {
+          "id": 70,
+          "name": "Korea Republic",
+          "is_national": true,
+          "country": {
+            "name": "Korea, South",
+            "code": "kr"
+          },
+          "url": "/en/team/korea-republic-70",
+          "candidate_score": 0
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 1119,
+          "name": "Korea Republic U23",
+          "is_national": true,
+          "country": {
+            "name": "Korea, South",
+            "code": "kr"
+          },
+          "url": "/en/team/korea-republic-u23-1119",
+          "candidate_score": -10
+        },
+        {
+          "id": 7812,
+          "name": "Korea Republic U20",
+          "is_national": true,
+          "country": {
+            "name": "Korea, South",
+            "code": "kr"
+          },
+          "url": "/en/team/korea-republic-u20-7812",
+          "candidate_score": -10
+        },
+        {
+          "id": 4484,
+          "name": "Korea Republic Women",
+          "is_national": true,
+          "country": {
+            "name": "Korea, South",
+            "code": "kr"
+          },
+          "url": "/en/team/korea-republic-women-4484",
+          "candidate_score": -10
+        },
+        {
+          "id": 3237,
+          "name": "Sacramento Republic",
+          "is_national": false,
+          "country": {
+            "name": "United States of America",
+            "code": "us"
+          },
+          "url": "/en/team/sacramento-republic-3237",
+          "candidate_score": -100
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 23,
+      "competitions": {
+        "2936 | UEFA Women's Euro Qualifying": 10,
+        "2819 | UEFA Women's Nations League": 8,
+        "2773 | Women's World Cup UEFA Qualifiers": 4,
+        "2734 | Friendlies Women": 1
+      }
+    },
+    {
+      "country": "Canada",
+      "query": "Canada national team",
+      "selected_team": {
+        "id": 132,
+        "name": "Canada",
+        "country": {
+          "name": "Canada",
+          "code": "ca"
+        },
+        "url": "/en/team/canada-132",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 132,
+          "name": "Canada",
+          "is_national": true,
+          "country": {
+            "name": "Canada",
+            "code": "ca"
+          },
+          "url": "/en/team/canada-132",
+          "candidate_score": 34
+        },
+        {
+          "id": 872,
+          "name": "Canada Women",
+          "is_national": true,
+          "country": {
+            "name": "Canada",
+            "code": "ca"
+          },
+          "url": "/en/team/canada-women-872",
+          "candidate_score": 4
+        },
+        {
+          "id": 30042,
+          "name": "Canada Women U17",
+          "is_national": true,
+          "country": {
+            "name": "Canada",
+            "code": "ca"
+          },
+          "url": "/en/team/canada-women-u17-30042",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 17,
+      "competitions": {
+        "37 | Copa América": 6,
+        "2730 | CONCACAF Nations League": 4,
+        "87 | CONCACAF Gold Cup": 4,
+        "24 | International Friendlies": 3
+      }
+    },
+    {
+      "country": "Bosnia and Herzegovina",
+      "query": "Bosnia national team",
+      "selected_team": {
+        "id": 297,
+        "name": "Bosnia & Herzegovina",
+        "country": {
+          "name": "Bosnia and Herzegovina",
+          "code": "ba"
+        },
+        "url": "/en/team/bosnia-herzegovina-297",
+        "candidate_score": 14
+      },
+      "candidates": [
+        {
+          "id": 297,
+          "name": "Bosnia & Herzegovina",
+          "is_national": true,
+          "country": {
+            "name": "Bosnia and Herzegovina",
+            "code": "ba"
+          },
+          "url": "/en/team/bosnia-herzegovina-297",
+          "candidate_score": 14
+        },
+        {
+          "id": 15993,
+          "name": "Bosnia-Herzegovina Women",
+          "is_national": true,
+          "country": {
+            "name": "Bosnia and Herzegovina",
+            "code": "ba"
+          },
+          "url": "/en/team/bosnia-herzegovina-women-15993",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        },
+        {
+          "id": 56758,
+          "name": "ACS Sport Team Bucureşti",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/acs-sport-team-bucuresti-56758",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 22,
+      "competitions": {
+        "22 | Euro 2024 Qualifying": 11,
+        "69 | UEFA World Cup Qualifying": 10,
+        "24 | International Friendlies": 1
+      }
+    },
+    {
+      "country": "Qatar",
+      "query": "Qatar national team",
+      "selected_team": {
+        "id": 586,
+        "name": "Qatar",
+        "country": {
+          "name": "Qatar",
+          "code": "qa"
+        },
+        "url": "/en/team/qatar-586",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 586,
+          "name": "Qatar",
+          "is_national": true,
+          "country": {
+            "name": "Qatar",
+            "code": "qa"
+          },
+          "url": "/en/team/qatar-586",
+          "candidate_score": 34
+        },
+        {
+          "id": 5120,
+          "name": "Qatar U20",
+          "is_national": true,
+          "country": {
+            "name": "Qatar",
+            "code": "qa"
+          },
+          "url": "/en/team/qatar-u20-5120",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 4467,
+          "name": "Qatar SC",
+          "is_national": false,
+          "country": {
+            "name": "Qatar",
+            "code": "qa"
+          },
+          "url": "/en/team/qatar-sc-4467",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 23,
+      "competitions": {
+        "73 | AFC Asian Qualifiers – Road to 26": 18,
+        "2776 | FIFA Arab Cup": 3,
+        "2805 | Hybrid Friendlies": 1,
+        "24 | International Friendlies": 1
+      }
+    },
+    {
+      "country": "Switzerland",
+      "query": "Switzerland national team",
+      "selected_team": {
+        "id": 93,
+        "name": "Switzerland",
+        "country": {
+          "name": "Switzerland",
+          "code": "ch"
+        },
+        "url": "/en/team/switzerland-93",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 93,
+          "name": "Switzerland",
+          "is_national": true,
+          "country": {
+            "name": "Switzerland",
+            "code": "ch"
+          },
+          "url": "/en/team/switzerland-93",
+          "candidate_score": 34
+        },
+        {
+          "id": 4485,
+          "name": "Switzerland Women",
+          "is_national": true,
+          "country": {
+            "name": "Switzerland",
+            "code": "ch"
+          },
+          "url": "/en/team/switzerland-women-4485",
+          "candidate_score": 4
+        },
+        {
+          "id": 29962,
+          "name": "Switzerland Under 19",
+          "is_national": true,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/switzerland-under-19-29962",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 24,
+      "competitions": {
+        "22 | Euro 2024 Qualifying": 10,
+        "20 | EURO 2024": 5,
+        "69 | UEFA World Cup Qualifying": 6,
+        "24 | International Friendlies": 3
+      }
+    },
+    {
+      "country": "Brazil",
+      "query": "Brazil national team",
+      "selected_team": {
+        "id": 79,
+        "name": "Brazil",
+        "country": {
+          "name": "Brazil",
+          "code": "br"
+        },
+        "url": "/en/team/brazil-79",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 79,
+          "name": "Brazil",
+          "is_national": true,
+          "country": {
+            "name": "Brazil",
+            "code": "br"
+          },
+          "url": "/en/team/brazil-79",
+          "candidate_score": 34
+        },
+        {
+          "id": 1097,
+          "name": "Brazil U23",
+          "is_national": true,
+          "country": {
+            "name": "Brazil",
+            "code": "br"
+          },
+          "url": "/en/team/brazil-u23-1097",
+          "candidate_score": 4
+        },
+        {
+          "id": 863,
+          "name": "Brazil Women",
+          "is_national": true,
+          "country": {
+            "name": "Brazil",
+            "code": "br"
+          },
+          "url": "/en/team/brazil-women-863",
+          "candidate_score": 4
+        },
+        {
+          "id": 6203,
+          "name": "Brazil U17",
+          "is_national": true,
+          "country": {
+            "name": "Brazil",
+            "code": "br"
+          },
+          "url": "/en/team/brazil-u17-6203",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 25,
+      "competitions": {
+        "74 | CONMEBOL World Cup Qualifying": 18,
+        "37 | Copa América": 4,
+        "24 | International Friendlies": 3
+      }
+    },
+    {
+      "country": "Morocco",
+      "query": "Morocco national team",
+      "selected_team": {
+        "id": 108,
+        "name": "Morocco",
+        "country": {
+          "name": "Morocco",
+          "code": "ma"
+        },
+        "url": "/en/team/morocco-108",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 108,
+          "name": "Morocco",
+          "is_national": true,
+          "country": {
+            "name": "Morocco",
+            "code": "ma"
+          },
+          "url": "/en/team/morocco-108",
+          "candidate_score": 34
+        },
+        {
+          "id": 34573,
+          "name": "Morocco Women U17",
+          "is_national": true,
+          "country": {
+            "name": "Morocco",
+            "code": "ma"
+          },
+          "url": "/en/team/morocco-women-u17-34573",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        },
+        {
+          "id": 56758,
+          "name": "ACS Sport Team Bucureşti",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/acs-sport-team-bucuresti-56758",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 33,
+      "competitions": {
+        "72 | CAF World Cup Qualifying": 10,
+        "2755 | African Nations Championship": 7,
+        "2776 | FIFA Arab Cup": 6,
+        "49 | Africa Cup of Nations": 7,
+        "24 | International Friendlies": 3
+      }
+    },
+    {
+      "country": "Haiti",
+      "query": "Haiti national team",
+      "selected_team": {
+        "id": 134,
+        "name": "Haiti",
+        "country": {
+          "name": "Haiti",
+          "code": "ht"
+        },
+        "url": "/en/team/haiti-134",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 134,
+          "name": "Haiti",
+          "is_national": true,
+          "country": {
+            "name": "Haiti",
+            "code": "ht"
+          },
+          "url": "/en/team/haiti-134",
+          "candidate_score": 34
+        },
+        {
+          "id": 26961,
+          "name": "Haiti Women",
+          "is_national": true,
+          "country": {
+            "name": "Haiti",
+            "code": "ht"
+          },
+          "url": "/en/team/haiti-women-26961",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 28723,
+          "name": "Haiti U20",
+          "is_national": true,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/haiti-u20-28723",
+          "candidate_score": -6
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 21,
+      "competitions": {
+        "71 | CONCACAF World Cup Qualifying": 10,
+        "2730 | CONCACAF Nations League": 6,
+        "87 | CONCACAF Gold Cup": 3,
+        "24 | International Friendlies": 2
+      }
+    },
+    {
+      "country": "Scotland",
+      "query": "Scotland national team",
+      "selected_team": {
+        "id": 113,
+        "name": "Scotland",
+        "country": {
+          "name": "Scotland",
+          "code": "gb-sct"
+        },
+        "url": "/en/team/scotland-113",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 113,
+          "name": "Scotland",
+          "is_national": true,
+          "country": {
+            "name": "Scotland",
+            "code": "gb-sct"
+          },
+          "url": "/en/team/scotland-113",
+          "candidate_score": 34
+        },
+        {
+          "id": 8197,
+          "name": "Scotland Women",
+          "is_national": true,
+          "country": {
+            "name": "Scotland",
+            "code": "gb-sct"
+          },
+          "url": "/en/team/scotland-women-8197",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        },
+        {
+          "id": 56758,
+          "name": "ACS Sport Team Bucureşti",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/acs-sport-team-bucuresti-56758",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 20,
+      "competitions": {
+        "22 | Euro 2024 Qualifying": 8,
+        "20 | EURO 2024": 3,
+        "69 | UEFA World Cup Qualifying": 6,
+        "24 | International Friendlies": 3
+      }
+    },
+    {
+      "country": "USA",
+      "query": "United States national team",
+      "selected_team": {
+        "id": 81,
+        "name": "United States",
+        "country": {
+          "name": "United States of America",
+          "code": "us"
+        },
+        "url": "/en/team/united-states-81",
+        "candidate_score": 38
+      },
+      "candidates": [
+        {
+          "id": 81,
+          "name": "United States",
+          "is_national": true,
+          "country": {
+            "name": "United States of America",
+            "code": "us"
+          },
+          "url": "/en/team/united-states-81",
+          "candidate_score": 38
+        },
+        {
+          "id": 867,
+          "name": "United States Women",
+          "is_national": true,
+          "country": {
+            "name": "United States of America",
+            "code": "us"
+          },
+          "url": "/en/team/united-states-women-867",
+          "candidate_score": 4
+        },
+        {
+          "id": 21,
+          "name": "Manchester United",
+          "is_national": false,
+          "country": {
+            "name": "England",
+            "code": "gb-eng"
+          },
+          "url": "/en/team/manchester-united-21",
+          "candidate_score": -100
+        },
+        {
+          "id": 571,
+          "name": "Leeds United",
+          "is_national": false,
+          "country": {
+            "name": "England",
+            "code": "gb-eng"
+          },
+          "url": "/en/team/leeds-united-571",
+          "candidate_score": -100
+        },
+        {
+          "id": 583,
+          "name": "Sheffield United",
+          "is_national": false,
+          "country": {
+            "name": "England",
+            "code": "gb-eng"
+          },
+          "url": "/en/team/sheffield-united-583",
+          "candidate_score": -100
+        },
+        {
+          "id": 207,
+          "name": "Newcastle United",
+          "is_national": false,
+          "country": {
+            "name": "England",
+            "code": "gb-eng"
+          },
+          "url": "/en/team/newcastle-united-207",
+          "candidate_score": -100
+        },
+        {
+          "id": 198,
+          "name": "West Ham United",
+          "is_national": false,
+          "country": {
+            "name": "England",
+            "code": "gb-eng"
+          },
+          "url": "/en/team/west-ham-united-198",
+          "candidate_score": -100
+        },
+        {
+          "id": 675,
+          "name": "Sutton United",
+          "is_national": false,
+          "country": {
+            "name": "England",
+            "code": "gb-eng"
+          },
+          "url": "/en/team/sutton-united-675",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 16,
+      "competitions": {
+        "37 | Copa América": 3,
+        "2730 | CONCACAF Nations League": 4,
+        "87 | CONCACAF Gold Cup": 6,
+        "24 | International Friendlies": 3
+      }
+    },
+    {
+      "country": "Paraguay",
+      "query": "Paraguay national team",
+      "selected_team": {
+        "id": 47,
+        "name": "Paraguay",
+        "country": {
+          "name": "Paraguay",
+          "code": "py"
+        },
+        "url": "/en/team/paraguay-47",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 47,
+          "name": "Paraguay",
+          "is_national": true,
+          "country": {
+            "name": "Paraguay",
+            "code": "py"
+          },
+          "url": "/en/team/paraguay-47",
+          "candidate_score": 34
+        },
+        {
+          "id": 17137,
+          "name": "Paraguay U23",
+          "is_national": true,
+          "country": {
+            "name": "Paraguay",
+            "code": "py"
+          },
+          "url": "/en/team/paraguay-u23-17137",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        },
+        {
+          "id": 56758,
+          "name": "ACS Sport Team Bucureşti",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/acs-sport-team-bucuresti-56758",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 23,
+      "competitions": {
+        "74 | CONMEBOL World Cup Qualifying": 18,
+        "37 | Copa América": 3,
+        "24 | International Friendlies": 2
+      }
+    },
+    {
+      "country": "Australia",
+      "query": "Australia national team",
+      "selected_team": {
+        "id": 74,
+        "name": "Australia",
+        "country": {
+          "name": "Australia",
+          "code": "au"
+        },
+        "url": "/en/team/australia-74",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 74,
+          "name": "Australia",
+          "is_national": true,
+          "country": {
+            "name": "Australia",
+            "code": "au"
+          },
+          "url": "/en/team/australia-74",
+          "candidate_score": 34
+        },
+        {
+          "id": 873,
+          "name": "Australia Women",
+          "is_national": true,
+          "country": {
+            "name": "Australia",
+            "code": "au"
+          },
+          "url": "/en/team/australia-women-873",
+          "candidate_score": 4
+        },
+        {
+          "id": 6205,
+          "name": "Australia U17",
+          "is_national": true,
+          "country": {
+            "name": "Australia",
+            "code": "au"
+          },
+          "url": "/en/team/australia-u17-6205",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 19,
+      "competitions": {
+        "73 | AFC Asian Qualifiers – Road to 26": 16,
+        "24 | International Friendlies": 3
+      }
+    },
+    {
+      "country": "Türkiye",
+      "query": "Turkey national team",
+      "selected_team": null,
+      "candidates": [
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        },
+        {
+          "id": 56758,
+          "name": "ACS Sport Team Bucureşti",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/acs-sport-team-bucuresti-56758",
+          "candidate_score": -100
+        },
+        {
+          "id": 54972,
+          "name": "xBuyer Team",
+          "is_national": false,
+          "country": {
+            "name": "Spain",
+            "code": "es"
+          },
+          "url": "/en/team/xbuyer-team-54972",
+          "candidate_score": -100
+        },
+        {
+          "id": 26400,
+          "name": "Team Vaud",
+          "is_national": false,
+          "country": {
+            "name": "Switzerland",
+            "code": "ch"
+          },
+          "url": "/en/team/team-vaud-26400",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 0,
+      "competitions": {}
+    },
+    {
+      "country": "Germany",
+      "query": "Germany national team",
+      "selected_team": {
+        "id": 96,
+        "name": "Germany",
+        "country": {
+          "name": "Germany",
+          "code": "de"
+        },
+        "url": "/en/team/germany-96",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 96,
+          "name": "Germany",
+          "is_national": true,
+          "country": {
+            "name": "Germany",
+            "code": "de"
+          },
+          "url": "/en/team/germany-96",
+          "candidate_score": 34
+        },
+        {
+          "id": 1867,
+          "name": "Germany U21",
+          "is_national": true,
+          "country": {
+            "name": "Germany",
+            "code": "de"
+          },
+          "url": "/en/team/germany-u21-1867",
+          "candidate_score": 4
+        },
+        {
+          "id": 860,
+          "name": "Germany Women",
+          "is_national": true,
+          "country": {
+            "name": "Germany",
+            "code": "de"
+          },
+          "url": "/en/team/germany-women-860",
+          "candidate_score": 4
+        },
+        {
+          "id": 3333,
+          "name": "Germany U19",
+          "is_national": true,
+          "country": {
+            "name": "Germany",
+            "code": "de"
+          },
+          "url": "/en/team/germany-u19-3333",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 14,
+      "competitions": {
+        "20 | EURO 2024": 5,
+        "69 | UEFA World Cup Qualifying": 6,
+        "24 | International Friendlies": 3
+      }
+    },
+    {
+      "country": "Curaçao",
+      "query": "Curacao national team",
+      "selected_team": {
+        "id": 1354,
+        "name": "Curaçao",
+        "country": {
+          "name": "Curacao",
+          "code": "cw"
+        },
+        "url": "/en/team/curacao-1354",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 1354,
+          "name": "Curaçao",
+          "is_national": true,
+          "country": {
+            "name": "Curacao",
+            "code": "cw"
+          },
+          "url": "/en/team/curacao-1354",
+          "candidate_score": 34
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        },
+        {
+          "id": 56758,
+          "name": "ACS Sport Team Bucureşti",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/acs-sport-team-bucuresti-56758",
+          "candidate_score": -100
+        },
+        {
+          "id": 54972,
+          "name": "xBuyer Team",
+          "is_national": false,
+          "country": {
+            "name": "Spain",
+            "code": "es"
+          },
+          "url": "/en/team/xbuyer-team-54972",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 22,
+      "competitions": {
+        "71 | CONCACAF World Cup Qualifying": 10,
+        "2730 | CONCACAF Nations League": 6,
+        "87 | CONCACAF Gold Cup": 3,
+        "24 | International Friendlies": 3
+      }
+    },
+    {
+      "country": "Côte d'Ivoire",
+      "query": "Ivory Coast national team",
+      "selected_team": null,
+      "candidates": [
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 1782,
+          "name": "Central Coast Mariners",
+          "is_national": false,
+          "country": {
+            "name": "Australia",
+            "code": "au"
+          },
+          "url": "/en/team/central-coast-mariners-1782",
+          "candidate_score": -100
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 15345,
+          "name": "Gold Coast Knights",
+          "is_national": false,
+          "country": {
+            "name": "Australia",
+            "code": "au"
+          },
+          "url": "/en/team/gold-coast-knights-15345",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        },
+        {
+          "id": 56758,
+          "name": "ACS Sport Team Bucureşti",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/acs-sport-team-bucuresti-56758",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 0,
+      "competitions": {}
+    },
+    {
+      "country": "Ecuador",
+      "query": "Ecuador national team",
+      "selected_team": {
+        "id": 101,
+        "name": "Ecuador",
+        "country": {
+          "name": "Ecuador",
+          "code": "ec"
+        },
+        "url": "/en/team/ecuador-101",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 101,
+          "name": "Ecuador",
+          "is_national": true,
+          "country": {
+            "name": "Ecuador",
+            "code": "ec"
+          },
+          "url": "/en/team/ecuador-101",
+          "candidate_score": 34
+        },
+        {
+          "id": 4479,
+          "name": "Ecuador Women",
+          "is_national": true,
+          "country": {
+            "name": "Ecuador",
+            "code": "ec"
+          },
+          "url": "/en/team/ecuador-women-4479",
+          "candidate_score": 4
+        },
+        {
+          "id": 17134,
+          "name": "Ecuador U23",
+          "is_national": true,
+          "country": {
+            "name": "Ecuador",
+            "code": "ec"
+          },
+          "url": "/en/team/ecuador-u23-17134",
+          "candidate_score": 4
+        },
+        {
+          "id": 11842,
+          "name": "Ecuador U20",
+          "is_national": true,
+          "country": {
+            "name": "Ecuador",
+            "code": "ec"
+          },
+          "url": "/en/team/ecuador-u20-11842",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 4664,
+          "name": "Guayaquil City",
+          "is_national": false,
+          "country": {
+            "name": "Ecuador",
+            "code": "ec"
+          },
+          "url": "/en/team/guayaquil-city-4664",
+          "candidate_score": -100
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 25,
+      "competitions": {
+        "74 | CONMEBOL World Cup Qualifying": 18,
+        "37 | Copa América": 4,
+        "24 | International Friendlies": 3
+      }
+    },
+    {
+      "country": "Netherlands",
+      "query": "Netherlands national team",
+      "selected_team": {
+        "id": 38,
+        "name": "Netherlands",
+        "country": {
+          "name": "Netherlands",
+          "code": "nl"
+        },
+        "url": "/en/team/netherlands-38",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 38,
+          "name": "Netherlands",
+          "is_national": true,
+          "country": {
+            "name": "Netherlands",
+            "code": "nl"
+          },
+          "url": "/en/team/netherlands-38",
+          "candidate_score": 34
+        },
+        {
+          "id": 4483,
+          "name": "Netherlands Women",
+          "is_national": true,
+          "country": {
+            "name": "Netherlands",
+            "code": "nl"
+          },
+          "url": "/en/team/netherlands-women-4483",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        },
+        {
+          "id": 56758,
+          "name": "ACS Sport Team Bucureşti",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/acs-sport-team-bucuresti-56758",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 24,
+      "competitions": {
+        "22 | Euro 2024 Qualifying": 8,
+        "20 | EURO 2024": 6,
+        "69 | UEFA World Cup Qualifying": 8,
+        "24 | International Friendlies": 2
+      }
+    },
+    {
+      "country": "Japan",
+      "query": "Japan national team",
+      "selected_team": {
+        "id": 52,
+        "name": "Japan",
+        "country": {
+          "name": "Japan",
+          "code": "jp"
+        },
+        "url": "/en/team/japan-52",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 52,
+          "name": "Japan",
+          "is_national": true,
+          "country": {
+            "name": "Japan",
+            "code": "jp"
+          },
+          "url": "/en/team/japan-52",
+          "candidate_score": 34
+        },
+        {
+          "id": 10671,
+          "name": "Japan U17",
+          "is_national": true,
+          "country": {
+            "name": "Japan",
+            "code": "jp"
+          },
+          "url": "/en/team/japan-u17-10671",
+          "candidate_score": 4
+        },
+        {
+          "id": 7809,
+          "name": "Japan U20",
+          "is_national": true,
+          "country": {
+            "name": "Japan",
+            "code": "jp"
+          },
+          "url": "/en/team/japan-u20-7809",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 22,
+      "competitions": {
+        "73 | AFC Asian Qualifiers – Road to 26": 16,
+        "2823 | EAFF E-1 Football Championship": 3,
+        "24 | International Friendlies": 3
+      }
+    },
+    {
+      "country": "Sweden",
+      "query": "Sweden national team",
+      "selected_team": {
+        "id": 105,
+        "name": "Sweden",
+        "country": {
+          "name": "Sweden",
+          "code": "se"
+        },
+        "url": "/en/team/sweden-105",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 105,
+          "name": "Sweden",
+          "is_national": true,
+          "country": {
+            "name": "Sweden",
+            "code": "se"
+          },
+          "url": "/en/team/sweden-105",
+          "candidate_score": 34
+        },
+        {
+          "id": 874,
+          "name": "Sweden Women",
+          "is_national": true,
+          "country": {
+            "name": "Sweden",
+            "code": "se"
+          },
+          "url": "/en/team/sweden-women-874",
+          "candidate_score": 4
+        },
+        {
+          "id": 1439,
+          "name": "Sweden U21",
+          "is_national": true,
+          "country": {
+            "name": "Sweden",
+            "code": "se"
+          },
+          "url": "/en/team/sweden-u21-1439",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 16,
+      "competitions": {
+        "22 | Euro 2024 Qualifying": 8,
+        "69 | UEFA World Cup Qualifying": 8
+      }
+    },
+    {
+      "country": "Tunisia",
+      "query": "Tunisia national team",
+      "selected_team": {
+        "id": 112,
+        "name": "Tunisia",
+        "country": {
+          "name": "Tunisia",
+          "code": "tn"
+        },
+        "url": "/en/team/tunisia-112",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 112,
+          "name": "Tunisia",
+          "is_national": true,
+          "country": {
+            "name": "Tunisia",
+            "code": "tn"
+          },
+          "url": "/en/team/tunisia-112",
+          "candidate_score": 34
+        },
+        {
+          "id": 31339,
+          "name": "Tunisia Under 23",
+          "is_national": true,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/tunisia-under-23-31339",
+          "candidate_score": 4
+        },
+        {
+          "id": 30057,
+          "name": "Tunisia Women",
+          "is_national": true,
+          "country": {
+            "name": "Tunisia",
+            "code": "tn"
+          },
+          "url": "/en/team/tunisia-women-30057",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 19,
+      "competitions": {
+        "72 | CAF World Cup Qualifying": 10,
+        "2776 | FIFA Arab Cup": 3,
+        "49 | Africa Cup of Nations": 4,
+        "24 | International Friendlies": 2
+      }
+    },
+    {
+      "country": "Belgium",
+      "query": "Belgium national team",
+      "selected_team": {
+        "id": 116,
+        "name": "Belgium",
+        "country": {
+          "name": "Belgium",
+          "code": "be"
+        },
+        "url": "/en/team/belgium-116",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 116,
+          "name": "Belgium",
+          "is_national": true,
+          "country": {
+            "name": "Belgium",
+            "code": "be"
+          },
+          "url": "/en/team/belgium-116",
+          "candidate_score": 34
+        },
+        {
+          "id": 11964,
+          "name": "Belgium U21",
+          "is_national": true,
+          "country": {
+            "name": "Belgium",
+            "code": "be"
+          },
+          "url": "/en/team/belgium-u21-11964",
+          "candidate_score": 4
+        },
+        {
+          "id": 8194,
+          "name": "Belgium Women",
+          "is_national": true,
+          "country": {
+            "name": "Belgium",
+            "code": "be"
+          },
+          "url": "/en/team/belgium-women-8194",
+          "candidate_score": 4
+        },
+        {
+          "id": 6211,
+          "name": "Belgium U17",
+          "is_national": true,
+          "country": {
+            "name": "Belgium",
+            "code": "be"
+          },
+          "url": "/en/team/belgium-u17-6211",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 22,
+      "competitions": {
+        "22 | Euro 2024 Qualifying": 8,
+        "20 | EURO 2024": 4,
+        "69 | UEFA World Cup Qualifying": 8,
+        "24 | International Friendlies": 2
+      }
+    },
+    {
+      "country": "Egypt",
+      "query": "Egypt national team",
+      "selected_team": {
+        "id": 590,
+        "name": "Egypt",
+        "country": {
+          "name": "Egypt",
+          "code": "eg"
+        },
+        "url": "/en/team/egypt-590",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 590,
+          "name": "Egypt",
+          "is_national": true,
+          "country": {
+            "name": "Egypt",
+            "code": "eg"
+          },
+          "url": "/en/team/egypt-590",
+          "candidate_score": 34
+        },
+        {
+          "id": 57236,
+          "name": "Egypt U17",
+          "is_national": true,
+          "country": {
+            "name": "Egypt",
+            "code": "eg"
+          },
+          "url": "/en/team/egypt-u17-57236",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 18945,
+          "name": "National Bank",
+          "is_national": false,
+          "country": {
+            "name": "Egypt",
+            "code": "eg"
+          },
+          "url": "/en/team/national-bank-18945",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 23,
+      "competitions": {
+        "72 | CAF World Cup Qualifying": 10,
+        "2776 | FIFA Arab Cup": 3,
+        "49 | Africa Cup of Nations": 7,
+        "24 | International Friendlies": 3
+      }
+    },
+    {
+      "country": "IR Iran",
+      "query": "Iran national team",
+      "selected_team": {
+        "id": 102,
+        "name": "Iran",
+        "country": {
+          "name": "Iran",
+          "code": "ir"
+        },
+        "url": "/en/team/iran-102",
+        "candidate_score": 38
+      },
+      "candidates": [
+        {
+          "id": 102,
+          "name": "Iran",
+          "is_national": true,
+          "country": {
+            "name": "Iran",
+            "code": "ir"
+          },
+          "url": "/en/team/iran-102",
+          "candidate_score": 38
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        },
+        {
+          "id": 56758,
+          "name": "ACS Sport Team Bucureşti",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/acs-sport-team-bucuresti-56758",
+          "candidate_score": -100
+        },
+        {
+          "id": 54972,
+          "name": "xBuyer Team",
+          "is_national": false,
+          "country": {
+            "name": "Spain",
+            "code": "es"
+          },
+          "url": "/en/team/xbuyer-team-54972",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 19,
+      "competitions": {
+        "73 | AFC Asian Qualifiers – Road to 26": 16,
+        "24 | International Friendlies": 3
+      }
+    },
+    {
+      "country": "New Zealand",
+      "query": "New Zealand national team",
+      "selected_team": {
+        "id": 54,
+        "name": "New Zealand",
+        "country": {
+          "name": "New Zealand",
+          "code": "nz"
+        },
+        "url": "/en/team/new-zealand-54",
+        "candidate_score": 24
+      },
+      "candidates": [
+        {
+          "id": 54,
+          "name": "New Zealand",
+          "is_national": true,
+          "country": {
+            "name": "New Zealand",
+            "code": "nz"
+          },
+          "url": "/en/team/new-zealand-54",
+          "candidate_score": 24
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 1333,
+          "name": "New Caledonia",
+          "is_national": true,
+          "country": {
+            "name": "New Caledonia",
+            "code": "nc"
+          },
+          "url": "/en/team/new-caledonia-1333",
+          "candidate_score": -10
+        },
+        {
+          "id": 1342,
+          "name": "Papua New Guinea",
+          "is_national": true,
+          "country": {
+            "name": "Papua New Guinea",
+            "code": "pg"
+          },
+          "url": "/en/team/papua-new-guinea-1342",
+          "candidate_score": -10
+        },
+        {
+          "id": 207,
+          "name": "Newcastle United",
+          "is_national": false,
+          "country": {
+            "name": "England",
+            "code": "gb-eng"
+          },
+          "url": "/en/team/newcastle-united-207",
+          "candidate_score": -100
+        },
+        {
+          "id": 13247,
+          "name": "Red Bull New York II",
+          "is_national": false,
+          "country": {
+            "name": "United States of America",
+            "code": "us"
+          },
+          "url": "/en/team/red-bull-new-york-ii-13247",
+          "candidate_score": -100
+        },
+        {
+          "id": 13240,
+          "name": "New Mexico Utd",
+          "is_national": false,
+          "country": {
+            "name": "United States of America",
+            "code": "us"
+          },
+          "url": "/en/team/new-mexico-utd-13240",
+          "candidate_score": -100
+        },
+        {
+          "id": 847,
+          "name": "New York RB",
+          "is_national": false,
+          "country": {
+            "name": "United States of America",
+            "code": "us"
+          },
+          "url": "/en/team/new-york-rb-847",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 12,
+      "competitions": {
+        "2845 | OFC Men's Nations Cup": 5,
+        "70 | OFC World Cup Qualifying": 5,
+        "24 | International Friendlies": 2
+      }
+    },
+    {
+      "country": "Spain",
+      "query": "Spain national team",
+      "selected_team": {
+        "id": 34,
+        "name": "Spain",
+        "country": {
+          "name": "Spain",
+          "code": "es"
+        },
+        "url": "/en/team/spain-34",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 34,
+          "name": "Spain",
+          "is_national": true,
+          "country": {
+            "name": "Spain",
+            "code": "es"
+          },
+          "url": "/en/team/spain-34",
+          "candidate_score": 34
+        },
+        {
+          "id": 5139,
+          "name": "Spain U19",
+          "is_national": true,
+          "country": {
+            "name": "Spain",
+            "code": "es"
+          },
+          "url": "/en/team/spain-u19-5139",
+          "candidate_score": 4
+        },
+        {
+          "id": 8426,
+          "name": "Spain U17",
+          "is_national": true,
+          "country": {
+            "name": "Spain",
+            "code": "es"
+          },
+          "url": "/en/team/spain-u17-8426",
+          "candidate_score": 4
+        },
+        {
+          "id": 1871,
+          "name": "Spain U21",
+          "is_national": true,
+          "country": {
+            "name": "Spain",
+            "code": "es"
+          },
+          "url": "/en/team/spain-u21-1871",
+          "candidate_score": 4
+        },
+        {
+          "id": 4481,
+          "name": "Spain Women",
+          "is_national": true,
+          "country": {
+            "name": "Spain",
+            "code": "es"
+          },
+          "url": "/en/team/spain-women-4481",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 24,
+      "competitions": {
+        "22 | Euro 2024 Qualifying": 8,
+        "20 | EURO 2024": 7,
+        "69 | UEFA World Cup Qualifying": 6,
+        "2796 | Finalissima": 1,
+        "24 | International Friendlies": 2
+      }
+    },
+    {
+      "country": "Cabo Verde",
+      "query": "Cape Verde national team",
+      "selected_team": {
+        "id": 589,
+        "name": "Cabo Verde",
+        "country": {
+          "name": "Cape Verde",
+          "code": "cv"
+        },
+        "url": "/en/team/cabo-verde-589",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 589,
+          "name": "Cabo Verde",
+          "is_national": true,
+          "country": {
+            "name": "Cape Verde",
+            "code": "cv"
+          },
+          "url": "/en/team/cabo-verde-589",
+          "candidate_score": 34
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7203,
+          "name": "Cape Town City",
+          "is_national": false,
+          "country": {
+            "name": "South Africa",
+            "code": "za"
+          },
+          "url": "/en/team/cape-town-city-7203",
+          "candidate_score": -100
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 4060,
+          "name": "Stellenbosch",
+          "is_national": false,
+          "country": {
+            "name": "South Africa",
+            "code": "za"
+          },
+          "url": "/en/team/stellenbosch-4060",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 7652,
+          "name": "Rio Verde",
+          "is_national": false,
+          "country": {
+            "name": "Brazil",
+            "code": "br"
+          },
+          "url": "/en/team/rio-verde-7652",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 13,
+      "competitions": {
+        "72 | CAF World Cup Qualifying": 10,
+        "24 | International Friendlies": 3
+      }
+    },
+    {
+      "country": "Saudi Arabia",
+      "query": "Saudi Arabia national team",
+      "selected_team": {
+        "id": 104,
+        "name": "Saudi Arabia",
+        "country": {
+          "name": "Saudi Arabia",
+          "code": "sa"
+        },
+        "url": "/en/team/saudi-arabia-104",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 104,
+          "name": "Saudi Arabia",
+          "is_national": true,
+          "country": {
+            "name": "Saudi Arabia",
+            "code": "sa"
+          },
+          "url": "/en/team/saudi-arabia-104",
+          "candidate_score": 34
+        },
+        {
+          "id": 7807,
+          "name": "Saudi Arabia U20",
+          "is_national": true,
+          "country": {
+            "name": "Saudi Arabia",
+            "code": "sa"
+          },
+          "url": "/en/team/saudi-arabia-u20-7807",
+          "candidate_score": 4
+        },
+        {
+          "id": 60765,
+          "name": "Saudi Arabia Under 21",
+          "is_national": true,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/saudi-arabia-under-21-60765",
+          "candidate_score": 4
+        },
+        {
+          "id": 47589,
+          "name": "Saudi Arabia U17",
+          "is_national": true,
+          "country": {
+            "name": "Saudi Arabia",
+            "code": "sa"
+          },
+          "url": "/en/team/saudi-arabia-u17-47589",
+          "candidate_score": 4
+        },
+        {
+          "id": 19435,
+          "name": "Saudi Arabia U23",
+          "is_national": true,
+          "country": {
+            "name": "Saudi Arabia",
+            "code": "sa"
+          },
+          "url": "/en/team/saudi-arabia-u23-19435",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 2339,
+          "name": "Al-Ahli",
+          "is_national": false,
+          "country": {
+            "name": "Saudi Arabia",
+            "code": "sa"
+          },
+          "url": "/en/team/al-ahli-2339",
+          "candidate_score": -100
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 31,
+      "competitions": {
+        "73 | AFC Asian Qualifiers – Road to 26": 18,
+        "87 | CONCACAF Gold Cup": 4,
+        "2776 | FIFA Arab Cup": 6,
+        "24 | International Friendlies": 3
+      }
+    },
+    {
+      "country": "Uruguay",
+      "query": "Uruguay national team",
+      "selected_team": {
+        "id": 56,
+        "name": "Uruguay",
+        "country": {
+          "name": "Uruguay",
+          "code": "uy"
+        },
+        "url": "/en/team/uruguay-56",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 56,
+          "name": "Uruguay",
+          "is_national": true,
+          "country": {
+            "name": "Uruguay",
+            "code": "uy"
+          },
+          "url": "/en/team/uruguay-56",
+          "candidate_score": 34
+        },
+        {
+          "id": 1114,
+          "name": "Uruguay U23",
+          "is_national": true,
+          "country": {
+            "name": "Uruguay",
+            "code": "uy"
+          },
+          "url": "/en/team/uruguay-u23-1114",
+          "candidate_score": 4
+        },
+        {
+          "id": 5133,
+          "name": "Uruguay U20",
+          "is_national": true,
+          "country": {
+            "name": "Uruguay",
+            "code": "uy"
+          },
+          "url": "/en/team/uruguay-u20-5133",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 12533,
+          "name": "Gimnasia y Esgrima",
+          "is_national": false,
+          "country": {
+            "name": "Argentina",
+            "code": "ar"
+          },
+          "url": "/en/team/gimnasia-y-esgrima-12533",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 26,
+      "competitions": {
+        "74 | CONMEBOL World Cup Qualifying": 18,
+        "37 | Copa América": 6,
+        "24 | International Friendlies": 2
+      }
+    },
+    {
+      "country": "France",
+      "query": "France national team",
+      "selected_team": {
+        "id": 45,
+        "name": "France",
+        "country": {
+          "name": "France",
+          "code": "fr"
+        },
+        "url": "/en/team/france-45",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 45,
+          "name": "France",
+          "is_national": true,
+          "country": {
+            "name": "France",
+            "code": "fr"
+          },
+          "url": "/en/team/france-45",
+          "candidate_score": 34
+        },
+        {
+          "id": 864,
+          "name": "France Women",
+          "is_national": true,
+          "country": {
+            "name": "France",
+            "code": "fr"
+          },
+          "url": "/en/team/france-women-864",
+          "candidate_score": 4
+        },
+        {
+          "id": 1025,
+          "name": "France U21",
+          "is_national": true,
+          "country": {
+            "name": "France",
+            "code": "fr"
+          },
+          "url": "/en/team/france-u21-1025",
+          "candidate_score": 4
+        },
+        {
+          "id": 8248,
+          "name": "France U20",
+          "is_national": true,
+          "country": {
+            "name": "France",
+            "code": "fr"
+          },
+          "url": "/en/team/france-u20-8248",
+          "candidate_score": 4
+        },
+        {
+          "id": 6219,
+          "name": "France U17",
+          "is_national": true,
+          "country": {
+            "name": "France",
+            "code": "fr"
+          },
+          "url": "/en/team/france-u17-6219",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 22,
+      "competitions": {
+        "22 | Euro 2024 Qualifying": 8,
+        "20 | EURO 2024": 6,
+        "69 | UEFA World Cup Qualifying": 6,
+        "24 | International Friendlies": 2
+      }
+    },
+    {
+      "country": "Senegal",
+      "query": "Senegal national team",
+      "selected_team": {
+        "id": 121,
+        "name": "Senegal",
+        "country": {
+          "name": "Senegal",
+          "code": "sn"
+        },
+        "url": "/en/team/senegal-121",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 121,
+          "name": "Senegal",
+          "is_national": true,
+          "country": {
+            "name": "Senegal",
+            "code": "sn"
+          },
+          "url": "/en/team/senegal-121",
+          "candidate_score": 34
+        },
+        {
+          "id": 38155,
+          "name": "Senegal Women",
+          "is_national": true,
+          "country": {
+            "name": "Senegal",
+            "code": "sn"
+          },
+          "url": "/en/team/senegal-women-38155",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        },
+        {
+          "id": 56758,
+          "name": "ACS Sport Team Bucureşti",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/acs-sport-team-bucuresti-56758",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 26,
+      "competitions": {
+        "72 | CAF World Cup Qualifying": 10,
+        "2755 | African Nations Championship": 6,
+        "49 | Africa Cup of Nations": 7,
+        "24 | International Friendlies": 3
+      }
+    },
+    {
+      "country": "Iraq",
+      "query": "Iraq national team",
+      "selected_team": {
+        "id": 133,
+        "name": "Iraq",
+        "country": {
+          "name": "Iraq",
+          "code": "iq"
+        },
+        "url": "/en/team/iraq-133",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 133,
+          "name": "Iraq",
+          "is_national": true,
+          "country": {
+            "name": "Iraq",
+            "code": "iq"
+          },
+          "url": "/en/team/iraq-133",
+          "candidate_score": 34
+        },
+        {
+          "id": 6634,
+          "name": "Iraq U23",
+          "is_national": true,
+          "country": {
+            "name": "Iraq",
+            "code": "iq"
+          },
+          "url": "/en/team/iraq-u23-6634",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        },
+        {
+          "id": 56758,
+          "name": "ACS Sport Team Bucureşti",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/acs-sport-team-bucuresti-56758",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 26,
+      "competitions": {
+        "73 | AFC Asian Qualifiers – Road to 26": 20,
+        "2776 | FIFA Arab Cup": 4,
+        "114 | FIFA World Cup™ Play-Off Tournament": 1,
+        "24 | International Friendlies": 1
+      }
+    },
+    {
+      "country": "Norway",
+      "query": "Norway national team",
+      "selected_team": {
+        "id": 115,
+        "name": "Norway",
+        "country": {
+          "name": "Norway",
+          "code": "no"
+        },
+        "url": "/en/team/norway-115",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 115,
+          "name": "Norway",
+          "is_national": true,
+          "country": {
+            "name": "Norway",
+            "code": "no"
+          },
+          "url": "/en/team/norway-115",
+          "candidate_score": 34
+        },
+        {
+          "id": 862,
+          "name": "Norway Women",
+          "is_national": true,
+          "country": {
+            "name": "Norway",
+            "code": "no"
+          },
+          "url": "/en/team/norway-women-862",
+          "candidate_score": 4
+        },
+        {
+          "id": 12484,
+          "name": "Norway U20",
+          "is_national": true,
+          "country": {
+            "name": "Norway",
+            "code": "no"
+          },
+          "url": "/en/team/norway-u20-12484",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 18,
+      "competitions": {
+        "22 | Euro 2024 Qualifying": 8,
+        "69 | UEFA World Cup Qualifying": 8,
+        "24 | International Friendlies": 2
+      }
+    },
+    {
+      "country": "Argentina",
+      "query": "Argentina national team",
+      "selected_team": {
+        "id": 55,
+        "name": "Argentina",
+        "country": {
+          "name": "Argentina",
+          "code": "ar"
+        },
+        "url": "/en/team/argentina-55",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 55,
+          "name": "Argentina",
+          "is_national": true,
+          "country": {
+            "name": "Argentina",
+            "code": "ar"
+          },
+          "url": "/en/team/argentina-55",
+          "candidate_score": 34
+        },
+        {
+          "id": 6207,
+          "name": "Argentina U17",
+          "is_national": true,
+          "country": {
+            "name": "Argentina",
+            "code": "ar"
+          },
+          "url": "/en/team/argentina-u17-6207",
+          "candidate_score": 4
+        },
+        {
+          "id": 12065,
+          "name": "Argentina Women",
+          "is_national": true,
+          "country": {
+            "name": "Argentina",
+            "code": "ar"
+          },
+          "url": "/en/team/argentina-women-12065",
+          "candidate_score": 4
+        },
+        {
+          "id": 6630,
+          "name": "Argentina U23",
+          "is_national": true,
+          "country": {
+            "name": "Argentina",
+            "code": "ar"
+          },
+          "url": "/en/team/argentina-u23-6630",
+          "candidate_score": 4
+        },
+        {
+          "id": 5130,
+          "name": "Argentina U20",
+          "is_national": true,
+          "country": {
+            "name": "Argentina",
+            "code": "ar"
+          },
+          "url": "/en/team/argentina-u20-5130",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 14849,
+          "name": "A Quilmes",
+          "is_national": false,
+          "country": {
+            "name": "Argentina",
+            "code": "ar"
+          },
+          "url": "/en/team/a-quilmes-14849",
+          "candidate_score": -100
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 27,
+      "competitions": {
+        "74 | CONMEBOL World Cup Qualifying": 18,
+        "37 | Copa América": 6,
+        "2796 | Finalissima": 1,
+        "24 | International Friendlies": 2
+      }
+    },
+    {
+      "country": "Algeria",
+      "query": "Algeria national team",
+      "selected_team": {
+        "id": 59,
+        "name": "Algeria",
+        "country": {
+          "name": "Algeria",
+          "code": "dz"
+        },
+        "url": "/en/team/algeria-59",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 59,
+          "name": "Algeria",
+          "is_national": true,
+          "country": {
+            "name": "Algeria",
+            "code": "dz"
+          },
+          "url": "/en/team/algeria-59",
+          "candidate_score": 34
+        },
+        {
+          "id": 31305,
+          "name": "Algeria U17",
+          "is_national": true,
+          "country": {
+            "name": "Algeria",
+            "code": "dz"
+          },
+          "url": "/en/team/algeria-u17-31305",
+          "candidate_score": 4
+        },
+        {
+          "id": 27044,
+          "name": "Algeria Women",
+          "is_national": true,
+          "country": {
+            "name": "Algeria",
+            "code": "dz"
+          },
+          "url": "/en/team/algeria-women-27044",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 26,
+      "competitions": {
+        "72 | CAF World Cup Qualifying": 10,
+        "2755 | African Nations Championship": 5,
+        "2776 | FIFA Arab Cup": 4,
+        "49 | Africa Cup of Nations": 5,
+        "24 | International Friendlies": 2
+      }
+    },
+    {
+      "country": "Austria",
+      "query": "Austria national team",
+      "selected_team": {
+        "id": 117,
+        "name": "Austria",
+        "country": {
+          "name": "Austria",
+          "code": "at"
+        },
+        "url": "/en/team/austria-117",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 34
+        },
+        {
+          "id": 8183,
+          "name": "Austria Women",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-women-8183",
+          "candidate_score": 4
+        },
+        {
+          "id": 3329,
+          "name": "Austria U19",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-u19-3329",
+          "candidate_score": 4
+        },
+        {
+          "id": 491,
+          "name": "Austria Vienna",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-vienna-491",
+          "candidate_score": -100
+        },
+        {
+          "id": 1949,
+          "name": "Austria Lustenau",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-lustenau-1949",
+          "candidate_score": -100
+        },
+        {
+          "id": 1933,
+          "name": "Austria Salzburg",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-salzburg-1933",
+          "candidate_score": -100
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 22,
+      "competitions": {
+        "22 | Euro 2024 Qualifying": 8,
+        "20 | EURO 2024": 4,
+        "69 | UEFA World Cup Qualifying": 8,
+        "24 | International Friendlies": 2
+      }
+    },
+    {
+      "country": "Jordan",
+      "query": "Jordan national team",
+      "selected_team": {
+        "id": 777,
+        "name": "Jordan",
+        "country": {
+          "name": "Jordan",
+          "code": "jo"
+        },
+        "url": "/en/team/jordan-777",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 777,
+          "name": "Jordan",
+          "is_national": true,
+          "country": {
+            "name": "Jordan",
+            "code": "jo"
+          },
+          "url": "/en/team/jordan-777",
+          "candidate_score": 34
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 60203,
+          "name": "Jordan Women U20",
+          "is_national": true,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/jordan-women-u20-60203",
+          "candidate_score": -6
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        },
+        {
+          "id": 56758,
+          "name": "ACS Sport Team Bucureşti",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/acs-sport-team-bucuresti-56758",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 25,
+      "competitions": {
+        "73 | AFC Asian Qualifiers – Road to 26": 16,
+        "2776 | FIFA Arab Cup": 6,
+        "24 | International Friendlies": 3
+      }
+    },
+    {
+      "country": "Portugal",
+      "query": "Portugal national team",
+      "selected_team": {
+        "id": 43,
+        "name": "Portugal",
+        "country": {
+          "name": "Portugal",
+          "code": "pt"
+        },
+        "url": "/en/team/portugal-43",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 43,
+          "name": "Portugal",
+          "is_national": true,
+          "country": {
+            "name": "Portugal",
+            "code": "pt"
+          },
+          "url": "/en/team/portugal-43",
+          "candidate_score": 34
+        },
+        {
+          "id": 8196,
+          "name": "Portugal Women",
+          "is_national": true,
+          "country": {
+            "name": "Portugal",
+            "code": "pt"
+          },
+          "url": "/en/team/portugal-women-8196",
+          "candidate_score": 4
+        },
+        {
+          "id": 5122,
+          "name": "Portugal U20",
+          "is_national": true,
+          "country": {
+            "name": "Portugal",
+            "code": "pt"
+          },
+          "url": "/en/team/portugal-u20-5122",
+          "candidate_score": 4
+        },
+        {
+          "id": 4038,
+          "name": "Portugal U21",
+          "is_national": true,
+          "country": {
+            "name": "Portugal",
+            "code": "pt"
+          },
+          "url": "/en/team/portugal-u21-4038",
+          "candidate_score": 4
+        },
+        {
+          "id": 60689,
+          "name": "Portugal U20",
+          "is_national": true,
+          "country": {
+            "name": "Portugal",
+            "code": "pt"
+          },
+          "url": "/en/team/portugal-u20-60689",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 23,
+      "competitions": {
+        "22 | Euro 2024 Qualifying": 10,
+        "20 | EURO 2024": 5,
+        "69 | UEFA World Cup Qualifying": 6,
+        "24 | International Friendlies": 2
+      }
+    },
+    {
+      "country": "Congo DR",
+      "query": "DR Congo national team",
+      "selected_team": {
+        "id": 1384,
+        "name": "Congo",
+        "country": {
+          "name": "Congo (Brazzaville)",
+          "code": "cg"
+        },
+        "url": "/en/team/congo-1384",
+        "candidate_score": 32
+      },
+      "candidates": [
+        {
+          "id": 1384,
+          "name": "Congo",
+          "is_national": true,
+          "country": {
+            "name": "Congo (Brazzaville)",
+            "code": "cg"
+          },
+          "url": "/en/team/congo-1384",
+          "candidate_score": 32
+        },
+        {
+          "id": 895,
+          "name": "DR Congo",
+          "is_national": true,
+          "country": {
+            "name": "Congo (Kinshasa)",
+            "code": "cd"
+          },
+          "url": "/en/team/dr-congo-895",
+          "candidate_score": 28
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 57391,
+          "name": "DR Congo U20",
+          "is_national": true,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/dr-congo-u20-57391",
+          "candidate_score": -2
+        },
+        {
+          "id": 28048,
+          "name": "DR Congo Women",
+          "is_national": true,
+          "country": {
+            "name": "Congo (Kinshasa)",
+            "code": "cd"
+          },
+          "url": "/en/team/dr-congo-women-28048",
+          "candidate_score": -2
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 13,
+      "competitions": {
+        "72 | CAF World Cup Qualifying": 10,
+        "2755 | African Nations Championship": 3
+      }
+    },
+    {
+      "country": "Uzbekistan",
+      "query": "Uzbekistan national team",
+      "selected_team": {
+        "id": 592,
+        "name": "Uzbekistan",
+        "country": {
+          "name": "Uzbekistan",
+          "code": "uz"
+        },
+        "url": "/en/team/uzbekistan-592",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 592,
+          "name": "Uzbekistan",
+          "is_national": true,
+          "country": {
+            "name": "Uzbekistan",
+            "code": "uz"
+          },
+          "url": "/en/team/uzbekistan-592",
+          "candidate_score": 34
+        },
+        {
+          "id": 56740,
+          "name": "Uzbekistan Women U20",
+          "is_national": true,
+          "country": {
+            "name": "Uzbekistan",
+            "code": "uz"
+          },
+          "url": "/en/team/uzbekistan-women-u20-56740",
+          "candidate_score": 4
+        },
+        {
+          "id": 55669,
+          "name": "Uzbekistan Under 21",
+          "is_national": true,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/uzbekistan-under-21-55669",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 18,
+      "competitions": {
+        "73 | AFC Asian Qualifiers – Road to 26": 16,
+        "24 | International Friendlies": 2
+      }
+    },
+    {
+      "country": "Colombia",
+      "query": "Colombia national team",
+      "selected_team": {
+        "id": 118,
+        "name": "Colombia",
+        "country": {
+          "name": "Colombia",
+          "code": "co"
+        },
+        "url": "/en/team/colombia-118",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 118,
+          "name": "Colombia",
+          "is_national": true,
+          "country": {
+            "name": "Colombia",
+            "code": "co"
+          },
+          "url": "/en/team/colombia-118",
+          "candidate_score": 34
+        },
+        {
+          "id": 5131,
+          "name": "Colombia U20",
+          "is_national": true,
+          "country": {
+            "name": "Colombia",
+            "code": "co"
+          },
+          "url": "/en/team/colombia-u20-5131",
+          "candidate_score": 4
+        },
+        {
+          "id": 869,
+          "name": "Colombia Women",
+          "is_national": true,
+          "country": {
+            "name": "Colombia",
+            "code": "co"
+          },
+          "url": "/en/team/colombia-women-869",
+          "candidate_score": 4
+        },
+        {
+          "id": 8423,
+          "name": "Colombia U17",
+          "is_national": true,
+          "country": {
+            "name": "Colombia",
+            "code": "co"
+          },
+          "url": "/en/team/colombia-u17-8423",
+          "candidate_score": 4
+        },
+        {
+          "id": 6621,
+          "name": "Colombia U23",
+          "is_national": true,
+          "country": {
+            "name": "Colombia",
+            "code": "co"
+          },
+          "url": "/en/team/colombia-u23-6621",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 26,
+      "competitions": {
+        "74 | CONMEBOL World Cup Qualifying": 18,
+        "37 | Copa América": 6,
+        "24 | International Friendlies": 2
+      }
+    },
+    {
+      "country": "England",
+      "query": "England national team",
+      "selected_team": {
+        "id": 61,
+        "name": "England",
+        "country": {
+          "name": "England",
+          "code": "gb-eng"
+        },
+        "url": "/en/team/england-61",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 61,
+          "name": "England",
+          "is_national": true,
+          "country": {
+            "name": "England",
+            "code": "gb-eng"
+          },
+          "url": "/en/team/england-61",
+          "candidate_score": 34
+        },
+        {
+          "id": 1866,
+          "name": "England U21",
+          "is_national": true,
+          "country": {
+            "name": "England",
+            "code": "gb-eng"
+          },
+          "url": "/en/team/england-u21-1866",
+          "candidate_score": 4
+        },
+        {
+          "id": 875,
+          "name": "England Women",
+          "is_national": true,
+          "country": {
+            "name": "England",
+            "code": "gb-eng"
+          },
+          "url": "/en/team/england-women-875",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 854,
+          "name": "New England Revolution",
+          "is_national": false,
+          "country": {
+            "name": "United States of America",
+            "code": "us"
+          },
+          "url": "/en/team/new-england-revolution-854",
+          "candidate_score": -100
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17440,
+          "name": "New England Revolution II",
+          "is_national": false,
+          "country": {
+            "name": "United States of America",
+            "code": "us"
+          },
+          "url": "/en/team/new-england-revolution-ii-17440",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 25,
+      "competitions": {
+        "22 | Euro 2024 Qualifying": 8,
+        "20 | EURO 2024": 7,
+        "69 | UEFA World Cup Qualifying": 8,
+        "24 | International Friendlies": 2
+      }
+    },
+    {
+      "country": "Croatia",
+      "query": "Croatia national team",
+      "selected_team": {
+        "id": 99,
+        "name": "Croatia",
+        "country": {
+          "name": "Croatia",
+          "code": "hr"
+        },
+        "url": "/en/team/croatia-99",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 99,
+          "name": "Croatia",
+          "is_national": true,
+          "country": {
+            "name": "Croatia",
+            "code": "hr"
+          },
+          "url": "/en/team/croatia-99",
+          "candidate_score": 34
+        },
+        {
+          "id": 16019,
+          "name": "Croatia Women",
+          "is_national": true,
+          "country": {
+            "name": "Croatia",
+            "code": "hr"
+          },
+          "url": "/en/team/croatia-women-16019",
+          "candidate_score": 4
+        },
+        {
+          "id": 6656,
+          "name": "Croatia U19",
+          "is_national": true,
+          "country": {
+            "name": "Croatia",
+            "code": "hr"
+          },
+          "url": "/en/team/croatia-u19-6656",
+          "candidate_score": 4
+        },
+        {
+          "id": 11965,
+          "name": "Croatia U21",
+          "is_national": true,
+          "country": {
+            "name": "Croatia",
+            "code": "hr"
+          },
+          "url": "/en/team/croatia-u21-11965",
+          "candidate_score": 4
+        },
+        {
+          "id": 6199,
+          "name": "Croatia U17",
+          "is_national": true,
+          "country": {
+            "name": "Croatia",
+            "code": "hr"
+          },
+          "url": "/en/team/croatia-u17-6199",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 21,
+      "competitions": {
+        "22 | Euro 2024 Qualifying": 8,
+        "20 | EURO 2024": 3,
+        "69 | UEFA World Cup Qualifying": 8,
+        "24 | International Friendlies": 2
+      }
+    },
+    {
+      "country": "Ghana",
+      "query": "Ghana national team",
+      "selected_team": {
+        "id": 60,
+        "name": "Ghana",
+        "country": {
+          "name": "Ghana",
+          "code": "gh"
+        },
+        "url": "/en/team/ghana-60",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 60,
+          "name": "Ghana",
+          "is_national": true,
+          "country": {
+            "name": "Ghana",
+            "code": "gh"
+          },
+          "url": "/en/team/ghana-60",
+          "candidate_score": 34
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        },
+        {
+          "id": 56758,
+          "name": "ACS Sport Team Bucureşti",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/acs-sport-team-bucuresti-56758",
+          "candidate_score": -100
+        },
+        {
+          "id": 54972,
+          "name": "xBuyer Team",
+          "is_national": false,
+          "country": {
+            "name": "Spain",
+            "code": "es"
+          },
+          "url": "/en/team/xbuyer-team-54972",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 13,
+      "competitions": {
+        "72 | CAF World Cup Qualifying": 10,
+        "24 | International Friendlies": 3
+      }
+    },
+    {
+      "country": "Panama",
+      "query": "Panama national team",
+      "selected_team": {
+        "id": 1022,
+        "name": "Panama",
+        "country": {
+          "name": "Panama",
+          "code": "pa"
+        },
+        "url": "/en/team/panama-1022",
+        "candidate_score": 34
+      },
+      "candidates": [
+        {
+          "id": 1022,
+          "name": "Panama",
+          "is_national": true,
+          "country": {
+            "name": "Panama",
+            "code": "pa"
+          },
+          "url": "/en/team/panama-1022",
+          "candidate_score": 34
+        },
+        {
+          "id": 5118,
+          "name": "Panama U20",
+          "is_national": true,
+          "country": {
+            "name": "Panama",
+            "code": "pa"
+          },
+          "url": "/en/team/panama-u20-5118",
+          "candidate_score": 4
+        },
+        {
+          "id": 117,
+          "name": "Austria",
+          "is_national": true,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/austria-117",
+          "candidate_score": 0
+        },
+        {
+          "id": 7708,
+          "name": "Eastern",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/eastern-7708",
+          "candidate_score": -100
+        },
+        {
+          "id": 746,
+          "name": "Floridsdorfer AC",
+          "is_national": false,
+          "country": {
+            "name": "Austria",
+            "code": "at"
+          },
+          "url": "/en/team/floridsdorfer-ac-746",
+          "candidate_score": -100
+        },
+        {
+          "id": 7175,
+          "name": "CD Plaza Amador Panama City",
+          "is_national": false,
+          "country": {
+            "name": "Panama",
+            "code": "pa"
+          },
+          "url": "/en/team/cd-plaza-amador-panama-city-7175",
+          "candidate_score": -100
+        },
+        {
+          "id": 17204,
+          "name": "Altamura",
+          "is_national": false,
+          "country": {
+            "name": "Italy",
+            "code": "it"
+          },
+          "url": "/en/team/altamura-17204",
+          "candidate_score": -100
+        },
+        {
+          "id": 56845,
+          "name": "Team FC",
+          "is_national": false,
+          "country": {
+            "name": "",
+            "code": "zz"
+          },
+          "url": "/en/team/team-fc-56845",
+          "candidate_score": -100
+        }
+      ],
+      "match_count": 27,
+      "competitions": {
+        "71 | CONCACAF World Cup Qualifying": 10,
+        "37 | Copa América": 4,
+        "2730 | CONCACAF Nations League": 4,
+        "87 | CONCACAF Gold Cup": 4,
+        "24 | International Friendlies": 5
+      }
+    }
+  ]
+}

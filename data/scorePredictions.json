@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "week6-starter-v1",
+  "dataStatus": "starter",
+  "_comment": "Prototype score predictions for fixture planning and fantasy projections. These must stay clearly labeled as prototype estimates and must not use betting odds.",
+  "fixtureScorePredictions": [
+    {
+      "predictionId": "fwc2026-m001-score",
+      "fixtureId": "fwc2026-m001",
+      "matchdayId": "md1",
+      "team1Id": "mexico",
+      "team2Id": "south-africa",
+      "team1PredictedGoals": null,
+      "team2PredictedGoals": null,
+      "predictionStatus": "not_calculated",
+      "confidence": 0,
+      "formulaVersion": "score-prediction-v0",
+      "usesBettingOdds": false,
+      "sourceIds": [
+        "fifaRankings",
+        "fifaSchedule"
+      ],
+      "dataStatus": "schema_example",
+      "notes": "Example-only fixture prediction row. Fill after team strength and fixture difficulty are calculated."
+    }
+  ],
+  "playerScorePredictions": [
+    {
+      "predictionId": "example-player-001-fwc2026-m001",
+      "playerId": "example-player-001",
+      "fixtureId": "fwc2026-m001",
+      "matchdayId": "md1",
+      "projectedFantasyPoints": null,
+      "expectedMinutes": null,
+      "captainScore": null,
+      "valueScore": null,
+      "predictionStatus": "not_calculated",
+      "confidence": 0,
+      "formulaVersion": "player-projection-v0",
+      "usesBettingOdds": false,
+      "sourceIds": [
+        "fifaFantasy",
+        "localFplCoreInsights",
+        "fifaRankings",
+        "fifaSchedule"
+      ],
+      "dataStatus": "schema_example",
+      "notes": "Example-only player projection row. Do not display as advice until real inputs exist."
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "week6-starter-v1",
+  "dataStatus": "starter",
+  "_comment": "National-team roster records. These connect official squad status to fantasy players. Final roster data should come from FIFA or official federation sources.",
+  "rosters": [
+    {
+      "rosterRecordId": "mexico-example-player-001",
+      "teamId": "mexico",
+      "playerId": "example-player-001",
+      "displayName": "Example Player",
+      "shirtNumber": null,
+      "position": "MID",
+      "club": null,
+      "rosterStatus": "not_imported",
+      "isFinalSquad": false,
+      "sourceIds": [
+        "fifaSquads"
+      ],
+      "dataStatus": "schema_example",
+      "notes": "Example-only roster row. Use provisional/final/replacement when real squads are imported."
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "week6-starter-v1",
+  "dataStatus": "starter",
+  "_comment": "Official World Cup fantasy rules will live here after import. The existing root fantasyRules.json remains the current Week 5 draft rules until the site is wired to this file.",
+  "rulesVersion": "world-cup-2026-starter",
+  "rulesStatus": "not_imported",
+  "squad": {
+    "totalPlayers": null,
+    "positions": {
+      "GK": null,
+      "DEF": null,
+      "MID": null,
+      "FWD": null
+    }
+  },
+  "budget": {
+    "initialBudget": null,
+    "knockoutIncrease": null,
+    "currencyLabel": "m"
+  },
+  "countryLimits": {
+    "groupStageMaxPerCountry": null,
+    "knockoutLimits": {}
+  },
+  "captain": {
+    "captainRequired": null,
+    "captainPointsMultiplier": null
+  },
+  "transfers": {
+    "rulesStatus": "not_imported",
+    "details": []
+  },
+  "boosters": {
+    "rulesStatus": "not_imported",
+    "details": []
+  },
+  "scoring": {
+    "rulesStatus": "not_imported",
+    "categories": []
+  },
+  "sourceIds": [
+    "fifaFantasy"
+  ],
+  "notes": "Fill only from official FIFA fantasy rules or clearly labeled official summaries."
+}

@@ -4,6 +4,91 @@ Good data projects explain where the data came from.
 
 This file explains which data source we plan to use for the World Cup fantasy website, and which fields are still prototype fields.
 
+## Week 6 Team Data
+
+The new Week 6 team file is:
+
+- `data/teams.json`
+
+It now contains all 48 FIFA World Cup 2026 teams with groups, qualification status, FIFA ranking data, World Football Elo ratings, PELE ratings, and group-level prediction input fields.
+
+Sources used:
+
+- FIFA World Cup 2026 schedule and groups pages for team/group truth.
+- The existing FIFA API-derived `worldCupData.js` fixture snapshot for all 72 group-stage fixtures.
+- FIFA ranking API on `inside.fifa.com` for official FIFA ranking and ranking points.
+- OpenFootball 2026 `worldcup.json` for fixture/team cross-checking, matchday labels, and local UTC offsets.
+- `data/matchdays.json` groups the 72 group fixtures into prototype fantasy Matchday 1, Matchday 2, Matchday 3, and Full Group Stage buckets.
+- World Football Elo at `eloratings.net` for `team_elo`.
+- Fjelstul's World Cup database for historical World Cup appearances, match record, goals, clean sheets, knockout experience, titles, best performance, and recent performance.
+- PELE International Football Rankings from Silver Bulletin/Nate Silver, using the article's downloadable Datawrapper CSVs for rating, rank, Tilt, and round-robin offense/defense fields.
+- `team_quality_v2` is the active PELE-forward team-quality model. It gives PELE the dominant current-strength role while retaining current FIFA ranking points, World Football Elo, historical World Cup performance, knockout experience, and host status. The first PELE blend is preserved in `data/teamQuality_v1.json`; the pre-PELE model is preserved in `data/teamQuality_v0.json`.
+
+Detailed Week 6 source notes are in `data/dataSources.md`.
+
+## Recommendation UI Models
+
+The live homepage uses browser-ready generated files instead of fetching source JSON at runtime:
+
+- `financePlayersData.js`
+- `matchdayProjectionsData.js`
+- `scorePredictionsData.js`
+
+Captain Change Advisor v0 is a manual Quick Captain Switch Check. It uses the PELE-forward matchday projection files plus the user's manually entered current captain raw points. It does not invent live fantasy scores, full-squad membership, or played/unplayed status.
+
+Substitution Advisor v0 is a manual Quick Substitution Check. It uses the same browser-ready files plus the user's manually entered starter score. It checks one played starter against one unplayed bench candidate and flags different-position substitutions for manual formation review.
+
+Team Export JSON v1 records the current Team Builder state, active model versions, squad structure, portfolio analytics, locked/removed player context, and null-safe placeholders for future Captain Change and Substitution saved scenarios.
+
+## Week 6 Player Roster Data
+
+The new Week 6 player roster file is:
+
+- `data/players.json`
+
+It now contains 1,339 World Cup 2026 roster/player rows across all 48 teams.
+
+Sources used:
+
+- FIFA official World Cup 2026 squad announcement hub and linked squad articles for roster names, positions, and roster status where complete enough to parse.
+- World Cup 2026 Stats squad tracker for current club, age, caps, goals, captain flag, and fallback roster rows where FIFA coverage was incomplete.
+- NBC Sports 2026 World Cup squads tracker as a club and roster cross-check for published final squads.
+- FIFAWorldCupNews Ecuador preliminary squad article as an Ecuador-only fallback until an official Ecuador/FIFA final source is available.
+
+Important notes:
+
+- `league` is now filled for 451 source-backed Big 5 club matches and remains `null` for 888 players outside that matched set.
+- Every player now has a `national_team_profile` object. UEFA players have qualifier stats where safely matched; other confederations still need a later qualifier import.
+- Australia is only a partial train-on import and is marked `needs_check`.
+- FIFA's final published squad list should be checked after June 2, 2026 before using these rows for production fantasy recommendations.
+
+## Week 6 Player Performance Data
+
+The new Week 6 performance file is:
+
+- `data/playerPerformance.json`
+- `data/playerNationalTeamPerformance.json`
+- `data/statbunkerBig5Fantasy.json`
+
+It now contains 442 matched Big 5 league performance rows for World Cup roster players, one national-team profile per roster player, and 2,488 imported StatBunker fantasy-style source rows.
+
+Sources used:
+
+- Local FPL-Core-Insights 2025-2026 Premier League GW34 snapshot for minutes, starts, goals, assists, clean sheets, cards, saves, expected stats, fantasy fields, availability, set pieces, defensive contribution, and match-log aggregates.
+- Local `source-nationalities.csv` FBref-style Premier League export for appearances, minutes, starts, goals, assists, cards, and per-90 rates.
+- Understat Big 5 2025 season endpoints for appearances, minutes, goals, assists, xG, xA, shots, key passes, and cards across Premier League, La Liga, Bundesliga, Serie A, and Ligue 1.
+- UEFA European Qualifiers 2026 player statistics for UEFA national-team appearances, minutes, goals, assists, attempts, cards, distance, and top speed.
+- StatBunker fantasy-style league tables for current-season Premier League, La Liga, Serie A, and partial Ligue 1 starts, clean sheets, fantasy-style points, sub usage, goals conceded, penalties, and own goals.
+
+Important notes:
+
+- Numeric performance stats are only imported where a safe name-and-club match was found.
+- Starts and clean sheets remain `null` for Understat-only rows because that endpoint does not expose them, but StatBunker now fills these fields for matched current-season rows.
+- Bundesliga StatBunker data is previous-season 2024-2025 context only because a 2025-2026 Bundesliga fantasy table was not found in this scan.
+- Ligue 1 StatBunker current-season coverage is partial in this pass.
+- UEFA qualifier starts remain `null`; the starting signal is a minutes-per-appearance proxy, not an official lineup count.
+- Non-UEFA qualifier player stats are still pending.
+
 ## Main GitHub Source
 
 For the first real player database, the best source is:

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>World Cup Fantasy Helper | Captain Picks, Rankings, and Team Builder</title>
-    <meta name="description" content="Compare captain picks, player rankings, and squad ideas in a simple World Cup fantasy football hub. Public preview with test data while final squads and rules are pending." />
+    <meta name="description" content="Compare captain picks, player rankings, matchday opponents, finance-style risk metrics, and squad ideas in a World Cup fantasy football hub using prototype 2026 World Cup data." />
     <meta property="og:site_name" content="World Cup Fantasy Helper" />
     <meta property="og:title" content="World Cup Fantasy Helper" />
     <meta property="og:description" content="Compare captain picks, player rankings, and squad ideas in one simple fantasy football hub." />
@@ -22,7 +22,7 @@
         <p class="eyebrow">Public Preview</p>
         <h1>World Cup Fantasy Helper</h1>
         <p class="hero__text">
-          Compare captain picks, player rankings, and squad ideas in one simple fantasy football hub.
+          Compare captain picks, player rankings, matchday opponents, and squad ideas in one simple fantasy football hub.
         </p>
 
         <div class="hero__actions" aria-label="Homepage actions">
@@ -33,16 +33,16 @@
 
         <div class="hero-highlights" aria-label="Website highlights">
           <article>
-            <span>100</span>
-            <p>player data preview</p>
+            <span>1,335</span>
+            <p>position-ready player profiles</p>
           </article>
           <article>
             <span id="hero-squad-total">Rules</span>
             <p id="hero-squad-copy">squad builder from rules data</p>
           </article>
           <article>
-            <span>8</span>
-            <p>pick styles and risk checks</p>
+            <span>17</span>
+            <p>pick styles and finance checks</p>
           </article>
         </div>
       </div>
@@ -51,9 +51,9 @@
     <aside class="data-status" aria-label="Data status">
       <span class="data-status__label">Data status</span>
       <div class="data-status__body">
-        <p>This public preview currently uses a 100-player EPL/FPL-style test dataset while final World Cup squads, prices, and fantasy rules are pending.</p>
-        <p>Built so the same tools can be updated with World Cup data once official squads and fantasy rules are available.</p>
-        <p class="data-status__meta">Current snapshot: FPL-style GW34 test data. Page updated: May 13, 2026.</p>
+        <p>This public preview now uses the Week 6 World Cup data engine: rosters, teams, group fixtures, PELE-backed match environments, matchday-specific opponents, club performance, national-team usage, starter confidence, expected minutes, and finance-style fantasy risk metrics.</p>
+        <p>Official World Cup fantasy prices are still pending, so the Team Builder uses a clearly labeled proxy price only for prototype value-model testing.</p>
+        <p class="data-status__meta">Current snapshot: playerFinanceMetrics_v0, scorePredictions_v2, 1,339 roster players and 1,335 position-ready site players. Page updated: June 1, 2026.</p>
       </div>
     </aside>
 
@@ -72,7 +72,15 @@
           <p>Fast model-backed picks for your fantasy squad.</p>
         </div>
 
-        <p class="section-note">Current picks use test data. This section is designed to become World Cup-specific once official squads and fantasy rules are available.</p>
+        <p class="section-note">Current picks use prototype World Cup 2026 data, matchday-specific opponent adjustments, starter/minutes confidence, and finance-style risk metrics. Treat them as model-building recommendations until final squads, official fantasy prices, and rules are imported.</p>
+
+        <div class="trust-mode-bar">
+          <label class="control-group" for="quick-trust-mode-select">
+            <span>Recommendation Mode</span>
+            <select id="quick-trust-mode-select"></select>
+          </label>
+          <p id="trust-mode-summary" class="trust-mode-summary">Balanced mode keeps the experience smooth while still applying QA penalties.</p>
+        </div>
 
         <div id="dashboard-grid" class="dashboard-grid" aria-live="polite">
           <article class="info-card info-card--fallback">
@@ -103,8 +111,12 @@
         </summary>
 
         <div class="collapsible-body">
-          <div class="table-toolbar">
+          <div class="table-toolbar captain-toolbar">
             <p>Open the info button if you want the table definitions.</p>
+            <label class="control-group" for="captain-trust-mode-select">
+              <span>Recommendation Mode</span>
+              <select id="captain-trust-mode-select"></select>
+            </label>
             <button id="score-info-btn" class="info-button info-button--small" type="button" aria-expanded="false" aria-controls="score-info">
               ?
             </button>
@@ -115,6 +127,8 @@
             <p><strong>Reliability</strong> is a 0 to 100 score for how dependable the player looks based on playing time, availability, and data confidence.</p>
             <p><strong>Per 90</strong> estimates fantasy points if the player played a full 90 minutes.</p>
             <p><strong>Risk</strong> is a 0 to 100 score where lower is better. It combines injury/status risk, minutes risk, card risk, weekly volatility, and bad-week risk.</p>
+            <p><strong>QA</strong> shows data, role, risk, and fixture warnings that should be checked before trusting a recommendation.</p>
+            <p><strong>Trust Mode</strong> changes how strongly those QA warnings affect the ranking.</p>
           </div>
 
           <div class="table-wrapper">
@@ -129,17 +143,138 @@
                   <th>Reliability</th>
                   <th>Per 90</th>
                   <th>Risk</th>
+                  <th>QA</th>
                 </tr>
               </thead>
               <tbody id="captain-table-body">
                 <tr class="fallback-table-row">
-                  <td colspan="8">Enable JavaScript to see captain rankings from the current fantasy dataset.</td>
+                  <td colspan="9">Enable JavaScript to see captain rankings from the current fantasy dataset.</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
       </details>
+
+      <section id="captain-change-advisor" class="panel captain-change-panel">
+        <div class="section-heading">
+          <h2>Captain Change Advisor</h2>
+          <p>Manual switch check for the next captain in the same matchday.</p>
+        </div>
+
+        <details class="captain-change-guide">
+          <summary>How to use this check</summary>
+          <ol>
+            <li>Choose the matchday and enter your current captain's raw points before the captain double.</li>
+            <li>Pick one replacement captain who is in your squad and has not played yet.</li>
+            <li>Use Balanced by default. Safer protects a good current score; Upside is only for chasing.</li>
+          </ol>
+        </details>
+
+        <form id="captain-change-form" class="captain-change-form">
+          <label class="control-group" for="captain-change-matchday-select">
+            <span>Matchday</span>
+            <select id="captain-change-matchday-select"></select>
+          </label>
+
+          <label class="control-group" for="captain-change-current-player-input">
+            <span>Current Captain</span>
+            <input id="captain-change-current-player-input" type="text" list="captain-change-player-list" placeholder="Search current captain" autocomplete="off" />
+          </label>
+
+          <label class="control-group" for="captain-change-current-points-input">
+            <span>Raw Points</span>
+            <input id="captain-change-current-points-input" type="number" min="0" step="0.5" inputmode="decimal" placeholder="0" />
+            <small class="control-helper">Use points before the captain double.</small>
+          </label>
+
+          <label class="control-group" for="captain-change-candidate-input">
+            <span>New Captain</span>
+            <input id="captain-change-candidate-input" type="text" list="captain-change-player-list" placeholder="Search replacement" autocomplete="off" />
+          </label>
+
+          <label class="control-group" for="captain-change-risk-select">
+            <span>Risk Style</span>
+            <select id="captain-change-risk-select">
+              <option value="balanced">Balanced</option>
+              <option value="safer">Safer</option>
+              <option value="upside">Upside</option>
+            </select>
+          </label>
+
+          <div class="captain-change-actions">
+            <button id="captain-change-check-btn" class="builder-action-button captain-change-button" type="submit">Check Switch</button>
+            <button id="captain-change-reset-btn" class="utility-button" type="button">Reset</button>
+          </div>
+
+          <datalist id="captain-change-player-list"></datalist>
+        </form>
+
+        <div id="captain-change-result" class="captain-change-result captain-change-result--empty" aria-live="polite">
+          <strong>Enter a current raw score and a replacement captain.</strong>
+          <p>The replacement should be in your squad and still unplayed in the selected matchday.</p>
+        </div>
+      </section>
+
+      <section id="substitution-advisor" class="panel substitution-advisor-panel">
+        <div class="section-heading">
+          <h2>Substitution Advisor</h2>
+          <p>Manual quick check for one played starter against one unplayed bench player.</p>
+        </div>
+
+        <details class="captain-change-guide substitution-advisor-guide">
+          <summary>How to use this check</summary>
+          <ol>
+            <li>Choose the matchday and enter the starter's raw points after that player has played.</li>
+            <li>Pick one bench player who is in your squad and has not played yet.</li>
+            <li>Check your fantasy formation rules before making a different-position substitution.</li>
+          </ol>
+        </details>
+
+        <form id="substitution-advisor-form" class="captain-change-form substitution-advisor-form">
+          <label class="control-group" for="substitution-advisor-matchday-select">
+            <span>Matchday</span>
+            <select id="substitution-advisor-matchday-select"></select>
+          </label>
+
+          <label class="control-group" for="substitution-advisor-starter-input">
+            <span>Played Starter</span>
+            <input id="substitution-advisor-starter-input" type="text" list="substitution-advisor-player-list" placeholder="Search starter" autocomplete="off" />
+          </label>
+
+          <label class="control-group" for="substitution-advisor-points-input">
+            <span>Raw Points</span>
+            <input id="substitution-advisor-points-input" type="number" min="0" step="0.5" inputmode="decimal" placeholder="0" />
+            <small class="control-helper">Use the starter's actual fantasy score.</small>
+          </label>
+
+          <label class="control-group" for="substitution-advisor-bench-input">
+            <span>Bench Player</span>
+            <input id="substitution-advisor-bench-input" type="text" list="substitution-advisor-player-list" placeholder="Search bench player" autocomplete="off" />
+          </label>
+
+          <label class="control-group" for="substitution-advisor-risk-select">
+            <span>Risk Style</span>
+            <select id="substitution-advisor-risk-select">
+              <option value="balanced">Balanced</option>
+              <option value="safer">Safer</option>
+              <option value="upside">Upside</option>
+            </select>
+          </label>
+
+          <div class="captain-change-actions substitution-advisor-actions">
+            <button id="substitution-advisor-check-btn" class="builder-action-button captain-change-button substitution-advisor-button" type="submit">Check Sub</button>
+            <button id="substitution-advisor-reset-btn" class="utility-button" type="button">Reset</button>
+          </div>
+
+          <datalist id="substitution-advisor-player-list"></datalist>
+        </form>
+
+        <div id="substitution-advisor-result" class="captain-change-result substitution-advisor-result captain-change-result--empty" aria-live="polite">
+          <strong>Enter a played starter score and one bench candidate.</strong>
+          <p>The bench player should be in your squad and still unplayed in the selected matchday.</p>
+        </div>
+      </section>
 
       <details id="team-advice" class="panel collapsible-panel">
         <summary class="collapsible-summary">
@@ -169,6 +304,27 @@
               </select>
             </label>
 
+            <label class="control-group" for="advice-matchday-select">
+              <span>Matchday</span>
+              <select id="advice-matchday-select"></select>
+              <small class="control-helper">Matchday views adjust each player for the actual group opponent.</small>
+            </label>
+
+            <label class="control-group" for="advice-trust-mode-select">
+              <span>Recommendation Mode</span>
+              <select id="advice-trust-mode-select"></select>
+              <small class="control-helper">Safer Picks lowers risk; High Upside and Punts tolerate more uncertainty.</small>
+            </label>
+
+            <label class="control-group" for="advice-pool-select">
+              <span>Recommendation Pool</span>
+              <select id="advice-pool-select">
+                <option value="playable">Playable recommendations</option>
+                <option value="watchlist">Include watchlist punts</option>
+              </select>
+              <small class="control-helper">Playable hides QA-review and watchlist-only players; watchlist mode shows the broader punt pool.</small>
+            </label>
+
             <p id="advice-style-note">Simple player notes using projected points and risk scores.</p>
           </div>
 
@@ -183,18 +339,65 @@
                   <th>Style Score</th>
                   <th>Projected</th>
                   <th>Risk</th>
+                  <th>QA</th>
                   <th>Reason</th>
                 </tr>
               </thead>
               <tbody id="advice-table-body">
                 <tr class="fallback-table-row">
-                  <td colspan="8">Enable JavaScript to see player advice by style, position, projected points, and risk.</td>
+                  <td colspan="9">Enable JavaScript to see player advice by style, position, projected points, and risk.</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
       </details>
+
+      <section id="match-environment" class="panel">
+        <div class="section-heading">
+          <h2>Match Environment</h2>
+          <p>Fixture-level expected goals, clean-sheet probability, and upset risk from the prototype score model.</p>
+        </div>
+
+        <div class="table-toolbar match-environment-toolbar">
+          <label class="control-group" for="environment-matchday-select">
+            <span>Matchday</span>
+            <select id="environment-matchday-select"></select>
+          </label>
+
+          <label class="control-group" for="environment-group-select">
+            <span>Group</span>
+            <select id="environment-group-select"></select>
+          </label>
+
+          <label class="control-group" for="environment-filter-select">
+            <span>Signal</span>
+            <select id="environment-filter-select"></select>
+          </label>
+        </div>
+
+        <div id="match-environment-summary" class="environment-summary" aria-live="polite"></div>
+
+        <div class="table-wrapper match-environment-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Fixture</th>
+                <th>Model xG</th>
+                <th>Favorite</th>
+                <th>Clean Sheet</th>
+                <th>Goal Env</th>
+                <th>Upset Risk</th>
+              </tr>
+            </thead>
+            <tbody id="match-environment-table-body">
+              <tr class="fallback-table-row">
+                <td colspan="6">Enable JavaScript to see match environment predictions.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       <section id="team-builder" class="panel panel--team">
         <div class="section-heading">
@@ -253,6 +456,45 @@
                     <small class="control-helper">Advanced styles use risk-adjusted scoring to compare players with different reliability and downside risk.</small>
                   </label>
 
+                  <label class="control-group" for="builder-matchday-select">
+                    <span>Matchday</span>
+                    <select id="builder-matchday-select"></select>
+                    <small class="control-helper">Use Full Group Stage for squad balance, or a single matchday for opponent-specific picks.</small>
+                  </label>
+
+                  <label class="control-group" for="builder-trust-mode-select">
+                    <span>Recommendation Mode</span>
+                    <select id="builder-trust-mode-select"></select>
+                    <small class="control-helper">Balanced is smoothest. Safer Picks strongly prefers higher-confidence fills without blocking the squad builder.</small>
+                  </label>
+
+                  <label class="control-group" for="min-start-filter">
+                    <span>Minimum Start %</span>
+                    <input id="min-start-filter" type="number" min="0" max="100" step="5" placeholder="No min" />
+                    <small class="control-helper">Suggested fill-ins must meet this start probability; locked players stay visible.</small>
+                  </label>
+
+                  <label class="control-group" for="min-minutes-filter">
+                    <span>Minimum Minutes</span>
+                    <input id="min-minutes-filter" type="number" min="0" max="120" step="5" placeholder="No min" />
+                    <small class="control-helper">Suggested fill-ins must meet this expected-minutes floor.</small>
+                  </label>
+
+                  <label class="control-group" for="max-qa-review-filter">
+                    <span>QA Review Limit</span>
+                    <input id="max-qa-review-filter" type="number" min="0" max="15" step="1" placeholder="No max" />
+                    <small class="control-helper">Advanced. Leave blank for smoother builds; 0 can make squads incomplete.</small>
+                  </label>
+
+                  <label class="control-group control-group--checkbox" for="allow-risky-picks-toggle">
+                    <span>Risk Tolerance</span>
+                    <span class="checkbox-control">
+                      <input id="allow-risky-picks-toggle" type="checkbox" checked />
+                      <span>Include risky fill-ins</span>
+                    </span>
+                    <small class="control-helper">Recommended while data is provisional. Turn off only if you accept fewer options.</small>
+                  </label>
+
                   <label class="control-group" for="min-price-filter">
                     <span>Minimum Price</span>
                     <input id="min-price-filter" type="number" min="0" step="0.1" placeholder="No min" />
@@ -265,7 +507,7 @@
                 </div>
 
                 <p class="filter-note">
-                  These filters change the lock list and the suggested fill-in players.
+                  These filters change the lock list and the suggested fill-in players. Locked players stay visible even when they break a risk control. Advanced risk limits can make a squad incomplete, so the builder warns clearly and blocks partial exports.
                 </p>
               </details>
 
@@ -332,6 +574,18 @@
               <div id="country-counts-list" class="country-counts-list"></div>
             </div>
 
+            <section id="portfolio-analytics" class="portfolio-analytics" aria-live="polite">
+              <div class="portfolio-analytics__heading">
+                <div>
+                  <h3>Squad Portfolio Analytics</h3>
+                  <p id="portfolio-summary">Build a squad to see expected return, downside risk, QA load, and fixture concentration.</p>
+                </div>
+                <span id="portfolio-risk-label">Waiting</span>
+              </div>
+              <div id="portfolio-metrics" class="portfolio-metrics"></div>
+              <div id="portfolio-warnings" class="portfolio-warnings"></div>
+            </section>
+
             <!-- JavaScript fills this field with starter cards after players are locked or the button is clicked. -->
             <div id="team-field" class="soccer-field hidden" aria-live="polite">
               <div class="field-markings">
@@ -373,7 +627,7 @@
         <div class="fixture-gateway">
           <div class="section-heading">
             <h2>World Cup Fixtures</h2>
-            <p>See the tournament groups, tournament structure, and bracket shell on the World Cup page. Fantasy picks are not fixture-adjusted yet.</p>
+            <p>See the tournament groups, tournament structure, and bracket shell on the World Cup page. Homepage picks now include prototype matchday opponent adjustments.</p>
           </div>
 
           <div class="fixture-facts" aria-label="World Cup 2026 facts">
@@ -407,24 +661,24 @@
         <div class="collapsible-body">
           <div class="method-grid">
             <article class="method-card">
-              <h3>1. Player Identity Data</h3>
-              <p><strong>Source:</strong> FPL-Core-Insights, documented in <code>dataSources.md</code>.</p>
-              <p><strong>Used for:</strong> player name, club, position, price, total points, minutes, starts, goals, assists, clean sheets, cards, saves, expected goals, expected assists, status, and fantasy-style fields.</p>
-              <p><strong>GitHub:</strong> <a href="https://github.com/olbauday/FPL-Core-Insights">FPL-Core-Insights</a></p>
+              <h3>1. World Cup Player Base</h3>
+              <p><strong>Source:</strong> <code>data/players.json</code>, <code>data/teams.json</code>, <code>data/fixtures.json</code>, and source notes in <code>data/dataSources.md</code>.</p>
+              <p><strong>Used for:</strong> player name, country, team, group, roster status, position, club, league, team quality, and group-stage fixture context.</p>
+              <p><strong>Important:</strong> some squads are still preliminary or tracker-based until final official World Cup squad releases are complete.</p>
             </article>
 
             <article class="method-card">
-              <h3>2. Country And Extra Stats</h3>
-              <p><strong>Source:</strong> local file <code>source-nationalities.csv</code>.</p>
-              <p><strong>Used for:</strong> country, FBref-style position detail, age, appearances, starts, minutes, 90s, goals, assists, non-penalty goals, penalties, cards, and per-90 attacking stats.</p>
-              <p><strong>Important:</strong> this file enriches the player list. It is not the original source for names, clubs, or prices.</p>
+              <h3>2. Performance Matching</h3>
+              <p><strong>Source:</strong> <code>data/playerRecommendationInputs_v0.json</code> and the club/national-team sources documented in <code>data/dataSources.md</code>.</p>
+              <p><strong>Used for:</strong> club minutes, starts, goals, assists, clean sheets, cards, selected attacking stats, national-team qualifier usage, caps signals, starter confidence, expected minutes, and data confidence.</p>
+              <p><strong>Important:</strong> weak-source and estimated-minute rows stay in the model, but they carry lower confidence and higher source risk.</p>
             </article>
 
             <article class="method-card">
-              <h3>3. Scoring Rules Model</h3>
-              <p><strong>Source idea:</strong> UEFA EURO 2024 fantasy rules.</p>
-              <p><strong>Used for:</strong> the point weights for goals, assists, clean sheets, saves, recoveries, cards, penalties, and goals conceded.</p>
-              <p><strong>Rules link:</strong> <a href="https://www.uefa.com/uefaeuro/history/news/0268-121c6d842f48-45f4db182115-1000--euro-2024-fantasy-football-rules/">UEFA EURO fantasy rules</a></p>
+              <h3>3. Finance Risk Model</h3>
+              <p><strong>Source:</strong> <code>data/playerFinanceMetrics_v0.json</code> and <code>data/fantasyFinanceModel_v0.md</code>.</p>
+              <p><strong>Used for:</strong> expected return, volatility, downside deviation, VaR, CVaR, bad-week probability, Sharpe-style score, Sortino-style score, Omega-style score, and strategy tilts.</p>
+              <p><strong>Important:</strong> official World Cup fantasy prices are not imported yet, so price-adjusted return fields remain blank in the source model.</p>
             </article>
           </div>
 
@@ -665,25 +919,29 @@
             <p>These labels appear in the dashboard, captain table, team advice table, lock-player list, and team builder cards. They are listed here at the end because they combine the source fields and calculated fields above.</p>
 
             <div class="formula-list">
-              <p><strong>Price:</strong> fantasy-style player price from the source data. The builder shows total team price, but it does not enforce a budget yet.</p>
-              <p><strong>Captain Score:</strong> a stable captain shortlist score using projected points, reliability, and a small risk penalty.</p>
-              <p><strong>Reliability:</strong> a 0 to 100 score for playing-time confidence. It combines sample size, availability, and minutes security.</p>
-              <p><strong>Per 90:</strong> estimated fantasy performance for a full 90 minutes before the confidence adjustment.</p>
-              <p><strong>Risk:</strong> a composite score from availability, minutes, discipline, volatility, and bad-week risk. Lower is better. In this public preview, read risk relative to the loaded test dataset rather than as a final World Cup warning.</p>
-              <p><strong>Style Score:</strong> the score for the selected pick style, such as Best Overall, Projected Points, Reliable Pick, Upside Pick, Likely Minutes, Risk-Adjusted Pick (Sharpe-style), Downside Protection Pick (Sortino-style), or Avoid Bad Weeks (low tail-risk).</p>
-              <p><strong>Projected:</strong> risk-adjusted expected points for one appearance.</p>
-              <p><strong>Best Value:</strong> selected pick style score divided by player price.</p>
-              <p><strong>Highest Risk In Test Data:</strong> selects the player with the highest composite risk in the loaded test dataset. It does not mean the player is unusable. It means check role, minutes, and availability before relying on them.</p>
+              <p><strong>Price:</strong> official World Cup fantasy prices are pending. The current builder shows <code>proxy_price_v1</code>, a prototype placeholder used only to test budget and value logic.</p>
+              <p><strong>Captain Score:</strong> a captain shortlist score using expected return, risk-adjusted return, reliability, composite risk, and tail risk.</p>
+              <p><strong>Reliability:</strong> a 0 to 100 minutes-security score from club minutes, starts, national-team usage, source confidence, and availability-style risk.</p>
+              <p><strong>Start %:</strong> prototype probability that the player starts for his country in the selected matchday view.</p>
+              <p><strong>Expected Minutes:</strong> prototype minutes estimate using national-team usage first, then club usage, roster status, captain signal, and country position depth.</p>
+              <p><strong>Substitution Risk:</strong> a 0 to 100 risk score for limited minutes, bench role, or early substitution. Lower is better.</p>
+              <p><strong>Per 90:</strong> modeled fantasy upside if the player played a full 90 minutes.</p>
+              <p><strong>Risk:</strong> a composite score from source risk, minutes uncertainty, volatility, downside risk, fixture risk, discipline, and bad-week probability. Lower is better.</p>
+              <p><strong>Style Score:</strong> the score for the selected pick style, such as Best Overall, Projected Points, Reliable Pick, Upside Pick, Likely Minutes, Best Value Prototype, Cheap Enabler, Premium Worth It, Sharpe-style, Sortino-style, VaR, CVaR, Omega-style, Attack Heavy, Defensive Heavy, or Very Risky Upside.</p>
+              <p><strong>Projected:</strong> risk-adjusted expected fantasy points for one group-stage match.</p>
+              <p><strong>VaR And CVaR:</strong> downside floor measures. VaR is the modeled 10th percentile outcome, and CVaR is the modeled average of the worst 20% of outcomes.</p>
+              <p><strong>Attack Heavy:</strong> tilts toward attacking players and attacking defenders with strong goal, assist, shot, and upside signals.</p>
+              <p><strong>Very Risky Upside:</strong> intentionally searches for boom-or-bust players. It is useful for aggressive watchlists, not safe default picks.</p>
             </div>
 
             <details class="stat-example">
               <summary>Example: Price</summary>
-              <p>If a player has price <code>7.5</code>, the site shows <code>$7.5</code>. If 11 selected players add to 82.0, total team price shows <code>$82.0</code>.</p>
+              <p>Until official prices are imported, each player uses <code>proxy_price_v1</code>. It is built from position, role-adjusted expected return, starter confidence, expected minutes, team quality, and risk. It is not an official price.</p>
             </details>
 
             <details class="stat-example">
               <summary>Example: Captain Score</summary>
-              <p>If a player has projected points of 5.4, reliability of 82, and risk of 30, then Captain Score = <code>5.4 x 10 + 82 x 0.35 - 30 x 0.08 = 80.3</code>.</p>
+              <p>If a player has expected return of 5.4, risk-adjusted return of 4.8, reliability of 82, risk of 30, and tail risk of 20, the captain score rewards the returns and reliability, then subtracts risk penalties.</p>
             </details>
 
             <details class="stat-example">
@@ -733,7 +991,7 @@
 
             <details class="stat-example">
               <summary>Example: Avoid Bad Weeks (low tail-risk)</summary>
-              <p>If tail risk = 20 and expected points = 4, Avoid Bad Weeks score = <code>(100 - 20) + 4 x 5 = 100</code>. It looks for players less likely to produce a very poor score.</p>
+              <p>If tail risk is low, VaR is positive, and CVaR is not painful, Avoid Bad Weeks likes the player even if another player has flashier upside.</p>
             </details>
 
             <details class="stat-example">
@@ -748,17 +1006,17 @@
 
             <details class="stat-example">
               <summary>Example: Projected</summary>
-              <p>If confidence-adjusted expected points are 5.0 and risk is 30, Projected = <code>5.0 x (1 - 30 / 150) = 4.0</code>.</p>
+              <p>If expected return is 5.0 and the risk-adjusted return is 4.0, the page shows the risk-adjusted number as Projected because it is closer to the practical fantasy recommendation.</p>
             </details>
 
             <details class="stat-example">
-              <summary>Example: Best Value</summary>
-              <p>If Player A has style score 80 and price 10, value = <code>80 / 10 = 8</code>. If Player B has style score 60 and price 5, value = <code>60 / 5 = 12</code>, so Player B is better value even with a lower raw score.</p>
+              <summary>Example: VaR and CVaR</summary>
+              <p>If VaR is <code>2.0</code>, the modeled bad-outcome cutoff is still positive. If CVaR is <code>-3.0</code>, the worst-outcome basket is much weaker, even if the headline projection looks useful.</p>
             </details>
 
             <details class="stat-example">
-              <summary>Example: Highest Risk In Test Data</summary>
-              <p>Highest Risk In Test Data selects the player with the highest composite risk in the loaded test dataset. It does not mean the player is unusable. It means check role, minutes, and availability before relying on them.</p>
+              <summary>Example: Very Risky Upside</summary>
+              <p>A player can rank well here because the model sees high upside and volatility together. That makes the player interesting for an aggressive portfolio, but not automatically a safe starter.</p>
             </details>
           </div>
 
@@ -778,11 +1036,11 @@
         <div class="trust-grid">
           <article>
             <h3>Current Preview</h3>
-            <p>This public preview uses a 100-player EPL/FPL-style test dataset so the tools can be tested before final World Cup squads, prices, and fantasy rules are available.</p>
+            <p>This public preview uses the Week 6 World Cup data engine: real teams, group fixtures, roster candidates, performance matching, national-team usage, and prototype finance metrics.</p>
           </article>
           <article>
             <h3>World Cup Data Plan</h3>
-            <p>The current player list, prices, clubs, and model fields are for preview use. The data will be replaced or expanded when reliable World Cup squads and official fantasy information are available.</p>
+            <p>The current player list and model fields are usable for model testing. Official fantasy prices, final squads, and final scoring rules still need to be imported when available.</p>
           </article>
           <article>
             <h3>Independence</h3>
@@ -823,15 +1081,15 @@
           </article>
           <article>
             <h3>Current Status</h3>
-            <p>The site is structured to become World Cup-specific once official squads, player prices, fixtures, and fantasy rules are available. For now, current picks use test data, so they should be treated as a preview of the tools rather than final World Cup recommendations.</p>
+            <p>The site is now World Cup-specific for teams, fixtures, roster candidates, performance matching, and prototype finance metrics. Current picks are still model-building recommendations until final official squads, fantasy prices, and fantasy rules are available.</p>
           </article>
           <article>
             <h3>Known Limits</h3>
             <ul class="compact-list">
-              <li>Final World Cup squads are not loaded yet.</li>
+              <li>Some roster rows are preliminary, likely, or need manual checking.</li>
               <li>Official fantasy prices and rules are pending.</li>
-              <li>Fixture-adjusted fantasy advice and matchday-specific captain picks are not loaded yet.</li>
-              <li>The current model uses available test data and estimated risk fields.</li>
+              <li>Price-adjusted return is intentionally blank until official prices exist.</li>
+              <li>The current model uses estimated minutes and weak-source data where stronger data is not yet available.</li>
             </ul>
           </article>
         </div>
@@ -843,7 +1101,7 @@
       <div class="site-footer__inner">
         <div>
           <h2>World Cup Fantasy Helper</h2>
-          <p>Independent fantasy football tools for picks, rankings, and squad ideas. Public preview using test data while final World Cup fantasy information is pending.</p>
+          <p>Independent fantasy football tools for picks, rankings, and squad ideas. Public preview using prototype World Cup 2026 data while final fantasy prices and rules are pending.</p>
           <p class="site-footer__note">Not official FIFA fantasy advice. No betting or gambling content.</p>
         </div>
 
@@ -851,6 +1109,9 @@
           <a href="#top">Home</a>
           <a href="#quick-picks">Quick Picks</a>
           <a href="#captain-picks">Captain Picks</a>
+          <a href="#captain-change-advisor">Captain Change</a>
+          <a href="#substitution-advisor">Substitution</a>
+          <a href="#match-environment">Match Environment</a>
           <a href="#team-builder">Team Builder</a>
           <a href="world-cup.html">World Cup Fixtures</a>
           <a href="#data-sources">Data Sources</a>
@@ -861,6 +1122,26 @@
       </div>
     </footer>
 
+    <div id="player-detail-modal" class="player-detail-modal hidden" role="dialog" aria-modal="true" aria-labelledby="player-detail-title">
+      <div class="player-detail-backdrop" data-close-player-detail></div>
+      <section class="player-detail-panel" tabindex="-1">
+        <header class="player-detail-header">
+          <div>
+            <p id="player-detail-kicker" class="player-detail-kicker">Player Profile</p>
+            <h2 id="player-detail-title">Player Profile</h2>
+            <p id="player-detail-subtitle"></p>
+          </div>
+          <button id="player-detail-close" class="player-detail-close" type="button" aria-label="Close player profile" data-close-player-detail>
+            X
+          </button>
+        </header>
+        <div id="player-detail-body" class="player-detail-body"></div>
+      </section>
+    </div>
+
+    <script src="financePlayersData.js"></script>
+    <script src="matchdayProjectionsData.js"></script>
+    <script src="scorePredictionsData.js"></script>
     <script src="playersData.js"></script>
     <script src="fantasyRulesData.js"></script>
     <script src="script.js"></script>

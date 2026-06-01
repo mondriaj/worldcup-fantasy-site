@@ -1,0 +1,1255 @@
+{
+  "schemaVersion": "week6-onefootball-all-import-report-v1",
+  "generated_at": "2026-05-31T21:46:35.237Z",
+  "source_checked": "2026-05-31",
+  "source_id": "oneFootballWebStats",
+  "source_policy": "OneFootball public web/app endpoints are used as a supplemental source. Minutes are estimated from lineups and substitution clocks. Keep source priority and confidence flags before production recommendations.",
+  "summary": {
+    "target_leagues": 30,
+    "metadata_failures": 0,
+    "matches_seen": 6987,
+    "full_time_matches_seen": 6941,
+    "match_pages_ok": 6941,
+    "match_pages_failed": 0,
+    "match_player_rows_parsed_in_memory": 213174,
+    "season_player_rows": 15689,
+    "league_leaderboard_rows": 2205,
+    "standings_rows": 702,
+    "team_match_stat_rows": 25464,
+    "roster_season_matches": 801,
+    "roster_match_player_rows": 18127,
+    "high_confidence_roster_matches": 733,
+    "review_roster_matches": 68,
+    "roster_countries_matched": 45,
+    "roster_countries": [
+      "Algeria",
+      "Argentina",
+      "Australia",
+      "Austria",
+      "Belgium",
+      "Bosnia and Herzegovina",
+      "Brazil",
+      "Cabo Verde",
+      "Canada",
+      "Colombia",
+      "Congo DR",
+      "Croatia",
+      "Curaçao",
+      "Czechia",
+      "Côte d'Ivoire",
+      "Ecuador",
+      "Egypt",
+      "England",
+      "France",
+      "Germany",
+      "Haiti",
+      "IR Iran",
+      "Japan",
+      "Korea Republic",
+      "Mexico",
+      "Morocco",
+      "Netherlands",
+      "New Zealand",
+      "Norway",
+      "Panama",
+      "Paraguay",
+      "Portugal",
+      "Qatar",
+      "Saudi Arabia",
+      "Scotland",
+      "Senegal",
+      "South Africa",
+      "Spain",
+      "Sweden",
+      "Switzerland",
+      "Tunisia",
+      "Türkiye",
+      "USA",
+      "Uruguay",
+      "Uzbekistan"
+    ]
+  },
+  "target_leagues": [
+    {
+      "country": "Argentina",
+      "query": "Argentine Liga Profesional",
+      "competition_id": 83,
+      "competition_name": "Liga Profesional Argentina",
+      "competition_country": "Argentina",
+      "competition_url": "https://onefootball.com/en/competition/liga-profesional-argentina-83",
+      "season_id": "43311",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/83/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/83/43311/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/83/43311/standings.json",
+      "existing_source": "espn",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Australia",
+      "query": "A-League Men",
+      "competition_id": 84,
+      "competition_name": "A-League Men",
+      "competition_country": "Australia",
+      "competition_url": "https://onefootball.com/en/competition/a-league-men-84",
+      "season_id": "43216",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/84/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/84/43216/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/84/43216/standings.json",
+      "existing_source": "espn",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 18
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Austria",
+      "query": "Austrian Bundesliga",
+      "competition_id": 26,
+      "competition_name": "Austrian Bundesliga",
+      "competition_country": "Austria",
+      "competition_url": "https://onefootball.com/en/competition/austrian-bundesliga-26",
+      "season_id": "43077",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/26/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/26/43077/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/26/43077/standings.json",
+      "existing_source": "espn",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Belgium",
+      "query": "Belgian Pro League",
+      "competition_id": 58,
+      "competition_name": "Pro League",
+      "competition_country": "Belgium",
+      "competition_url": "https://onefootball.com/en/competition/pro-league-58",
+      "season_id": "43056",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/58/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/58/43056/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/58/43056/standings.json",
+      "existing_source": "espn",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Brazil",
+      "query": "Brasileirao",
+      "competition_id": 16,
+      "competition_name": "Brasileirão Betano",
+      "competition_country": "Brazil",
+      "competition_url": "https://onefootball.com/en/competition/brasileirao-betano-16",
+      "season_id": "43318",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/16/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/16/43318/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/16/43318/standings.json",
+      "existing_source": "espn",
+      "leaderboard_groups_available": {
+        "scorers": 0,
+        "assists": 0,
+        "goal_assists": 0,
+        "yellow_cards": 0,
+        "red_cards": 0
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Colombia",
+      "query": "Colombian Primera A",
+      "competition_id": 109,
+      "competition_name": "Primera A",
+      "competition_country": "Colombia",
+      "competition_url": "https://onefootball.com/en/competition/primera-a-109",
+      "season_id": "43326",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/109/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/109/43326/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/109/43326/standings.json",
+      "existing_source": "espn",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Costa Rica",
+      "query": "Liga FPD Costa Rica",
+      "competition_id": 2716,
+      "competition_name": "Liga FPD",
+      "competition_country": "Costa Rica",
+      "competition_url": "https://onefootball.com/en/competition/liga-fpd-2716",
+      "season_id": "43104",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/2716/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/2716/43104/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/2716/43104/standings.json",
+      "existing_source": "espn_zero_roster_matches",
+      "leaderboard_groups_available": {
+        "scorers": 0,
+        "assists": 0,
+        "goal_assists": 0,
+        "yellow_cards": 0,
+        "red_cards": 0
+      },
+      "sample_match_has_team_stats": false
+    },
+    {
+      "country": "Denmark",
+      "query": "Superligaen Denmark",
+      "competition_id": 57,
+      "competition_name": "Superligaen",
+      "competition_country": "Denmark",
+      "competition_url": "https://onefootball.com/en/competition/superligaen-57",
+      "season_id": "43010",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/57/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/57/43010/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/57/43010/standings.json",
+      "existing_source": "espn",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 27
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Ecuador",
+      "query": "LigaPro Ecuador",
+      "competition_id": 172,
+      "competition_name": "LigaPro Serie A",
+      "competition_country": "Ecuador",
+      "competition_url": "https://onefootball.com/en/competition/ligapro-serie-a-172",
+      "season_id": "43386",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/172/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/172/43386/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/172/43386/standings.json",
+      "existing_source": "espn_zero_roster_matches",
+      "leaderboard_groups_available": {
+        "scorers": 0,
+        "assists": 0,
+        "goal_assists": 0,
+        "yellow_cards": 0,
+        "red_cards": 0
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "England",
+      "query": "English Premier League",
+      "competition_id": 9,
+      "competition_name": "Premier League",
+      "competition_country": "England",
+      "competition_url": "https://onefootball.com/en/competition/premier-league-9",
+      "season_id": "43029",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/9/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/9/43029/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/9/43029/standings.json",
+      "existing_source": "espn_big5",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "France",
+      "query": "Ligue 1 France",
+      "competition_id": 23,
+      "competition_name": "Ligue 1",
+      "competition_country": "France",
+      "competition_url": "https://onefootball.com/en/competition/ligue-1-23",
+      "season_id": "43075",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/23/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/23/43075/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/23/43075/standings.json",
+      "existing_source": "espn_big5",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Germany",
+      "query": "German Bundesliga",
+      "competition_id": 1,
+      "competition_name": "Bundesliga",
+      "competition_country": "Germany",
+      "competition_url": "https://onefootball.com/en/competition/bundesliga-1",
+      "season_id": "43023",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/1/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/1/43023/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/1/43023/standings.json",
+      "existing_source": "espn_big5",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Greece",
+      "query": "Super League Greece",
+      "competition_id": 56,
+      "competition_name": "Super League Greece",
+      "competition_country": "Greece",
+      "competition_url": "https://onefootball.com/en/competition/super-league-greece-56",
+      "season_id": "43121",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/56/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/56/43121/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/56/43121/standings.json",
+      "existing_source": "espn",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Japan",
+      "query": "J1 League",
+      "competition_id": 38,
+      "competition_name": "J1 League",
+      "competition_country": "Japan",
+      "competition_url": "https://onefootball.com/en/competition/j1-league-38",
+      "season_id": "42064",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/38/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/38/42064/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/38/42064/standings.json",
+      "existing_source": "espn",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 18
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Korea Republic",
+      "query": "K League 1",
+      "competition_id": 130,
+      "competition_name": "K League 1",
+      "competition_country": "Korea, South",
+      "competition_url": "https://onefootball.com/en/competition/k-league-1-130",
+      "season_id": "43358",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/130/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/130/43358/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/130/43358/standings.json",
+      "existing_source": "onefootball_imported",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 18
+      },
+      "sample_match_has_team_stats": false
+    },
+    {
+      "country": "Mexico",
+      "query": "Mexican Liga MX",
+      "competition_id": 89,
+      "competition_name": "Liga BBVA MX",
+      "competition_country": "Mexico",
+      "competition_url": "https://onefootball.com/en/competition/liga-bbva-mx-89",
+      "season_id": "43006",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/89/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/89/43006/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/89/43006/standings.json",
+      "existing_source": "espn",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Netherlands",
+      "query": "Eredivisie",
+      "competition_id": 36,
+      "competition_name": "Eredivisie",
+      "competition_country": "Netherlands",
+      "competition_url": "https://onefootball.com/en/competition/eredivisie-36",
+      "season_id": "43042",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/36/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/36/43042/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/36/43042/standings.json",
+      "existing_source": "espn",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Norway",
+      "query": "Norwegian Eliteserien",
+      "competition_id": 67,
+      "competition_name": "Eliteserien",
+      "competition_country": "Norway",
+      "competition_url": "https://onefootball.com/en/competition/eliteserien-67",
+      "season_id": "43327",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/67/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/67/43327/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/67/43327/standings.json",
+      "existing_source": "espn",
+      "leaderboard_groups_available": {
+        "scorers": 0,
+        "assists": 0,
+        "goal_assists": 0,
+        "yellow_cards": 0,
+        "red_cards": 0
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Paraguay",
+      "query": "Copa de Primera Paraguay",
+      "competition_id": 174,
+      "competition_name": "Copa de Primera",
+      "competition_country": "Paraguay",
+      "competition_url": "https://onefootball.com/en/competition/copa-de-primera-174",
+      "season_id": "43298",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/174/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/174/43298/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/174/43298/standings.json",
+      "existing_source": "espn_zero_roster_matches",
+      "leaderboard_groups_available": {
+        "scorers": 0,
+        "assists": 0,
+        "goal_assists": 0,
+        "yellow_cards": 0,
+        "red_cards": 0
+      },
+      "sample_match_has_team_stats": false
+    },
+    {
+      "country": "Portugal",
+      "query": "Liga Portugal",
+      "competition_id": 35,
+      "competition_name": "Liga Portugal",
+      "competition_country": "Portugal",
+      "competition_url": "https://onefootball.com/en/competition/liga-portugal-35",
+      "season_id": "43101",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/35/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/35/43101/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/35/43101/standings.json",
+      "existing_source": "espn",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Qatar",
+      "query": "Qatar Stars League",
+      "competition_id": 158,
+      "competition_name": "Qatar Stars League",
+      "competition_country": "Qatar",
+      "competition_url": "https://onefootball.com/en/competition/qatar-stars-league-158",
+      "season_id": "43062",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/158/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/158/43062/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/158/43062/standings.json",
+      "existing_source": "onefootball_imported",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Saudi Arabia",
+      "query": "Saudi Pro League",
+      "competition_id": 111,
+      "competition_name": "Saudi Pro League",
+      "competition_country": "Saudi Arabia",
+      "competition_url": "https://onefootball.com/en/competition/saudi-pro-league-111",
+      "season_id": "43191",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/111/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/111/43191/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/111/43191/standings.json",
+      "existing_source": "espn",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 29,
+        "red_cards": 28
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Scotland",
+      "query": "Scottish Premiership",
+      "competition_id": 39,
+      "competition_name": "Scottish Premiership",
+      "competition_country": "Scotland",
+      "competition_url": "https://onefootball.com/en/competition/scottish-premiership-39",
+      "season_id": "43055",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/39/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/39/43055/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/39/43055/standings.json",
+      "existing_source": "espn",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "South Africa",
+      "query": "Premier Soccer League South Africa",
+      "competition_id": 118,
+      "competition_name": "Premier Soccer League",
+      "competition_country": "South Africa",
+      "competition_url": "https://onefootball.com/en/competition/premier-soccer-league-118",
+      "season_id": "43174",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/118/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/118/43174/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/118/43174/standings.json",
+      "existing_source": "espn",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 29,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Spain",
+      "query": "LaLiga",
+      "competition_id": 10,
+      "competition_name": "LaLiga",
+      "competition_country": "Spain",
+      "competition_url": "https://onefootball.com/en/competition/laliga-10",
+      "season_id": "43086",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/10/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/10/43086/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/10/43086/standings.json",
+      "existing_source": "espn_big5",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Sweden",
+      "query": "Allsvenskan",
+      "competition_id": 62,
+      "competition_name": "Allsvenskan",
+      "competition_country": "Sweden",
+      "competition_url": "https://onefootball.com/en/competition/allsvenskan-62",
+      "season_id": "43323",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/62/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/62/43323/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/62/43323/standings.json",
+      "existing_source": "espn",
+      "leaderboard_groups_available": {
+        "scorers": 0,
+        "assists": 0,
+        "goal_assists": 0,
+        "yellow_cards": 0,
+        "red_cards": 0
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Switzerland",
+      "query": "Super League Switzerland",
+      "competition_id": 25,
+      "competition_name": "Super League",
+      "competition_country": "Switzerland",
+      "competition_url": "https://onefootball.com/en/competition/super-league-25",
+      "season_id": "43058",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/25/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/25/43058/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/25/43058/standings.json",
+      "existing_source": "espn",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Türkiye",
+      "query": "Super Lig Turkey",
+      "competition_id": 8,
+      "competition_name": "Süper Lig",
+      "competition_country": "Türkiye",
+      "competition_url": "https://onefootball.com/en/competition/sueper-lig-8",
+      "season_id": "43100",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/8/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/8/43100/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/8/43100/standings.json",
+      "existing_source": "espn",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "sample_match_has_team_stats": true
+    },
+    {
+      "country": "Uruguay",
+      "query": "Liga AUF Uruguaya",
+      "competition_id": 103,
+      "competition_name": "Liga AUF Uruguaya",
+      "competition_country": "Uruguay",
+      "competition_url": "https://onefootball.com/en/competition/liga-auf-uruguaya-103",
+      "season_id": "43379",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/103/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/103/43379/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/103/43379/standings.json",
+      "existing_source": "espn_zero_roster_matches",
+      "leaderboard_groups_available": {
+        "scorers": 0,
+        "assists": 0,
+        "goal_assists": 0,
+        "yellow_cards": 0,
+        "red_cards": 0
+      },
+      "sample_match_has_team_stats": false
+    },
+    {
+      "country": "USA",
+      "query": "Major League Soccer",
+      "competition_id": 15,
+      "competition_name": "Major League Soccer",
+      "competition_country": "United States of America",
+      "competition_url": "https://onefootball.com/en/competition/major-league-soccer-15",
+      "season_id": "43279",
+      "matches_url": "https://scores-api.onefootball.com/v1/en/competitions/15/matches?number_next=0&number_previous=1000",
+      "league_statistics_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/15/43279/league_statistics.json",
+      "standings_url": "https://feedmonster.onefootball.com/feeds/il/en/competitions/15/43279/standings.json",
+      "existing_source": "espn",
+      "leaderboard_groups_available": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "sample_match_has_team_stats": true
+    }
+  ],
+  "league_results": [
+    {
+      "competition_id": 83,
+      "competition_name": "Liga Profesional Argentina",
+      "country": "Argentina",
+      "season_id": "43311",
+      "matches_seen": 255,
+      "full_time_matches_seen": 255,
+      "league_leaderboard_rows": 105,
+      "standings_rows": 60,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "roster_matches": 20
+    },
+    {
+      "competition_id": 84,
+      "competition_name": "A-League Men",
+      "country": "Australia",
+      "season_id": "43216",
+      "matches_seen": 163,
+      "full_time_matches_seen": 163,
+      "league_leaderboard_rows": 88,
+      "standings_rows": 12,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 18
+      },
+      "roster_matches": 14
+    },
+    {
+      "competition_id": 26,
+      "competition_name": "Austrian Bundesliga",
+      "country": "Austria",
+      "season_id": "43077",
+      "matches_seen": 195,
+      "full_time_matches_seen": 195,
+      "league_leaderboard_rows": 89,
+      "standings_rows": 24,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "roster_matches": 4
+    },
+    {
+      "competition_id": 58,
+      "competition_name": "Pro League",
+      "country": "Belgium",
+      "season_id": "43056",
+      "matches_seen": 313,
+      "full_time_matches_seen": 313,
+      "league_leaderboard_rows": 92,
+      "standings_rows": 32,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "roster_matches": 25
+    },
+    {
+      "competition_id": 16,
+      "competition_name": "Brasileirão Betano",
+      "country": "Brazil",
+      "season_id": "43318",
+      "matches_seen": 180,
+      "full_time_matches_seen": 175,
+      "league_leaderboard_rows": 0,
+      "standings_rows": 20,
+      "league_stats_group_counts": {
+        "scorers": 0,
+        "assists": 0,
+        "goal_assists": 0,
+        "yellow_cards": 0,
+        "red_cards": 0
+      },
+      "roster_matches": 30
+    },
+    {
+      "competition_id": 109,
+      "competition_name": "Primera A",
+      "country": "Colombia",
+      "season_id": "43326",
+      "matches_seen": 202,
+      "full_time_matches_seen": 202,
+      "league_leaderboard_rows": 99,
+      "standings_rows": 40,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "roster_matches": 1
+    },
+    {
+      "competition_id": 2716,
+      "competition_name": "Liga FPD",
+      "country": "Costa Rica",
+      "season_id": "43104",
+      "matches_seen": 192,
+      "full_time_matches_seen": 192,
+      "league_leaderboard_rows": 0,
+      "standings_rows": 20,
+      "league_stats_group_counts": {
+        "scorers": 0,
+        "assists": 0,
+        "goal_assists": 0,
+        "yellow_cards": 0,
+        "red_cards": 0
+      },
+      "roster_matches": 2
+    },
+    {
+      "competition_id": 57,
+      "competition_name": "Superligaen",
+      "country": "Denmark",
+      "season_id": "43010",
+      "matches_seen": 193,
+      "full_time_matches_seen": 193,
+      "league_leaderboard_rows": 90,
+      "standings_rows": 24,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 27
+      },
+      "roster_matches": 10
+    },
+    {
+      "competition_id": 172,
+      "competition_name": "LigaPro Serie A",
+      "country": "Ecuador",
+      "season_id": "43386",
+      "matches_seen": 128,
+      "full_time_matches_seen": 123,
+      "league_leaderboard_rows": 0,
+      "standings_rows": 16,
+      "league_stats_group_counts": {
+        "scorers": 0,
+        "assists": 0,
+        "goal_assists": 0,
+        "yellow_cards": 0,
+        "red_cards": 0
+      },
+      "roster_matches": 8
+    },
+    {
+      "competition_id": 9,
+      "competition_name": "Premier League",
+      "country": "England",
+      "season_id": "43029",
+      "matches_seen": 380,
+      "full_time_matches_seen": 380,
+      "league_leaderboard_rows": 104,
+      "standings_rows": 20,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "roster_matches": 144
+    },
+    {
+      "competition_id": 23,
+      "competition_name": "Ligue 1",
+      "country": "France",
+      "season_id": "43075",
+      "matches_seen": 306,
+      "full_time_matches_seen": 306,
+      "league_leaderboard_rows": 99,
+      "standings_rows": 18,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "roster_matches": 52
+    },
+    {
+      "competition_id": 1,
+      "competition_name": "Bundesliga",
+      "country": "Germany",
+      "season_id": "43023",
+      "matches_seen": 306,
+      "full_time_matches_seen": 306,
+      "league_leaderboard_rows": 95,
+      "standings_rows": 18,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "roster_matches": 91
+    },
+    {
+      "competition_id": 56,
+      "competition_name": "Super League Greece",
+      "country": "Greece",
+      "season_id": "43121",
+      "matches_seen": 236,
+      "full_time_matches_seen": 236,
+      "league_leaderboard_rows": 98,
+      "standings_rows": 28,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "roster_matches": 11
+    },
+    {
+      "competition_id": 38,
+      "competition_name": "J1 League",
+      "country": "Japan",
+      "season_id": "42064",
+      "matches_seen": 380,
+      "full_time_matches_seen": 380,
+      "league_leaderboard_rows": 92,
+      "standings_rows": 20,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 18
+      },
+      "roster_matches": 6
+    },
+    {
+      "competition_id": 130,
+      "competition_name": "K League 1",
+      "country": "Korea Republic",
+      "season_id": "43358",
+      "matches_seen": 90,
+      "full_time_matches_seen": 90,
+      "league_leaderboard_rows": 85,
+      "standings_rows": 12,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 18
+      },
+      "roster_matches": 6
+    },
+    {
+      "competition_id": 89,
+      "competition_name": "Liga BBVA MX",
+      "country": "Mexico",
+      "season_id": "43006",
+      "matches_seen": 337,
+      "full_time_matches_seen": 337,
+      "league_leaderboard_rows": 96,
+      "standings_rows": 36,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "roster_matches": 53
+    },
+    {
+      "competition_id": 36,
+      "competition_name": "Eredivisie",
+      "country": "Netherlands",
+      "season_id": "43042",
+      "matches_seen": 309,
+      "full_time_matches_seen": 309,
+      "league_leaderboard_rows": 99,
+      "standings_rows": 18,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "roster_matches": 28
+    },
+    {
+      "competition_id": 67,
+      "competition_name": "Eliteserien",
+      "country": "Norway",
+      "season_id": "43327",
+      "matches_seen": 112,
+      "full_time_matches_seen": 89,
+      "league_leaderboard_rows": 0,
+      "standings_rows": 16,
+      "league_stats_group_counts": {
+        "scorers": 0,
+        "assists": 0,
+        "goal_assists": 0,
+        "yellow_cards": 0,
+        "red_cards": 0
+      },
+      "roster_matches": 5
+    },
+    {
+      "competition_id": 174,
+      "competition_name": "Copa de Primera",
+      "country": "Paraguay",
+      "season_id": "43298",
+      "matches_seen": 132,
+      "full_time_matches_seen": 132,
+      "league_leaderboard_rows": 0,
+      "standings_rows": 24,
+      "league_stats_group_counts": {
+        "scorers": 0,
+        "assists": 0,
+        "goal_assists": 0,
+        "yellow_cards": 0,
+        "red_cards": 0
+      },
+      "roster_matches": 10
+    },
+    {
+      "competition_id": 35,
+      "competition_name": "Liga Portugal",
+      "country": "Portugal",
+      "season_id": "43101",
+      "matches_seen": 306,
+      "full_time_matches_seen": 306,
+      "league_leaderboard_rows": 96,
+      "standings_rows": 18,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "roster_matches": 28
+    },
+    {
+      "competition_id": 158,
+      "competition_name": "Qatar Stars League",
+      "country": "Qatar",
+      "season_id": "43062",
+      "matches_seen": 132,
+      "full_time_matches_seen": 132,
+      "league_leaderboard_rows": 87,
+      "standings_rows": 12,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "roster_matches": 23
+    },
+    {
+      "competition_id": 111,
+      "competition_name": "Saudi Pro League",
+      "country": "Saudi Arabia",
+      "season_id": "43191",
+      "matches_seen": 306,
+      "full_time_matches_seen": 306,
+      "league_leaderboard_rows": 99,
+      "standings_rows": 18,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 29,
+        "red_cards": 28
+      },
+      "roster_matches": 41
+    },
+    {
+      "competition_id": 39,
+      "competition_name": "Scottish Premiership",
+      "country": "Scotland",
+      "season_id": "43055",
+      "matches_seen": 228,
+      "full_time_matches_seen": 228,
+      "league_leaderboard_rows": 95,
+      "standings_rows": 24,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "roster_matches": 17
+    },
+    {
+      "competition_id": 118,
+      "competition_name": "Premier Soccer League",
+      "country": "South Africa",
+      "season_id": "43174",
+      "matches_seen": 240,
+      "full_time_matches_seen": 240,
+      "league_leaderboard_rows": 97,
+      "standings_rows": 16,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 29,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "roster_matches": 21
+    },
+    {
+      "competition_id": 10,
+      "competition_name": "LaLiga",
+      "country": "Spain",
+      "season_id": "43086",
+      "matches_seen": 380,
+      "full_time_matches_seen": 380,
+      "league_leaderboard_rows": 107,
+      "standings_rows": 20,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "roster_matches": 65
+    },
+    {
+      "competition_id": 62,
+      "competition_name": "Allsvenskan",
+      "country": "Sweden",
+      "season_id": "43323",
+      "matches_seen": 88,
+      "full_time_matches_seen": 81,
+      "league_leaderboard_rows": 0,
+      "standings_rows": 16,
+      "league_stats_group_counts": {
+        "scorers": 0,
+        "assists": 0,
+        "goal_assists": 0,
+        "yellow_cards": 0,
+        "red_cards": 0
+      },
+      "roster_matches": 3
+    },
+    {
+      "competition_id": 25,
+      "competition_name": "Super League",
+      "country": "Switzerland",
+      "season_id": "43058",
+      "matches_seen": 228,
+      "full_time_matches_seen": 228,
+      "league_leaderboard_rows": 91,
+      "standings_rows": 24,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "roster_matches": 7
+    },
+    {
+      "competition_id": 8,
+      "competition_name": "Süper Lig",
+      "country": "Türkiye",
+      "season_id": "43100",
+      "matches_seen": 306,
+      "full_time_matches_seen": 306,
+      "league_leaderboard_rows": 101,
+      "standings_rows": 18,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "roster_matches": 38
+    },
+    {
+      "competition_id": 103,
+      "competition_name": "Liga AUF Uruguaya",
+      "country": "Uruguay",
+      "season_id": "43379",
+      "matches_seen": 144,
+      "full_time_matches_seen": 140,
+      "league_leaderboard_rows": 0,
+      "standings_rows": 48,
+      "league_stats_group_counts": {
+        "scorers": 0,
+        "assists": 0,
+        "goal_assists": 0,
+        "yellow_cards": 0,
+        "red_cards": 0
+      },
+      "roster_matches": 1
+    },
+    {
+      "competition_id": 15,
+      "competition_name": "Major League Soccer",
+      "country": "USA",
+      "season_id": "43279",
+      "matches_seen": 220,
+      "full_time_matches_seen": 218,
+      "league_leaderboard_rows": 101,
+      "standings_rows": 30,
+      "league_stats_group_counts": {
+        "scorers": 30,
+        "assists": 30,
+        "goal_assists": 30,
+        "yellow_cards": 30,
+        "red_cards": 30
+      },
+      "roster_matches": 37
+    }
+  ],
+  "metadata_failures": [],
+  "failed_matches": [],
+  "files": [
+    "data/oneFootballAllImportReport.json",
+    "data/oneFootballAllLeagueStats.json",
+    "data/oneFootballAllSeasonPlayerStats.json",
+    "data/oneFootballAllRosterMatches.json",
+    "data/oneFootballAllRosterMatchPlayerStats.json"
+  ]
+}

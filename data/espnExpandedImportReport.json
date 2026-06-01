@@ -1,0 +1,567 @@
+{
+  "schemaVersion": "week6-espn-expanded-matched-import-report-v1",
+  "generated_at": "2026-05-31T20:01:27.052Z",
+  "source_checked": "2026-05-31",
+  "status": "matched_world_cup_roster_players_only",
+  "source_id": "espnSoccerMatchSummaryCoreStats",
+  "date_range": "20250701-20260630",
+  "target_league_codes": [
+    "arg.1",
+    "aus.1",
+    "aut.1",
+    "bel.1",
+    "bra.1",
+    "col.1",
+    "crc.1",
+    "den.1",
+    "ecu.1",
+    "gha.1",
+    "gre.1",
+    "jpn.1",
+    "ksa.1",
+    "mex.1",
+    "ned.1",
+    "nga.1",
+    "nor.1",
+    "par.1",
+    "por.1",
+    "rsa.1",
+    "sco.1",
+    "sui.1",
+    "swe.1",
+    "tur.1",
+    "uru.1",
+    "usa.1"
+  ],
+  "world_cup_domestic_coverage": [
+    {
+      "country": "Argentina",
+      "espnLeagueCode": "arg.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Australia",
+      "espnLeagueCode": "aus.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Austria",
+      "espnLeagueCode": "aut.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Belgium",
+      "espnLeagueCode": "bel.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Brazil",
+      "espnLeagueCode": "bra.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Canada",
+      "espnLeagueCode": "usa.1",
+      "status": "targeted_mls_proxy"
+    },
+    {
+      "country": "Colombia",
+      "espnLeagueCode": "col.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Denmark",
+      "espnLeagueCode": "den.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Ecuador",
+      "espnLeagueCode": "ecu.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Ghana",
+      "espnLeagueCode": "gha.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Japan",
+      "espnLeagueCode": "jpn.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Mexico",
+      "espnLeagueCode": "mex.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Netherlands",
+      "espnLeagueCode": "ned.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Norway",
+      "espnLeagueCode": "nor.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Paraguay",
+      "espnLeagueCode": "par.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Portugal",
+      "espnLeagueCode": "por.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Saudi Arabia",
+      "espnLeagueCode": "ksa.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Scotland",
+      "espnLeagueCode": "sco.1",
+      "status": "targeted"
+    },
+    {
+      "country": "South Africa",
+      "espnLeagueCode": "rsa.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Sweden",
+      "espnLeagueCode": "swe.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Switzerland",
+      "espnLeagueCode": "sui.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Türkiye",
+      "espnLeagueCode": "tur.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Uruguay",
+      "espnLeagueCode": "uru.1",
+      "status": "targeted"
+    },
+    {
+      "country": "USA",
+      "espnLeagueCode": "usa.1",
+      "status": "targeted"
+    },
+    {
+      "country": "Costa Rica",
+      "espnLeagueCode": "crc.1",
+      "status": "targeted_extra_concacaf_context"
+    },
+    {
+      "country": "Greece",
+      "espnLeagueCode": "gre.1",
+      "status": "targeted_extra_player_context"
+    },
+    {
+      "country": "Nigeria",
+      "espnLeagueCode": "nga.1",
+      "status": "targeted_extra_player_context"
+    },
+    {
+      "country": "Algeria",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    },
+    {
+      "country": "Bosnia and Herzegovina",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    },
+    {
+      "country": "Cabo Verde",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    },
+    {
+      "country": "Congo DR",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    },
+    {
+      "country": "Croatia",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    },
+    {
+      "country": "Curaçao",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    },
+    {
+      "country": "Czechia",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    },
+    {
+      "country": "Côte d'Ivoire",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    },
+    {
+      "country": "Egypt",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    },
+    {
+      "country": "Haiti",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    },
+    {
+      "country": "IR Iran",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    },
+    {
+      "country": "Iraq",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    },
+    {
+      "country": "Jordan",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    },
+    {
+      "country": "Korea Republic",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    },
+    {
+      "country": "Morocco",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    },
+    {
+      "country": "New Zealand",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    },
+    {
+      "country": "Panama",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    },
+    {
+      "country": "Qatar",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    },
+    {
+      "country": "Senegal",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    },
+    {
+      "country": "Tunisia",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    },
+    {
+      "country": "Uzbekistan",
+      "espnLeagueCode": null,
+      "status": "no_domestic_espn_league_found"
+    }
+  ],
+  "summary": {
+    "target_leagues": 26,
+    "scoreboards_ok": 26,
+    "scoreboard_failures": 0,
+    "completed_events_seen": 7514,
+    "roster_endpoints_requested": 15028,
+    "roster_failures": 0,
+    "roster_entries_seen": 252864,
+    "unique_espn_athletes_seen": 13444,
+    "athlete_failures": 757,
+    "candidate_player_match_rows": 11701,
+    "core_stat_failures": 11701,
+    "imported_player_match_rows": 0,
+    "season_aggregate_rows": 0,
+    "matched_world_cup_players": 0,
+    "high_confidence_aggregate_rows": 0,
+    "review_aggregate_rows": 0,
+    "countries_covered": [],
+    "leagues_with_matches": []
+  },
+  "league_results": [
+    {
+      "code": "arg.1",
+      "name": "Argentine Liga Profesional de Fútbol",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/arg.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 510,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "aus.1",
+      "name": "Australian A-League Men",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/aus.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 163,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "aut.1",
+      "name": "Austrian Bundesliga",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/aut.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 195,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "bel.1",
+      "name": "Belgian Pro League",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/bel.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 313,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "bra.1",
+      "name": "Brazilian Serie A",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/bra.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 437,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "col.1",
+      "name": "Colombian Primera A",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/col.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 428,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "crc.1",
+      "name": "Costa Rican Primera Division",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/crc.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 192,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "den.1",
+      "name": "Danish Superliga",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/den.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 193,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "ecu.1",
+      "name": "LigaPro Ecuador",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/ecu.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 290,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "gha.1",
+      "name": "Ghanaian Premier League",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/gha.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 305,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "gre.1",
+      "name": "Greek Super League",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/gre.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 236,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "jpn.1",
+      "name": "Japanese J.League",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/jpn.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 352,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "ksa.1",
+      "name": "Saudi Pro League",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/ksa.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 306,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "mex.1",
+      "name": "Mexican Liga BBVA MX",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/mex.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 337,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "ned.1",
+      "name": "Dutch Eredivisie",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/ned.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 309,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "nga.1",
+      "name": "Nigerian Professional League",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/nga.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 380,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "nor.1",
+      "name": "Norwegian Eliteserien",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/nor.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 235,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "par.1",
+      "name": "Paraguayan Primera División",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/par.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 264,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "por.1",
+      "name": "Portuguese Primeira Liga",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 306,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "rsa.1",
+      "name": "South African Premiership",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/rsa.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 240,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "sco.1",
+      "name": "Scottish Premiership",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/sco.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 228,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "sui.1",
+      "name": "Swiss Super League",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/sui.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 42,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "swe.1",
+      "name": "Swedish Allsvenskan",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/swe.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 215,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "tur.1",
+      "name": "Turkish Super Lig",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 306,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "uru.1",
+      "name": "Liga AUF Uruguaya",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/uru.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 264,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    },
+    {
+      "code": "usa.1",
+      "name": "MLS",
+      "ok": true,
+      "scoreboard_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/usa.1/scoreboard?dates=20250701-20260630&limit=1000",
+      "completed_events": 468,
+      "imported_player_match_rows": 0,
+      "aggregate_rows": 0,
+      "matched_players": 0
+    }
+  ],
+  "caveats": [
+    "This import only keeps rows that matched a World Cup roster player by normalized name.",
+    "High confidence requires normalized player name and club/team match.",
+    "Name-only matches are retained for review but should not be merged into production advice without checking.",
+    "Some countries do not have an ESPN domestic league endpoint in the current scan.",
+    "No betting odds are imported."
+  ]
+}

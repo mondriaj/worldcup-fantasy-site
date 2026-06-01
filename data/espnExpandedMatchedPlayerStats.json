@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "week6-espn-expanded-matched-match-player-stats-v1",
+  "generated_at": "2026-05-31T20:01:27.052Z",
+  "source_checked": "2026-05-31",
+  "status": "matched_world_cup_roster_player_match_rows",
+  "source_id": "espnSoccerMatchSummaryCoreStats",
+  "summary": {
+    "target_leagues": 26,
+    "scoreboards_ok": 26,
+    "scoreboard_failures": 0,
+    "completed_events_seen": 7514,
+    "roster_endpoints_requested": 15028,
+    "roster_failures": 0,
+    "roster_entries_seen": 252864,
+    "unique_espn_athletes_seen": 13444,
+    "athlete_failures": 757,
+    "candidate_player_match_rows": 11701,
+    "core_stat_failures": 11701,
+    "imported_player_match_rows": 0,
+    "season_aggregate_rows": 0,
+    "matched_world_cup_players": 0,
+    "high_confidence_aggregate_rows": 0,
+    "review_aggregate_rows": 0,
+    "countries_covered": [],
+    "leagues_with_matches": []
+  },
+  "rows": []
+}

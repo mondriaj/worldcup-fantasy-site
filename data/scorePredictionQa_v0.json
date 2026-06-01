@@ -1,0 +1,302 @@
+{
+  "schema_version": "week6-score-prediction-qa-v0",
+  "generated_at": "2026-06-01T18:14:29.429Z",
+  "source_checked": "2026-06-01",
+  "data_status": "score_prediction_hardening_v0",
+  "overall_status": "pass_with_prototype_caveats",
+  "source_files": [
+    "data/scorePredictions_v0.json",
+    "data/fixtures.json",
+    "data/matchdays.json",
+    "data/teams.json",
+    "data/teamQuality.json",
+    "data/playerMatchdayProjections_v0.json"
+  ],
+  "summary": {
+    "checks_total": 21,
+    "checks_passed": 20,
+    "checks_failed": 0,
+    "caveats": 1,
+    "fixture_prediction_count": 72,
+    "team_fixture_prediction_count": 144,
+    "player_matchday_projection_count": 4017,
+    "player_matchday_rows_with_score_context": 4017,
+    "goal_environment_counts": {
+      "medium_high_goal_environment": 53,
+      "medium_goal_environment": 12,
+      "high_goal_environment": 7
+    },
+    "upset_risk_counts": {
+      "low": 33,
+      "medium_high": 18,
+      "medium": 13,
+      "high": 8
+    }
+  },
+  "input_coverage": {
+    "fixtures_total": 72,
+    "fixture_predictions": 72,
+    "unique_fixture_predictions": 72,
+    "team_fixture_predictions": 144,
+    "teams_total": 48,
+    "team_quality_rows": 48,
+    "world_football_elo_available": 48,
+    "fifa_ranking_available": 48,
+    "fifa_ranking_points_available": 48,
+    "pele_rating_available": 0,
+    "pele_rating_missing": 48,
+    "pele_handling": "Kept as null and excluded from v0 formula; no imputation."
+  },
+  "guardrails": {
+    "team_expected_goals_min": 0,
+    "team_expected_goals_max": 4,
+    "total_expected_goals_max": 5.5,
+    "probability_min": 0,
+    "probability_max": 1,
+    "win_draw_loss_sum_tolerance": 0.002,
+    "top_scoreline_team_goals_max": 5,
+    "team_environment_score_min": 0,
+    "team_environment_score_max": 100,
+    "player_environment_multiplier_min": 0.45,
+    "player_environment_multiplier_max": 1.45
+  },
+  "range_summary": {
+    "home_expected_goals": {
+      "min": 0.35,
+      "max": 2.774,
+      "average": 1.503
+    },
+    "away_expected_goals": {
+      "min": 0.35,
+      "max": 2.625,
+      "average": 1.206
+    },
+    "total_expected_goals": {
+      "min": 2.496,
+      "max": 3.124,
+      "average": 2.709
+    },
+    "favorite_win_probability": {
+      "min": 0.3994,
+      "max": 0.8735,
+      "average": 0.6512
+    },
+    "upset_risk_probability": {
+      "min": 0.0283,
+      "max": 0.3815,
+      "average": 0.1531
+    },
+    "home_clean_sheet_probability": {
+      "min": 0.0724,
+      "max": 0.7047,
+      "average": 0.3643
+    },
+    "away_clean_sheet_probability": {
+      "min": 0.0624,
+      "max": 0.7047,
+      "average": 0.2828
+    },
+    "over_2_5_goals_probability": {
+      "min": 0.4552,
+      "max": 0.6039,
+      "average": 0.5081
+    },
+    "both_teams_to_score_probability": {
+      "min": 0.2653,
+      "max": 0.569,
+      "average": 0.4201
+    }
+  },
+  "player_matchday_context_summary": {
+    "row_count": 4017,
+    "rows_with_score_prediction_context": 4017,
+    "multiplier_ranges": {
+      "attack_environment_multiplier": {
+        "min": 0.682,
+        "max": 1.344,
+        "average": 0.995
+      },
+      "defense_environment_multiplier": {
+        "min": 0.603,
+        "max": 1.234,
+        "average": 0.861
+      },
+      "position_environment_multiplier": {
+        "min": 0.62,
+        "max": 1.336,
+        "average": 0.934
+      },
+      "volatility_environment_multiplier": {
+        "min": 0.973,
+        "max": 1.155,
+        "average": 1.054
+      },
+      "risk_discount_lift": {
+        "min": -0.09,
+        "max": 0.12,
+        "average": 0
+      }
+    }
+  },
+  "checks": [
+    {
+      "check_id": "fixture_coverage",
+      "label": "Fixture prediction coverage",
+      "status": "pass",
+      "severity": "error",
+      "detail": "72/72 fixtures have one score prediction row; 72 unique fixture IDs."
+    },
+    {
+      "check_id": "team_fixture_coverage",
+      "label": "Team-fixture prediction coverage",
+      "status": "pass",
+      "severity": "error",
+      "detail": "144/144 team-fixture views exist, with two views expected per fixture."
+    },
+    {
+      "check_id": "fixture_references",
+      "label": "Fixture references resolve",
+      "status": "pass",
+      "severity": "error",
+      "detail": "0 fixture prediction rows reference a missing fixture."
+    },
+    {
+      "check_id": "team_quality_references",
+      "label": "Team quality references resolve",
+      "status": "pass",
+      "severity": "error",
+      "detail": "0 predicted fixture team slots are missing teamQuality rows."
+    },
+    {
+      "check_id": "team_references",
+      "label": "Team references resolve",
+      "status": "pass",
+      "severity": "error",
+      "detail": "0 predicted fixture team slots are missing teams.json rows."
+    },
+    {
+      "check_id": "probability_bounds",
+      "label": "Fixture probability bounds",
+      "status": "pass",
+      "severity": "error",
+      "detail": "0 fixture probability fields are outside 0-1."
+    },
+    {
+      "check_id": "win_draw_loss_sum",
+      "label": "Win/draw/loss probabilities sum to 1",
+      "status": "pass",
+      "severity": "error",
+      "detail": "0 fixtures have win/draw/loss probabilities outside a 0.002 tolerance."
+    },
+    {
+      "check_id": "btts_consistency",
+      "label": "Both-teams-to-score consistency",
+      "status": "pass",
+      "severity": "error",
+      "detail": "0 fixtures have BTTS above either team's scoring probability."
+    },
+    {
+      "check_id": "expected_goals_non_negative",
+      "label": "Expected goals are non-negative",
+      "status": "pass",
+      "severity": "error",
+      "detail": "0 fixtures have negative expected goals."
+    },
+    {
+      "check_id": "expected_goals_guardrail",
+      "label": "Expected-goals guardrail",
+      "status": "pass",
+      "severity": "error",
+      "detail": "0 fixtures exceed the v0 guardrail of 4.0 team xG or 5.5 total xG."
+    },
+    {
+      "check_id": "favorite_consistency",
+      "label": "Favorite is consistent with win probabilities",
+      "status": "pass",
+      "severity": "error",
+      "detail": "0 fixtures have favorite fields inconsistent with home/away win probabilities."
+    },
+    {
+      "check_id": "top_scoreline_presence",
+      "label": "Top scorelines are present",
+      "status": "pass",
+      "severity": "error",
+      "detail": "0 fixtures are missing at least three positive-probability scorelines."
+    },
+    {
+      "check_id": "top_scoreline_guardrail",
+      "label": "Top scoreline guardrail",
+      "status": "pass",
+      "severity": "error",
+      "detail": "0 fixtures have a top scoreline above 5 goals for one team."
+    },
+    {
+      "check_id": "elo_input_coverage",
+      "label": "Elo input coverage",
+      "status": "pass",
+      "severity": "error",
+      "detail": "48/48 teamQuality rows have World Football Elo values."
+    },
+    {
+      "check_id": "fifa_input_coverage",
+      "label": "FIFA ranking input coverage",
+      "status": "pass",
+      "severity": "error",
+      "detail": "48/48 teamQuality rows have FIFA ranking; 48/48 have FIFA ranking points."
+    },
+    {
+      "check_id": "pele_missing_by_design",
+      "label": "PELE ratings are missing by design",
+      "status": "caveat",
+      "severity": "watch",
+      "detail": "0/48 teamQuality rows have numeric PELE ratings. v0 keeps PELE as null and does not impute or backfill it."
+    },
+    {
+      "check_id": "team_probability_bounds",
+      "label": "Team-view probability bounds",
+      "status": "pass",
+      "severity": "error",
+      "detail": "0 team-fixture probability fields are outside 0-1."
+    },
+    {
+      "check_id": "team_environment_score_bounds",
+      "label": "Team environment score bounds",
+      "status": "pass",
+      "severity": "error",
+      "detail": "0 team-fixture environment score fields are outside 0-100."
+    },
+    {
+      "check_id": "player_projection_score_context",
+      "label": "Player matchday projections include score context",
+      "status": "pass",
+      "severity": "error",
+      "detail": "4017/4017 player-matchday rows have score-prediction context; 0 reference a missing score prediction."
+    },
+    {
+      "check_id": "player_projection_score_context_bounds",
+      "label": "Player score-context bounds",
+      "status": "pass",
+      "severity": "error",
+      "detail": "0 player-matchday score-context fields are outside v0 bounds."
+    },
+    {
+      "check_id": "matchday_coverage",
+      "label": "Fantasy matchday coverage",
+      "status": "pass",
+      "severity": "error",
+      "detail": "md1, md2, md3 found in score predictions; missing 0 expected matchday IDs."
+    }
+  ],
+  "caveats": [
+    "This QA pass validates internal consistency and bounds; it does not prove predictive accuracy.",
+    "PELE ratings remain null because a reusable numeric table has not been imported.",
+    "The model still excludes final squads, injuries, official fantasy prices, official fantasy scoring rules, betting odds, and recent-form calibration.",
+    "Plain Poisson low-score calibration remains a v2 item."
+  ],
+  "fallback_rules": [
+    "If any hard check fails, keep scorePrediction model status as prototype and do not use the affected fixture for advice without manual review.",
+    "If Elo or FIFA ranking is missing for a team, fall back to team_quality_v0 only and lower model confidence for that fixture.",
+    "If PELE remains unavailable, leave pele_rating null and do not fabricate a replacement.",
+    "If xG or probability bounds fail, clamp only for display safety and regenerate the source prediction before using it for recommendations."
+  ]
+}

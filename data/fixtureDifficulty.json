@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "week6-starter-v1",
+  "dataStatus": "starter",
+  "_comment": "Fixture difficulty is stored from each team's point of view. One fixture should create two rows: one for each team.",
+  "fixtureDifficulty": [
+    {
+      "fixtureDifficultyId": "fwc2026-m001-mexico",
+      "fixtureId": "fwc2026-m001",
+      "matchdayId": "md1",
+      "teamId": "mexico",
+      "opponentTeamId": "south-africa",
+      "difficultyScore": null,
+      "difficultyBand": "not_calculated",
+      "opponentStrength": null,
+      "homeAwayContext": "neutral",
+      "usesBettingOdds": false,
+      "formulaVersion": "fixture-difficulty-v0",
+      "sourceIds": [
+        "fifaRankings",
+        "fifaSchedule"
+      ],
+      "dataStatus": "schema_example",
+      "notes": "Example-only row. Calculate after teamStrength.json is imported."
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "week6-onefootball-qualifier-import-report-v1",
+  "generated_at": "2026-05-31T22:01:54.805Z",
+  "source_checked": "2026-05-31",
+  "source_id": "oneFootballQualifierStats",
+  "source_policy": "OneFootball qualifier match pages are supplemental. Starts and minutes are estimated from lineups and substitution clocks; keep separate from official UEFA stat fields until merged deliberately.",
+  "summary": {
+    "competitions_imported": 6,
+    "competition_failures": 0,
+    "matches_seen": 911,
+    "match_pages_ok": 911,
+    "match_pages_failed": 0,
+    "all_match_player_rows_parsed": 27852,
+    "roster_match_player_rows": 5181,
+    "roster_season_rows": 852,
+    "roster_players_matched": 852,
+    "roster_countries_matched": [
+      "Algeria",
+      "Argentina",
+      "Australia",
+      "Austria",
+      "Belgium",
+      "Bosnia and Herzegovina",
+      "Brazil",
+      "Cabo Verde",
+      "Colombia",
+      "Congo DR",
+      "Croatia",
+      "Curaçao",
+      "Czechia",
+      "Côte d'Ivoire",
+      "Ecuador",
+      "Egypt",
+      "England",
+      "France",
+      "Germany",
+      "Ghana",
+      "Haiti",
+      "IR Iran",
+      "Iraq",
+      "Japan",
+      "Jordan",
+      "Korea Republic",
+      "Morocco",
+      "Netherlands",
+      "New Zealand",
+      "Norway",
+      "Panama",
+      "Paraguay",
+      "Portugal",
+      "Qatar",
+      "Saudi Arabia",
+      "Scotland",
+      "Senegal",
+      "South Africa",
+      "Spain",
+      "Sweden",
+      "Switzerland",
+      "Tunisia",
+      "Türkiye",
+      "Uruguay",
+      "Uzbekistan"
+    ],
+    "players_with_starts": 765,
+    "players_with_minutes": 849,
+    "players_with_goal_involvements": 455
+  },
+  "competitions": [
+    {
+      "competition_id": 69,
+      "competition_name": "UEFA World Cup Qualifying",
+      "confederation": "UEFA",
+      "matches_seen": 204,
+      "season_ids": [
+        42055
+      ]
+    },
+    {
+      "competition_id": 70,
+      "competition_name": "OFC World Cup Qualifying",
+      "confederation": "OFC",
+      "matches_seen": 18,
+      "season_ids": [
+        41898
+      ]
+    },
+    {
+      "competition_id": 71,
+      "competition_name": "CONCACAF World Cup Qualifying",
+      "confederation": "CONCACAF",
+      "matches_seen": 100,
+      "season_ids": [
+        41568
+      ]
+    },
+    {
+      "competition_id": 72,
+      "competition_name": "CAF World Cup Qualifying",
+      "confederation": "CAF",
+      "matches_seen": 273,
+      "season_ids": [
+        40941
+      ]
+    },
+    {
+      "competition_id": 73,
+      "competition_name": "AFC Asian Qualifiers - Road to 26",
+      "confederation": "AFC",
+      "matches_seen": 226,
+      "season_ids": [
+        40916
+      ]
+    },
+    {
+      "competition_id": 74,
+      "competition_name": "CONMEBOL World Cup Qualifying",
+      "confederation": "CONMEBOL",
+      "matches_seen": 90,
+      "season_ids": [
+        40917
+      ]
+    }
+  ],
+  "failed_matches": []
+}

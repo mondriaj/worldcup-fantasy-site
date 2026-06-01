@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "week6-starter-v1",
+  "dataStatus": "starter",
+  "_comment": "Team strength inputs for fixture difficulty and prototype score predictions. The first version should use FIFA rankings and keep the ranking date visible.",
+  "teamStrength": [
+    {
+      "teamId": "mexico",
+      "rankingSource": "FIFA",
+      "rankingDate": null,
+      "fifaRank": null,
+      "fifaPoints": null,
+      "normalizedStrength": null,
+      "strengthBand": "not_calculated",
+      "sourceIds": [
+        "fifaRankings"
+      ],
+      "dataStatus": "schema_example",
+      "notes": "Example team-strength row. Do not calculate until ranking data is imported."
+    }
+  ]
+}

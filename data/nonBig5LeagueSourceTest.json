@@ -1,0 +1,3714 @@
+{
+  "schemaVersion": "week6-non-big5-source-test-v1",
+  "generated_at": "2026-05-31T18:20:24.678Z",
+  "source_checked": "2026-05-31",
+  "status": "source_probe_only_no_player_performance_merge",
+  "notes": [
+    "This file records source feasibility for non-Big-5 league player data. It does not merge numeric rows into playerPerformance.json yet.",
+    "No invented stats are included. Sample leaderboard rows are parsed from public ESPN HTML pages where available.",
+    "FootyStats row counts are dataset-page metadata; current CSV/API access needs Premium/API key before full import.",
+    "FBref pages exist, but direct local fetch returned Cloudflare challenge pages in this environment."
+  ],
+  "target_leagues": [
+    {
+      "league_id": "portugal-primeira-liga",
+      "label": "Portuguese Primeira Liga",
+      "country": "Portugal",
+      "tested_sources": {
+        "espn": {
+          "status": "usable_public_html_leaderboards",
+          "stats_page": {
+            "url": "https://www.espn.com/soccer/stats/_/league/por.1",
+            "status": 200,
+            "bytes": 400333,
+            "title": "Portuguese Primeira Liga Stats, 2025-26 Season - ESPN",
+            "parsed_tables": 2
+          },
+          "teams_api": {
+            "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/teams",
+            "status": 200,
+            "league_name": "Portuguese Primeira Liga",
+            "team_count": 18,
+            "teams_sample": [
+              {
+                "id": "22064",
+                "displayName": "AVS",
+                "shortDisplayName": "AVS",
+                "name": "AVS",
+                "abbreviation": "AVS"
+              },
+              {
+                "id": "21613",
+                "displayName": "Alverca",
+                "shortDisplayName": "Alverca",
+                "name": "Alverca",
+                "abbreviation": "ALV"
+              },
+              {
+                "id": "15784",
+                "displayName": "Arouca",
+                "shortDisplayName": "Arouca",
+                "name": "Arouca",
+                "abbreviation": "FCA"
+              },
+              {
+                "id": "1929",
+                "displayName": "Benfica",
+                "shortDisplayName": "Benfica",
+                "name": "Benfica",
+                "abbreviation": "SLB"
+              },
+              {
+                "id": "2994",
+                "displayName": "Braga",
+                "shortDisplayName": "Braga",
+                "name": "Braga",
+                "abbreviation": "SCB"
+              },
+              {
+                "id": "3472",
+                "displayName": "C.D. Nacional",
+                "shortDisplayName": "Nacional",
+                "name": "C.D. Nacional",
+                "abbreviation": "CDN"
+              },
+              {
+                "id": "21581",
+                "displayName": "Casa Pia",
+                "shortDisplayName": "Casa Pia",
+                "name": "Casa Pia",
+                "abbreviation": "CPAC"
+              },
+              {
+                "id": "12216",
+                "displayName": "Estoril",
+                "shortDisplayName": "Estoril",
+                "name": "Estoril",
+                "abbreviation": "EPF"
+              }
+            ]
+          },
+          "scoreboard_api": {
+            "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/por.1/scoreboard",
+            "status": 200,
+            "league_name": "Portuguese Primeira Liga",
+            "event_count": 9,
+            "first_event": "Santa Clara at FC Porto"
+          },
+          "leaderboard_tables": [
+            {
+              "title": "Top Scorers",
+              "style": "top-score-table",
+              "headers": [
+                {
+                  "type": "rank",
+                  "title": "RK",
+                  "desc": "Ranking"
+                },
+                {
+                  "type": "athlete",
+                  "title": "Name",
+                  "desc": null
+                },
+                {
+                  "type": "team",
+                  "title": "Team",
+                  "desc": null
+                },
+                {
+                  "type": "appearances",
+                  "title": "P",
+                  "desc": "Games Played"
+                },
+                {
+                  "type": "totalGoals",
+                  "title": "G",
+                  "desc": "total_goals"
+                }
+              ],
+              "row_count": 50,
+              "sample_rows": [
+                {
+                  "rank": 1,
+                  "athlete": {
+                    "name": "Luis Suárez",
+                    "uid": "s:600~a:272722",
+                    "guid": "26b70748-4173-44e0-1f83-01954be4777d",
+                    "href": "https://www.espn.com/soccer/player/_/id/272722/luis-suarez"
+                  },
+                  "team": {
+                    "name": "Sporting CP",
+                    "href": "https://www.espn.com/soccer/club/_/id/2250/sporting-cp"
+                  },
+                  "appearances": "32",
+                  "totalGoals": "28"
+                },
+                {
+                  "rank": 2,
+                  "athlete": {
+                    "name": "Vangelis Pavlidis",
+                    "uid": "s:600~a:220819",
+                    "guid": "9c47c3eb-5462-0518-aa52-8dcf9c1def0c",
+                    "href": "https://www.espn.com/soccer/player/_/id/220819/vangelis-pavlidis"
+                  },
+                  "team": {
+                    "name": "Benfica",
+                    "href": "https://www.espn.com/soccer/club/_/id/1929/benfica"
+                  },
+                  "appearances": "33",
+                  "totalGoals": "22"
+                },
+                {
+                  "rank": 3,
+                  "athlete": {
+                    "name": "Yanis Begraoui",
+                    "uid": "s:600~a:272488",
+                    "guid": "403ebacc-2c98-4a3f-327e-ce1afca2e376",
+                    "href": "https://www.espn.com/soccer/player/_/id/272488/yanis-begraoui"
+                  },
+                  "team": {
+                    "name": "Estoril",
+                    "href": "https://www.espn.com/soccer/club/_/id/12216/estoril"
+                  },
+                  "appearances": "34",
+                  "totalGoals": "20"
+                },
+                {
+                  "rank": 4,
+                  "athlete": {
+                    "name": "Jesús Ramírez",
+                    "uid": "s:600~a:82009",
+                    "guid": "63eb9f46-3750-2f16-7130-a9c79ddf1c71",
+                    "href": "https://www.espn.com/soccer/player/_/id/82009/jesus-ramirez"
+                  },
+                  "team": {
+                    "name": "C.D. Nacional",
+                    "href": "https://www.espn.com/soccer/club/_/id/3472/cd-nacional"
+                  },
+                  "appearances": "33",
+                  "totalGoals": "18"
+                },
+                {
+                  "rank": 5,
+                  "athlete": {
+                    "name": "Rodrigo Zalazar",
+                    "uid": "s:600~a:287494",
+                    "guid": "f7ee8f08-8d5d-e78b-f2a0-66aa14a0406d",
+                    "href": "https://www.espn.com/soccer/player/_/id/287494/rodrigo-zalazar"
+                  },
+                  "team": {
+                    "name": "Braga",
+                    "href": "https://www.espn.com/soccer/club/_/id/2994/braga"
+                  },
+                  "appearances": "28",
+                  "totalGoals": "16"
+                },
+                {
+                  "rank": 6,
+                  "athlete": {
+                    "name": "Ricardo Horta",
+                    "uid": "s:600~a:184423",
+                    "guid": "56867865-b0b4-88c5-3abd-ac3df9673d03",
+                    "href": "https://www.espn.com/soccer/player/_/id/184423/ricardo-horta"
+                  },
+                  "team": {
+                    "name": "Braga",
+                    "href": "https://www.espn.com/soccer/club/_/id/2994/braga"
+                  },
+                  "appearances": "28",
+                  "totalGoals": "14"
+                },
+                {
+                  "rank": 7,
+                  "athlete": {
+                    "name": "Pedro Gonçalves",
+                    "uid": "s:600~a:262591",
+                    "guid": "0cede6d1-8590-a4b5-3a67-451763cd1a88",
+                    "href": "https://www.espn.com/soccer/player/_/id/262591/pedro-goncalves"
+                  },
+                  "team": {
+                    "name": "Sporting CP",
+                    "href": "https://www.espn.com/soccer/club/_/id/2250/sporting-cp"
+                  },
+                  "appearances": "27",
+                  "totalGoals": "13"
+                },
+                {
+                  "rank": 8,
+                  "athlete": {
+                    "name": "Samu Aghehowa",
+                    "uid": "s:600~a:364815",
+                    "guid": "3df5e80d-cf91-376e-a026-def18caaea80",
+                    "href": "https://www.espn.com/soccer/player/_/id/364815/samu-aghehowa"
+                  },
+                  "team": {
+                    "name": "FC Porto",
+                    "href": "https://www.espn.com/soccer/club/_/id/437/fc-porto"
+                  },
+                  "appearances": "20",
+                  "totalGoals": "13"
+                },
+                {
+                  "rank": 9,
+                  "athlete": {
+                    "name": "Murilo",
+                    "uid": "s:600~a:172285",
+                    "guid": "13ae9310-7793-8a05-ad8b-e563868c8c5f",
+                    "href": "https://www.espn.com/soccer/player/_/id/172285/murilo"
+                  },
+                  "team": {
+                    "name": "Gil Vicente",
+                    "href": "https://www.espn.com/soccer/club/_/id/3699/gil-vicente"
+                  },
+                  "appearances": "32",
+                  "totalGoals": "11"
+                },
+                {
+                  "rank": 10,
+                  "athlete": {
+                    "name": "Pau Víctor",
+                    "uid": "s:600~a:303808",
+                    "guid": "c9c314eb-0913-39b9-bab5-19b3c0e9c75e",
+                    "href": "https://www.espn.com/soccer/player/_/id/303808/pau-victor"
+                  },
+                  "team": {
+                    "name": "Braga",
+                    "href": "https://www.espn.com/soccer/club/_/id/2994/braga"
+                  },
+                  "appearances": "32",
+                  "totalGoals": "10"
+                }
+              ]
+            },
+            {
+              "title": "Top Assists",
+              "style": "top-assists-table",
+              "headers": [
+                {
+                  "type": "rank",
+                  "title": "RK",
+                  "desc": "Ranking"
+                },
+                {
+                  "type": "athlete",
+                  "title": "Name",
+                  "desc": null
+                },
+                {
+                  "type": "team",
+                  "title": "Team",
+                  "desc": null
+                },
+                {
+                  "type": "appearances",
+                  "title": "P",
+                  "desc": "Games Played"
+                },
+                {
+                  "type": "goalAssists",
+                  "title": "A",
+                  "desc": "Assists"
+                }
+              ],
+              "row_count": 50,
+              "sample_rows": [
+                {
+                  "rank": 1,
+                  "athlete": {
+                    "name": "Francisco Trincão",
+                    "uid": "s:600~a:274159",
+                    "guid": "9cdcc108-72da-9cdc-1a56-2064eb62767c",
+                    "href": "https://www.espn.com/soccer/player/_/id/274159/francisco-trincao"
+                  },
+                  "team": {
+                    "name": "Sporting CP",
+                    "href": "https://www.espn.com/soccer/club/_/id/2250/sporting-cp"
+                  },
+                  "appearances": "34",
+                  "goalAssists": "11"
+                },
+                {
+                  "rank": 2,
+                  "athlete": {
+                    "name": "João Carvalho",
+                    "uid": "s:600~a:185343",
+                    "guid": "dc21f54b-703f-d6dd-2b1a-4f3c6c98f34a",
+                    "href": "https://www.espn.com/soccer/player/_/id/185343/joao-carvalho"
+                  },
+                  "team": {
+                    "name": "Estoril",
+                    "href": "https://www.espn.com/soccer/club/_/id/12216/estoril"
+                  },
+                  "appearances": "33",
+                  "goalAssists": "11"
+                },
+                {
+                  "rank": 3,
+                  "athlete": {
+                    "name": "Jeremy Livolant",
+                    "uid": "s:600~a:231196",
+                    "guid": "e34262e9-bb84-ebca-1dc7-f0d68565e97a",
+                    "href": "https://www.espn.com/soccer/player/_/id/231196/jeremy-livolant"
+                  },
+                  "team": {
+                    "name": "Casa Pia",
+                    "href": "https://www.espn.com/soccer/club/_/id/21581/casa-pia"
+                  },
+                  "appearances": "33",
+                  "goalAssists": "8"
+                },
+                {
+                  "rank": 4,
+                  "athlete": {
+                    "name": "Luís Esteves",
+                    "uid": "s:600~a:312549",
+                    "guid": "354e543b-4594-3af5-b4a3-4ba2da3d7309",
+                    "href": "https://www.espn.com/soccer/player/_/id/312549/luis-esteves"
+                  },
+                  "team": {
+                    "name": "Gil Vicente",
+                    "href": "https://www.espn.com/soccer/club/_/id/3699/gil-vicente"
+                  },
+                  "appearances": "33",
+                  "goalAssists": "8"
+                },
+                {
+                  "rank": 5,
+                  "athlete": {
+                    "name": "Gabri Veiga",
+                    "uid": "s:600~a:307381",
+                    "guid": "c10c40b7-d219-364b-a223-ec97489a994a",
+                    "href": "https://www.espn.com/soccer/player/_/id/307381/gabri-veiga"
+                  },
+                  "team": {
+                    "name": "FC Porto",
+                    "href": "https://www.espn.com/soccer/club/_/id/437/fc-porto"
+                  },
+                  "appearances": "31",
+                  "goalAssists": "8"
+                },
+                {
+                  "rank": 6,
+                  "athlete": {
+                    "name": "Alberto Costa",
+                    "uid": "s:600~a:346111",
+                    "guid": "f29d30a5-df4f-3a3e-9b8a-f0c68d12490b",
+                    "href": "https://www.espn.com/soccer/player/_/id/346111/alberto-costa"
+                  },
+                  "team": {
+                    "name": "FC Porto",
+                    "href": "https://www.espn.com/soccer/club/_/id/437/fc-porto"
+                  },
+                  "appearances": "29",
+                  "goalAssists": "8"
+                },
+                {
+                  "rank": 7,
+                  "athlete": {
+                    "name": "Pedro Gonçalves",
+                    "uid": "s:600~a:262591",
+                    "guid": "0cede6d1-8590-a4b5-3a67-451763cd1a88",
+                    "href": "https://www.espn.com/soccer/player/_/id/262591/pedro-goncalves"
+                  },
+                  "team": {
+                    "name": "Sporting CP",
+                    "href": "https://www.espn.com/soccer/club/_/id/2250/sporting-cp"
+                  },
+                  "appearances": "27",
+                  "goalAssists": "8"
+                },
+                {
+                  "rank": 8,
+                  "athlete": {
+                    "name": "Jordan Holsgrove",
+                    "uid": "s:600~a:243734",
+                    "guid": "c61e44af-a9b6-c29e-ef95-5af30c1e01bf",
+                    "href": "https://www.espn.com/soccer/player/_/id/243734/jordan-holsgrove"
+                  },
+                  "team": {
+                    "name": "Estoril",
+                    "href": "https://www.espn.com/soccer/club/_/id/12216/estoril"
+                  },
+                  "appearances": "33",
+                  "goalAssists": "7"
+                },
+                {
+                  "rank": 9,
+                  "athlete": {
+                    "name": "Gil Dias",
+                    "uid": "s:600~a:229573",
+                    "guid": "a7f3afd6-4091-ccfa-4d2c-59573bd3b824",
+                    "href": "https://www.espn.com/soccer/player/_/id/229573/gil-dias"
+                  },
+                  "team": {
+                    "name": "FC Famalicao",
+                    "href": "https://www.espn.com/soccer/club/_/id/12698/fc-famalicao"
+                  },
+                  "appearances": "33",
+                  "goalAssists": "7"
+                },
+                {
+                  "rank": 10,
+                  "athlete": {
+                    "name": "Victor Froholdt",
+                    "uid": "s:600~a:373520",
+                    "guid": "d61fec94-0ec7-3ced-b995-d1389309a2ea",
+                    "href": "https://www.espn.com/soccer/player/_/id/373520/victor-froholdt"
+                  },
+                  "team": {
+                    "name": "FC Porto",
+                    "href": "https://www.espn.com/soccer/club/_/id/437/fc-porto"
+                  },
+                  "appearances": "34",
+                  "goalAssists": "6"
+                }
+              ]
+            }
+          ],
+          "import_value": "Good for goals, assists, appearances and ESPN player/team IDs from public leaderboard pages. Not full minutes/starts/clean-sheets by itself."
+        },
+        "footystats": {
+          "status": "metadata_available_csv_or_api_gated",
+          "dataset_page": {
+            "url": "https://footystats.org/portugal/liga-nos/datasets",
+            "status": 200,
+            "bytes": 267118,
+            "title": "Liga NOS Datasets & Excel Downloads  | FootyStats",
+            "season": "2025/26",
+            "player_csv_rows": "644",
+            "match_csv_rows": "306"
+          },
+          "players_page": {
+            "url": "https://footystats.org/portugal/liga-nos/players",
+            "status": 200,
+            "bytes": 480096,
+            "title": "Liga NOS Player Stats  | FootyStats",
+            "headings": [
+              "Liga NOS Top Scorers and Most Clean Sheets",
+              "Top Scorers",
+              "Assists Table",
+              "Most Clean Sheets",
+              "Appearances",
+              "Conceded",
+              "Assists Per 90",
+              "Conceded Per 90",
+              "Penalty Goals",
+              "Yellow Cards",
+              "Player FAQ for the Liga NOS",
+              "Who Has Scored The Most Goals?",
+              "Who Has The Most Assists?",
+              "Who Has The Most Clean Sheets?",
+              "Who Has Conceded The Most Goals?",
+              "Who Has The Most Assists Per 90?",
+              "Who Has Conceded The Most Goals Per 90?",
+              "Who Has Scored The Most Penalties?"
+            ]
+          },
+          "api_docs": "https://footystats.org/api/documentations/player-individual",
+          "access_note": "Dataset pages expose current row counts, but current CSV downloads redirected to Premium in this test. JSON player endpoint requires a FootyStats API key."
+        },
+        "fbref": {
+          "status": "blocked_by_cloudflare_in_local_fetch",
+          "url": "https://fbref.com/en/comps/32/stats/Primeira-Liga-Stats",
+          "http_status": 403,
+          "bytes": 5749,
+          "title": "Just a moment...",
+          "has_standard_table_marker": false,
+          "note": "Search/web results show current FBref player-standard-stat pages exist, but direct automated fetch returned Cloudflare challenge HTML."
+        },
+        "excel4soccer": {
+          "status": "workbook_page_available_download_locked_in_html_test",
+          "url": "https://www.excel4soccer.com/download/soccer-stats-in-excel-liga-portugal/",
+          "http_status": 200,
+          "title": "Soccer Stats In Excel - Liga Protugal 2025-26 (R01) - Excel4Soccer",
+          "package_id": "2097",
+          "file_size": "7.18 MB",
+          "file_count": "1",
+          "create_date": "August 23, 2025",
+          "last_updated": "August 23, 2025",
+          "access_note": "The article says these workbooks are free and sourced from ESPN sports data API, but the HTML download button is a locked WordPress Download Manager link in this automated test."
+        }
+      },
+      "roster_leaderboard_matches": [
+        {
+          "player_id": "colombia-luis-suarez",
+          "name": "Luis Suarez",
+          "country": "Colombia",
+          "roster_club": "Sporting CP",
+          "espn_team": "Sporting CP",
+          "table": "Top Scorers",
+          "matched_on": "name_and_club",
+          "row": {
+            "rank": 1,
+            "athlete": {
+              "name": "Luis Suárez",
+              "uid": "s:600~a:272722",
+              "guid": "26b70748-4173-44e0-1f83-01954be4777d",
+              "href": "https://www.espn.com/soccer/player/_/id/272722/luis-suarez"
+            },
+            "team": {
+              "name": "Sporting CP",
+              "href": "https://www.espn.com/soccer/club/_/id/2250/sporting-cp"
+            },
+            "appearances": "32",
+            "totalGoals": "28"
+          }
+        },
+        {
+          "player_id": "uruguay-rodrigo-zalazar",
+          "name": "Rodrigo Zalazar",
+          "country": "Uruguay",
+          "roster_club": "Braga",
+          "espn_team": "Braga",
+          "table": "Top Scorers",
+          "matched_on": "name_and_club",
+          "row": {
+            "rank": 5,
+            "athlete": {
+              "name": "Rodrigo Zalazar",
+              "uid": "s:600~a:287494",
+              "guid": "f7ee8f08-8d5d-e78b-f2a0-66aa14a0406d",
+              "href": "https://www.espn.com/soccer/player/_/id/287494/rodrigo-zalazar"
+            },
+            "team": {
+              "name": "Braga",
+              "href": "https://www.espn.com/soccer/club/_/id/2994/braga"
+            },
+            "appearances": "28",
+            "totalGoals": "16"
+          }
+        },
+        {
+          "player_id": "portugal-francisco-trincao",
+          "name": "Francisco Trincao",
+          "country": "Portugal",
+          "roster_club": "Sporting CP",
+          "espn_team": "Sporting CP",
+          "table": "Top Assists",
+          "matched_on": "name_and_club",
+          "row": {
+            "rank": 1,
+            "athlete": {
+              "name": "Francisco Trincão",
+              "uid": "s:600~a:274159",
+              "guid": "9cdcc108-72da-9cdc-1a56-2064eb62767c",
+              "href": "https://www.espn.com/soccer/player/_/id/274159/francisco-trincao"
+            },
+            "team": {
+              "name": "Sporting CP",
+              "href": "https://www.espn.com/soccer/club/_/id/2250/sporting-cp"
+            },
+            "appearances": "34",
+            "goalAssists": "11"
+          }
+        }
+      ],
+      "recommended_next_action": "Build an ESPN leaderboard importer for names and ESPN IDs, then use ESPN match summaries or Excel4Soccer/FootyStats API for minutes and starts."
+    },
+    {
+      "league_id": "belgium-pro-league",
+      "label": "Belgian Pro League",
+      "country": "Belgium",
+      "tested_sources": {
+        "espn": {
+          "status": "usable_public_html_leaderboards",
+          "stats_page": {
+            "url": "https://www.espn.com/soccer/stats/_/league/bel.1",
+            "status": 200,
+            "bytes": 402165,
+            "title": "Belgian Pro League Stats, 2025-26 Season - ESPN",
+            "parsed_tables": 2
+          },
+          "teams_api": {
+            "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/bel.1/teams",
+            "status": 200,
+            "league_name": "Belgian Pro League",
+            "team_count": 16,
+            "teams_sample": [
+              {
+                "id": "441",
+                "displayName": "Anderlecht",
+                "shortDisplayName": "Anderlecht",
+                "name": "Anderlecht",
+                "abbreviation": "AND"
+              },
+              {
+                "id": "17544",
+                "displayName": "Antwerp",
+                "shortDisplayName": "Antwerp",
+                "name": "Antwerp",
+                "abbreviation": "ANT"
+              },
+              {
+                "id": "3610",
+                "displayName": "Cercle Brugge KSV",
+                "shortDisplayName": "Cercle Brugge",
+                "name": "Cercle Brugge KSV",
+                "abbreviation": "CBK"
+              },
+              {
+                "id": "570",
+                "displayName": "Club Brugge",
+                "shortDisplayName": "Club Brugge",
+                "name": "Club Brugge",
+                "abbreviation": "BRU"
+              },
+              {
+                "id": "7878",
+                "displayName": "Dender",
+                "shortDisplayName": "Dender",
+                "name": "Dender",
+                "abbreviation": "DEN"
+              },
+              {
+                "id": "3611",
+                "displayName": "KAA Gent",
+                "shortDisplayName": "KAA Gent",
+                "name": "KAA Gent",
+                "abbreviation": "GENT"
+              },
+              {
+                "id": "7879",
+                "displayName": "KV Mechelen",
+                "shortDisplayName": "KV Mechelen",
+                "name": "KV Mechelen",
+                "abbreviation": "KVM"
+              },
+              {
+                "id": "606",
+                "displayName": "KVC Westerlo",
+                "shortDisplayName": "Westerlo",
+                "name": "KVC Westerlo",
+                "abbreviation": "KVCW"
+              }
+            ]
+          },
+          "scoreboard_api": {
+            "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/bel.1/scoreboard",
+            "status": 200,
+            "league_name": "Belgian Pro League",
+            "event_count": 1,
+            "first_event": "Racing Genk at KAA Gent"
+          },
+          "leaderboard_tables": [
+            {
+              "title": "Top Scorers",
+              "style": "top-score-table",
+              "headers": [
+                {
+                  "type": "rank",
+                  "title": "RK",
+                  "desc": "Ranking"
+                },
+                {
+                  "type": "athlete",
+                  "title": "Name",
+                  "desc": null
+                },
+                {
+                  "type": "team",
+                  "title": "Team",
+                  "desc": null
+                },
+                {
+                  "type": "appearances",
+                  "title": "P",
+                  "desc": "Games Played"
+                },
+                {
+                  "type": "totalGoals",
+                  "title": "G",
+                  "desc": "total_goals"
+                }
+              ],
+              "row_count": 50,
+              "sample_rows": [
+                {
+                  "rank": 1,
+                  "athlete": {
+                    "name": "Nicolo Tresoldi",
+                    "uid": "s:600~a:335201",
+                    "guid": "8e5f2c43-dfca-31d5-a910-3139e34de172",
+                    "href": "https://www.espn.com/soccer/player/_/id/335201/nicolo-tresoldi"
+                  },
+                  "team": {
+                    "name": "Club Brugge",
+                    "href": "https://www.espn.com/soccer/club/_/id/570/club-brugge"
+                  },
+                  "appearances": "29",
+                  "totalGoals": "12"
+                },
+                {
+                  "rank": 2,
+                  "athlete": {
+                    "name": "Thorgan Hazard",
+                    "uid": "s:600~a:158066",
+                    "guid": "80e784b3-44ae-893a-5bf3-9cad49ff6b96",
+                    "href": "https://www.espn.com/soccer/player/_/id/158066/thorgan-hazard"
+                  },
+                  "team": {
+                    "name": "Anderlecht",
+                    "href": "https://www.espn.com/soccer/club/_/id/441/anderlecht"
+                  },
+                  "appearances": "26",
+                  "totalGoals": "11"
+                },
+                {
+                  "rank": 3,
+                  "athlete": {
+                    "name": "Keisuke Goto",
+                    "uid": "s:600~a:346208",
+                    "guid": "77206286-a824-3f70-a11d-ddf933d1280c",
+                    "href": "https://www.espn.com/soccer/player/_/id/346208/keisuke-goto"
+                  },
+                  "team": {
+                    "name": "Sint-Truidense",
+                    "href": "https://www.espn.com/soccer/club/_/id/936/sint-truidense"
+                  },
+                  "appearances": "27",
+                  "totalGoals": "10"
+                },
+                {
+                  "rank": 4,
+                  "athlete": {
+                    "name": "Jeppe Erenbjerg",
+                    "uid": "s:600~a:406195",
+                    "guid": "c575b075-db40-331b-8f80-a501d7300885",
+                    "href": "https://www.espn.com/soccer/player/_/id/406195/jeppe-erenbjerg"
+                  },
+                  "team": {
+                    "name": "Zulte-Waregem",
+                    "href": "https://www.espn.com/soccer/club/_/id/4691/zulte-waregem"
+                  },
+                  "appearances": "29",
+                  "totalGoals": "9"
+                },
+                {
+                  "rank": 5,
+                  "athlete": {
+                    "name": "Christos Tzolis",
+                    "uid": "s:600~a:303793",
+                    "guid": "506ebd77-211b-3df0-81bb-db6cf2b828cb",
+                    "href": "https://www.espn.com/soccer/player/_/id/303793/christos-tzolis"
+                  },
+                  "team": {
+                    "name": "Club Brugge",
+                    "href": "https://www.espn.com/soccer/club/_/id/570/club-brugge"
+                  },
+                  "appearances": "25",
+                  "totalGoals": "9"
+                },
+                {
+                  "rank": 6,
+                  "athlete": {
+                    "name": "Wilfried Kanga",
+                    "uid": "s:600~a:241689",
+                    "guid": "aa957e3e-eb0b-8eee-859d-744c6cc4cbc7",
+                    "href": "https://www.espn.com/soccer/player/_/id/241689/wilfried-kanga"
+                  },
+                  "team": {
+                    "name": "KAA Gent",
+                    "href": "https://www.espn.com/soccer/club/_/id/3611/kaa-gent"
+                  },
+                  "appearances": "25",
+                  "totalGoals": "9"
+                },
+                {
+                  "rank": 7,
+                  "athlete": {
+                    "name": "Promise David",
+                    "uid": "s:600~a:318522",
+                    "guid": "c449b546-888b-304a-96da-e6110b69f2ab",
+                    "href": "https://www.espn.com/soccer/player/_/id/318522/promise-david"
+                  },
+                  "team": {
+                    "name": "Union St.-Gilloise",
+                    "href": "https://www.espn.com/soccer/club/_/id/5807/union-st-gilloise"
+                  },
+                  "appearances": "24",
+                  "totalGoals": "9"
+                },
+                {
+                  "rank": 8,
+                  "athlete": {
+                    "name": "Parfait Guiagon",
+                    "uid": "s:600~a:257055",
+                    "guid": "bae0e4bc-342d-00c9-d56e-868250f54bf7",
+                    "href": "https://www.espn.com/soccer/player/_/id/257055/parfait-guiagon"
+                  },
+                  "team": {
+                    "name": "Royal Charleroi SC",
+                    "href": "https://www.espn.com/soccer/club/_/id/3616/royal-charleroi-sc"
+                  },
+                  "appearances": "26",
+                  "totalGoals": "8"
+                },
+                {
+                  "rank": 9,
+                  "athlete": {
+                    "name": "Bruny Nsimba",
+                    "uid": "s:600~a:304839",
+                    "guid": "a38e1e45-384b-3e47-a952-2f2632920487",
+                    "href": "https://www.espn.com/soccer/player/_/id/304839/bruny-nsimba"
+                  },
+                  "team": {
+                    "name": "Dender",
+                    "href": "https://www.espn.com/soccer/club/_/id/7878/dender"
+                  },
+                  "appearances": "25",
+                  "totalGoals": "8"
+                },
+                {
+                  "rank": 10,
+                  "athlete": {
+                    "name": "Kevin Rodríguez",
+                    "uid": "s:600~a:281316",
+                    "guid": "a491436c-f539-29a8-2415-3c7b54c0f51e",
+                    "href": "https://www.espn.com/soccer/player/_/id/281316/kevin-rodriguez"
+                  },
+                  "team": {
+                    "name": "Union St.-Gilloise",
+                    "href": "https://www.espn.com/soccer/club/_/id/5807/union-st-gilloise"
+                  },
+                  "appearances": "21",
+                  "totalGoals": "8"
+                }
+              ]
+            },
+            {
+              "title": "Top Assists",
+              "style": "top-assists-table",
+              "headers": [
+                {
+                  "type": "rank",
+                  "title": "RK",
+                  "desc": "Ranking"
+                },
+                {
+                  "type": "athlete",
+                  "title": "Name",
+                  "desc": null
+                },
+                {
+                  "type": "team",
+                  "title": "Team",
+                  "desc": null
+                },
+                {
+                  "type": "appearances",
+                  "title": "P",
+                  "desc": "Games Played"
+                },
+                {
+                  "type": "goalAssists",
+                  "title": "A",
+                  "desc": "Assists"
+                }
+              ],
+              "row_count": 50,
+              "sample_rows": [
+                {
+                  "rank": 1,
+                  "athlete": {
+                    "name": "Christos Tzolis",
+                    "uid": "s:600~a:303793",
+                    "guid": "506ebd77-211b-3df0-81bb-db6cf2b828cb",
+                    "href": "https://www.espn.com/soccer/player/_/id/303793/christos-tzolis"
+                  },
+                  "team": {
+                    "name": "Club Brugge",
+                    "href": "https://www.espn.com/soccer/club/_/id/570/club-brugge"
+                  },
+                  "appearances": "25",
+                  "goalAssists": "11"
+                },
+                {
+                  "rank": 2,
+                  "athlete": {
+                    "name": "Konstantinos Karetsas",
+                    "uid": "s:600~a:357801",
+                    "guid": "5bbac19b-4391-34a7-a04f-73d12089e162",
+                    "href": "https://www.espn.com/soccer/player/_/id/357801/konstantinos-karetsas"
+                  },
+                  "team": {
+                    "name": "Racing Genk",
+                    "href": "https://www.espn.com/soccer/club/_/id/938/racing-genk"
+                  },
+                  "appearances": "27",
+                  "goalAssists": "9"
+                },
+                {
+                  "rank": 3,
+                  "athlete": {
+                    "name": "Patrick Pflücke",
+                    "uid": "s:600~a:206569",
+                    "guid": "9b891483-9dc5-a353-ec98-a9ad34414ed2",
+                    "href": "https://www.espn.com/soccer/player/_/id/206569/patrick-pflucke"
+                  },
+                  "team": {
+                    "name": "Royal Charleroi SC",
+                    "href": "https://www.espn.com/soccer/club/_/id/3616/royal-charleroi-sc"
+                  },
+                  "appearances": "30",
+                  "goalAssists": "7"
+                },
+                {
+                  "rank": 4,
+                  "athlete": {
+                    "name": "Carlos Forbs",
+                    "uid": "s:600~a:78836",
+                    "guid": "573928c4-fcbe-2795-bdcd-c00ba2aab4b3",
+                    "href": "https://www.espn.com/soccer/player/_/id/78836/carlos-forbs"
+                  },
+                  "team": {
+                    "name": "Club Brugge",
+                    "href": "https://www.espn.com/soccer/club/_/id/570/club-brugge"
+                  },
+                  "appearances": "26",
+                  "goalAssists": "7"
+                },
+                {
+                  "rank": 5,
+                  "athlete": {
+                    "name": "Mamadou Diakhon",
+                    "uid": "s:600~a:362875",
+                    "guid": "26e3b1a4-4f4f-30bb-b950-c04c8930eaaf",
+                    "href": "https://www.espn.com/soccer/player/_/id/362875/mamadou-diakhon"
+                  },
+                  "team": {
+                    "name": "Club Brugge",
+                    "href": "https://www.espn.com/soccer/club/_/id/570/club-brugge"
+                  },
+                  "appearances": "19",
+                  "goalAssists": "7"
+                },
+                {
+                  "rank": 6,
+                  "athlete": {
+                    "name": "Gary Magnée",
+                    "uid": "s:600~a:290547",
+                    "guid": "f235a8de-3792-814b-23a2-c2c998f26b95",
+                    "href": "https://www.espn.com/soccer/player/_/id/290547/gary-magnee"
+                  },
+                  "team": {
+                    "name": "Cercle Brugge KSV",
+                    "href": "https://www.espn.com/soccer/club/_/id/3610/cercle-brugge-ksv"
+                  },
+                  "appearances": "29",
+                  "goalAssists": "6"
+                },
+                {
+                  "rank": 7,
+                  "athlete": {
+                    "name": "Thorgan Hazard",
+                    "uid": "s:600~a:158066",
+                    "guid": "80e784b3-44ae-893a-5bf3-9cad49ff6b96",
+                    "href": "https://www.espn.com/soccer/player/_/id/158066/thorgan-hazard"
+                  },
+                  "team": {
+                    "name": "Anderlecht",
+                    "href": "https://www.espn.com/soccer/club/_/id/441/anderlecht"
+                  },
+                  "appearances": "26",
+                  "goalAssists": "6"
+                },
+                {
+                  "rank": 8,
+                  "athlete": {
+                    "name": "Jarne Steuckers",
+                    "uid": "s:600~a:312807",
+                    "guid": "ea8a9086-b211-37dd-8a2f-44c020c8129a",
+                    "href": "https://www.espn.com/soccer/player/_/id/312807/jarne-steuckers"
+                  },
+                  "team": {
+                    "name": "Racing Genk",
+                    "href": "https://www.espn.com/soccer/club/_/id/938/racing-genk"
+                  },
+                  "appearances": "25",
+                  "goalAssists": "6"
+                },
+                {
+                  "rank": 9,
+                  "athlete": {
+                    "name": "Rihito Yamamoto",
+                    "uid": "s:600~a:347980",
+                    "guid": "2c91afcb-5bfe-37e0-9600-86da56433218",
+                    "href": "https://www.espn.com/soccer/player/_/id/347980/rihito-yamamoto"
+                  },
+                  "team": {
+                    "name": "Sint-Truidense",
+                    "href": "https://www.espn.com/soccer/club/_/id/936/sint-truidense"
+                  },
+                  "appearances": "28",
+                  "goalAssists": "5"
+                },
+                {
+                  "rank": 10,
+                  "athlete": {
+                    "name": "Keisuke Goto",
+                    "uid": "s:600~a:346208",
+                    "guid": "77206286-a824-3f70-a11d-ddf933d1280c",
+                    "href": "https://www.espn.com/soccer/player/_/id/346208/keisuke-goto"
+                  },
+                  "team": {
+                    "name": "Sint-Truidense",
+                    "href": "https://www.espn.com/soccer/club/_/id/936/sint-truidense"
+                  },
+                  "appearances": "27",
+                  "goalAssists": "5"
+                }
+              ]
+            }
+          ],
+          "import_value": "Good for goals, assists, appearances and ESPN player/team IDs from public leaderboard pages. Not full minutes/starts/clean-sheets by itself."
+        },
+        "footystats": {
+          "status": "metadata_available_csv_or_api_gated",
+          "dataset_page": {
+            "url": "https://footystats.org/belgium/pro-league/datasets",
+            "status": 200,
+            "bytes": 261372,
+            "title": "Pro League Datasets & Excel Downloads  | FootyStats",
+            "season": "2025/26",
+            "player_csv_rows": "555",
+            "match_csv_rows": "313"
+          },
+          "players_page": {
+            "url": "https://footystats.org/belgium/pro-league/players",
+            "status": 200,
+            "bytes": 470993,
+            "title": "Pro League Player Stats  | FootyStats",
+            "headings": [
+              "Pro League Top Scorers and Most Clean Sheets",
+              "Top Scorers",
+              "Assists Table",
+              "Most Clean Sheets",
+              "Appearances",
+              "Conceded",
+              "Assists Per 90",
+              "Conceded Per 90",
+              "Penalty Goals",
+              "Yellow Cards",
+              "Player FAQ for the Pro League",
+              "Who Has Scored The Most Goals?",
+              "Who Has The Most Assists?",
+              "Who Has The Most Clean Sheets?",
+              "Who Has Conceded The Most Goals?",
+              "Who Has The Most Assists Per 90?",
+              "Who Has Conceded The Most Goals Per 90?",
+              "Who Has Scored The Most Penalties?"
+            ]
+          },
+          "api_docs": "https://footystats.org/api/documentations/player-individual",
+          "access_note": "Dataset pages expose current row counts, but current CSV downloads redirected to Premium in this test. JSON player endpoint requires a FootyStats API key."
+        },
+        "fbref": {
+          "status": "blocked_by_cloudflare_in_local_fetch",
+          "url": "https://fbref.com/en/comps/37/stats/Belgian-Pro-League-Stats",
+          "http_status": 403,
+          "bytes": 5786,
+          "title": "Just a moment...",
+          "has_standard_table_marker": false,
+          "note": "Search/web results show current FBref player-standard-stat pages exist, but direct automated fetch returned Cloudflare challenge HTML."
+        },
+        "excel4soccer": {
+          "status": "workbook_page_available_download_locked_in_html_test",
+          "url": "https://www.excel4soccer.com/download/soccer-stats-in-excel-belgian-pro-league/",
+          "http_status": 200,
+          "title": "Soccer Stats In Excel - Belgian Pro League 2025-26 (R01) - Excel4Soccer",
+          "package_id": "2106",
+          "file_size": "5.34 MB",
+          "file_count": "1",
+          "create_date": "August 23, 2025",
+          "last_updated": "August 23, 2025",
+          "access_note": "The article says these workbooks are free and sourced from ESPN sports data API, but the HTML download button is a locked WordPress Download Manager link in this automated test."
+        }
+      },
+      "roster_leaderboard_matches": [
+        {
+          "player_id": "japan-keisuke-goto",
+          "name": "Keisuke Goto",
+          "country": "Japan",
+          "roster_club": "Sint-Truiden",
+          "espn_team": "Sint-Truidense",
+          "table": "Top Scorers",
+          "matched_on": "name_and_club",
+          "row": {
+            "rank": 3,
+            "athlete": {
+              "name": "Keisuke Goto",
+              "uid": "s:600~a:346208",
+              "guid": "77206286-a824-3f70-a11d-ddf933d1280c",
+              "href": "https://www.espn.com/soccer/player/_/id/346208/keisuke-goto"
+            },
+            "team": {
+              "name": "Sint-Truidense",
+              "href": "https://www.espn.com/soccer/club/_/id/936/sint-truidense"
+            },
+            "appearances": "27",
+            "totalGoals": "10"
+          }
+        },
+        {
+          "player_id": "canada-promise-david",
+          "name": "Promise David",
+          "country": "Canada",
+          "roster_club": "Union Saint-Gilloise",
+          "espn_team": "Union St.-Gilloise",
+          "table": "Top Scorers",
+          "matched_on": "name_only_review_needed",
+          "row": {
+            "rank": 7,
+            "athlete": {
+              "name": "Promise David",
+              "uid": "s:600~a:318522",
+              "guid": "c449b546-888b-304a-96da-e6110b69f2ab",
+              "href": "https://www.espn.com/soccer/player/_/id/318522/promise-david"
+            },
+            "team": {
+              "name": "Union St.-Gilloise",
+              "href": "https://www.espn.com/soccer/club/_/id/5807/union-st-gilloise"
+            },
+            "appearances": "24",
+            "totalGoals": "9"
+          }
+        },
+        {
+          "player_id": "cote-d-ivoire-parfait-guiagon",
+          "name": "Parfait Guiagon",
+          "country": "Côte d'Ivoire",
+          "roster_club": "Charleroi",
+          "espn_team": "Royal Charleroi SC",
+          "table": "Top Scorers",
+          "matched_on": "name_and_club",
+          "row": {
+            "rank": 8,
+            "athlete": {
+              "name": "Parfait Guiagon",
+              "uid": "s:600~a:257055",
+              "guid": "bae0e4bc-342d-00c9-d56e-868250f54bf7",
+              "href": "https://www.espn.com/soccer/player/_/id/257055/parfait-guiagon"
+            },
+            "team": {
+              "name": "Royal Charleroi SC",
+              "href": "https://www.espn.com/soccer/club/_/id/3616/royal-charleroi-sc"
+            },
+            "appearances": "26",
+            "totalGoals": "8"
+          }
+        },
+        {
+          "player_id": "ecuador-kevin-rodriguez",
+          "name": "Kevin Rodríguez",
+          "country": "Ecuador",
+          "roster_club": "Union Saint-Gilloise",
+          "espn_team": "Union St.-Gilloise",
+          "table": "Top Scorers",
+          "matched_on": "name_only_review_needed",
+          "row": {
+            "rank": 10,
+            "athlete": {
+              "name": "Kevin Rodríguez",
+              "uid": "s:600~a:281316",
+              "guid": "a491436c-f539-29a8-2415-3c7b54c0f51e",
+              "href": "https://www.espn.com/soccer/player/_/id/281316/kevin-rodriguez"
+            },
+            "team": {
+              "name": "Union St.-Gilloise",
+              "href": "https://www.espn.com/soccer/club/_/id/5807/union-st-gilloise"
+            },
+            "appearances": "21",
+            "totalGoals": "8"
+          }
+        },
+        {
+          "player_id": "japan-keisuke-goto",
+          "name": "Keisuke Goto",
+          "country": "Japan",
+          "roster_club": "Sint-Truiden",
+          "espn_team": "Sint-Truidense",
+          "table": "Top Assists",
+          "matched_on": "name_and_club",
+          "row": {
+            "rank": 10,
+            "athlete": {
+              "name": "Keisuke Goto",
+              "uid": "s:600~a:346208",
+              "guid": "77206286-a824-3f70-a11d-ddf933d1280c",
+              "href": "https://www.espn.com/soccer/player/_/id/346208/keisuke-goto"
+            },
+            "team": {
+              "name": "Sint-Truidense",
+              "href": "https://www.espn.com/soccer/club/_/id/936/sint-truidense"
+            },
+            "appearances": "27",
+            "goalAssists": "5"
+          }
+        }
+      ],
+      "recommended_next_action": "Build an ESPN leaderboard importer for names and ESPN IDs, then use ESPN match summaries or Excel4Soccer/FootyStats API for minutes and starts."
+    },
+    {
+      "league_id": "poland-ekstraklasa",
+      "label": "Polish Ekstraklasa",
+      "country": "Poland",
+      "tested_sources": {
+        "espn": {
+          "status": "not_available",
+          "stats_page": {
+            "url": "https://www.espn.com/soccer/stats/_/league/pol.1",
+            "status": 400,
+            "bytes": 59872,
+            "title": "ESPN - Serving Sports Fans. Anytime. Anywhere.",
+            "parsed_tables": 0
+          },
+          "teams_api": {
+            "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/pol.1/teams",
+            "status": 404,
+            "league_name": null,
+            "team_count": 0,
+            "teams_sample": []
+          },
+          "scoreboard_api": {
+            "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/pol.1/scoreboard",
+            "status": 400,
+            "league_name": null,
+            "event_count": 0,
+            "first_event": null
+          },
+          "leaderboard_tables": [],
+          "import_value": "No usable player leaderboard parsed in this test."
+        },
+        "footystats": {
+          "status": "metadata_available_csv_or_api_gated",
+          "dataset_page": {
+            "url": "https://footystats.org/poland/ekstraklasa/datasets",
+            "status": 200,
+            "bytes": 270007,
+            "title": "Ekstraklasa Datasets & Excel Downloads  | FootyStats",
+            "season": "2025/26",
+            "player_csv_rows": "627",
+            "match_csv_rows": "306"
+          },
+          "players_page": {
+            "url": "https://footystats.org/poland/ekstraklasa/players",
+            "status": 200,
+            "bytes": 477541,
+            "title": "Ekstraklasa Player Stats  | FootyStats",
+            "headings": [
+              "Ekstraklasa Top Scorers and Most Clean Sheets",
+              "Top Scorers",
+              "Assists Table",
+              "Most Clean Sheets",
+              "Appearances",
+              "Conceded",
+              "Assists Per 90",
+              "Conceded Per 90",
+              "Penalty Goals",
+              "Yellow Cards",
+              "Player FAQ for the Ekstraklasa",
+              "Who Has Scored The Most Goals?",
+              "Who Has The Most Assists?",
+              "Who Has The Most Clean Sheets?",
+              "Who Has Conceded The Most Goals?",
+              "Who Has The Most Assists Per 90?",
+              "Who Has Conceded The Most Goals Per 90?",
+              "Who Has Scored The Most Penalties?"
+            ]
+          },
+          "api_docs": "https://footystats.org/api/documentations/player-individual",
+          "access_note": "Dataset pages expose current row counts, but current CSV downloads redirected to Premium in this test. JSON player endpoint requires a FootyStats API key."
+        },
+        "fbref": {
+          "status": "blocked_by_cloudflare_in_local_fetch",
+          "url": "https://fbref.com/en/comps/36/stats/Statistiques-Ekstraklasa",
+          "http_status": 403,
+          "bytes": 5786,
+          "title": "Just a moment...",
+          "has_standard_table_marker": false,
+          "note": "Search/web results show current FBref player-standard-stat pages exist, but direct automated fetch returned Cloudflare challenge HTML."
+        },
+        "excel4soccer": {
+          "status": "not_found_for_this_league_in_this_pass"
+        }
+      },
+      "roster_leaderboard_matches": [],
+      "recommended_next_action": "Use FootyStats API or current CSV access if credentials are available; otherwise parse public leaderboards as weak context."
+    },
+    {
+      "league_id": "greece-super-league",
+      "label": "Greek Super League",
+      "country": "Greece",
+      "tested_sources": {
+        "espn": {
+          "status": "usable_public_html_leaderboards",
+          "stats_page": {
+            "url": "https://www.espn.com/soccer/stats/_/league/gre.1",
+            "status": 200,
+            "bytes": 400996,
+            "title": "Greek Super League Stats, 2025-26 Season - ESPN",
+            "parsed_tables": 2
+          },
+          "teams_api": {
+            "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/gre.1/teams",
+            "status": 200,
+            "league_name": "Greek Super League",
+            "team_count": 14,
+            "teams_sample": [
+              {
+                "id": "887",
+                "displayName": "AEK Athens",
+                "shortDisplayName": "AEK Athens",
+                "name": "AEK Athens",
+                "abbreviation": "AEK"
+              },
+              {
+                "id": "11553",
+                "displayName": "Aris",
+                "shortDisplayName": "Aris",
+                "name": "Aris",
+                "abbreviation": "ARI"
+              },
+              {
+                "id": "8354",
+                "displayName": "Asteras Tripoli",
+                "shortDisplayName": "Asteras Trip",
+                "name": "Asteras Tripoli",
+                "abbreviation": "AST"
+              },
+              {
+                "id": "6790",
+                "displayName": "Atromitos",
+                "shortDisplayName": "Atromitos",
+                "name": "Atromitos",
+                "abbreviation": "ATRO"
+              },
+              {
+                "id": "21969",
+                "displayName": "Kifisia",
+                "shortDisplayName": "Kifisia",
+                "name": "Kifisia",
+                "abbreviation": "KIF"
+              },
+              {
+                "id": "10418",
+                "displayName": "Larissa FC",
+                "shortDisplayName": "Larissa FC",
+                "name": "Larissa FC",
+                "abbreviation": "LAR"
+              },
+              {
+                "id": "5276",
+                "displayName": "Levadiakos",
+                "shortDisplayName": "Levadiakos",
+                "name": "Levadiakos",
+                "abbreviation": "LEV"
+              },
+              {
+                "id": "1010",
+                "displayName": "OFI Crete",
+                "shortDisplayName": "OFI Crete",
+                "name": "OFI Crete",
+                "abbreviation": "OFI"
+              }
+            ]
+          },
+          "scoreboard_api": {
+            "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/gre.1/scoreboard",
+            "status": 200,
+            "league_name": "Greek Super League",
+            "event_count": 3,
+            "first_event": "Panserraikos FC at Atromitos"
+          },
+          "leaderboard_tables": [
+            {
+              "title": "Top Scorers",
+              "style": "top-score-table",
+              "headers": [
+                {
+                  "type": "rank",
+                  "title": "RK",
+                  "desc": "Ranking"
+                },
+                {
+                  "type": "athlete",
+                  "title": "Name",
+                  "desc": null
+                },
+                {
+                  "type": "team",
+                  "title": "Team",
+                  "desc": null
+                },
+                {
+                  "type": "appearances",
+                  "title": "P",
+                  "desc": "Games Played"
+                },
+                {
+                  "type": "totalGoals",
+                  "title": "G",
+                  "desc": "total_goals"
+                }
+              ],
+              "row_count": 50,
+              "sample_rows": [
+                {
+                  "rank": 1,
+                  "athlete": {
+                    "name": "Ayoub El Kaabi",
+                    "uid": "s:600~a:269562",
+                    "guid": "ffca20c8-516d-d972-d760-b83d65dbcd1f",
+                    "href": "https://www.espn.com/soccer/player/_/id/269562/ayoub-el-kaabi"
+                  },
+                  "team": {
+                    "name": "Olympiacos",
+                    "href": "https://www.espn.com/soccer/club/_/id/435/olympiacos"
+                  },
+                  "appearances": "20",
+                  "totalGoals": "15"
+                },
+                {
+                  "rank": 2,
+                  "athlete": {
+                    "name": "Luka Jovic",
+                    "uid": "s:600~a:221332",
+                    "guid": "ac141c7e-4d24-bf85-d094-522111b389d5",
+                    "href": "https://www.espn.com/soccer/player/_/id/221332/luka-jovic"
+                  },
+                  "team": {
+                    "name": "AEK Athens",
+                    "href": "https://www.espn.com/soccer/club/_/id/887/aek-athens"
+                  },
+                  "appearances": "22",
+                  "totalGoals": "13"
+                },
+                {
+                  "rank": 3,
+                  "athlete": {
+                    "name": "Fabricio Pedrozo",
+                    "uid": "s:600~a:155082",
+                    "guid": "ad620a66-9174-676c-ae82-4eb978bf7ef1",
+                    "href": "https://www.espn.com/soccer/player/_/id/155082/fabricio-pedrozo"
+                  },
+                  "team": {
+                    "name": "Levadiakos",
+                    "href": "https://www.espn.com/soccer/club/_/id/5276/levadiakos"
+                  },
+                  "appearances": "24",
+                  "totalGoals": "10"
+                },
+                {
+                  "rank": 4,
+                  "athlete": {
+                    "name": "Mehdi Taremi",
+                    "uid": "s:600~a:219611",
+                    "guid": "2cbbea14-1129-92a3-1af2-f2fc24c96f9c",
+                    "href": "https://www.espn.com/soccer/player/_/id/219611/mehdi-taremi"
+                  },
+                  "team": {
+                    "name": "Olympiacos",
+                    "href": "https://www.espn.com/soccer/club/_/id/435/olympiacos"
+                  },
+                  "appearances": "17",
+                  "totalGoals": "10"
+                },
+                {
+                  "rank": 5,
+                  "athlete": {
+                    "name": "Eddie Salcedo",
+                    "uid": "s:600~a:261402",
+                    "guid": "3644d4d6-04e6-dbd8-5c4f-2e52cc48aaae",
+                    "href": "https://www.espn.com/soccer/player/_/id/261402/eddie-salcedo"
+                  },
+                  "team": {
+                    "name": "OFI Crete",
+                    "href": "https://www.espn.com/soccer/club/_/id/1010/ofi-crete"
+                  },
+                  "appearances": "20",
+                  "totalGoals": "9"
+                },
+                {
+                  "rank": 6,
+                  "athlete": {
+                    "name": "Alen Ozbolt",
+                    "uid": "s:600~a:257706",
+                    "guid": "cda2382a-9452-f4e7-e042-9047a8c71c2f",
+                    "href": "https://www.espn.com/soccer/player/_/id/257706/alen-ozbolt"
+                  },
+                  "team": {
+                    "name": "Levadiakos",
+                    "href": "https://www.espn.com/soccer/club/_/id/5276/levadiakos"
+                  },
+                  "appearances": "18",
+                  "totalGoals": "9"
+                },
+                {
+                  "rank": 7,
+                  "athlete": {
+                    "name": "Andrews Tetteh",
+                    "uid": "s:600~a:365703",
+                    "guid": "dd46c565-1ec9-3d01-af0c-aa7b9021074f",
+                    "href": "https://www.espn.com/soccer/player/_/id/365703/andrews-tetteh"
+                  },
+                  "team": {
+                    "name": "Panathinaikos",
+                    "href": "https://www.espn.com/soccer/club/_/id/443/panathinaikos"
+                  },
+                  "appearances": "23",
+                  "totalGoals": "7"
+                },
+                {
+                  "rank": 8,
+                  "athlete": {
+                    "name": "Julián Bartolo",
+                    "uid": "s:600~a:277607",
+                    "guid": "2394b480-788f-cc7b-e24a-ee32bfdf690f",
+                    "href": "https://www.espn.com/soccer/player/_/id/277607/julian-bartolo"
+                  },
+                  "team": {
+                    "name": "Asteras Tripoli",
+                    "href": "https://www.espn.com/soccer/club/_/id/8354/asteras-tripoli"
+                  },
+                  "appearances": "23",
+                  "totalGoals": "7"
+                },
+                {
+                  "rank": 9,
+                  "athlete": {
+                    "name": "Magomed Ozdoev",
+                    "uid": "s:600~a:117239",
+                    "guid": "ae45e608-ca5d-6059-b003-5e5906a70c67",
+                    "href": "https://www.espn.com/soccer/player/_/id/117239/magomed-ozdoev"
+                  },
+                  "team": {
+                    "name": "PAOK Salonika",
+                    "href": "https://www.espn.com/soccer/club/_/id/605/paok-salonika"
+                  },
+                  "appearances": "22",
+                  "totalGoals": "7"
+                },
+                {
+                  "rank": 10,
+                  "athlete": {
+                    "name": "Giorgos Giakoumakis",
+                    "uid": "s:600~a:239525",
+                    "guid": "459a71ea-f3de-1a15-25bb-a9a2ab862c4f",
+                    "href": "https://www.espn.com/soccer/player/_/id/239525/giorgos-giakoumakis"
+                  },
+                  "team": {
+                    "name": "PAOK Salonika",
+                    "href": "https://www.espn.com/soccer/club/_/id/605/paok-salonika"
+                  },
+                  "appearances": "19",
+                  "totalGoals": "7"
+                }
+              ]
+            },
+            {
+              "title": "Top Assists",
+              "style": "top-assists-table",
+              "headers": [
+                {
+                  "type": "rank",
+                  "title": "RK",
+                  "desc": "Ranking"
+                },
+                {
+                  "type": "athlete",
+                  "title": "Name",
+                  "desc": null
+                },
+                {
+                  "type": "team",
+                  "title": "Team",
+                  "desc": null
+                },
+                {
+                  "type": "appearances",
+                  "title": "P",
+                  "desc": "Games Played"
+                },
+                {
+                  "type": "goalAssists",
+                  "title": "A",
+                  "desc": "Assists"
+                }
+              ],
+              "row_count": 50,
+              "sample_rows": [
+                {
+                  "rank": 1,
+                  "athlete": {
+                    "name": "Andrija Zivkovic",
+                    "uid": "s:600~a:193282",
+                    "guid": "bf795e0d-29ab-ab0a-8c27-778803400fb7",
+                    "href": "https://www.espn.com/soccer/player/_/id/193282/andrija-zivkovic"
+                  },
+                  "team": {
+                    "name": "PAOK Salonika",
+                    "href": "https://www.espn.com/soccer/club/_/id/605/paok-salonika"
+                  },
+                  "appearances": "20",
+                  "goalAssists": "9"
+                },
+                {
+                  "rank": 2,
+                  "athlete": {
+                    "name": "Triantafyllos Tsapras",
+                    "uid": "s:600~a:346306",
+                    "guid": "ebe0f26a-21e6-3dbc-9a67-0926ae67acfc",
+                    "href": "https://www.espn.com/soccer/player/_/id/346306/triantafyllos-tsapras"
+                  },
+                  "team": {
+                    "name": "Levadiakos",
+                    "href": "https://www.espn.com/soccer/club/_/id/5276/levadiakos"
+                  },
+                  "appearances": "24",
+                  "goalAssists": "8"
+                },
+                {
+                  "rank": 3,
+                  "athlete": {
+                    "name": "Sebastián Palacios",
+                    "uid": "s:600~a:200208",
+                    "guid": "11cd820a-43cc-8698-7c7b-7bc87567ac55",
+                    "href": "https://www.espn.com/soccer/player/_/id/200208/sebastian-palacios"
+                  },
+                  "team": {
+                    "name": "Levadiakos",
+                    "href": "https://www.espn.com/soccer/club/_/id/5276/levadiakos"
+                  },
+                  "appearances": "23",
+                  "goalAssists": "8"
+                },
+                {
+                  "rank": 4,
+                  "athlete": {
+                    "name": "Razvan Marin",
+                    "uid": "s:600~a:239738",
+                    "guid": "0a81ef3c-4cd7-d44f-b183-40a51e59374a",
+                    "href": "https://www.espn.com/soccer/player/_/id/239738/razvan-marin"
+                  },
+                  "team": {
+                    "name": "AEK Athens",
+                    "href": "https://www.espn.com/soccer/club/_/id/887/aek-athens"
+                  },
+                  "appearances": "24",
+                  "goalAssists": "7"
+                },
+                {
+                  "rank": 5,
+                  "athlete": {
+                    "name": "Andrews Tetteh",
+                    "uid": "s:600~a:365703",
+                    "guid": "dd46c565-1ec9-3d01-af0c-aa7b9021074f",
+                    "href": "https://www.espn.com/soccer/player/_/id/365703/andrews-tetteh"
+                  },
+                  "team": {
+                    "name": "Panathinaikos",
+                    "href": "https://www.espn.com/soccer/club/_/id/443/panathinaikos"
+                  },
+                  "appearances": "23",
+                  "goalAssists": "6"
+                },
+                {
+                  "rank": 6,
+                  "athlete": {
+                    "name": "Taison",
+                    "uid": "s:600~a:182682",
+                    "guid": "a198fc1d-2be5-9021-13da-3e9a3893647b",
+                    "href": "https://www.espn.com/soccer/player/_/id/182682/taison"
+                  },
+                  "team": {
+                    "name": "PAOK Salonika",
+                    "href": "https://www.espn.com/soccer/club/_/id/605/paok-salonika"
+                  },
+                  "appearances": "22",
+                  "goalAssists": "5"
+                },
+                {
+                  "rank": 7,
+                  "athlete": {
+                    "name": "Lazaros Rota",
+                    "uid": "s:600~a:302487",
+                    "guid": "caadf142-a597-3b9c-a9b3-dceb6ed779ba",
+                    "href": "https://www.espn.com/soccer/player/_/id/302487/lazaros-rota"
+                  },
+                  "team": {
+                    "name": "AEK Athens",
+                    "href": "https://www.espn.com/soccer/club/_/id/887/aek-athens"
+                  },
+                  "appearances": "21",
+                  "goalAssists": "5"
+                },
+                {
+                  "rank": 8,
+                  "athlete": {
+                    "name": "Guillermo Balzi",
+                    "uid": "s:600~a:318279",
+                    "guid": "de37e2ca-8b82-382d-bc4e-331d2a6b1b24",
+                    "href": "https://www.espn.com/soccer/player/_/id/318279/guillermo-balzi"
+                  },
+                  "team": {
+                    "name": "Levadiakos",
+                    "href": "https://www.espn.com/soccer/club/_/id/5276/levadiakos"
+                  },
+                  "appearances": "19",
+                  "goalAssists": "5"
+                },
+                {
+                  "rank": 9,
+                  "athlete": {
+                    "name": "Daniel Podence",
+                    "uid": "s:600~a:213924",
+                    "guid": "0702c2c5-89da-a602-e4d3-afbc7e660fa4",
+                    "href": "https://www.espn.com/soccer/player/_/id/213924/daniel-podence"
+                  },
+                  "team": {
+                    "name": "Olympiacos",
+                    "href": "https://www.espn.com/soccer/club/_/id/435/olympiacos"
+                  },
+                  "appearances": "15",
+                  "goalAssists": "5"
+                },
+                {
+                  "rank": 10,
+                  "athlete": {
+                    "name": "Makana Baku",
+                    "uid": "s:600~a:269467",
+                    "guid": "da214cd7-86c3-7763-d652-e3c4303a0407",
+                    "href": "https://www.espn.com/soccer/player/_/id/269467/makana-baku"
+                  },
+                  "team": {
+                    "name": "Atromitos",
+                    "href": "https://www.espn.com/soccer/club/_/id/6790/atromitos"
+                  },
+                  "appearances": "23",
+                  "goalAssists": "4"
+                }
+              ]
+            }
+          ],
+          "import_value": "Good for goals, assists, appearances and ESPN player/team IDs from public leaderboard pages. Not full minutes/starts/clean-sheets by itself."
+        },
+        "footystats": {
+          "status": "metadata_available_csv_or_api_gated",
+          "dataset_page": {
+            "url": "https://footystats.org/greece/super-league/datasets",
+            "status": 200,
+            "bytes": 263413,
+            "title": "Super League Datasets & Excel Downloads  | FootyStats",
+            "season": "2025/26",
+            "player_csv_rows": "516",
+            "match_csv_rows": "236"
+          },
+          "players_page": {
+            "url": "https://footystats.org/greece/super-league/players",
+            "status": 200,
+            "bytes": 476966,
+            "title": "Super League Player Stats  | FootyStats",
+            "headings": [
+              "Super League Top Scorers and Most Clean Sheets",
+              "Top Scorers",
+              "Assists Table",
+              "Most Clean Sheets",
+              "Appearances",
+              "Conceded",
+              "Assists Per 90",
+              "Conceded Per 90",
+              "Penalty Goals",
+              "Yellow Cards",
+              "Player FAQ for the Super League",
+              "Who Has Scored The Most Goals?",
+              "Who Has The Most Assists?",
+              "Who Has The Most Clean Sheets?",
+              "Who Has Conceded The Most Goals?",
+              "Who Has The Most Assists Per 90?",
+              "Who Has Conceded The Most Goals Per 90?",
+              "Who Has Scored The Most Penalties?"
+            ]
+          },
+          "api_docs": "https://footystats.org/api/documentations/player-individual",
+          "access_note": "Dataset pages expose current row counts, but current CSV downloads redirected to Premium in this test. JSON player endpoint requires a FootyStats API key."
+        },
+        "fbref": {
+          "status": "blocked_by_cloudflare_in_local_fetch",
+          "url": "https://fbref.com/en/comps/27/2025-2026/stats/2025-2026-Super-League-Greece-Stats",
+          "http_status": 403,
+          "bytes": 5870,
+          "title": "Just a moment...",
+          "has_standard_table_marker": false,
+          "note": "Search/web results show current FBref player-standard-stat pages exist, but direct automated fetch returned Cloudflare challenge HTML."
+        },
+        "excel4soccer": {
+          "status": "not_found_for_this_league_in_this_pass"
+        }
+      },
+      "roster_leaderboard_matches": [
+        {
+          "player_id": "morocco-ayoub-el-kaabi",
+          "name": "Ayoub El Kaabi",
+          "country": "Morocco",
+          "roster_club": "Olympiacos",
+          "espn_team": "Olympiacos",
+          "table": "Top Scorers",
+          "matched_on": "name_and_club",
+          "row": {
+            "rank": 1,
+            "athlete": {
+              "name": "Ayoub El Kaabi",
+              "uid": "s:600~a:269562",
+              "guid": "ffca20c8-516d-d972-d760-b83d65dbcd1f",
+              "href": "https://www.espn.com/soccer/player/_/id/269562/ayoub-el-kaabi"
+            },
+            "team": {
+              "name": "Olympiacos",
+              "href": "https://www.espn.com/soccer/club/_/id/435/olympiacos"
+            },
+            "appearances": "20",
+            "totalGoals": "15"
+          }
+        },
+        {
+          "player_id": "ir-iran-mehdi-taremi",
+          "name": "Mehdi Taremi",
+          "country": "IR Iran",
+          "roster_club": "Olympiacos",
+          "espn_team": "Olympiacos",
+          "table": "Top Scorers",
+          "matched_on": "name_and_club",
+          "row": {
+            "rank": 4,
+            "athlete": {
+              "name": "Mehdi Taremi",
+              "uid": "s:600~a:219611",
+              "guid": "2cbbea14-1129-92a3-1af2-f2fc24c96f9c",
+              "href": "https://www.espn.com/soccer/player/_/id/219611/mehdi-taremi"
+            },
+            "team": {
+              "name": "Olympiacos",
+              "href": "https://www.espn.com/soccer/club/_/id/435/olympiacos"
+            },
+            "appearances": "17",
+            "totalGoals": "10"
+          }
+        }
+      ],
+      "recommended_next_action": "Build an ESPN leaderboard importer for names and ESPN IDs, then use ESPN match summaries or Excel4Soccer/FootyStats API for minutes and starts."
+    },
+    {
+      "league_id": "mls",
+      "label": "MLS",
+      "country": "United States / Canada",
+      "tested_sources": {
+        "espn": {
+          "status": "usable_public_html_leaderboards",
+          "stats_page": {
+            "url": "https://www.espn.com/soccer/stats/_/league/usa.1",
+            "status": 200,
+            "bytes": 403815,
+            "title": "MLS Stats, 2026 Season - ESPN",
+            "parsed_tables": 2
+          },
+          "teams_api": {
+            "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/usa.1/teams",
+            "status": 200,
+            "league_name": "MLS",
+            "team_count": 30,
+            "teams_sample": [
+              {
+                "id": "18418",
+                "displayName": "Atlanta United FC",
+                "shortDisplayName": "Atlanta",
+                "name": "Atlanta United FC",
+                "abbreviation": "ATL"
+              },
+              {
+                "id": "20906",
+                "displayName": "Austin FC",
+                "shortDisplayName": "Austin",
+                "name": "Austin FC",
+                "abbreviation": "ATX"
+              },
+              {
+                "id": "9720",
+                "displayName": "CF Montréal",
+                "shortDisplayName": "CF Montréal",
+                "name": "CF Montréal",
+                "abbreviation": "MTL"
+              },
+              {
+                "id": "21300",
+                "displayName": "Charlotte FC",
+                "shortDisplayName": "Charlotte",
+                "name": "Charlotte FC",
+                "abbreviation": "CLT"
+              },
+              {
+                "id": "182",
+                "displayName": "Chicago Fire FC",
+                "shortDisplayName": "Chicago",
+                "name": "Chicago Fire FC",
+                "abbreviation": "CHI"
+              },
+              {
+                "id": "184",
+                "displayName": "Colorado Rapids",
+                "shortDisplayName": "Colorado",
+                "name": "Colorado Rapids",
+                "abbreviation": "COL"
+              },
+              {
+                "id": "183",
+                "displayName": "Columbus Crew",
+                "shortDisplayName": "Columbus",
+                "name": "Columbus Crew",
+                "abbreviation": "CLB"
+              },
+              {
+                "id": "193",
+                "displayName": "D.C. United",
+                "shortDisplayName": "D.C. United",
+                "name": "D.C. United",
+                "abbreviation": "DC"
+              }
+            ]
+          },
+          "scoreboard_api": {
+            "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/usa.1/scoreboard",
+            "status": 200,
+            "league_name": "MLS",
+            "event_count": 3,
+            "first_event": "Atlanta United FC at Columbus Crew"
+          },
+          "leaderboard_tables": [
+            {
+              "title": "Top Scorers",
+              "style": "top-score-table",
+              "headers": [
+                {
+                  "type": "rank",
+                  "title": "RK",
+                  "desc": "Ranking"
+                },
+                {
+                  "type": "athlete",
+                  "title": "Name",
+                  "desc": null
+                },
+                {
+                  "type": "team",
+                  "title": "Team",
+                  "desc": null
+                },
+                {
+                  "type": "appearances",
+                  "title": "P",
+                  "desc": "Games Played"
+                },
+                {
+                  "type": "totalGoals",
+                  "title": "G",
+                  "desc": "total_goals"
+                }
+              ],
+              "row_count": 50,
+              "sample_rows": [
+                {
+                  "rank": 1,
+                  "athlete": {
+                    "name": "Hugo Cuypers",
+                    "uid": "s:600~a:235511",
+                    "guid": "f120a6c2-6f4e-e966-e225-4aee5b5d8662",
+                    "href": "https://www.espn.com/soccer/player/_/id/235511/hugo-cuypers"
+                  },
+                  "team": {
+                    "name": "Chicago Fire FC",
+                    "href": "https://www.espn.com/soccer/club/_/id/182/chicago-fire-fc"
+                  },
+                  "appearances": "11",
+                  "totalGoals": "13"
+                },
+                {
+                  "rank": 2,
+                  "athlete": {
+                    "name": "Lionel Messi",
+                    "uid": "s:600~a:45843",
+                    "guid": "dc5f8d51-332b-0ab2-b4b0-c97efdc624e0",
+                    "href": "https://www.espn.com/soccer/player/_/id/45843/lionel-messi"
+                  },
+                  "team": {
+                    "name": "Inter Miami CF",
+                    "href": "https://www.espn.com/soccer/club/_/id/20232/inter-miami-cf"
+                  },
+                  "appearances": "14",
+                  "totalGoals": "12"
+                },
+                {
+                  "rank": 3,
+                  "athlete": {
+                    "name": "Petar Musa",
+                    "uid": "s:600~a:277128",
+                    "guid": "10d91fec-70ee-53d8-c0b1-3358e157dfdd",
+                    "href": "https://www.espn.com/soccer/player/_/id/277128/petar-musa"
+                  },
+                  "team": {
+                    "name": "FC Dallas",
+                    "href": "https://www.espn.com/soccer/club/_/id/185/fc-dallas"
+                  },
+                  "appearances": "13",
+                  "totalGoals": "12"
+                },
+                {
+                  "rank": 4,
+                  "athlete": {
+                    "name": "Martín Ojeda",
+                    "uid": "s:600~a:233401",
+                    "guid": "e852b1ae-c3fb-13ad-82e6-52a33b5f6d93",
+                    "href": "https://www.espn.com/soccer/player/_/id/233401/martin-ojeda"
+                  },
+                  "team": {
+                    "name": "Orlando City SC",
+                    "href": "https://www.espn.com/soccer/club/_/id/12011/orlando-city-sc"
+                  },
+                  "appearances": "15",
+                  "totalGoals": "11"
+                },
+                {
+                  "rank": 5,
+                  "athlete": {
+                    "name": "Preston Judd",
+                    "uid": "s:600~a:295339",
+                    "guid": "51b1ea6a-517e-3c6a-8242-7e0a6567f08b",
+                    "href": "https://www.espn.com/soccer/player/_/id/295339/preston-judd"
+                  },
+                  "team": {
+                    "name": "San Jose Earthquakes",
+                    "href": "https://www.espn.com/soccer/club/_/id/191/san-jose-earthquakes"
+                  },
+                  "appearances": "15",
+                  "totalGoals": "11"
+                },
+                {
+                  "rank": 6,
+                  "athlete": {
+                    "name": "Marcus Ingvartsen",
+                    "uid": "s:600~a:186324",
+                    "guid": "75fc6880-2f26-d054-c1fe-dcadc72c934f",
+                    "href": "https://www.espn.com/soccer/player/_/id/186324/marcus-ingvartsen"
+                  },
+                  "team": {
+                    "name": "San Diego FC",
+                    "href": "https://www.espn.com/soccer/club/_/id/22529/san-diego-fc"
+                  },
+                  "appearances": "15",
+                  "totalGoals": "11"
+                },
+                {
+                  "rank": 7,
+                  "athlete": {
+                    "name": "Nicolás Fernández",
+                    "uid": "s:600~a:108107",
+                    "guid": "6ba938f5-6906-7f38-c9ff-a37fb21fbeb0",
+                    "href": "https://www.espn.com/soccer/player/_/id/108107/nicolas-fernandez"
+                  },
+                  "team": {
+                    "name": "New York City FC",
+                    "href": "https://www.espn.com/soccer/club/_/id/17606/new-york-city-fc"
+                  },
+                  "appearances": "15",
+                  "totalGoals": "10"
+                },
+                {
+                  "rank": 8,
+                  "athlete": {
+                    "name": "Brian White",
+                    "uid": "s:600~a:249490",
+                    "guid": "06712c9d-025d-4010-78ff-cae86d1c9636",
+                    "href": "https://www.espn.com/soccer/player/_/id/249490/brian-white"
+                  },
+                  "team": {
+                    "name": "Vancouver Whitecaps",
+                    "href": "https://www.espn.com/soccer/club/_/id/9727/vancouver-whitecaps"
+                  },
+                  "appearances": "14",
+                  "totalGoals": "10"
+                },
+                {
+                  "rank": 9,
+                  "athlete": {
+                    "name": "Julian Hall",
+                    "uid": "s:600~a:288041",
+                    "guid": "b645651d-c284-a89f-93d5-eb765101d44e",
+                    "href": "https://www.espn.com/soccer/player/_/id/288041/julian-hall"
+                  },
+                  "team": {
+                    "name": "Red Bull New York",
+                    "href": "https://www.espn.com/soccer/club/_/id/190/red-bull-new-york"
+                  },
+                  "appearances": "15",
+                  "totalGoals": "9"
+                },
+                {
+                  "rank": 10,
+                  "athlete": {
+                    "name": "Kévin Denkey",
+                    "uid": "s:600~a:251694",
+                    "guid": "99b5e624-f7bd-32a5-5422-384b2e0bcbc8",
+                    "href": "https://www.espn.com/soccer/player/_/id/251694/kevin-denkey"
+                  },
+                  "team": {
+                    "name": "FC Cincinnati",
+                    "href": "https://www.espn.com/soccer/club/_/id/18267/fc-cincinnati"
+                  },
+                  "appearances": "14",
+                  "totalGoals": "9"
+                }
+              ]
+            },
+            {
+              "title": "Top Assists",
+              "style": "top-assists-table",
+              "headers": [
+                {
+                  "type": "rank",
+                  "title": "RK",
+                  "desc": "Ranking"
+                },
+                {
+                  "type": "athlete",
+                  "title": "Name",
+                  "desc": null
+                },
+                {
+                  "type": "team",
+                  "title": "Team",
+                  "desc": null
+                },
+                {
+                  "type": "appearances",
+                  "title": "P",
+                  "desc": "Games Played"
+                },
+                {
+                  "type": "goalAssists",
+                  "title": "A",
+                  "desc": "Assists"
+                }
+              ],
+              "row_count": 50,
+              "sample_rows": [
+                {
+                  "rank": 1,
+                  "athlete": {
+                    "name": "Anders Dreyer",
+                    "uid": "s:600~a:250454",
+                    "guid": "2fb0a6ca-3eae-d240-ed4d-f76fda6a9186",
+                    "href": "https://www.espn.com/soccer/player/_/id/250454/anders-dreyer"
+                  },
+                  "team": {
+                    "name": "San Diego FC",
+                    "href": "https://www.espn.com/soccer/club/_/id/22529/san-diego-fc"
+                  },
+                  "appearances": "15",
+                  "goalAssists": "9"
+                },
+                {
+                  "rank": 2,
+                  "athlete": {
+                    "name": "Son Heung-Min",
+                    "uid": "s:600~a:149945",
+                    "guid": "5b656277-1a69-399d-b3cc-7492c704d5e4",
+                    "href": "https://www.espn.com/soccer/player/_/id/149945/son-heung-min"
+                  },
+                  "team": {
+                    "name": "LAFC",
+                    "href": "https://www.espn.com/soccer/club/_/id/18966/lafc"
+                  },
+                  "appearances": "13",
+                  "goalAssists": "9"
+                },
+                {
+                  "rank": 3,
+                  "athlete": {
+                    "name": "Lionel Messi",
+                    "uid": "s:600~a:45843",
+                    "guid": "dc5f8d51-332b-0ab2-b4b0-c97efdc624e0",
+                    "href": "https://www.espn.com/soccer/player/_/id/45843/lionel-messi"
+                  },
+                  "team": {
+                    "name": "Inter Miami CF",
+                    "href": "https://www.espn.com/soccer/club/_/id/20232/inter-miami-cf"
+                  },
+                  "appearances": "14",
+                  "goalAssists": "8"
+                },
+                {
+                  "rank": 4,
+                  "athlete": {
+                    "name": "Cristian Espinoza",
+                    "uid": "s:600~a:73200",
+                    "guid": "caf0159c-790f-9157-b77c-746e0c8d7e62",
+                    "href": "https://www.espn.com/soccer/player/_/id/73200/cristian-espinoza"
+                  },
+                  "team": {
+                    "name": "Nashville SC",
+                    "href": "https://www.espn.com/soccer/club/_/id/18986/nashville-sc"
+                  },
+                  "appearances": "14",
+                  "goalAssists": "8"
+                },
+                {
+                  "rank": 5,
+                  "athlete": {
+                    "name": "Philip Zinckernagel",
+                    "uid": "s:600~a:186466",
+                    "guid": "aa1fda66-475a-5cab-00b6-620d76655388",
+                    "href": "https://www.espn.com/soccer/player/_/id/186466/philip-zinckernagel"
+                  },
+                  "team": {
+                    "name": "Chicago Fire FC",
+                    "href": "https://www.espn.com/soccer/club/_/id/182/chicago-fire-fc"
+                  },
+                  "appearances": "14",
+                  "goalAssists": "7"
+                },
+                {
+                  "rank": 6,
+                  "athlete": {
+                    "name": "Telasco Segovia",
+                    "uid": "s:600~a:315594",
+                    "guid": "3ac1d884-d66d-38d1-a8ce-96416980c238",
+                    "href": "https://www.espn.com/soccer/player/_/id/315594/telasco-segovia"
+                  },
+                  "team": {
+                    "name": "Inter Miami CF",
+                    "href": "https://www.espn.com/soccer/club/_/id/20232/inter-miami-cf"
+                  },
+                  "appearances": "14",
+                  "goalAssists": "7"
+                },
+                {
+                  "rank": 7,
+                  "athlete": {
+                    "name": "Sebastian Berhalter",
+                    "uid": "s:600~a:295771",
+                    "guid": "6d732d94-8494-3d85-ad1a-6b9517e9abb0",
+                    "href": "https://www.espn.com/soccer/player/_/id/295771/sebastian-berhalter"
+                  },
+                  "team": {
+                    "name": "Vancouver Whitecaps",
+                    "href": "https://www.espn.com/soccer/club/_/id/9727/vancouver-whitecaps"
+                  },
+                  "appearances": "14",
+                  "goalAssists": "7"
+                },
+                {
+                  "rank": 8,
+                  "athlete": {
+                    "name": "Rodrigo De Paul",
+                    "uid": "s:600~a:174466",
+                    "guid": "9e710eea-4799-aa8f-9fca-dcbffea68a47",
+                    "href": "https://www.espn.com/soccer/player/_/id/174466/rodrigo-de-paul"
+                  },
+                  "team": {
+                    "name": "Inter Miami CF",
+                    "href": "https://www.espn.com/soccer/club/_/id/20232/inter-miami-cf"
+                  },
+                  "appearances": "13",
+                  "goalAssists": "7"
+                },
+                {
+                  "rank": 9,
+                  "athlete": {
+                    "name": "Niko Tsakiris",
+                    "uid": "s:600~a:333752",
+                    "guid": "ea21eeb6-5bdd-3974-9093-2ed44ec4525e",
+                    "href": "https://www.espn.com/soccer/player/_/id/333752/niko-tsakiris"
+                  },
+                  "team": {
+                    "name": "San Jose Earthquakes",
+                    "href": "https://www.espn.com/soccer/club/_/id/191/san-jose-earthquakes"
+                  },
+                  "appearances": "11",
+                  "goalAssists": "7"
+                },
+                {
+                  "rank": 10,
+                  "athlete": {
+                    "name": "Pep Biel",
+                    "uid": "s:600~a:268604",
+                    "guid": "c4c2503f-8341-c01c-4886-ae51c25f39cb",
+                    "href": "https://www.espn.com/soccer/player/_/id/268604/pep-biel"
+                  },
+                  "team": {
+                    "name": "Charlotte FC",
+                    "href": "https://www.espn.com/soccer/club/_/id/21300/charlotte-fc"
+                  },
+                  "appearances": "15",
+                  "goalAssists": "6"
+                }
+              ]
+            }
+          ],
+          "import_value": "Good for goals, assists, appearances and ESPN player/team IDs from public leaderboard pages. Not full minutes/starts/clean-sheets by itself."
+        },
+        "footystats": {
+          "status": "metadata_available_csv_or_api_gated",
+          "dataset_page": {
+            "url": "https://footystats.org/usa/mls/datasets",
+            "status": 200,
+            "bytes": 265359,
+            "title": "MLS Datasets & Excel Downloads  | FootyStats",
+            "season": "2026",
+            "player_csv_rows": "814",
+            "match_csv_rows": "510"
+          },
+          "players_page": {
+            "url": "https://footystats.org/usa/mls/players",
+            "status": 200,
+            "bytes": 471796,
+            "title": "MLS Player Stats  | FootyStats",
+            "headings": [
+              "MLS Top Scorers and Most Clean Sheets",
+              "Top Scorers",
+              "Assists Table",
+              "Most Clean Sheets",
+              "Appearances",
+              "Conceded",
+              "Assists Per 90",
+              "Conceded Per 90",
+              "Penalty Goals",
+              "Yellow Cards",
+              "Player FAQ for the MLS",
+              "Who Has Scored The Most Goals?",
+              "Who Has The Most Assists?",
+              "Who Has The Most Clean Sheets?",
+              "Who Has Conceded The Most Goals?",
+              "Who Has The Most Assists Per 90?",
+              "Who Has Conceded The Most Goals Per 90?",
+              "Who Has Scored The Most Penalties?"
+            ]
+          },
+          "api_docs": "https://footystats.org/api/documentations/player-individual",
+          "access_note": "Dataset pages expose current row counts, but current CSV downloads redirected to Premium in this test. JSON player endpoint requires a FootyStats API key."
+        },
+        "fbref": {
+          "status": "blocked_by_cloudflare_in_local_fetch",
+          "url": "https://fbref.com/en/comps/22/stats/Major-League-Soccer-Stats",
+          "http_status": 403,
+          "bytes": 5789,
+          "title": "Just a moment...",
+          "has_standard_table_marker": false,
+          "note": "Search/web results show current FBref player-standard-stat pages exist, but direct automated fetch returned Cloudflare challenge HTML."
+        },
+        "excel4soccer": {
+          "status": "not_found_for_this_league_in_this_pass"
+        }
+      },
+      "roster_leaderboard_matches": [
+        {
+          "player_id": "argentina-lionel-messi",
+          "name": "Lionel Messi",
+          "country": "Argentina",
+          "roster_club": "Inter Miami",
+          "espn_team": "Inter Miami CF",
+          "table": "Top Scorers",
+          "matched_on": "name_and_club",
+          "row": {
+            "rank": 2,
+            "athlete": {
+              "name": "Lionel Messi",
+              "uid": "s:600~a:45843",
+              "guid": "dc5f8d51-332b-0ab2-b4b0-c97efdc624e0",
+              "href": "https://www.espn.com/soccer/player/_/id/45843/lionel-messi"
+            },
+            "team": {
+              "name": "Inter Miami CF",
+              "href": "https://www.espn.com/soccer/club/_/id/20232/inter-miami-cf"
+            },
+            "appearances": "14",
+            "totalGoals": "12"
+          }
+        },
+        {
+          "player_id": "croatia-petar-musa",
+          "name": "Petar Musa",
+          "country": "Croatia",
+          "roster_club": "FC Dallas",
+          "espn_team": "FC Dallas",
+          "table": "Top Scorers",
+          "matched_on": "name_and_club",
+          "row": {
+            "rank": 3,
+            "athlete": {
+              "name": "Petar Musa",
+              "uid": "s:600~a:277128",
+              "guid": "10d91fec-70ee-53d8-c0b1-3358e157dfdd",
+              "href": "https://www.espn.com/soccer/player/_/id/277128/petar-musa"
+            },
+            "team": {
+              "name": "FC Dallas",
+              "href": "https://www.espn.com/soccer/club/_/id/185/fc-dallas"
+            },
+            "appearances": "13",
+            "totalGoals": "12"
+          }
+        },
+        {
+          "player_id": "argentina-lionel-messi",
+          "name": "Lionel Messi",
+          "country": "Argentina",
+          "roster_club": "Inter Miami",
+          "espn_team": "Inter Miami CF",
+          "table": "Top Assists",
+          "matched_on": "name_and_club",
+          "row": {
+            "rank": 3,
+            "athlete": {
+              "name": "Lionel Messi",
+              "uid": "s:600~a:45843",
+              "guid": "dc5f8d51-332b-0ab2-b4b0-c97efdc624e0",
+              "href": "https://www.espn.com/soccer/player/_/id/45843/lionel-messi"
+            },
+            "team": {
+              "name": "Inter Miami CF",
+              "href": "https://www.espn.com/soccer/club/_/id/20232/inter-miami-cf"
+            },
+            "appearances": "14",
+            "goalAssists": "8"
+          }
+        },
+        {
+          "player_id": "usa-sebastian-berhalter",
+          "name": "Sebastian Berhalter",
+          "country": "USA",
+          "roster_club": "Vancouver Whitecaps",
+          "espn_team": "Vancouver Whitecaps",
+          "table": "Top Assists",
+          "matched_on": "name_and_club",
+          "row": {
+            "rank": 7,
+            "athlete": {
+              "name": "Sebastian Berhalter",
+              "uid": "s:600~a:295771",
+              "guid": "6d732d94-8494-3d85-ad1a-6b9517e9abb0",
+              "href": "https://www.espn.com/soccer/player/_/id/295771/sebastian-berhalter"
+            },
+            "team": {
+              "name": "Vancouver Whitecaps",
+              "href": "https://www.espn.com/soccer/club/_/id/9727/vancouver-whitecaps"
+            },
+            "appearances": "14",
+            "goalAssists": "7"
+          }
+        },
+        {
+          "player_id": "argentina-rodrigo-de-paul",
+          "name": "Rodrigo De Paul",
+          "country": "Argentina",
+          "roster_club": "Inter Miami",
+          "espn_team": "Inter Miami CF",
+          "table": "Top Assists",
+          "matched_on": "name_and_club",
+          "row": {
+            "rank": 8,
+            "athlete": {
+              "name": "Rodrigo De Paul",
+              "uid": "s:600~a:174466",
+              "guid": "9e710eea-4799-aa8f-9fca-dcbffea68a47",
+              "href": "https://www.espn.com/soccer/player/_/id/174466/rodrigo-de-paul"
+            },
+            "team": {
+              "name": "Inter Miami CF",
+              "href": "https://www.espn.com/soccer/club/_/id/20232/inter-miami-cf"
+            },
+            "appearances": "13",
+            "goalAssists": "7"
+          }
+        }
+      ],
+      "recommended_next_action": "Build an ESPN leaderboard importer for names and ESPN IDs, then use ESPN match summaries or Excel4Soccer/FootyStats API for minutes and starts."
+    },
+    {
+      "league_id": "brazil-serie-a",
+      "label": "Brazilian Serie A",
+      "country": "Brazil",
+      "tested_sources": {
+        "espn": {
+          "status": "usable_public_html_leaderboards",
+          "stats_page": {
+            "url": "https://www.espn.com/soccer/stats/_/league/bra.1",
+            "status": 200,
+            "bytes": 400585,
+            "title": "Brazilian Serie A Stats, 2026-27 Season - ESPN",
+            "parsed_tables": 2
+          },
+          "teams_api": {
+            "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/bra.1/teams",
+            "status": 200,
+            "league_name": "Brazilian Serie A",
+            "team_count": 20,
+            "teams_sample": [
+              {
+                "id": "3458",
+                "displayName": "Athletico-PR",
+                "shortDisplayName": "Athletico-PR",
+                "name": "Athletico Paranaense",
+                "abbreviation": "CAP"
+              },
+              {
+                "id": "7632",
+                "displayName": "Atlético-MG",
+                "shortDisplayName": "Atlético-MG",
+                "name": "Atlético-MG",
+                "abbreviation": "CAM"
+              },
+              {
+                "id": "9967",
+                "displayName": "Bahia",
+                "shortDisplayName": "Bahia",
+                "name": "Bahia",
+                "abbreviation": "BAH"
+              },
+              {
+                "id": "6086",
+                "displayName": "Botafogo",
+                "shortDisplayName": "Botafogo",
+                "name": "Botafogo",
+                "abbreviation": "BOT"
+              },
+              {
+                "id": "9318",
+                "displayName": "Chapecoense",
+                "shortDisplayName": "Chapecoense",
+                "name": "Chapecoense",
+                "abbreviation": "CHA"
+              },
+              {
+                "id": "874",
+                "displayName": "Corinthians",
+                "shortDisplayName": "Corinthians",
+                "name": "Corinthians",
+                "abbreviation": "COR"
+              },
+              {
+                "id": "3456",
+                "displayName": "Coritiba",
+                "shortDisplayName": "Coritiba",
+                "name": "Coritiba",
+                "abbreviation": "CFC"
+              },
+              {
+                "id": "2022",
+                "displayName": "Cruzeiro",
+                "shortDisplayName": "Cruzeiro",
+                "name": "Cruzeiro",
+                "abbreviation": "CRU"
+              }
+            ]
+          },
+          "scoreboard_api": {
+            "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/bra.1/scoreboard",
+            "status": 200,
+            "league_name": "Brazilian Serie A",
+            "event_count": 5,
+            "first_event": "Internacional at Red Bull Bragantino"
+          },
+          "leaderboard_tables": [
+            {
+              "title": "Top Scorers",
+              "style": "top-score-table",
+              "headers": [
+                {
+                  "type": "rank",
+                  "title": "RK",
+                  "desc": "Ranking"
+                },
+                {
+                  "type": "athlete",
+                  "title": "Name",
+                  "desc": null
+                },
+                {
+                  "type": "team",
+                  "title": "Team",
+                  "desc": null
+                },
+                {
+                  "type": "appearances",
+                  "title": "P",
+                  "desc": "Games Played"
+                },
+                {
+                  "type": "totalGoals",
+                  "title": "G",
+                  "desc": "total_goals"
+                }
+              ],
+              "row_count": 50,
+              "sample_rows": [
+                {
+                  "rank": 1,
+                  "athlete": {
+                    "name": "Kevin Viveros",
+                    "uid": "s:600~a:268476",
+                    "guid": "9228df47-5174-845a-d450-5abbcaaea05f",
+                    "href": "https://www.espn.com/soccer/player/_/id/268476/kevin-viveros"
+                  },
+                  "team": {
+                    "name": "Athletico Paranaense",
+                    "href": "https://www.espn.com/soccer/club/_/id/3458/athletico-paranaense"
+                  },
+                  "appearances": "17",
+                  "totalGoals": "11"
+                },
+                {
+                  "rank": 2,
+                  "athlete": {
+                    "name": "Pedro",
+                    "uid": "s:600~a:235017",
+                    "guid": "3287d88a-5d86-f1b4-e942-ff694e0f17e8",
+                    "href": "https://www.espn.com/soccer/player/_/id/235017/pedro"
+                  },
+                  "team": {
+                    "name": "Flamengo",
+                    "href": "https://www.espn.com/soccer/club/_/id/819/flamengo"
+                  },
+                  "appearances": "17",
+                  "totalGoals": "10"
+                },
+                {
+                  "rank": 3,
+                  "athlete": {
+                    "name": "Carlos Vinícius",
+                    "uid": "s:600~a:252576",
+                    "guid": "902fe8a0-a2f3-d6f7-30f6-11f23c8c5567",
+                    "href": "https://www.espn.com/soccer/player/_/id/252576/carlos-vinicius"
+                  },
+                  "team": {
+                    "name": "Grêmio",
+                    "href": "https://www.espn.com/soccer/club/_/id/6273/gremio"
+                  },
+                  "appearances": "17",
+                  "totalGoals": "9"
+                },
+                {
+                  "rank": 4,
+                  "athlete": {
+                    "name": "John Kennedy",
+                    "uid": "s:600~a:312741",
+                    "guid": "db9b9b1e-42f9-342e-88a5-33a44a34b3ac",
+                    "href": "https://www.espn.com/soccer/player/_/id/312741/john-kennedy"
+                  },
+                  "team": {
+                    "name": "Fluminense",
+                    "href": "https://www.espn.com/soccer/club/_/id/3445/fluminense"
+                  },
+                  "appearances": "16",
+                  "totalGoals": "8"
+                },
+                {
+                  "rank": 5,
+                  "athlete": {
+                    "name": "Breno",
+                    "uid": "s:600~a:236324",
+                    "guid": "9613ed23-3306-1aa0-581f-48f33e8d273a",
+                    "href": "https://www.espn.com/soccer/player/_/id/236324/breno"
+                  },
+                  "team": {
+                    "name": "Coritiba",
+                    "href": "https://www.espn.com/soccer/club/_/id/3456/coritiba"
+                  },
+                  "appearances": "15",
+                  "totalGoals": "8"
+                },
+                {
+                  "rank": 6,
+                  "athlete": {
+                    "name": "Luciano Juba",
+                    "uid": "s:600~a:304757",
+                    "guid": "c776ee3f-320c-3e3f-bd5a-d622732aa4f4",
+                    "href": "https://www.espn.com/soccer/player/_/id/304757/luciano-juba"
+                  },
+                  "team": {
+                    "name": "Bahia",
+                    "href": "https://www.espn.com/soccer/club/_/id/9967/bahia"
+                  },
+                  "appearances": "15",
+                  "totalGoals": "7"
+                },
+                {
+                  "rank": 7,
+                  "athlete": {
+                    "name": "Arthur Cabral",
+                    "uid": "s:600~a:224103",
+                    "guid": "740f2885-0372-cff1-9ccc-4f19005867bc",
+                    "href": "https://www.espn.com/soccer/player/_/id/224103/arthur-cabral"
+                  },
+                  "team": {
+                    "name": "Botafogo",
+                    "href": "https://www.espn.com/soccer/club/_/id/6086/botafogo"
+                  },
+                  "appearances": "15",
+                  "totalGoals": "7"
+                },
+                {
+                  "rank": 8,
+                  "athlete": {
+                    "name": "Danilo",
+                    "uid": "s:600~a:306764",
+                    "guid": "338dff1e-6f91-3e2c-bb27-1d1c38064311",
+                    "href": "https://www.espn.com/soccer/player/_/id/306764/danilo"
+                  },
+                  "team": {
+                    "name": "Botafogo",
+                    "href": "https://www.espn.com/soccer/club/_/id/6086/botafogo"
+                  },
+                  "appearances": "12",
+                  "totalGoals": "7"
+                },
+                {
+                  "rank": 9,
+                  "athlete": {
+                    "name": "Gabriel Barbosa",
+                    "uid": "s:600~a:182522",
+                    "guid": "1e1f0813-2cb0-4992-3ed8-078fe22e24be",
+                    "href": "https://www.espn.com/soccer/player/_/id/182522/gabriel-barbosa"
+                  },
+                  "team": {
+                    "name": "Santos",
+                    "href": "https://www.espn.com/soccer/club/_/id/2674/santos"
+                  },
+                  "appearances": "12",
+                  "totalGoals": "7"
+                },
+                {
+                  "rank": 10,
+                  "athlete": {
+                    "name": "Flaco López",
+                    "uid": "s:600~a:311743",
+                    "guid": "c445ac0e-56ee-36a3-90d0-093734b9ed0d",
+                    "href": "https://www.espn.com/soccer/player/_/id/311743/flaco-lopez"
+                  },
+                  "team": {
+                    "name": "Palmeiras",
+                    "href": "https://www.espn.com/soccer/club/_/id/2029/palmeiras"
+                  },
+                  "appearances": "17",
+                  "totalGoals": "6"
+                }
+              ]
+            },
+            {
+              "title": "Top Assists",
+              "style": "top-assists-table",
+              "headers": [
+                {
+                  "type": "rank",
+                  "title": "RK",
+                  "desc": "Ranking"
+                },
+                {
+                  "type": "athlete",
+                  "title": "Name",
+                  "desc": null
+                },
+                {
+                  "type": "team",
+                  "title": "Team",
+                  "desc": null
+                },
+                {
+                  "type": "appearances",
+                  "title": "P",
+                  "desc": "Games Played"
+                },
+                {
+                  "type": "goalAssists",
+                  "title": "A",
+                  "desc": "Assists"
+                }
+              ],
+              "row_count": 50,
+              "sample_rows": [
+                {
+                  "rank": 1,
+                  "athlete": {
+                    "name": "Andreas Pereira",
+                    "uid": "s:600~a:210143",
+                    "guid": "6cac49ef-2edb-1006-419a-2a6e7d2e0813",
+                    "href": "https://www.espn.com/soccer/player/_/id/210143/andreas-pereira"
+                  },
+                  "team": {
+                    "name": "Palmeiras",
+                    "href": "https://www.espn.com/soccer/club/_/id/2029/palmeiras"
+                  },
+                  "appearances": "17",
+                  "goalAssists": "9"
+                },
+                {
+                  "rank": 2,
+                  "athlete": {
+                    "name": "Josué Pesqueira",
+                    "uid": "s:600~a:150215",
+                    "guid": "2a695b0f-1c28-fb47-206c-036583206917",
+                    "href": "https://www.espn.com/soccer/player/_/id/150215/josue-pesqueira"
+                  },
+                  "team": {
+                    "name": "Coritiba",
+                    "href": "https://www.espn.com/soccer/club/_/id/3456/coritiba"
+                  },
+                  "appearances": "17",
+                  "goalAssists": "7"
+                },
+                {
+                  "rank": 3,
+                  "athlete": {
+                    "name": "Rodrigo Garro",
+                    "uid": "s:600~a:270562",
+                    "guid": "d6e55ee8-f646-bfe8-ddce-f5975aa4e386",
+                    "href": "https://www.espn.com/soccer/player/_/id/270562/rodrigo-garro"
+                  },
+                  "team": {
+                    "name": "Corinthians",
+                    "href": "https://www.espn.com/soccer/club/_/id/874/corinthians"
+                  },
+                  "appearances": "18",
+                  "goalAssists": "6"
+                },
+                {
+                  "rank": 4,
+                  "athlete": {
+                    "name": "Samuel Lino",
+                    "uid": "s:600~a:253937",
+                    "guid": "30310591-0389-f0fa-d2c7-5023a6fe0df3",
+                    "href": "https://www.espn.com/soccer/player/_/id/253937/samuel-lino"
+                  },
+                  "team": {
+                    "name": "Flamengo",
+                    "href": "https://www.espn.com/soccer/club/_/id/819/flamengo"
+                  },
+                  "appearances": "17",
+                  "goalAssists": "6"
+                },
+                {
+                  "rank": 5,
+                  "athlete": {
+                    "name": "Gastón Benavídez",
+                    "uid": "s:600~a:287688",
+                    "guid": "336f7c51-4d1f-c386-72f1-bde96bea2121",
+                    "href": "https://www.espn.com/soccer/player/_/id/287688/gaston-benavidez"
+                  },
+                  "team": {
+                    "name": "Athletico Paranaense",
+                    "href": "https://www.espn.com/soccer/club/_/id/3458/athletico-paranaense"
+                  },
+                  "appearances": "15",
+                  "goalAssists": "5"
+                },
+                {
+                  "rank": 6,
+                  "athlete": {
+                    "name": "Pedro",
+                    "uid": "s:600~a:235017",
+                    "guid": "3287d88a-5d86-f1b4-e942-ff694e0f17e8",
+                    "href": "https://www.espn.com/soccer/player/_/id/235017/pedro"
+                  },
+                  "team": {
+                    "name": "Flamengo",
+                    "href": "https://www.espn.com/soccer/club/_/id/819/flamengo"
+                  },
+                  "appearances": "17",
+                  "goalAssists": "4"
+                },
+                {
+                  "rank": 7,
+                  "athlete": {
+                    "name": "Alesson",
+                    "uid": "s:600~a:250388",
+                    "guid": "28bac86c-4acc-6484-25b1-97850aa4c157",
+                    "href": "https://www.espn.com/soccer/player/_/id/250388/alesson"
+                  },
+                  "team": {
+                    "name": "Mirassol",
+                    "href": "https://www.espn.com/soccer/club/_/id/9169/mirassol"
+                  },
+                  "appearances": "17",
+                  "goalAssists": "4"
+                },
+                {
+                  "rank": 8,
+                  "athlete": {
+                    "name": "Erick",
+                    "uid": "s:600~a:256044",
+                    "guid": "09496832-52ea-d706-0d47-59cfdef8a675",
+                    "href": "https://www.espn.com/soccer/player/_/id/256044/erick"
+                  },
+                  "team": {
+                    "name": "Vitória",
+                    "href": "https://www.espn.com/soccer/club/_/id/3457/vitoria"
+                  },
+                  "appearances": "16",
+                  "goalAssists": "4"
+                },
+                {
+                  "rank": 9,
+                  "athlete": {
+                    "name": "Éverton Ribeiro",
+                    "uid": "s:600~a:199017",
+                    "guid": "7ddaea6b-0219-1ade-2c8d-8395ca3a9084",
+                    "href": "https://www.espn.com/soccer/player/_/id/199017/everton-ribeiro"
+                  },
+                  "team": {
+                    "name": "Bahia",
+                    "href": "https://www.espn.com/soccer/club/_/id/9967/bahia"
+                  },
+                  "appearances": "13",
+                  "goalAssists": "4"
+                },
+                {
+                  "rank": 10,
+                  "athlete": {
+                    "name": "Luciano Acosta",
+                    "uid": "s:600~a:199958",
+                    "guid": "d52d0096-c614-51da-cdbd-9c2818c51647",
+                    "href": "https://www.espn.com/soccer/player/_/id/199958/luciano-acosta"
+                  },
+                  "team": {
+                    "name": "Fluminense",
+                    "href": "https://www.espn.com/soccer/club/_/id/3445/fluminense"
+                  },
+                  "appearances": "13",
+                  "goalAssists": "4"
+                }
+              ]
+            }
+          ],
+          "import_value": "Good for goals, assists, appearances and ESPN player/team IDs from public leaderboard pages. Not full minutes/starts/clean-sheets by itself."
+        },
+        "footystats": {
+          "status": "metadata_available_csv_or_api_gated",
+          "dataset_page": {
+            "url": "https://footystats.org/brazil/serie-a/datasets",
+            "status": 200,
+            "bytes": 263857,
+            "title": "Serie A Datasets & Excel Downloads  | FootyStats",
+            "season": "2026",
+            "player_csv_rows": "712",
+            "match_csv_rows": "380"
+          },
+          "players_page": {
+            "url": "https://footystats.org/brazil/serie-a/players",
+            "status": 200,
+            "bytes": 483866,
+            "title": "Serie A Player Stats  | FootyStats",
+            "headings": [
+              "Serie A Top Scorers and Most Clean Sheets",
+              "Top Scorers",
+              "Assists Table",
+              "Most Clean Sheets",
+              "Appearances",
+              "Conceded",
+              "Assists Per 90",
+              "Conceded Per 90",
+              "Penalty Goals",
+              "Yellow Cards",
+              "Player FAQ for the Serie A",
+              "Who Has Scored The Most Goals?",
+              "Who Has The Most Assists?",
+              "Who Has The Most Clean Sheets?",
+              "Who Has Conceded The Most Goals?",
+              "Who Has The Most Assists Per 90?",
+              "Who Has Conceded The Most Goals Per 90?",
+              "Who Has Scored The Most Penalties?"
+            ]
+          },
+          "api_docs": "https://footystats.org/api/documentations/player-individual",
+          "access_note": "Dataset pages expose current row counts, but current CSV downloads redirected to Premium in this test. JSON player endpoint requires a FootyStats API key."
+        },
+        "fbref": {
+          "status": "blocked_by_cloudflare_in_local_fetch",
+          "url": "https://fbref.com/en/comps/24/stats/Serie-A-Stats",
+          "http_status": 403,
+          "bytes": 5731,
+          "title": "Just a moment...",
+          "has_standard_table_marker": false,
+          "note": "Search/web results show current FBref player-standard-stat pages exist, but direct automated fetch returned Cloudflare challenge HTML."
+        },
+        "excel4soccer": {
+          "status": "not_found_for_this_league_in_this_pass"
+        }
+      },
+      "roster_leaderboard_matches": [
+        {
+          "player_id": "brazil-danilo",
+          "name": "Danilo",
+          "country": "Brazil",
+          "roster_club": "Flamengo",
+          "espn_team": "Botafogo",
+          "table": "Top Scorers",
+          "matched_on": "name_only_review_needed",
+          "row": {
+            "rank": 8,
+            "athlete": {
+              "name": "Danilo",
+              "uid": "s:600~a:306764",
+              "guid": "338dff1e-6f91-3e2c-bb27-1d1c38064311",
+              "href": "https://www.espn.com/soccer/player/_/id/306764/danilo"
+            },
+            "team": {
+              "name": "Botafogo",
+              "href": "https://www.espn.com/soccer/club/_/id/6086/botafogo"
+            },
+            "appearances": "12",
+            "totalGoals": "7"
+          }
+        }
+      ],
+      "recommended_next_action": "Build an ESPN leaderboard importer for names and ESPN IDs, then use ESPN match summaries or Excel4Soccer/FootyStats API for minutes and starts."
+    },
+    {
+      "league_id": "argentina-primera",
+      "label": "Argentine Liga Profesional",
+      "country": "Argentina",
+      "tested_sources": {
+        "espn": {
+          "status": "usable_public_html_leaderboards",
+          "stats_page": {
+            "url": "https://www.espn.com/soccer/stats/_/league/arg.1",
+            "status": 200,
+            "bytes": 404624,
+            "title": "Argentine Liga Profesional de Fútbol Stats, 2026-27 Season - ESPN",
+            "parsed_tables": 2
+          },
+          "teams_api": {
+            "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/arg.1/teams",
+            "status": 200,
+            "league_name": "Argentine Liga Profesional de Fútbol",
+            "team_count": 30,
+            "teams_sample": [
+              {
+                "id": "9739",
+                "displayName": "Aldosivi",
+                "shortDisplayName": "Aldosivi",
+                "name": "Aldosivi",
+                "abbreviation": "ALDO"
+              },
+              {
+                "id": "3",
+                "displayName": "Argentinos Juniors",
+                "shortDisplayName": "Argentinos ",
+                "name": "Argentinos Juniors",
+                "abbreviation": "ARGJ"
+              },
+              {
+                "id": "9785",
+                "displayName": "Atlético Tucumán",
+                "shortDisplayName": "Atl Tucumán",
+                "name": "Atlético Tucumán",
+                "abbreviation": "CAT"
+              },
+              {
+                "id": "235",
+                "displayName": "Banfield",
+                "shortDisplayName": "Banfield",
+                "name": "Banfield",
+                "abbreviation": "BAN"
+              },
+              {
+                "id": "10060",
+                "displayName": "Barracas Central",
+                "shortDisplayName": "Barracas",
+                "name": "Barracas Central",
+                "abbreviation": "BAR"
+              },
+              {
+                "id": "4",
+                "displayName": "Belgrano (Córdoba)",
+                "shortDisplayName": "Belgrano ",
+                "name": "Belgrano (Córdoba)",
+                "abbreviation": "BEL"
+              },
+              {
+                "id": "5",
+                "displayName": "Boca Juniors",
+                "shortDisplayName": "Boca ",
+                "name": "Boca Juniors",
+                "abbreviation": "CABJ"
+              },
+              {
+                "id": "11989",
+                "displayName": "Central Córdoba (Santiago del Estero)",
+                "shortDisplayName": "C. Córdoba (SE)",
+                "name": "Central Córdoba (Santiago del Estero)",
+                "abbreviation": "CTR"
+              }
+            ]
+          },
+          "scoreboard_api": {
+            "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/arg.1/scoreboard",
+            "status": 200,
+            "league_name": "Argentine Liga Profesional de Fútbol",
+            "event_count": 1,
+            "first_event": "Belgrano (Córdoba) at River Plate"
+          },
+          "leaderboard_tables": [
+            {
+              "title": "Top Scorers",
+              "style": "top-score-table",
+              "headers": [
+                {
+                  "type": "rank",
+                  "title": "RK",
+                  "desc": "Ranking"
+                },
+                {
+                  "type": "athlete",
+                  "title": "Name",
+                  "desc": null
+                },
+                {
+                  "type": "team",
+                  "title": "Team",
+                  "desc": null
+                },
+                {
+                  "type": "appearances",
+                  "title": "P",
+                  "desc": "Games Played"
+                },
+                {
+                  "type": "totalGoals",
+                  "title": "G",
+                  "desc": "total_goals"
+                }
+              ],
+              "row_count": 50,
+              "sample_rows": [
+                {
+                  "rank": 1,
+                  "athlete": {
+                    "name": "Gabriel Ávalos",
+                    "uid": "s:600~a:208421",
+                    "guid": "4c6d9650-9a3d-f70a-f490-a28eaf8446ea",
+                    "href": "https://www.espn.com/soccer/player/_/id/208421/gabriel-avalos"
+                  },
+                  "team": {
+                    "name": "Independiente",
+                    "href": "https://www.espn.com/soccer/club/_/id/11/independiente"
+                  },
+                  "appearances": "16",
+                  "totalGoals": "9"
+                },
+                {
+                  "rank": 2,
+                  "athlete": {
+                    "name": "Jordy Caicedo",
+                    "uid": "s:600~a:217079",
+                    "guid": "986b99d3-045a-bdcc-dec2-e06bc5555b85",
+                    "href": "https://www.espn.com/soccer/player/_/id/217079/jordy-caicedo"
+                  },
+                  "team": {
+                    "name": "Huracán",
+                    "href": "https://www.espn.com/soccer/club/_/id/10/huracan"
+                  },
+                  "appearances": "15",
+                  "totalGoals": "8"
+                },
+                {
+                  "rank": 3,
+                  "athlete": {
+                    "name": "Cristian Tarragona",
+                    "uid": "s:600~a:212444",
+                    "guid": "3fd2911b-2579-50b7-d854-eff9b11cfab5",
+                    "href": "https://www.espn.com/soccer/player/_/id/212444/cristian-tarragona"
+                  },
+                  "team": {
+                    "name": "Unión (Santa Fe)",
+                    "href": "https://www.espn.com/soccer/club/_/id/20/union-santa-fe"
+                  },
+                  "appearances": "16",
+                  "totalGoals": "7"
+                },
+                {
+                  "rank": 4,
+                  "athlete": {
+                    "name": "José Romero",
+                    "uid": "s:600~a:301980",
+                    "guid": "ddd0ac5c-bc61-339d-8e4f-5ea7692f7811",
+                    "href": "https://www.espn.com/soccer/player/_/id/301980/jose-romero"
+                  },
+                  "team": {
+                    "name": "Tigre",
+                    "href": "https://www.espn.com/soccer/club/_/id/7767/tigre"
+                  },
+                  "appearances": "12",
+                  "totalGoals": "7"
+                },
+                {
+                  "rank": 5,
+                  "athlete": {
+                    "name": "Mauro Méndez",
+                    "uid": "s:600~a:287026",
+                    "guid": "2850cd1d-a290-7688-6767-964c72a0ef1f",
+                    "href": "https://www.espn.com/soccer/player/_/id/287026/mauro-mendez"
+                  },
+                  "team": {
+                    "name": "Banfield",
+                    "href": "https://www.espn.com/soccer/club/_/id/235/banfield"
+                  },
+                  "appearances": "16",
+                  "totalGoals": "6"
+                },
+                {
+                  "rank": 6,
+                  "athlete": {
+                    "name": "Marcelo Torres",
+                    "uid": "s:600~a:85513",
+                    "guid": "66909d2c-c482-e6e7-e881-4feae63c4293",
+                    "href": "https://www.espn.com/soccer/player/_/id/85513/marcelo-torres"
+                  },
+                  "team": {
+                    "name": "Gimnasia La Plata",
+                    "href": "https://www.espn.com/soccer/club/_/id/9/gimnasia-la-plata"
+                  },
+                  "appearances": "16",
+                  "totalGoals": "6"
+                },
+                {
+                  "rank": 7,
+                  "athlete": {
+                    "name": "Junior Marabel",
+                    "uid": "s:600~a:253308",
+                    "guid": "bfc1a6eb-1b4b-8c7c-434f-00baf7bac44d",
+                    "href": "https://www.espn.com/soccer/player/_/id/253308/junior-marabel"
+                  },
+                  "team": {
+                    "name": "Sarmiento (Junín)",
+                    "href": "https://www.espn.com/soccer/club/_/id/10158/sarmiento-junin"
+                  },
+                  "appearances": "16",
+                  "totalGoals": "6"
+                },
+                {
+                  "rank": 8,
+                  "athlete": {
+                    "name": "Fabrizio Sartori Prieto",
+                    "uid": "s:600~a:309496",
+                    "guid": "ab751434-03b1-3814-9ada-48c47624b074",
+                    "href": "https://www.espn.com/soccer/player/_/id/309496/fabrizio-sartori-prieto"
+                  },
+                  "team": {
+                    "name": "Independiente Rivadavia",
+                    "href": "https://www.espn.com/soccer/club/_/id/9744/independiente-rivadavia"
+                  },
+                  "appearances": "15",
+                  "totalGoals": "6"
+                },
+                {
+                  "rank": 9,
+                  "athlete": {
+                    "name": "Florián Monzón",
+                    "uid": "s:600~a:309574",
+                    "guid": "a28729ca-af67-331c-add1-4d0aafb9daf5",
+                    "href": "https://www.espn.com/soccer/player/_/id/309574/florian-monzon"
+                  },
+                  "team": {
+                    "name": "Vélez Sarsfield",
+                    "href": "https://www.espn.com/soccer/club/_/id/21/velez-sarsfield"
+                  },
+                  "appearances": "14",
+                  "totalGoals": "6"
+                },
+                {
+                  "rank": 10,
+                  "athlete": {
+                    "name": "Matías Abaldo",
+                    "uid": "s:600~a:359827",
+                    "guid": "0258bace-9fcc-3e1e-85ff-7c2ce9f8e0a6",
+                    "href": "https://www.espn.com/soccer/player/_/id/359827/matias-abaldo"
+                  },
+                  "team": {
+                    "name": "Independiente",
+                    "href": "https://www.espn.com/soccer/club/_/id/11/independiente"
+                  },
+                  "appearances": "15",
+                  "totalGoals": "5"
+                }
+              ]
+            },
+            {
+              "title": "Top Assists",
+              "style": "top-assists-table",
+              "headers": [
+                {
+                  "type": "rank",
+                  "title": "RK",
+                  "desc": "Ranking"
+                },
+                {
+                  "type": "athlete",
+                  "title": "Name",
+                  "desc": null
+                },
+                {
+                  "type": "team",
+                  "title": "Team",
+                  "desc": null
+                },
+                {
+                  "type": "appearances",
+                  "title": "P",
+                  "desc": "Games Played"
+                },
+                {
+                  "type": "goalAssists",
+                  "title": "A",
+                  "desc": "Assists"
+                }
+              ],
+              "row_count": 50,
+              "sample_rows": [
+                {
+                  "rank": 1,
+                  "athlete": {
+                    "name": "Gabriel Ávalos",
+                    "uid": "s:600~a:208421",
+                    "guid": "4c6d9650-9a3d-f70a-f490-a28eaf8446ea",
+                    "href": "https://www.espn.com/soccer/player/_/id/208421/gabriel-avalos"
+                  },
+                  "team": {
+                    "name": "Independiente",
+                    "href": "https://www.espn.com/soccer/club/_/id/11/independiente"
+                  },
+                  "appearances": "16",
+                  "goalAssists": "5"
+                },
+                {
+                  "rank": 2,
+                  "athlete": {
+                    "name": "Facundo Lencioni",
+                    "uid": "s:600~a:318398",
+                    "guid": "bafa6044-864c-308e-adc8-7a459778dbce",
+                    "href": "https://www.espn.com/soccer/player/_/id/318398/facundo-lencioni"
+                  },
+                  "team": {
+                    "name": "Gimnasia (Mendoza)",
+                    "href": "https://www.espn.com/soccer/club/_/id/11972/gimnasia-mendoza"
+                  },
+                  "appearances": "16",
+                  "goalAssists": "5"
+                },
+                {
+                  "rank": 3,
+                  "athlete": {
+                    "name": "Rafael Profini",
+                    "uid": "s:600~a:366216",
+                    "guid": "d1862581-1bec-37d9-88aa-4a4213152ced",
+                    "href": "https://www.espn.com/soccer/player/_/id/366216/rafael-profini"
+                  },
+                  "team": {
+                    "name": "Unión (Santa Fe)",
+                    "href": "https://www.espn.com/soccer/club/_/id/20/union-santa-fe"
+                  },
+                  "appearances": "16",
+                  "goalAssists": "5"
+                },
+                {
+                  "rank": 4,
+                  "athlete": {
+                    "name": "Julián Palacios",
+                    "uid": "s:600~a:298859",
+                    "guid": "61fd5cdc-b2db-313d-8064-14be9762d72e",
+                    "href": "https://www.espn.com/soccer/player/_/id/298859/julian-palacios"
+                  },
+                  "team": {
+                    "name": "Unión (Santa Fe)",
+                    "href": "https://www.espn.com/soccer/club/_/id/20/union-santa-fe"
+                  },
+                  "appearances": "15",
+                  "goalAssists": "5"
+                },
+                {
+                  "rank": 5,
+                  "athlete": {
+                    "name": "Sebastián Villa",
+                    "uid": "s:600~a:141790",
+                    "guid": "ce50c668-9c3a-a7a4-2b3a-61cfb9a30cd3",
+                    "href": "https://www.espn.com/soccer/player/_/id/141790/sebastian-villa"
+                  },
+                  "team": {
+                    "name": "Independiente Rivadavia",
+                    "href": "https://www.espn.com/soccer/club/_/id/9744/independiente-rivadavia"
+                  },
+                  "appearances": "13",
+                  "goalAssists": "5"
+                },
+                {
+                  "rank": 6,
+                  "athlete": {
+                    "name": "Diego Valdés",
+                    "uid": "s:600~a:70983",
+                    "guid": "40bae4b2-7f26-20c5-397e-6c5c9e44998a",
+                    "href": "https://www.espn.com/soccer/player/_/id/70983/diego-valdes"
+                  },
+                  "team": {
+                    "name": "Vélez Sarsfield",
+                    "href": "https://www.espn.com/soccer/club/_/id/21/velez-sarsfield"
+                  },
+                  "appearances": "13",
+                  "goalAssists": "5"
+                },
+                {
+                  "rank": 7,
+                  "athlete": {
+                    "name": "Luis Abraham",
+                    "uid": "s:600~a:335674",
+                    "guid": "b5fefda0-8c6a-32d5-a873-e04cc8436421",
+                    "href": "https://www.espn.com/soccer/player/_/id/335674/luis-abraham"
+                  },
+                  "team": {
+                    "name": "Banfield",
+                    "href": "https://www.espn.com/soccer/club/_/id/235/banfield"
+                  },
+                  "appearances": "16",
+                  "goalAssists": "4"
+                },
+                {
+                  "rank": 8,
+                  "athlete": {
+                    "name": "Santiago López Garcia",
+                    "uid": "s:600~a:283756",
+                    "guid": "c79061f8-8281-139c-8f20-abf8cf54b047",
+                    "href": "https://www.espn.com/soccer/player/_/id/283756/santiago-lopez-garcia"
+                  },
+                  "team": {
+                    "name": "Banfield",
+                    "href": "https://www.espn.com/soccer/club/_/id/235/banfield"
+                  },
+                  "appearances": "16",
+                  "goalAssists": "4"
+                },
+                {
+                  "rank": 9,
+                  "athlete": {
+                    "name": "Nicolás Fernández",
+                    "uid": "s:600~a:319604",
+                    "guid": "0a171350-2dc8-3438-9998-d180f7cb1529",
+                    "href": "https://www.espn.com/soccer/player/_/id/319604/nicolas-fernandez"
+                  },
+                  "team": {
+                    "name": "Belgrano (Córdoba)",
+                    "href": "https://www.espn.com/soccer/club/_/id/4/belgrano-cordoba"
+                  },
+                  "appearances": "16",
+                  "goalAssists": "4"
+                },
+                {
+                  "rank": 10,
+                  "athlete": {
+                    "name": "Aaron Molinas",
+                    "uid": "s:600~a:303319",
+                    "guid": "8c618a72-3e83-36db-96e6-7f9adee4b6fd",
+                    "href": "https://www.espn.com/soccer/player/_/id/303319/aaron-molinas"
+                  },
+                  "team": {
+                    "name": "Defensa y Justicia",
+                    "href": "https://www.espn.com/soccer/club/_/id/8950/defensa-y-justicia"
+                  },
+                  "appearances": "15",
+                  "goalAssists": "4"
+                }
+              ]
+            }
+          ],
+          "import_value": "Good for goals, assists, appearances and ESPN player/team IDs from public leaderboard pages. Not full minutes/starts/clean-sheets by itself."
+        },
+        "footystats": {
+          "status": "metadata_available_csv_or_api_gated",
+          "dataset_page": {
+            "url": "https://footystats.org/argentina/primera-division/datasets",
+            "status": 200,
+            "bytes": 265924,
+            "title": "Primera División Datasets & Excel Downloads  | FootyStats",
+            "season": "2026",
+            "player_csv_rows": "954",
+            "match_csv_rows": "495"
+          },
+          "players_page": {
+            "url": "https://footystats.org/argentina/primera-division/players",
+            "status": 200,
+            "bytes": 483259,
+            "title": "Primera División Player Stats  | FootyStats",
+            "headings": [
+              "Primera División Top Scorers and Most Clean Sheets",
+              "Top Scorers",
+              "Assists Table",
+              "Most Clean Sheets",
+              "Appearances",
+              "Conceded",
+              "Assists Per 90",
+              "Conceded Per 90",
+              "Penalty Goals",
+              "Yellow Cards",
+              "Player FAQ for the Primera División",
+              "Who Has Scored The Most Goals?",
+              "Who Has The Most Assists?",
+              "Who Has The Most Clean Sheets?",
+              "Who Has Conceded The Most Goals?",
+              "Who Has The Most Assists Per 90?",
+              "Who Has Conceded The Most Goals Per 90?",
+              "Who Has Scored The Most Penalties?"
+            ]
+          },
+          "api_docs": "https://footystats.org/api/documentations/player-individual",
+          "access_note": "Dataset pages expose current row counts, but current CSV downloads redirected to Premium in this test. JSON player endpoint requires a FootyStats API key."
+        },
+        "fbref": {
+          "status": "blocked_by_cloudflare_in_local_fetch",
+          "url": "https://fbref.com/en/comps/21/2026/stats/2026-Liga-Profesional-Argentina-Stats",
+          "http_status": 403,
+          "bytes": 5861,
+          "title": "Just a moment...",
+          "has_standard_table_marker": false,
+          "note": "Search/web results show current FBref player-standard-stat pages exist, but direct automated fetch returned Cloudflare challenge HTML."
+        },
+        "excel4soccer": {
+          "status": "not_found_for_this_league_in_this_pass"
+        }
+      },
+      "roster_leaderboard_matches": [
+        {
+          "player_id": "paraguay-gabriel-avalos",
+          "name": "Gabriel Ávalos",
+          "country": "Paraguay",
+          "roster_club": "Independiente",
+          "espn_team": "Independiente",
+          "table": "Top Scorers",
+          "matched_on": "name_and_club",
+          "row": {
+            "rank": 1,
+            "athlete": {
+              "name": "Gabriel Ávalos",
+              "uid": "s:600~a:208421",
+              "guid": "4c6d9650-9a3d-f70a-f490-a28eaf8446ea",
+              "href": "https://www.espn.com/soccer/player/_/id/208421/gabriel-avalos"
+            },
+            "team": {
+              "name": "Independiente",
+              "href": "https://www.espn.com/soccer/club/_/id/11/independiente"
+            },
+            "appearances": "16",
+            "totalGoals": "9"
+          }
+        },
+        {
+          "player_id": "ecuador-jordy-caicedo",
+          "name": "Jordy Caicedo",
+          "country": "Ecuador",
+          "roster_club": "Huracán",
+          "espn_team": "Huracán",
+          "table": "Top Scorers",
+          "matched_on": "name_and_club",
+          "row": {
+            "rank": 2,
+            "athlete": {
+              "name": "Jordy Caicedo",
+              "uid": "s:600~a:217079",
+              "guid": "986b99d3-045a-bdcc-dec2-e06bc5555b85",
+              "href": "https://www.espn.com/soccer/player/_/id/217079/jordy-caicedo"
+            },
+            "team": {
+              "name": "Huracán",
+              "href": "https://www.espn.com/soccer/club/_/id/10/huracan"
+            },
+            "appearances": "15",
+            "totalGoals": "8"
+          }
+        },
+        {
+          "player_id": "paraguay-gabriel-avalos",
+          "name": "Gabriel Ávalos",
+          "country": "Paraguay",
+          "roster_club": "Independiente",
+          "espn_team": "Independiente",
+          "table": "Top Assists",
+          "matched_on": "name_and_club",
+          "row": {
+            "rank": 1,
+            "athlete": {
+              "name": "Gabriel Ávalos",
+              "uid": "s:600~a:208421",
+              "guid": "4c6d9650-9a3d-f70a-f490-a28eaf8446ea",
+              "href": "https://www.espn.com/soccer/player/_/id/208421/gabriel-avalos"
+            },
+            "team": {
+              "name": "Independiente",
+              "href": "https://www.espn.com/soccer/club/_/id/11/independiente"
+            },
+            "appearances": "16",
+            "goalAssists": "5"
+          }
+        }
+      ],
+      "recommended_next_action": "Build an ESPN leaderboard importer for names and ESPN IDs, then use ESPN match summaries or Excel4Soccer/FootyStats API for minutes and starts."
+    }
+  ],
+  "summary": {
+    "leagues_tested": 7,
+    "espn_leaderboard_usable": [
+      "portugal-primeira-liga",
+      "belgium-pro-league",
+      "greece-super-league",
+      "mls",
+      "brazil-serie-a",
+      "argentina-primera"
+    ],
+    "footystats_dataset_rows_seen": {
+      "portugal-primeira-liga": {
+        "players": "644",
+        "matches": "306"
+      },
+      "belgium-pro-league": {
+        "players": "555",
+        "matches": "313"
+      },
+      "poland-ekstraklasa": {
+        "players": "627",
+        "matches": "306"
+      },
+      "greece-super-league": {
+        "players": "516",
+        "matches": "236"
+      },
+      "mls": {
+        "players": "814",
+        "matches": "510"
+      },
+      "brazil-serie-a": {
+        "players": "712",
+        "matches": "380"
+      },
+      "argentina-primera": {
+        "players": "954",
+        "matches": "495"
+      }
+    },
+    "fbref_fetch_status": {
+      "portugal-primeira-liga": "blocked_by_cloudflare_in_local_fetch",
+      "belgium-pro-league": "blocked_by_cloudflare_in_local_fetch",
+      "poland-ekstraklasa": "blocked_by_cloudflare_in_local_fetch",
+      "greece-super-league": "blocked_by_cloudflare_in_local_fetch",
+      "mls": "blocked_by_cloudflare_in_local_fetch",
+      "brazil-serie-a": "blocked_by_cloudflare_in_local_fetch",
+      "argentina-primera": "blocked_by_cloudflare_in_local_fetch"
+    },
+    "excel4soccer_workbook_pages_seen": [
+      "portugal-primeira-liga",
+      "belgium-pro-league"
+    ],
+    "direct_import_recommendation": "Start with ESPN public leaderboards for Portugal, Belgium, Greece, MLS, Brazil, and Argentina; use FootyStats as the broad API/CSV path for all seven including Poland; use Excel4Soccer as a workbook/ESPN-derived validation path for Portugal and Belgium; keep FBref as a manual/browser or future soccerdata path because local fetch is blocked."
+  }
+}

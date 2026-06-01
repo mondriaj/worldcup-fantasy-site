@@ -1,0 +1,577 @@
+{
+  "schema_version": "week6-recommendation-qa-v2",
+  "generated_at": "2026-06-01T19:09:25.131Z",
+  "source_checked": "2026-06-01",
+  "scope": {
+    "top_overall_per_style_matchday": 25,
+    "audited_matchdays": [
+      "group_stage_full",
+      "md1",
+      "md2",
+      "md3"
+    ],
+    "audited_styles": [
+      "best_overall",
+      "expected_return",
+      "safe_floor",
+      "upside",
+      "attack_heavy",
+      "defensive_heavy",
+      "very_risky",
+      "minutes_floor",
+      "tail_risk_avoidance",
+      "captain"
+    ],
+    "note": "Audits the browser-ready matchday recommendation data after PELE-forward score prediction v2."
+  },
+  "source_files": [
+    "financePlayersData.js",
+    "matchdayProjectionsData.js",
+    "data/playerFinanceMetrics_v0.json",
+    "data/playerRecommendationInputs_v0.json",
+    "data/playerMinutesModel_v0.json",
+    "data/playerMatchdayProjections_v2.json",
+    "data/scorePredictions_v2.json"
+  ],
+  "global_summary": {
+    "player_count_browser": 1335,
+    "projection_row_count_browser": 4005,
+    "players_with_three_matchday_projections": 1335,
+    "players_missing_any_matchday_projection": 0,
+    "low_start_probability_count": 720,
+    "high_risk_projection_count": 961,
+    "hard_fixture_projection_count": 927,
+    "top_pick_rows_audited": 1000,
+    "unique_top_pool_players": 218
+  },
+  "matchday_fixture_audit": [
+    {
+      "matchday_id": "group_stage_full",
+      "matchday_label": "Full Group Stage",
+      "style": "best_overall",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.04,
+      "average_clean_sheet_probability": 0.602,
+      "average_upset_risk_probability": 0.138,
+      "warnings": {
+        "low_start_probability": 6
+      }
+    },
+    {
+      "matchday_id": "group_stage_full",
+      "matchday_label": "Full Group Stage",
+      "style": "expected_return",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.04,
+      "average_clean_sheet_probability": 0.602,
+      "average_upset_risk_probability": 0.138,
+      "warnings": {
+        "low_start_probability": 6
+      }
+    },
+    {
+      "matchday_id": "group_stage_full",
+      "matchday_label": "Full Group Stage",
+      "style": "safe_floor",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 1.95,
+      "average_clean_sheet_probability": 0.559,
+      "average_upset_risk_probability": 0.148,
+      "warnings": {
+        "low_start_probability": 2
+      }
+    },
+    {
+      "matchday_id": "group_stage_full",
+      "matchday_label": "Full Group Stage",
+      "style": "upside",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 1.94,
+      "average_clean_sheet_probability": 0.58,
+      "average_upset_risk_probability": 0.147,
+      "warnings": {
+        "low_start_probability": 12
+      }
+    },
+    {
+      "matchday_id": "group_stage_full",
+      "matchday_label": "Full Group Stage",
+      "style": "attack_heavy",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.09,
+      "average_clean_sheet_probability": 0.608,
+      "average_upset_risk_probability": 0.14,
+      "warnings": {
+        "low_start_probability": 4
+      }
+    },
+    {
+      "matchday_id": "group_stage_full",
+      "matchday_label": "Full Group Stage",
+      "style": "defensive_heavy",
+      "status": "review",
+      "top_pick": "Alisson (Brazil, Goalkeepers)",
+      "average_team_expected_goals": 2.31,
+      "average_clean_sheet_probability": 0.692,
+      "average_upset_risk_probability": 0.084,
+      "warnings": {
+        "low_start_probability": 8
+      }
+    },
+    {
+      "matchday_id": "group_stage_full",
+      "matchday_label": "Full Group Stage",
+      "style": "very_risky",
+      "status": "review",
+      "top_pick": "Rubén Lezcano (Paraguay, Midfielders)",
+      "average_team_expected_goals": 1.11,
+      "average_clean_sheet_probability": 0.327,
+      "average_upset_risk_probability": 0.324,
+      "warnings": {
+        "low_start_probability": 25,
+        "high_composite_risk": 15
+      }
+    },
+    {
+      "matchday_id": "group_stage_full",
+      "matchday_label": "Full Group Stage",
+      "style": "minutes_floor",
+      "status": "review",
+      "top_pick": "Abdelatif Ramdane (Algeria, Goalkeepers)",
+      "average_team_expected_goals": 1.03,
+      "average_clean_sheet_probability": 0.27,
+      "average_upset_risk_probability": 0.21,
+      "warnings": {
+        "low_start_probability": 13,
+        "high_composite_risk": 10
+      }
+    },
+    {
+      "matchday_id": "group_stage_full",
+      "matchday_label": "Full Group Stage",
+      "style": "tail_risk_avoidance",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 1.99,
+      "average_clean_sheet_probability": 0.572,
+      "average_upset_risk_probability": 0.153,
+      "warnings": {
+        "low_start_probability": 6
+      }
+    },
+    {
+      "matchday_id": "group_stage_full",
+      "matchday_label": "Full Group Stage",
+      "style": "captain",
+      "status": "pass",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.09,
+      "average_clean_sheet_probability": 0.605,
+      "average_upset_risk_probability": 0.14,
+      "warnings": {}
+    },
+    {
+      "matchday_id": "md1",
+      "matchday_label": "Matchday 1",
+      "style": "best_overall",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.3,
+      "average_clean_sheet_probability": 0.685,
+      "average_upset_risk_probability": 0.088,
+      "warnings": {
+        "low_start_probability": 6
+      }
+    },
+    {
+      "matchday_id": "md1",
+      "matchday_label": "Matchday 1",
+      "style": "expected_return",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.3,
+      "average_clean_sheet_probability": 0.685,
+      "average_upset_risk_probability": 0.088,
+      "warnings": {
+        "low_start_probability": 6
+      }
+    },
+    {
+      "matchday_id": "md1",
+      "matchday_label": "Matchday 1",
+      "style": "safe_floor",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.33,
+      "average_clean_sheet_probability": 0.645,
+      "average_upset_risk_probability": 0.096,
+      "warnings": {
+        "low_start_probability": 4
+      }
+    },
+    {
+      "matchday_id": "md1",
+      "matchday_label": "Matchday 1",
+      "style": "upside",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.11,
+      "average_clean_sheet_probability": 0.672,
+      "average_upset_risk_probability": 0.107,
+      "warnings": {
+        "low_start_probability": 12
+      }
+    },
+    {
+      "matchday_id": "md1",
+      "matchday_label": "Matchday 1",
+      "style": "attack_heavy",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.21,
+      "average_clean_sheet_probability": 0.667,
+      "average_upset_risk_probability": 0.102,
+      "warnings": {
+        "low_start_probability": 6
+      }
+    },
+    {
+      "matchday_id": "md1",
+      "matchday_label": "Matchday 1",
+      "style": "defensive_heavy",
+      "status": "review",
+      "top_pick": "Sander Tangvik (Norway, Goalkeepers)",
+      "average_team_expected_goals": 2.47,
+      "average_clean_sheet_probability": 0.703,
+      "average_upset_risk_probability": 0.072,
+      "warnings": {
+        "low_start_probability": 5
+      }
+    },
+    {
+      "matchday_id": "md1",
+      "matchday_label": "Matchday 1",
+      "style": "very_risky",
+      "status": "review",
+      "top_pick": "Tomas Rodriguez (Panama, Forwards)",
+      "average_team_expected_goals": 1.11,
+      "average_clean_sheet_probability": 0.342,
+      "average_upset_risk_probability": 0.383,
+      "warnings": {
+        "low_start_probability": 24,
+        "high_composite_risk": 20
+      }
+    },
+    {
+      "matchday_id": "md1",
+      "matchday_label": "Matchday 1",
+      "style": "minutes_floor",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 1.84,
+      "average_clean_sheet_probability": 0.586,
+      "average_upset_risk_probability": 0.126,
+      "warnings": {
+        "hard_fixture": 1
+      }
+    },
+    {
+      "matchday_id": "md1",
+      "matchday_label": "Matchday 1",
+      "style": "tail_risk_avoidance",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.24,
+      "average_clean_sheet_probability": 0.665,
+      "average_upset_risk_probability": 0.091,
+      "warnings": {
+        "low_start_probability": 6
+      }
+    },
+    {
+      "matchday_id": "md1",
+      "matchday_label": "Matchday 1",
+      "style": "captain",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.32,
+      "average_clean_sheet_probability": 0.673,
+      "average_upset_risk_probability": 0.092,
+      "warnings": {
+        "low_start_probability": 2
+      }
+    },
+    {
+      "matchday_id": "md2",
+      "matchday_label": "Matchday 2",
+      "style": "best_overall",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.44,
+      "average_clean_sheet_probability": 0.694,
+      "average_upset_risk_probability": 0.074,
+      "warnings": {
+        "low_start_probability": 3
+      }
+    },
+    {
+      "matchday_id": "md2",
+      "matchday_label": "Matchday 2",
+      "style": "expected_return",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.44,
+      "average_clean_sheet_probability": 0.694,
+      "average_upset_risk_probability": 0.074,
+      "warnings": {
+        "low_start_probability": 3
+      }
+    },
+    {
+      "matchday_id": "md2",
+      "matchday_label": "Matchday 2",
+      "style": "safe_floor",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.36,
+      "average_clean_sheet_probability": 0.675,
+      "average_upset_risk_probability": 0.082,
+      "warnings": {
+        "low_start_probability": 1
+      }
+    },
+    {
+      "matchday_id": "md2",
+      "matchday_label": "Matchday 2",
+      "style": "upside",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.26,
+      "average_clean_sheet_probability": 0.655,
+      "average_upset_risk_probability": 0.09,
+      "warnings": {
+        "low_start_probability": 11,
+        "hard_fixture": 1
+      }
+    },
+    {
+      "matchday_id": "md2",
+      "matchday_label": "Matchday 2",
+      "style": "attack_heavy",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.43,
+      "average_clean_sheet_probability": 0.694,
+      "average_upset_risk_probability": 0.075,
+      "warnings": {
+        "low_start_probability": 4
+      }
+    },
+    {
+      "matchday_id": "md2",
+      "matchday_label": "Matchday 2",
+      "style": "defensive_heavy",
+      "status": "review",
+      "top_pick": "Moisés Ramírez (Ecuador, Goalkeepers)",
+      "average_team_expected_goals": 2.42,
+      "average_clean_sheet_probability": 0.705,
+      "average_upset_risk_probability": 0.071,
+      "warnings": {
+        "low_start_probability": 4
+      }
+    },
+    {
+      "matchday_id": "md2",
+      "matchday_label": "Matchday 2",
+      "style": "very_risky",
+      "status": "review",
+      "top_pick": "Bamba Dieng (Senegal, Forwards)",
+      "average_team_expected_goals": 1.2,
+      "average_clean_sheet_probability": 0.341,
+      "average_upset_risk_probability": 0.36,
+      "warnings": {
+        "low_start_probability": 22,
+        "high_composite_risk": 14
+      }
+    },
+    {
+      "matchday_id": "md2",
+      "matchday_label": "Matchday 2",
+      "style": "minutes_floor",
+      "status": "pass",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.15,
+      "average_clean_sheet_probability": 0.628,
+      "average_upset_risk_probability": 0.116,
+      "warnings": {}
+    },
+    {
+      "matchday_id": "md2",
+      "matchday_label": "Matchday 2",
+      "style": "tail_risk_avoidance",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.29,
+      "average_clean_sheet_probability": 0.659,
+      "average_upset_risk_probability": 0.089,
+      "warnings": {
+        "low_start_probability": 6,
+        "hard_fixture": 1
+      }
+    },
+    {
+      "matchday_id": "md2",
+      "matchday_label": "Matchday 2",
+      "style": "captain",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.39,
+      "average_clean_sheet_probability": 0.672,
+      "average_upset_risk_probability": 0.088,
+      "warnings": {
+        "low_start_probability": 1
+      }
+    },
+    {
+      "matchday_id": "md3",
+      "matchday_label": "Matchday 3",
+      "style": "best_overall",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.16,
+      "average_clean_sheet_probability": 0.643,
+      "average_upset_risk_probability": 0.117,
+      "warnings": {
+        "low_start_probability": 3
+      }
+    },
+    {
+      "matchday_id": "md3",
+      "matchday_label": "Matchday 3",
+      "style": "expected_return",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.16,
+      "average_clean_sheet_probability": 0.643,
+      "average_upset_risk_probability": 0.117,
+      "warnings": {
+        "low_start_probability": 3
+      }
+    },
+    {
+      "matchday_id": "md3",
+      "matchday_label": "Matchday 3",
+      "style": "safe_floor",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.19,
+      "average_clean_sheet_probability": 0.673,
+      "average_upset_risk_probability": 0.104,
+      "warnings": {
+        "low_start_probability": 1
+      }
+    },
+    {
+      "matchday_id": "md3",
+      "matchday_label": "Matchday 3",
+      "style": "upside",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 1.95,
+      "average_clean_sheet_probability": 0.591,
+      "average_upset_risk_probability": 0.138,
+      "warnings": {
+        "low_start_probability": 14,
+        "hard_fixture": 1,
+        "high_composite_risk": 1
+      }
+    },
+    {
+      "matchday_id": "md3",
+      "matchday_label": "Matchday 3",
+      "style": "attack_heavy",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.19,
+      "average_clean_sheet_probability": 0.643,
+      "average_upset_risk_probability": 0.115,
+      "warnings": {
+        "low_start_probability": 3
+      }
+    },
+    {
+      "matchday_id": "md3",
+      "matchday_label": "Matchday 3",
+      "style": "defensive_heavy",
+      "status": "review",
+      "top_pick": "Alisson (Brazil, Goalkeepers)",
+      "average_team_expected_goals": 2.3,
+      "average_clean_sheet_probability": 0.703,
+      "average_upset_risk_probability": 0.079,
+      "warnings": {
+        "low_start_probability": 4
+      }
+    },
+    {
+      "matchday_id": "md3",
+      "matchday_label": "Matchday 3",
+      "style": "very_risky",
+      "status": "review",
+      "top_pick": "Sherzod Temirov (Uzbekistan, Forwards)",
+      "average_team_expected_goals": 1.02,
+      "average_clean_sheet_probability": 0.34,
+      "average_upset_risk_probability": 0.392,
+      "warnings": {
+        "low_start_probability": 25,
+        "high_composite_risk": 25
+      }
+    },
+    {
+      "matchday_id": "md3",
+      "matchday_label": "Matchday 3",
+      "style": "minutes_floor",
+      "status": "pass",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 1.81,
+      "average_clean_sheet_probability": 0.534,
+      "average_upset_risk_probability": 0.185,
+      "warnings": {}
+    },
+    {
+      "matchday_id": "md3",
+      "matchday_label": "Matchday 3",
+      "style": "tail_risk_avoidance",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.02,
+      "average_clean_sheet_probability": 0.609,
+      "average_upset_risk_probability": 0.146,
+      "warnings": {
+        "low_start_probability": 4
+      }
+    },
+    {
+      "matchday_id": "md3",
+      "matchday_label": "Matchday 3",
+      "style": "captain",
+      "status": "review",
+      "top_pick": "Lionel Messi (Argentina, Forwards)",
+      "average_team_expected_goals": 2.11,
+      "average_clean_sheet_probability": 0.643,
+      "average_upset_risk_probability": 0.12,
+      "warnings": {
+        "low_start_probability": 2
+      }
+    }
+  ],
+  "main_caveats": [
+    "Official World Cup fantasy prices are missing, so value and budget rankings use proxy prices only.",
+    "Final squads, official positions, official scoring rules, injuries, and starting lineups can change recommendations.",
+    "Score-prediction fields are prototype match-environment signals, not betting odds or official forecasts."
+  ]
+}
