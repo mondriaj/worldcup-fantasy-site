@@ -1183,15 +1183,16 @@
         "scorePredictions_v2.json",
         "playerValueModel_v1.json",
         "captainChangeAdvisorModel_v0.md",
-        "substitutionAdvisorModel_v0.md"
+        "substitutionAdvisorModel_v0.md",
+        "savedDecisionExport_v0.md"
       ],
       "plannedUse": [
         "Team Export JSON v1",
         "saved squad payload foundation",
         "active Team Import v0 restore input",
-        "future decision-tool prefill support"
+        "decision-tool saved result support"
       ],
-      "caveat": "Official fantasy player IDs, official prices, official positions, final squads, and final fantasy rules are still pending. Captain, vice-captain, and decision-tool fields are prototype placeholders unless user state is saved later."
+      "caveat": "Official fantasy player IDs, official prices, official positions, final squads, and final fantasy rules are still pending. Captain and vice-captain are prototype suggestions. Decision-tool fields are null unless a user runs a manual quick check; saved decisions are not restored by Team Import v0 yet."
     },
     {
       "file": "teamImportModel_v0.md",
@@ -1236,7 +1237,7 @@
         "Captain Change Advisor saved-squad field fill",
         "Substitution Advisor saved-squad field fill"
       ],
-      "caveat": "This is a workflow layer over manual advisor inputs. It does not infer live points, played/unplayed state, official-game legality, or saved captain/substitution decisions."
+      "caveat": "This is a workflow layer over manual advisor inputs. It does not infer live points, played/unplayed state, or official-game legality. Filling fields alone is not saved; completed quick checks can be exported by Saved Decision Export v0."
     },
     {
       "file": "savedSquadMatchdayTimeline_v0.md",
@@ -1259,7 +1260,33 @@
         "captain-change quick fill",
         "substitution quick fill"
       ],
-      "caveat": "This is a workflow layer over prototype matchday projection timing. It does not infer live scores, played/unplayed state, official fantasy deadlines, or saved user decisions."
+      "caveat": "This is a workflow layer over prototype matchday projection timing. It does not infer live scores, played/unplayed state, or official fantasy deadlines. Timeline quick-fill actions alone are not saved decisions; completed quick checks can be exported by Saved Decision Export v0."
+    },
+    {
+      "file": "savedDecisionExport_v0.md",
+      "outputType": "saved_decision_export_model_note",
+      "generatedAt": "2026-06-01",
+      "sourceChecked": "2026-06-01",
+      "sourceFiles": [
+        "../index.html",
+        "../script.js",
+        "../financePlayersData.js",
+        "../matchdayProjectionsData.js",
+        "../scorePredictionsData.js",
+        "../fantasyRulesData.js",
+        "teamExportModel_v1.md",
+        "captainChangeAdvisorModel_v0.md",
+        "substitutionAdvisorModel_v0.md",
+        "savedSquadDecisionMode_v0.md",
+        "savedSquadMatchdayTimeline_v0.md"
+      ],
+      "plannedUse": [
+        "Saved Decision Export v0",
+        "Team Export JSON v1 decision_tools population",
+        "manual captain-change scenario export",
+        "manual substitution scenario export"
+      ],
+      "caveat": "Captures latest manual advisor results only. It does not infer live points, played/unplayed state, official-game legality, or import saved decisions yet."
     },
     {
       "file": "fullFeatureTestReport_v0.md",

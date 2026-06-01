@@ -626,6 +626,41 @@ Tests after this step:
 - Import a saved team and confirm the timeline reactivates.
 - Confirm mobile layout has no page-level horizontal overflow.
 
+### 9.8. Saved Decision Export v0
+
+Status: `DONE`
+
+Goal: include the latest manual captain-change or substitution quick-check result in Team Export JSON v1 without adding live tracking or changing the export schema.
+
+Tasks:
+
+- Keep the existing `team-export-v1` payload shape.
+- Keep null-safe decision-tool placeholders when no quick check has been run.
+- Save the latest Captain Change Advisor result after the user runs a quick check.
+- Save the latest Substitution Advisor result after the user runs a quick check.
+- Store user-entered raw points, selected matchday, risk style, result, thresholds, edge, player references, projection context, QA flags, and warnings.
+- Clear saved decisions when advisor inputs become invalid or the Team Builder squad changes.
+- Document that Team Import v0 does not restore saved decisions yet.
+
+Completion note, June 1, 2026:
+
+- Added Saved Decision Export v0 to the Team Export JSON v1 `decision_tools` object.
+- Captain Change Advisor now saves its latest manual result for export.
+- Substitution Advisor now saves its latest manual result for export.
+- Team Export JSON v1 still emits `saved: false` placeholders when no quick check has been run.
+- Saved decisions clear on advisor reset, invalid advisor inputs, squad rebuild, import, reset, preview, or manual swap.
+- Added `data/savedDecisionExport_v0.md`.
+- Updated advisor model notes, Team Export docs, README, data source notes, data quality report, and source manifest.
+
+Tests after this step:
+
+- Build a Team Builder squad and run a captain quick check.
+- Run a substitution quick check.
+- Export Team JSON and confirm both decision tools have `saved: true`.
+- Confirm the exported raw points match the user-entered inputs.
+- Confirm reset or squad changes clear stale saved decisions.
+- Confirm JSON parsing, JavaScript syntax, and browser export flow still pass.
+
 ### 10. Full Feature Test Pass
 
 Status: `DONE`

@@ -58,22 +58,26 @@ The export records:
 
 Captain and vice-captain are still prototype recommendations from the current captain score model. They are placeholders for future official fantasy captain selection or user-selected captain state.
 
-## Decision Tool Placeholders
+## Decision Tools
 
-The export includes null-safe placeholders for:
+The export includes null-safe decision-tool fields for:
 
 - Captain Change Advisor v0
 - Substitution Advisor v0
 
-These placeholders do not claim a saved user decision. They exist so a future saved-decision flow has stable field names for manual decision scenarios.
+If no quick check has been run, each advisor exports `saved: false` with null scenario fields. If the user runs a quick check, the latest manual result is exported with `saved: true`, the user-entered raw points, selected matchday, risk style, result, decision score, fixture projection snapshot, QA flags, and warnings.
+
+Saved decision fields are cleared when the related advisor is reset, advisor inputs become invalid, or the Team Builder squad is rebuilt, imported, reset, previewed, or manually swapped.
 
 ## Import Compatibility
 
 Team Import v0 reads this same `team-export-v1` schema. It restores builder settings, locked/removed players, starter IDs, and bench IDs by exact current player IDs. It warns about missing IDs instead of guessing replacements.
 
+Team Import v0 does not restore saved manual decision results yet.
+
 ## Caveats
 
 - This is not an official FIFA fantasy export.
 - Official fantasy player IDs, official prices, official positions, final squads, and final rules are still pending.
-- Decision-tool fields remain null until a future save/import flow captures a specific user scenario.
+- Decision-tool fields remain null until a user runs a quick check. Saved manual decisions are not restored on import yet.
 - Exported captain and vice-captain are model suggestions, not confirmed user choices.

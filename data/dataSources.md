@@ -1044,14 +1044,16 @@ Current scope:
 
 - Exports the current full Team Builder squad after a valid build.
 - Preserves readable legacy fields such as players, starting 11, bench, captain, rule checks, and portfolio analytics.
-- Adds `schema_version: team-export-v1`, model metadata, builder settings, squad state, recommendation notes, and decision-tool placeholders.
+- Adds `schema_version: team-export-v1`, model metadata, builder settings, squad state, recommendation notes, and decision-tool fields.
 - Records locked players, removed players, ignored locked players, starter slots, and bench slots.
-- Includes null-safe placeholders for Captain Change Advisor v0 and Substitution Advisor v0.
+- Includes null-safe Captain Change Advisor v0 and Substitution Advisor v0 fields.
+- Includes the latest saved manual quick-check result after a user runs Captain Change Advisor or Substitution Advisor.
 
 Fallback rule:
 
 - Treat exported captain and vice-captain as prototype model suggestions until user-selected captain state exists.
-- Keep future decision-tool fields null unless a user has saved a specific manual scenario.
+- Keep decision-tool scenario fields null unless a user has run a specific manual quick check.
+- Do not restore saved decision-tool results on Team Import v0 until a deliberate import behavior exists.
 - Do not treat proxy prices, draft rules, or prototype projections as official fantasy data.
 
 ### Team Import v0
@@ -1092,7 +1094,8 @@ Fallback rule:
 
 - Do not infer live points.
 - Do not infer played/unplayed state.
-- Do not save a captain-change or substitution decision into Team Export JSON v1 until a deliberate saved-decision schema exists.
+- Filling fields from saved-squad buttons alone is not a saved decision.
+- Only a completed advisor quick check is saved into Team Export JSON v1.
 - Do not treat saved-squad buttons as official-game legality checks.
 
 ### Saved Squad Matchday Timeline v0
@@ -1113,8 +1116,32 @@ Fallback rule:
 
 - Do not infer live score or played/unplayed status.
 - Do not infer official matchday deadlines or captain/substitution windows.
-- Do not save timeline actions as user decisions until a saved-decision schema exists.
+- Timeline quick-fill actions alone are not saved user decisions.
+- Only a completed advisor quick check is saved into Team Export JSON v1.
 - Re-check this workflow once official 2026 fantasy rules and deadlines are published.
+
+### Saved Decision Export v0
+
+Model notes: `data/savedDecisionExport_v0.md`
+Browser output: `decision_tools` inside Team Export JSON v1
+Input files: `script.js`, `financePlayersData.js`, `matchdayProjectionsData.js`, `scorePredictionsData.js`
+Use for: carrying the latest manual captain-change or substitution quick-check result inside an exported Team Builder file.
+
+Current scope:
+
+- Keeps existing `team-export-v1` schema.
+- Exports `saved: false` null-safe decision-tool placeholders when no quick check has been run.
+- Exports `saved: true` for the latest Captain Change Advisor result after a user runs the quick check.
+- Exports `saved: true` for the latest Substitution Advisor result after a user runs the quick check.
+- Stores user-entered raw points, selected matchday, risk style, result, decision score, thresholds, player references, projection snapshot, QA flags, and warnings.
+- Clears saved decisions when the advisor resets, inputs become invalid, or the Team Builder squad changes.
+
+Fallback rule:
+
+- Do not infer live points.
+- Do not infer played/unplayed state.
+- Do not infer official-game legality.
+- Do not restore saved decision results on Team Import v0 yet.
 
 ### Recommendation QA v2
 

@@ -52,7 +52,9 @@ It also shows starter raw points, the selected sub score, raw expected/floor/ups
 
 ## Saved Squad Mode
 
-If the Team Builder has a full built or imported squad, the advisor shows saved starter and saved bench buttons. These buttons only fill the existing quick-check fields. They do not create live squad tracking and they do not save a substitution decision into Team Export JSON v1.
+If the Team Builder has a full built or imported squad, the advisor shows saved starter and saved bench buttons. These buttons only fill the existing quick-check fields. They do not create live squad tracking.
+
+When the user runs the quick check, the latest substitution result is included in Team Export JSON v1 under `decision_tools.substitution_advisor` until the advisor is reset, the result is replaced, the inputs become invalid, or the Team Builder squad changes.
 
 ## Caveats
 

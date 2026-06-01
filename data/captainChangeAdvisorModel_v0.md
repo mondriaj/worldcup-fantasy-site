@@ -61,7 +61,9 @@ It also shows current raw points, the selected raw switch score, raw expected/fl
 
 ## Saved Squad Mode
 
-If the Team Builder has a full built or imported squad, the advisor shows saved-squad buttons for current captain and new captain. These buttons only fill the existing quick-check fields. They do not create live squad tracking and they do not save a captain-change decision into Team Export JSON v1.
+If the Team Builder has a full built or imported squad, the advisor shows saved-squad buttons for current captain and new captain. These buttons only fill the existing quick-check fields. They do not create live squad tracking.
+
+When the user runs the quick check, the latest captain-change result is included in Team Export JSON v1 under `decision_tools.captain_change_advisor` until the advisor is reset, the result is replaced, the inputs become invalid, or the Team Builder squad changes.
 
 ## Caveats
 
