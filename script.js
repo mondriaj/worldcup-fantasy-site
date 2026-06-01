@@ -686,6 +686,8 @@ const substitutionAdvisorResetButton = document.getElementById("substitution-adv
 const substitutionAdvisorSquadPanel = document.getElementById("substitution-advisor-squad-panel");
 const substitutionAdvisorPlayerList = document.getElementById("substitution-advisor-player-list");
 const substitutionAdvisorResult = document.getElementById("substitution-advisor-result");
+const savedSquadTimelineMatchdaySelect = document.getElementById("saved-squad-timeline-matchday-select");
+const savedSquadTimelineContent = document.getElementById("saved-squad-timeline-content");
 const cardStatSelect = document.getElementById("card-stat-select");
 const measureInfo = document.getElementById("measure-info");
 const scoreInfoButton = document.getElementById("score-info-btn");
@@ -2483,9 +2485,14 @@ function renderSubstitutionSavedSquadPanel() {
   `;
 }
 
-function renderSavedSquadDecisionPanels() {
+function renderSavedSquadAdvisorPanels() {
   renderCaptainSavedSquadPanel();
   renderSubstitutionSavedSquadPanel();
+}
+
+function renderSavedSquadDecisionPanels() {
+  renderSavedSquadAdvisorPanels();
+  renderSavedSquadTimeline();
 }
 
 function setDecisionPlayerInput(input, player) {
@@ -2538,6 +2545,252 @@ function handleSubstitutionSavedSquadClick(event) {
   }
 
   renderSubstitutionAdvisor();
+}
+
+function renderSavedSquadTimelineOptions() {
+  if (!savedSquadTimelineMatchdaySelect) {
+    return;
+  }
+
+  const matchdayIds = captainChangeMatchdayIds();
+  const previousValue = savedSquadTimelineMatchdaySelect.value;
+  savedSquadTimelineMatchdaySelect.innerHTML = matchdayIds
+    .map((matchdayId) => `<option value="${matchdayId}">${escapeHtml(matchdayLabelFromId(matchdayId))}</option>`)
+    .join("");
+  savedSquadTimelineMatchdaySelect.value = matchdayIds.includes(previousValue)
+    ? previousValue
+    : matchdayIds[0] || "md1";
+}
+
+function savedSquadTimelineEmptyHtml() {
+  return `
+    <div class="timeline-empty">
+      <strong>Build or import a full Team Builder squad.</strong>
+      <p>The timeline will then group your saved players by kickoff for MD1, MD2, and MD3. Manual advisor search still works without a saved squad.</p>
+    </div>
+  `;
+}
+
+function timelineProjectionSortKey(projection) {
+  return [
+    projection?.date || "9999-99-99",
+    projection?.eastern_datetime_label || "",
+    projection?.fixture_id || ""
+  ].join("|");
+}
+
+function timelineGroupKey(projection, matchdayId) {
+  if (!projection) {
+    return `${matchdayId}|timing-needs-check`;
+  }
+
+  return [
+    projection.date || "date-needs-check",
+    projection.eastern_datetime_label || projection.date || "Timing needs check",
+    projection.fixture_id || "fixture-needs-check"
+  ].join("|");
+}
+
+function timelineGroupHeading(row) {
+  const projection = row.projection;
+
+  if (!projection) {
+    return {
+      title: "Timing needs check",
+      detail: `${matchdayLabelFromId(row.matchdayId)} · no fixture projection`
+    };
+  }
+
+  const venue = [projection.venue, projection.city].filter(Boolean).join(", ");
+
+  return {
+    title: projection.eastern_datetime_label || projection.date || "Timing needs check",
+    detail: `${projection.matchday_label || matchdayLabelFromId(row.matchdayId)} · ${venue || "venue needs check"}`
+  };
+}
+
+function timelinePlayerRow(player, area, matchdayId) {
+  const projection = projectionForMatchday(player, matchdayId);
+  const captainSignal = projection
+    ? captainChangeProjectionScore(projection, captainChangeRiskModes.balanced)
+    : null;
+  const substitutionSignal = projection
+    ? substitutionAdvisorProjectionScore(projection, substitutionAdvisorRiskModes.balanced)
+    : null;
+
+  return {
+    player,
+    area,
+    matchdayId,
+    projection,
+    sortKey: timelineProjectionSortKey(projection),
+    groupKey: timelineGroupKey(projection, matchdayId),
+    captainSignal,
+    substitutionSignal,
+    startProbability: projection
+      ? fieldNumber(projection, "start_probability_percent") ?? scoreValue(player, "start_probability_percent")
+      : scoreValue(player, "start_probability_percent"),
+    expectedMinutes: projection
+      ? fieldNumber(projection, "expected_minutes_v0") ?? scoreValue(player, "expected_minutes_v0")
+      : scoreValue(player, "expected_minutes_v0")
+  };
+}
+
+function savedSquadTimelineRows(matchdayId) {
+  const { starters, bench, isFull } = savedDecisionSquad();
+
+  if (!isFull) {
+    return [];
+  }
+
+  return [
+    ...starters.map((player) => timelinePlayerRow(player, "starter", matchdayId)),
+    ...bench.map((player) => timelinePlayerRow(player, "bench", matchdayId))
+  ].sort((a, b) =>
+    a.sortKey.localeCompare(b.sortKey) ||
+    (a.area === b.area ? 0 : a.area === "starter" ? -1 : 1) ||
+    value(b.captainSignal) - value(a.captainSignal) ||
+    a.player.name.localeCompare(b.player.name)
+  );
+}
+
+function timelineActionButtons(row) {
+  const playerId = escapeHtml(row.player.id);
+  const matchdayId = escapeHtml(row.matchdayId);
+  const substitutionAction = row.area === "starter"
+    ? `<button class="timeline-player-button" type="button" data-timeline-fill="sub-starter" data-player-id="${playerId}" data-matchday-id="${matchdayId}">Played starter</button>`
+    : `<button class="timeline-player-button" type="button" data-timeline-fill="sub-bench" data-player-id="${playerId}" data-matchday-id="${matchdayId}">Bench option</button>`;
+
+  return `
+    <div class="timeline-player-actions">
+      <button class="timeline-player-button" type="button" data-timeline-fill="captain-current" data-player-id="${playerId}" data-matchday-id="${matchdayId}">Current cap</button>
+      <button class="timeline-player-button" type="button" data-timeline-fill="captain-candidate" data-player-id="${playerId}" data-matchday-id="${matchdayId}">New cap</button>
+      ${substitutionAction}
+    </div>
+  `;
+}
+
+function renderTimelinePlayerCard(row) {
+  const projection = row.projection;
+  const opponent = projection?.opponent || "Opponent needs check";
+  const difficulty = projection ? fixtureDifficultyLabel(projection.fixture_difficulty_band) : "Difficulty needs check";
+  const kickoff = projection?.eastern_datetime_label || projection?.date || "Timing needs check";
+  const captainSignal = row.captainSignal === null ? "N/A" : displayNumber(row.captainSignal);
+  const substitutionSignal = row.substitutionSignal === null ? "N/A" : displayNumber(row.substitutionSignal);
+
+  return `
+    <article class="timeline-player-card">
+      <div class="timeline-player-card__top">
+        <div>
+          <strong>${escapeHtml(row.player.name)}</strong>
+          <small>${escapeHtml(playerCountryText(row.player))} · ${escapeHtml(row.player.position)} · vs ${escapeHtml(opponent)}</small>
+        </div>
+        <span class="timeline-player-tag">${row.area === "starter" ? "Starter" : "Bench"}</span>
+      </div>
+      <small>${escapeHtml(kickoff)} · ${escapeHtml(difficulty)}</small>
+      <div class="timeline-player-stats">
+        <span>Captain<strong>${captainSignal}</strong></span>
+        <span>Sub signal<strong>${substitutionSignal}</strong></span>
+        <span>Start<strong>${displayNumber(row.startProbability)}%</strong></span>
+        <span>Minutes<strong>${displayNumber(row.expectedMinutes)}</strong></span>
+      </div>
+      ${timelineActionButtons(row)}
+    </article>
+  `;
+}
+
+function renderSavedSquadTimeline() {
+  if (!savedSquadTimelineContent) {
+    return;
+  }
+
+  const matchdayId = savedSquadTimelineMatchdaySelect?.value || captainChangeMatchdayIds()[0] || "md1";
+  const rows = savedSquadTimelineRows(matchdayId);
+
+  if (!rows.length) {
+    savedSquadTimelineContent.innerHTML = savedSquadTimelineEmptyHtml();
+    return;
+  }
+
+  const groups = rows.reduce((groupMap, row) => {
+    const groupRows = groupMap.get(row.groupKey) || [];
+    groupRows.push(row);
+    groupMap.set(row.groupKey, groupRows);
+    return groupMap;
+  }, new Map());
+
+  savedSquadTimelineContent.innerHTML = Array.from(groups.values()).map((groupRows) => {
+    const heading = timelineGroupHeading(groupRows[0]);
+    const starterCount = groupRows.filter((row) => row.area === "starter").length;
+    const benchCount = groupRows.length - starterCount;
+
+    return `
+      <section class="timeline-group">
+        <div class="timeline-group__heading">
+          <div>
+            <h3>${escapeHtml(heading.title)}</h3>
+            <p>${escapeHtml(heading.detail)}</p>
+          </div>
+          <span class="timeline-count">${starterCount} starter${starterCount === 1 ? "" : "s"} · ${benchCount} bench</span>
+        </div>
+        <div class="timeline-player-grid">
+          ${groupRows.map(renderTimelinePlayerCard).join("")}
+        </div>
+      </section>
+    `;
+  }).join("");
+}
+
+function setAdvisorMatchday(select, matchdayId) {
+  if (select && captainChangeMatchdayIds().includes(matchdayId)) {
+    select.value = matchdayId;
+  }
+}
+
+function handleSavedSquadTimelineClick(event) {
+  const button = event.target.closest("[data-timeline-fill][data-player-id]");
+
+  if (!button) {
+    return;
+  }
+
+  const player = playerById(button.dataset.playerId);
+  const matchdayId = button.dataset.matchdayId || savedSquadTimelineMatchdaySelect?.value || "md1";
+
+  if (!player) {
+    return;
+  }
+
+  if (button.dataset.timelineFill === "captain-current") {
+    setAdvisorMatchday(captainChangeMatchdaySelect, matchdayId);
+    setDecisionPlayerInput(captainChangeCurrentPlayerInput, player);
+    renderSavedSquadAdvisorPanels();
+    renderCaptainChangeAdvisor();
+    return;
+  }
+
+  if (button.dataset.timelineFill === "captain-candidate") {
+    setAdvisorMatchday(captainChangeMatchdaySelect, matchdayId);
+    setDecisionPlayerInput(captainChangeCandidateInput, player);
+    renderSavedSquadAdvisorPanels();
+    renderCaptainChangeAdvisor();
+    return;
+  }
+
+  if (button.dataset.timelineFill === "sub-starter") {
+    setAdvisorMatchday(substitutionAdvisorMatchdaySelect, matchdayId);
+    setDecisionPlayerInput(substitutionAdvisorStarterInput, player);
+    renderSavedSquadAdvisorPanels();
+    renderSubstitutionAdvisor();
+    return;
+  }
+
+  if (button.dataset.timelineFill === "sub-bench") {
+    setAdvisorMatchday(substitutionAdvisorMatchdaySelect, matchdayId);
+    setDecisionPlayerInput(substitutionAdvisorBenchInput, player);
+    renderSavedSquadAdvisorPanels();
+    renderSubstitutionAdvisor();
+  }
 }
 
 function findCaptainChangePlayer(rawInput) {
@@ -6225,6 +6478,7 @@ function setupBuilder() {
   renderTrustModeOptions();
   renderMatchdayOptions();
   renderCaptainChangeOptions();
+  renderSavedSquadTimelineOptions();
   if (advicePoolSelect) {
     advicePoolSelect.value = activeAdvicePoolModeId;
   }
@@ -6305,6 +6559,8 @@ function setupBuilder() {
     }));
   substitutionAdvisorSquadPanel?.addEventListener("click", handleSubstitutionSavedSquadClick);
   substitutionAdvisorResetButton?.addEventListener("click", resetSubstitutionAdvisor);
+  savedSquadTimelineMatchdaySelect?.addEventListener("change", renderSavedSquadTimeline);
+  savedSquadTimelineContent?.addEventListener("click", handleSavedSquadTimelineClick);
   cardStatSelect.addEventListener("change", () => {
     renderTeam(currentRenderedTeam, currentBenchPlayers, currentIgnoredLockedPlayers, currentRenderMode);
   });

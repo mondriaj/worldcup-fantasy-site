@@ -947,6 +947,24 @@ Missing or caveated:
 - The mode does not save a captain-change or substitution decision into Team Export JSON v1.
 - Different-position substitutions still require manual formation checks.
 
+## Saved Squad Matchday Timeline v0
+
+Complete:
+
+- Saved Squad Timeline now reads the current full Team Builder squad after a build or import.
+- Timeline selector supports MD1, MD2, and MD3.
+- Saved players are grouped by fixture kickoff label from `matchdayProjectionsData.js`.
+- Player cards show starter/bench status, opponent, fixture difficulty, balanced captain signal, balanced substitution signal, start probability, and expected minutes.
+- Quick-fill buttons can send players to Captain Change Advisor or Substitution Advisor fields.
+- `data/savedSquadMatchdayTimeline_v0.md` documents the workflow and caveats.
+
+Missing or caveated:
+
+- The timeline does not infer live score.
+- The timeline does not infer played/unplayed status.
+- The timeline does not know official fantasy deadlines or official same-day captain/substitution windows.
+- Timeline actions are not saved into Team Export JSON v1.
+
 ## Not Ready Yet
 
 - Official fantasy prices and player IDs have not been imported into `data/players.json`.

@@ -1239,6 +1239,29 @@
       "caveat": "This is a workflow layer over manual advisor inputs. It does not infer live points, played/unplayed state, official-game legality, or saved captain/substitution decisions."
     },
     {
+      "file": "savedSquadMatchdayTimeline_v0.md",
+      "outputType": "saved_squad_matchday_timeline_note",
+      "generatedAt": "2026-06-01",
+      "sourceChecked": "2026-06-01",
+      "sourceFiles": [
+        "../index.html",
+        "../script.js",
+        "../style.css",
+        "../financePlayersData.js",
+        "../matchdayProjectionsData.js",
+        "../scorePredictionsData.js",
+        "savedSquadDecisionMode_v0.md",
+        "teamImportModel_v0.md"
+      ],
+      "plannedUse": [
+        "Saved Squad Matchday Timeline v0",
+        "built/imported squad kickoff grouping",
+        "captain-change quick fill",
+        "substitution quick fill"
+      ],
+      "caveat": "This is a workflow layer over prototype matchday projection timing. It does not infer live scores, played/unplayed state, official fantasy deadlines, or saved user decisions."
+    },
+    {
       "file": "fullFeatureTestReport_v0.md",
       "outputType": "full_feature_validation_report",
       "generatedAt": "2026-06-01",

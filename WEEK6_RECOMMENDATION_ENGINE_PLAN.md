@@ -591,6 +591,41 @@ Tests after this step:
 - Confirm manual mode still appears before a full squad is built or imported.
 - Confirm mobile layout has no horizontal overflow.
 
+### 9.7. Saved Squad Matchday Timeline v0
+
+Status: `DONE`
+
+Goal: show the current built or imported Team Builder squad in matchday kickoff order so users can decide captain switches and substitutions with less manual lookup.
+
+Tasks:
+
+- Add a Saved Squad Timeline section.
+- Let users switch between MD1, MD2, and MD3.
+- Group the current full Team Builder squad by kickoff label from `matchdayProjectionsData.js`.
+- Show starter/bench status, opponent, fixture difficulty, start probability, expected minutes, captain signal, and substitution signal.
+- Add quick-fill buttons for current captain, new captain, played starter, and bench option.
+- Keep live points and played/unplayed status manual.
+- Document the workflow and limitations.
+
+Completion note, June 1, 2026:
+
+- Added the Saved Squad Timeline section and footer link.
+- Timeline activates after a full Team Builder squad is built or imported.
+- Timeline cards group the saved squad by MD1/MD2/MD3 kickoff labels.
+- Timeline quick-fill buttons write into the existing Captain Change Advisor and Substitution Advisor fields.
+- Added `data/savedSquadMatchdayTimeline_v0.md`.
+- Updated README, data source notes, data quality report, data README, and source manifest.
+- Validation passed: tracked JSON parse, JS syntax checks, local page 200, desktop timeline flow, export/reset/import timeline restore, and mobile timeline overflow check.
+
+Tests after this step:
+
+- Confirm the timeline shows an empty state before a full squad exists.
+- Build a squad and confirm timeline groups total 15 players for MD1/MD2/MD3.
+- Use timeline captain quick-fill buttons and confirm the captain advisor receives the selected matchday and players.
+- Use timeline substitution quick-fill buttons and confirm the substitution advisor receives the selected matchday and players.
+- Import a saved team and confirm the timeline reactivates.
+- Confirm mobile layout has no page-level horizontal overflow.
+
 ### 10. Full Feature Test Pass
 
 Status: `DONE`

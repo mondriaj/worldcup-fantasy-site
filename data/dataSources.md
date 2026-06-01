@@ -1095,6 +1095,27 @@ Fallback rule:
 - Do not save a captain-change or substitution decision into Team Export JSON v1 until a deliberate saved-decision schema exists.
 - Do not treat saved-squad buttons as official-game legality checks.
 
+### Saved Squad Matchday Timeline v0
+
+Model notes: `data/savedSquadMatchdayTimeline_v0.md`
+Browser state: current full Team Builder squad from a build or Team Import v0 restore
+Input files: `matchdayProjectionsData.js`, `financePlayersData.js`, `scorePredictionsData.js`
+Use for: grouping the saved squad by MD1/MD2/MD3 kickoff and quick-filling manual decision tools.
+
+Current scope:
+
+- Groups saved squad players by selected matchday kickoff.
+- Shows starter/bench status, opponent, fixture difficulty, start probability, expected minutes, balanced captain signal, and balanced substitution signal.
+- Provides quick-fill buttons for current captain, new captain, played starter, and bench option.
+- Uses existing prototype matchday projection timing labels.
+
+Fallback rule:
+
+- Do not infer live score or played/unplayed status.
+- Do not infer official matchday deadlines or captain/substitution windows.
+- Do not save timeline actions as user decisions until a saved-decision schema exists.
+- Re-check this workflow once official 2026 fantasy rules and deadlines are published.
+
 ### Recommendation QA v2
 
 Output file: `data/recommendationQa_v2.json`  

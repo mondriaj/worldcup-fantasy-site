@@ -282,6 +282,32 @@
         </div>
       </section>
 
+      <section id="saved-squad-timeline" class="panel saved-squad-timeline-panel">
+        <div class="section-heading">
+          <h2>Saved Squad Timeline</h2>
+          <p>Matchday order for the current Team Builder squad.</p>
+        </div>
+
+        <details class="captain-change-guide saved-squad-timeline-guide">
+          <summary>How to use this timeline</summary>
+          <ol>
+            <li>Build or import a full Team Builder squad.</li>
+            <li>Choose MD1, MD2, or MD3 to see your saved players grouped by kickoff.</li>
+            <li>Use the quick-fill buttons to send players into Captain Change Advisor or Substitution Advisor.</li>
+            <li>Still enter actual points manually and confirm who has already played.</li>
+          </ol>
+        </details>
+
+        <div class="timeline-toolbar">
+          <label class="control-group" for="saved-squad-timeline-matchday-select">
+            <span>Timeline Matchday</span>
+            <select id="saved-squad-timeline-matchday-select"></select>
+          </label>
+        </div>
+
+        <div id="saved-squad-timeline-content" class="saved-squad-timeline-content" aria-live="polite"></div>
+      </section>
+
       <details id="team-advice" class="panel collapsible-panel">
         <summary class="collapsible-summary">
           <span>
@@ -1121,6 +1147,7 @@
           <a href="#captain-picks">Captain Picks</a>
           <a href="#captain-change-advisor">Captain Change</a>
           <a href="#substitution-advisor">Substitution</a>
+          <a href="#saved-squad-timeline">Squad Timeline</a>
           <a href="#match-environment">Match Environment</a>
           <a href="#team-builder">Team Builder</a>
           <a href="world-cup.html">World Cup Fixtures</a>
