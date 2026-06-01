@@ -993,6 +993,27 @@ Missing or caveated:
 - It does not infer live scores, played/unplayed state, official deadlines, or official-game legality.
 - It depends on the current prototype player IDs staying stable until an official fantasy-ID migration exists.
 
+## Matchday Decision Center v0
+
+Complete:
+
+- `data/matchdayDecisionCenter_v0.md` documents the workflow.
+- The homepage now includes a Matchday Decision Center before the detailed Captain Change Advisor and Substitution Advisor.
+- The center activates after a full Team Builder squad is built or imported.
+- It shows saved captain, vice captain, bench order, selected matchday, and selected risk style.
+- It accepts manual captain raw points.
+- It accepts one played starter and that starter's manual raw points.
+- It ranks captain-switch options with the existing Captain Change Advisor v0 score.
+- It shows bench candidates in saved bench order with the existing Substitution Advisor v0 score.
+- Fill buttons send one comparison into the detailed captain or substitution advisor.
+
+Missing or caveated:
+
+- The center does not infer live points.
+- The center does not infer played/unplayed state.
+- The center does not validate official deadlines, same-day switch windows, or formation legality.
+- The center itself is not exported as a saved decision; completed detailed advisor checks are exported by Saved Decision Export v0.
+
 ## Saved Decision Export v0
 
 Complete:

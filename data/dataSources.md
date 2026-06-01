@@ -1149,6 +1149,30 @@ Fallback rule:
 - Do not infer live points, played/unplayed state, deadlines, or official-game legality.
 - Warn instead of guessing if imported selection IDs no longer match the restored squad.
 
+### Matchday Decision Center v0
+
+Model notes: `data/matchdayDecisionCenter_v0.md`
+Browser state: current full Team Builder squad from a build or Team Import v0 restore
+Input files: `script.js`, `financePlayersData.js`, `matchdayProjectionsData.js`, `scorePredictionsData.js`
+Use for: organizing captain-switch and bench-substitution checks from the saved squad during a matchday.
+
+Current scope:
+
+- Shows the saved captain, vice captain, bench order, selected matchday, and selected risk style.
+- Accepts manual current-captain raw points.
+- Accepts one played starter and that starter's manual raw points.
+- Ranks captain-switch options with the existing Captain Change Advisor v0 compressed raw-point signal.
+- Shows bench candidates in saved `B1`-`B4` order with the existing Substitution Advisor v0 compressed raw-point signal.
+- Provides fill buttons that send one comparison into Captain Change Advisor or Substitution Advisor.
+
+Fallback rule:
+
+- Do not infer live points.
+- Do not infer who has already played.
+- Do not infer official captain/substitution windows or deadlines.
+- Do not treat the center as a saved decision; only completed detailed advisor checks are exported by Saved Decision Export v0.
+- Keep formation legality as a manual check for different-position substitutions.
+
 ### Saved Decision Export v0
 
 Model notes: `data/savedDecisionExport_v0.md`

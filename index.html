@@ -156,6 +156,58 @@
         </div>
       </details>
 
+      <section id="matchday-decision-center" class="panel matchday-decision-center-panel">
+        <div class="section-heading">
+          <h2>Matchday Decision Center</h2>
+          <p>One saved-squad view for captain switches and bench checks during a matchday.</p>
+        </div>
+
+        <details class="captain-change-guide matchday-decision-guide">
+          <summary>How to use this center</summary>
+          <ol>
+            <li>Build or import a Team Builder squad, then mark captain, vice captain, and bench order if needed.</li>
+            <li>Choose the matchday and risk style. Balanced is the default for normal play.</li>
+            <li>Enter actual raw points only after your captain or starter has played.</li>
+            <li>Use the fill buttons to send one comparison into the detailed Captain or Substitution Advisor.</li>
+          </ol>
+        </details>
+
+        <div class="matchday-decision-controls">
+          <label class="control-group" for="matchday-decision-matchday-select">
+            <span>Matchday</span>
+            <select id="matchday-decision-matchday-select"></select>
+          </label>
+
+          <label class="control-group" for="matchday-decision-risk-select">
+            <span>Risk Style</span>
+            <select id="matchday-decision-risk-select">
+              <option value="balanced">Balanced</option>
+              <option value="safer">Safer</option>
+              <option value="upside">Upside</option>
+            </select>
+          </label>
+
+          <label class="control-group" for="matchday-decision-captain-points-input">
+            <span>Captain Raw Points</span>
+            <input id="matchday-decision-captain-points-input" type="number" min="0" step="0.5" inputmode="decimal" placeholder="0" />
+            <small class="control-helper">Use points before the captain double.</small>
+          </label>
+
+          <label class="control-group" for="matchday-decision-starter-select">
+            <span>Played Starter</span>
+            <select id="matchday-decision-starter-select"></select>
+          </label>
+
+          <label class="control-group" for="matchday-decision-starter-points-input">
+            <span>Starter Raw Points</span>
+            <input id="matchday-decision-starter-points-input" type="number" min="0" step="0.5" inputmode="decimal" placeholder="0" />
+            <small class="control-helper">Use actual fantasy points.</small>
+          </label>
+        </div>
+
+        <div id="matchday-decision-center-content" class="matchday-decision-center-content" aria-live="polite"></div>
+      </section>
+
       <section id="captain-change-advisor" class="panel captain-change-panel">
         <div class="section-heading">
           <h2>Captain Change Advisor</h2>
@@ -1155,6 +1207,7 @@
           <a href="#top">Home</a>
           <a href="#quick-picks">Quick Picks</a>
           <a href="#captain-picks">Captain Picks</a>
+          <a href="#matchday-decision-center">Decision Center</a>
           <a href="#captain-change-advisor">Captain Change</a>
           <a href="#substitution-advisor">Substitution</a>
           <a href="#saved-squad-timeline">Squad Timeline</a>

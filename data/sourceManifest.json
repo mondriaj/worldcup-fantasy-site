@@ -1297,6 +1297,33 @@
       "caveat": "This is local prototype user state. It does not infer live points, played/unplayed state, official deadlines, official fantasy eligibility, or official-game legality."
     },
     {
+      "file": "matchdayDecisionCenter_v0.md",
+      "outputType": "matchday_decision_center_model_note",
+      "generatedAt": "2026-06-01",
+      "sourceChecked": "2026-06-01",
+      "sourceFiles": [
+        "../index.html",
+        "../script.js",
+        "../style.css",
+        "../financePlayersData.js",
+        "../matchdayProjectionsData.js",
+        "../scorePredictionsData.js",
+        "captainChangeAdvisorModel_v0.md",
+        "substitutionAdvisorModel_v0.md",
+        "userSquadSelection_v0.md",
+        "savedSquadDecisionMode_v0.md",
+        "savedSquadMatchdayTimeline_v0.md"
+      ],
+      "plannedUse": [
+        "Matchday Decision Center v0",
+        "saved-squad captain-switch summary",
+        "saved bench-order substitution summary",
+        "manual points workflow",
+        "quick fill into detailed decision advisors"
+      ],
+      "caveat": "This is a workflow layer over existing advisor scores. It does not infer live points, played/unplayed state, official deadlines, same-day switch windows, formation legality, or official-game legality."
+    },
+    {
       "file": "savedDecisionExport_v0.md",
       "outputType": "saved_decision_export_model_note",
       "generatedAt": "2026-06-01",

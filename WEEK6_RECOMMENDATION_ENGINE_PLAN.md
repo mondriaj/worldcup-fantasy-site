@@ -763,6 +763,46 @@ Tests after this step:
 - Confirm stale saved decision results clear when squad selections change.
 - Confirm JSON parsing, JavaScript syntax, desktop browser flow, and mobile overflow checks still pass.
 
+### 9.12. Matchday Decision Center v0
+
+Status: `DONE`
+
+Goal: give users one saved-squad matchday hub for captain-switch and bench-substitution checks without adding live tracking or full manual squad entry.
+
+Tasks:
+
+- Add a Matchday Decision Center section before the detailed manual advisors.
+- Use the built/imported Team Builder squad.
+- Use user captain, vice captain, and bench order when present.
+- Add matchday and risk-style controls.
+- Ask for manual captain raw points.
+- Ask for one played starter and manual starter raw points.
+- Show captain-switch candidates using the existing Captain Change Advisor score.
+- Show bench candidates in saved bench order using the existing Substitution Advisor score.
+- Add fill buttons that send one comparison into the detailed advisors.
+- Keep played/unplayed state, live points, deadlines, and formation legality manual.
+
+Completion note, June 1, 2026:
+
+- Added the Matchday Decision Center panel and footer link.
+- The center activates after a full Team Builder squad is built or imported.
+- Captain summary uses user captain when selected, otherwise the model fallback captain.
+- Bench summary uses saved `B1`-`B4` order.
+- Manual point inputs drive keep/close/switch/sub-check labels without saving a decision by themselves.
+- Fill buttons populate the existing Captain Change Advisor and Substitution Advisor for the final detailed check.
+- Added `data/matchdayDecisionCenter_v0.md`.
+- Updated README, data source notes, data quality report, data README, roadmap, and source manifest.
+
+Tests after this step:
+
+- Confirm empty state before a full squad exists.
+- Build a Team Builder squad and confirm the center shows captain, vice, bench order, and candidate cards.
+- Enter a strong captain score and confirm the center is conservative.
+- Choose a played starter and points, then confirm bench cards update in saved bench order.
+- Use fill buttons and confirm the detailed advisors receive matchday, risk style, players, and points.
+- Confirm desktop/mobile layout has no horizontal overflow.
+- Confirm JSON parsing and JavaScript syntax still pass.
+
 ### 10. Full Feature Test Pass
 
 Status: `DONE`
