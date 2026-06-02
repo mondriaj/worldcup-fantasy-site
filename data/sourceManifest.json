@@ -1485,6 +1485,47 @@
       "caveat": "This documents the rules import workflow. It does not supply official fantasy rules."
     },
     {
+      "file": "officialSquadsImportReport_v0.json",
+      "outputType": "official_squads_import_pipeline_report",
+      "generatedAt": "2026-06-01",
+      "sourceChecked": "2026-06-01",
+      "sourceFiles": [
+        "../scripts/importOfficialSquads.mjs",
+        "imports/officialSquads_TEMPLATE.csv",
+        "imports/README.md",
+        "officialFantasyImportSchema_v0.json",
+        "players.json"
+      ],
+      "plannedUse": [
+        "Final Squad Reconciliation v0",
+        "official final squad validation",
+        "current player pool reconciliation",
+        "excluded player recommendation flags",
+        "replacement player review",
+        "pre-rerun gate for final official squads"
+      ],
+      "caveat": "The current report is waiting for an official squad input file. It does not mark any current player final, replacement, excluded, or review yet."
+    },
+    {
+      "file": "officialSquadsImportPipeline_v0.md",
+      "outputType": "official_squads_import_pipeline_model_note",
+      "generatedAt": "2026-06-01",
+      "sourceChecked": "2026-06-01",
+      "sourceFiles": [
+        "../scripts/importOfficialSquads.mjs",
+        "officialSquadsImportReport_v0.json",
+        "officialFantasyImportSchema_v0.json",
+        "imports/README.md",
+        "imports/officialSquads_TEMPLATE.csv"
+      ],
+      "plannedUse": [
+        "Final Squad Reconciliation v0 documentation",
+        "official final squad import instructions",
+        "final/replacement/excluded/review reconciliation rules"
+      ],
+      "caveat": "This documents the squad reconciliation workflow. It does not supply official final squad data and does not delete players automatically."
+    },
+    {
       "file": "officialDataReadiness_v0.json",
       "outputType": "official_data_readiness_snapshot",
       "generatedAt": "2026-06-01",
@@ -1493,6 +1534,7 @@
         "../scripts/validateOfficialDataReadiness.mjs",
         "../scripts/importOfficialFantasyPlayers.mjs",
         "../scripts/importOfficialFantasyRules.mjs",
+        "../scripts/importOfficialSquads.mjs",
         "../index.html",
         "../README.md",
         "players.json",
@@ -1502,6 +1544,7 @@
         "../fantasyRules.json",
         "officialFantasyImportReport_v0.json",
         "officialFantasyRulesImportReport_v0.json",
+        "officialSquadsImportReport_v0.json",
         "officialFantasyImportSchema_v0.json",
         "officialDataReadiness_v0.md"
       ],
@@ -1523,12 +1566,15 @@
       "sourceFiles": [
         "../scripts/importOfficialFantasyPlayers.mjs",
         "../scripts/importOfficialFantasyRules.mjs",
+        "../scripts/importOfficialSquads.mjs",
         "imports/officialFantasyPlayers_TEMPLATE.csv",
         "imports/officialFantasyRules_TEMPLATE.json",
+        "imports/officialSquads_TEMPLATE.csv",
         "dataSources.md",
         "sourceManifest.json",
         "officialFantasyImportReport_v0.json",
         "officialFantasyRulesImportReport_v0.json",
+        "officialSquadsImportReport_v0.json",
         "officialDataReadiness_v0.json"
       ],
       "plannedUse": [

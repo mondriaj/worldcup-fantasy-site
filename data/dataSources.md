@@ -69,6 +69,10 @@ Current `players.json` use:
 - FIFA was used directly for 44 article checks, including Ghana's 28-player preliminary squad and Australia's partial train-on squad.
 - Australia's file rows are intentionally marked `needs_check` because FIFA has only announced an initial train-on group, not a full final or preliminary squad in the imported source.
 - FIFA notes that all squads still need the final FIFA list publication on June 2, 2026, so confirmed rows should be re-checked after that date before production advice.
+- `scripts/importOfficialSquads.mjs` is ready to parse official final squad CSV, TSV, or JSON files.
+- `data/imports/officialSquads_TEMPLATE.csv` defines the preferred final squad import columns.
+- `data/officialSquadsImportReport_v0.json` currently reports `awaiting_official_squads_input`.
+- Final squad reconciliation will write separate review outputs and will not delete current players automatically.
 
 Fields supplied or checked by this source:
 

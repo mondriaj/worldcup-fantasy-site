@@ -60,6 +60,8 @@ The site can be opened from GitHub Pages or a local server. It loads browser-rea
 - `data/officialFantasyImportPipeline_v0.md` - plain-language notes for the official fantasy player import pipeline
 - `data/officialFantasyRulesImportReport_v0.json` - generated rules-import report; currently waiting for official fantasy rules
 - `data/officialFantasyRulesImportPipeline_v0.md` - plain-language notes for the official fantasy rules import pipeline
+- `data/officialSquadsImportReport_v0.json` - generated final-squad reconciliation report; currently waiting for official final squad input
+- `data/officialSquadsImportPipeline_v0.md` - plain-language notes for the final official squad reconciliation pipeline
 - `data/officialDataReadiness_v0.md` - plain-language notes for the official-data gate and model rerun sequence
 - `data/savedSquadDecisionMode_v0.md` - plain-language notes for using a built/imported Team Builder squad inside the manual decision tools
 - `data/savedSquadMatchdayTimeline_v0.md` - plain-language notes for the built/imported squad kickoff timeline and advisor quick-fill buttons
@@ -132,6 +134,12 @@ Official fantasy rules import pipeline:
 
 ```bash
 node scripts/importOfficialFantasyRules.mjs
+```
+
+Official final squad reconciliation pipeline:
+
+```bash
+node scripts/importOfficialSquads.mjs
 ```
 
 ## Deployment

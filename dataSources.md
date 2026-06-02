@@ -38,9 +38,12 @@ Files:
 - `data/officialFantasyImportPipeline_v0.md`
 - `data/officialFantasyRulesImportReport_v0.json`
 - `data/officialFantasyRulesImportPipeline_v0.md`
+- `data/officialSquadsImportReport_v0.json`
+- `data/officialSquadsImportPipeline_v0.md`
 - `data/officialDataReadiness_v0.md`
 - `data/imports/officialFantasyPlayers_TEMPLATE.csv`
 - `data/imports/officialFantasyRules_TEMPLATE.json`
+- `data/imports/officialSquads_TEMPLATE.csv`
 
 Current status:
 
@@ -66,6 +69,12 @@ Official fantasy rules import command:
 
 ```bash
 node scripts/importOfficialFantasyRules.mjs
+```
+
+Official final squad reconciliation command:
+
+```bash
+node scripts/importOfficialSquads.mjs
 ```
 
 ## Recommendation UI Models

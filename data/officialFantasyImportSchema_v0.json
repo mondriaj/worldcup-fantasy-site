@@ -14,7 +14,12 @@
     "rules_template_file": "data/imports/officialFantasyRules_TEMPLATE.json",
     "rules_import_command": "node scripts/importOfficialFantasyRules.mjs",
     "rules_report_file": "data/officialFantasyRulesImportReport_v0.json",
-    "rules_output_file": "data/officialFantasyRules_v0.json"
+    "rules_output_file": "data/officialFantasyRules_v0.json",
+    "default_squads_input": "data/imports/officialSquads.csv",
+    "squads_template_file": "data/imports/officialSquads_TEMPLATE.csv",
+    "squads_import_command": "node scripts/importOfficialSquads.mjs",
+    "squads_report_file": "data/officialSquadsImportReport_v0.json",
+    "squads_output_file": "data/officialSquads_v0.json"
   },
   "source_policy": {
     "official_fantasy_source_id": "fifaFantasy",
@@ -80,7 +85,9 @@
         "replacement_status"
       ],
       "validation_rules": [
+        "Official squad rows are imported first into data/officialSquads_v0.json for review.",
         "Final squad status must come from FIFA, federation, or official tournament source text.",
+        "Do not mark unmatched current players excluded unless team_squad_complete is true for that team.",
         "Players cut from final squads should remain auditable but must not be selectable by default.",
         "Replacement players must preserve the source date and replacement note."
       ]

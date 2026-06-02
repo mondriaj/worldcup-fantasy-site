@@ -41,9 +41,11 @@ New files:
 - `data/officialFantasyImportSchema_v0.json`
 - `data/officialFantasyImportReport_v0.json`
 - `data/officialFantasyRulesImportReport_v0.json`
+- `data/officialSquadsImportReport_v0.json`
 - `scripts/validateOfficialDataReadiness.mjs`
 - `scripts/importOfficialFantasyPlayers.mjs`
 - `scripts/importOfficialFantasyRules.mjs`
+- `scripts/importOfficialSquads.mjs`
 
 ## Official Import Contract
 
@@ -119,6 +121,12 @@ Run the official fantasy rules import pipeline:
 
 ```bash
 node scripts/importOfficialFantasyRules.mjs
+```
+
+Run the final official squad reconciliation pipeline:
+
+```bash
+node scripts/importOfficialSquads.mjs
 ```
 
 Expected current result:

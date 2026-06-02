@@ -50,6 +50,7 @@ Current readiness counts:
 - 0 finance rows have official price-adjusted return.
 - Official fantasy import pipeline status: `awaiting_official_input`.
 - Official fantasy rules import pipeline status: `awaiting_official_rules_input`.
+- Official final squad import pipeline status: `awaiting_official_squads_input`.
 
 Expected blockers:
 
@@ -90,6 +91,19 @@ Current rules import-pipeline output:
 - Status: `awaiting_official_rules_input`
 - Default expected input: `data/imports/officialFantasyRules.json`
 - Template: `data/imports/officialFantasyRules_TEMPLATE.json`
+
+Official final squad reconciliation command:
+
+```bash
+node scripts/importOfficialSquads.mjs
+```
+
+Current final squad import-pipeline output:
+
+- `data/officialSquadsImportReport_v0.json`
+- Status: `awaiting_official_squads_input`
+- Default expected input: `data/imports/officialSquads.csv`
+- Template: `data/imports/officialSquads_TEMPLATE.csv`
 
 ## Teams Data Quality
 

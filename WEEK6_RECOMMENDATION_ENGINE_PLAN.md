@@ -993,6 +993,41 @@ Tests after this step:
 - Confirm JSON parsing and JavaScript syntax still pass.
 - Confirm homepage and World Cup page still return HTTP 200 locally.
 
+### 16. Final Squad Reconciliation v0
+
+Status: `DONE`
+
+Goal: prepare the exact pipeline for reconciling final official squad data against the current player pool without deleting players or silently changing recommendations.
+
+Scope:
+
+- Add a final squad CSV template.
+- Add an importer for official squad CSV, TSV, and JSON files.
+- Validate required source-backed squad fields.
+- Match official squad rows to current `data/players.json` rows.
+- Produce `final`, `replacement`, `excluded`, and `review` reconciliation statuses.
+- Never mutate or delete `data/players.json` automatically.
+- Mark unmatched current players as excluded only when `team_squad_complete=true` is explicitly supplied for that team.
+- Produce recommendation flags for excluded/review players before model reruns.
+
+Completion note, June 1, 2026:
+
+- Added `data/imports/officialSquads_TEMPLATE.csv`.
+- Added `scripts/importOfficialSquads.mjs`.
+- Added `data/officialSquadsImportReport_v0.json`.
+- Added `data/officialSquadsImportPipeline_v0.md`.
+- Updated `data/imports/README.md`.
+- Updated `data/officialFantasyImportSchema_v0.json` to include squad pipeline files.
+- Updated Official Data Readiness to include `official_squads_import_pipeline_status: awaiting_official_squads_input`.
+- Updated README, data README, source notes, data quality report, source manifest, and roadmap.
+
+Tests after this step:
+
+- Run `node scripts/importOfficialSquads.mjs` and confirm it writes `awaiting_official_squads_input` with no official input file present.
+- Run `node scripts/validateOfficialDataReadiness.mjs` and confirm it includes squad import pipeline status.
+- Confirm JSON parsing and JavaScript syntax still pass.
+- Confirm homepage and World Cup page still return HTTP 200 locally.
+
 ## Decision Rules
 
 Use these rules when the plan needs to change.
@@ -1021,4 +1056,4 @@ After each completed step:
 
 No queued Week 6 recommendation-engine implementation step remains before official data.
 
-Next development should import official fantasy data when available, using `data/imports/officialFantasyPlayers_TEMPLATE.csv`, `data/imports/officialFantasyRules_TEMPLATE.json`, `scripts/importOfficialFantasyPlayers.mjs`, `scripts/importOfficialFantasyRules.mjs`, `data/officialFantasyImportSchema_v0.json`, and `scripts/validateOfficialDataReadiness.mjs` as the gate. Otherwise, define a new non-model feature explicitly. The model-upgrade items remain `LATER` until final official squads, fantasy players, prices, positions, scoring rules, injuries, and stronger lineup information are available.
+Next development should import official fantasy data when available, using `data/imports/officialFantasyPlayers_TEMPLATE.csv`, `data/imports/officialFantasyRules_TEMPLATE.json`, `data/imports/officialSquads_TEMPLATE.csv`, `scripts/importOfficialFantasyPlayers.mjs`, `scripts/importOfficialFantasyRules.mjs`, `scripts/importOfficialSquads.mjs`, `data/officialFantasyImportSchema_v0.json`, and `scripts/validateOfficialDataReadiness.mjs` as the gate. Otherwise, define a new non-model feature explicitly. The model-upgrade items remain `LATER` until final official squads, fantasy players, prices, positions, scoring rules, injuries, and stronger lineup information are available.

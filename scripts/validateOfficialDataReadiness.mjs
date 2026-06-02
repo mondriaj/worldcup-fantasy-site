@@ -10,6 +10,7 @@ const PATHS = {
   activeFantasyRules: "fantasyRules.json",
   officialFantasyImportReport: "data/officialFantasyImportReport_v0.json",
   officialFantasyRulesImportReport: "data/officialFantasyRulesImportReport_v0.json",
+  officialSquadsImportReport: "data/officialSquadsImportReport_v0.json",
   output: "data/officialDataReadiness_v0.json"
 };
 
@@ -66,7 +67,7 @@ function readinessItem(id, label, status, current, needed, nextAction) {
   };
 }
 
-function buildReadiness({ playersData, valueData, financeData, dataFantasyRules, activeFantasyRules, officialFantasyImportReport, officialFantasyRulesImportReport }) {
+function buildReadiness({ playersData, valueData, financeData, dataFantasyRules, activeFantasyRules, officialFantasyImportReport, officialFantasyRulesImportReport, officialSquadsImportReport }) {
   const players = rowsFrom(playersData, ["players"]);
   const valueRows = rowsFrom(valueData, ["playerValueModel"]);
   const financeRows = rowsFrom(financeData, ["playerFinanceMetrics"]);
@@ -145,7 +146,8 @@ function buildReadiness({ playersData, valueData, financeData, dataFantasyRules,
       proxy_price_rows: proxyPriceCount,
       price_adjusted_finance_rows: priceAdjustedRows,
       official_fantasy_import_pipeline_status: officialFantasyImportReport?.status || "not_run",
-      official_fantasy_rules_import_pipeline_status: officialFantasyRulesImportReport?.status || "not_run"
+      official_fantasy_rules_import_pipeline_status: officialFantasyRulesImportReport?.status || "not_run",
+      official_squads_import_pipeline_status: officialSquadsImportReport?.status || "not_run"
     },
     blocking_inputs: blockers,
     import_contract_files: [
@@ -167,6 +169,7 @@ function buildReadiness({ playersData, valueData, financeData, dataFantasyRules,
       "Official fantasy player IDs are not invented.",
       "Official fantasy rules are not inferred from draft rules.",
       "Official fantasy rules import writes a separate review file before active rules are promoted.",
+      "Official squad import writes a separate reconciliation file before current players are promoted or downgraded.",
       "Decision tools require manual points and manual played/unplayed checks."
     ],
     validation: {
@@ -182,16 +185,17 @@ function buildReadiness({ playersData, valueData, financeData, dataFantasyRules,
 }
 
 async function main() {
-  const [playersData, valueData, financeData, dataFantasyRules, activeFantasyRules, officialFantasyImportReport, officialFantasyRulesImportReport] = await Promise.all([
+  const [playersData, valueData, financeData, dataFantasyRules, activeFantasyRules, officialFantasyImportReport, officialFantasyRulesImportReport, officialSquadsImportReport] = await Promise.all([
     readJson(PATHS.players),
     readJson(PATHS.valueModel),
     readJson(PATHS.financeModel),
     readJson(PATHS.dataFantasyRules),
     readJson(PATHS.activeFantasyRules),
     readOptionalJson(PATHS.officialFantasyImportReport),
-    readOptionalJson(PATHS.officialFantasyRulesImportReport)
+    readOptionalJson(PATHS.officialFantasyRulesImportReport),
+    readOptionalJson(PATHS.officialSquadsImportReport)
   ]);
-  const readiness = buildReadiness({ playersData, valueData, financeData, dataFantasyRules, activeFantasyRules, officialFantasyImportReport, officialFantasyRulesImportReport });
+  const readiness = buildReadiness({ playersData, valueData, financeData, dataFantasyRules, activeFantasyRules, officialFantasyImportReport, officialFantasyRulesImportReport, officialSquadsImportReport });
   await writeFile(PATHS.output, `${JSON.stringify(readiness, null, 2)}\n`, "utf8");
   console.log(`${PATHS.output}: ${readiness.status}`);
   console.log(`expected blockers: ${readiness.validation.expected_blockers.join(", ") || "none"}`);

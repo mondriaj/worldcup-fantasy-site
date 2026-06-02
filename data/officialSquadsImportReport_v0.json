@@ -1,0 +1,38 @@
+{
+  "schema_version": "official_squads_import_report_v0",
+  "generated_at": "2026-06-01",
+  "source_checked": "2026-06-01",
+  "status": "awaiting_official_squads_input",
+  "input_file": "data/imports/officialSquads.csv",
+  "current_player_rows_checked": 1339,
+  "required_fields": [
+    "name",
+    "country",
+    "team_id",
+    "roster_status",
+    "source_url",
+    "source_checked"
+  ],
+  "accepted_input_formats": [
+    "csv",
+    "tsv",
+    "json"
+  ],
+  "template_file": "data/imports/officialSquads_TEMPLATE.csv",
+  "output_files_when_input_exists": [
+    "data/officialSquads_v0.json",
+    "data/officialSquadsImportReport_v0.json"
+  ],
+  "next_actions": [
+    "Download or transcribe final official squad data when available.",
+    "Save it as data/imports/officialSquads.csv or pass --input path/to/file.csv.",
+    "Run node scripts/importOfficialSquads.mjs.",
+    "Review data/officialSquadsImportReport_v0.json before any player-pool promotion."
+  ],
+  "safeguards": [
+    "No player is deleted automatically.",
+    "Current players are marked excluded only when their team is explicitly marked complete and they are absent from that official import.",
+    "Unmatched official squad rows go to manual review.",
+    "Excluded or review players are reported as recommendation flags, not removed from active model files."
+  ]
+}

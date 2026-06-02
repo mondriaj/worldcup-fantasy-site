@@ -45,6 +45,30 @@ Required fields:
 - `source_url`
 - `source_checked`
 
+Default final squad import path:
+
+```text
+data/imports/officialSquads.csv
+```
+
+Final squad template:
+
+```text
+data/imports/officialSquads_TEMPLATE.csv
+```
+
+Run:
+
+```bash
+node scripts/importOfficialSquads.mjs
+```
+
+Or pass a custom file:
+
+```bash
+node scripts/importOfficialSquads.mjs --input data/imports/my-official-squads.csv
+```
+
 Default rules import path:
 
 ```text
@@ -76,3 +100,4 @@ Important:
 - Leave missing official values blank; the importer will mark them for review.
 - Review `data/officialFantasyImportReport_v0.json` before any model rerun.
 - Do not promote official rules into active `fantasyRules.json` until `data/officialFantasyRulesImportReport_v0.json` is clean enough and the browser rules file is regenerated.
+- Do not mark `team_squad_complete` as true unless the official source covers that team's full final squad. This is the only condition under which unmatched current players can be marked excluded by the reconciliation report.
