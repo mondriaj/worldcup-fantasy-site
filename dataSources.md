@@ -26,6 +26,30 @@ Sources used:
 
 Detailed Week 6 source notes are in `data/dataSources.md`.
 
+## Official Data Readiness
+
+Official Data Readiness v0 now tracks the blockers before the project can replace proxy/preliminary data with official fantasy data.
+
+Files:
+
+- `data/officialDataReadiness_v0.json`
+- `data/officialFantasyImportSchema_v0.json`
+- `data/officialDataReadiness_v0.md`
+
+Current status:
+
+- Final official squads are not imported as final roster status.
+- Official fantasy player IDs are not imported.
+- Official fantasy positions are not imported.
+- Official fantasy prices are not imported.
+- Official scoring, deadline, captain, substitution, transfer, and booster rules are not imported.
+
+Validation command:
+
+```bash
+node scripts/validateOfficialDataReadiness.mjs
+```
+
 ## Recommendation UI Models
 
 The live homepage uses browser-ready generated files instead of fetching source JSON at runtime:

@@ -1,0 +1,118 @@
+{
+  "schema_version": "official_fantasy_import_schema_v0",
+  "generated_at": "2026-06-01",
+  "status": "contract_ready_waiting_for_official_data",
+  "purpose": "Define the official fantasy and final-roster fields required before replacing proxy prices, draft rules, and preliminary roster assumptions.",
+  "source_policy": {
+    "official_fantasy_source_id": "fifaFantasy",
+    "official_squad_source_id": "fifaSquads",
+    "fallback_rule": "Do not infer missing official fantasy values. If an official field is unavailable, keep it null and mark the row for review.",
+    "identity_priority": [
+      "official_fantasy_player_id",
+      "fifa_player_id",
+      "exact country plus normalized player name",
+      "manual review"
+    ]
+  },
+  "files_to_import": [
+    {
+      "id": "official_fantasy_players",
+      "target_file": "data/officialFantasyPlayers_v0.json",
+      "status": "not_imported",
+      "required_fields": [
+        "official_fantasy_player_id",
+        "name",
+        "country",
+        "team_id",
+        "official_fantasy_position",
+        "official_price",
+        "selectable_status",
+        "source_url",
+        "source_checked"
+      ],
+      "optional_fields": [
+        "fifa_player_id",
+        "shirt_number",
+        "club",
+        "availability_status",
+        "injury_status",
+        "ownership_percent",
+        "selected_by_percent"
+      ],
+      "validation_rules": [
+        "official_fantasy_player_id must be unique when present.",
+        "official_price must be numeric or null; never fill a proxy value into official_price.",
+        "official_fantasy_position must be the official game position, not an inferred roster position.",
+        "Rows without a safe match to the current player pool must go to manual review."
+      ]
+    },
+    {
+      "id": "final_official_squads",
+      "target_file": "data/officialSquads_v0.json",
+      "status": "not_imported",
+      "required_fields": [
+        "name",
+        "country",
+        "team_id",
+        "roster_status",
+        "source_url",
+        "source_checked"
+      ],
+      "optional_fields": [
+        "fifa_player_id",
+        "official_fantasy_player_id",
+        "shirt_number",
+        "club",
+        "position",
+        "replacement_status"
+      ],
+      "validation_rules": [
+        "Final squad status must come from FIFA, federation, or official tournament source text.",
+        "Players cut from final squads should remain auditable but must not be selectable by default.",
+        "Replacement players must preserve the source date and replacement note."
+      ]
+    },
+    {
+      "id": "official_fantasy_rules",
+      "target_file": "data/fantasyRules.json",
+      "status": "not_imported",
+      "required_fields": [
+        "rulesVersion",
+        "rulesStatus",
+        "squad.totalPlayers",
+        "squad.positions",
+        "budget.initialBudget",
+        "countryLimits",
+        "captain",
+        "transfers",
+        "boosters",
+        "scoring",
+        "deadlines",
+        "sourceIds",
+        "sourceChecked"
+      ],
+      "validation_rules": [
+        "Official rules replace draft root fantasyRules.json only after scoring, squad, budget, and captain/substitution rules are present.",
+        "If official deadlines are missing, deadline fields stay null and decision tools must keep manual deadline warnings.",
+        "Rules must be regenerated into fantasyRulesData.js before browser validation."
+      ]
+    }
+  ],
+  "downstream_regeneration_required": [
+    "players.json official fantasy matching fields",
+    "financePlayersData.js",
+    "fantasyRulesData.js",
+    "data/playerValueModel_v2.json",
+    "data/playerFinanceMetrics_v1.json",
+    "data/playerRecommendationInputs_v1.json",
+    "data/playerMinutesModel_v1.json",
+    "data/playerMatchdayProjections_v3.json",
+    "data/matchdayRecommendations_v3.json",
+    "data/recommendationQa_v3.json"
+  ],
+  "non_goals": [
+    "Do not create placeholder official prices.",
+    "Do not overwrite proxy_price_v1 until official_price coverage is validated.",
+    "Do not promote draft rules to official rules without source-backed scoring and deadline fields."
+  ]
+}

@@ -34,6 +34,22 @@ Source ID: `fifaFantasy`
 Use for: official fantasy player pool, positions, prices, rules, budget, transfers, boosters, and scoring categories.  
 Fallback rule: official fantasy values win over local estimates.
 
+Current readiness use:
+
+- Official fantasy players are not imported yet.
+- Official fantasy prices are not imported yet.
+- Official fantasy positions are not imported yet.
+- Official fantasy scoring, transfer, booster, deadline, captain, and substitution rules are not imported yet.
+- `data/officialFantasyImportSchema_v0.json` defines the required import fields.
+- `data/officialDataReadiness_v0.json` currently reports `blocked_waiting_for_official_fantasy_data`.
+
+Import rule:
+
+- Do not infer missing official fantasy fields.
+- `official_price` must stay `null` until an official source supplies it.
+- `official_fantasy_position` must come from the official fantasy player list, not from roster-position inference.
+- `proxy_price_v1` can remain as an audit field after official prices arrive, but it should not drive Team Builder budget once official prices are validated.
+
 ### FIFA Squad Announcements
 
 Source ID: `fifaSquads`  

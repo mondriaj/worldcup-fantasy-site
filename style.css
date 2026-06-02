@@ -235,6 +235,83 @@ html {
   font-weight: 800;
 }
 
+.official-readiness {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1fr);
+  gap: 16px;
+  width: min(1280px, calc(100% - 32px));
+  margin: 0 auto 24px;
+  border: 1px solid rgba(255, 159, 28, 0.28);
+  border-radius: 16px;
+  padding: 18px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(255, 248, 232, 0.9) 100%);
+  box-shadow: 0 10px 24px rgba(16, 38, 61, 0.08);
+}
+
+.official-readiness__label {
+  display: inline-block;
+  margin-bottom: 8px;
+  border-radius: 999px;
+  padding: 5px 10px;
+  background: rgba(255, 159, 28, 0.18);
+  color: #7a4b00;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.official-readiness h2 {
+  margin-bottom: 8px;
+  color: var(--accent-cool);
+  font-size: 1.2rem;
+}
+
+.official-readiness p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.official-readiness__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.official-readiness__grid article {
+  min-width: 0;
+  border: 1px solid rgba(24, 78, 119, 0.12);
+  border-radius: 10px;
+  padding: 11px 12px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.official-readiness__grid span {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.official-readiness__grid strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #7a4b00;
+  font-size: 1rem;
+  overflow-wrap: anywhere;
+}
+
+.official-readiness__grid p {
+  font-size: 0.84rem;
+}
+
+.official-readiness__grid code {
+  color: var(--accent-cool);
+  font-weight: 900;
+}
+
 .section-note {
   margin: -8px 0 18px;
   border-radius: 10px;
@@ -1380,6 +1457,10 @@ html {
   border-radius: 16px;
   padding: 16px;
   background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+}
+
+.change-entry + .change-entry {
+  margin-top: 14px;
 }
 
 .trust-grid h3,
@@ -3347,6 +3428,11 @@ input[type="number"] {
     grid-template-columns: 1fr;
   }
 
+  .official-readiness,
+  .official-readiness__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .footer-nav {
     justify-content: flex-start;
     max-width: none;
@@ -3401,6 +3487,8 @@ input[type="number"] {
   }
 
   .table-toolbar,
+    .official-readiness,
+    .official-readiness__grid,
     .advice-toolbar,
     .trust-mode-bar,
     .captain-toolbar,

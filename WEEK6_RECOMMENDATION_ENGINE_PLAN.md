@@ -893,6 +893,39 @@ v2 should consider:
 - backtesting against real World Cup fantasy scoring
 - calibration for low-score and draw-heavy match behavior
 
+### 13. Official Data Readiness v0
+
+Status: `DONE`
+
+Goal: make the project ready to absorb official fantasy rosters, prices, positions, rules, scoring, and deadlines without accidentally promoting proxy/preliminary data.
+
+Scope:
+
+- Add a visible official-data readiness status to the homepage.
+- Add a machine-readable readiness snapshot.
+- Add a future official fantasy import contract.
+- Add a repeatable readiness validation script.
+- Keep the current model marked as useful for testing, not final official-data recommendations.
+
+Completion note, June 1, 2026:
+
+- Added `scripts/validateOfficialDataReadiness.mjs`.
+- Added `data/officialDataReadiness_v0.json`.
+- Added `data/officialFantasyImportSchema_v0.json`.
+- Added `data/officialDataReadiness_v0.md`.
+- Added the homepage Official Data Readiness block.
+- Updated README, data README, data source notes, data quality report, source manifest, and roadmap.
+- Current readiness status is `blocked_waiting_for_official_fantasy_data`.
+- Expected blockers are final official squads, official fantasy player IDs, official fantasy positions, official fantasy prices, and official fantasy rules/scoring/deadlines.
+
+Tests after this step:
+
+- Run `node scripts/validateOfficialDataReadiness.mjs`.
+- Confirm JSON parsing still passes.
+- Confirm JavaScript syntax still passes.
+- Confirm homepage and World Cup page still return HTTP 200 locally.
+- Browser-check the homepage readiness block on desktop and mobile.
+
 ## Decision Rules
 
 Use these rules when the plan needs to change.
@@ -919,6 +952,6 @@ After each completed step:
 
 ## Immediate Next Step
 
-No queued Week 6 recommendation-engine implementation step remains.
+No queued Week 6 recommendation-engine implementation step remains before official data.
 
-Next development should either import official fantasy data when available or define the next feature explicitly. The model-upgrade items below remain `LATER` until final official squads, fantasy players, prices, positions, scoring rules, injuries, and stronger lineup information are available.
+Next development should import official fantasy data when available, using `data/officialFantasyImportSchema_v0.json` and `scripts/validateOfficialDataReadiness.mjs` as the gate. Otherwise, define a new non-model feature explicitly. The model-upgrade items remain `LATER` until final official squads, fantasy players, prices, positions, scoring rules, injuries, and stronger lineup information are available.

@@ -1403,6 +1403,51 @@
       "caveat": "This is a UI clarity and QA layer. It does not infer live points, played/unplayed state, official deadlines, or official-game legality."
     },
     {
+      "file": "officialDataReadiness_v0.json",
+      "outputType": "official_data_readiness_snapshot",
+      "generatedAt": "2026-06-01",
+      "sourceChecked": "2026-06-01",
+      "sourceFiles": [
+        "../scripts/validateOfficialDataReadiness.mjs",
+        "../index.html",
+        "../README.md",
+        "players.json",
+        "playerValueModel_v1.json",
+        "playerFinanceMetrics_v0.json",
+        "fantasyRules.json",
+        "../fantasyRules.json",
+        "officialFantasyImportSchema_v0.json",
+        "officialDataReadiness_v0.md"
+      ],
+      "plannedUse": [
+        "Official Data Readiness v0",
+        "official fantasy data gate",
+        "final roster import readiness",
+        "official price import readiness",
+        "official fantasy rules import readiness",
+        "future model rerun checklist"
+      ],
+      "caveat": "This snapshot intentionally reports blockers while official fantasy data is missing. It does not invent official player IDs, official positions, official prices, final squad status, scoring rules, deadlines, or captain/substitution windows."
+    },
+    {
+      "file": "officialFantasyImportSchema_v0.json",
+      "outputType": "official_fantasy_import_contract",
+      "generatedAt": "2026-06-01",
+      "sourceChecked": "2026-06-01",
+      "sourceFiles": [
+        "dataSources.md",
+        "sourceManifest.json",
+        "officialDataReadiness_v0.json"
+      ],
+      "plannedUse": [
+        "future official fantasy player import",
+        "future final official squad import",
+        "future official rules import",
+        "official price and position validation"
+      ],
+      "caveat": "This is a schema contract only. It does not contain official fantasy data and should not be treated as an import result."
+    },
+    {
       "file": "fullFeatureTestReport_v0.md",
       "outputType": "full_feature_validation_report",
       "generatedAt": "2026-06-01",

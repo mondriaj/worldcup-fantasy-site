@@ -57,6 +57,36 @@
       </div>
     </aside>
 
+    <aside id="official-data-readiness" class="official-readiness" aria-label="Official data readiness">
+      <div>
+        <span class="official-readiness__label">Official Data Readiness</span>
+        <h2>Waiting for official fantasy data</h2>
+        <p>The site is ready for workflow testing, but final model reruns should wait for official squads, fantasy player IDs, positions, prices, rules, scoring, and deadlines.</p>
+      </div>
+      <div class="official-readiness__grid" aria-label="Official data blockers">
+        <article>
+          <span>Squads</span>
+          <strong>Pending</strong>
+          <p>Final official squad status has not replaced preliminary and tracker rows.</p>
+        </article>
+        <article>
+          <span>Players</span>
+          <strong>0 IDs</strong>
+          <p>No official fantasy player IDs or fantasy positions are imported yet.</p>
+        </article>
+        <article>
+          <span>Prices</span>
+          <strong>Proxy only</strong>
+          <p>All value logic still uses <code>proxy_price_v1</code>.</p>
+        </article>
+        <article>
+          <span>Rules</span>
+          <strong>Draft</strong>
+          <p>Scoring, transfers, boosters, deadlines, captain, and substitution rules are not official.</p>
+        </article>
+      </div>
+    </aside>
+
     <main class="page-shell">
       <noscript>
         <section class="panel no-js-panel" aria-label="JavaScript required">
@@ -1141,6 +1171,10 @@
             <p>The current player list and model fields are usable for model testing. Official fantasy prices, final squads, and final scoring rules still need to be imported when available.</p>
           </article>
           <article>
+            <h3>Official Data Gate</h3>
+            <p>Official Data Readiness v0 now tracks the exact blockers before rerunning final value, Team Builder, score, and player recommendation models.</p>
+          </article>
+          <article>
             <h3>Independence</h3>
             <p>This site is independent. It is not official FIFA fantasy advice, and it does not include betting or gambling content.</p>
           </article>
@@ -1151,6 +1185,15 @@
         <div class="section-heading">
           <h2>Changelog</h2>
           <p>Recent improvements in this public preview.</p>
+        </div>
+
+        <div class="change-entry">
+          <h3>June 1, 2026</h3>
+          <ul class="compact-list">
+            <li>Official Data Readiness v0 added to track final squads, fantasy player IDs, fantasy positions, prices, rules, scoring, and deadlines.</li>
+            <li>Future official fantasy imports now have a schema contract and repeatable readiness check.</li>
+            <li>The homepage now shows which parts of the model are still waiting for official fantasy data.</li>
+          </ul>
         </div>
 
         <div class="change-entry">
@@ -1207,6 +1250,7 @@
           <a href="#top">Home</a>
           <a href="#quick-picks">Quick Picks</a>
           <a href="#captain-picks">Captain Picks</a>
+          <a href="#official-data-readiness">Official Data</a>
           <a href="#matchday-decision-center">Decision Center</a>
           <a href="#captain-change-advisor">Captain Change</a>
           <a href="#substitution-advisor">Substitution</a>

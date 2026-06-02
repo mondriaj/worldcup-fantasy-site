@@ -1,0 +1,103 @@
+{
+  "schema_version": "official_data_readiness_v0",
+  "generated_at": "2026-06-01",
+  "source_checked": "2026-06-01",
+  "status": "blocked_waiting_for_official_fantasy_data",
+  "summary": {
+    "purpose": "Track whether the project is ready to replace proxy/preliminary data with official World Cup fantasy rosters, positions, prices, rules, and deadlines.",
+    "recommendation": "Do not treat value, budget, Team Builder legality, captain windows, or final player recommendations as production-ready until all blocking official inputs are ready.",
+    "current_project_state": "The site is usable for model testing and UX workflow testing, but official fantasy data has not been imported."
+  },
+  "current_counts": {
+    "roster_player_rows": 1339,
+    "covered_teams": 48,
+    "roster_status_counts": {
+      "preliminary": 499,
+      "confirmed": 832,
+      "needs_check": 8
+    },
+    "value_model_rows": 1339,
+    "finance_model_rows": 1339,
+    "official_fantasy_id_rows": 0,
+    "official_price_rows": 0,
+    "proxy_price_rows": 1339,
+    "price_adjusted_finance_rows": 0
+  },
+  "blocking_inputs": [
+    {
+      "id": "final_official_squads",
+      "label": "Final official squads",
+      "status": "blocked",
+      "current": "0/1339 rows marked final official squad",
+      "needed": "Every included player should be verified against final FIFA/federation squad lists.",
+      "nextAction": "Re-import final squad lists, mark excluded players, and preserve source URLs."
+    },
+    {
+      "id": "official_fantasy_player_ids",
+      "label": "Official fantasy player IDs",
+      "status": "blocked",
+      "current": "0/1339 roster rows have official fantasy IDs",
+      "needed": "A stable official fantasy ID or exact matching key for every fantasy-eligible player.",
+      "nextAction": "Import the official fantasy player list and match by official ID first, then country/name review."
+    },
+    {
+      "id": "official_fantasy_prices",
+      "label": "Official fantasy prices",
+      "status": "blocked",
+      "current": "0/1339 value rows have official prices; 1339 still use proxy prices",
+      "needed": "Official fantasy price for every selectable player.",
+      "nextAction": "Replace proxy-price budget logic with official prices and preserve proxy fields for audit only."
+    },
+    {
+      "id": "official_fantasy_positions",
+      "label": "Official fantasy positions",
+      "status": "blocked",
+      "current": "No separate official fantasy position import is present",
+      "needed": "Official fantasy position for every selectable player, even when it differs from roster position.",
+      "nextAction": "Import official positions with the fantasy player list and use them in Team Builder constraints."
+    },
+    {
+      "id": "official_rules_scoring_deadlines",
+      "label": "Official rules, scoring, and deadlines",
+      "status": "blocked",
+      "current": "data/fantasyRules.json=not_imported; active fantasyRules.json=Draft rules based on past tournament fantasy games. Not official FIFA World Cup 2026 fantasy rules.",
+      "needed": "Official squad rules, budget, country limits, scoring, transfers, boosters, deadlines, captain, and substitutions.",
+      "nextAction": "Import official rules, regenerate fantasyRulesData.js, and re-test Team Builder plus decision tools."
+    }
+  ],
+  "import_contract_files": [
+    "data/officialFantasyImportSchema_v0.json"
+  ],
+  "rerun_sequence_when_official_data_arrives": [
+    "Import official fantasy player list with IDs, names, countries, positions, prices, and selectable status.",
+    "Import final official squad status and exclude or downgrade players not in final squads.",
+    "Import official fantasy rules, scoring, budget, transfers, captain/substitution windows, and deadlines.",
+    "Match official fantasy players to current roster/player IDs, keeping review rows for ambiguous matches.",
+    "Regenerate value model using official prices; keep proxy_price_v1 only as an audit field.",
+    "Regenerate player recommendation inputs, finance metrics, matchday projections, and recommendation QA.",
+    "Re-test Team Builder legality, exports/imports, Captain Change Advisor, Substitution Advisor, and Matchday Decision Center.",
+    "Update README, data sources, data quality report, source manifest, and roadmap before calling the model official-data-ready."
+  ],
+  "safeguards_active_now": [
+    "Official prices remain null; proxy_price_v1 is visibly labeled as prototype.",
+    "Price-adjusted finance rows remain unavailable while official prices are missing.",
+    "Official fantasy player IDs are not invented.",
+    "Official fantasy rules are not inferred from draft rules.",
+    "Decision tools require manual points and manual played/unplayed checks."
+  ],
+  "validation": {
+    "passed": [
+      "Current player dataset is present.",
+      "Current value model is present.",
+      "Current finance model is present.",
+      "All 48 World Cup teams have at least one roster row."
+    ],
+    "expected_blockers": [
+      "final_official_squads",
+      "official_fantasy_player_ids",
+      "official_fantasy_prices",
+      "official_fantasy_positions",
+      "official_rules_scoring_deadlines"
+    ]
+  }
+}

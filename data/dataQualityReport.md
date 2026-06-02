@@ -34,6 +34,35 @@ Current purpose: real team-strength, roster, finance-style fantasy metrics, scor
 - `scorePredictions_v0.json` is preserved as the pre-PELE score model.
 - `sourceManifest.json` has planned source records.
 
+## Official Data Readiness
+
+Status: `blocked_waiting_for_official_fantasy_data`
+
+Official Data Readiness v0 was added on June 1, 2026 to prevent proxy and preliminary fields from being treated as official fantasy data.
+
+Current readiness counts:
+
+- 1,339 roster/player rows.
+- 48 World Cup teams covered.
+- 0 official fantasy player IDs imported.
+- 0 official fantasy prices imported.
+- 1,339 rows still use proxy prices.
+- 0 finance rows have official price-adjusted return.
+
+Expected blockers:
+
+- Final official squads are not imported as final roster status.
+- Official fantasy player IDs are missing.
+- Official fantasy positions are missing.
+- Official fantasy prices are missing.
+- Official rules, scoring, transfers, boosters, deadlines, captain rules, and substitution windows are missing.
+
+Validation command:
+
+```bash
+node scripts/validateOfficialDataReadiness.mjs
+```
+
 ## Teams Data Quality
 
 Complete:

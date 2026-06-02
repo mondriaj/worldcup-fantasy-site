@@ -51,6 +51,9 @@ Use camelCase file names for new data-engine files because the site already uses
 - `teamImportModel_v0.md` - plain-language model note for restoring Team Export JSON v1 files by exact current player IDs.
 - `userSquadSelection_v0.md` - plain-language model note for user-selected captain, vice captain, and bench order on built/imported Team Builder squads.
 - `matchdayDecisionCenter_v0.md` - plain-language model note for the saved-squad captain-switch and bench-check decision center.
+- `officialDataReadiness_v0.json` - generated official-data readiness snapshot for final squads, fantasy player IDs, positions, prices, rules, scoring, and deadlines.
+- `officialFantasyImportSchema_v0.json` - machine-readable import contract for future official fantasy player, final squad, and rules data.
+- `officialDataReadiness_v0.md` - plain-language model note for the official-data gate and final model rerun sequence.
 - `savedSquadDecisionMode_v0.md` - plain-language model note for filling manual captain/substitution advisor fields from the current built or imported Team Builder squad.
 - `savedSquadMatchdayTimeline_v0.md` - plain-language model note for grouping the current built or imported Team Builder squad by matchday kickoff and quick-filling decision tools.
 - `savedDecisionExport_v0.md` - plain-language model note for including the latest manual captain/substitution quick-check result in Team Export JSON v1.

@@ -4,7 +4,7 @@ A static fantasy football website for comparing quick picks, captain options, ca
 
 ## Current Status
 
-This is a public preview. The site now uses the Week 6 World Cup data engine for teams, fixtures, roster candidates, player performance matching, national-team usage, and finance-style fantasy metrics. Official fantasy prices and official fantasy rules are still pending. Tournament groups and group-stage fixtures are shown separately on the World Cup page.
+This is a public preview. The site now uses the Week 6 World Cup data engine for teams, fixtures, roster candidates, player performance matching, national-team usage, and finance-style fantasy metrics. Official fantasy prices and official fantasy rules are still pending. Official Data Readiness v0 now tracks the exact blockers before rerunning final value, Team Builder, score, and player recommendation models. Tournament groups and group-stage fixtures are shown separately on the World Cup page.
 
 Week 5 adds Optimizer v0: the Team Builder now searches for a rules-valid squad using the selected pick style, draft budget, position counts, country limit, locked players, filters, and removed-player exclusions.
 
@@ -54,6 +54,9 @@ The site can be opened from GitHub Pages or a local server. It loads browser-rea
 - `data/teamImportModel_v0.md` - plain-language notes for restoring a saved Team Export JSON v1 file
 - `data/userSquadSelection_v0.md` - plain-language notes for user-selected captain, vice captain, and bench order on built/imported squads
 - `data/matchdayDecisionCenter_v0.md` - plain-language notes for the saved-squad captain and bench decision center
+- `data/officialDataReadiness_v0.json` - generated readiness snapshot for official squads, fantasy player IDs, positions, prices, rules, scoring, and deadlines
+- `data/officialFantasyImportSchema_v0.json` - machine-readable import contract for future official fantasy player, final squad, and rules data
+- `data/officialDataReadiness_v0.md` - plain-language notes for the official-data gate and model rerun sequence
 - `data/savedSquadDecisionMode_v0.md` - plain-language notes for using a built/imported Team Builder squad inside the manual decision tools
 - `data/savedSquadMatchdayTimeline_v0.md` - plain-language notes for the built/imported squad kickoff timeline and advisor quick-fill buttons
 - `data/savedDecisionExport_v0.md` - plain-language notes for exporting the latest manual captain/substitution quick-check result
@@ -77,6 +80,7 @@ The site can be opened from GitHub Pages or a local server. It loads browser-rea
 - Current picks use prototype World Cup data, matchday opponent adjustments, starter/minutes confidence, and score-model explanation text, not final fantasy advice.
 - Some World Cup roster rows are preliminary, likely, or need manual checking.
 - Official fantasy prices and rules are pending; the current builder uses `proxy_price_v1` only for prototype value-model testing.
+- Official Data Readiness v0 currently reports `blocked_waiting_for_official_fantasy_data` because official fantasy player IDs, fantasy positions, prices, final squad status, scoring rules, and deadlines are not imported yet.
 - Team Builder rules currently come from the Week 5 draft rules in `fantasyRules.json`, loaded in the browser through `fantasyRulesData.js`.
 - Optimizer v0 is a practical browser-side search, not a final tournament prediction model.
 - Score predictions are prototype model outputs and are not official projections or betting odds.
@@ -107,6 +111,12 @@ Stage B adds FIFA-sourced tournament structure and group-stage fixture data whil
 Future Stage C: add national team pages after official squads are announced.
 
 Use `WEEK6_RECOMMENDATION_ENGINE_PLAN.md` as the active roadmap for the recommendation engine. Update it after each completed model or UI batch.
+
+Official-data readiness check:
+
+```bash
+node scripts/validateOfficialDataReadiness.mjs
+```
 
 ## Deployment
 
