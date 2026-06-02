@@ -9,7 +9,12 @@
     "template_file": "data/imports/officialFantasyPlayers_TEMPLATE.csv",
     "import_command": "node scripts/importOfficialFantasyPlayers.mjs",
     "report_file": "data/officialFantasyImportReport_v0.json",
-    "player_output_file": "data/officialFantasyPlayers_v0.json"
+    "player_output_file": "data/officialFantasyPlayers_v0.json",
+    "default_rules_input": "data/imports/officialFantasyRules.json",
+    "rules_template_file": "data/imports/officialFantasyRules_TEMPLATE.json",
+    "rules_import_command": "node scripts/importOfficialFantasyRules.mjs",
+    "rules_report_file": "data/officialFantasyRulesImportReport_v0.json",
+    "rules_output_file": "data/officialFantasyRules_v0.json"
   },
   "source_policy": {
     "official_fantasy_source_id": "fifaFantasy",
@@ -82,7 +87,7 @@
     },
     {
       "id": "official_fantasy_rules",
-      "target_file": "data/fantasyRules.json",
+      "target_file": "data/officialFantasyRules_v0.json",
       "status": "not_imported",
       "required_fields": [
         "rulesVersion",
@@ -100,6 +105,7 @@
         "sourceChecked"
       ],
       "validation_rules": [
+        "Official rules are imported first into data/officialFantasyRules_v0.json for review.",
         "Official rules replace draft root fantasyRules.json only after scoring, squad, budget, and captain/substitution rules are present.",
         "If official deadlines are missing, deadline fields stay null and decision tools must keep manual deadline warnings.",
         "Rules must be regenerated into fantasyRulesData.js before browser validation."

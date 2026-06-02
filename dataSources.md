@@ -36,8 +36,11 @@ Files:
 - `data/officialFantasyImportSchema_v0.json`
 - `data/officialFantasyImportReport_v0.json`
 - `data/officialFantasyImportPipeline_v0.md`
+- `data/officialFantasyRulesImportReport_v0.json`
+- `data/officialFantasyRulesImportPipeline_v0.md`
 - `data/officialDataReadiness_v0.md`
 - `data/imports/officialFantasyPlayers_TEMPLATE.csv`
+- `data/imports/officialFantasyRules_TEMPLATE.json`
 
 Current status:
 
@@ -57,6 +60,12 @@ Official fantasy player import command:
 
 ```bash
 node scripts/importOfficialFantasyPlayers.mjs
+```
+
+Official fantasy rules import command:
+
+```bash
+node scripts/importOfficialFantasyRules.mjs
 ```
 
 ## Recommendation UI Models

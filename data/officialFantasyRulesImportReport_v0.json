@@ -1,0 +1,39 @@
+{
+  "schema_version": "official_fantasy_rules_import_report_v0",
+  "generated_at": "2026-06-01",
+  "source_checked": "2026-06-01",
+  "status": "awaiting_official_rules_input",
+  "input_file": "data/imports/officialFantasyRules.json",
+  "required_top_level_fields": [
+    "rulesVersion",
+    "rulesStatus",
+    "squad",
+    "budget",
+    "countryLimits",
+    "captain",
+    "substitutions",
+    "transfers",
+    "boosters",
+    "scoring",
+    "deadlines",
+    "sourceIds",
+    "sourceChecked"
+  ],
+  "template_file": "data/imports/officialFantasyRules_TEMPLATE.json",
+  "output_files_when_input_exists": [
+    "data/officialFantasyRules_v0.json",
+    "data/officialFantasyRulesImportReport_v0.json"
+  ],
+  "next_actions": [
+    "Download or transcribe official fantasy rules when FIFA publishes them.",
+    "Save them as data/imports/officialFantasyRules.json or pass --input path/to/file.json.",
+    "Run node scripts/importOfficialFantasyRules.mjs.",
+    "Review data/officialFantasyRulesImportReport_v0.json before promoting rules into active fantasyRules.json."
+  ],
+  "safeguards": [
+    "Draft or placeholder rules are rejected.",
+    "Missing official values remain missing and are reported as errors.",
+    "The importer writes officialFantasyRules_v0.json and does not overwrite active fantasyRules.json.",
+    "Captain/substitution/deadline gaps keep manual warnings active."
+  ]
+}

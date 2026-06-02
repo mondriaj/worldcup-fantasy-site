@@ -44,6 +44,9 @@ Current readiness use:
 - `scripts/importOfficialFantasyPlayers.mjs` is ready to parse CSV, TSV, or JSON official fantasy player files.
 - `data/imports/officialFantasyPlayers_TEMPLATE.csv` defines the preferred raw import columns.
 - `data/officialFantasyImportReport_v0.json` currently reports `awaiting_official_input`.
+- `scripts/importOfficialFantasyRules.mjs` is ready to parse official fantasy rules JSON.
+- `data/imports/officialFantasyRules_TEMPLATE.json` defines the preferred official rules structure.
+- `data/officialFantasyRulesImportReport_v0.json` currently reports `awaiting_official_rules_input`.
 - `data/officialDataReadiness_v0.json` currently reports `blocked_waiting_for_official_fantasy_data`.
 
 Import rule:

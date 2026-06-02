@@ -9,6 +9,7 @@ const PATHS = {
   dataFantasyRules: "data/fantasyRules.json",
   activeFantasyRules: "fantasyRules.json",
   officialFantasyImportReport: "data/officialFantasyImportReport_v0.json",
+  officialFantasyRulesImportReport: "data/officialFantasyRulesImportReport_v0.json",
   output: "data/officialDataReadiness_v0.json"
 };
 
@@ -65,7 +66,7 @@ function readinessItem(id, label, status, current, needed, nextAction) {
   };
 }
 
-function buildReadiness({ playersData, valueData, financeData, dataFantasyRules, activeFantasyRules, officialFantasyImportReport }) {
+function buildReadiness({ playersData, valueData, financeData, dataFantasyRules, activeFantasyRules, officialFantasyImportReport, officialFantasyRulesImportReport }) {
   const players = rowsFrom(playersData, ["players"]);
   const valueRows = rowsFrom(valueData, ["playerValueModel"]);
   const financeRows = rowsFrom(financeData, ["playerFinanceMetrics"]);
@@ -143,7 +144,8 @@ function buildReadiness({ playersData, valueData, financeData, dataFantasyRules,
       official_price_rows: officialPriceCount,
       proxy_price_rows: proxyPriceCount,
       price_adjusted_finance_rows: priceAdjustedRows,
-      official_fantasy_import_pipeline_status: officialFantasyImportReport?.status || "not_run"
+      official_fantasy_import_pipeline_status: officialFantasyImportReport?.status || "not_run",
+      official_fantasy_rules_import_pipeline_status: officialFantasyRulesImportReport?.status || "not_run"
     },
     blocking_inputs: blockers,
     import_contract_files: [
@@ -164,6 +166,7 @@ function buildReadiness({ playersData, valueData, financeData, dataFantasyRules,
       "Price-adjusted finance rows remain unavailable while official prices are missing.",
       "Official fantasy player IDs are not invented.",
       "Official fantasy rules are not inferred from draft rules.",
+      "Official fantasy rules import writes a separate review file before active rules are promoted.",
       "Decision tools require manual points and manual played/unplayed checks."
     ],
     validation: {
@@ -179,15 +182,16 @@ function buildReadiness({ playersData, valueData, financeData, dataFantasyRules,
 }
 
 async function main() {
-  const [playersData, valueData, financeData, dataFantasyRules, activeFantasyRules, officialFantasyImportReport] = await Promise.all([
+  const [playersData, valueData, financeData, dataFantasyRules, activeFantasyRules, officialFantasyImportReport, officialFantasyRulesImportReport] = await Promise.all([
     readJson(PATHS.players),
     readJson(PATHS.valueModel),
     readJson(PATHS.financeModel),
     readJson(PATHS.dataFantasyRules),
     readJson(PATHS.activeFantasyRules),
-    readOptionalJson(PATHS.officialFantasyImportReport)
+    readOptionalJson(PATHS.officialFantasyImportReport),
+    readOptionalJson(PATHS.officialFantasyRulesImportReport)
   ]);
-  const readiness = buildReadiness({ playersData, valueData, financeData, dataFantasyRules, activeFantasyRules, officialFantasyImportReport });
+  const readiness = buildReadiness({ playersData, valueData, financeData, dataFantasyRules, activeFantasyRules, officialFantasyImportReport, officialFantasyRulesImportReport });
   await writeFile(PATHS.output, `${JSON.stringify(readiness, null, 2)}\n`, "utf8");
   console.log(`${PATHS.output}: ${readiness.status}`);
   console.log(`expected blockers: ${readiness.validation.expected_blockers.join(", ") || "none"}`);

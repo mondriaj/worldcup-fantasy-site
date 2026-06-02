@@ -22,7 +22,8 @@
     "official_price_rows": 0,
     "proxy_price_rows": 1339,
     "price_adjusted_finance_rows": 0,
-    "official_fantasy_import_pipeline_status": "awaiting_official_input"
+    "official_fantasy_import_pipeline_status": "awaiting_official_input",
+    "official_fantasy_rules_import_pipeline_status": "awaiting_official_rules_input"
   },
   "blocking_inputs": [
     {
@@ -84,6 +85,7 @@
     "Price-adjusted finance rows remain unavailable while official prices are missing.",
     "Official fantasy player IDs are not invented.",
     "Official fantasy rules are not inferred from draft rules.",
+    "Official fantasy rules import writes a separate review file before active rules are promoted.",
     "Decision tools require manual points and manual played/unplayed checks."
   ],
   "validation": {

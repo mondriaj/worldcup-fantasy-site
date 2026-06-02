@@ -1,0 +1,69 @@
+{
+  "rulesVersion": "",
+  "rulesStatus": "",
+  "sourceIds": [
+    "fifaFantasy"
+  ],
+  "sourceChecked": "",
+  "squad": {
+    "totalPlayers": null,
+    "positions": {
+      "GK": null,
+      "DEF": null,
+      "MID": null,
+      "FWD": null
+    }
+  },
+  "startingLineup": {
+    "totalPlayers": null,
+    "allowedFormations": []
+  },
+  "budget": {
+    "initialBudget": null,
+    "knockoutIncrease": null,
+    "currencyLabel": ""
+  },
+  "countryLimits": {
+    "groupStageMaxPerCountry": null,
+    "knockoutLimits": {}
+  },
+  "captain": {
+    "captainRequired": null,
+    "captainPointsMultiplier": null,
+    "changeRules": "",
+    "lockRules": ""
+  },
+  "substitutions": {
+    "rulesStatus": "",
+    "details": [],
+    "manualSubstitutionRules": "",
+    "lockRules": ""
+  },
+  "transfers": {
+    "rulesStatus": "",
+    "details": [],
+    "freeTransfers": {}
+  },
+  "boosters": {
+    "rulesStatus": "",
+    "details": []
+  },
+  "scoring": {
+    "rulesStatus": "",
+    "categories": [
+      {
+        "categoryId": "",
+        "label": "",
+        "points": null,
+        "appliesTo": ""
+      }
+    ]
+  },
+  "deadlines": {
+    "rulesStatus": "",
+    "matchdays": [],
+    "deadlineRules": "",
+    "lockWindows": ""
+  },
+  "notes": ""
+}

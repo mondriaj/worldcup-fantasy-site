@@ -45,9 +45,34 @@ Required fields:
 - `source_url`
 - `source_checked`
 
+Default rules import path:
+
+```text
+data/imports/officialFantasyRules.json
+```
+
+Rules template:
+
+```text
+data/imports/officialFantasyRules_TEMPLATE.json
+```
+
+Run:
+
+```bash
+node scripts/importOfficialFantasyRules.mjs
+```
+
+Or pass a custom file:
+
+```bash
+node scripts/importOfficialFantasyRules.mjs --input data/imports/my-official-rules.json
+```
+
 Important:
 
 - Do not put proxy prices in `official_price`.
 - Do not infer official fantasy position from roster position.
 - Leave missing official values blank; the importer will mark them for review.
 - Review `data/officialFantasyImportReport_v0.json` before any model rerun.
+- Do not promote official rules into active `fantasyRules.json` until `data/officialFantasyRulesImportReport_v0.json` is clean enough and the browser rules file is regenerated.

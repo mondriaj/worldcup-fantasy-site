@@ -40,8 +40,10 @@ New files:
 - `data/officialDataReadiness_v0.json`
 - `data/officialFantasyImportSchema_v0.json`
 - `data/officialFantasyImportReport_v0.json`
+- `data/officialFantasyRulesImportReport_v0.json`
 - `scripts/validateOfficialDataReadiness.mjs`
 - `scripts/importOfficialFantasyPlayers.mjs`
+- `scripts/importOfficialFantasyRules.mjs`
 
 ## Official Import Contract
 
@@ -111,6 +113,12 @@ Run the official fantasy player import pipeline:
 
 ```bash
 node scripts/importOfficialFantasyPlayers.mjs
+```
+
+Run the official fantasy rules import pipeline:
+
+```bash
+node scripts/importOfficialFantasyRules.mjs
 ```
 
 Expected current result:

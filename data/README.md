@@ -56,6 +56,9 @@ Use camelCase file names for new data-engine files because the site already uses
 - `officialFantasyImportReport_v0.json` - generated import-pipeline report for the official fantasy player import; currently waiting for an official input file.
 - `officialFantasyImportPipeline_v0.md` - plain-language model note for the official fantasy player import pipeline.
 - `imports/officialFantasyPlayers_TEMPLATE.csv` - required-column template for the future official fantasy player import.
+- `officialFantasyRulesImportReport_v0.json` - generated import-pipeline report for official fantasy rules; currently waiting for an official rules input file.
+- `officialFantasyRulesImportPipeline_v0.md` - plain-language model note for the official fantasy rules import pipeline.
+- `imports/officialFantasyRules_TEMPLATE.json` - required-structure template for the future official fantasy rules import.
 - `officialDataReadiness_v0.md` - plain-language model note for the official-data gate and final model rerun sequence.
 - `savedSquadDecisionMode_v0.md` - plain-language model note for filling manual captain/substitution advisor fields from the current built or imported Team Builder squad.
 - `savedSquadMatchdayTimeline_v0.md` - plain-language model note for grouping the current built or imported Team Builder squad by matchday kickoff and quick-filling decision tools.

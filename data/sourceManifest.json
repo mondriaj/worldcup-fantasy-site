@@ -1443,6 +1443,48 @@
       "caveat": "This documents the import workflow. It does not supply official fantasy data."
     },
     {
+      "file": "officialFantasyRulesImportReport_v0.json",
+      "outputType": "official_fantasy_rules_import_pipeline_report",
+      "generatedAt": "2026-06-01",
+      "sourceChecked": "2026-06-01",
+      "sourceFiles": [
+        "../scripts/importOfficialFantasyRules.mjs",
+        "imports/officialFantasyRules_TEMPLATE.json",
+        "imports/README.md",
+        "officialFantasyImportSchema_v0.json",
+        "fantasyRules.json",
+        "../fantasyRules.json"
+      ],
+      "plannedUse": [
+        "Official Fantasy Rules Import Pipeline v0",
+        "official fantasy rules validation",
+        "official scoring import review",
+        "captain and substitution rule review",
+        "deadline and lock-window review",
+        "pre-promotion gate for active fantasyRules.json"
+      ],
+      "caveat": "The current report is waiting for an official rules input file. It does not contain official scoring, deadline, transfer, booster, captain, or substitution rules."
+    },
+    {
+      "file": "officialFantasyRulesImportPipeline_v0.md",
+      "outputType": "official_fantasy_rules_import_pipeline_model_note",
+      "generatedAt": "2026-06-01",
+      "sourceChecked": "2026-06-01",
+      "sourceFiles": [
+        "../scripts/importOfficialFantasyRules.mjs",
+        "officialFantasyRulesImportReport_v0.json",
+        "officialFantasyImportSchema_v0.json",
+        "imports/README.md",
+        "imports/officialFantasyRules_TEMPLATE.json"
+      ],
+      "plannedUse": [
+        "Official Fantasy Rules Import Pipeline v0 documentation",
+        "official fantasy rules import instructions",
+        "official scoring and deadline validation rules"
+      ],
+      "caveat": "This documents the rules import workflow. It does not supply official fantasy rules."
+    },
+    {
       "file": "officialDataReadiness_v0.json",
       "outputType": "official_data_readiness_snapshot",
       "generatedAt": "2026-06-01",
@@ -1450,6 +1492,7 @@
       "sourceFiles": [
         "../scripts/validateOfficialDataReadiness.mjs",
         "../scripts/importOfficialFantasyPlayers.mjs",
+        "../scripts/importOfficialFantasyRules.mjs",
         "../index.html",
         "../README.md",
         "players.json",
@@ -1458,6 +1501,7 @@
         "fantasyRules.json",
         "../fantasyRules.json",
         "officialFantasyImportReport_v0.json",
+        "officialFantasyRulesImportReport_v0.json",
         "officialFantasyImportSchema_v0.json",
         "officialDataReadiness_v0.md"
       ],
@@ -1478,10 +1522,13 @@
       "sourceChecked": "2026-06-01",
       "sourceFiles": [
         "../scripts/importOfficialFantasyPlayers.mjs",
+        "../scripts/importOfficialFantasyRules.mjs",
         "imports/officialFantasyPlayers_TEMPLATE.csv",
+        "imports/officialFantasyRules_TEMPLATE.json",
         "dataSources.md",
         "sourceManifest.json",
         "officialFantasyImportReport_v0.json",
+        "officialFantasyRulesImportReport_v0.json",
         "officialDataReadiness_v0.json"
       ],
       "plannedUse": [
