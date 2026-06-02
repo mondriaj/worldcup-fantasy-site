@@ -41,6 +41,9 @@ Current readiness use:
 - Official fantasy positions are not imported yet.
 - Official fantasy scoring, transfer, booster, deadline, captain, and substitution rules are not imported yet.
 - `data/officialFantasyImportSchema_v0.json` defines the required import fields.
+- `scripts/importOfficialFantasyPlayers.mjs` is ready to parse CSV, TSV, or JSON official fantasy player files.
+- `data/imports/officialFantasyPlayers_TEMPLATE.csv` defines the preferred raw import columns.
+- `data/officialFantasyImportReport_v0.json` currently reports `awaiting_official_input`.
 - `data/officialDataReadiness_v0.json` currently reports `blocked_waiting_for_official_fantasy_data`.
 
 Import rule:

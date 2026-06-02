@@ -48,6 +48,7 @@ Current readiness counts:
 - 0 official fantasy prices imported.
 - 1,339 rows still use proxy prices.
 - 0 finance rows have official price-adjusted return.
+- Official fantasy import pipeline status: `awaiting_official_input`.
 
 Expected blockers:
 
@@ -62,6 +63,19 @@ Validation command:
 ```bash
 node scripts/validateOfficialDataReadiness.mjs
 ```
+
+Official fantasy player import command:
+
+```bash
+node scripts/importOfficialFantasyPlayers.mjs
+```
+
+Current import-pipeline output:
+
+- `data/officialFantasyImportReport_v0.json`
+- Status: `awaiting_official_input`
+- Default expected input: `data/imports/officialFantasyPlayers.csv`
+- Template: `data/imports/officialFantasyPlayers_TEMPLATE.csv`
 
 ## Teams Data Quality
 

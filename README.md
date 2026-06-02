@@ -56,6 +56,8 @@ The site can be opened from GitHub Pages or a local server. It loads browser-rea
 - `data/matchdayDecisionCenter_v0.md` - plain-language notes for the saved-squad captain and bench decision center
 - `data/officialDataReadiness_v0.json` - generated readiness snapshot for official squads, fantasy player IDs, positions, prices, rules, scoring, and deadlines
 - `data/officialFantasyImportSchema_v0.json` - machine-readable import contract for future official fantasy player, final squad, and rules data
+- `data/officialFantasyImportReport_v0.json` - generated import-pipeline report; currently waiting for the official fantasy player file
+- `data/officialFantasyImportPipeline_v0.md` - plain-language notes for the official fantasy player import pipeline
 - `data/officialDataReadiness_v0.md` - plain-language notes for the official-data gate and model rerun sequence
 - `data/savedSquadDecisionMode_v0.md` - plain-language notes for using a built/imported Team Builder squad inside the manual decision tools
 - `data/savedSquadMatchdayTimeline_v0.md` - plain-language notes for the built/imported squad kickoff timeline and advisor quick-fill buttons
@@ -116,6 +118,12 @@ Official-data readiness check:
 
 ```bash
 node scripts/validateOfficialDataReadiness.mjs
+```
+
+Official fantasy player import pipeline:
+
+```bash
+node scripts/importOfficialFantasyPlayers.mjs
 ```
 
 ## Deployment

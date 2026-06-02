@@ -3,6 +3,14 @@
   "generated_at": "2026-06-01",
   "status": "contract_ready_waiting_for_official_data",
   "purpose": "Define the official fantasy and final-roster fields required before replacing proxy prices, draft rules, and preliminary roster assumptions.",
+  "pipeline": {
+    "landing_folder": "data/imports/",
+    "default_player_input": "data/imports/officialFantasyPlayers.csv",
+    "template_file": "data/imports/officialFantasyPlayers_TEMPLATE.csv",
+    "import_command": "node scripts/importOfficialFantasyPlayers.mjs",
+    "report_file": "data/officialFantasyImportReport_v0.json",
+    "player_output_file": "data/officialFantasyPlayers_v0.json"
+  },
   "source_policy": {
     "official_fantasy_source_id": "fifaFantasy",
     "official_squad_source_id": "fifaSquads",

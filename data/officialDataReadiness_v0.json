@@ -21,7 +21,8 @@
     "official_fantasy_id_rows": 0,
     "official_price_rows": 0,
     "proxy_price_rows": 1339,
-    "price_adjusted_finance_rows": 0
+    "price_adjusted_finance_rows": 0,
+    "official_fantasy_import_pipeline_status": "awaiting_official_input"
   },
   "blocking_inputs": [
     {

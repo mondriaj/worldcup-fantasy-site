@@ -1,0 +1,41 @@
+{
+  "schema_version": "official_fantasy_import_report_v0",
+  "generated_at": "2026-06-01",
+  "source_checked": "2026-06-01",
+  "status": "awaiting_official_input",
+  "input_file": "data/imports/officialFantasyPlayers.csv",
+  "current_player_rows_checked": 1339,
+  "required_fields": [
+    "official_fantasy_player_id",
+    "name",
+    "country",
+    "team_id",
+    "official_fantasy_position",
+    "official_price",
+    "selectable_status",
+    "source_url",
+    "source_checked"
+  ],
+  "accepted_input_formats": [
+    "csv",
+    "tsv",
+    "json"
+  ],
+  "template_file": "data/imports/officialFantasyPlayers_TEMPLATE.csv",
+  "output_files_when_input_exists": [
+    "data/officialFantasyPlayers_v0.json",
+    "data/officialFantasyImportReport_v0.json"
+  ],
+  "next_actions": [
+    "Download the official fantasy player list when available.",
+    "Save it as data/imports/officialFantasyPlayers.csv or pass --input path/to/file.csv.",
+    "Run node scripts/importOfficialFantasyPlayers.mjs.",
+    "Review data/officialFantasyImportReport_v0.json before any model rerun."
+  ],
+  "safeguards": [
+    "No official values are invented.",
+    "official_price remains null when missing or invalid.",
+    "official_fantasy_position is validated against GK, DEF, MID, and FWD.",
+    "Name-only matches are marked for manual review."
+  ]
+}

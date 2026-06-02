@@ -34,7 +34,10 @@ Files:
 
 - `data/officialDataReadiness_v0.json`
 - `data/officialFantasyImportSchema_v0.json`
+- `data/officialFantasyImportReport_v0.json`
+- `data/officialFantasyImportPipeline_v0.md`
 - `data/officialDataReadiness_v0.md`
+- `data/imports/officialFantasyPlayers_TEMPLATE.csv`
 
 Current status:
 
@@ -48,6 +51,12 @@ Validation command:
 
 ```bash
 node scripts/validateOfficialDataReadiness.mjs
+```
+
+Official fantasy player import command:
+
+```bash
+node scripts/importOfficialFantasyPlayers.mjs
 ```
 
 ## Recommendation UI Models

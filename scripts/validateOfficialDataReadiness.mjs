@@ -8,6 +8,7 @@ const PATHS = {
   financeModel: "data/playerFinanceMetrics_v0.json",
   dataFantasyRules: "data/fantasyRules.json",
   activeFantasyRules: "fantasyRules.json",
+  officialFantasyImportReport: "data/officialFantasyImportReport_v0.json",
   output: "data/officialDataReadiness_v0.json"
 };
 
@@ -22,6 +23,14 @@ function rowsFrom(data, keys) {
 
 async function readJson(path) {
   return JSON.parse(await readFile(path, "utf8"));
+}
+
+async function readOptionalJson(path) {
+  try {
+    return JSON.parse(await readFile(path, "utf8"));
+  } catch {
+    return null;
+  }
 }
 
 function countBy(rows, key) {
@@ -56,7 +65,7 @@ function readinessItem(id, label, status, current, needed, nextAction) {
   };
 }
 
-function buildReadiness({ playersData, valueData, financeData, dataFantasyRules, activeFantasyRules }) {
+function buildReadiness({ playersData, valueData, financeData, dataFantasyRules, activeFantasyRules, officialFantasyImportReport }) {
   const players = rowsFrom(playersData, ["players"]);
   const valueRows = rowsFrom(valueData, ["playerValueModel"]);
   const financeRows = rowsFrom(financeData, ["playerFinanceMetrics"]);
@@ -133,7 +142,8 @@ function buildReadiness({ playersData, valueData, financeData, dataFantasyRules,
       official_fantasy_id_rows: officialFantasyIdCount,
       official_price_rows: officialPriceCount,
       proxy_price_rows: proxyPriceCount,
-      price_adjusted_finance_rows: priceAdjustedRows
+      price_adjusted_finance_rows: priceAdjustedRows,
+      official_fantasy_import_pipeline_status: officialFantasyImportReport?.status || "not_run"
     },
     blocking_inputs: blockers,
     import_contract_files: [
@@ -169,14 +179,15 @@ function buildReadiness({ playersData, valueData, financeData, dataFantasyRules,
 }
 
 async function main() {
-  const [playersData, valueData, financeData, dataFantasyRules, activeFantasyRules] = await Promise.all([
+  const [playersData, valueData, financeData, dataFantasyRules, activeFantasyRules, officialFantasyImportReport] = await Promise.all([
     readJson(PATHS.players),
     readJson(PATHS.valueModel),
     readJson(PATHS.financeModel),
     readJson(PATHS.dataFantasyRules),
-    readJson(PATHS.activeFantasyRules)
+    readJson(PATHS.activeFantasyRules),
+    readOptionalJson(PATHS.officialFantasyImportReport)
   ]);
-  const readiness = buildReadiness({ playersData, valueData, financeData, dataFantasyRules, activeFantasyRules });
+  const readiness = buildReadiness({ playersData, valueData, financeData, dataFantasyRules, activeFantasyRules, officialFantasyImportReport });
   await writeFile(PATHS.output, `${JSON.stringify(readiness, null, 2)}\n`, "utf8");
   console.log(`${PATHS.output}: ${readiness.status}`);
   console.log(`expected blockers: ${readiness.validation.expected_blockers.join(", ") || "none"}`);
