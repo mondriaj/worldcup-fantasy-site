@@ -1,12 +1,12 @@
 {
   "schema_version": "official_data_readiness_v0",
-  "generated_at": "2026-06-01",
-  "source_checked": "2026-06-01",
+  "generated_at": "2026-06-02",
+  "source_checked": "2026-06-02",
   "status": "blocked_waiting_for_official_fantasy_data",
   "summary": {
     "purpose": "Track whether the project is ready to replace proxy/preliminary data with official World Cup fantasy rosters, positions, prices, rules, and deadlines.",
     "recommendation": "Do not treat value, budget, Team Builder legality, captain windows, or final player recommendations as production-ready until all blocking official inputs are ready.",
-    "current_project_state": "The site is usable for model testing and UX workflow testing, but official fantasy data has not been imported."
+    "current_project_state": "Official fantasy player import output exists for review, but official IDs, prices, and positions have not been merged into active player/value models, and final squads/rules are still missing."
   },
   "current_counts": {
     "roster_player_rows": 1339,
@@ -22,9 +22,13 @@
     "official_price_rows": 0,
     "proxy_price_rows": 1339,
     "price_adjusted_finance_rows": 0,
-    "official_fantasy_import_pipeline_status": "awaiting_official_input",
-    "official_fantasy_rules_import_pipeline_status": "awaiting_official_rules_input",
-    "official_squads_import_pipeline_status": "awaiting_official_squads_input"
+    "official_fantasy_import_pipeline_status": "imported_needs_manual_review",
+    "official_fantasy_import_rows": 1481,
+    "official_fantasy_import_matched_rows": 996,
+    "official_fantasy_import_unmatched_rows": 485,
+    "official_fantasy_import_error_rows": 0,
+    "official_fantasy_rules_import_pipeline_status": "imported_needs_manual_review",
+    "official_squads_import_pipeline_status": "imported_needs_manual_review"
   },
   "blocking_inputs": [
     {
@@ -82,7 +86,7 @@
     "Update README, data sources, data quality report, source manifest, and roadmap before calling the model official-data-ready."
   ],
   "safeguards_active_now": [
-    "Official prices remain null; proxy_price_v1 is visibly labeled as prototype.",
+    "Active model official prices remain null; proxy_price_v1 is visibly labeled as prototype.",
     "Price-adjusted finance rows remain unavailable while official prices are missing.",
     "Official fantasy player IDs are not invented.",
     "Official fantasy rules are not inferred from draft rules.",

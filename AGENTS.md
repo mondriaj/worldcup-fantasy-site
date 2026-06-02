@@ -25,3 +25,7 @@ This site is a static GitHub Pages-style project. Browser-ready data scripts avo
 - Do not invent official FIFA World Cup 2026 fantasy rules.
 - Keep Week 5 rules clearly marked as draft rules until official rules are available.
 - Do not connect rules, fixtures, or player recommendations to final World Cup claims until official squads, prices, positions, and rules are available.
+
+## Official Data Roadmap
+
+When official World Cup fantasy data becomes available, read `OFFICIAL_DATA_NEXT_STEPS.md` before making model changes. Use the import pipelines and readiness validator there as the gate before replacing proxy prices, draft rules, preliminary roster status, score predictions, matchday projections, or player recommendations.

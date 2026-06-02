@@ -1,6 +1,6 @@
 import { access, readFile, writeFile } from "node:fs/promises";
 
-const TODAY = "2026-06-01";
+const TODAY = "2026-06-02";
 
 const DEFAULT_INPUT = "data/imports/officialFantasyRules.json";
 const OUTPUT_RULES = "data/officialFantasyRules_v0.json";
@@ -67,6 +67,11 @@ function statusLooksOfficial(value) {
     !status.includes("starter") &&
     !status.includes("not_imported") &&
     !status.includes("placeholder");
+}
+
+function statusNeedsReview(value) {
+  const status = String(value || "").toLowerCase();
+  return status.includes("needs") || status.includes("review") || status.includes("partial");
 }
 
 function normalizePositionCounts(positions = {}) {
@@ -249,6 +254,23 @@ function validateRules(rules) {
     errors.push("boosters rules are required, even if the official game says there are none.");
   }
 
+  if (statusNeedsReview(rules.rulesStatus)) {
+    warnings.push(`rulesStatus is ${rules.rulesStatus}; keep staged rules under review before active promotion.`);
+  }
+
+  if (statusNeedsReview(rules.boosters.rulesStatus)) {
+    warnings.push(`boosters.rulesStatus is ${rules.boosters.rulesStatus}; booster rules still need review before active promotion.`);
+  }
+
+  rules.boosters.details.forEach((booster, index) => {
+    if (booster && typeof booster === "object" && !Array.isArray(booster)) {
+      const id = firstValue(booster.boosterId, booster.booster_id, booster.id, booster.label);
+      if (!hasValue(booster.effect) && !hasValue(booster.detail) && !hasValue(booster.details)) {
+        warnings.push(`boosters.details[${index}] (${id || "unknown booster"}) is missing an effect/detail; keep as a manual-review blocker.`);
+      }
+    }
+  });
+
   if (!hasValue(rules.scoring.rulesStatus) && !rules.scoring.categories.length) {
     errors.push("scoring rules are required.");
   }
@@ -263,6 +285,10 @@ function validateRules(rules) {
 
   if (!hasValue(rules.deadlines.lockWindows)) {
     warnings.push("deadlines.lockWindows is missing; captain/substitution tools must keep manual deadline warnings.");
+  }
+
+  if (statusNeedsReview(rules.deadlines.rulesStatus)) {
+    warnings.push(`deadlines.rulesStatus is ${rules.deadlines.rulesStatus}; confirm final fantasy deadline semantics before active promotion.`);
   }
 
   return { errors, warnings };

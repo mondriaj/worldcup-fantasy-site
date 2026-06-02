@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>World Cup Fantasy Helper | Captain Picks, Rankings, and Team Builder</title>
-    <meta name="description" content="Compare captain picks, player rankings, matchday opponents, finance-style risk metrics, and squad ideas in a World Cup fantasy football hub using prototype 2026 World Cup data." />
+    <meta name="description" content="Official Fantasy Pool Preview recommendations using official fantasy prices, positions, and scoring, with final-squad uncertainty clearly shown." />
     <meta property="og:site_name" content="World Cup Fantasy Helper" />
     <meta property="og:title" content="World Cup Fantasy Helper" />
     <meta property="og:description" content="Compare captain picks, player rankings, and squad ideas in one simple fantasy football hub." />
@@ -19,10 +19,10 @@
   <body>
     <header id="top" class="hero">
       <div class="hero__content">
-        <p class="eyebrow">Public Preview</p>
+        <p class="eyebrow">Official Fantasy Pool Preview</p>
         <h1>World Cup Fantasy Helper</h1>
         <p class="hero__text">
-          Compare captain picks, player rankings, matchday opponents, and squad ideas in one simple fantasy football hub.
+          Compare official fantasy-pool preview picks, captain candidates, matchday opponents, and squad ideas in one simple fantasy football hub.
         </p>
 
         <div class="hero__actions" aria-label="Homepage actions">
@@ -33,8 +33,8 @@
 
         <div class="hero-highlights" aria-label="Website highlights">
           <article>
-            <span>1,335</span>
-            <p>position-ready player profiles</p>
+            <span>1,481</span>
+            <p>official fantasy-pool players imported</p>
           </article>
           <article>
             <span id="hero-squad-total">Rules</span>
@@ -51,38 +51,39 @@
     <aside class="data-status" aria-label="Data status">
       <span class="data-status__label">Data status</span>
       <div class="data-status__body">
-        <p>This public preview now uses the Week 6 World Cup data engine: rosters, teams, group fixtures, PELE-backed match environments, matchday-specific opponents, club performance, national-team usage, starter confidence, expected minutes, and finance-style fantasy risk metrics.</p>
-        <p>Official World Cup fantasy prices are still pending, so the Team Builder uses a clearly labeled proxy price only for prototype value-model testing.</p>
-        <p class="data-status__meta">Current snapshot: playerFinanceMetrics_v0, scorePredictions_v2, 1,339 roster players and 1,335 position-ready site players. Page updated: June 1, 2026.</p>
+        <p>Official Fantasy Pool Preview recommendations are now shown publicly using official fantasy prices, positions, and scoring.</p>
+        <p>Final squad status is not yet source-backed. Recommendations may change after final squad confirmation, and rules still have manual-review warnings.</p>
+        <p>Model notes: official fantasy pool, prices, positions, and scoring are imported; final squads are not source-backed; Mystery Booster is unknown; deadline semantics are still under review; recommendations are preview, not final; Team Builder remains prototype/blocked.</p>
+        <p class="data-status__meta">Current snapshot: staged fantasy_pool_only v3 recommendations, v3 projections, v1 finance metrics, 1,481 official fantasy-pool players. Page updated: June 2, 2026.</p>
       </div>
     </aside>
 
     <aside id="official-data-readiness" class="official-readiness" aria-label="Official data readiness">
       <div>
         <span class="official-readiness__label">Official Data Readiness</span>
-        <h2>Waiting for official fantasy data</h2>
-        <p>The site is ready for workflow testing, but final model reruns should wait for official squads, fantasy player IDs, positions, prices, rules, scoring, and deadlines.</p>
+        <h2>Preview live, final gate still blocked</h2>
+        <p>The public recommendations use the official fantasy pool, prices, positions, and scoring. Final-squad-backed recommendations and Team Builder promotion remain blocked.</p>
       </div>
       <div class="official-readiness__grid" aria-label="Official data blockers">
         <article>
           <span>Squads</span>
-          <strong>Pending</strong>
-          <p>Final official squad status has not replaced preliminary and tracker rows.</p>
+          <strong>Not source-backed</strong>
+          <p>0 confirmed final squad rows are imported. Fantasy-pool rows are not final squad confirmation.</p>
         </article>
         <article>
           <span>Players</span>
-          <strong>0 IDs</strong>
-          <p>No official fantasy player IDs or fantasy positions are imported yet.</p>
+          <strong>1,481 imported</strong>
+          <p>Official fantasy player IDs, prices, and positions are available for preview recommendations.</p>
         </article>
         <article>
           <span>Prices</span>
-          <strong>Proxy only</strong>
-          <p>All value logic still uses <code>proxy_price_v1</code>.</p>
+          <strong>Official</strong>
+          <p>Preview recommendation and finance layers use official fantasy prices.</p>
         </article>
         <article>
           <span>Rules</span>
-          <strong>Draft</strong>
-          <p>Scoring, transfers, boosters, deadlines, captain, and substitution rules are not official.</p>
+          <strong>Imported, review</strong>
+          <p>Official scoring is imported. Mystery Booster and deadline semantics still need review.</p>
         </article>
       </div>
     </aside>
@@ -99,10 +100,10 @@
       <section id="quick-picks" class="panel">
         <div class="section-heading">
           <h2>Quick Picks</h2>
-          <p>Fast model-backed picks for your fantasy squad.</p>
+          <p>Fast preview picks from the official fantasy-pool staging layer.</p>
         </div>
 
-        <p class="section-note">Current picks use prototype World Cup 2026 data, matchday-specific opponent adjustments, starter/minutes confidence, and finance-style risk metrics. Treat them as model-building recommendations until final squads, official fantasy prices, and rules are imported.</p>
+        <p class="section-note"><strong>Official Fantasy Pool Preview.</strong> These picks use official fantasy prices, positions, and scoring. Final squad status is not yet source-backed, so recommendations may change.</p>
 
         <div class="trust-mode-bar">
           <label class="control-group" for="quick-trust-mode-select">
@@ -135,12 +136,14 @@
         <summary class="collapsible-summary">
           <span>
             <h2>Captain Picks</h2>
-            <p>Simple captain shortlist using projected points, reliability, and risk.</p>
+            <p>Captain Alpha preview shortlist using official fantasy-pool staged projections.</p>
           </span>
           <span class="collapsible-action" aria-hidden="true"></span>
         </summary>
 
         <div class="collapsible-body">
+          <p class="section-note"><strong>Official Fantasy Pool Preview.</strong> Captain candidates are preview-only and may change after final squad confirmation.</p>
+
           <div class="table-toolbar captain-toolbar">
             <p>Open the info button if you want the table definitions.</p>
             <label class="control-group" for="captain-trust-mode-select">
@@ -410,6 +413,8 @@
         </summary>
 
         <div class="collapsible-body">
+          <p class="section-note"><strong>Official Fantasy Pool Preview.</strong> Team Advice lists staged candidate rows, not final public recommendations or Team Builder inputs.</p>
+
           <div class="table-toolbar advice-toolbar">
             <label class="control-group" for="advice-measure-select">
               <span>Advice Style</span>
@@ -526,7 +531,12 @@
       <section id="team-builder" class="panel panel--team">
         <div class="section-heading">
           <h2>Team Builder</h2>
-          <p>Choose a tactic, pick a style, lock players, and let the optimizer search for a rules-valid squad.</p>
+          <p>Prototype squad builder. It is not promoted to official fantasy-pool status.</p>
+        </div>
+
+        <div class="method-note method-note--warning">
+          <strong>Team Builder is still in prototype mode.</strong>
+          Official prices and rules are available, but final squad status is not source-backed yet. Do not treat generated squads as final.
         </div>
 
         <div class="builder-workspace">
@@ -547,8 +557,8 @@
 
             <div id="measure-info" class="measure-info"></div>
             <div class="optimizer-note">
-              <strong>Optimizer v0</strong>
-              <p>Searches for a 15-player squad that fits the draft rules: positions, selected formation, budget, country limit, locked players, filters, and removed players.</p>
+              <strong>Prototype Optimizer v0</strong>
+              <p>Searches for a 15-player squad using the current prototype Team Builder path. Public preview recommendations do not make this final-squad-ready.</p>
             </div>
 
             <div class="locked-player-area">
@@ -1164,15 +1174,15 @@
         <div class="trust-grid">
           <article>
             <h3>Current Preview</h3>
-            <p>This public preview uses the Week 6 World Cup data engine: real teams, group fixtures, roster candidates, performance matching, national-team usage, and prototype finance metrics.</p>
+            <p>The public recommendation sections now use the Official Fantasy Pool Preview: official fantasy players, prices, positions, scoring, staged projections, and staged finance metrics.</p>
           </article>
           <article>
             <h3>World Cup Data Plan</h3>
-            <p>The current player list and model fields are usable for model testing. Official fantasy prices, final squads, and final scoring rules still need to be imported when available.</p>
+            <p>Final squads are still not source-backed. Final-squad-backed recommendations, Team Builder promotion, and final model claims remain blocked.</p>
           </article>
           <article>
             <h3>Official Data Gate</h3>
-            <p>Official Data Readiness v0 now tracks the exact blockers before rerunning final value, Team Builder, score, and player recommendation models.</p>
+            <p>Official Data Readiness v0 tracks the remaining blockers: final squads, Mystery Booster effect, deadline semantics, and browser promotion QA.</p>
           </article>
           <article>
             <h3>Independence</h3>
@@ -1188,6 +1198,13 @@
         </div>
 
         <div class="change-entry">
+          <h3>June 2, 2026</h3>
+          <ul class="compact-list">
+            <li>Official Fantasy Pool Preview recommendations are now shown on the public site using official fantasy prices, positions, and scoring.</li>
+            <li>Final squad uncertainty, rules warnings, and Team Builder prototype status remain visible.</li>
+            <li>Legacy active data files are preserved for rollback and prototype tools.</li>
+          </ul>
+
           <h3>June 1, 2026</h3>
           <ul class="compact-list">
             <li>Official Data Readiness v0 added to track final squads, fantasy player IDs, fantasy positions, prices, rules, scoring, and deadlines.</li>
@@ -1222,15 +1239,15 @@
           </article>
           <article>
             <h3>Current Status</h3>
-            <p>The site is now World Cup-specific for teams, fixtures, roster candidates, performance matching, and prototype finance metrics. Current picks are still model-building recommendations until final official squads, fantasy prices, and fantasy rules are available.</p>
+            <p>The public recommendation sections now show Official Fantasy Pool Preview picks using official fantasy prices, positions, and scoring. Final-squad-backed recommendations are still blocked.</p>
           </article>
           <article>
             <h3>Known Limits</h3>
             <ul class="compact-list">
-              <li>Some roster rows are preliminary, likely, or need manual checking.</li>
-              <li>Official fantasy prices and rules are pending.</li>
-              <li>Price-adjusted return is intentionally blank until official prices exist.</li>
-              <li>The current model uses estimated minutes and weak-source data where stronger data is not yet available.</li>
+              <li>Final squad status is not yet source-backed.</li>
+              <li>Mystery Booster effect and deadline semantics still have manual-review warnings.</li>
+              <li>Recommendations are preview-only and may change after final squad confirmation.</li>
+              <li>Team Builder remains prototype/blocked and should not be treated as final.</li>
             </ul>
           </article>
         </div>
@@ -1242,7 +1259,7 @@
       <div class="site-footer__inner">
         <div>
           <h2>World Cup Fantasy Helper</h2>
-          <p>Independent fantasy football tools for picks, rankings, and squad ideas. Public preview using prototype World Cup 2026 data while final fantasy prices and rules are pending.</p>
+          <p>Independent fantasy football tools for picks, rankings, and squad ideas. Public Official Fantasy Pool Preview using official fantasy prices, positions, and scoring while final squads remain unsourced.</p>
           <p class="site-footer__note">Not official FIFA fantasy advice. No betting or gambling content.</p>
         </div>
 
@@ -1288,6 +1305,11 @@
     <script src="scorePredictionsData.js"></script>
     <script src="playersData.js"></script>
     <script src="fantasyRulesData.js"></script>
+    <script src="fantasyPoolRecommendationsData.js"></script>
+    <script src="fantasyPoolMatchdayProjectionsData.js"></script>
+    <script src="fantasyPoolFinanceMetricsData.js"></script>
+    <script src="fantasyPoolScorePredictionsData.js"></script>
+    <script src="fantasyPoolOfficialDataStatusData.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

@@ -1,0 +1,1581 @@
+{
+  "schema_version": "player_minutes_model_fantasy_pool_qa_v0",
+  "generated_at": "2026-06-02",
+  "stage": "fantasy_pool_only",
+  "data_status": "not_final_squad_ready_not_safe_for_final_public_recommendations",
+  "total_rows": 1481,
+  "rows_modeled": 1256,
+  "rows_blocked": 225,
+  "average_start_probability_by_position": {
+    "DEF": 0.552,
+    "FWD": 0.491,
+    "GK": 0.368,
+    "MID": 0.557
+  },
+  "average_expected_minutes_by_position": {
+    "DEF": 49.768,
+    "FWD": 40.197,
+    "GK": 32.34,
+    "MID": 45.744
+  },
+  "role_label_counts": {
+    "locked_starter": 359,
+    "blocked": 225,
+    "squad_depth": 12,
+    "likely_starter": 181,
+    "unclear": 321,
+    "rotation_starter": 221,
+    "thin_profile_unclear": 89,
+    "backup": 11,
+    "impact_sub": 61,
+    "third_choice": 1
+  },
+  "role_confidence_counts": {
+    "high": 615,
+    "blocked": 225,
+    "low": 278,
+    "missing": 129,
+    "thin_profile": 89,
+    "medium": 145
+  },
+  "minutes_model_status_counts": {
+    "modeled_fantasy_pool_only": 1256,
+    "blocked": 225
+  },
+  "thin_profile_counts": {
+    "total": 221,
+    "modeled": 89,
+    "blocked": 132
+  },
+  "missing_usage_counts": {
+    "total": 608,
+    "modeled": 410,
+    "blocked": 198
+  },
+  "high_price_missing_usage_players": [],
+  "high_price_uncertainty_fallback_players": [],
+  "top_25_highest_start_probabilities": [
+    {
+      "official_fantasy_player_id": "958",
+      "name": "Akram Hassan Afif Yahya Afif",
+      "country": "Qatar",
+      "position": "FWD",
+      "official_price": 5.9,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.95,
+      "expected_minutes": 65.3,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "428",
+      "name": "Alan Franco",
+      "country": "Ecuador",
+      "position": "MID",
+      "official_price": 5.6,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.95,
+      "expected_minutes": 70.8,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "56",
+      "name": "Alexis Mac Allister",
+      "country": "Argentina",
+      "position": "MID",
+      "official_price": 6.6,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.95,
+      "expected_minutes": 70.8,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1361",
+      "name": "Bruno Guimarães Rodriguez Moura",
+      "country": "Brazil",
+      "position": "MID",
+      "official_price": 6.8,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.95,
+      "expected_minutes": 70.8,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "913",
+      "name": "Diego Gómez",
+      "country": "Paraguay",
+      "position": "MID",
+      "official_price": 6.8,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.95,
+      "expected_minutes": 70.8,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1306",
+      "name": "Eldor Shomurodov",
+      "country": "Uzbekistan",
+      "position": "FWD",
+      "official_price": 6.5,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.95,
+      "expected_minutes": 65.3,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "57",
+      "name": "Enzo Fernández",
+      "country": "Argentina",
+      "position": "MID",
+      "official_price": 7.5,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.95,
+      "expected_minutes": 70.8,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1248",
+      "name": "Federico Valverde",
+      "country": "Uruguay",
+      "position": "MID",
+      "official_price": 7.5,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.95,
+      "expected_minutes": 70.8,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "39",
+      "name": "Julián Alvarez",
+      "country": "Argentina",
+      "position": "FWD",
+      "official_price": 8.6,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.95,
+      "expected_minutes": 65.3,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "38",
+      "name": "Lionel Messi",
+      "country": "Argentina",
+      "position": "FWD",
+      "official_price": 10,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.95,
+      "expected_minutes": 65.3,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "256",
+      "name": "Luis Díaz",
+      "country": "Colombia",
+      "position": "MID",
+      "official_price": 8.1,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.95,
+      "expected_minutes": 70.8,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "position_conflict_audit",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1223",
+      "name": "Maxi Araújo",
+      "country": "Uruguay",
+      "position": "MID",
+      "official_price": 6.4,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.95,
+      "expected_minutes": 70.8,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "901",
+      "name": "Miguel Almirón",
+      "country": "Paraguay",
+      "position": "MID",
+      "official_price": 6,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.95,
+      "expected_minutes": 70.8,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1597",
+      "name": "Mohamed Salah Hamed Mahrous Ghaly",
+      "country": "Egypt",
+      "position": "MID",
+      "official_price": 10,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.95,
+      "expected_minutes": 70.8,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "position_conflict_audit",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "430",
+      "name": "Moisés Caicedo",
+      "country": "Ecuador",
+      "position": "MID",
+      "official_price": 6.8,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.95,
+      "expected_minutes": 70.8,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1366",
+      "name": "Raphael Dias Belloli",
+      "country": "Brazil",
+      "position": "MID",
+      "official_price": 8.2,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.95,
+      "expected_minutes": 70.8,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "position_conflict_audit",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "50",
+      "name": "Rodrigo De Paul",
+      "country": "Argentina",
+      "position": "MID",
+      "official_price": 5.9,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.95,
+      "expected_minutes": 70.8,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1955",
+      "name": "Salem bin Mohammed bin Shafi Al Dawsari",
+      "country": "Saudi Arabia",
+      "position": "MID",
+      "official_price": 7.2,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.95,
+      "expected_minutes": 70.8,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "position_conflict_audit",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "173",
+      "name": "Vinícius José Paixão de Oliveira Júnior",
+      "country": "Brazil",
+      "position": "MID",
+      "official_price": 10,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.95,
+      "expected_minutes": 70.8,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "position_conflict_audit",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "672",
+      "name": "Ayase Ueda",
+      "country": "Japan",
+      "position": "FWD",
+      "official_price": 7,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.947,
+      "expected_minutes": 65.1,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "912",
+      "name": "Julio Enciso",
+      "country": "Paraguay",
+      "position": "MID",
+      "official_price": 6.6,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.947,
+      "expected_minutes": 70.6,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "position_conflict_audit",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1236",
+      "name": "Darwin Núñez",
+      "country": "Uruguay",
+      "position": "FWD",
+      "official_price": 7.5,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.945,
+      "expected_minutes": 65,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "723",
+      "name": "Heung-Min Son",
+      "country": "Korea Republic",
+      "position": "FWD",
+      "official_price": 7.4,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.945,
+      "expected_minutes": 65,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "855",
+      "name": "Erling Haaland",
+      "country": "Norway",
+      "position": "FWD",
+      "official_price": 10.5,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.944,
+      "expected_minutes": 65,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "468",
+      "name": "Harry Kane",
+      "country": "England",
+      "position": "FWD",
+      "official_price": 10.5,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.944,
+      "expected_minutes": 65,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    }
+  ],
+  "top_25_highest_expected_minutes": [
+    {
+      "official_fantasy_player_id": "262",
+      "name": "Camilo Vargas",
+      "country": "Colombia",
+      "position": "GK",
+      "official_price": 4.3,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.94,
+      "expected_minutes": 82.7,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "45",
+      "name": "Emiliano Martínez",
+      "country": "Argentina",
+      "position": "GK",
+      "official_price": 5,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.94,
+      "expected_minutes": 82.7,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "423",
+      "name": "Hernán Galíndez",
+      "country": "Ecuador",
+      "position": "GK",
+      "official_price": 4.2,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.94,
+      "expected_minutes": 82.7,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "968",
+      "name": "Meshaal Aissa Mohammed Barsham",
+      "country": "Qatar",
+      "position": "GK",
+      "official_price": 4.1,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.94,
+      "expected_minutes": 82.7,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "153",
+      "name": "Nikola Vasilj",
+      "country": "Bosnia and Herzegovina",
+      "position": "GK",
+      "official_price": 4,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.94,
+      "expected_minutes": 82.7,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "908",
+      "name": "Roberto Fernández",
+      "country": "Paraguay",
+      "position": "GK",
+      "official_price": 4,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.94,
+      "expected_minutes": 82.7,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1077",
+      "name": "Ronwen Williams",
+      "country": "South Africa",
+      "position": "GK",
+      "official_price": 4.5,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.94,
+      "expected_minutes": 82.7,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1244",
+      "name": "Sergio Rochet",
+      "country": "Uruguay",
+      "position": "GK",
+      "official_price": 4.1,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.94,
+      "expected_minutes": 82.7,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "183",
+      "name": "Alisson Ramsés Becker",
+      "country": "Brazil",
+      "position": "GK",
+      "official_price": 5,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.932,
+      "expected_minutes": 82,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1051",
+      "name": "Édouard Mendy",
+      "country": "Senegal",
+      "position": "GK",
+      "official_price": 4.5,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.932,
+      "expected_minutes": 82,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "387",
+      "name": "Matej Kovár",
+      "country": "Czechia",
+      "position": "GK",
+      "official_price": 4.1,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.932,
+      "expected_minutes": 82,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "317",
+      "name": "Yahia Fofana",
+      "country": "Côte d'Ivoire",
+      "position": "GK",
+      "official_price": 4.2,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.932,
+      "expected_minutes": 82,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "729",
+      "name": "Hyeon-Woo Jo",
+      "country": "Korea Republic",
+      "position": "GK",
+      "official_price": 4.6,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.93,
+      "expected_minutes": 81.8,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "182",
+      "name": "Ederson Santana de Moraes",
+      "country": "Brazil",
+      "position": "GK",
+      "official_price": 5,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.924,
+      "expected_minutes": 81.3,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "477",
+      "name": "Jordan Pickford",
+      "country": "England",
+      "position": "GK",
+      "official_price": 4.8,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.916,
+      "expected_minutes": 80.6,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1211",
+      "name": "Ugurcan Çakir",
+      "country": "Türkiye",
+      "position": "GK",
+      "official_price": 4.2,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.916,
+      "expected_minutes": 80.6,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "809",
+      "name": "Bart Verbruggen",
+      "country": "Netherlands",
+      "position": "GK",
+      "official_price": 4.7,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.908,
+      "expected_minutes": 79.9,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1569",
+      "name": "Diogo Meireles da Costa",
+      "country": "Portugal",
+      "position": "GK",
+      "official_price": 4.9,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.908,
+      "expected_minutes": 79.9,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1153",
+      "name": "Gregor Kobel",
+      "country": "Switzerland",
+      "position": "GK",
+      "official_price": 4.7,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.908,
+      "expected_minutes": 79.9,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "534",
+      "name": "Oliver Baumann",
+      "country": "Germany",
+      "position": "GK",
+      "official_price": 4.3,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.908,
+      "expected_minutes": 79.9,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "885",
+      "name": "Orlando Mosquera",
+      "country": "Panama",
+      "position": "GK",
+      "official_price": 3.9,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.908,
+      "expected_minutes": 79.9,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1099",
+      "name": "Unai Simón",
+      "country": "Spain",
+      "position": "GK",
+      "official_price": 5,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.908,
+      "expected_minutes": 79.9,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "98",
+      "name": "Alexander Schlager",
+      "country": "Austria",
+      "position": "GK",
+      "official_price": 4.6,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.9,
+      "expected_minutes": 79.2,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "506",
+      "name": "Mike Maignan",
+      "country": "France",
+      "position": "GK",
+      "official_price": 5,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.9,
+      "expected_minutes": 79.2,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "999",
+      "name": "Nawaf bin Dhahi bin Faisal Al Shuweiti Al Aqidi",
+      "country": "Saudi Arabia",
+      "position": "GK",
+      "official_price": 4,
+      "role_label": "locked_starter",
+      "role_confidence": "high",
+      "start_probability": 0.898,
+      "expected_minutes": 79,
+      "data_quality_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review"
+      ]
+    }
+  ],
+  "top_25_high_price_low_confidence_players": [
+    {
+      "official_fantasy_player_id": "1712",
+      "name": "Ivan Toney",
+      "country": "England",
+      "position": "FWD",
+      "official_price": 7.5,
+      "role_label": "impact_sub",
+      "role_confidence": "low",
+      "start_probability": 0.285,
+      "expected_minutes": 35.4,
+      "minutes_risk_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "low_usage_confidence",
+        "minutes_uncertain",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1369",
+      "name": "Neymar da Silva Santos Júnior",
+      "country": "Brazil",
+      "position": "MID",
+      "official_price": 7.2,
+      "role_label": "unclear",
+      "role_confidence": "missing",
+      "start_probability": 0.16,
+      "expected_minutes": 20.2,
+      "minutes_risk_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "minutes_uncertain",
+        "missing_club_context",
+        "missing_national_team_usage",
+        "position_conflict_audit",
+        "role_unclear",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1485",
+      "name": "Santiago Giménez",
+      "country": "Mexico",
+      "position": "FWD",
+      "official_price": 6.8,
+      "role_label": "rotation_starter",
+      "role_confidence": "low",
+      "start_probability": 0.465,
+      "expected_minutes": 38.5,
+      "minutes_risk_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "low_usage_confidence",
+        "minutes_uncertain",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1683",
+      "name": "Fredrik Aursnes",
+      "country": "Norway",
+      "position": "MID",
+      "official_price": 6.5,
+      "role_label": "impact_sub",
+      "role_confidence": "low",
+      "start_probability": 0.325,
+      "expected_minutes": 35.1,
+      "minutes_risk_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "low_usage_confidence",
+        "minutes_uncertain",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1999",
+      "name": "Pablo Páez Gavira",
+      "country": "Spain",
+      "position": "MID",
+      "official_price": 6.5,
+      "role_label": "unclear",
+      "role_confidence": "missing",
+      "start_probability": 0.16,
+      "expected_minutes": 20.2,
+      "minutes_risk_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "minutes_uncertain",
+        "missing_club_context",
+        "missing_national_team_usage",
+        "role_unclear",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1327",
+      "name": "Emiliano Buendía",
+      "country": "Argentina",
+      "position": "MID",
+      "official_price": 6.5,
+      "role_label": "blocked",
+      "role_confidence": "blocked",
+      "start_probability": null,
+      "expected_minutes": null,
+      "minutes_risk_flags": [
+        "blocked_not_selectable",
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "missing_club_context",
+        "missing_national_team_usage",
+        "rules_manual_review",
+        "squad_review_status",
+        "thin_profile"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "815",
+      "name": "Xavi Simons",
+      "country": "Netherlands",
+      "position": "MID",
+      "official_price": 6.5,
+      "role_label": "blocked",
+      "role_confidence": "blocked",
+      "start_probability": null,
+      "expected_minutes": null,
+      "minutes_risk_flags": [
+        "blocked_not_selectable",
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "missing_club_context",
+        "missing_national_team_usage",
+        "rules_manual_review",
+        "squad_review_status",
+        "thin_profile"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1990",
+      "name": "Abdul Fatawu",
+      "country": "Ghana",
+      "position": "FWD",
+      "official_price": 6.4,
+      "role_label": "impact_sub",
+      "role_confidence": "low",
+      "start_probability": 0.25,
+      "expected_minutes": 34.5,
+      "minutes_risk_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "low_usage_confidence",
+        "minutes_uncertain",
+        "missing_club_context",
+        "position_conflict_audit",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "763",
+      "name": "Álvaro Fidalgo",
+      "country": "Mexico",
+      "position": "MID",
+      "official_price": 6.4,
+      "role_label": "squad_depth",
+      "role_confidence": "low",
+      "start_probability": 0.09,
+      "expected_minutes": 12.1,
+      "minutes_risk_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "low_usage_confidence",
+        "minutes_uncertain",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1473",
+      "name": "César Huerta",
+      "country": "Mexico",
+      "position": "MID",
+      "official_price": 6.3,
+      "role_label": "rotation_starter",
+      "role_confidence": "low",
+      "start_probability": 0.45,
+      "expected_minutes": 39.4,
+      "minutes_risk_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "low_usage_confidence",
+        "minutes_uncertain",
+        "position_conflict_audit",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1477",
+      "name": "Luis Chávez",
+      "country": "Mexico",
+      "position": "MID",
+      "official_price": 6.3,
+      "role_label": "rotation_starter",
+      "role_confidence": "low",
+      "start_probability": 0.45,
+      "expected_minutes": 39.4,
+      "minutes_risk_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "low_usage_confidence",
+        "minutes_uncertain",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1396",
+      "name": "Cucho Hernández",
+      "country": "Colombia",
+      "position": "FWD",
+      "official_price": 6.3,
+      "role_label": "unclear",
+      "role_confidence": "low",
+      "start_probability": 0.21,
+      "expected_minutes": 25.3,
+      "minutes_risk_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "minutes_uncertain",
+        "missing_national_team_usage",
+        "role_unclear",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1671",
+      "name": "Sofiane Boufal",
+      "country": "Morocco",
+      "position": "MID",
+      "official_price": 6.3,
+      "role_label": "blocked",
+      "role_confidence": "blocked",
+      "start_probability": null,
+      "expected_minutes": null,
+      "minutes_risk_flags": [
+        "blocked_not_selectable",
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "missing_club_context",
+        "missing_national_team_usage",
+        "rules_manual_review",
+        "squad_review_status",
+        "thin_profile"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "762",
+      "name": "Orbelín Pineda",
+      "country": "Mexico",
+      "position": "MID",
+      "official_price": 6.2,
+      "role_label": "rotation_starter",
+      "role_confidence": "low",
+      "start_probability": 0.45,
+      "expected_minutes": 39.4,
+      "minutes_risk_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "low_usage_confidence",
+        "minutes_uncertain",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "814",
+      "name": "Teun Koopmeiners",
+      "country": "Netherlands",
+      "position": "MID",
+      "official_price": 6.2,
+      "role_label": "unclear",
+      "role_confidence": "low",
+      "start_probability": 0.23,
+      "expected_minutes": 24.7,
+      "minutes_risk_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "minutes_uncertain",
+        "missing_national_team_usage",
+        "role_unclear",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "53",
+      "name": "Valentín Barco",
+      "country": "Argentina",
+      "position": "MID",
+      "official_price": 6.2,
+      "role_label": "unclear",
+      "role_confidence": "low",
+      "start_probability": 0.23,
+      "expected_minutes": 24.7,
+      "minutes_risk_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "minutes_uncertain",
+        "missing_national_team_usage",
+        "role_unclear",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1292",
+      "name": "Abbosbek Fayzullaev",
+      "country": "Uzbekistan",
+      "position": "MID",
+      "official_price": 6.2,
+      "role_label": "unclear",
+      "role_confidence": "low",
+      "start_probability": 0.21,
+      "expected_minutes": 23.4,
+      "minutes_risk_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "minutes_uncertain",
+        "missing_national_team_usage",
+        "position_conflict_audit",
+        "role_unclear",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "2022",
+      "name": "Bilal El Khannouss",
+      "country": "Morocco",
+      "position": "MID",
+      "official_price": 6.2,
+      "role_label": "unclear",
+      "role_confidence": "low",
+      "start_probability": 0.21,
+      "expected_minutes": 23.4,
+      "minutes_risk_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "minutes_uncertain",
+        "missing_national_team_usage",
+        "role_unclear",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "9",
+      "name": "Mohammed Amoura",
+      "country": "Algeria",
+      "position": "FWD",
+      "official_price": 6.2,
+      "role_label": "unclear",
+      "role_confidence": "low",
+      "start_probability": 0.21,
+      "expected_minutes": 25.3,
+      "minutes_risk_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "minutes_uncertain",
+        "missing_national_team_usage",
+        "role_unclear",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "227",
+      "name": "Cyle Larin",
+      "country": "Canada",
+      "position": "FWD",
+      "official_price": 6.2,
+      "role_label": "unclear",
+      "role_confidence": "low",
+      "start_probability": 0.17,
+      "expected_minutes": 23.2,
+      "minutes_risk_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "minutes_uncertain",
+        "missing_national_team_usage",
+        "role_unclear",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1257",
+      "name": "Johnny Cardoso",
+      "country": "USA",
+      "position": "MID",
+      "official_price": 6.2,
+      "role_label": "blocked",
+      "role_confidence": "blocked",
+      "start_probability": null,
+      "expected_minutes": null,
+      "minutes_risk_flags": [
+        "blocked_not_selectable",
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "missing_club_context",
+        "missing_national_team_usage",
+        "rules_manual_review",
+        "squad_review_status",
+        "thin_profile"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1335",
+      "name": "Matías Soulé",
+      "country": "Argentina",
+      "position": "MID",
+      "official_price": 6.2,
+      "role_label": "blocked",
+      "role_confidence": "blocked",
+      "start_probability": null,
+      "expected_minutes": null,
+      "minutes_risk_flags": [
+        "blocked_not_selectable",
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "missing_club_context",
+        "missing_national_team_usage",
+        "rules_manual_review",
+        "squad_review_status",
+        "thin_profile"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1291",
+      "name": "Jaloliddin Masharipov",
+      "country": "Uzbekistan",
+      "position": "MID",
+      "official_price": 6.1,
+      "role_label": "rotation_starter",
+      "role_confidence": "low",
+      "start_probability": 0.54,
+      "expected_minutes": 44.1,
+      "minutes_risk_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "low_usage_confidence",
+        "minutes_uncertain",
+        "position_conflict_audit",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1255",
+      "name": "Weston McKennie",
+      "country": "USA",
+      "position": "MID",
+      "official_price": 6.1,
+      "role_label": "rotation_starter",
+      "role_confidence": "low",
+      "start_probability": 0.47,
+      "expected_minutes": 40.4,
+      "minutes_risk_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "low_usage_confidence",
+        "minutes_uncertain",
+        "rules_manual_review"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1254",
+      "name": "Malik Tillman",
+      "country": "USA",
+      "position": "MID",
+      "official_price": 6.1,
+      "role_label": "rotation_starter",
+      "role_confidence": "low",
+      "start_probability": 0.46,
+      "expected_minutes": 39.9,
+      "minutes_risk_flags": [
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "low_usage_confidence",
+        "minutes_uncertain",
+        "rules_manual_review"
+      ]
+    }
+  ],
+  "countries_with_most_low_confidence_players": [
+    {
+      "country": "Uzbekistan",
+      "count": 28
+    },
+    {
+      "country": "Jordan",
+      "count": 26
+    },
+    {
+      "country": "Canada",
+      "count": 25
+    },
+    {
+      "country": "Mexico",
+      "count": 25
+    },
+    {
+      "country": "IR Iran",
+      "count": 24
+    },
+    {
+      "country": "USA",
+      "count": 24
+    },
+    {
+      "country": "Australia",
+      "count": 23
+    },
+    {
+      "country": "Iraq",
+      "count": 22
+    },
+    {
+      "country": "Korea Republic",
+      "count": 19
+    },
+    {
+      "country": "Czechia",
+      "count": 17
+    },
+    {
+      "country": "Cabo Verde",
+      "count": 15
+    },
+    {
+      "country": "Algeria",
+      "count": 13
+    },
+    {
+      "country": "Brazil",
+      "count": 13
+    },
+    {
+      "country": "Egypt",
+      "count": 13
+    },
+    {
+      "country": "Morocco",
+      "count": 13
+    }
+  ],
+  "positions_with_most_low_confidence_players": [
+    {
+      "position": "DEF",
+      "count": 157
+    },
+    {
+      "position": "MID",
+      "count": 147
+    },
+    {
+      "position": "FWD",
+      "count": 107
+    },
+    {
+      "position": "GK",
+      "count": 85
+    }
+  ],
+  "warnings": [
+    {
+      "id": "fantasy_pool_only",
+      "count": 1256,
+      "details": "Modeled rows are from the official fantasy pool only, not source-backed final squads."
+    },
+    {
+      "id": "missing_usage_not_averaged",
+      "count": 608,
+      "details": "Missing national-team usage rows use conservative unclear/thin-profile assumptions, not average usage."
+    },
+    {
+      "id": "coverage_report_final_sufficiency",
+      "count": 654,
+      "details": "not_sufficient_for_final_minutes_model_without_targeted_missing-data review"
+    },
+    {
+      "id": "high_price_uncertainty_fallback",
+      "count": 0,
+      "details": "High-price players with strong club context but missing national-team usage receive low-confidence uncertainty labels, not starter labels."
+    }
+  ],
+  "stop_conditions": [
+    {
+      "id": "input_final_squads_not_source_backed",
+      "status": "stop",
+      "count": 225,
+      "details": "Final squad import is not source-backed complete; fantasy pool rows must not be treated as final squads."
+    },
+    {
+      "id": "input_official_rules_manual_review",
+      "status": "stop",
+      "count": 1,
+      "details": "Official rules import still has manual-review status."
+    },
+    {
+      "id": "input_no_final_squad_rows_exist",
+      "status": "stop",
+      "count": 0,
+      "details": "There are 0 confirmed_final_squad rows in the staged official squad file."
+    },
+    {
+      "id": "input_browser_ready_files_not_regenerated",
+      "status": "stop",
+      "count": 1,
+      "details": "This staging pass intentionally did not regenerate browser-ready files or active recommendation data."
+    },
+    {
+      "id": "fantasy_pool_only_not_final_squad_ready",
+      "status": "stop",
+      "count": 0,
+      "details": "This model has 0 confirmed final-squad rows and must not be treated as final."
+    },
+    {
+      "id": "readiness_not_ready_for_model_rerun",
+      "status": "stop",
+      "count": 1,
+      "details": "Official data readiness is blocked_waiting_for_official_fantasy_data."
+    },
+    {
+      "id": "official_rules_manual_review",
+      "status": "stop",
+      "count": 1,
+      "details": "Official rules still have manual-review warnings, including Mystery Booster/deadline semantics."
+    },
+    {
+      "id": "blocked_player_rows_present",
+      "status": "stop",
+      "count": 225,
+      "details": "Blocked rows do not receive preliminary minutes."
+    },
+    {
+      "id": "missing_national_team_usage_present",
+      "status": "warning",
+      "count": 608,
+      "details": "Missing national-team usage is kept missing and not treated as average."
+    },
+    {
+      "id": "thin_profiles_present",
+      "status": "warning",
+      "count": 221,
+      "details": "Thin profiles use conservative low-confidence priors only."
+    },
+    {
+      "id": "not_safe_for_browser_ready_promotion",
+      "status": "stop",
+      "count": 1,
+      "details": "Browser-ready files were intentionally not regenerated in this staging pass."
+    }
+  ],
+  "blockers": [
+    {
+      "id": "input_final_squads_not_source_backed",
+      "status": "stop",
+      "count": 225,
+      "details": "Final squad import is not source-backed complete; fantasy pool rows must not be treated as final squads."
+    },
+    {
+      "id": "input_official_rules_manual_review",
+      "status": "stop",
+      "count": 1,
+      "details": "Official rules import still has manual-review status."
+    },
+    {
+      "id": "input_no_final_squad_rows_exist",
+      "status": "stop",
+      "count": 0,
+      "details": "There are 0 confirmed_final_squad rows in the staged official squad file."
+    },
+    {
+      "id": "input_browser_ready_files_not_regenerated",
+      "status": "stop",
+      "count": 1,
+      "details": "This staging pass intentionally did not regenerate browser-ready files or active recommendation data."
+    },
+    {
+      "id": "fantasy_pool_only_not_final_squad_ready",
+      "status": "stop",
+      "count": 0,
+      "details": "This model has 0 confirmed final-squad rows and must not be treated as final."
+    },
+    {
+      "id": "readiness_not_ready_for_model_rerun",
+      "status": "stop",
+      "count": 1,
+      "details": "Official data readiness is blocked_waiting_for_official_fantasy_data."
+    },
+    {
+      "id": "official_rules_manual_review",
+      "status": "stop",
+      "count": 1,
+      "details": "Official rules still have manual-review warnings, including Mystery Booster/deadline semantics."
+    },
+    {
+      "id": "blocked_player_rows_present",
+      "status": "stop",
+      "count": 225,
+      "details": "Blocked rows do not receive preliminary minutes."
+    },
+    {
+      "id": "not_safe_for_browser_ready_promotion",
+      "status": "stop",
+      "count": 1,
+      "details": "Browser-ready files were intentionally not regenerated in this staging pass."
+    }
+  ],
+  "safe_for_preliminary_score_projection_staging": true,
+  "safe_for_final_public_recommendations": false,
+  "safe_for_final_team_builder_promotion": false,
+  "recommended_next_step": "Use only for preliminary fantasy_pool_only staging. Resolve final squads, missing usage/club gaps, and rules warnings before final minutes model promotion."
+}

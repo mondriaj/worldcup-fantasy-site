@@ -1,0 +1,1133 @@
+{
+  "schema_version": "player_data_coverage_report_v1",
+  "generated_at": "2026-06-02",
+  "scope": "Official fantasy player enrichment coverage only; no model reruns or browser-ready files were updated.",
+  "totals": {
+    "total_official_fantasy_players": 1481,
+    "club_context_rows": 1481,
+    "national_team_usage_rows": 1481,
+    "players_with_club_context": 1156,
+    "players_missing_club_context": 325,
+    "players_with_national_team_usage": 873,
+    "players_missing_national_team_usage": 608,
+    "high_usage_confidence": 632,
+    "medium_usage_confidence": 150,
+    "low_usage_confidence": 91,
+    "missing_usage_confidence": 387,
+    "thin_profile_missing_usage_confidence": 221,
+    "thin_profiles": 221,
+    "thin_profiles_with_club_context": 0,
+    "thin_profiles_with_usage_context": 0,
+    "position_conflict_players": 135,
+    "players_with_missing_enrichment": 654
+  },
+  "qa": {
+    "official_fantasy_players_not_found_in_club_context": [],
+    "official_fantasy_players_not_found_in_usage_context": [],
+    "duplicate_official_fantasy_player_ids": [],
+    "duplicate_internal_player_ids_where_not_expected": [],
+    "club_role_confidence_missing": 325,
+    "usage_confidence_missing": 608,
+    "role_confidence_missing": 608,
+    "position_conflicts_carried_from_identity_map": 135,
+    "high_price_players_with_missing_usage": [],
+    "likely_starters_missing_usage": [],
+    "goalkeepers_without_role_confidence": [
+      {
+        "official_fantasy_player_id": "17",
+        "name": "Anthony Mandréa",
+        "country": "Algeria",
+        "official_price": "3.9"
+      },
+      {
+        "official_fantasy_player_id": "19",
+        "name": "Melvin Mastil",
+        "country": "Algeria",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "20",
+        "name": "Kilian Belazzoug",
+        "country": "Algeria",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "47",
+        "name": "Juan Musso",
+        "country": "Argentina",
+        "official_price": "4.3"
+      },
+      {
+        "official_fantasy_player_id": "74",
+        "name": "Mathew Ryan",
+        "country": "Australia",
+        "official_price": "4.1"
+      },
+      {
+        "official_fantasy_player_id": "75",
+        "name": "Paul Izzo",
+        "country": "Australia",
+        "official_price": "3.6"
+      },
+      {
+        "official_fantasy_player_id": "76",
+        "name": "Patrick Beach",
+        "country": "Australia",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "101",
+        "name": "Florian Wiegele",
+        "country": "Austria",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "154",
+        "name": "Osman Hadzikic",
+        "country": "Bosnia and Herzegovina",
+        "official_price": "3.6"
+      },
+      {
+        "official_fantasy_player_id": "155",
+        "name": "Martin Zlomislic",
+        "country": "Bosnia and Herzegovina",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "214",
+        "name": "Josimar José Évora Dias",
+        "country": "Cabo Verde",
+        "official_price": "3.9"
+      },
+      {
+        "official_fantasy_player_id": "215",
+        "name": "Carlos Joaquim Antunes dos Santos",
+        "country": "Cabo Verde",
+        "official_price": "3.6"
+      },
+      {
+        "official_fantasy_player_id": "216",
+        "name": "Márcio Salomão Brazão da Rosa",
+        "country": "Cabo Verde",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "235",
+        "name": "Maxime Crépeau",
+        "country": "Canada",
+        "official_price": "4"
+      },
+      {
+        "official_fantasy_player_id": "236",
+        "name": "Dayne St. Clair",
+        "country": "Canada",
+        "official_price": "3.8"
+      },
+      {
+        "official_fantasy_player_id": "237",
+        "name": "Owen Goodman",
+        "country": "Canada",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "263",
+        "name": "David Ospina",
+        "country": "Colombia",
+        "official_price": "4"
+      },
+      {
+        "official_fantasy_player_id": "290",
+        "name": "Matthieu Epolo",
+        "country": "Congo DR",
+        "official_price": "3.7"
+      },
+      {
+        "official_fantasy_player_id": "291",
+        "name": "Timothy Fayulu",
+        "country": "Congo DR",
+        "official_price": "3.6"
+      },
+      {
+        "official_fantasy_player_id": "318",
+        "name": "Mohamed Koné",
+        "country": "Côte d'Ivoire",
+        "official_price": "3.7"
+      },
+      {
+        "official_fantasy_player_id": "339",
+        "name": "Ivor Pandur",
+        "country": "Croatia",
+        "official_price": "3.9"
+      },
+      {
+        "official_fantasy_player_id": "369",
+        "name": "Trevor Doornbusch",
+        "country": "Curaçao",
+        "official_price": "3.6"
+      },
+      {
+        "official_fantasy_player_id": "370",
+        "name": "Tyrick Bodak",
+        "country": "Curaçao",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "388",
+        "name": "Lukás Hornícek",
+        "country": "Czechia",
+        "official_price": "3.8"
+      },
+      {
+        "official_fantasy_player_id": "452",
+        "name": "El Mahdy Mohamed Soliman Ibrahim",
+        "country": "Egypt",
+        "official_price": "3.6"
+      },
+      {
+        "official_fantasy_player_id": "454",
+        "name": "Mohamed Alaa",
+        "country": "Egypt",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "479",
+        "name": "James Trafford",
+        "country": "England",
+        "official_price": "4"
+      },
+      {
+        "official_fantasy_player_id": "508",
+        "name": "Brice Samba",
+        "country": "France",
+        "official_price": "4.5"
+      },
+      {
+        "official_fantasy_player_id": "533",
+        "name": "Alexander Nübel",
+        "country": "Germany",
+        "official_price": "4.7"
+      },
+      {
+        "official_fantasy_player_id": "622",
+        "name": "Hossein Hosseini",
+        "country": "IR Iran",
+        "official_price": "3.8"
+      },
+      {
+        "official_fantasy_player_id": "623",
+        "name": "Mohammad Khalifeh",
+        "country": "IR Iran",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "654",
+        "name": "Fahad Talib Raheem",
+        "country": "Iraq",
+        "official_price": "3.7"
+      },
+      {
+        "official_fantasy_player_id": "655",
+        "name": "Kumel Saadi Latif Al Rekabe",
+        "country": "Iraq",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "679",
+        "name": "Tomoki Hayakawa",
+        "country": "Japan",
+        "official_price": "3.8"
+      },
+      {
+        "official_fantasy_player_id": "709",
+        "name": "Yazeed Mo'ien Hasan Abulaila",
+        "country": "Jordan",
+        "official_price": "3.9"
+      },
+      {
+        "official_fantasy_player_id": "730",
+        "name": "Seung-Gyu Kim",
+        "country": "Korea Republic",
+        "official_price": "4.1"
+      },
+      {
+        "official_fantasy_player_id": "731",
+        "name": "Bum-Keun Song",
+        "country": "Korea Republic",
+        "official_price": "3.9"
+      },
+      {
+        "official_fantasy_player_id": "755",
+        "name": "Guillermo Ochoa",
+        "country": "Mexico",
+        "official_price": "4.2"
+      },
+      {
+        "official_fantasy_player_id": "756",
+        "name": "Carlos Acevedo",
+        "country": "Mexico",
+        "official_price": "4"
+      },
+      {
+        "official_fantasy_player_id": "757",
+        "name": "Raúl Rangel",
+        "country": "Mexico",
+        "official_price": "3.9"
+      },
+      {
+        "official_fantasy_player_id": "787",
+        "name": "El Mehdi Al Harrar",
+        "country": "Morocco",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "811",
+        "name": "Justin Bijlow",
+        "country": "Netherlands",
+        "official_price": "4.3"
+      },
+      {
+        "official_fantasy_player_id": "840",
+        "name": "Michael Woud",
+        "country": "New Zealand",
+        "official_price": "3.7"
+      },
+      {
+        "official_fantasy_player_id": "860",
+        "name": "Egil Selvik",
+        "country": "Norway",
+        "official_price": "3.8"
+      },
+      {
+        "official_fantasy_player_id": "886",
+        "name": "César Samudio",
+        "country": "Panama",
+        "official_price": "3.6"
+      },
+      {
+        "official_fantasy_player_id": "909",
+        "name": "Gastón Olveira",
+        "country": "Paraguay",
+        "official_price": "3.8"
+      },
+      {
+        "official_fantasy_player_id": "931",
+        "name": "Rui Tiago Dantas da Silva",
+        "country": "Portugal",
+        "official_price": "4.7"
+      },
+      {
+        "official_fantasy_player_id": "932",
+        "name": "José Pedro Malheiro de Sá",
+        "country": "Portugal",
+        "official_price": "4.7"
+      },
+      {
+        "official_fantasy_player_id": "933",
+        "name": "Mário Ricardo da Silva Velho",
+        "country": "Portugal",
+        "official_price": "4"
+      },
+      {
+        "official_fantasy_player_id": "970",
+        "name": "Shehab Mamdouh Abdelfadel Ellethy",
+        "country": "Qatar",
+        "official_price": "3.6"
+      },
+      {
+        "official_fantasy_player_id": "971",
+        "name": "Mahmud Ibrahim Abunada",
+        "country": "Qatar",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "1024",
+        "name": "Liam Kelly",
+        "country": "Scotland",
+        "official_price": "3.7"
+      },
+      {
+        "official_fantasy_player_id": "1052",
+        "name": "Yehvann Diouf",
+        "country": "Senegal",
+        "official_price": "3.9"
+      },
+      {
+        "official_fantasy_player_id": "1078",
+        "name": "Ricardo Goss",
+        "country": "South Africa",
+        "official_price": "3.7"
+      },
+      {
+        "official_fantasy_player_id": "1098",
+        "name": "David Raya",
+        "country": "Spain",
+        "official_price": "5"
+      },
+      {
+        "official_fantasy_player_id": "1101",
+        "name": "Joan García",
+        "country": "Spain",
+        "official_price": "4"
+      },
+      {
+        "official_fantasy_player_id": "1154",
+        "name": "Yvon Mvogo",
+        "country": "Switzerland",
+        "official_price": "4.2"
+      },
+      {
+        "official_fantasy_player_id": "1155",
+        "name": "Marvin Keller",
+        "country": "Switzerland",
+        "official_price": "3.7"
+      },
+      {
+        "official_fantasy_player_id": "1184",
+        "name": "Abdelmouhib Chamakh",
+        "country": "Tunisia",
+        "official_price": "4.1"
+      },
+      {
+        "official_fantasy_player_id": "1185",
+        "name": "Aymen Dahmen",
+        "country": "Tunisia",
+        "official_price": "3.9"
+      },
+      {
+        "official_fantasy_player_id": "1187",
+        "name": "Sabri Ben Hessen",
+        "country": "Tunisia",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "1213",
+        "name": "Mert Günok",
+        "country": "Türkiye",
+        "official_price": "4"
+      },
+      {
+        "official_fantasy_player_id": "1214",
+        "name": "Muhammed Sengezer",
+        "country": "Türkiye",
+        "official_price": "3.9"
+      },
+      {
+        "official_fantasy_player_id": "1245",
+        "name": "Fernando Muslera",
+        "country": "Uruguay",
+        "official_price": "4.1"
+      },
+      {
+        "official_fantasy_player_id": "1270",
+        "name": "Matt Turner",
+        "country": "USA",
+        "official_price": "4"
+      },
+      {
+        "official_fantasy_player_id": "1271",
+        "name": "Matt Freese",
+        "country": "USA",
+        "official_price": "4.2"
+      },
+      {
+        "official_fantasy_player_id": "1272",
+        "name": "Patrick Schulte",
+        "country": "USA",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "1273",
+        "name": "Chris Brady",
+        "country": "USA",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "1311",
+        "name": "Abduvokhid Ne'matov",
+        "country": "Uzbekistan",
+        "official_price": "4"
+      },
+      {
+        "official_fantasy_player_id": "1314",
+        "name": "Botirali Ergashev",
+        "country": "Uzbekistan",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "1315",
+        "name": "Facundo Cambeses",
+        "country": "Argentina",
+        "official_price": "4"
+      },
+      {
+        "official_fantasy_player_id": "1316",
+        "name": "Walter Benítez",
+        "country": "Argentina",
+        "official_price": "4.5"
+      },
+      {
+        "official_fantasy_player_id": "1317",
+        "name": "Santiago Beltrán",
+        "country": "Argentina",
+        "official_price": "4"
+      },
+      {
+        "official_fantasy_player_id": "1343",
+        "name": "Weverton Pereira da Silva",
+        "country": "Brazil",
+        "official_price": "4.5"
+      },
+      {
+        "official_fantasy_player_id": "1400",
+        "name": "Jindrich Stanek",
+        "country": "Czechia",
+        "official_price": "4"
+      },
+      {
+        "official_fantasy_player_id": "1428",
+        "name": "Robin Risser",
+        "country": "France",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "1433",
+        "name": "Paul Reverson",
+        "country": "Ghana",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "1434",
+        "name": "Solomon Agbasi",
+        "country": "Ghana",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "1459",
+        "name": "Antonio Rodríguez",
+        "country": "Mexico",
+        "official_price": "3.7"
+      },
+      {
+        "official_fantasy_player_id": "1460",
+        "name": "Carlos Moreno",
+        "country": "Mexico",
+        "official_price": "3.6"
+      },
+      {
+        "official_fantasy_player_id": "1461",
+        "name": "Álex Padilla",
+        "country": "Mexico",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "1495",
+        "name": "Juan Espínola",
+        "country": "Paraguay",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "1496",
+        "name": "Carlos Coronel",
+        "country": "Paraguay",
+        "official_price": "4.1"
+      },
+      {
+        "official_fantasy_player_id": "1497",
+        "name": "Santiago Rojas",
+        "country": "Paraguay",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "1523",
+        "name": "Mike Penders",
+        "country": "Belgium",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "1541",
+        "name": "Noureddin Zaid Khaleel Bani Ateyah",
+        "country": "Jordan",
+        "official_price": "3.6"
+      },
+      {
+        "official_fantasy_player_id": "1542",
+        "name": "Ahmad Mohannad Talab Al Juaidi",
+        "country": "Jordan",
+        "official_price": "3.6"
+      },
+      {
+        "official_fantasy_player_id": "1575",
+        "name": "Fahad Younis Ahmed Mohammed Baker",
+        "country": "Qatar",
+        "official_price": "3.7"
+      },
+      {
+        "official_fantasy_player_id": "1584",
+        "name": "Ersin Destanoglu",
+        "country": "Türkiye",
+        "official_price": "4"
+      },
+      {
+        "official_fantasy_player_id": "1598",
+        "name": "Manuel Neuer",
+        "country": "Germany",
+        "official_price": "5"
+      },
+      {
+        "official_fantasy_player_id": "1665",
+        "name": "Munir El Kajoui",
+        "country": "Morocco",
+        "official_price": "4"
+      },
+      {
+        "official_fantasy_player_id": "1666",
+        "name": "Ibrahim Gomis",
+        "country": "Morocco",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "1667",
+        "name": "Yanis Benchaouch",
+        "country": "Morocco",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "1681",
+        "name": "Sander Tangvik",
+        "country": "Norway",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "1697",
+        "name": "Brandon Petersen",
+        "country": "South Africa",
+        "official_price": "3.6"
+      },
+      {
+        "official_fantasy_player_id": "1698",
+        "name": "Sipho Chaine",
+        "country": "South Africa",
+        "official_price": "3.7"
+      },
+      {
+        "official_fantasy_player_id": "1939",
+        "name": "Cristhian Loor",
+        "country": "Ecuador",
+        "official_price": "4"
+      },
+      {
+        "official_fantasy_player_id": "1950",
+        "name": "Abdulquddus bin Atiah bin Mohammed Atiah Khaoud",
+        "country": "Saudi Arabia",
+        "official_price": "4"
+      },
+      {
+        "official_fantasy_player_id": "1972",
+        "name": "Joseph Anang",
+        "country": "Ghana",
+        "official_price": "3.6"
+      },
+      {
+        "official_fantasy_player_id": "2001",
+        "name": "Joe Gauci",
+        "country": "Australia",
+        "official_price": "3.9"
+      },
+      {
+        "official_fantasy_player_id": "2009",
+        "name": "Ahmed Tagnaouti",
+        "country": "Morocco",
+        "official_price": "3.5"
+      },
+      {
+        "official_fantasy_player_id": "2010",
+        "name": "Yassine Bounou",
+        "country": "Morocco",
+        "official_price": "4.7"
+      },
+      {
+        "official_fantasy_player_id": "2036",
+        "name": "Robin Roefs",
+        "country": "Netherlands",
+        "official_price": "4.6"
+      },
+      {
+        "official_fantasy_player_id": "2045",
+        "name": "Abdelatif Ramdane",
+        "country": "Algeria",
+        "official_price": "4"
+      },
+      {
+        "official_fantasy_player_id": "2046",
+        "name": "Oussama Benbot",
+        "country": "Algeria",
+        "official_price": "4.2"
+      },
+      {
+        "official_fantasy_player_id": "2054",
+        "name": "Jonas Urbig",
+        "country": "Germany",
+        "official_price": "4"
+      },
+      {
+        "official_fantasy_player_id": "2055",
+        "name": "JD Gunn",
+        "country": "Panama",
+        "official_price": "4"
+      },
+      {
+        "official_fantasy_player_id": "2059",
+        "name": "Abdulrahman bin Salem bin Fadhel Al Sanbi",
+        "country": "Saudi Arabia",
+        "official_price": "4"
+      },
+      {
+        "official_fantasy_player_id": "2061",
+        "name": "Pape Sy",
+        "country": "Senegal",
+        "official_price": "3.8"
+      },
+      {
+        "official_fantasy_player_id": "2067",
+        "name": "Mladen Jurkas",
+        "country": "Bosnia and Herzegovina",
+        "official_price": "3.5"
+      }
+    ],
+    "minutes_model_sufficiency": "not_sufficient_for_final_minutes_model_without_targeted_missing-data review"
+  },
+  "missing_coverage": {
+    "countries_with_highest_missing_club_context": [
+      {
+        "label": "Australia",
+        "count": 33
+      },
+      {
+        "label": "Argentina",
+        "count": 29
+      },
+      {
+        "label": "Iraq",
+        "count": 29
+      },
+      {
+        "label": "Jordan",
+        "count": 28
+      },
+      {
+        "label": "Korea Republic",
+        "count": 22
+      },
+      {
+        "label": "Morocco",
+        "count": 21
+      },
+      {
+        "label": "Paraguay",
+        "count": 15
+      },
+      {
+        "label": "Qatar",
+        "count": 15
+      },
+      {
+        "label": "Ghana",
+        "count": 12
+      },
+      {
+        "label": "Egypt",
+        "count": 10
+      }
+    ],
+    "countries_with_highest_missing_usage_context": [
+      {
+        "label": "Mexico",
+        "count": 44
+      },
+      {
+        "label": "Argentina",
+        "count": 33
+      },
+      {
+        "label": "Morocco",
+        "count": 33
+      },
+      {
+        "label": "Australia",
+        "count": 32
+      },
+      {
+        "label": "Paraguay",
+        "count": 31
+      },
+      {
+        "label": "Canada",
+        "count": 30
+      },
+      {
+        "label": "USA",
+        "count": 25
+      },
+      {
+        "label": "Korea Republic",
+        "count": 20
+      },
+      {
+        "label": "Jordan",
+        "count": 17
+      },
+      {
+        "label": "Uzbekistan",
+        "count": 17
+      }
+    ],
+    "countries_with_highest_missing_any_enrichment": [
+      {
+        "label": "Mexico",
+        "count": 44
+      },
+      {
+        "label": "Argentina",
+        "count": 33
+      },
+      {
+        "label": "Australia",
+        "count": 33
+      },
+      {
+        "label": "Morocco",
+        "count": 33
+      },
+      {
+        "label": "Paraguay",
+        "count": 31
+      },
+      {
+        "label": "Canada",
+        "count": 30
+      },
+      {
+        "label": "Iraq",
+        "count": 30
+      },
+      {
+        "label": "Jordan",
+        "count": 30
+      },
+      {
+        "label": "USA",
+        "count": 25
+      },
+      {
+        "label": "Korea Republic",
+        "count": 23
+      }
+    ],
+    "positions_with_highest_missing_club_context": [
+      {
+        "label": "DEF",
+        "count": 108
+      },
+      {
+        "label": "MID",
+        "count": 107
+      },
+      {
+        "label": "FWD",
+        "count": 56
+      },
+      {
+        "label": "GK",
+        "count": 54
+      }
+    ],
+    "positions_with_highest_missing_usage_context": [
+      {
+        "label": "MID",
+        "count": 192
+      },
+      {
+        "label": "DEF",
+        "count": 190
+      },
+      {
+        "label": "FWD",
+        "count": 116
+      },
+      {
+        "label": "GK",
+        "count": 110
+      }
+    ],
+    "positions_with_highest_missing_any_enrichment": [
+      {
+        "label": "MID",
+        "count": 210
+      },
+      {
+        "label": "DEF",
+        "count": 203
+      },
+      {
+        "label": "FWD",
+        "count": 127
+      },
+      {
+        "label": "GK",
+        "count": 114
+      }
+    ]
+  },
+  "high_risk_missing_data_cases": [
+    {
+      "official_fantasy_player_id": "1327",
+      "name": "Emiliano Buendía",
+      "country": "Argentina",
+      "position": "MID",
+      "official_price": "6.5",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|famous_player_missing_usage|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "815",
+      "name": "Xavi Simons",
+      "country": "Netherlands",
+      "position": "MID",
+      "official_price": "6.5",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|famous_player_missing_usage|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "1671",
+      "name": "Sofiane Boufal",
+      "country": "Morocco",
+      "position": "MID",
+      "official_price": "6.3",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|famous_player_missing_usage|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "1335",
+      "name": "Matías Soulé",
+      "country": "Argentina",
+      "position": "MID",
+      "official_price": "6.2",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|famous_player_missing_usage|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "1257",
+      "name": "Johnny Cardoso",
+      "country": "USA",
+      "position": "MID",
+      "official_price": "6.2",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|famous_player_missing_usage|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "813",
+      "name": "Jerdy Schouten",
+      "country": "Netherlands",
+      "position": "MID",
+      "official_price": "6.1",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "1340",
+      "name": "Santiago Castro",
+      "country": "Argentina",
+      "position": "FWD",
+      "official_price": "6",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "2050",
+      "name": "Cristian Volpato",
+      "country": "Australia",
+      "position": "MID",
+      "official_price": "6",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "84",
+      "name": "Riley McGree",
+      "country": "Australia",
+      "position": "MID",
+      "official_price": "5.9",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "735",
+      "name": "Jun-Ho Bae",
+      "country": "Korea Republic",
+      "position": "MID",
+      "official_price": "5.9",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "1705",
+      "name": "Patrick Maswanganyi",
+      "country": "South Africa",
+      "position": "MID",
+      "official_price": "5.9",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "44",
+      "name": "Franco Mastantuono",
+      "country": "Argentina",
+      "position": "MID",
+      "official_price": "5.8",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "83",
+      "name": "Ajdin Hrustic",
+      "country": "Australia",
+      "position": "MID",
+      "official_price": "5.7",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "1672",
+      "name": "Imrân Louza",
+      "country": "Morocco",
+      "position": "MID",
+      "official_price": "5.7",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "25",
+      "name": "Adil Aouchiche",
+      "country": "Algeria",
+      "position": "MID",
+      "official_price": "5.6",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "40",
+      "name": "Gianluca Prestianni",
+      "country": "Argentina",
+      "position": "MID",
+      "official_price": "5.6",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "1330",
+      "name": "Guido Rodríguez",
+      "country": "Argentina",
+      "position": "MID",
+      "official_price": "5.6",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "49",
+      "name": "Máximo Perrone",
+      "country": "Argentina",
+      "position": "MID",
+      "official_price": "5.6",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "82",
+      "name": "Awer Mabil",
+      "country": "Australia",
+      "position": "MID",
+      "official_price": "5.6",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "2004",
+      "name": "Jackson Irvine",
+      "country": "Australia",
+      "position": "MID",
+      "official_price": "5.6",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "1252",
+      "name": "Aidan Morris",
+      "country": "USA",
+      "position": "MID",
+      "official_price": "5.6",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "1251",
+      "name": "Tanner Tessmann",
+      "country": "USA",
+      "position": "MID",
+      "official_price": "5.6",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "52",
+      "name": "Alejandro Garnacho",
+      "country": "Argentina",
+      "position": "MID",
+      "official_price": "5.5",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "1334",
+      "name": "Claudio Echeverri",
+      "country": "Argentina",
+      "position": "MID",
+      "official_price": "5.5",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|missing_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    },
+    {
+      "official_fantasy_player_id": "1316",
+      "name": "Walter Benítez",
+      "country": "Argentina",
+      "position": "GK",
+      "official_price": "4.5",
+      "missing_club": true,
+      "missing_usage": true,
+      "flags": "thin_profile|thin_profile_missing|missing_usage|source_gap|missing_role_confidence|goalkeeper_without_role_confidence|missing_club|missing_league|missing_club_minutes|missing_club_starts|low_club_role_confidence"
+    }
+  ]
+}

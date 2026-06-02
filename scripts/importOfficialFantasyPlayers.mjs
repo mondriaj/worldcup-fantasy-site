@@ -1,7 +1,7 @@
 import { access, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-const TODAY = "2026-06-01";
+const TODAY = "2026-06-02";
 
 const DEFAULT_INPUT = "data/imports/officialFantasyPlayers.csv";
 const OUTPUT_PLAYERS = "data/officialFantasyPlayers_v0.json";

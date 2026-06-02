@@ -1,0 +1,181 @@
+{
+  "schema_version": "player_recommendation_inputs_qa_v1",
+  "generated_at": "2026-06-02",
+  "stage": "fantasy_pool_only",
+  "counts_by_status": {
+    "usable_fantasy_pool_only": 660,
+    "blocked_not_selectable": 225,
+    "usable_with_warning": 596
+  },
+  "counts_by_country": {
+    "Algeria": 33,
+    "Argentina": 55,
+    "Australia": 36,
+    "Austria": 26,
+    "Belgium": 26,
+    "Bosnia and Herzegovina": 27,
+    "Brazil": 26,
+    "Cabo Verde": 26,
+    "Canada": 32,
+    "Colombia": 26,
+    "Congo DR": 26,
+    "Côte d'Ivoire": 27,
+    "Croatia": 26,
+    "Curaçao": 26,
+    "Czechia": 29,
+    "Ecuador": 36,
+    "Egypt": 27,
+    "England": 26,
+    "France": 26,
+    "Germany": 27,
+    "Ghana": 29,
+    "Haiti": 26,
+    "IR Iran": 31,
+    "Iraq": 34,
+    "Japan": 27,
+    "Jordan": 30,
+    "Korea Republic": 27,
+    "Mexico": 51,
+    "Morocco": 46,
+    "Netherlands": 34,
+    "New Zealand": 26,
+    "Norway": 26,
+    "Panama": 32,
+    "Paraguay": 55,
+    "Portugal": 27,
+    "Qatar": 35,
+    "Saudi Arabia": 31,
+    "Scotland": 27,
+    "Senegal": 29,
+    "South Africa": 32,
+    "Spain": 26,
+    "Sweden": 28,
+    "Switzerland": 26,
+    "Tunisia": 26,
+    "Türkiye": 35,
+    "Uruguay": 35,
+    "USA": 31,
+    "Uzbekistan": 30
+  },
+  "counts_by_position": {
+    "DEF": 482,
+    "FWD": 306,
+    "MID": 512,
+    "GK": 181
+  },
+  "counts_by_data_quality_flag": {
+    "deadline_semantics_review": 1481,
+    "fantasy_pool_only_not_final_squad_confirmed": 1481,
+    "final_squad_source_missing": 1481,
+    "mystery_booster_unknown": 1481,
+    "rules_manual_review": 1481,
+    "missing_club_context": 325,
+    "missing_national_team_usage": 630,
+    "missing_role_confidence": 630,
+    "squad_review_status": 225,
+    "thin_profile": 221,
+    "low_usage_confidence": 78,
+    "position_conflict_audit": 135,
+    "high_price_missing_usage": 1
+  },
+  "blockers": [
+    {
+      "id": "final_squads_not_source_backed",
+      "status": "stop",
+      "count": 225,
+      "details": "Final squad import is not source-backed complete; fantasy pool rows must not be treated as final squads."
+    },
+    {
+      "id": "official_rules_manual_review",
+      "status": "stop",
+      "count": 1,
+      "details": "Official rules import still has manual-review status."
+    },
+    {
+      "id": "no_final_squad_rows_exist",
+      "status": "stop",
+      "count": 0,
+      "details": "There are 0 confirmed_final_squad rows in the staged official squad file."
+    },
+    {
+      "id": "browser_ready_files_not_regenerated",
+      "status": "stop",
+      "count": 1,
+      "details": "This staging pass intentionally did not regenerate browser-ready files or active recommendation data."
+    }
+  ],
+  "warnings": [
+    {
+      "id": "fantasy_pool_only_stage",
+      "count": 1256,
+      "details": "Rows are staged from the official fantasy pool only, not source-backed final squads."
+    },
+    {
+      "id": "missing_enrichment",
+      "count": 676,
+      "details": "Some players are missing club context or national-team usage."
+    },
+    {
+      "id": "squad_review_status",
+      "count": 225,
+      "details": "Squad review rows remain blocked from preliminary selectable-player modeling."
+    }
+  ],
+  "stop_conditions": [
+    {
+      "id": "official_price_missing",
+      "status": "pass",
+      "count": 0,
+      "details": "Official fantasy prices are present for all staged rows."
+    },
+    {
+      "id": "official_position_missing",
+      "status": "pass",
+      "count": 0,
+      "details": "Official fantasy positions are present for all staged rows."
+    },
+    {
+      "id": "identity_review_queue_not_empty",
+      "status": "pass",
+      "count": 0,
+      "details": "Player identity review queue is empty."
+    },
+    {
+      "id": "duplicate_official_fantasy_ids",
+      "status": "pass",
+      "count": 0,
+      "details": "No duplicate official fantasy IDs detected."
+    },
+    {
+      "id": "unresolved_identity_conflicts",
+      "status": "pass",
+      "count": 0,
+      "details": "No unresolved identity conflicts detected."
+    },
+    {
+      "id": "final_squads_not_source_backed",
+      "status": "stop",
+      "count": 225,
+      "details": "Final squad import is not source-backed complete; fantasy pool rows must not be treated as final squads."
+    },
+    {
+      "id": "official_rules_manual_review",
+      "status": "stop",
+      "count": 1,
+      "details": "Official rules import still has manual-review status."
+    },
+    {
+      "id": "no_final_squad_rows_exist",
+      "status": "stop",
+      "count": 0,
+      "details": "There are 0 confirmed_final_squad rows in the staged official squad file."
+    },
+    {
+      "id": "browser_ready_files_not_regenerated",
+      "status": "stop",
+      "count": 1,
+      "details": "This staging pass intentionally did not regenerate browser-ready files or active recommendation data."
+    }
+  ],
+  "recommended_next_step": "Use this file only for preliminary fantasy_pool_only model staging. Resolve source-backed final squads and official rules manual-review warnings before final public recommendations or Team Builder promotion."
+}

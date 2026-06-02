@@ -1,0 +1,1003 @@
+{
+  "schema_version": "public_preview_promotion_readiness_qa_v1",
+  "generated_at": "2026-06-02T19:37:02.161Z",
+  "source_checked": "2026-06-02",
+  "model_stage": "fantasy_pool_only_public_preview_audit",
+  "verdict": "ready_for_public_preview_with_warnings",
+  "readiness_status": "blocked_waiting_for_official_fantasy_data",
+  "safe_for_public_preview_with_warnings": true,
+  "safe_for_final_public_recommendations": false,
+  "safe_for_team_builder_promotion": false,
+  "browser_ready_files_updated": false,
+  "active_v2_files_updated": false,
+  "source_files": [
+    "data/matchdayRecommendations_fantasyPool_v3.json",
+    "data/recommendationQa_fantasyPool_v3.json",
+    "data/playerMatchdayProjections_fantasyPool_v3.json",
+    "data/playerMatchdayProjectionQa_fantasyPool_v3.json",
+    "data/playerFinanceMetrics_fantasyPool_v1.json",
+    "data/playerFinanceMetricsQa_fantasyPool_v1.json",
+    "data/officialFantasyRules_v0.json",
+    "data/officialFantasyRulesImportReport_v0.json",
+    "data/officialSquads_v0.json",
+    "data/officialSquadsImportReport_v0.json",
+    "data/officialDataReadiness_v0.json"
+  ],
+  "summary": {
+    "criteria_total": 22,
+    "criteria_pass": 13,
+    "criteria_pass_with_warning": 9,
+    "criteria_fail": 0,
+    "official_fantasy_players": 1481,
+    "official_price_rows": 1481,
+    "official_position_rows": 1481,
+    "final_squad_confirmed_rows": 0,
+    "fantasy_pool_only_rows": 1256,
+    "squad_review_rows": 225,
+    "recommendation_candidate_rows": 500,
+    "projection_rows": 3768,
+    "finance_metric_players": 1256,
+    "top_balanced_low_confidence_rows": 0,
+    "top_balanced_thin_profile_rows": 0,
+    "top_balanced_missing_usage_rows": 0,
+    "brazil_uncertainty_candidate_rows": 19,
+    "neymar_candidate_rows": 0
+  },
+  "criteria": [
+    {
+      "id": "official_fantasy_players_imported",
+      "status": "pass",
+      "evidence": 1481,
+      "notes": "Official fantasy player import exists and has 0 error rows."
+    },
+    {
+      "id": "official_prices_complete",
+      "status": "pass",
+      "evidence": "1481/1481",
+      "notes": "Official prices are complete in the imported fantasy pool."
+    },
+    {
+      "id": "official_positions_complete",
+      "status": "pass",
+      "evidence": "1481/1481",
+      "notes": "Official positions are complete in the imported fantasy pool."
+    },
+    {
+      "id": "official_scoring_imported",
+      "status": "pass_with_warning",
+      "evidence": "imported_needs_manual_review",
+      "notes": "Official scoring is imported, but the rules import status remains manual-review."
+    },
+    {
+      "id": "official_rules_sufficiently_complete_for_recommendations",
+      "status": "pass_with_warning",
+      "evidence": "4 warnings",
+      "notes": "Scoring categories are usable for preview recommendations; Mystery Booster and deadline semantics still need review."
+    },
+    {
+      "id": "final_squad_status_clearly_not_final",
+      "status": "pass_with_warning",
+      "evidence": "teams complete: 0",
+      "notes": "Final squads are explicitly not source-backed; fantasy-pool-only status is visible."
+    },
+    {
+      "id": "staged_projections_pass_qa",
+      "status": "pass_with_warning",
+      "evidence": "pass_with_staging_stop_conditions",
+      "notes": "Projection QA passes with staging stop conditions."
+    },
+    {
+      "id": "staged_recommendations_pass_qa",
+      "status": "pass_with_warning",
+      "evidence": "pass_with_staging_stop_conditions",
+      "notes": "Recommendation QA passes with staging stop conditions."
+    },
+    {
+      "id": "staged_finance_metrics_pass_qa",
+      "status": "pass_with_warning",
+      "evidence": "pass_with_staging_stop_conditions",
+      "notes": "Finance metrics QA passes with staging stop conditions."
+    },
+    {
+      "id": "no_blocked_players_in_recommendations",
+      "status": "pass",
+      "evidence": "blocked available: 225; candidate rows: 500",
+      "notes": "Blocked players are excluded from recommendation candidates."
+    },
+    {
+      "id": "no_low_confidence_top_balanced",
+      "status": "pass",
+      "evidence": 0,
+      "notes": "Balanced top 25 has no low-confidence rows."
+    },
+    {
+      "id": "no_thin_profile_top_balanced",
+      "status": "pass",
+      "evidence": 0,
+      "notes": "Balanced top 25 has no thin-profile rows."
+    },
+    {
+      "id": "no_true_missing_usage_top_balanced",
+      "status": "pass",
+      "evidence": 0,
+      "notes": "Balanced top 25 has no true missing-usage leakage."
+    },
+    {
+      "id": "neymar_brazil_uncertainty_visible",
+      "status": "pass_with_warning",
+      "evidence": {
+        "neymar_candidates": [],
+        "brazil_uncertainty_candidate_count": 19,
+        "note": "Brazil candidates carry brazil_neymar_usage_source_gap when inherited from score/projection context. Neymar itself remains heavily penalized and should not be promoted without source-backed usage."
+      },
+      "notes": "Brazil uncertainty is visible; Neymar is not promoted as a candidate."
+    },
+    {
+      "id": "final_squad_uncertainty_visible",
+      "status": "pass",
+      "evidence": "1256/1256",
+      "notes": "Every finance row carries final-squad uncertainty."
+    },
+    {
+      "id": "rules_warnings_visible",
+      "status": "pass_with_warning",
+      "evidence": [
+        "rulesStatus is official_imported_needs_manual_review; keep staged rules under review before active promotion.",
+        "boosters.rulesStatus is official_imported_needs_mystery_booster_review; booster rules still need review before active promotion.",
+        "boosters.details[4] (mystery_booster) is missing an effect/detail; keep as a manual-review blocker.",
+        "deadlines.rulesStatus is official_imported_needs_deadline_review; confirm final fantasy deadline semantics before active promotion."
+      ],
+      "notes": "Rules warnings are visible in source reports and staged output flags."
+    },
+    {
+      "id": "no_active_files_overwritten",
+      "status": "pass",
+      "evidence": "active v2/browser files unchanged in git status subset and staged metadata preserves previous active files",
+      "notes": "No active v2 files were overwritten by this audit."
+    },
+    {
+      "id": "browser_ready_files_not_yet_updated",
+      "status": "pass",
+      "evidence": {
+        "recommendations": false,
+        "projections": false,
+        "finance": false
+      },
+      "notes": "Browser-ready files remain untouched."
+    },
+    {
+      "id": "user_facing_label_can_be_truthful",
+      "status": "pass",
+      "evidence": "Official Fantasy Pool Preview",
+      "notes": "The label is accurate if paired with explicit final-squad and rules warnings."
+    },
+    {
+      "id": "public_copy_can_avoid_final_claims",
+      "status": "pass",
+      "evidence": "warning copy drafted",
+      "notes": "Preview copy can avoid final/final-squad-ready wording."
+    },
+    {
+      "id": "team_builder_remains_blocked",
+      "status": "pass_with_warning",
+      "evidence": {
+        "recommendation_safe_for_team_builder": false,
+        "finance_safe_for_final_team_builder_promotion": false
+      },
+      "notes": "Team Builder remains blocked from final promotion."
+    },
+    {
+      "id": "recommendation_outputs_not_final_squad_backed",
+      "status": "pass",
+      "evidence": "staged_fantasy_pool_only_not_final_squad_backed",
+      "notes": "Recommendation output does not claim final-squad backing."
+    }
+  ],
+  "top_list_audit": {
+    "balanced": {
+      "status": "pass_with_warning",
+      "winner": {
+        "name": "Nuno Alexandre Tavares Mendes",
+        "country": "Portugal",
+        "position": "DEF",
+        "matchday": "md2",
+        "price": 5.8,
+        "recommendation_score": 86.341
+      },
+      "rows_reviewed": 25,
+      "position_distribution": {
+        "DEF": 14,
+        "MID": 7,
+        "FWD": 4
+      },
+      "top_country_concentration": [
+        {
+          "country": "Argentina",
+          "count": 12
+        },
+        {
+          "country": "Portugal",
+          "count": 5
+        },
+        {
+          "country": "Colombia",
+          "count": 3
+        },
+        {
+          "country": "Germany",
+          "count": 2
+        },
+        {
+          "country": "Norway",
+          "count": 1
+        }
+      ],
+      "confidence_distribution": {
+        "high": 25
+      },
+      "low_confidence_rows": 0,
+      "thin_profile_rows": 0,
+      "true_missing_usage_rows": 0,
+      "price_range": {
+        "min": 4.2,
+        "max": 10
+      },
+      "top_10": [
+        {
+          "rank": 1,
+          "name": "Nuno Alexandre Tavares Mendes",
+          "country": "Portugal",
+          "position": "DEF",
+          "matchday": "md2",
+          "price": 5.8,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 1,
+          "name": "Nuno Alexandre Tavares Mendes",
+          "country": "Portugal",
+          "position": "DEF",
+          "matchday": "md1",
+          "price": 5.8,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 2,
+          "name": "Bruno Miguel Borges Fernandes",
+          "country": "Portugal",
+          "position": "MID",
+          "matchday": "md2",
+          "price": 8.5,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 1,
+          "name": "Lionel Messi",
+          "country": "Argentina",
+          "position": "FWD",
+          "matchday": "md3",
+          "price": 10,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 2,
+          "name": "Bruno Miguel Borges Fernandes",
+          "country": "Portugal",
+          "position": "MID",
+          "matchday": "md1",
+          "price": 8.5,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 2,
+          "name": "Enzo Fernández",
+          "country": "Argentina",
+          "position": "MID",
+          "matchday": "md3",
+          "price": 7.5,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 3,
+          "name": "Nicolás Tagliafico",
+          "country": "Argentina",
+          "position": "DEF",
+          "matchday": "md3",
+          "price": 4.3,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 3,
+          "name": "David Raum",
+          "country": "Germany",
+          "position": "DEF",
+          "matchday": "md1",
+          "price": 4.9,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 4,
+          "name": "Julian Ryerson",
+          "country": "Norway",
+          "position": "DEF",
+          "matchday": "md1",
+          "price": 4.2,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 5,
+          "name": "Lionel Messi",
+          "country": "Argentina",
+          "position": "FWD",
+          "matchday": "md1",
+          "price": 10,
+          "projection_confidence": "high"
+        }
+      ],
+      "concerns": [
+        "position concentration should be explained in preview copy"
+      ],
+      "preview_usability": "usable_with_context"
+    },
+    "safe": {
+      "status": "pass_with_warning",
+      "winner": {
+        "name": "Nuno Alexandre Tavares Mendes",
+        "country": "Portugal",
+        "position": "DEF",
+        "matchday": "md2",
+        "price": 5.8,
+        "recommendation_score": 87.657
+      },
+      "rows_reviewed": 25,
+      "position_distribution": {
+        "DEF": 9,
+        "MID": 7,
+        "GK": 5,
+        "FWD": 4
+      },
+      "top_country_concentration": [
+        {
+          "country": "Argentina",
+          "count": 7
+        },
+        {
+          "country": "Colombia",
+          "count": 6
+        },
+        {
+          "country": "Portugal",
+          "count": 5
+        },
+        {
+          "country": "Spain",
+          "count": 2
+        },
+        {
+          "country": "Germany",
+          "count": 1
+        }
+      ],
+      "confidence_distribution": {
+        "high": 25
+      },
+      "low_confidence_rows": 0,
+      "thin_profile_rows": 0,
+      "true_missing_usage_rows": 0,
+      "price_range": {
+        "min": 4.1,
+        "max": 10.5
+      },
+      "top_10": [
+        {
+          "rank": 1,
+          "name": "Nuno Alexandre Tavares Mendes",
+          "country": "Portugal",
+          "position": "DEF",
+          "matchday": "md2",
+          "price": 5.8,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 1,
+          "name": "Nuno Alexandre Tavares Mendes",
+          "country": "Portugal",
+          "position": "DEF",
+          "matchday": "md1",
+          "price": 5.8,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 2,
+          "name": "Bruno Miguel Borges Fernandes",
+          "country": "Portugal",
+          "position": "MID",
+          "matchday": "md2",
+          "price": 8.5,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 2,
+          "name": "Camilo Vargas",
+          "country": "Colombia",
+          "position": "GK",
+          "matchday": "md1",
+          "price": 4.3,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 3,
+          "name": "Camilo Vargas",
+          "country": "Colombia",
+          "position": "GK",
+          "matchday": "md2",
+          "price": 4.3,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 3,
+          "name": "Bruno Miguel Borges Fernandes",
+          "country": "Portugal",
+          "position": "MID",
+          "matchday": "md1",
+          "price": 8.5,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 1,
+          "name": "Lionel Messi",
+          "country": "Argentina",
+          "position": "FWD",
+          "matchday": "md3",
+          "price": 10,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 2,
+          "name": "Enzo Fernández",
+          "country": "Argentina",
+          "position": "MID",
+          "matchday": "md3",
+          "price": 7.5,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 4,
+          "name": "Daniel Muñoz",
+          "country": "Colombia",
+          "position": "DEF",
+          "matchday": "md1",
+          "price": 4.6,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 4,
+          "name": "Daniel Muñoz",
+          "country": "Colombia",
+          "position": "DEF",
+          "matchday": "md2",
+          "price": 4.6,
+          "projection_confidence": "high"
+        }
+      ],
+      "concerns": [
+        "country concentration should be monitored"
+      ],
+      "preview_usability": "usable_with_context"
+    },
+    "upside": {
+      "status": "pass_with_warning",
+      "winner": {
+        "name": "Lionel Messi",
+        "country": "Argentina",
+        "position": "FWD",
+        "matchday": "md3",
+        "price": 10,
+        "recommendation_score": 92.325
+      },
+      "rows_reviewed": 25,
+      "position_distribution": {
+        "FWD": 12,
+        "MID": 11,
+        "DEF": 2
+      },
+      "top_country_concentration": [
+        {
+          "country": "Argentina",
+          "count": 7
+        },
+        {
+          "country": "England",
+          "count": 4
+        },
+        {
+          "country": "Portugal",
+          "count": 4
+        },
+        {
+          "country": "Spain",
+          "count": 3
+        },
+        {
+          "country": "France",
+          "count": 3
+        }
+      ],
+      "confidence_distribution": {
+        "high": 25
+      },
+      "low_confidence_rows": 0,
+      "thin_profile_rows": 0,
+      "true_missing_usage_rows": 0,
+      "price_range": {
+        "min": 5.8,
+        "max": 10.5
+      },
+      "top_10": [
+        {
+          "rank": 1,
+          "name": "Lionel Messi",
+          "country": "Argentina",
+          "position": "FWD",
+          "matchday": "md3",
+          "price": 10,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 1,
+          "name": "Lionel Messi",
+          "country": "Argentina",
+          "position": "FWD",
+          "matchday": "md1",
+          "price": 10,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 1,
+          "name": "Lionel Messi",
+          "country": "Argentina",
+          "position": "FWD",
+          "matchday": "md2",
+          "price": 10,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 1,
+          "name": "Lionel Messi",
+          "country": "Argentina",
+          "position": "FWD",
+          "matchday": "group_stage_full",
+          "price": 10,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 2,
+          "name": "Harry Kane",
+          "country": "England",
+          "position": "FWD",
+          "matchday": "md2",
+          "price": 10.5,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 2,
+          "name": "Harry Kane",
+          "country": "England",
+          "position": "FWD",
+          "matchday": "md3",
+          "price": 10.5,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 3,
+          "name": "Bruno Miguel Borges Fernandes",
+          "country": "Portugal",
+          "position": "MID",
+          "matchday": "md2",
+          "price": 8.5,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 2,
+          "name": "Lamine Yamal Nasraoui Ebana",
+          "country": "Spain",
+          "position": "MID",
+          "matchday": "md1",
+          "price": 10,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 4,
+          "name": "Kylian Mbappé",
+          "country": "France",
+          "position": "FWD",
+          "matchday": "md2",
+          "price": 10.5,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 3,
+          "name": "Bruno Miguel Borges Fernandes",
+          "country": "Portugal",
+          "position": "MID",
+          "matchday": "md1",
+          "price": 8.5,
+          "projection_confidence": "high"
+        }
+      ],
+      "concerns": [
+        "country concentration should be monitored"
+      ],
+      "preview_usability": "usable_with_context"
+    },
+    "differential": {
+      "status": "pass_with_warning",
+      "winner": {
+        "name": "Giorgian de Arrascaeta",
+        "country": "Uruguay",
+        "position": "MID",
+        "matchday": "md1",
+        "price": 6.5,
+        "recommendation_score": 77.668
+      },
+      "rows_reviewed": 25,
+      "position_distribution": {
+        "MID": 4,
+        "FWD": 6,
+        "DEF": 13,
+        "GK": 2
+      },
+      "top_country_concentration": [
+        {
+          "country": "Colombia",
+          "count": 5
+        },
+        {
+          "country": "Uruguay",
+          "count": 3
+        },
+        {
+          "country": "Japan",
+          "count": 3
+        },
+        {
+          "country": "Croatia",
+          "count": 2
+        },
+        {
+          "country": "Norway",
+          "count": 2
+        }
+      ],
+      "confidence_distribution": {
+        "high": 25
+      },
+      "low_confidence_rows": 0,
+      "thin_profile_rows": 0,
+      "true_missing_usage_rows": 0,
+      "price_range": {
+        "min": 3.5,
+        "max": 8.1
+      },
+      "top_10": [
+        {
+          "rank": 1,
+          "name": "Giorgian de Arrascaeta",
+          "country": "Uruguay",
+          "position": "MID",
+          "matchday": "md1",
+          "price": 6.5,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 1,
+          "name": "Nicolas Jackson",
+          "country": "Senegal",
+          "position": "FWD",
+          "matchday": "md3",
+          "price": 6.7,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 1,
+          "name": "Hiroki Ito",
+          "country": "Japan",
+          "position": "DEF",
+          "matchday": "md2",
+          "price": 3.9,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 2,
+          "name": "Luis Suárez",
+          "country": "Colombia",
+          "position": "FWD",
+          "matchday": "md1",
+          "price": 5.7,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 2,
+          "name": "Luis Suárez",
+          "country": "Colombia",
+          "position": "FWD",
+          "matchday": "md2",
+          "price": 5.7,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 2,
+          "name": "Martin Erlic",
+          "country": "Croatia",
+          "position": "DEF",
+          "matchday": "md3",
+          "price": 3.9,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 3,
+          "name": "Santiago Arias",
+          "country": "Colombia",
+          "position": "DEF",
+          "matchday": "md1",
+          "price": 3.9,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 3,
+          "name": "Emmanuel Agbadou",
+          "country": "Côte d'Ivoire",
+          "position": "DEF",
+          "matchday": "md3",
+          "price": 3.9,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 4,
+          "name": "Ismael Saibari",
+          "country": "Morocco",
+          "position": "MID",
+          "matchday": "md3",
+          "price": 6.8,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 1,
+          "name": "Charles De Ketelaere",
+          "country": "Belgium",
+          "position": "MID",
+          "matchday": "group_stage_full",
+          "price": 5.6,
+          "projection_confidence": "high"
+        }
+      ],
+      "concerns": [
+        "position concentration should be explained in preview copy",
+        "Differential is usable as lower-obviousness value/watchlist content, but finance QA still finds many dominated Differential candidates"
+      ],
+      "preview_usability": "usable_with_context"
+    },
+    "captain": {
+      "status": "pass_with_warning",
+      "winner": {
+        "name": "Lionel Messi",
+        "country": "Argentina",
+        "position": "FWD",
+        "matchday": "md3",
+        "price": 10,
+        "recommendation_score": 96.249
+      },
+      "rows_reviewed": 25,
+      "position_distribution": {
+        "FWD": 15,
+        "MID": 10
+      },
+      "top_country_concentration": [
+        {
+          "country": "Argentina",
+          "count": 7
+        },
+        {
+          "country": "Portugal",
+          "count": 5
+        },
+        {
+          "country": "England",
+          "count": 4
+        },
+        {
+          "country": "France",
+          "count": 4
+        },
+        {
+          "country": "Spain",
+          "count": 2
+        }
+      ],
+      "confidence_distribution": {
+        "high": 25
+      },
+      "low_confidence_rows": 0,
+      "thin_profile_rows": 0,
+      "true_missing_usage_rows": 0,
+      "price_range": {
+        "min": 6.5,
+        "max": 10.5
+      },
+      "top_10": [
+        {
+          "rank": 1,
+          "name": "Lionel Messi",
+          "country": "Argentina",
+          "position": "FWD",
+          "matchday": "md3",
+          "price": 10,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 1,
+          "name": "Lionel Messi",
+          "country": "Argentina",
+          "position": "FWD",
+          "matchday": "md1",
+          "price": 10,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 1,
+          "name": "Lionel Messi",
+          "country": "Argentina",
+          "position": "FWD",
+          "matchday": "md2",
+          "price": 10,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 1,
+          "name": "Lionel Messi",
+          "country": "Argentina",
+          "position": "FWD",
+          "matchday": "group_stage_full",
+          "price": 10,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 2,
+          "name": "Harry Kane",
+          "country": "England",
+          "position": "FWD",
+          "matchday": "md3",
+          "price": 10.5,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 2,
+          "name": "Bruno Miguel Borges Fernandes",
+          "country": "Portugal",
+          "position": "MID",
+          "matchday": "md2",
+          "price": 8.5,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 3,
+          "name": "Harry Kane",
+          "country": "England",
+          "position": "FWD",
+          "matchday": "md2",
+          "price": 10.5,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 2,
+          "name": "Harry Kane",
+          "country": "England",
+          "position": "FWD",
+          "matchday": "md1",
+          "price": 10.5,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 2,
+          "name": "Harry Kane",
+          "country": "England",
+          "position": "FWD",
+          "matchday": "group_stage_full",
+          "price": 10.5,
+          "projection_confidence": "high"
+        },
+        {
+          "rank": 3,
+          "name": "Bruno Miguel Borges Fernandes",
+          "country": "Portugal",
+          "position": "MID",
+          "matchday": "md1",
+          "price": 8.5,
+          "projection_confidence": "high"
+        }
+      ],
+      "concerns": [
+        "position concentration should be explained in preview copy"
+      ],
+      "preview_usability": "usable_with_context"
+    }
+  },
+  "finance_value_audit": {
+    "status": "pass_with_warning",
+    "value_over_replacement_assessment": "Top VOR players are plausible preview names and include elite attackers plus high-scoring official-scoring defenders/midfielders.",
+    "efficient_frontier_assessment": "Player-level frontier count is 17. This is plausible under strict group-stage aggregation; row-level recommendation diagnostics had 62 frontier rows because matchday rows are separate.",
+    "dominated_player_assessment": "Dominated count is high because the dominance test is intentionally strict across same position or same price band. It should not be surfaced publicly as a simple bad-player label.",
+    "differential_dominated_assessment": "60/100 Differential recommendation candidates are dominated, but 31 are still marked dominated-but-defensible. Acceptable for preview if Differential is described as watchlist/lower-obviousness value, not as a guaranteed edge. Needs tightening before a public Value mode or Team Builder optimizer.",
+    "finance_language_policy": [
+      "Use preview value indicators, not market inefficiency claims.",
+      "Avoid guaranteed edge, optimal portfolio, or final value wording.",
+      "Keep final-squad uncertainty and rules-review caveats visible near finance/value tables."
+    ],
+    "key_counts": {
+      "finance_metric_players": 1256,
+      "efficient_frontier_players": 17,
+      "dominated_players": 1239,
+      "above_replacement_players": 64,
+      "differential_dominated_candidates": 60
+    }
+  },
+  "required_public_warning_copy": [
+    "Official Fantasy Pool Preview",
+    "Uses official fantasy prices, positions, and scoring.",
+    "Final squad status is not yet source-backed.",
+    "Recommendations may change after final squad confirmation.",
+    "Rules import still has manual-review warnings for Mystery Booster details and deadline semantics.",
+    "Team Builder remains in prototype mode until final squad and rule gates pass."
+  ],
+  "promotion_plan": {
+    "do_not_execute_in_this_session": true,
+    "browser_ready_files_needed_later": [
+      "A preview-safe recommendation browser data file derived from data/matchdayRecommendations_fantasyPool_v3.json",
+      "A preview-safe projection browser data file derived from data/playerMatchdayProjections_fantasyPool_v3.json",
+      "A preview-safe finance/value browser data file derived from data/playerFinanceMetrics_fantasyPool_v1.json and data/playerValueModel_fantasyPool_v2.json",
+      "A score context browser file or alias derived from data/scorePredictions_fantasyPool_v3.json",
+      "A visible warnings/config file consumed by the UI"
+    ],
+    "data_aliases_needed_later": [
+      "Official Fantasy Pool Preview recommendation alias",
+      "Official Fantasy Pool Preview projection alias",
+      "Official Fantasy Pool Preview finance/value alias",
+      "Preserve v2 active aliases for rollback"
+    ],
+    "docs_to_update_later": [
+      "README.md",
+      "SITE_FEATURES.md",
+      "data/README.md",
+      "public model notes/methodology copy"
+    ],
+    "ui_warnings_required": [
+      "Official Fantasy Pool Preview",
+      "Uses official fantasy prices, positions, and scoring.",
+      "Final squad status is not yet source-backed.",
+      "Recommendations may change after final squad confirmation.",
+      "Rules import still has manual-review warnings for Mystery Booster details and deadline semantics.",
+      "Team Builder remains in prototype mode until final squad and rule gates pass."
+    ],
+    "qa_required_before_publish": [
+      "Run full JSON parse and script syntax checks.",
+      "Run local browser smoke test and confirm warning copy is visible in recommendation, projection, and finance panels.",
+      "Confirm no copy says final, final-squad-ready, or Team Builder-ready.",
+      "Confirm active v2 files are preserved or rollback branch/tag exists.",
+      "Confirm top candidate tables show matchday/scope so repeated player rows are understandable.",
+      "Confirm Neymar/Brazil uncertainty note is visible when Brazil candidates appear."
+    ],
+    "rollback_plan": [
+      "Keep active v2 JSON and browser-ready files unchanged until preview switch.",
+      "Use a single preview flag or data alias so the site can revert to v2 by alias rollback.",
+      "Preserve staged v3 files as separate artifacts for audit.",
+      "If preview QA fails, remove preview alias and leave staged files unreferenced by browser-ready code."
+    ]
+  },
+  "blockers_for_actual_promotion": [
+    "Final squads are not source-backed; teams_marked_complete is 0.",
+    "Official rules still have manual-review warnings for Mystery Booster and deadline semantics.",
+    "Browser-ready files have not been generated or smoke-tested for preview.",
+    "Team Builder remains blocked and must not be presented as official-preview-ready."
+  ],
+  "recommended_next_session": "Build a preview publication plan or preview browser-ready artifact behind explicit warning labels, then run local browser QA before any public switch."
+}

@@ -1,39 +1,41 @@
 {
   "schema_version": "official_fantasy_rules_import_report_v0",
-  "generated_at": "2026-06-01",
-  "source_checked": "2026-06-01",
-  "status": "awaiting_official_rules_input",
+  "generated_at": "2026-06-02",
+  "source_checked": "2026-06-02",
+  "status": "imported_needs_manual_review",
   "input_file": "data/imports/officialFantasyRules.json",
-  "required_top_level_fields": [
-    "rulesVersion",
-    "rulesStatus",
-    "squad",
-    "budget",
-    "countryLimits",
-    "captain",
-    "substitutions",
-    "transfers",
-    "boosters",
-    "scoring",
-    "deadlines",
-    "sourceIds",
-    "sourceChecked"
+  "summary": {
+    "rules_version": "fifa_world_cup_2026_official_fantasy_rules_v1",
+    "rules_status": "official_imported_needs_manual_review",
+    "squad_total_players": 15,
+    "position_counts": {
+      "GK": 2,
+      "DEF": 5,
+      "MID": 5,
+      "FWD": 3
+    },
+    "starting_lineup_total_players": 11,
+    "formation_count": 7,
+    "initial_budget": 100,
+    "group_stage_country_limit": 3,
+    "scoring_category_count": 26,
+    "deadline_matchday_count": 8,
+    "source_ids": [
+      "fifaFantasyHelpPagesJson",
+      "fifaFantasyRoundsJson",
+      "fifaFantasyLaunchArticle",
+      "fifaFantasyLanguageJson"
+    ]
+  },
+  "validation_errors": [],
+  "validation_warnings": [
+    "rulesStatus is official_imported_needs_manual_review; keep staged rules under review before active promotion.",
+    "boosters.rulesStatus is official_imported_needs_mystery_booster_review; booster rules still need review before active promotion.",
+    "boosters.details[4] (mystery_booster) is missing an effect/detail; keep as a manual-review blocker.",
+    "deadlines.rulesStatus is official_imported_needs_deadline_review; confirm final fantasy deadline semantics before active promotion."
   ],
-  "template_file": "data/imports/officialFantasyRules_TEMPLATE.json",
-  "output_files_when_input_exists": [
-    "data/officialFantasyRules_v0.json",
-    "data/officialFantasyRulesImportReport_v0.json"
-  ],
-  "next_actions": [
-    "Download or transcribe official fantasy rules when FIFA publishes them.",
-    "Save them as data/imports/officialFantasyRules.json or pass --input path/to/file.json.",
-    "Run node scripts/importOfficialFantasyRules.mjs.",
-    "Review data/officialFantasyRulesImportReport_v0.json before promoting rules into active fantasyRules.json."
-  ],
-  "safeguards": [
-    "Draft or placeholder rules are rejected.",
-    "Missing official values remain missing and are reported as errors.",
-    "The importer writes officialFantasyRules_v0.json and does not overwrite active fantasyRules.json.",
-    "Captain/substitution/deadline gaps keep manual warnings active."
+  "promotion_notes": [
+    "Do not promote these rules yet.",
+    "Fix validation errors and resolve warnings before replacing active draft rules."
   ]
 }

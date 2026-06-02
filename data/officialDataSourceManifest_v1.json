@@ -1,0 +1,772 @@
+{
+  "schema_version": "official_data_source_manifest_v1",
+  "created_at": "2026-06-02",
+  "manifest_status": "official_squad_staging_reviewed_official_data_not_ready",
+  "purpose": "Track source requirements for future official World Cup fantasy data imports without inventing official fantasy prices, player IDs, positions, squads, rules, deadlines, or scoring.",
+  "source_entry_schema": {
+    "source_id": "Stable repo-local source identifier.",
+    "source_type": "One of official_fantasy_rules, official_fantasy_player_data, official_squads, official_fixture_schedule, official_fantasy_deadlines, or supporting_source.",
+    "url": "Public source URL or null when the source has not been identified.",
+    "checked_at": "ISO date or null when not checked.",
+    "fields_used": "Array of field names populated from this source.",
+    "confidence": "Confidence label such as official, supporting, candidate_unchecked, or todo_missing_source.",
+    "notes": "Short source-use caveat."
+  },
+  "source_groups": {
+    "official_fantasy_rules": {
+      "target_import_file": "data/imports/officialFantasyRules.json",
+      "target_output_file": "data/officialFantasyRules_v0.json",
+      "required_fields": [
+        "rulesVersion",
+        "rulesStatus",
+        "sourceIds",
+        "sourceChecked",
+        "squad",
+        "startingLineup",
+        "budget",
+        "countryLimits",
+        "captain",
+        "substitutions",
+        "transfers",
+        "boosters",
+        "scoring",
+        "deadlines"
+      ],
+      "sources": [
+        {
+          "source_id": "fifaFantasyHelpPagesJson",
+          "source_type": "official_fantasy_rules",
+          "url": "https://play.fifa.com/json/fantasy/help_pages.json",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "squad",
+            "startingLineup",
+            "budget",
+            "countryLimits",
+            "captain",
+            "substitutions",
+            "transfers",
+            "boosters",
+            "scoring",
+            "lockout"
+          ],
+          "confidence": "official",
+          "notes": "Public FIFA Play help-pages JSON. English how_to_play entry id 793 contains the detailed official rules used in data/imports/officialFantasyRules.json."
+        },
+        {
+          "source_id": "fifaFantasyRoundsJson",
+          "source_type": "official_fantasy_deadlines",
+          "url": "https://play.fifa.com/json/fantasy/rounds.json",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "round id",
+            "round status",
+            "round startDate",
+            "round endDate",
+            "first fixture",
+            "last fixture"
+          ],
+          "confidence": "official",
+          "notes": "Public FIFA Play rounds JSON. Used for round-level lock references alongside the fixed and rolling lockout rules in the official help page."
+        },
+        {
+          "source_id": "fifaFantasyLaunchArticle",
+          "source_type": "official_fantasy_rules",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/world-cup-fantasy-game-launched",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "squad summary",
+            "budget summary",
+            "country limit summary",
+            "booster summary",
+            "transfer summary",
+            "scoring summary"
+          ],
+          "confidence": "official",
+          "notes": "Official FIFA launch article used as corroborating context only; detailed values come from FIFA Play help-pages JSON."
+        },
+        {
+          "source_id": "fifaFantasyLanguageJson",
+          "source_type": "official_fantasy_rules",
+          "url": "https://play.fifa.com/json/langs/fantasy/en.json",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "booster labels",
+            "booster summaries",
+            "scoring labels",
+            "captain modal text",
+            "substitution modal text",
+            "transfer penalty text"
+          ],
+          "confidence": "official",
+          "notes": "Public FIFA Play language JSON used to corroborate app labels, modal text, and transfer penalty copy."
+        }
+      ],
+      "todo": [
+        "Review data/imports/officialFantasyRules.json before any promotion into active fantasyRules.json.",
+        "Do not use root fantasyRules.json as an official source; it is Week 5 draft logic.",
+        "Keep the Mystery Booster effect null until FIFA publishes or reveals it in an official source.",
+        "Re-check round start/deadline sources immediately before active promotion."
+      ]
+    },
+    "official_fantasy_player_data": {
+      "target_import_file": "data/imports/officialFantasyPlayers.csv",
+      "target_output_file": "data/officialFantasyPlayers_v0.json",
+      "required_fields": [
+        "official_fantasy_player_id",
+        "name",
+        "country",
+        "team_id",
+        "official_fantasy_position",
+        "official_price",
+        "selectable_status",
+        "source_url",
+        "source_checked"
+      ],
+      "sources": [],
+      "todo": [
+        "Identify the official FIFA fantasy player-list source or user-provided export when available.",
+        "Do not copy proxy prices into official_price.",
+        "Do not infer official fantasy positions from roster positions.",
+        "Create identity-review rows for missing or ambiguous official player IDs."
+      ]
+    },
+    "official_squads": {
+      "target_import_file": "data/imports/officialSquads.csv",
+      "target_output_file": "data/officialSquads_v0.json",
+      "required_fields": [
+        "name",
+        "country",
+        "team_id",
+        "roster_status",
+        "source_url",
+        "source_checked"
+      ],
+      "sources": [
+        {
+          "source_id": "fifaSquads",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/all-world-cup-squad-announcements",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "final squad availability check",
+            "hub parseability check"
+          ],
+          "confidence": "official_checked_no_player_level_rows_imported",
+          "notes": "Official FIFA squad announcements hub was re-checked. The checked web/search surfaces did not provide complete parseable player-level final squad rows for this import pass."
+        },
+        {
+          "source_id": "fifaFantasyPlayersJson",
+          "source_type": "official_fantasy_player_data",
+          "url": "https://play.fifa.com/json/fantasy/players.json",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "player name",
+            "country",
+            "team_id",
+            "official_fantasy_player_id",
+            "official_fantasy_position",
+            "official_price",
+            "fantasy status"
+          ],
+          "confidence": "official",
+          "notes": "Used to stage data/imports/officialSquads.csv rows as selectable_fantasy_player or review only. This source does not independently prove confirmed_final_squad status."
+        },
+        {
+          "source_id": "fifaFantasySquadsJson",
+          "source_type": "official_squads",
+          "url": "https://play.fifa.com/json/fantasy/squads.json",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "team id",
+            "team name",
+            "group",
+            "abbreviation"
+          ],
+          "confidence": "official",
+          "notes": "Public FIFA Play team metadata used to corroborate country/team coverage. It does not contain player-level final squad rows."
+        },
+        {
+          "source_id": "fifaCxmSearchApiSquadSourceCheck",
+          "source_type": "official_squads",
+          "url": "https://cxm-api.fifa.com/fifacxmsearch/api/results",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "article search metadata",
+            "candidate squad announcement discovery"
+          ],
+          "confidence": "official_checked_no_player_level_rows_imported",
+          "notes": "Official FIFA search API surface was checked for squad announcement discovery. It did not provide complete player-level final squad rows suitable for import in this pass."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleArgentina",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/argentina-squad-announced",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Argentina: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleAustralia",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/articles/australia-name-train-on-squad",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Australia: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleAustria",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/articles/austria-ralf-rangnick-world-cup-squad",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Austria: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleBelgium",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/belgium-squad-garcia-lukaku-named",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Belgium: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleBosniaAndHerzegovina",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/bosnia-and-herzegovina-sergej-barbarez-names-squad",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Bosnia and Herzegovina: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleBrazil",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/brazil-squad-announcement-carlo-ancelotti",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Brazil: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleCaboVerde",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/articles/cabo-verde-squad-announcement-world-cup-bubista",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Cabo Verde: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleCanada",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/canada-squad-announcement",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Canada: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleColombia",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/colombia-squad-announced",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Colombia: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleCongoDr",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/congo-dr-squad-announcement-sebastien-desabre",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Congo DR: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleCoteDIvoire",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/cote-divoire-squad-announcement-emerse-fae",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Côte d'Ivoire: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleCroatia",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/croatia-squad-named",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Croatia: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleCuracao",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/curacao-squad-announcement-dick-advocaat",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Curaçao: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleCzechia",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/czechia-world-cup-squad-announced",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Czechia: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleEgypt",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/egypt-squad-named",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Egypt: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleEngland",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/england-squad-named-thomas-tuchel",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "England: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleFrance",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/articles/france-world-cup-squad-named",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "France: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleGermany",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/germany-squad-neuer-nagelsmann-named",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Germany: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleGhana",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/articles/ghana-squad-world-cup-2026-carlos-queiroz",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Ghana: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleHaiti",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/haiti-squad-announcement-sebastien-migne",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Haiti: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleIrIran",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/ir-iran-squad-named",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "IR Iran: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleIraq",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/iraq-preliminary-squad-announcement-graham-arnold",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Iraq: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleJapan",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/news/articles/japan-squad-announcement",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Japan: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleJordan",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/jordan-preliminary-squad",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Jordan: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleKoreaRepublic",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/korea-republic-world-cup-squad-hong-myungbo",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Korea Republic: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleMorocco",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/morocco-squad-announcement-mohamed-ouahbi",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Morocco: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleNetherlands",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/netherlands-ronald-koeman-squad-announced",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Netherlands: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleNewZealand",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/new-zealand-squad-named",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "New Zealand: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleNorway",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/norway-squad-announcement-stale-solbakken",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Norway: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticlePanama",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/panama-squad-announcement-thomas-christiansen",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Panama: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleQatar",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/articles/qatar-announce-preliminary-squad",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Qatar: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleSaudiArabia",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/georgios-donis-saudi-arabia-squad",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Saudi Arabia: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleScotland",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/scotland-squad-announced-steve-clarke",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Scotland: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleSenegal",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/senegal-world-cup-squad-announcement-pape-thiaw",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Senegal: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleSouthAfrica",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/south-africa-hugo-broos-squad-announced",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "South Africa: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleSpain",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/spain-squad-announcement-luis-de-la-fuente",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Spain: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleSweden",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/articles/sweden-squad-announcement-world-cup-graham-potter",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Sweden: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleSwitzerland",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/switzerland-squad-announcement-murat-yakin",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Switzerland: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleTunisia",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/tunisia-squad-named-sabri-lamouchi",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Tunisia: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleTurkiye",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/turkiye-preliminary-world-cup-squad-announced",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Türkiye: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleUruguay",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/articles/uruguay-world-cup-squad-2026-marcelo-bielsa",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Uruguay: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleUsa",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/usa-squad-announcement-mauricio-pochettino",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "USA: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        },
+        {
+          "source_id": "fifaCandidateSquadArticleUzbekistan",
+          "source_type": "official_squads",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/uzbekistan-cannavaro-preliminary-squad",
+          "checked_at": "2026-06-02",
+          "fields_used": [
+            "candidate country squad announcement URL"
+          ],
+          "confidence": "candidate_from_existing_repo_reference_not_imported",
+          "notes": "Uzbekistan: existing FIFA URL stored in data/players.json and captured for follow-up source review. Not used to set confirmed_final_squad, not_in_final_squad, injured_removed, replacement_player, or team_squad_complete."
+        }
+      ],
+      "todo": [
+        "Replace selectable_fantasy_player rows with confirmed_final_squad rows only after source-backed complete final squads are imported.",
+        "Do not mark team_squad_complete true unless the source covers the full final squad.",
+        "Resolve review rows where fantasy status is transferred before model-input promotion.",
+        "Preserve source_url and source_checked on every row."
+      ]
+    },
+    "fixtures": {
+      "target_import_file": null,
+      "target_output_file": "data/officialFixtureSchedule_v1.json",
+      "current_project_files": [
+        "data/fixtures.json",
+        "worldCupData.js"
+      ],
+      "required_fields": [
+        "match_id",
+        "matchday",
+        "stage",
+        "home_team_id",
+        "away_team_id",
+        "home_team",
+        "away_team",
+        "kickoff_utc",
+        "kickoff_local",
+        "venue",
+        "city",
+        "source_url",
+        "source_checked"
+      ],
+      "sources": [
+        {
+          "source_id": "fifaSchedule",
+          "source_type": "official_fixture_schedule",
+          "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/match-schedule-fixtures-results-teams-stadiums",
+          "checked_at": "2026-05-31",
+          "fields_used": [
+            "fixtures",
+            "venues",
+            "kickoff times",
+            "match numbers"
+          ],
+          "confidence": "official_source_listed_in_existing_repo_manifest",
+          "notes": "Copied from data/sourceManifest.json for inventory only. This session did not re-check the URL and did not create officialFixtureSchedule_v1.json."
+        }
+      ],
+      "todo": [
+        "Create data/officialFixtureSchedule_v1.json only after deciding whether official fixture refresh is part of the official-data import stage.",
+        "Include UTC kickoff, local kickoff, venue, city, source_url, and source_checked for every fixture row.",
+        "Do not add fantasy deadlines from fixture kickoff times unless official fantasy rules define that relationship."
+      ]
+    },
+    "deadlines": {
+      "target_import_file": null,
+      "target_output_file": "data/officialFantasyDeadlines_v1.json",
+      "required_fields": [
+        "deadline_id",
+        "matchday",
+        "stage",
+        "deadline_utc",
+        "deadline_local",
+        "deadline_type",
+        "source_url",
+        "source_checked"
+      ],
+      "sources": [],
+      "todo": [
+        "Identify the official fantasy deadline source when available.",
+        "Keep deadline fields null until official fantasy rules or official game data backs them.",
+        "Keep Matchday Desk, captain, and substitution warnings manual while deadlines are missing."
+      ]
+    },
+    "supporting_sources": {
+      "target_import_file": null,
+      "target_output_file": null,
+      "existing_registry": "data/sourceManifest.json",
+      "sources": [],
+      "todo": [
+        "Add supporting sources here only when they are used to enrich official import rows.",
+        "Supporting sources may enrich club, league, role, or identity-review context only.",
+        "Supporting sources must never overwrite official fantasy price, position, player ID, rules, deadlines, or final squad status."
+      ]
+    }
+  },
+  "known_gaps": [
+    "data/imports/officialSquads.csv still has 0 confirmed_final_squad rows, 0 teams marked complete, and 225 review rows from fantasy status transferred.",
+    "data/imports/officialSquads.csv is staged from official fantasy player data but contains 0 confirmed_final_squad rows.",
+    "Official fantasy rules are imported into a staging file only and are not active model inputs yet.",
+    "Mystery Booster effect is not source-backed yet.",
+    "Final official squads are not imported as complete confirmed_final_squad rows.",
+    "Official fantasy rules, deadlines, scoring, and squad limits have not been promoted into active fantasyRules.json or browser-ready fantasyRulesData.js."
+  ],
+  "collection_notes": [
+    "This manifest is a readiness structure, not evidence that official fantasy data is ready.",
+    "Existing fixture and squad URLs were copied from data/sourceManifest.json and were not re-checked in this session.",
+    "Empty sources arrays are intentional TODO placeholders where no source-backed official import exists in the repo.",
+    "Candidate FIFA country-article URLs from data/players.json were captured for follow-up only; they were not used as final-squad proof in this staging pass."
+  ]
+}

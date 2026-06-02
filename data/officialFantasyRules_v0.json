@@ -1,0 +1,385 @@
+{
+  "schema_version": "official_fantasy_rules_v0",
+  "generated_at": "2026-06-02",
+  "source_checked": "2026-06-02",
+  "data_status": "imported_needs_manual_review",
+  "input_file": "data/imports/officialFantasyRules.json",
+  "officialFantasyRules": {
+    "rulesVersion": "fifa_world_cup_2026_official_fantasy_rules_v1",
+    "rulesStatus": "official_imported_needs_manual_review",
+    "sourceIds": [
+      "fifaFantasyHelpPagesJson",
+      "fifaFantasyRoundsJson",
+      "fifaFantasyLaunchArticle",
+      "fifaFantasyLanguageJson"
+    ],
+    "sourceChecked": "2026-06-02",
+    "squad": {
+      "totalPlayers": 15,
+      "positions": {
+        "GK": 2,
+        "DEF": 5,
+        "MID": 5,
+        "FWD": 3
+      }
+    },
+    "startingLineup": {
+      "totalPlayers": 11,
+      "allowedFormations": [
+        "4-4-2",
+        "4-3-3",
+        "4-5-1",
+        "3-4-3",
+        "3-5-2",
+        "5-4-1",
+        "5-3-2"
+      ]
+    },
+    "budget": {
+      "initialBudget": 100,
+      "knockoutIncrease": 5,
+      "currencyLabel": "$m"
+    },
+    "countryLimits": {
+      "groupStageMaxPerCountry": 3,
+      "knockoutLimits": {
+        "round_of_32": 3,
+        "round_of_16": 4,
+        "quarter_final": 5,
+        "semi_final": 6,
+        "final": 8
+      }
+    },
+    "captain": {
+      "captainRequired": true,
+      "captainPointsMultiplier": 2,
+      "changeRules": "During a live round, captain and vice-captain can be changed an unlimited number of times if the newly selected player has not yet played in the current round and the previous captain's match has completed. Changing captain removes the old captain's double points and the new captain scores double instead.",
+      "lockRules": "Captain can be changed before the player's match starts or after it has completed, but not while the captain's match is in progress. Any manual live-round team change cancels automatic substitutions for that round."
+    },
+    "substitutions": {
+      "rulesStatus": "official_imported",
+      "details": [
+        "Before each round locks out, unlimited substitutions are allowed between the starting 11 and bench as long as a valid formation is kept.",
+        "Bench players score points each round but those points do not count unless the player is moved into the active lineup.",
+        "Automatic substitutions replace DNP starting players only if no manual live-round team changes have been made.",
+        "Outfield bench players are prioritized 1-3 for automatic substitutions, subject to valid formation constraints.",
+        "Automatic substitutions happen only at the end of a round.",
+        "Manual live-round substitutions are allowed when the bench player has not played yet, the removed player is not playing live, and the new lineup remains a valid formation.",
+        "Once a completed player is manually removed from the starting 11, that player cannot be moved back into the starting 11 later in the same round."
+      ],
+      "manualSubstitutionRules": "Manual substitutions during a live round can replace a starting player with a bench player whose match has not started, as long as the removed player is not playing live and the lineup remains in a valid formation.",
+      "lockRules": "A locked player is one whose team is currently playing. An unlocked player is one whose team has not yet played. Locked players cannot be swapped during their match; completed lineup players can be substituted only with bench players who have not yet played."
+    },
+    "transfers": {
+      "rulesStatus": "official_imported",
+      "details": [
+        "Transfers are available only for the next scheduled round.",
+        "Transfers made during a live round do not affect the current team and apply from the next round onward.",
+        "One group-stage transfer can be carried over into the next group-stage round.",
+        "No group-stage transfer is carried over after Round 3 because unlimited transfers are available before the Round of 32.",
+        "Additional transfers beyond the free allocation deduct 3 points from total points once the round locks out.",
+        "Once a transfer is confirmed, it cannot be reversed."
+      ],
+      "freeTransfers": {
+        "pre_tournament": "unlimited",
+        "before_matchday_2": 2,
+        "before_matchday_3": 2,
+        "before_round_of_32": "unlimited",
+        "before_round_of_16": 4,
+        "before_quarter_finals": 4,
+        "before_semi_finals": 5,
+        "before_final": 6
+      }
+    },
+    "boosters": {
+      "rulesStatus": "official_imported_needs_mystery_booster_review",
+      "details": [
+        {
+          "boosterId": "wildcard",
+          "label": "Wildcard",
+          "effect": "Unlimited transfers within a specific round.",
+          "constraints": "Cannot be used for the first match of the group stage or for the Round of 32. Cannot be reversed after confirmation."
+        },
+        {
+          "boosterId": "twelfth_man",
+          "label": "12th Man",
+          "effect": "Select one additional player to score points for the team in a round.",
+          "constraints": "The 12th Man cannot be substituted, captained, or transferred. Budget and team restrictions do not apply, and the player must not already be in the squad."
+        },
+        {
+          "boosterId": "maximum_captain",
+          "label": "Maximum Captain",
+          "effect": "The highest-scoring player from the starting 11 receives double points and is automatically assigned the captaincy.",
+          "constraints": "Can be used once."
+        },
+        {
+          "boosterId": "qualification_booster",
+          "label": "Qualification Booster",
+          "effect": "+2 points for each starting XI player who progresses to the next knockout round or wins the final.",
+          "constraints": "Can be activated from the Round of 32 onward. Player must play at least 1 minute. Captain qualification bonus is not doubled."
+        },
+        {
+          "boosterId": "mystery_booster",
+          "label": "Mystery Booster",
+          "effect": null,
+          "constraints": "Official help page says this booster is revealed once Round 3 locks and Round of 32 opens, and can be used for one knockout-stage round including the Final.",
+          "data_quality_flags": [
+            "mystery_booster_effect_not_yet_officially_finalized_in_help_page"
+          ]
+        }
+      ]
+    },
+    "scoring": {
+      "rulesStatus": "official_imported",
+      "categories": [
+        {
+          "categoryId": "appearance_up_to_60",
+          "label": "Appearance (Up to 60 minutes)",
+          "points": 1,
+          "appliesTo": "all_players"
+        },
+        {
+          "categoryId": "appearance_60_plus",
+          "label": "Appearance (60+ minutes)",
+          "points": 1,
+          "appliesTo": "all_players"
+        },
+        {
+          "categoryId": "assist",
+          "label": "Assist",
+          "points": 3,
+          "appliesTo": "all_players"
+        },
+        {
+          "categoryId": "yellow_card",
+          "label": "Yellow Card",
+          "points": -1,
+          "appliesTo": "all_players"
+        },
+        {
+          "categoryId": "red_card",
+          "label": "Red Card",
+          "points": -2,
+          "appliesTo": "all_players"
+        },
+        {
+          "categoryId": "own_goal",
+          "label": "Own Goal",
+          "points": -2,
+          "appliesTo": "all_players"
+        },
+        {
+          "categoryId": "winning_penalty",
+          "label": "Winning a penalty",
+          "points": 2,
+          "appliesTo": "all_players"
+        },
+        {
+          "categoryId": "conceding_penalty",
+          "label": "Conceding a penalty",
+          "points": -1,
+          "appliesTo": "all_players"
+        },
+        {
+          "categoryId": "gk_clean_sheet",
+          "label": "Clean Sheet (must have played 60+ minutes)",
+          "points": 5,
+          "appliesTo": "GK"
+        },
+        {
+          "categoryId": "gk_first_goal_conceded",
+          "label": "First goal conceded",
+          "points": 0,
+          "appliesTo": "GK"
+        },
+        {
+          "categoryId": "gk_each_additional_goal_conceded",
+          "label": "Each additional goal conceded",
+          "points": -1,
+          "appliesTo": "GK"
+        },
+        {
+          "categoryId": "gk_goal_scored",
+          "label": "Goal Scored",
+          "points": 9,
+          "appliesTo": "GK"
+        },
+        {
+          "categoryId": "gk_penalty_save",
+          "label": "Penalty save",
+          "points": 3,
+          "appliesTo": "GK",
+          "notes": "Penalty shootouts are excluded."
+        },
+        {
+          "categoryId": "gk_every_3_saves",
+          "label": "Every 3 Saves",
+          "points": 1,
+          "appliesTo": "GK"
+        },
+        {
+          "categoryId": "def_clean_sheet",
+          "label": "Clean Sheet (must have played 60+ minutes)",
+          "points": 5,
+          "appliesTo": "DEF"
+        },
+        {
+          "categoryId": "def_first_goal_conceded",
+          "label": "First goal conceded",
+          "points": 0,
+          "appliesTo": "DEF"
+        },
+        {
+          "categoryId": "def_each_additional_goal_conceded",
+          "label": "Each additional goal conceded",
+          "points": -1,
+          "appliesTo": "DEF"
+        },
+        {
+          "categoryId": "def_goal_scored",
+          "label": "Goal scored",
+          "points": 7,
+          "appliesTo": "DEF"
+        },
+        {
+          "categoryId": "mid_clean_sheet",
+          "label": "Clean Sheet (must have played 60+ minutes)",
+          "points": 1,
+          "appliesTo": "MID"
+        },
+        {
+          "categoryId": "mid_goal_scored",
+          "label": "Goal scored",
+          "points": 6,
+          "appliesTo": "MID"
+        },
+        {
+          "categoryId": "mid_every_3_tackles",
+          "label": "Every 3 tackles",
+          "points": 1,
+          "appliesTo": "MID"
+        },
+        {
+          "categoryId": "mid_every_2_chances_created",
+          "label": "Every 2 chances created",
+          "points": 1,
+          "appliesTo": "MID"
+        },
+        {
+          "categoryId": "fwd_goal_scored",
+          "label": "Goal scored",
+          "points": 5,
+          "appliesTo": "FWD"
+        },
+        {
+          "categoryId": "fwd_every_2_shots_on_target",
+          "label": "Every 2 shots on target",
+          "points": 1,
+          "appliesTo": "FWD"
+        },
+        {
+          "categoryId": "direct_free_kick_goal_bonus",
+          "label": "Goal from direct free-kick",
+          "points": 1,
+          "appliesTo": "all_players",
+          "notes": "Awarded in addition to goal points."
+        },
+        {
+          "categoryId": "scouting_bonus",
+          "label": "Scouting bonus",
+          "points": 2,
+          "appliesTo": "all_players",
+          "notes": "Awarded when a player scores more than 4 points in a match and is in fewer than 5% of all teams' selection."
+        }
+      ]
+    },
+    "deadlines": {
+      "rulesStatus": "official_imported_needs_deadline_review",
+      "matchdays": [
+        {
+          "matchday": 1,
+          "stage": "group_stage",
+          "round_status": "scheduled",
+          "round_start_local": "2026-06-11T20:00:00+01:00",
+          "round_start_utc": "2026-06-11T19:00:00Z",
+          "round_end_local": "2026-06-18T05:00:00+01:00",
+          "round_end_utc": "2026-06-18T04:00:00Z",
+          "source_url": "https://play.fifa.com/json/fantasy/rounds.json"
+        },
+        {
+          "matchday": 2,
+          "stage": "group_stage",
+          "round_status": "scheduled",
+          "round_start_local": "2026-06-18T17:00:00+01:00",
+          "round_start_utc": "2026-06-18T16:00:00Z",
+          "round_end_local": "2026-06-24T05:00:00+01:00",
+          "round_end_utc": "2026-06-24T04:00:00Z",
+          "source_url": "https://play.fifa.com/json/fantasy/rounds.json"
+        },
+        {
+          "matchday": 3,
+          "stage": "group_stage",
+          "round_status": "scheduled",
+          "round_start_local": "2026-06-24T20:00:00+01:00",
+          "round_start_utc": "2026-06-24T19:00:00Z",
+          "round_end_local": "2026-06-28T05:00:00+01:00",
+          "round_end_utc": "2026-06-28T04:00:00Z",
+          "source_url": "https://play.fifa.com/json/fantasy/rounds.json"
+        },
+        {
+          "matchday": 4,
+          "stage": "round_of_32",
+          "round_status": "scheduled",
+          "round_start_local": "2026-06-28T20:00:00+01:00",
+          "round_start_utc": "2026-06-28T19:00:00Z",
+          "round_end_local": "2026-07-04T04:30:00+01:00",
+          "round_end_utc": "2026-07-04T03:30:00Z",
+          "source_url": "https://play.fifa.com/json/fantasy/rounds.json"
+        },
+        {
+          "matchday": 5,
+          "stage": "round_of_16",
+          "round_status": "scheduled",
+          "round_start_local": "2026-07-04T18:00:00+01:00",
+          "round_start_utc": "2026-07-04T17:00:00Z",
+          "round_end_local": "2026-07-07T23:00:00+01:00",
+          "round_end_utc": "2026-07-07T22:00:00Z",
+          "source_url": "https://play.fifa.com/json/fantasy/rounds.json"
+        },
+        {
+          "matchday": 6,
+          "stage": "quarter_finals",
+          "round_status": "scheduled",
+          "round_start_local": "2026-07-09T21:00:00+01:00",
+          "round_start_utc": "2026-07-09T20:00:00Z",
+          "round_end_local": "2026-07-12T04:00:00+01:00",
+          "round_end_utc": "2026-07-12T03:00:00Z",
+          "source_url": "https://play.fifa.com/json/fantasy/rounds.json"
+        },
+        {
+          "matchday": 7,
+          "stage": "semi_finals",
+          "round_status": "scheduled",
+          "round_start_local": "2026-07-14T20:00:00+01:00",
+          "round_start_utc": "2026-07-14T19:00:00Z",
+          "round_end_local": "2026-07-15T22:00:00+01:00",
+          "round_end_utc": "2026-07-15T21:00:00Z",
+          "source_url": "https://play.fifa.com/json/fantasy/rounds.json"
+        },
+        {
+          "matchday": 8,
+          "stage": "final",
+          "round_status": "scheduled",
+          "round_start_local": "2026-07-18T22:00:00+01:00",
+          "round_start_utc": "2026-07-18T21:00:00Z",
+          "round_end_local": "2026-07-19T22:00:00+01:00",
+          "round_end_utc": "2026-07-19T21:00:00Z",
+          "source_url": "https://play.fifa.com/json/fantasy/rounds.json"
+        }
+      ],
+      "deadlineRules": "Transfers use a fixed lockout for each round. Users can make unlimited changes until the first match of the FIFA World Cup 2026 kicks off on Thursday, 11 June 2026. Team changes during live rounds use rolling player lockouts.",
+      "lockWindows": "Round-level transfer lock references are sourced from official rounds.json startDate values. Player-level live-round locks are rolling: a locked player is one whose team is currently playing; unlocked players have not yet played; captain changes and manual substitutions cannot use players whose matches are in progress."
+    },
+    "notes": "Imported from official FIFA public sources. Active root fantasyRules.json and fantasyRulesData.js remain unchanged. Mystery Booster effect and any future app-specific deadline refinements should be reviewed before promotion to active model inputs."
+  }
+}

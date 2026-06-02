@@ -1,6 +1,6 @@
 import { readFile, writeFile } from "node:fs/promises";
 
-const TODAY = "2026-06-01";
+const TODAY = "2026-06-02";
 
 const PATHS = {
   players: "data/players.json",
@@ -71,6 +71,9 @@ function buildReadiness({ playersData, valueData, financeData, dataFantasyRules,
   const players = rowsFrom(playersData, ["players"]);
   const valueRows = rowsFrom(valueData, ["playerValueModel"]);
   const financeRows = rowsFrom(financeData, ["playerFinanceMetrics"]);
+  const officialFantasyImportSummary = officialFantasyImportReport?.summary || {};
+  const officialFantasyPipelineStatus = officialFantasyImportReport?.status || "not_run";
+  const hasOfficialFantasyImport = officialFantasyPipelineStatus.startsWith("imported");
   const teamIds = new Set(players.map((player) => player.team_id).filter(Boolean));
   const officialFantasyIdCount = players.filter((player) => hasValue(player?.fantasy_matching?.official_fantasy_id)).length;
   const officialPriceCount = valueRows.filter((row) => hasValue(row.official_price) && row.price_status !== "missing_official_price").length;
@@ -133,7 +136,9 @@ function buildReadiness({ playersData, valueData, financeData, dataFantasyRules,
     summary: {
       purpose: "Track whether the project is ready to replace proxy/preliminary data with official World Cup fantasy rosters, positions, prices, rules, and deadlines.",
       recommendation: "Do not treat value, budget, Team Builder legality, captain windows, or final player recommendations as production-ready until all blocking official inputs are ready.",
-      current_project_state: "The site is usable for model testing and UX workflow testing, but official fantasy data has not been imported."
+      current_project_state: hasOfficialFantasyImport
+        ? "Official fantasy player import output exists for review, but official IDs, prices, and positions have not been merged into active player/value models, and final squads/rules are still missing."
+        : "The site is usable for model testing and UX workflow testing, but official fantasy player data has not been imported."
     },
     current_counts: {
       roster_player_rows: players.length,
@@ -145,7 +150,11 @@ function buildReadiness({ playersData, valueData, financeData, dataFantasyRules,
       official_price_rows: officialPriceCount,
       proxy_price_rows: proxyPriceCount,
       price_adjusted_finance_rows: priceAdjustedRows,
-      official_fantasy_import_pipeline_status: officialFantasyImportReport?.status || "not_run",
+      official_fantasy_import_pipeline_status: officialFantasyPipelineStatus,
+      official_fantasy_import_rows: officialFantasyImportSummary.imported_rows || 0,
+      official_fantasy_import_matched_rows: officialFantasyImportSummary.matched_rows || 0,
+      official_fantasy_import_unmatched_rows: officialFantasyImportSummary.unmatched_rows || 0,
+      official_fantasy_import_error_rows: officialFantasyImportSummary.error_rows || 0,
       official_fantasy_rules_import_pipeline_status: officialFantasyRulesImportReport?.status || "not_run",
       official_squads_import_pipeline_status: officialSquadsImportReport?.status || "not_run"
     },
@@ -164,7 +173,7 @@ function buildReadiness({ playersData, valueData, financeData, dataFantasyRules,
       "Update README, data sources, data quality report, source manifest, and roadmap before calling the model official-data-ready."
     ],
     safeguards_active_now: [
-      "Official prices remain null; proxy_price_v1 is visibly labeled as prototype.",
+      "Active model official prices remain null; proxy_price_v1 is visibly labeled as prototype.",
       "Price-adjusted finance rows remain unavailable while official prices are missing.",
       "Official fantasy player IDs are not invented.",
       "Official fantasy rules are not inferred from draft rules.",

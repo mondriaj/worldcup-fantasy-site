@@ -1,12 +1,13 @@
 import { access, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-const TODAY = "2026-06-01";
+const TODAY = "2026-06-02";
 
 const DEFAULT_INPUT = "data/imports/officialSquads.csv";
 const OUTPUT_SQUADS = "data/officialSquads_v0.json";
 const OUTPUT_REPORT = "data/officialSquadsImportReport_v0.json";
 const CURRENT_PLAYERS = "data/players.json";
+const PLAYER_IDENTITY_MAP = "data/mappings/playerIdentityMap_v1.csv";
 
 const REQUIRED_FIELDS = [
   "name",
@@ -28,15 +29,27 @@ const FIELD_ALIASES = {
   fifa_player_id: ["fifa_player_id", "fifa_id"],
   shirt_number: ["shirt_number", "number"],
   club: ["club"],
-  position: ["position", "pos"],
+  display_name: ["display_name", "displayName"],
+  position: ["position", "pos", "official_position", "official_fantasy_position"],
+  official_position: ["official_position"],
+  official_fantasy_position: ["official_fantasy_position", "fantasy_position"],
+  official_price: ["official_price", "fantasy_price", "price"],
+  fantasy_status: ["fantasy_status", "selectable_status", "availability_status", "official_fantasy_status"],
+  date_of_birth: ["date_of_birth", "dob"],
+  federation_source_url: ["federation_source_url"],
+  squad_announcement_date: ["squad_announcement_date"],
   replacement_status: ["replacement_status", "replacement_note"],
   team_squad_complete: ["team_squad_complete", "squad_complete", "complete_team_import"],
-  source_note: ["source_note", "note", "notes"]
+  source_note: ["source_note", "source_notes", "note", "notes"]
 };
 
-const FINAL_STATUSES = new Set(["final", "official_final", "final_26", "selected", "included", "in_squad"]);
-const REPLACEMENT_STATUSES = new Set(["replacement", "late_replacement", "injury_replacement"]);
-const EXCLUDED_STATUSES = new Set(["excluded", "cut", "not_selected", "removed", "withdrawn", "not_in_final_squad"]);
+const FINAL_STATUSES = new Set(["confirmed_final_squad", "final", "official_final", "final_26", "selected", "included", "in_squad"]);
+const PROVISIONAL_STATUSES = new Set(["confirmed_provisional_squad", "provisional", "preliminary", "preliminary_squad"]);
+const SELECTABLE_STATUSES = new Set(["selectable_fantasy_player", "fantasy_selectable", "selectable"]);
+const REPLACEMENT_STATUSES = new Set(["replacement_player", "replacement", "late_replacement", "injury_replacement"]);
+const EXCLUDED_STATUSES = new Set(["not_in_final_squad", "excluded", "cut", "not_selected", "removed", "withdrawn"]);
+const INJURED_REMOVED_STATUSES = new Set(["injured_removed", "injury_removed", "injured_withdrawn"]);
+const REVIEW_STATUSES = new Set(["review", "unknown"]);
 
 function argValue(name) {
   const index = process.argv.indexOf(name);
@@ -104,9 +117,14 @@ function normalizeRosterStatus(value, replacementStatus = "") {
   const status = normalizeText(value).replace(/\s+/g, "_");
   const replacement = normalizeText(replacementStatus).replace(/\s+/g, "_");
 
-  if (REPLACEMENT_STATUSES.has(status) || REPLACEMENT_STATUSES.has(replacement)) return "replacement";
-  if (FINAL_STATUSES.has(status)) return "final";
-  if (EXCLUDED_STATUSES.has(status)) return "excluded";
+  if (REPLACEMENT_STATUSES.has(status) || REPLACEMENT_STATUSES.has(replacement)) return "replacement_player";
+  if (FINAL_STATUSES.has(status)) return "confirmed_final_squad";
+  if (PROVISIONAL_STATUSES.has(status)) return "confirmed_provisional_squad";
+  if (SELECTABLE_STATUSES.has(status)) return "selectable_fantasy_player";
+  if (INJURED_REMOVED_STATUSES.has(status)) return "injured_removed";
+  if (EXCLUDED_STATUSES.has(status)) return "not_in_final_squad";
+  if (status === "unknown") return "unknown";
+  if (status === "review") return "review";
   return "review";
 }
 
@@ -191,6 +209,16 @@ function countBy(rows, key) {
   }, {});
 }
 
+function countReviewReasons(rows) {
+  return rows.reduce((counts, row) => {
+    const reasons = row.review_reasons?.length ? row.review_reasons : ["manual_review_required"];
+    reasons.forEach((reason) => {
+      counts[reason] = (counts[reason] || 0) + 1;
+    });
+    return counts;
+  }, {});
+}
+
 function addToMap(map, key, value) {
   if (!key) return;
   const list = map.get(key) || [];
@@ -198,7 +226,7 @@ function addToMap(map, key, value) {
   map.set(key, list);
 }
 
-function currentPlayerIndexes(players) {
+function currentPlayerIndexes(players, identityRows = []) {
   const byOfficialFantasyId = new Map();
   const byFifaPlayerId = new Map();
   const byTeamName = new Map();
@@ -221,6 +249,26 @@ function currentPlayerIndexes(players) {
 
     if (normalizedCountry && player.team_id) {
       countryToTeamId.set(normalizedCountry, player.team_id);
+    }
+  });
+
+  identityRows.forEach((row) => {
+    const officialFantasyId = row.official_fantasy_player_id;
+    const internalPlayerId = row.internal_player_id || row.matched_existing_player_id;
+    const status = normalizeText(row.match_status).replace(/\s+/g, "_");
+    const acceptedStatus = [
+      "exact_match",
+      "strong_match",
+      "manual_confirmed",
+      "new_player_created"
+    ].includes(status);
+    if (officialFantasyId && internalPlayerId && acceptedStatus && !byOfficialFantasyId.has(String(officialFantasyId))) {
+      byOfficialFantasyId.set(String(officialFantasyId), {
+        player_id: internalPlayerId,
+        name: row.official_name || row.matched_name,
+        country: row.country,
+        team_id: row.team_id
+      });
     }
   });
 
@@ -331,6 +379,7 @@ function normalizeOfficialSquadRows(rawRows, indexes) {
     const row = {
       official_squad_row_id: `official-squad-row-${index + 1}`,
       name: String(pickField(rawRow, "name") || "").trim() || null,
+      display_name: String(pickField(rawRow, "display_name") || "").trim() || null,
       country: country || null,
       team_id: teamId || null,
       roster_status: normalizeRosterStatus(pickField(rawRow, "roster_status"), replacementStatus),
@@ -340,13 +389,22 @@ function normalizeOfficialSquadRows(rawRows, indexes) {
       fifa_player_id: fifaPlayerId || null,
       shirt_number: String(pickField(rawRow, "shirt_number") || "").trim() || null,
       club: String(pickField(rawRow, "club") || "").trim() || null,
+      club_country: String(pickField(rawRow, "club_country") || "").trim() || null,
       position: normalizePosition(pickField(rawRow, "position")),
+      official_position: normalizePosition(pickField(rawRow, "official_position")),
+      official_fantasy_position: normalizePosition(pickField(rawRow, "official_fantasy_position")),
+      official_price: String(pickField(rawRow, "official_price") || "").trim() || null,
+      fantasy_status: String(pickField(rawRow, "fantasy_status") || "").trim() || null,
+      date_of_birth: String(pickField(rawRow, "date_of_birth") || "").trim() || null,
+      federation_source_url: String(pickField(rawRow, "federation_source_url") || "").trim() || null,
+      squad_announcement_date: String(pickField(rawRow, "squad_announcement_date") || "").trim() || null,
       replacement_status: replacementStatus || null,
       team_squad_complete: parseBoolean(pickField(rawRow, "team_squad_complete")),
       source_note: String(pickField(rawRow, "source_note") || "").trim() || null,
       raw_row_index: index + 2,
       validation_errors: [],
-      validation_warnings: []
+      validation_warnings: [],
+      review_reasons: []
     };
 
     REQUIRED_FIELDS.forEach((field) => {
@@ -355,8 +413,19 @@ function normalizeOfficialSquadRows(rawRows, indexes) {
       }
     });
 
-    if (row.roster_status === "review") {
-      row.validation_warnings.push("Roster status is not final, replacement, or excluded; manual review required.");
+    if (REVIEW_STATUSES.has(row.roster_status)) {
+      row.validation_warnings.push("Roster status is review or unknown; manual review required.");
+      const fantasyStatus = normalizeText(row.fantasy_status);
+      const sourceNote = normalizeText(row.source_note);
+      if (fantasyStatus === "transferred" || sourceNote.includes("fantasy status transferred")) {
+        row.review_reasons.push("fantasy_status_transferred_no_final_squad_source");
+      } else {
+        row.review_reasons.push("roster_status_review_no_final_squad_source");
+      }
+    } else if (row.roster_status === "selectable_fantasy_player") {
+      row.validation_warnings.push("Player is source-backed as a fantasy player only; final squad status is not confirmed.");
+    } else if (row.roster_status === "confirmed_provisional_squad") {
+      row.validation_warnings.push("Player is provisional only; do not treat as final squad.");
     }
 
     if (row.team_squad_complete === null) {
@@ -370,6 +439,9 @@ function normalizeOfficialSquadRows(rawRows, indexes) {
 
     row.current_player_match = matchOfficialSquadRow(row, indexes);
     row.current_player_match.warnings.forEach((warning) => row.validation_warnings.push(warning));
+    if (row.current_player_match.match_status !== "matched") {
+      row.review_reasons.push("identity_match_review");
+    }
 
     return row;
   });
@@ -377,13 +449,27 @@ function normalizeOfficialSquadRows(rawRows, indexes) {
   rows.forEach((row) => {
     const rowKey = `${normalizeText(row.team_id)}:${normalizeText(row.name)}`;
     if (row.name && row.team_id && keyCounts.get(rowKey) > 1) {
-      row.validation_errors.push(`Duplicate official squad row for team/name: ${row.team_id}/${row.name}.`);
+      const duplicateRows = rows.filter((candidate) =>
+        `${normalizeText(candidate.team_id)}:${normalizeText(candidate.name)}` === rowKey
+      );
+      const distinctOfficialFantasyIds = new Set(
+        duplicateRows.map((candidate) => candidate.official_fantasy_player_id).filter(Boolean)
+      );
+      if (distinctOfficialFantasyIds.size === duplicateRows.length) {
+        row.validation_warnings.push(`Duplicate team/name is preserved because each row has a distinct official_fantasy_player_id: ${row.team_id}/${row.name}.`);
+        row.review_reasons.push("duplicate_name_distinct_official_fantasy_ids");
+      } else {
+        row.validation_errors.push(`Duplicate official squad row for team/name: ${row.team_id}/${row.name}.`);
+        row.review_reasons.push("duplicate_name_unresolved");
+      }
     }
     if (row.official_fantasy_player_id && idCounts.get(`fantasy:${row.official_fantasy_player_id}`) > 1) {
       row.validation_errors.push(`Duplicate official_fantasy_player_id: ${row.official_fantasy_player_id}.`);
+      row.review_reasons.push("duplicate_official_fantasy_id");
     }
     if (row.fifa_player_id && idCounts.get(`fifa:${row.fifa_player_id}`) > 1) {
       row.validation_errors.push(`Duplicate fifa_player_id: ${row.fifa_player_id}.`);
+      row.review_reasons.push("duplicate_fifa_player_id");
     }
   });
 
@@ -403,7 +489,7 @@ function teamCompleteness(rows) {
       is_complete: false
     };
     entry.imported_rows += 1;
-    if (["final", "replacement"].includes(row.roster_status)) entry.final_or_replacement_rows += 1;
+    if (["confirmed_final_squad", "replacement_player"].includes(row.roster_status)) entry.final_or_replacement_rows += 1;
     if (row.team_squad_complete === true) entry.explicit_complete_rows += 1;
     entry.is_complete = entry.is_complete || row.team_squad_complete === true;
     byTeam.set(row.team_id, entry);
@@ -429,17 +515,17 @@ function currentPlayerReconciliation(currentPlayers, officialRows, completeTeams
     let reconciliationStatus = "review";
     let recommendationAction = "manual_review_before_promotion";
 
-    if (row?.roster_status === "final") {
-      reconciliationStatus = "final";
+    if (row?.roster_status === "confirmed_final_squad") {
+      reconciliationStatus = "confirmed_final_squad";
       recommendationAction = "keep_selectable_after_other_official_gates_pass";
-    } else if (row?.roster_status === "replacement") {
-      reconciliationStatus = "replacement";
+    } else if (row?.roster_status === "replacement_player") {
+      reconciliationStatus = "replacement_player";
       recommendationAction = "keep_selectable_after_replacement_review";
-    } else if (row?.roster_status === "excluded") {
-      reconciliationStatus = "excluded";
+    } else if (["not_in_final_squad", "injured_removed"].includes(row?.roster_status)) {
+      reconciliationStatus = row.roster_status;
       recommendationAction = "remove_from_recommendations_after_promotion";
     } else if (completeTeamIds.has(player.team_id)) {
-      reconciliationStatus = "excluded";
+      reconciliationStatus = "not_in_final_squad";
       recommendationAction = "remove_from_recommendations_after_promotion";
       warnings.push("Player was not found in a team marked complete by the official squad import.");
     } else {
@@ -465,7 +551,7 @@ function buildSummary(officialRows, reconciliation, completeTeams) {
   const reviewRows = officialRows.filter((row) =>
     row.validation_errors.length ||
     row.current_player_match.match_status !== "matched" ||
-    row.roster_status === "review"
+    REVIEW_STATUSES.has(row.roster_status)
   );
 
   return {
@@ -476,7 +562,12 @@ function buildSummary(officialRows, reconciliation, completeTeams) {
     teams_with_import_rows: completeTeams.length,
     teams_marked_complete: completeTeams.filter((team) => team.is_complete).length,
     error_rows: errorRows.length,
-    review_rows: reviewRows.length
+    review_rows: reviewRows.length,
+    review_reason_counts: countReviewReasons(reviewRows),
+    duplicate_team_name_rows: officialRows.filter((row) =>
+      row.review_reasons.includes("duplicate_name_distinct_official_fantasy_ids") ||
+      row.review_reasons.includes("duplicate_name_unresolved")
+    ).length
   };
 }
 
@@ -495,7 +586,7 @@ function reportFromRows(inputPath, officialRows, reconciliation, completeTeams, 
     .filter((row) =>
       row.validation_errors.length ||
       row.current_player_match.match_status !== "matched" ||
-      row.roster_status === "review"
+      REVIEW_STATUSES.has(row.roster_status)
     )
     .map((row) => ({
       official_squad_row_id: row.official_squad_row_id,
@@ -507,11 +598,12 @@ function reportFromRows(inputPath, officialRows, reconciliation, completeTeams, 
       match_method: row.current_player_match.method,
       matched_player_id: row.current_player_match.player_id,
       candidate_player_ids: row.current_player_match.candidate_player_ids,
+      review_reasons: row.review_reasons,
       validation_errors: row.validation_errors,
       validation_warnings: row.validation_warnings
     }));
   const recommendationFlags = reconciliation
-    .filter((row) => ["excluded", "review"].includes(row.reconciliation_status))
+    .filter((row) => ["not_in_final_squad", "injured_removed", "review"].includes(row.reconciliation_status))
     .map((row) => ({
       player_id: row.player_id,
       name: row.name,
@@ -590,7 +682,10 @@ async function main() {
   const inputPath = argValue("--input") || DEFAULT_INPUT;
   const currentPlayersData = await readJson(CURRENT_PLAYERS);
   const currentPlayers = currentPlayersData.players || [];
-  const indexes = currentPlayerIndexes(currentPlayers);
+  const identityRows = await fileExists(PLAYER_IDENTITY_MAP)
+    ? parseDelimited(await readFile(PLAYER_IDENTITY_MAP, "utf8"))
+    : [];
+  const indexes = currentPlayerIndexes(currentPlayers, identityRows);
 
   if (!(await fileExists(inputPath))) {
     const report = waitingReport(inputPath, currentPlayers.length);

@@ -1,0 +1,753 @@
+{
+  "schema_version": "score_prediction_qa_fantasy_pool_v3",
+  "generated_at": "2026-06-02T16:03:21.186Z",
+  "source_checked": "2026-06-02",
+  "model_stage": "fantasy_pool_only",
+  "data_status": "staged_pass_blocked_from_final_promotion",
+  "overall_status": "pass_with_staging_stop_conditions",
+  "safety_labels": [
+    "fantasy_pool_only",
+    "not final-squad-backed",
+    "not betting odds",
+    "not final public recommendations",
+    "safe only for preliminary projection staging"
+  ],
+  "source_files": [
+    "data/scorePredictions_fantasyPool_v3.json",
+    "data/teamQuality_fantasyPool_v3.json",
+    "data/fixtures.json",
+    "data/matchdays.json",
+    "data/teamQuality.json",
+    "data/peleRatings_v1.json",
+    "data/playerMinutesModel_fantasyPool_v0.json",
+    "data/playerRecommendationInputs_v1.json",
+    "data/officialSquads_v0.json",
+    "data/officialFantasyRules_v0.json",
+    "data/scorePredictions_v2.json"
+  ],
+  "summary": {
+    "checks_total": 13,
+    "checks_passed": 13,
+    "checks_failed": 0,
+    "warning_checks": 2,
+    "fixture_prediction_count": 72,
+    "team_fixture_prediction_count": 144,
+    "team_count": 48,
+    "pele_coverage_complete": true,
+    "final_squad_source_status": "fantasy_pool_only",
+    "final_squad_confirmed_rows": 0,
+    "squad_review_rows": 225,
+    "neymar_brazil_uncertainty_flagged": true,
+    "safe_for_preliminary_matchday_projection_staging": true,
+    "safe_for_final_public_recommendations": false,
+    "safe_for_final_team_builder_promotion": false
+  },
+  "input_coverage": {
+    "fixtures_total": 72,
+    "fixture_predictions": 72,
+    "unique_fixture_predictions": 72,
+    "team_fixture_predictions": 144,
+    "teams_total": 48,
+    "team_quality_rows": 48,
+    "pele_rating_available": 48,
+    "pele_rating_missing": 0,
+    "pele_source_rows_total": 211,
+    "player_minutes_rows": 1481,
+    "fantasy_pool_squad_rows": 1481,
+    "confirmed_final_squad_rows": 0
+  },
+  "guardrails": {
+    "team_expected_goals_min": 0,
+    "team_expected_goals_max": 4,
+    "total_expected_goals_watch_threshold": 4.2,
+    "probability_min": 0,
+    "probability_max": 1,
+    "win_draw_loss_sum_tolerance": 0.003,
+    "favorite_win_probability_watch_threshold": 0.93
+  },
+  "range_summary": {
+    "home_expected_goals": {
+      "min": 0.35,
+      "max": 3.2,
+      "average": 1.417
+    },
+    "away_expected_goals": {
+      "min": 0.35,
+      "max": 2.931,
+      "average": 1.046
+    },
+    "total_expected_goals": {
+      "min": 1.742,
+      "max": 3.55,
+      "average": 2.463
+    },
+    "favorite_win_probability": {
+      "min": 0.3527,
+      "max": 0.9092,
+      "average": 0.6703
+    },
+    "upset_risk_probability": {
+      "min": 0.0368,
+      "max": 0.4187,
+      "average": 0.1738
+    },
+    "home_clean_sheet_probability": {
+      "min": 0.0534,
+      "max": 0.7047,
+      "average": 0.4273
+    },
+    "away_clean_sheet_probability": {
+      "min": 0.0408,
+      "max": 0.7047,
+      "average": 0.3218
+    }
+  },
+  "comparison_to_v2": {
+    "v2_fixture_predictions_compared": 72,
+    "average_absolute_total_expected_goals_change": 0.049,
+    "average_max_win_probability_change": 0.0244,
+    "favorite_changes": 1,
+    "largest_expected_goal_changes": [
+      {
+        "fixture_id": "fwc2026-m001",
+        "match_number": 1,
+        "fixture": "Mexico vs South Africa",
+        "home_expected_goals_delta": -0.162,
+        "away_expected_goals_delta": 0,
+        "total_expected_goals_delta": -0.162,
+        "max_win_probability_delta": 0.0342,
+        "home_win_probability_delta": -0.0342,
+        "draw_probability_delta": 0.0248,
+        "away_win_probability_delta": 0.0093,
+        "favorite_v2": "Mexico",
+        "favorite_v3": "Mexico",
+        "favorite_changed": false
+      },
+      {
+        "fixture_id": "fwc2026-m070",
+        "match_number": 70,
+        "fixture": "Jordan vs Argentina",
+        "home_expected_goals_delta": 0,
+        "away_expected_goals_delta": 0.152,
+        "total_expected_goals_delta": 0.152,
+        "max_win_probability_delta": 0.0141,
+        "home_win_probability_delta": -0.0035,
+        "draw_probability_delta": -0.0106,
+        "away_win_probability_delta": 0.0141,
+        "favorite_v2": "Argentina",
+        "favorite_v3": "Argentina",
+        "favorite_changed": false
+      },
+      {
+        "fixture_id": "fwc2026-m037",
+        "match_number": 37,
+        "fixture": "Uruguay vs Cabo Verde",
+        "home_expected_goals_delta": 0.144,
+        "away_expected_goals_delta": 0,
+        "total_expected_goals_delta": 0.144,
+        "max_win_probability_delta": 0.021,
+        "home_win_probability_delta": 0.021,
+        "draw_probability_delta": -0.0156,
+        "away_win_probability_delta": -0.0054,
+        "favorite_v2": "Uruguay",
+        "favorite_v3": "Uruguay",
+        "favorite_changed": false
+      },
+      {
+        "fixture_id": "fwc2026-m062",
+        "match_number": 62,
+        "fixture": "Senegal vs Iraq",
+        "home_expected_goals_delta": 0.142,
+        "away_expected_goals_delta": 0,
+        "total_expected_goals_delta": 0.142,
+        "max_win_probability_delta": 0.0256,
+        "home_win_probability_delta": 0.0256,
+        "draw_probability_delta": -0.0188,
+        "away_win_probability_delta": -0.0069,
+        "favorite_v2": "Senegal",
+        "favorite_v3": "Senegal",
+        "favorite_changed": false
+      },
+      {
+        "fixture_id": "fwc2026-m018",
+        "match_number": 18,
+        "fixture": "Iraq vs Norway",
+        "home_expected_goals_delta": 0,
+        "away_expected_goals_delta": 0.137,
+        "total_expected_goals_delta": 0.137,
+        "max_win_probability_delta": 0.0193,
+        "home_win_probability_delta": -0.005,
+        "draw_probability_delta": -0.0144,
+        "away_win_probability_delta": 0.0193,
+        "favorite_v2": "Norway",
+        "favorite_v3": "Norway",
+        "favorite_changed": false
+      },
+      {
+        "fixture_id": "fwc2026-m027",
+        "match_number": 27,
+        "fixture": "Canada vs Qatar",
+        "home_expected_goals_delta": -0.164,
+        "away_expected_goals_delta": 0.029,
+        "total_expected_goals_delta": -0.135,
+        "max_win_probability_delta": 0.0309,
+        "home_win_probability_delta": -0.0309,
+        "draw_probability_delta": 0.0203,
+        "away_win_probability_delta": 0.0106,
+        "favorite_v2": "Canada",
+        "favorite_v3": "Canada",
+        "favorite_changed": false
+      },
+      {
+        "fixture_id": "fwc2026-m042",
+        "match_number": 42,
+        "fixture": "France vs Iraq",
+        "home_expected_goals_delta": 0.134,
+        "away_expected_goals_delta": 0,
+        "total_expected_goals_delta": 0.134,
+        "max_win_probability_delta": 0.0136,
+        "home_win_probability_delta": 0.0136,
+        "draw_probability_delta": -0.0102,
+        "away_win_probability_delta": -0.0033,
+        "favorite_v2": "France",
+        "favorite_v3": "France",
+        "favorite_changed": false
+      },
+      {
+        "fixture_id": "fwc2026-m024",
+        "match_number": 24,
+        "fixture": "Uzbekistan vs Colombia",
+        "home_expected_goals_delta": 0,
+        "away_expected_goals_delta": 0.131,
+        "total_expected_goals_delta": 0.131,
+        "max_win_probability_delta": 0.0216,
+        "home_win_probability_delta": -0.0057,
+        "draw_probability_delta": -0.0159,
+        "away_win_probability_delta": 0.0216,
+        "favorite_v2": "Colombia",
+        "favorite_v3": "Colombia",
+        "favorite_changed": false
+      },
+      {
+        "fixture_id": "fwc2026-m036",
+        "match_number": 36,
+        "fixture": "Tunisia vs Japan",
+        "home_expected_goals_delta": 0,
+        "away_expected_goals_delta": 0.13,
+        "total_expected_goals_delta": 0.13,
+        "max_win_probability_delta": 0.0257,
+        "home_win_probability_delta": -0.0069,
+        "draw_probability_delta": -0.0187,
+        "away_win_probability_delta": 0.0257,
+        "favorite_v2": "Japan",
+        "favorite_v3": "Japan",
+        "favorite_changed": false
+      },
+      {
+        "fixture_id": "fwc2026-m047",
+        "match_number": 47,
+        "fixture": "Portugal vs Uzbekistan",
+        "home_expected_goals_delta": 0.127,
+        "away_expected_goals_delta": 0,
+        "total_expected_goals_delta": 0.127,
+        "max_win_probability_delta": 0.0173,
+        "home_win_probability_delta": 0.0173,
+        "draw_probability_delta": -0.0129,
+        "away_win_probability_delta": -0.0045,
+        "favorite_v2": "Portugal",
+        "favorite_v3": "Portugal",
+        "favorite_changed": false
+      }
+    ],
+    "largest_win_probability_changes": [
+      {
+        "fixture_id": "fwc2026-m006",
+        "match_number": 6,
+        "fixture": "Australia vs Türkiye",
+        "home_expected_goals_delta": -0.196,
+        "away_expected_goals_delta": 0.153,
+        "total_expected_goals_delta": -0.043,
+        "max_win_probability_delta": 0.0886,
+        "home_win_probability_delta": -0.0638,
+        "draw_probability_delta": -0.0248,
+        "away_win_probability_delta": 0.0886,
+        "favorite_v2": "Türkiye",
+        "favorite_v3": "Türkiye",
+        "favorite_changed": false
+      },
+      {
+        "fixture_id": "fwc2026-m051",
+        "match_number": 51,
+        "fixture": "Switzerland vs Canada",
+        "home_expected_goals_delta": 0.151,
+        "away_expected_goals_delta": -0.179,
+        "total_expected_goals_delta": -0.028,
+        "max_win_probability_delta": 0.0831,
+        "home_win_probability_delta": 0.0831,
+        "draw_probability_delta": -0.0184,
+        "away_win_probability_delta": -0.0646,
+        "favorite_v2": "Switzerland",
+        "favorite_v3": "Switzerland",
+        "favorite_changed": false
+      },
+      {
+        "fixture_id": "fwc2026-m060",
+        "match_number": 60,
+        "fixture": "Paraguay vs Australia",
+        "home_expected_goals_delta": 0.146,
+        "away_expected_goals_delta": -0.133,
+        "total_expected_goals_delta": 0.013,
+        "max_win_probability_delta": 0.0803,
+        "home_win_probability_delta": 0.0803,
+        "draw_probability_delta": -0.0195,
+        "away_win_probability_delta": -0.0608,
+        "favorite_v2": "Paraguay",
+        "favorite_v3": "Paraguay",
+        "favorite_changed": false
+      },
+      {
+        "fixture_id": "fwc2026-m003",
+        "match_number": 3,
+        "fixture": "Canada vs Bosnia and Herzegovina",
+        "home_expected_goals_delta": -0.17,
+        "away_expected_goals_delta": 0.15,
+        "total_expected_goals_delta": -0.02,
+        "max_win_probability_delta": 0.0797,
+        "home_win_probability_delta": -0.0797,
+        "draw_probability_delta": 0.0217,
+        "away_win_probability_delta": 0.058,
+        "favorite_v2": "Canada",
+        "favorite_v3": "Canada",
+        "favorite_changed": false
+      },
+      {
+        "fixture_id": "fwc2026-m072",
+        "match_number": 72,
+        "fixture": "Congo DR vs Uzbekistan",
+        "home_expected_goals_delta": 0.138,
+        "away_expected_goals_delta": -0.147,
+        "total_expected_goals_delta": -0.009,
+        "max_win_probability_delta": 0.0752,
+        "home_win_probability_delta": 0.0752,
+        "draw_probability_delta": -0.0056,
+        "away_win_probability_delta": -0.0695,
+        "favorite_v2": "Congo DR",
+        "favorite_v3": "Congo DR",
+        "favorite_changed": false
+      },
+      {
+        "fixture_id": "fwc2026-m059",
+        "match_number": 59,
+        "fixture": "Türkiye vs USA",
+        "home_expected_goals_delta": 0.147,
+        "away_expected_goals_delta": -0.167,
+        "total_expected_goals_delta": -0.02,
+        "max_win_probability_delta": 0.0743,
+        "home_win_probability_delta": 0.0743,
+        "draw_probability_delta": -0.0161,
+        "away_win_probability_delta": -0.0582,
+        "favorite_v2": "Türkiye",
+        "favorite_v3": "Türkiye",
+        "favorite_changed": false
+      },
+      {
+        "fixture_id": "fwc2026-m020",
+        "match_number": 20,
+        "fixture": "Austria vs Jordan",
+        "home_expected_goals_delta": 0.135,
+        "away_expected_goals_delta": -0.161,
+        "total_expected_goals_delta": -0.026,
+        "max_win_probability_delta": 0.067,
+        "home_win_probability_delta": 0.067,
+        "draw_probability_delta": -0.0295,
+        "away_win_probability_delta": -0.0375,
+        "favorite_v2": "Austria",
+        "favorite_v3": "Austria",
+        "favorite_changed": false
+      },
+      {
+        "fixture_id": "fwc2026-m004",
+        "match_number": 4,
+        "fixture": "USA vs Paraguay",
+        "home_expected_goals_delta": -0.104,
+        "away_expected_goals_delta": 0.139,
+        "total_expected_goals_delta": 0.035,
+        "max_win_probability_delta": 0.0633,
+        "home_win_probability_delta": -0.0543,
+        "draw_probability_delta": -0.0091,
+        "away_win_probability_delta": 0.0633,
+        "favorite_v2": "Paraguay",
+        "favorite_v3": "Paraguay",
+        "favorite_changed": false
+      },
+      {
+        "fixture_id": "fwc2026-m030",
+        "match_number": 30,
+        "fixture": "Scotland vs Morocco",
+        "home_expected_goals_delta": 0.088,
+        "away_expected_goals_delta": -0.125,
+        "total_expected_goals_delta": -0.037,
+        "max_win_probability_delta": 0.0631,
+        "home_win_probability_delta": 0.0495,
+        "draw_probability_delta": 0.0137,
+        "away_win_probability_delta": -0.0631,
+        "favorite_v2": "Morocco",
+        "favorite_v3": "Morocco",
+        "favorite_changed": false
+      },
+      {
+        "fixture_id": "fwc2026-m054",
+        "match_number": 54,
+        "fixture": "South Africa vs Korea Republic",
+        "home_expected_goals_delta": 0.113,
+        "away_expected_goals_delta": -0.091,
+        "total_expected_goals_delta": 0.022,
+        "max_win_probability_delta": 0.0583,
+        "home_win_probability_delta": 0.0441,
+        "draw_probability_delta": 0.0141,
+        "away_win_probability_delta": -0.0583,
+        "favorite_v2": "Korea Republic",
+        "favorite_v3": "Korea Republic",
+        "favorite_changed": false
+      }
+    ],
+    "teams_largest_quality_adjustments": [
+      {
+        "team_id": "australia",
+        "country": "Australia",
+        "base_team_quality_v2_score": 42.85,
+        "fantasy_pool_v3_score": 39.93,
+        "total_fantasy_pool_adjustment": -2.92,
+        "final_squad_uncertainty_penalty": -1.38,
+        "uncertainty_score": 82
+      },
+      {
+        "team_id": "canada",
+        "country": "Canada",
+        "base_team_quality_v2_score": 45.48,
+        "fantasy_pool_v3_score": 42.75,
+        "total_fantasy_pool_adjustment": -2.73,
+        "final_squad_uncertainty_penalty": -1.38,
+        "uncertainty_score": 73.75
+      },
+      {
+        "team_id": "jordan",
+        "country": "Jordan",
+        "base_team_quality_v2_score": 19.33,
+        "fantasy_pool_v3_score": 16.75,
+        "total_fantasy_pool_adjustment": -2.58,
+        "final_squad_uncertainty_penalty": -1.38,
+        "uncertainty_score": 63.07
+      },
+      {
+        "team_id": "mexico",
+        "country": "Mexico",
+        "base_team_quality_v2_score": 58.77,
+        "fantasy_pool_v3_score": 56.26,
+        "total_fantasy_pool_adjustment": -2.51,
+        "final_squad_uncertainty_penalty": -1.38,
+        "uncertainty_score": 69.37
+      },
+      {
+        "team_id": "usa",
+        "country": "USA",
+        "base_team_quality_v2_score": 48.96,
+        "fantasy_pool_v3_score": 46.48,
+        "total_fantasy_pool_adjustment": -2.48,
+        "final_squad_uncertainty_penalty": -1.38,
+        "uncertainty_score": 68.45
+      },
+      {
+        "team_id": "ir-iran",
+        "country": "IR Iran",
+        "base_team_quality_v2_score": 35.24,
+        "fantasy_pool_v3_score": 33.28,
+        "total_fantasy_pool_adjustment": -1.96,
+        "final_squad_uncertainty_penalty": -1.38,
+        "uncertainty_score": 59.16
+      },
+      {
+        "team_id": "iraq",
+        "country": "Iraq",
+        "base_team_quality_v2_score": 18.71,
+        "fantasy_pool_v3_score": 16.78,
+        "total_fantasy_pool_adjustment": -1.93,
+        "final_squad_uncertainty_penalty": -1.38,
+        "uncertainty_score": 55.88
+      },
+      {
+        "team_id": "uzbekistan",
+        "country": "Uzbekistan",
+        "base_team_quality_v2_score": 25.49,
+        "fantasy_pool_v3_score": 23.57,
+        "total_fantasy_pool_adjustment": -1.92,
+        "final_squad_uncertainty_penalty": -1.2,
+        "uncertainty_score": 60.67
+      },
+      {
+        "team_id": "korea-republic",
+        "country": "Korea Republic",
+        "base_team_quality_v2_score": 42.44,
+        "fantasy_pool_v3_score": 40.68,
+        "total_fantasy_pool_adjustment": -1.76,
+        "final_squad_uncertainty_penalty": -1.38,
+        "uncertainty_score": 71.48
+      },
+      {
+        "team_id": "cabo-verde",
+        "country": "Cabo Verde",
+        "base_team_quality_v2_score": 10.59,
+        "fantasy_pool_v3_score": 8.83,
+        "total_fantasy_pool_adjustment": -1.76,
+        "final_squad_uncertainty_penalty": -1.2,
+        "uncertainty_score": 55.08
+      }
+    ],
+    "teams_most_uncertainty": [
+      {
+        "team_id": "australia",
+        "country": "Australia",
+        "uncertainty_score": 82,
+        "missing_usage_rows": 32,
+        "low_confidence_rows": 23,
+        "thin_profile_rows": 32,
+        "review_rows": 10,
+        "neymar_usage_source_gap": false
+      },
+      {
+        "team_id": "canada",
+        "country": "Canada",
+        "uncertainty_score": 73.75,
+        "missing_usage_rows": 30,
+        "low_confidence_rows": 25,
+        "thin_profile_rows": 6,
+        "review_rows": 6,
+        "neymar_usage_source_gap": false
+      },
+      {
+        "team_id": "korea-republic",
+        "country": "Korea Republic",
+        "uncertainty_score": 71.48,
+        "missing_usage_rows": 20,
+        "low_confidence_rows": 19,
+        "thin_profile_rows": 19,
+        "review_rows": 1,
+        "neymar_usage_source_gap": false
+      },
+      {
+        "team_id": "mexico",
+        "country": "Mexico",
+        "uncertainty_score": 69.37,
+        "missing_usage_rows": 44,
+        "low_confidence_rows": 25,
+        "thin_profile_rows": 0,
+        "review_rows": 25,
+        "neymar_usage_source_gap": false
+      },
+      {
+        "team_id": "usa",
+        "country": "USA",
+        "uncertainty_score": 68.45,
+        "missing_usage_rows": 25,
+        "low_confidence_rows": 24,
+        "thin_profile_rows": 5,
+        "review_rows": 5,
+        "neymar_usage_source_gap": false
+      },
+      {
+        "team_id": "morocco",
+        "country": "Morocco",
+        "uncertainty_score": 66.78,
+        "missing_usage_rows": 33,
+        "low_confidence_rows": 13,
+        "thin_profile_rows": 21,
+        "review_rows": 20,
+        "neymar_usage_source_gap": false
+      },
+      {
+        "team_id": "jordan",
+        "country": "Jordan",
+        "uncertainty_score": 63.07,
+        "missing_usage_rows": 17,
+        "low_confidence_rows": 26,
+        "thin_profile_rows": 5,
+        "review_rows": 4,
+        "neymar_usage_source_gap": false
+      },
+      {
+        "team_id": "argentina",
+        "country": "Argentina",
+        "uncertainty_score": 62.87,
+        "missing_usage_rows": 33,
+        "low_confidence_rows": 4,
+        "thin_profile_rows": 29,
+        "review_rows": 29,
+        "neymar_usage_source_gap": false
+      },
+      {
+        "team_id": "brazil",
+        "country": "Brazil",
+        "uncertainty_score": 61.54,
+        "missing_usage_rows": 13,
+        "low_confidence_rows": 13,
+        "thin_profile_rows": 7,
+        "review_rows": 0,
+        "neymar_usage_source_gap": true
+      },
+      {
+        "team_id": "uzbekistan",
+        "country": "Uzbekistan",
+        "uncertainty_score": 60.67,
+        "missing_usage_rows": 17,
+        "low_confidence_rows": 28,
+        "thin_profile_rows": 1,
+        "review_rows": 0,
+        "neymar_usage_source_gap": false
+      }
+    ]
+  },
+  "checks": [
+    {
+      "check_id": "fixture_coverage",
+      "label": "Group-stage fixture coverage",
+      "status": "pass",
+      "severity": "error",
+      "detail": "72/72 group-stage fixtures have one score prediction row; 72 unique fixture IDs."
+    },
+    {
+      "check_id": "team_fixture_coverage",
+      "label": "Team-fixture coverage",
+      "status": "pass",
+      "severity": "error",
+      "detail": "144/144 team-fixture rows exist."
+    },
+    {
+      "check_id": "probability_bounds",
+      "label": "Probability bounds",
+      "status": "pass",
+      "severity": "error",
+      "detail": "All probability fields are between 0 and 1."
+    },
+    {
+      "check_id": "win_draw_loss_sum",
+      "label": "Win/draw/loss probability sum",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Home/draw/away probabilities sum to 1 within tolerance."
+    },
+    {
+      "check_id": "expected_goals_non_negative",
+      "label": "Expected goals non-negative",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Expected goals are non-negative."
+    },
+    {
+      "check_id": "clean_sheet_probability_bounds",
+      "label": "Clean-sheet probability bounds",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Clean-sheet probabilities are between 0 and 1."
+    },
+    {
+      "check_id": "favorite_consistency",
+      "label": "Favorite consistency",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Favorite matches the higher home/away win probability."
+    },
+    {
+      "check_id": "pele_coverage",
+      "label": "PELE coverage",
+      "status": "pass",
+      "severity": "error",
+      "detail": "48/48 teams have numeric PELE ratings."
+    },
+    {
+      "check_id": "fantasy_pool_uncertainty_flags",
+      "label": "Fantasy-pool uncertainty flags present",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Every fixture carries fantasy_pool_only and not_final_squad_backed QA flags."
+    },
+    {
+      "check_id": "brazil_neymar_uncertainty",
+      "label": "Brazil Neymar uncertainty flagged",
+      "status": "pass",
+      "severity": "error",
+      "detail": "3 Brazil fixtures carry Neymar usage-source-gap QA flag."
+    },
+    {
+      "check_id": "no_final_squad_backed_claims",
+      "label": "No final-squad-backed claims",
+      "status": "pass",
+      "severity": "error",
+      "detail": "All rows remain model_stage=fantasy_pool_only and uses_final_rosters=false."
+    },
+    {
+      "check_id": "extreme_expected_goals",
+      "label": "Extreme expected goals flagged",
+      "status": "pass",
+      "severity": "warning",
+      "detail": "0 fixtures exceed the staging watch threshold."
+    },
+    {
+      "check_id": "extreme_win_probabilities",
+      "label": "Extreme win probabilities flagged",
+      "status": "pass",
+      "severity": "warning",
+      "detail": "0 fixtures exceed the staging watch threshold."
+    }
+  ],
+  "stop_conditions": [
+    {
+      "id": "official_final_squads_not_source_backed",
+      "status": "stop",
+      "count": 48,
+      "details": "Official final squads are not source-backed complete for any team; confirmed final squad rows are zero."
+    },
+    {
+      "id": "official_rules_manual_review",
+      "status": "stop",
+      "count": 1,
+      "details": "Official fantasy rules still have manual-review warnings, including Mystery Booster/deadline semantics."
+    },
+    {
+      "id": "readiness_not_ready_for_model_rerun",
+      "status": "stop",
+      "count": 1,
+      "details": "Official data readiness is blocked_waiting_for_official_fantasy_data."
+    },
+    {
+      "id": "no_final_squad_rows_exist",
+      "status": "stop",
+      "count": 0,
+      "details": "There are 0 source-backed confirmed_final_squad rows in the official squad staging layer."
+    },
+    {
+      "id": "neymar_p0_usage_source_gap",
+      "status": "stop",
+      "count": 1,
+      "details": "Neymar remains a P0 national-team usage source gap and is not credited as confirmed Brazil attack strength."
+    },
+    {
+      "id": "browser_ready_files_not_regenerated",
+      "status": "stop",
+      "count": 1,
+      "details": "This staging pass intentionally did not update scorePredictionsData.js or other browser-ready files."
+    },
+    {
+      "id": "player_matchday_projection_not_rerun",
+      "status": "stop",
+      "count": 1,
+      "details": "This staging pass intentionally did not rerun player matchday projections or recommendations."
+    }
+  ],
+  "warnings": [
+    "fantasy_pool_only_not_final_squad_backed",
+    "official_rules_manual_review",
+    "neymar_p0_usage_source_gap",
+    "scorePredictionsData.js intentionally not regenerated"
+  ],
+  "recommended_next_step": "Use this only for preliminary score/projection staging. Resolve final squad sources, official rules warnings, and Neymar's P0 usage source gap before final promotion."
+}
