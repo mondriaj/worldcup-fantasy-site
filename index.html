@@ -556,51 +556,56 @@
         </div>
       </details>
 
-      <section id="match-environment" class="panel">
-        <div class="section-heading">
-          <h2>Fixture Outlook</h2>
-          <p>Fixture-level goal environment, clean-sheet watch, and upset risk from the score model.</p>
+      <details id="match-environment" class="panel collapsible-panel">
+        <summary class="collapsible-summary">
+          <span>
+            <h2>Score Predictions</h2>
+            <p>Fixture-level goal environment, clean-sheet watch, and upset risk from the score model.</p>
+          </span>
+          <span class="collapsible-action" aria-hidden="true"></span>
+        </summary>
+
+        <div class="collapsible-body">
+          <div class="table-toolbar match-environment-toolbar">
+            <label class="control-group" for="environment-matchday-select">
+              <span>Matchday</span>
+              <select id="environment-matchday-select"></select>
+            </label>
+
+            <label class="control-group" for="environment-group-select">
+              <span>Group</span>
+              <select id="environment-group-select"></select>
+            </label>
+
+            <label class="control-group" for="environment-filter-select">
+              <span>Signal</span>
+              <select id="environment-filter-select"></select>
+            </label>
+          </div>
+
+          <div id="match-environment-summary" class="environment-summary" aria-live="polite"></div>
+
+          <div class="table-wrapper match-environment-table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fixture</th>
+                  <th>Model xG</th>
+                  <th>Favorite</th>
+                  <th>Clean Sheet</th>
+                  <th>Goal Env</th>
+                  <th>Upset Risk</th>
+                </tr>
+              </thead>
+              <tbody id="match-environment-table-body">
+                <tr class="fallback-table-row">
+                  <td colspan="6">Enable JavaScript to see score predictions.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-
-        <div class="table-toolbar match-environment-toolbar">
-          <label class="control-group" for="environment-matchday-select">
-            <span>Matchday</span>
-            <select id="environment-matchday-select"></select>
-          </label>
-
-          <label class="control-group" for="environment-group-select">
-            <span>Group</span>
-            <select id="environment-group-select"></select>
-          </label>
-
-          <label class="control-group" for="environment-filter-select">
-            <span>Signal</span>
-            <select id="environment-filter-select"></select>
-          </label>
-        </div>
-
-        <div id="match-environment-summary" class="environment-summary" aria-live="polite"></div>
-
-        <div class="table-wrapper match-environment-table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Fixture</th>
-                <th>Model xG</th>
-                <th>Favorite</th>
-                <th>Clean Sheet</th>
-                <th>Goal Env</th>
-                <th>Upset Risk</th>
-              </tr>
-            </thead>
-            <tbody id="match-environment-table-body">
-              <tr class="fallback-table-row">
-                <td colspan="6">Enable JavaScript to see match environment predictions.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+      </details>
 
       <section id="team-builder" class="panel panel--team">
         <div class="section-heading">
@@ -1482,6 +1487,6 @@
     <script src="fantasyPoolFinanceMetricsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolScorePredictionsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolOfficialDataStatusData.js?v=20260603-official-final"></script>
-    <script src="script.js?v=20260603-md1-projected-points"></script>
+    <script src="script.js?v=20260603-score-predictions"></script>
   </body>
 </html>

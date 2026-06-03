@@ -2493,7 +2493,7 @@ function publicFantasyPickReasonItems(player) {
     : `projected points for ${matchdayLabelFromId(scopeMatchdayId)}`;
   const fixture = pickFixtureLabel(player);
   const fixtureText = fixture && !fixture.toLowerCase().includes("needs check")
-    ? `Fixture outlook: ${fixture}.`
+    ? `Score predictions: ${fixture}.`
     : "";
   const reasons = [];
 
@@ -2688,26 +2688,28 @@ function renderPlayerDetail(player, measureKey = measureKeyForTrust(activeMeasur
       ${profileBestUseGrid(player, measureKey)}
     </section>
 
-    <section class="profile-section">
-      <h3>Fixture Outlook</h3>
-      <div class="table-wrapper player-detail-table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Matchday</th>
-              <th>Opponent</th>
-              <th>Difficulty</th>
-              <th>Team xG</th>
-              <th>xGA</th>
-              <th>Clean Sheet</th>
-              <th>Upset Risk</th>
-              <th>Use</th>
-            </tr>
-          </thead>
-          <tbody>${profileFixtureRows(player)}</tbody>
-        </table>
+    <details class="profile-section profile-section--advanced">
+      <summary>Score Predictions</summary>
+      <div class="profile-advanced-body">
+        <div class="table-wrapper player-detail-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Matchday</th>
+                <th>Opponent</th>
+                <th>Difficulty</th>
+                <th>Team xG</th>
+                <th>xGA</th>
+                <th>Clean Sheet</th>
+                <th>Upset Risk</th>
+                <th>Use</th>
+              </tr>
+            </thead>
+            <tbody>${profileFixtureRows(player)}</tbody>
+          </table>
+        </div>
       </div>
-    </section>
+    </details>
 
     <section class="profile-section">
       <h3>Fantasy Finance</h3>
