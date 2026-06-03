@@ -44,6 +44,7 @@ let activeMatchdayId = "group_stage_full";
 let activeEnvironmentMatchdayId = "group_stage_full";
 let activeTrustModeId = "balanced";
 let activeAdvicePoolModeId = "playable";
+const browserSquadStorageKey = "worldCupFantasyHelper.teamExport.v1";
 
 const positionCodeLabels = {
   GK: "Goalkeeper",
@@ -111,6 +112,7 @@ const fantasyPoolPreviewPlayers = usingFantasyPoolPreview
   ? fantasyPoolRecommendationRows.map(fantasyPoolCandidateToPlayer)
   : [];
 const fantasyPoolPreviewPlayerById = new Map(fantasyPoolPreviewPlayers.map((player) => [player.id, player]));
+const primaryStrategyKeys = ["balanced", "safe", "upside", "differential"];
 
 function fantasyPoolPlayerKey(record) {
   return String(record?.official_fantasy_player_id || record?.internal_player_id || "").trim();
@@ -555,7 +557,7 @@ const measures = {
     optionLabel: "Avoid Bad Weeks (low tail-risk)",
     secondaryLabel: "Advanced: low tail-risk score",
     description: "Looks for players less likely to produce a very poor score.",
-    formula: "Uses the Week 6 tail-risk avoidance strategy. It rewards better VaR/CVaR floors, lower bad-week probability, and useful expected return.",
+    formula: "Uses the tail-risk avoidance strategy. It rewards better bad-week floor fields, lower bad-week probability, and useful projected points.",
     score: (player) => hasScoreValue(player, "finance_strategy_tail_risk_avoidance")
       ? scoreValue(player, "finance_strategy_tail_risk_avoidance")
       : (100 - value(player.risk_tail_score)) + value(player.risk_adjusted_expected_points_estimate) * 5
@@ -577,11 +579,11 @@ const measures = {
     score: (player) => scoreValue(player, "finance_sortino_like_percentile", "risk_adjusted_sortino_like")
   },
   bestValue: {
-    label: "Best Value Prototype",
-    optionLabel: "Best Value Prototype",
-    secondaryLabel: "Prototype: proxy price",
-    description: "Ranks players by risk-adjusted return for the proxy price, with role and overpay risk included.",
-    formula: "Uses proxy_price_v1 because official fantasy prices are missing. Score blends risk-adjusted points per proxy price, expected points per proxy price, lower proxy-price percentile, cheap-enabler score, start probability, and lower overpay risk.",
+    label: "Best Value",
+    optionLabel: "Best Value",
+    secondaryLabel: "Budget-aware value score",
+    description: "Ranks players by projected return for their budget, with role and budget pressure included.",
+    formula: "Uses the active player price field. Score blends projected points per budget unit, value score, cheap-enabler score, start probability, and lower budget pressure.",
     score: (player) => {
       const price = proxyPrice(player);
       const riskAdjustedPerPrice = scoreValue(player, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate") / price;
@@ -599,30 +601,30 @@ const measures = {
   cheapEnabler: {
     label: "Cheap Enabler",
     optionLabel: "Cheap Enabler",
-    secondaryLabel: "Prototype: proxy price",
+    secondaryLabel: "Budget-aware value score",
     description: "Finds lower-price players who still have a playable role and useful value score.",
-    formula: "Uses cheap_enabler_score_v1 from the value model, then adds a small matchday lift for risk-adjusted points per proxy price.",
+    formula: "Uses cheap_enabler_score_v1 from the value model, then adds a small matchday lift for projected points per budget unit.",
     score: (player) => scoreValue(player, "cheap_enabler_score_v1", "cheap_enabler_score") + (scoreValue(player, "finance_risk_adjusted_return_points") / proxyPrice(player)) * 14
   },
   premiumWorthIt: {
     label: "Premium Worth It",
     optionLabel: "Premium Worth It",
-    secondaryLabel: "Prototype: proxy price",
-    description: "Checks whether expensive proxy-price players still justify the spend.",
+    secondaryLabel: "Budget-aware value score",
+    description: "Checks whether expensive players still justify the spend.",
     formula: "Uses premium_worth_it_score_v1 from the value model, plus matchday expected return and start probability.",
     score: (player) => scoreValue(player, "premium_worth_it_score_v1", "premium_worth_it_score") + scoreValue(player, "finance_expected_return_points") * 4 + scoreValue(player, "start_probability_percent") * 0.08 - scoreValue(player, "overpay_risk_v1", "overpay_risk") * 0.08
   },
   var10: {
-    label: "VaR Floor Pick",
-    optionLabel: "VaR Floor Pick (10th percentile)",
+    label: "Bad-Week Floor Pick",
+    optionLabel: "Bad-Week Floor Pick (10th percentile)",
     secondaryLabel: "Advanced: value at risk",
     description: "Finds players with a better modeled bad-outcome floor.",
     formula: "Ranks the 10th percentile fantasy-point outcome. A higher VaR means the model expects a less painful downside case.",
     score: (player) => scoreValue(player, "finance_var10_points", "finance_var10_percentile")
   },
   cvar20: {
-    label: "CVaR Floor Pick",
-    optionLabel: "CVaR Floor Pick (worst 20%)",
+    label: "Worst-Case Floor Pick",
+    optionLabel: "Worst-Case Floor Pick (worst 20%)",
     secondaryLabel: "Advanced: conditional value at risk",
     description: "Looks at the average of the worst modeled outcomes, not just the cutoff point.",
     formula: "Ranks conditional value at risk for the worst 20% of modeled match outcomes. Higher is better.",
@@ -661,7 +663,7 @@ const measures = {
     label: "Differential",
     optionLabel: "Differential",
     description: "Looks for lower-obviousness or mispriced players with a defensible projection.",
-    formula: "Uses the staged Differential candidate score when available. Legacy fallback uses the very-risky finance strategy with QA penalties.",
+    formula: "Uses the staged Differential candidate score when available. Legacy fallback uses the very-risky finance strategy with data-check penalties.",
     score: (player) => player.preview_candidate?.mode === "differential"
       ? scoreValue(player, "finance_strategy_risk_adjusted")
       : scoreValue(player, "finance_strategy_very_risky")
@@ -736,9 +738,9 @@ const financeLenses = {
   },
   volatility: {
     id: "volatility",
-    label: "Low Volatility",
-    shortLabel: "Low Vol",
-    description: "Higher means less modeled volatility.",
+    label: "Consistency",
+    shortLabel: "Steady",
+    description: "Higher means a steadier scoring profile.",
     value: (player) => {
       const volatility = financeContextScore(player, "volatility_score");
       const risk = optionalScoreValue(player, "finance_composite_risk_score", "risk_composite_score");
@@ -784,16 +786,16 @@ const financeLenses = {
   },
   var10: {
     id: "var10",
-    label: "VaR Floor",
-    shortLabel: "VaR",
-    description: "Modeled 10th percentile floor.",
+    label: "Bad-Week Floor",
+    shortLabel: "Floor",
+    description: "Modeled score line for a poor outcome.",
     value: (player) => optionalScoreValue(player, "finance_var10_points")
   },
   cvar20: {
     id: "cvar20",
-    label: "CVaR Worst-Case Floor",
-    shortLabel: "CVaR",
-    description: "Average of the worst modeled outcomes.",
+    label: "Stress-Case Floor",
+    shortLabel: "Stress",
+    description: "Average score line for the weakest modeled outcomes.",
     value: (player) => optionalScoreValue(player, "finance_cvar20_points")
   }
 };
@@ -823,8 +825,8 @@ const trustModes = {
     id: "balanced",
     label: "Balanced",
     optionLabel: "Balanced",
-    description: "Default mode. Keeps the full recommendation pool but applies meaningful QA penalties for weak data, uncertain role, and difficult fixtures.",
-    formula: "Balanced mode keeps players available, then subtracts QA penalties for source, roster, role, risk, tail-risk, and matchday fixture warnings.",
+    description: "Default mode. Keeps the full recommendation pool but applies meaningful data-check penalties for weak data, uncertain role, and difficult fixtures.",
+    formula: "Balanced mode keeps players available, then subtracts data-check penalties for source, roster, role, risk, tail-risk, and matchday fixture warnings.",
     filtersRanking: false,
     flagPenaltyMultiplier: 0.75,
     failurePenalty: 0,
@@ -837,7 +839,7 @@ const trustModes = {
     label: "Upside",
     optionLabel: "Upside",
     description: "Allows more uncertainty for users chasing upside. Data warnings still appear, but the score penalty is lighter.",
-    formula: "Aggressive keeps the full player pool, applies lighter QA penalties, and adds a small boost for upside, attack-heavy, and very-risky profile signals.",
+    formula: "Aggressive keeps the full player pool, applies lighter data-check penalties, and adds a small boost for upside, attack-heavy, and very-risky profile signals.",
     filtersRanking: false,
     flagPenaltyMultiplier: 0.35,
     failurePenalty: 0,
@@ -850,7 +852,7 @@ const trustModes = {
     label: "Differential",
     optionLabel: "Differential",
     description: "Speculative mode for differential picks and boom-or-bust watchlists. It tolerates weak floors and rewards upside and upset context.",
-    formula: "Punts applies only small QA penalties, then boosts very-risky strategy score, upside percentile, volatility percentile, and match upset probability.",
+    formula: "Differential mode applies only small data-check penalties, then boosts very-risky strategy score, upside percentile, volatility percentile, and match upset probability.",
     filtersRanking: false,
     flagPenaltyMultiplier: 0.15,
     failurePenalty: 0,
@@ -864,26 +866,29 @@ const trustModes = {
 const advicePoolModes = {
   playable: {
     id: "playable",
-    label: "Playable recommendations",
+    label: "Main picks",
     shortLabel: "Playable",
-    description: "Hides QA-review, watchlist-only, manual-review, and do-not-rank players."
+    description: "Hides data-review, watchlist-only, manual-review, and do-not-rank players."
   },
   watchlist: {
     id: "watchlist",
-    label: "Include watchlist punts",
+    label: "Include watchlist differentials",
     shortLabel: "Watchlist",
-    description: "Includes the broader pool so risky upside and data-review punts can appear with warnings."
+    description: "Includes the broader pool so risky upside and data-review differentials can appear with warnings."
   }
 };
 
+const safeCaptainChangeRiskMode = {
+  label: "Safe",
+  badge: "Safe check",
+  switchBuffer: 1.5,
+  closeMargin: 0.8,
+  projectionLabel: "Safe switch score"
+};
+
 const captainChangeRiskModes = {
-  safer: {
-    label: "Safer",
-    badge: "Safer check",
-    switchBuffer: 1.5,
-    closeMargin: 0.8,
-    projectionLabel: "Safer switch score"
-  },
+  safe: safeCaptainChangeRiskMode,
+  safer: safeCaptainChangeRiskMode,
   balanced: {
     label: "Balanced",
     badge: "Balanced check",
@@ -897,17 +902,27 @@ const captainChangeRiskModes = {
     switchBuffer: 0.2,
     closeMargin: 0.6,
     projectionLabel: "Upside switch score"
+  },
+  differential: {
+    label: "Differential",
+    badge: "Differential check",
+    switchBuffer: 0,
+    closeMargin: 0.5,
+    projectionLabel: "Differential switch score"
   }
 };
 
+const safeSubstitutionAdvisorRiskMode = {
+  label: "Safe",
+  badge: "Safe check",
+  subBuffer: 1.3,
+  closeMargin: 0.8,
+  projectionLabel: "Safe sub score"
+};
+
 const substitutionAdvisorRiskModes = {
-  safer: {
-    label: "Safer",
-    badge: "Safer check",
-    subBuffer: 1.3,
-    closeMargin: 0.8,
-    projectionLabel: "Safer sub score"
-  },
+  safe: safeSubstitutionAdvisorRiskMode,
+  safer: safeSubstitutionAdvisorRiskMode,
   balanced: {
     label: "Balanced",
     badge: "Balanced check",
@@ -921,6 +936,13 @@ const substitutionAdvisorRiskModes = {
     subBuffer: 0.2,
     closeMargin: 0.6,
     projectionLabel: "Upside sub score"
+  },
+  differential: {
+    label: "Differential",
+    badge: "Differential check",
+    subBuffer: 0,
+    closeMargin: 0.5,
+    projectionLabel: "Differential sub score"
   }
 };
 
@@ -958,8 +980,8 @@ const captainTrustMeasure = {
 // This menu controls the extra stat shown on each player card on the field.
 const cardStats = {
   balanced: {
-    label: "Best Overall Score",
-    value: (player) => value(player.risk_adjusted_overall_score)
+    label: "Strategy Score",
+    value: (player) => measureScore(player, activeMeasure())
   },
   expected: {
     label: "Projected Points",
@@ -1006,7 +1028,7 @@ const cardStats = {
     value: (player) => proxyPrice(player)
   },
   bestValue: {
-    label: "Best Value Prototype",
+    label: "Best Value",
     value: (player) => measureScore(player, measures.bestValue)
   },
   cheapEnabler: {
@@ -1054,6 +1076,10 @@ const buildTeamButtonBottom = document.getElementById("build-team-btn-bottom");
 const resetTeamButton = document.getElementById("reset-team-btn");
 const clearLockedButton = document.getElementById("clear-locked-btn");
 const removeSelectedPlayerButton = document.getElementById("remove-selected-player-btn");
+const saveBrowserSquadButton = document.getElementById("save-browser-squad-btn");
+const loadBrowserSquadButton = document.getElementById("load-browser-squad-btn");
+const clearBrowserSquadButton = document.getElementById("clear-browser-squad-btn");
+const browserSquadStatus = document.getElementById("browser-squad-status");
 const exportTeamJsonButton = document.getElementById("export-team-json-btn");
 const importTeamJsonInput = document.getElementById("import-team-json-input");
 const removedPlayersPanel = document.getElementById("removed-players-panel");
@@ -1122,6 +1148,8 @@ const minPriceFilter = document.getElementById("min-price-filter");
 const maxPriceFilter = document.getElementById("max-price-filter");
 const playerPicker = document.getElementById("player-picker");
 const builderWarning = document.getElementById("builder-warning");
+const builderReadyActions = document.getElementById("builder-ready-actions");
+const builderReadySummary = document.getElementById("builder-ready-summary");
 const ruleCheckSummary = document.getElementById("rule-check-summary");
 const rulesValidationList = document.getElementById("rules-validation-list");
 const countryCountsList = document.getElementById("country-counts-list");
@@ -1138,6 +1166,11 @@ const benchDescription = document.getElementById("bench-description");
 const benchCount = document.getElementById("bench-count");
 const swapMessage = document.getElementById("swap-message");
 const teamMessage = document.getElementById("team-message");
+const builderLockStatus = document.getElementById("builder-lock-status");
+const builderRemovedStatus = document.getElementById("builder-removed-status");
+const builderBuildGuidance = document.getElementById("builder-build-guidance");
+const builderReviewStatus = document.getElementById("builder-review-status");
+const builderFlowSteps = Array.from(document.querySelectorAll("[data-builder-flow-step]"));
 const playerDetailModal = document.getElementById("player-detail-modal");
 const playerDetailPanel = document.querySelector(".player-detail-panel");
 const playerDetailTitle = document.getElementById("player-detail-title");
@@ -1150,6 +1183,7 @@ const summaryBudget = document.getElementById("summary-budget");
 const summaryRisk = document.getElementById("summary-risk");
 const summaryLocked = document.getElementById("summary-locked");
 const dashboardGrid = document.getElementById("dashboard-grid");
+const picksBuilderTray = document.getElementById("picks-builder-tray");
 const captainCardGrid = document.getElementById("captain-card-grid");
 const captainTableBody = document.getElementById("captain-table-body");
 const adviceCardGrid = document.getElementById("advice-card-grid");
@@ -1305,7 +1339,13 @@ function proxyPrice(player) {
 function playerPriceText(player) {
   const priceText = money(player.price);
 
-  return player.price_is_proxy ? `${priceText} proxy` : priceText;
+  return priceText;
+}
+
+function playerPriceDetailText(player) {
+  const priceText = playerPriceText(player);
+
+  return player.price_is_proxy ? `${priceText} est.` : priceText;
 }
 
 function displayNumber(number) {
@@ -1363,15 +1403,15 @@ function scorePredictionQualityLabel() {
   }
 
   if (quality.status === "pass") {
-    return "QA pass";
+    return "Data check clear";
   }
 
   if (quality.status === "pass_with_prototype_caveats") {
-    return "QA pass + caveats";
+    return "Data check caveats";
   }
 
   if (quality.status === "fail") {
-    return "QA needs review";
+    return "Data check review";
   }
 
   return titleFromSnake(quality.status);
@@ -1650,7 +1690,7 @@ const qaFlagDefinitions = {
     detail: "Tail-risk score is 70 or higher."
   },
   negative_var10_floor: {
-    label: "VaR",
+    label: "Floor",
     kind: "watch",
     detail: "The modeled 10th percentile point floor is negative."
   },
@@ -1864,12 +1904,12 @@ function qaStatusFromFlags(flags) {
 
 function qaStatusLabel(status) {
   const labels = {
-    review: "QA review",
-    watch: "QA watch",
-    pass: "QA pass"
+    review: "Data check review",
+    watch: "Data check watch",
+    pass: "Data check clear"
   };
 
-  return labels[status] || "QA watch";
+  return labels[status] || "Data check watch";
 }
 
 function qaChipRow(flags, options = {}) {
@@ -1884,10 +1924,10 @@ function qaChipRow(flags, options = {}) {
       const definition = qaFlagDefinitions[flag];
       return `<span class="qa-chip qa-chip--${definition.kind}" title="${escapeHtml(definition.detail)}">${escapeHtml(definition.label)}</span>`;
     })
-    : [`<span class="qa-chip qa-chip--pass">QA pass</span>`];
+    : [`<span class="qa-chip qa-chip--pass">Data check clear</span>`];
 
   if (extraCount > 0) {
-    chips.push(`<span class="qa-chip qa-chip--${status}" title="${escapeHtml(`${extraCount} more QA flag${extraCount === 1 ? "" : "s"}.`)}">+${extraCount}</span>`);
+    chips.push(`<span class="qa-chip qa-chip--${status}" title="${escapeHtml(`${extraCount} more data-check flag${extraCount === 1 ? "" : "s"}.`)}">+${extraCount}</span>`);
   }
 
   return `<div class="qa-chip-row ${options.compact ? "qa-chip-row--compact" : ""}" aria-label="${escapeHtml(qaStatusLabel(status))}">${chips.join("")}</div>`;
@@ -1910,7 +1950,7 @@ function profileQaPanel(player, measureKey = measureKeyForTrust(activeMeasure())
     }).join("")
     : `
       <li>
-        <strong>QA pass</strong>
+        <strong>Data check clear</strong>
         <span>No major recommendation warnings for the selected matchday context.</span>
       </li>
     `;
@@ -1926,7 +1966,7 @@ function profileQaPanel(player, measureKey = measureKeyForTrust(activeMeasure())
       <div class="qa-panel__header">
         <div>
           <strong>${escapeHtml(qaStatusLabel(status))}</strong>
-          <span>${escapeHtml(`${fixtureNote} · ${measureLabel} · ${trustMode.label} trust mode`)}</span>
+          <span>${escapeHtml(`${fixtureNote} · ${measureLabel} · ${trustMode.label} confidence mode`)}</span>
         </div>
         ${qaChipRow(flags, { compact: true, maxVisible: 4 })}
       </div>
@@ -2050,11 +2090,11 @@ function advicePoolNote(counts, poolMode, trustFallbackUsed = false) {
   }
 
   if (counts.hiddenByPlayable > 0) {
-    parts.push(`${counts.hiddenByPlayable} hidden as watchlist or QA-review`);
+    parts.push(`${counts.hiddenByPlayable} hidden as watchlist or data-review`);
   }
 
   if (poolMode.id === "watchlist") {
-    parts.push(`${counts.reviewCount} QA-review and ${counts.watchCount} QA-watch players included`);
+    parts.push(`${counts.reviewCount} data-review and ${counts.watchCount} data-watch players included`);
   }
 
   if (trustFallbackUsed) {
@@ -2147,11 +2187,11 @@ function recommendationScoreBreakdown(player, measure = activeMeasure(), mode = 
 }
 
 function scoreAdjustmentText(breakdown) {
-  const parts = [`Raw ${displayNumber(breakdown.raw_score)}`];
+  const parts = [`Base ${displayNumber(breakdown.raw_score)}`];
 
   if (Math.abs(breakdown.qa_penalty) >= 0.05) {
     const sign = breakdown.qa_penalty >= 0 ? "-" : "+";
-    parts.push(`QA ${sign}${displayNumber(Math.abs(breakdown.qa_penalty))}`);
+    parts.push(`Data check ${sign}${displayNumber(Math.abs(breakdown.qa_penalty))}`);
   }
 
   if (breakdown.strict_failure_penalty >= 0.05) {
@@ -2163,7 +2203,7 @@ function scoreAdjustmentText(breakdown) {
   }
 
   if (parts.length === 1) {
-    parts.push("No QA adjustment");
+    parts.push("No data-check adjustment");
   }
 
   return parts.join(" · ");
@@ -2172,9 +2212,9 @@ function scoreAdjustmentText(breakdown) {
 function scoreBreakdownHtml(player, measure = activeMeasure(), mode = activeTrustMode()) {
   const breakdown = recommendationScoreBreakdown(player, measure, mode);
   const title = [
-    `${breakdown.measure_label} after ${mode.label} trust mode`,
+    `${breakdown.measure_label} after ${mode.label} confidence mode`,
     scoreAdjustmentText(breakdown),
-    breakdown.trust_failures.length ? `Safer-pick checks: ${breakdown.trust_failures.join(", ")}` : ""
+    breakdown.trust_failures.length ? `Safe-pick checks: ${breakdown.trust_failures.join(", ")}` : ""
   ].filter(Boolean).join(". ");
 
   return `
@@ -2280,7 +2320,7 @@ function profileIdentityGrid(player) {
       ${profileMetric("Position", player.position, player.position_code || "")}
       ${profileMetric("Club", player.club, player.league || "")}
       ${profileMetric("Roster", titleFromSnake(player.roster_status), recommendationUseForPlayer(player))}
-      ${profileMetric("Proxy Price", playerPriceText(player), player.price_note || "Official price pending")}
+      ${profileMetric("Budget Price", playerPriceDetailText(player), player.price_note || "Official price pending")}
       ${profileMetric("Data Confidence", `${displayNumber(player.data_confidence_score)} / 100`, titleFromSnake(player.data_confidence_band))}
     </div>
   `;
@@ -2313,12 +2353,12 @@ function profileFinanceGrid(player) {
     <div class="profile-grid profile-grid--finance">
       ${previewFinanceMetrics}
       ${profileMetric("Expected Return", profileScore(scoreValue(player, "finance_expected_return_points")), "points")}
-      ${profileMetric("Risk-Adjusted Return", profileScore(scoreValue(player, "finance_risk_adjusted_return_points")), "points")}
+      ${profileMetric("Points After Risk", profileScore(scoreValue(player, "finance_risk_adjusted_return_points")), "points")}
       ${profileMetric("Bad-Week Floor", profileScore(scoreValue(player, "finance_var10_points")), "bad-outcome floor")}
       ${profileMetric("Worst-Case Floor", profileScore(scoreValue(player, "finance_cvar20_points")), "worst-case basket")}
-      ${profileMetric("Sharpe-Style", profileScore(scoreValue(player, "finance_sharpe_like_percentile", "risk_adjusted_sharpe_like")), "percentile")}
-      ${profileMetric("Sortino-Style", profileScore(scoreValue(player, "finance_sortino_like_percentile", "risk_adjusted_sortino_like")), "percentile")}
-      ${profileMetric("Omega-Style", profileScore(scoreValue(player, "finance_omega_like_percentile")), "percentile")}
+      ${profileMetric("Risk Efficiency", profileScore(scoreValue(player, "finance_sharpe_like_percentile", "risk_adjusted_sharpe_like")), "percentile")}
+      ${profileMetric("Downside Protection", profileScore(scoreValue(player, "finance_sortino_like_percentile", "risk_adjusted_sortino_like")), "percentile")}
+      ${profileMetric("Upside Balance", profileScore(scoreValue(player, "finance_omega_like_percentile")), "percentile")}
       ${profileMetric("Bad-Week Probability", profilePercent(player.finance_bad_week_probability), "prototype")}
       ${profileMetric("Tail Risk", profileScore(scoreValue(player, "finance_tail_risk_score", "risk_tail_score")), "0 low, 100 high")}
       ${profileMetric("Composite Risk", profileScore(scoreValue(player, "finance_composite_risk_score", "risk_composite_score")), "0 low, 100 high")}
@@ -2401,8 +2441,52 @@ function previewListItems(items, fallback) {
     .join("");
 }
 
+function publicFantasyPickReasonItems(player) {
+  const candidate = player.preview_candidate || {};
+  const mode = candidate.mode || player.value_role || "balanced";
+  const modeLabel = candidate.mode_label || player.preview_mode_label || titleFromSnake(mode);
+  const projected = fantasyPoolCandidateStat(player, "risk_adjusted_points");
+  const captain = fantasyPoolCandidateStat(player, "captain_score");
+  const ceiling = fantasyPoolCandidateStat(player, "ceiling_points");
+  const floor = fantasyPoolCandidateStat(player, "floor_points");
+  const startProbability = Number(candidate.start_probability);
+  const confidence = candidate.projection_confidence || player.data_confidence_band;
+  const startText = Number.isFinite(startProbability)
+    ? ` with ${Math.round(startProbability * 100)}% start chance`
+    : "";
+  const fixture = pickFixtureLabel(player);
+  const fixtureText = fixture && !fixture.toLowerCase().includes("needs check")
+    ? `Fixture outlook: ${fixture}.`
+    : "";
+  const reasons = [];
+
+  if (mode === "captain") {
+    reasons.push(`${modeLabel}: ${captain} captain signal and ${projected} projected points${startText}.`);
+  } else if (mode === "safe") {
+    reasons.push(`${modeLabel}: ${projected} projected points${startText} and a useful floor of ${floor}.`);
+  } else if (mode === "upside") {
+    reasons.push(`${modeLabel}: ${ceiling} upside ceiling with ${projected} projected points.`);
+  } else if (mode === "differential") {
+    reasons.push(`${modeLabel}: less obvious pick with ${projected} projected points${startText}.`);
+  } else {
+    reasons.push(`${modeLabel}: ${projected} projected points${startText}.`);
+  }
+
+  if (fixtureText) {
+    reasons.push(fixtureText);
+  }
+
+  if (confidence) {
+    reasons.push(`${titleFromSnake(confidence)} projection confidence in the current data.`);
+  }
+
+  return reasons;
+}
+
 function profileWhyPickPanel(player) {
-  const previewPickReasons = player.preview_why_pick || player.preview_candidate?.why_pick;
+  const previewPickReasons = player.preview_candidate
+    ? publicFantasyPickReasonItems(player)
+    : player.preview_why_pick;
   const previewCarefulReasons = player.preview_why_careful || player.preview_candidate?.why_careful;
   const defaultPick = player.short_reason || styleReason(player, measureKeyForTrust(activeMeasure()));
   const risk = scoreValue(player, "finance_composite_risk_score", "risk_composite_score");
@@ -2504,7 +2588,7 @@ function profileFixtureRows(player) {
 
 function profileNotesList(player) {
   const notes = [
-    player.short_reason,
+    player.preview_candidate ? "" : player.short_reason,
     player.minutes_model_source_note,
     player.price_note,
     player.data_note,
@@ -2525,9 +2609,9 @@ function profileNotesList(player) {
 function profileBuilderActionHtml(player) {
   const lockId = builderLockPlayerId(player);
   const alreadyLocked = lockId && lockedPlayerIds.has(lockId);
-  const lockLabel = alreadyLocked ? "Locked" : "Lock in Builder";
+  const lockLabel = alreadyLocked ? "Remove from Builder" : "Add to Builder";
   const lockButton = lockId
-    ? `<button class="pick-card__action pick-card__action--lock" type="button" data-lock-player-id="${escapeHtml(lockId)}"${alreadyLocked ? " disabled" : ""}>${lockLabel}</button>`
+    ? `<button class="pick-card__action pick-card__action--lock${alreadyLocked ? " is-active" : ""}" type="button" data-lock-player-id="${escapeHtml(lockId)}" aria-pressed="${alreadyLocked}">${lockLabel}</button>`
     : `<button class="pick-card__action" type="button" disabled title="This player is not available in the current Team Builder path.">Unavailable</button>`;
 
   return `
@@ -2786,7 +2870,7 @@ function renderMatchEnvironmentTable() {
     <span><strong>${displayNumber(averageGoals)}</strong> avg total xG</span>
     <span><strong>${cleanSheetRows}</strong> clean-sheet watches</span>
     <span><strong>${upsetRows}</strong> upset-risk watches</span>
-    ${qualityLabel ? `<span title="${escapeHtml(qualityDetail)}"><strong>${escapeHtml(qualityLabel)}</strong> model QA</span>` : ""}
+    ${qualityLabel ? `<span title="${escapeHtml(qualityDetail)}"><strong>${escapeHtml(qualityLabel)}</strong> model check</span>` : ""}
   `;
 
   if (!visibleRows.length) {
@@ -2853,6 +2937,12 @@ function activeAdviceFinanceLens() {
 
 function activeCardStat() {
   return cardStats[cardStatSelect.value] || cardStats.balanced;
+}
+
+function activeCardStatLabel(stat = activeCardStat()) {
+  return stat === cardStats.balanced
+    ? `${activeMeasure().label} Score`
+    : stat.label;
 }
 
 function measureScore(player, measure = activeMeasure(), mode = activeTrustMode()) {
@@ -2972,6 +3062,141 @@ function savedDecisionSquad() {
     starterIds,
     isFull
   };
+}
+
+function fullBuiltSquadIsReady() {
+  const squad = [...currentRenderedTeam, ...currentBenchPlayers];
+
+  return currentRenderMode === "built" &&
+    currentRenderedTeam.length === startingLineupTotal &&
+    squad.length === squadTotalPlayers;
+}
+
+function browserSquadStorage() {
+  try {
+    return window.localStorage || null;
+  } catch (error) {
+    return null;
+  }
+}
+
+function readBrowserSavedSquad() {
+  const storage = browserSquadStorage();
+
+  if (!storage) {
+    return { payload: null, error: "Browser saving is not available in this browser." };
+  }
+
+  const jsonText = storage.getItem(browserSquadStorageKey);
+
+  if (!jsonText) {
+    return { payload: null, error: null };
+  }
+
+  try {
+    return { payload: JSON.parse(jsonText), error: null };
+  } catch (error) {
+    return { payload: null, error: "Saved squad could not be read. Clear it and save again." };
+  }
+}
+
+function browserSavedDateText(payload) {
+  const savedAt = payload?.browser_saved_at || payload?.exported_at;
+
+  if (!savedAt) {
+    return "date needs check";
+  }
+
+  try {
+    return new Date(savedAt).toLocaleString([], {
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit"
+    });
+  } catch (error) {
+    return "date needs check";
+  }
+}
+
+function renderBrowserSquadSaveStatus() {
+  if (!browserSquadStatus) {
+    return;
+  }
+
+  const canSave = fullBuiltSquadIsReady();
+  const { payload, error } = readBrowserSavedSquad();
+  const hasSavedSquad = payload?.schema_version === "team-export-v1";
+  renderBuilderReadyActions(canSave, hasSavedSquad);
+
+  if (saveBrowserSquadButton) {
+    saveBrowserSquadButton.disabled = !canSave;
+  }
+
+  if (exportTeamJsonButton) {
+    exportTeamJsonButton.disabled = !canSave;
+  }
+
+  if (loadBrowserSquadButton) {
+    loadBrowserSquadButton.disabled = !hasSavedSquad;
+  }
+
+  if (clearBrowserSquadButton) {
+    clearBrowserSquadButton.disabled = !hasSavedSquad;
+  }
+
+  if (error) {
+    browserSquadStatus.textContent = error;
+    return;
+  }
+
+  if (hasSavedSquad) {
+    const captainText = payload.captain || payload.captain_player?.name || "captain needs check";
+    browserSquadStatus.textContent = `Saved in this browser: ${payload.strategy || "strategy"} ${payload.formation || "squad"} from ${browserSavedDateText(payload)}. Captain: ${captainText}.`;
+    return;
+  }
+
+  browserSquadStatus.textContent = canSave
+    ? "No browser-saved squad yet. Save this squad here for quick Matchday Desk access."
+    : "Browser save is empty. Build a full squad, then save it here for quick Matchday Desk access.";
+}
+
+function renderBuilderReadyActions(canSave = fullBuiltSquadIsReady(), hasSavedSquad = readBrowserSavedSquad().payload?.schema_version === "team-export-v1") {
+  if (!builderReadyActions) {
+    return;
+  }
+
+  builderReadyActions.classList.toggle("hidden", !canSave);
+  builderReadyActions.setAttribute("aria-hidden", String(!canSave));
+
+  builderReadyActions.querySelectorAll("[data-builder-ready-action]").forEach((button) => {
+    button.disabled = !canSave;
+  });
+
+  if (!canSave || !builderReadySummary) {
+    return;
+  }
+
+  const squad = [...currentRenderedTeam, ...currentBenchPlayers];
+  const totalPrice = squadCost(squad);
+  const savedText = hasSavedSquad ? "Saved squad found" : "Not saved yet";
+  builderReadySummary.textContent = `${squad.length}/${squadTotalPlayers} players · ${tacticSelect.value || "formation"} · ${remainingBudgetText(totalPrice)} left · ${savedText}.`;
+}
+
+function handleBuilderReadyActionClick(event) {
+  const actionButton = event.target.closest("[data-builder-ready-action]");
+
+  if (!actionButton) {
+    return;
+  }
+
+  if (actionButton.dataset.builderReadyAction === "save") {
+    saveBrowserSquadButton?.click();
+  }
+
+  if (actionButton.dataset.builderReadyAction === "export") {
+    exportTeamJsonButton?.click();
+  }
 }
 
 function clearUserSquadSelections() {
@@ -3192,7 +3417,7 @@ function savedDecisionSquadEmptyHtml(toolName) {
     <div class="decision-squad-heading">
       <div>
         <h3>Saved Squad Mode</h3>
-        <p>Build or import a full Team Builder squad to fill ${escapeHtml(toolName)} fields from your saved players. Manual search still works.</p>
+        <p>Build or load a squad to unlock ${escapeHtml(toolName)} fields from your saved players. Manual search still works.</p>
       </div>
       <span class="decision-squad-tag">Manual</span>
     </div>
@@ -3386,10 +3611,19 @@ function renderMatchdayDecisionStarterOptions(starters = []) {
 }
 
 function matchdayDecisionEmptyHtml() {
+  const { payload } = readBrowserSavedSquad();
+  const hasSavedSquad = payload?.schema_version === "team-export-v1";
+
   return `
-    <div class="matchday-decision-empty">
-      <strong>Build or import a full Team Builder squad.</strong>
-      <p>The center will then use your saved captain, vice captain, and bench order to organize matchday captain-switch and substitution checks.</p>
+    <div class="matchday-decision-empty matchday-decision-empty--action">
+      <div>
+        <strong>Build or load a squad to unlock captain and bench checks.</strong>
+        <p>The desk will then use your captain, vice captain, bench order, and matchday view to organize decisions.</p>
+      </div>
+      <div class="matchday-desk-actions">
+        <a class="matchday-desk-button matchday-desk-button--primary" href="#team-builder">Build My Squad</a>
+        <button class="matchday-desk-button" type="button" data-matchday-desk-action="load-saved-squad" ${hasSavedSquad ? "" : "disabled"}>Load Saved Squad</button>
+      </div>
     </div>
   `;
 }
@@ -3397,11 +3631,147 @@ function matchdayDecisionEmptyHtml() {
 function matchdayDecisionManualChecksHtml() {
   return `
     <div class="matchday-decision-checks">
-      <span>Manual points required</span>
+      <span>Actual points required</span>
       <span>Confirm unplayed players</span>
       <span>Check official deadlines</span>
       <span>Check formation legality</span>
     </div>
+  `;
+}
+
+function matchdayDecisionSquadStatusHtml({
+  starters,
+  bench,
+  currentCaptain,
+  currentViceCaptain,
+  benchOrderText,
+  matchdayId,
+  strategyLabel,
+  captainPoints,
+  playedStarter,
+  starterPoints
+}) {
+  const formationText = tacticSelect?.value || "Formation";
+  const nextAction = !userCaptainId
+    ? "Mark your captain in Team Builder."
+    : !userViceCaptainId
+      ? "Optional: mark your vice captain."
+      : !userBenchOrderIds.length && bench.length
+        ? "Confirm bench order if you want manual control."
+        : !captainPoints.isValid
+          ? "Enter captain points after he plays."
+          : !playedStarter
+            ? "Choose a played starter for bench checks."
+            : !starterPoints.isValid
+              ? "Enter that starter's points."
+              : "Use a fill button for the detailed checks.";
+
+  return `
+    <section class="matchday-squad-status" aria-label="Saved squad status">
+      <div class="matchday-squad-status__heading">
+        <div>
+          <span>Saved squad status</span>
+          <strong>${starters.length + bench.length}/${squadTotalPlayers} players ready</strong>
+        </div>
+        <span>${escapeHtml(matchdayLabelFromId(matchdayId))} · ${escapeHtml(strategyLabel)} · ${escapeHtml(formationText)}</span>
+      </div>
+      <div class="matchday-squad-status__grid">
+        ${matchdayDecisionSummaryCard("Captain", currentCaptain?.name || "Needs captain", userCaptainId ? "user selected" : "model fallback")}
+        ${matchdayDecisionSummaryCard("Vice captain", currentViceCaptain?.name || "Needs vice", userViceCaptainId ? "user selected" : "model fallback")}
+        ${matchdayDecisionSummaryCard("Bench order", benchOrderText || "Needs bench", userBenchOrderIds.length ? "user selected" : "builder default")}
+        ${matchdayDecisionSummaryCard("Next action", nextAction, "manual matchday checks")}
+      </div>
+    </section>
+  `;
+}
+
+function matchdayDeskActionCardHtml({ title, detail, status, action, primary = false, disabled = false }) {
+  return `
+    <article class="matchday-desk-card">
+      <div>
+        <span>${escapeHtml(status)}</span>
+        <strong>${escapeHtml(title)}</strong>
+        <p>${escapeHtml(detail)}</p>
+      </div>
+      <button class="matchday-desk-button ${primary ? "matchday-desk-button--primary" : ""}" type="button" data-matchday-desk-action="${escapeHtml(action)}" ${disabled ? "disabled" : ""}>Open</button>
+    </article>
+  `;
+}
+
+function matchdayDeskActionPanelHtml({
+  currentCaptain,
+  currentViceCaptain,
+  bench,
+  captainPoints,
+  playedStarter,
+  starterPoints,
+  captainRows,
+  benchRows
+}) {
+  const captainDetail = captainPoints.isValid
+    ? `Compare ${currentCaptain?.name || "your captain"} against the best unplayed captain options.`
+    : `Enter captain points for ${currentCaptain?.name || "your captain"}, then compare replacement options.`;
+  const benchDetail = playedStarter && starterPoints.isValid
+    ? `Compare ${playedStarter.name} against your bench order.`
+    : "Choose a played starter and points, then compare bench options.";
+  const timelineDetail = bench.length
+    ? "See your starters and bench grouped by matchday kickoff."
+    : "Build a full squad to see your kickoff order.";
+  const captainStatus = !currentCaptain
+    ? "needs captain"
+    : captainPoints.isValid && captainRows.some((row) => row.verdict.className === "switch")
+      ? "switch candidate"
+      : captainPoints.isValid
+        ? "ready"
+        : "points needed";
+  const benchStatus = !bench.length
+    ? "needs bench"
+    : playedStarter && starterPoints.isValid && benchRows.some((row) => row.verdict.className === "switch")
+      ? "sub candidate"
+      : playedStarter && starterPoints.isValid
+        ? "ready"
+        : "points needed";
+  const selectionDetail = !userCaptainId
+    ? "Mark captain"
+    : !userViceCaptainId
+      ? "Vice optional"
+      : !userBenchOrderIds.length && bench.length
+        ? "Bench default"
+        : "Selections ready";
+
+  return `
+    <section class="matchday-desk-action-panel" aria-label="Matchday Desk actions">
+      <div class="matchday-desk-action-panel__heading">
+        <div>
+          <h3>Matchday Actions</h3>
+          <p>${escapeHtml(selectionDetail)}. Use these shortcuts for the repeat checks you are most likely to run.</p>
+        </div>
+        <a class="matchday-desk-button" href="#team-builder">Edit Squad</a>
+      </div>
+      <div class="matchday-desk-card-grid">
+        ${matchdayDeskActionCardHtml({
+          title: "Captain Switch Check",
+          detail: captainDetail,
+          status: captainStatus,
+          action: "captain-check",
+          primary: !captainPoints.isValid || captainRows.some((row) => ["switch", "close"].includes(row.verdict.className))
+        })}
+        ${matchdayDeskActionCardHtml({
+          title: "Bench Switch Check",
+          detail: benchDetail,
+          status: benchStatus,
+          action: "bench-check",
+          primary: Boolean(playedStarter && starterPoints.isValid && benchRows.some((row) => ["switch", "close"].includes(row.verdict.className)))
+        })}
+        ${matchdayDeskActionCardHtml({
+          title: "My Matchday Timeline",
+          detail: timelineDetail,
+          status: "timeline",
+          action: "timeline",
+          disabled: !bench.length
+        })}
+      </div>
+    </section>
   `;
 }
 
@@ -3451,7 +3821,7 @@ function matchdayDecisionCaptainVerdict(candidate, projection, score, currentCap
     return {
       label: "Enter captain points",
       className: "review",
-      detail: "Enter actual raw points after your current captain plays, then compare one unplayed option.",
+      detail: "Enter actual points after your current captain plays, then compare one unplayed option.",
       edge: null,
       threshold: null,
       warnings
@@ -3461,9 +3831,9 @@ function matchdayDecisionCaptainVerdict(candidate, projection, score, currentCap
   const threshold = captainPoints.value + mode.switchBuffer;
   const edge = score - captainPoints.value;
   const highScoreDetail = captainPoints.value >= 12
-    ? "12+ raw points is an excellent captain score; keep unless you are making a deliberate high-risk chase."
+    ? "12+ captain points is an excellent score before the double; keep unless you are making a deliberate high-risk chase."
     : captainPoints.value >= 8
-      ? "8+ raw points is strong; switching needs a clear edge."
+      ? "8+ captain points is strong; switching needs a clear edge."
       : "";
 
   if (score >= threshold) {
@@ -3491,7 +3861,7 @@ function matchdayDecisionCaptainVerdict(candidate, projection, score, currentCap
   return {
     label: "Keep captain",
     className: "keep",
-    detail: `${candidate.name} does not beat the current captain score enough for this risk style. ${highScoreDetail}`.trim(),
+      detail: `${candidate.name} does not beat the current captain score enough for this strategy. ${highScoreDetail}`.trim(),
     edge,
     threshold,
     warnings
@@ -3529,7 +3899,7 @@ function matchdayDecisionSubstitutionVerdict(starter, benchPlayer, projection, s
     return {
       label: "Enter starter points",
       className: "review",
-      detail: "Enter actual raw points after the starter plays, then compare one unplayed bench option.",
+      detail: "Enter actual points after the starter plays, then compare one unplayed bench option.",
       edge: null,
       threshold: null,
       warnings
@@ -3539,9 +3909,9 @@ function matchdayDecisionSubstitutionVerdict(starter, benchPlayer, projection, s
   const threshold = starterPoints.value + mode.subBuffer;
   const edge = score - starterPoints.value;
   const strongScoreDetail = starterPoints.value >= 8
-    ? "8+ raw starter points is strong; subbing should need a very clear edge."
+    ? "8+ starter points is strong; subbing should need a very clear edge."
     : starterPoints.value >= 6
-      ? "6+ raw starter points is useful; subbing needs a clear edge."
+      ? "6+ starter points is useful; subbing needs a clear edge."
       : "";
 
   if (starter.id === benchPlayer.id) {
@@ -3580,7 +3950,7 @@ function matchdayDecisionSubstitutionVerdict(starter, benchPlayer, projection, s
   return {
     label: "Keep starter",
     className: "keep",
-    detail: `${benchPlayer.name} does not beat the starter score enough for this risk style. ${strongScoreDetail}`.trim(),
+      detail: `${benchPlayer.name} does not beat the starter score enough for this strategy. ${strongScoreDetail}`.trim(),
     edge,
     threshold,
     warnings
@@ -3642,7 +4012,7 @@ function renderMatchdayDecisionCaptainCard(row, currentCaptain, captainPoints, m
       <p>${escapeHtml(row.verdict.detail)}</p>
       <div class="matchday-decision-metrics">
         ${matchdayDecisionMetric("Captain signal", row.score === -Infinity ? "N/A" : displayNumber(row.score), edgeText)}
-        ${matchdayDecisionMetric("Risk style", mode.label, thresholdText)}
+        ${matchdayDecisionMetric("Strategy", mode.label, thresholdText)}
         ${matchdayDecisionMetric("Start", startProbability === null ? "N/A" : `${displayNumber(startProbability)}%`, expectedMinutes === null ? "minutes N/A" : `${displayNumber(expectedMinutes)} min`)}
       </div>
       ${matchdayDecisionWarningHtml(row.verdict.warnings)}
@@ -3673,7 +4043,7 @@ function renderMatchdayDecisionBenchCard(row, starter, starterPoints, mode) {
       <p>${escapeHtml(row.verdict.detail)}</p>
       <div class="matchday-decision-metrics">
         ${matchdayDecisionMetric("Sub signal", row.score === -Infinity ? "N/A" : displayNumber(row.score), edgeText)}
-        ${matchdayDecisionMetric("Risk style", mode.label, thresholdText)}
+        ${matchdayDecisionMetric("Strategy", mode.label, thresholdText)}
         ${matchdayDecisionMetric("Start", startProbability === null ? "N/A" : `${displayNumber(startProbability)}%`, expectedMinutes === null ? "minutes N/A" : `${displayNumber(expectedMinutes)} min`)}
       </div>
       ${matchdayDecisionWarningHtml(row.verdict.warnings)}
@@ -3712,20 +4082,36 @@ function renderMatchdayDecisionCenter() {
   const benchOrderText = benchRows.map((row) => `B${row.rank}: ${row.player.name}`).join(" · ");
 
   matchdayDecisionCenterContent.innerHTML = `
+    ${matchdayDeskActionPanelHtml({
+      currentCaptain,
+      currentViceCaptain,
+      bench,
+      captainPoints,
+      playedStarter,
+      starterPoints,
+      captainRows,
+      benchRows
+    })}
+    ${matchdayDecisionSquadStatusHtml({
+      starters,
+      bench,
+      currentCaptain,
+      currentViceCaptain,
+      benchOrderText,
+      matchdayId,
+      strategyLabel: captainMode.label,
+      captainPoints,
+      playedStarter,
+      starterPoints
+    })}
     ${matchdayDecisionManualChecksHtml()}
-    <div class="matchday-decision-summary">
-      ${matchdayDecisionSummaryCard("Captain", currentCaptain?.name || "Needs captain", userCaptainId ? "user selected" : "model fallback")}
-      ${matchdayDecisionSummaryCard("Vice captain", currentViceCaptain?.name || "Needs vice", userViceCaptainId ? "user selected" : "model fallback")}
-      ${matchdayDecisionSummaryCard("Bench order", benchOrderText || "Needs bench", userBenchOrderIds.length ? "user selected" : "builder default")}
-      ${matchdayDecisionSummaryCard("Matchday", matchdayLabelFromId(matchdayId), matchdayDecisionRiskStyle())}
-    </div>
     <section class="matchday-decision-block">
       <div class="matchday-decision-block__heading">
         <div>
           <h3>Captain switch</h3>
           <p>${bestCaptain ? escapeHtml(bestCaptain.verdict.detail) : "No captain candidates available."}</p>
         </div>
-        <span>${captainPoints.isValid ? `${displayNumber(captainPoints.value)} raw captain points` : "points needed"}</span>
+        <span>${captainPoints.isValid ? `${displayNumber(captainPoints.value)} captain points` : "points needed"}</span>
       </div>
       <div class="matchday-decision-grid">
         ${captainRowsToShow.map((row) => renderMatchdayDecisionCaptainCard(row, currentCaptain, captainPoints, captainMode)).join("")}
@@ -3753,8 +4139,17 @@ function renderSavedSquadDecisionPanels() {
 }
 
 function setAdvisorRiskStyle(select, riskStyle) {
-  if (select && select.querySelector(`option[value="${riskStyle}"]`)) {
+  if (!select) {
+    return;
+  }
+
+  if (select.querySelector(`option[value="${riskStyle}"]`)) {
     select.value = riskStyle;
+    return;
+  }
+
+  if (riskStyle === "safer" && select.querySelector('option[value="safe"]')) {
+    select.value = "safe";
   }
 }
 
@@ -3828,7 +4223,7 @@ function renderSavedSquadTimelineOptions() {
 function savedSquadTimelineEmptyHtml() {
   return `
     <div class="timeline-empty">
-      <strong>Build or import a full Team Builder squad.</strong>
+      <strong>Build or load a squad to unlock your matchday timeline.</strong>
       <p>The timeline will then group your saved players by kickoff for MD1, MD2, and MD3. Manual advisor search still works without a saved squad.</p>
     </div>
   `;
@@ -4068,7 +4463,74 @@ function handleSavedSquadTimelineClick(event) {
   }
 }
 
+function openCollapsiblePanel(panelId) {
+  const panel = document.getElementById(panelId);
+
+  if (!panel) {
+    return;
+  }
+
+  if (panel.tagName.toLowerCase() === "details") {
+    panel.open = true;
+  }
+
+  panel.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function handleMatchdayDeskAction(action) {
+  const matchdayId = matchdayDecisionMatchdaySelect?.value || "md1";
+  const riskStyle = matchdayDecisionRiskStyle();
+
+  if (action === "load-saved-squad") {
+    loadTeamFromBrowser();
+    renderSavedSquadDecisionPanels();
+    return;
+  }
+
+  if (action === "captain-check") {
+    const { starters } = savedDecisionSquad();
+    const currentCaptain = starters.find((starter) => starter.id === userCaptainId) || modelCaptainPlayer(starters);
+    setAdvisorMatchday(captainChangeMatchdaySelect, matchdayId);
+    setAdvisorRiskStyle(captainChangeRiskSelect, riskStyle);
+    setDecisionPlayerInput(captainChangeCurrentPlayerInput, currentCaptain);
+    if (captainChangeCurrentPointsInput && matchdayDecisionCaptainPointsInput) {
+      captainChangeCurrentPointsInput.value = matchdayDecisionCaptainPointsInput.value;
+    }
+    renderSavedSquadAdvisorPanels();
+    renderCaptainChangeAdvisor();
+    openCollapsiblePanel("captain-change-advisor");
+    return;
+  }
+
+  if (action === "bench-check") {
+    const starter = playerById(matchdayDecisionStarterSelect?.value);
+    setAdvisorMatchday(substitutionAdvisorMatchdaySelect, matchdayId);
+    setAdvisorRiskStyle(substitutionAdvisorRiskSelect, riskStyle);
+    setDecisionPlayerInput(substitutionAdvisorStarterInput, starter);
+    if (substitutionAdvisorPointsInput && matchdayDecisionStarterPointsInput) {
+      substitutionAdvisorPointsInput.value = matchdayDecisionStarterPointsInput.value;
+    }
+    renderSavedSquadAdvisorPanels();
+    renderSubstitutionAdvisor();
+    openCollapsiblePanel("substitution-advisor");
+    return;
+  }
+
+  if (action === "timeline") {
+    setAdvisorMatchday(savedSquadTimelineMatchdaySelect, matchdayId);
+    renderSavedSquadTimeline();
+    openCollapsiblePanel("saved-squad-timeline");
+  }
+}
+
 function handleMatchdayDecisionCenterClick(event) {
+  const deskActionButton = event.target.closest("[data-matchday-desk-action]");
+
+  if (deskActionButton) {
+    handleMatchdayDeskAction(deskActionButton.dataset.matchdayDeskAction);
+    return;
+  }
+
   const button = event.target.closest("[data-decision-center-action][data-player-id]");
 
   if (!button) {
@@ -4200,6 +4662,10 @@ function captainChangeProjectionScore(projection, mode) {
     return parts.rawExpected * 0.42 + parts.rawUpside * 0.3 + parts.rawRiskAdjusted * 0.14 + parts.rawFloor * 0.14;
   }
 
+  if (mode === captainChangeRiskModes.differential) {
+    return parts.rawExpected * 0.34 + parts.rawUpside * 0.42 + parts.rawRiskAdjusted * 0.1 + parts.rawFloor * 0.14;
+  }
+
   return parts.rawExpected * 0.5 + parts.rawRiskAdjusted * 0.25 + parts.rawFloor * 0.25;
 }
 
@@ -4237,7 +4703,7 @@ function captainChangeWarnings(player, projection, matchdayId, currentPlayer) {
   }
 
   if (qaStatus === "review") {
-    warnings.push("QA review flags are active for this matchday.");
+    warnings.push("Data-check review flags are active for this matchday.");
   }
 
   return warnings;
@@ -4333,7 +4799,7 @@ function renderDecisionToolStatuses() {
   renderDecisionToolStatus(
     captainChangeStatus,
     lastCaptainChangeDecision,
-    "Enter raw points and one unplayed replacement, then run the check.",
+    "Enter captain points and one unplayed replacement, then run the check.",
     "Latest captain check will be included in Team Export JSON."
   );
   renderDecisionToolStatus(
@@ -4389,9 +4855,14 @@ function setImportedRiskStyle(select, modes, riskStyle, label, warnings) {
   }
 
   if (riskStyle && modes[riskStyle]) {
-    select.value = riskStyle;
+    const selectValue = select.querySelector(`option[value="${riskStyle}"]`)
+      ? riskStyle
+      : riskStyle === "safer" && select.querySelector('option[value="safe"]')
+        ? "safe"
+        : riskStyle;
+    select.value = selectValue;
   } else if (riskStyle) {
-    warnings.push(`Imported ${label} risk style was not recognized: ${riskStyle}.`);
+    warnings.push(`Imported ${label} strategy was not recognized: ${riskStyle}.`);
   }
 }
 
@@ -4424,10 +4895,10 @@ function renderImportedCaptainDecision(decision, currentPlayer, candidate, point
       <strong>Imported saved captain check</strong>
     </div>
     <div class="captain-change-import-warning">Rerun this advisor before acting. Imported checks do not verify live points, played/unplayed status, deadlines, or official-game legality.</div>
-    <p>Restored ${escapeHtml(candidate.name)} as the replacement captain with ${displayNumber(points)} raw points kept from ${escapeHtml(currentPlayer?.name || "the current captain")}. This is imported context, not a fresh live recommendation. Click Check Switch to recalculate before acting.</p>
+    <p>Restored ${escapeHtml(candidate.name)} as the replacement captain with ${displayNumber(points)} points kept from ${escapeHtml(currentPlayer?.name || "the current captain")}. This is imported context, not a fresh live recommendation. Click Check Switch to recalculate before acting.</p>
     <div class="captain-change-metrics">
       ${importedDecisionMetric("Imported result", decision.result || "Needs rerun", decision.result_class || "review")}
-      ${importedDecisionMetric("Matchday", matchdayLabelFromId(matchdayId), decision.risk_style_label || decision.risk_style || "risk style needs check")}
+      ${importedDecisionMetric("Matchday", matchdayLabelFromId(matchdayId), decision.risk_style_label || decision.risk_style || "strategy needs check")}
       ${importedDecisionMetric("Old switch score", decision.switch_score, `threshold ${decision.switch_threshold ?? "N/A"}`)}
       ${importedDecisionMetric("Saved at", decision.saved_at ? new Date(decision.saved_at).toLocaleString() : "N/A", "from imported file")}
     </div>
@@ -4448,10 +4919,10 @@ function renderImportedSubstitutionDecision(decision, starter, benchPlayer, poin
       <strong>Imported saved substitution check</strong>
     </div>
     <div class="captain-change-import-warning">Rerun this advisor before acting. Imported checks do not verify live points, played/unplayed status, deadlines, or formation legality.</div>
-    <p>Restored ${escapeHtml(benchPlayer.name)} as the bench candidate against ${displayNumber(points)} raw points from ${escapeHtml(starter?.name || "the played starter")}. This is imported context, not a fresh live recommendation. Click Check Sub to recalculate before acting.</p>
+    <p>Restored ${escapeHtml(benchPlayer.name)} as the bench candidate against ${displayNumber(points)} points from ${escapeHtml(starter?.name || "the played starter")}. This is imported context, not a fresh live recommendation. Click Check Sub to recalculate before acting.</p>
     <div class="captain-change-metrics">
       ${importedDecisionMetric("Imported result", decision.result || "Needs rerun", decision.result_class || "review")}
-      ${importedDecisionMetric("Matchday", matchdayLabelFromId(matchdayId), decision.risk_style_label || decision.risk_style || "risk style needs check")}
+      ${importedDecisionMetric("Matchday", matchdayLabelFromId(matchdayId), decision.risk_style_label || decision.risk_style || "strategy needs check")}
       ${importedDecisionMetric("Old sub score", decision.substitution_score, `threshold ${decision.substitution_threshold ?? "N/A"}`)}
       ${importedDecisionMetric("Saved at", decision.saved_at ? new Date(decision.saved_at).toLocaleString() : "N/A", "from imported file")}
     </div>
@@ -4476,7 +4947,7 @@ function restoreImportedCaptainDecision(decision) {
   }
 
   if (points === null) {
-    warnings.push("Imported captain check was skipped because current captain raw points were missing or invalid.");
+    warnings.push("Imported captain check was skipped because current captain points were missing or invalid.");
     return { imported: false, warnings };
   }
 
@@ -4515,7 +4986,7 @@ function restoreImportedSubstitutionDecision(decision) {
   }
 
   if (points === null) {
-    warnings.push("Imported substitution check was skipped because starter raw points were missing or invalid.");
+    warnings.push("Imported substitution check was skipped because starter points were missing or invalid.");
     return { imported: false, warnings };
   }
 
@@ -4572,8 +5043,8 @@ function renderCaptainChangeAdvisor(event) {
     renderDecisionToolStatuses();
     captainChangeResult.className = "captain-change-result captain-change-result--empty";
     captainChangeResult.innerHTML = `
-      <strong>Enter the current captain's raw points.</strong>
-      <p>Use the score before the captain double so the comparison is on the same raw-points basis.</p>
+      <strong>Enter the current captain's points.</strong>
+      <p>Use the score before the captain double so the comparison is on the same basis.</p>
     `;
     return;
   }
@@ -4644,7 +5115,7 @@ function renderCaptainChangeAdvisor(event) {
   } else if (comparisonScore >= breakEven) {
     verdict = "Switch captain";
     resultClass = "switch";
-    explanation = `${candidate.name} clears the ${displayNumber(breakEven)} raw-point switch threshold.`;
+    explanation = `${candidate.name} clears the ${displayNumber(breakEven)} switch threshold.`;
   } else if (comparisonScore >= currentPoints - mode.closeMargin) {
     verdict = "Close call";
     resultClass = "close";
@@ -4653,9 +5124,9 @@ function renderCaptainChangeAdvisor(event) {
 
   const currentName = currentPlayer?.name || "Current captain";
   const currentScoreContext = currentPoints >= 12
-    ? " A 12+ raw captain score is already excellent, so this check is deliberately conservative from here."
+    ? " A 12+ captain score before the double is already excellent, so this check is deliberately conservative from here."
     : currentPoints >= 8
-      ? " An 8+ raw captain score is strong, so switching needs a clear edge."
+      ? " An 8+ captain score before the double is strong, so switching needs a clear edge."
       : "";
   const warningHtml = warnings.length
     ? `<div class="captain-change-warning-list">${warnings.map((warning) => `<span>${escapeHtml(warning)}</span>`).join("")}</div>`
@@ -4692,11 +5163,11 @@ function renderCaptainChangeAdvisor(event) {
       <span class="captain-change-badge">${escapeHtml(mode.badge)}</span>
       <strong>${escapeHtml(verdict)}</strong>
     </div>
-    <p>${escapeHtml(explanation)} Keeping ${escapeHtml(currentName)} keeps a ${displayNumber(currentPoints)} raw-point captain bonus; switching needs the new captain to beat that by enough for your selected risk style.${escapeHtml(currentScoreContext)}</p>
+    <p>${escapeHtml(explanation)} Keeping ${escapeHtml(currentName)} keeps a ${displayNumber(currentPoints)} captain score before the double; switching needs the new captain to beat that by enough for your selected strategy.${escapeHtml(currentScoreContext)}</p>
     <div class="captain-change-metrics">
-      ${captainChangeMetric("Current raw points", displayNumber(currentPoints), currentName)}
+      ${captainChangeMetric("Current points", displayNumber(currentPoints), currentName)}
       ${captainChangeMetric(mode.projectionLabel, displayNumber(comparisonScore), `${displayNumber(edge)} vs current`)}
-      ${captainChangeMetric("Raw signal / floor", `${displayNumber(scoreParts.rawExpected)} / ${displayNumber(scoreParts.rawFloor)}`, `${displayNumber(scoreParts.rawUpside)} upside signal`)}
+      ${captainChangeMetric("Projection / floor", `${displayNumber(scoreParts.rawExpected)} / ${displayNumber(scoreParts.rawFloor)}`, `${displayNumber(scoreParts.rawUpside)} upside signal`)}
       ${captainChangeMetric("Fixture", `${projection.opponent} · ${fixtureDifficulty === null ? "Needs check" : displayNumber(fixtureDifficulty)}`, `${displayNumber(startProbability)}% start · ${displayNumber(expectedMinutes)} min`)}
     </div>
     ${warningHtml}
@@ -4718,7 +5189,7 @@ function resetCaptainChangeAdvisor() {
   if (captainChangeResult) {
     captainChangeResult.className = "captain-change-result captain-change-result--empty";
     captainChangeResult.innerHTML = `
-      <strong>Enter a current raw score and a replacement captain.</strong>
+      <strong>Enter a current captain score and a replacement captain.</strong>
       <p>The replacement should be in your squad and still unplayed in the selected matchday.</p>
     `;
   }
@@ -4737,6 +5208,10 @@ function substitutionAdvisorProjectionScore(projection, mode) {
 
   if (mode === substitutionAdvisorRiskModes.upside) {
     return parts.rawExpected * 0.38 + parts.rawUpside * 0.28 + parts.rawRiskAdjusted * 0.14 + parts.rawFloor * 0.2;
+  }
+
+  if (mode === substitutionAdvisorRiskModes.differential) {
+    return parts.rawExpected * 0.32 + parts.rawUpside * 0.4 + parts.rawRiskAdjusted * 0.1 + parts.rawFloor * 0.18;
   }
 
   return parts.rawExpected * 0.45 + parts.rawRiskAdjusted * 0.25 + parts.rawFloor * 0.3;
@@ -4760,7 +5235,7 @@ function substitutionAdvisorWarnings(starter, benchPlayer, projection, matchdayI
   }
 
   if (currentPoints >= 6) {
-    warnings.push(`${displayNumber(currentPoints)} raw points is a useful return; subbing needs a clear edge.`);
+    warnings.push(`${displayNumber(currentPoints)} points is a useful return; subbing needs a clear edge.`);
   }
 
   if (startProbability < 55) {
@@ -4784,7 +5259,7 @@ function substitutionAdvisorWarnings(starter, benchPlayer, projection, matchdayI
   }
 
   if (qaStatus === "review") {
-    warnings.push("QA review flags are active for this matchday.");
+    warnings.push("Data-check review flags are active for this matchday.");
   }
 
   return warnings;
@@ -4810,7 +5285,7 @@ function renderSubstitutionAdvisor(event) {
     renderDecisionToolStatuses();
     substitutionAdvisorResult.className = "captain-change-result substitution-advisor-result captain-change-result--empty";
     substitutionAdvisorResult.innerHTML = `
-      <strong>Enter the played starter's raw points.</strong>
+      <strong>Enter the played starter's points.</strong>
       <p>Use the actual fantasy score before deciding whether a bench player is worth bringing in.</p>
     `;
     return;
@@ -4884,7 +5359,7 @@ function renderSubstitutionAdvisor(event) {
   } else if (comparisonScore >= breakEven) {
     verdict = "Sub in bench player";
     resultClass = "switch";
-    explanation = `${benchPlayer.name} clears the ${displayNumber(breakEven)} raw-point substitution threshold.`;
+    explanation = `${benchPlayer.name} clears the ${displayNumber(breakEven)} substitution threshold.`;
   } else if (comparisonScore >= currentPoints - mode.closeMargin) {
     verdict = "Close call";
     resultClass = "close";
@@ -4893,9 +5368,9 @@ function renderSubstitutionAdvisor(event) {
 
   const starterName = starter?.name || "Current starter";
   const currentScoreContext = currentPoints >= 8
-    ? " An 8+ raw starter score is strong, so this check is deliberately conservative."
+    ? " An 8+ starter score is strong, so this check is deliberately conservative."
     : currentPoints >= 6
-      ? " A 6+ raw starter score is useful, so subbing needs a clear edge."
+      ? " A 6+ starter score is useful, so subbing needs a clear edge."
       : "";
   const warningHtml = warnings.length
     ? `<div class="captain-change-warning-list">${warnings.map((warning) => `<span>${escapeHtml(warning)}</span>`).join("")}</div>`
@@ -4934,11 +5409,11 @@ function renderSubstitutionAdvisor(event) {
       <span class="captain-change-badge">${escapeHtml(mode.badge)}</span>
       <strong>${escapeHtml(verdict)}</strong>
     </div>
-    <p>${escapeHtml(explanation)} Keeping ${escapeHtml(starterName)} keeps ${displayNumber(currentPoints)} raw points; subbing needs the bench player to beat that by enough for your selected risk style.${escapeHtml(currentScoreContext)}</p>
+    <p>${escapeHtml(explanation)} Keeping ${escapeHtml(starterName)} keeps ${displayNumber(currentPoints)} points; subbing needs the bench player to beat that by enough for your selected strategy.${escapeHtml(currentScoreContext)}</p>
     <div class="captain-change-metrics">
-      ${captainChangeMetric("Starter raw points", displayNumber(currentPoints), starterName)}
+      ${captainChangeMetric("Starter points", displayNumber(currentPoints), starterName)}
       ${captainChangeMetric(mode.projectionLabel, displayNumber(comparisonScore), `${displayNumber(edge)} vs starter`)}
-      ${captainChangeMetric("Raw signal / floor", `${displayNumber(scoreParts.rawExpected)} / ${displayNumber(scoreParts.rawFloor)}`, `${displayNumber(scoreParts.rawUpside)} upside signal`)}
+      ${captainChangeMetric("Projection / floor", `${displayNumber(scoreParts.rawExpected)} / ${displayNumber(scoreParts.rawFloor)}`, `${displayNumber(scoreParts.rawUpside)} upside signal`)}
       ${captainChangeMetric("Fixture", `${projection.opponent} · ${fixtureDifficulty === null ? "Needs check" : displayNumber(fixtureDifficulty)}`, `${displayNumber(startProbability)}% start · ${displayNumber(expectedMinutes)} min`)}
     </div>
     ${warningHtml}
@@ -5032,15 +5507,15 @@ function styleReason(player, measureKey) {
   }
 
   if (measureKey === "bestValue") {
-    return `${context}: value score ${displayNumber(scoreValue(player, "value_score_v1", "value_score_v0"))} at ${price} proxy units, with overpay risk ${overpayRisk}.${roleSuffix}${overallFixtureText}`;
+    return `${context}: value score ${displayNumber(scoreValue(player, "value_score_v1", "value_score_v0"))} at ${price} budget units, with overpay risk ${overpayRisk}.${roleSuffix}${overallFixtureText}`;
   }
 
   if (measureKey === "cheapEnabler") {
-    return `${context}: cheap-enabler score ${displayNumber(scoreValue(player, "cheap_enabler_score_v1", "cheap_enabler_score"))} at ${price} proxy units.${roleSuffix}${overallFixtureText}`;
+    return `${context}: cheap-enabler score ${displayNumber(scoreValue(player, "cheap_enabler_score_v1", "cheap_enabler_score"))} at ${price} budget units.${roleSuffix}${overallFixtureText}`;
   }
 
   if (measureKey === "premiumWorthIt") {
-    return `${context}: premium-worth-it score ${displayNumber(scoreValue(player, "premium_worth_it_score_v1", "premium_worth_it_score"))} at ${price} proxy units, with overpay risk ${overpayRisk}.${roleSuffix}${overallFixtureText}`;
+    return `${context}: premium-worth-it score ${displayNumber(scoreValue(player, "premium_worth_it_score_v1", "premium_worth_it_score"))} at ${price} budget units, with overpay risk ${overpayRisk}.${roleSuffix}${overallFixtureText}`;
   }
 
   if (measureKey === "var10") {
@@ -5433,7 +5908,7 @@ function portfolioWarningsForAnalytics(analytics) {
     warnings.push({
       kind: analytics.qaReviewCount >= 3 ? "review" : "watch",
       label: "Data Checks",
-      detail: `${analytics.qaReviewCount} squad player${analytics.qaReviewCount === 1 ? "" : "s"} need review and ${analytics.qaWatchCount} carry watch status.`
+      detail: `${analytics.qaReviewCount} squad player${analytics.qaReviewCount === 1 ? "" : "s"} need data review and ${analytics.qaWatchCount} carry watch status.`
     });
   }
 
@@ -5447,7 +5922,7 @@ function portfolioWarningsForAnalytics(analytics) {
     warnings.push({
       kind: "watch",
       label: "Bench Fragility",
-      detail: `${analytics.benchWeakCount} bench player${analytics.benchWeakCount === 1 ? "" : "s"} have low start probability, low expected minutes, or QA review flags.`
+      detail: `${analytics.benchWeakCount} bench player${analytics.benchWeakCount === 1 ? "" : "s"} have low start probability, low expected minutes, or data-check review flags.`
     });
   }
 
@@ -6133,10 +6608,10 @@ function exportExplanation(starters, bench) {
     .join(", ");
 
   const priceNote = usingFinanceModel
-    ? "Prices use proxy_price_v1 because official World Cup fantasy prices are not imported yet; proxy_price_v0 is preserved for audit."
+    ? "Fallback builder prices are estimated where needed; official fantasy prices remain the public pick source."
     : "Current data is the local fallback dataset.";
 
-  return `Generated by Optimizer v0 using ${activeMeasure().label}, ${trustModeLabel()}, and ${activeMatchdayLabel()}. Portfolio-aware scoring is enabled as a small squad-level adjustment. Risk controls: ${builderRiskSettingsSummary()}. The squad costs ${budgetText(totalPrice)} with ${remainingBudgetText(totalPrice)} remaining. Country counts: ${countryCounts || "none"}. ${priceNote}`;
+  return `Generated by Team Builder using ${activeMeasure().label}, ${trustModeLabel()}, and ${activeMatchdayLabel()}. Squad risk scoring is enabled as a small squad-level adjustment. Risk controls: ${builderRiskSettingsSummary()}. The squad costs ${budgetText(totalPrice)} with ${remainingBudgetText(totalPrice)} remaining. Country counts: ${countryCounts || "none"}. ${priceNote}`;
 }
 
 function teamExportPayload() {
@@ -6193,7 +6668,7 @@ function teamExportPayload() {
     decision_tools: decisionToolPlaceholdersForExport(),
     recommendation_notes: {
       explanation,
-      generated_by: "Optimizer v0 with Portfolio Optimizer v0 adjustment",
+      generated_by: "Team Builder with squad risk adjustment",
       model_caveat: "World Cup fantasy recommendations using the current available model data. Confirm live lineups, locks, deadlines, and official-game legality before acting.",
       next_use: "This export is structured so a future import flow can prefill saved squads and decision-tool context."
     },
@@ -6252,6 +6727,69 @@ function exportTeamJson() {
   const decisionText = savedDecisionTextForExport();
   teamMessage.textContent = `Team JSON v1 export ready${decisionText}. A download was created and the export preview is shown in the Team Builder controls.`;
   downloadJsonFile("world-cup-fantasy-team-v1.json", jsonText);
+}
+
+function saveTeamToBrowser() {
+  if (!fullBuiltSquadIsReady()) {
+    showBuilderWarning(`Build a full ${squadLabel()} before saving to this browser.`);
+    renderBrowserSquadSaveStatus();
+    return;
+  }
+
+  const storage = browserSquadStorage();
+
+  if (!storage) {
+    showBuilderWarning("Browser saving is not available here. Use Export JSON instead.");
+    renderBrowserSquadSaveStatus();
+    return;
+  }
+
+  try {
+    const payload = {
+      ...teamExportPayload(),
+      browser_saved_at: new Date().toISOString()
+    };
+    storage.setItem(browserSquadStorageKey, JSON.stringify(payload));
+    teamMessage.textContent = "Squad saved in this browser. Matchday Desk can now reload it without a JSON file.";
+    renderBrowserSquadSaveStatus();
+    renderSavedSquadDecisionPanels();
+  } catch (error) {
+    showBuilderWarning("Browser save failed. Use Export JSON as a fallback.");
+    renderBrowserSquadSaveStatus();
+  }
+}
+
+function loadTeamFromBrowser() {
+  const { payload, error } = readBrowserSavedSquad();
+
+  if (error || !payload) {
+    showBuilderWarning(error || "No browser-saved squad is available yet.");
+    renderBrowserSquadSaveStatus();
+    return;
+  }
+
+  try {
+    restoreTeamFromExportPayload(payload);
+    teamMessage.textContent = "Loaded the browser-saved squad. Rebuild only if you want Team Builder to change it.";
+    renderBrowserSquadSaveStatus();
+  } catch (errorToShow) {
+    showBuilderWarning(errorToShow.message || "Browser-saved squad could not be loaded.");
+    teamMessage.textContent = "Saved squad load failed. The current squad was left unchanged.";
+    renderBrowserSquadSaveStatus();
+  }
+}
+
+function clearBrowserSavedSquad() {
+  const storage = browserSquadStorage();
+
+  if (!storage) {
+    showBuilderWarning("Browser saving is not available here.");
+    return;
+  }
+
+  storage.removeItem(browserSquadStorageKey);
+  teamMessage.textContent = "Browser-saved squad cleared. The current squad on screen was left unchanged.";
+  renderBrowserSquadSaveStatus();
 }
 
 function importedIdList(primaryValue, fallbackValue = []) {
@@ -6315,7 +6853,7 @@ function setImportedBuilderSettings(payload) {
   }
 
   if (styleKey && measures[styleKey]) {
-    measureSelect.value = styleKey;
+    measureSelect.value = primaryStrategyKeys.includes(styleKey) ? styleKey : "balanced";
   }
 
   if (trustModeId && trustModes[trustModeId]) {
@@ -6509,10 +7047,10 @@ function restoreTeamFromExportPayload(payload) {
   let importMessage = "";
   if (restoreIsComplete) {
     renderTeam(starterImport.foundPlayers, benchImport.foundPlayers, [], "built");
-    importMessage = `Imported ${payload.team_name || "saved Team JSON v1"} with ${startingLineupTotal} starters and ${benchLabel()}. Rebuild only if you want the optimizer to change it.`;
+    importMessage = `Loaded ${payload.team_name || "saved Team JSON v1"} with ${startingLineupTotal} starters and ${benchLabel()}. Rebuild only if you want Team Builder to change it.`;
   } else {
     renderLockedPreview();
-    importMessage = "Imported the settings and available locked players, but the saved squad could not be fully restored.";
+    importMessage = "Loaded the settings and available locked players, but the saved squad could not be fully restored.";
   }
 
   const decisionImport = restoreImportedDecisionTools(payload);
@@ -6556,14 +7094,16 @@ async function importTeamJson(event) {
 }
 
 function renderMeasureOptions() {
-  const recommendationStyleKeys = ["balanced", "safe", "upside", "differential", "captain"];
   const renderOptions = (keys) => keys
     .map((key) => `<option value="${key}">${measures[key].optionLabel || measures[key].label}</option>`)
     .join("");
-  const measureOptions = renderOptions(recommendationStyleKeys);
+  const measureOptions = renderOptions(primaryStrategyKeys);
 
-  measureSelect.innerHTML = measureOptions;
-  adviceMeasureSelect.innerHTML = measureOptions;
+  [measureSelect, adviceMeasureSelect].filter(Boolean).forEach((select) => {
+    const previousValue = select.value;
+    select.innerHTML = measureOptions;
+    select.value = primaryStrategyKeys.includes(previousValue) ? previousValue : "balanced";
+  });
 }
 
 function renderFinanceLensOptions() {
@@ -6627,7 +7167,7 @@ function renderMeasureInfo() {
     <p>${measure.description}</p>
     <p><strong>How it is calculated:</strong> ${measure.formula}</p>
     <p><strong>Matchday view:</strong> ${matchdayCopy}</p>
-    <p><strong>Risk appetite:</strong> ${trustMode.formula}</p>
+    <p><strong>Confidence mode:</strong> ${trustMode.formula}</p>
   `;
 }
 
@@ -6861,7 +7401,7 @@ function builderRiskSettingsSummary(settings = builderRiskSettings()) {
   }
 
   if (settings.maxQaReviewPlayers !== null) {
-    parts.push(`max QA review ${displayNumber(settings.maxQaReviewPlayers)}`);
+    parts.push(`max data-review ${displayNumber(settings.maxQaReviewPlayers)}`);
   }
 
   parts.push(settings.allowRiskyPicks ? "risky fill-ins allowed" : "risky fill-ins blocked");
@@ -6907,7 +7447,7 @@ function builderRiskViolationsForSquad(squad, settings = builderRiskSettings(), 
     );
 
     if (qaReviewPlayers.length > settings.maxQaReviewPlayers) {
-      violations.push(`${qaReviewPlayers.length} QA-review squad player${qaReviewPlayers.length === 1 ? "" : "s"} exceed the max of ${displayNumber(settings.maxQaReviewPlayers)}: ${labelPlayers(qaReviewPlayers)}.`);
+      violations.push(`${qaReviewPlayers.length} data-review squad player${qaReviewPlayers.length === 1 ? "" : "s"} exceed the max of ${displayNumber(settings.maxQaReviewPlayers)}: ${labelPlayers(qaReviewPlayers)}.`);
     }
   }
 
@@ -7050,6 +7590,9 @@ function updateLockedPlayers(event) {
 
   updateControlStates();
   renderLockedPreview();
+  renderDashboardSections();
+  renderCaptainPicks();
+  renderAdviceTable();
 }
 
 // Locked players are kept first, but only while they fit the loaded squad limits.
@@ -7369,7 +7912,7 @@ function pruneOptimizerStates(states, measure, tacticName) {
     .slice(0, stateLimit);
 }
 
-// Optimizer v0 searches several legal squad paths instead of accepting the first fill.
+// Team Builder searches several legal squad paths instead of accepting the first fill.
 function buildSuggestedSquad() {
   resetOptimizerPriceFloorCache();
   resetOptimizerStateRankCache();
@@ -7495,9 +8038,83 @@ function clearTeamPreview() {
   renderTeam([], [], [], "preview");
 }
 
+function currentBuilderSquadSize() {
+  return currentRenderedTeam.length + currentBenchPlayers.length;
+}
+
+function updateBuilderFlowSteps(activeStep) {
+  const stepOrder = ["strategy", "locks", "build", "review", "save"];
+  const activeIndex = stepOrder.indexOf(activeStep);
+  const hasLocksOrAvoids = lockedPlayerIds.size > 0 || excludedPlayerIds.size > 0;
+
+  builderFlowSteps.forEach((step) => {
+    const stepName = step.dataset.builderFlowStep;
+    const stepIndex = stepOrder.indexOf(stepName);
+    const isOptionalLockStep = stepName === "locks" && !hasLocksOrAvoids && activeStep === "build";
+
+    step.classList.toggle("is-current", stepName === activeStep);
+    step.classList.toggle("is-complete", stepIndex >= 0 && stepIndex < activeIndex && !isOptionalLockStep);
+  });
+}
+
+function updateBuilderGuidance() {
+  const squadSize = currentBuilderSquadSize();
+  const fullSquadBuilt = currentRenderMode === "built" && squadSize === squadTotalPlayers;
+  const partialSquadBuilt = currentRenderMode === "built" && squadSize > 0 && !fullSquadBuilt;
+  const lockedCount = lockedPlayerIds.size;
+  const avoidedCount = excludedPlayerIds.size;
+
+  if (builderLockStatus) {
+    builderLockStatus.textContent = lockedCount === 0
+      ? "No players locked"
+      : `${lockedCount} locked player${lockedCount === 1 ? "" : "s"}`;
+  }
+
+  if (builderRemovedStatus) {
+    builderRemovedStatus.textContent = avoidedCount === 0
+      ? "No avoided players"
+      : `${avoidedCount} avoided player${avoidedCount === 1 ? "" : "s"}`;
+  }
+
+  if (builderBuildGuidance) {
+    if (fullSquadBuilt) {
+      builderBuildGuidance.textContent = "Full squad built. Review the checks, then save it for Matchday Desk.";
+    } else if (partialSquadBuilt) {
+      builderBuildGuidance.textContent = `Only ${squadSize} of ${squadTotalPlayers} players fit. Loosen locks, avoids, budget, or advanced filters and rebuild.`;
+    } else if (lockedCount > 0 || avoidedCount > 0) {
+      builderBuildGuidance.textContent = `Ready to build around ${lockedCount} locked and ${avoidedCount} avoided player${lockedCount + avoidedCount === 1 ? "" : "s"}.`;
+    } else {
+      builderBuildGuidance.textContent = `Ready when you are: build a ${squadLabel()} from the selected strategy, budget, and rules.`;
+    }
+  }
+
+  if (builderReviewStatus) {
+    if (fullSquadBuilt) {
+      builderReviewStatus.textContent = "Full squad ready. Check legality, country stacks, risk, captain, vice, and bench order before saving.";
+    } else if (partialSquadBuilt) {
+      builderReviewStatus.textContent = `Partial squad: ${squadSize} of ${squadTotalPlayers} players. Review the warning and relax constraints before exporting.`;
+    } else if (squadSize > 0) {
+      builderReviewStatus.textContent = `Previewing ${squadSize} locked player${squadSize === 1 ? "" : "s"}. Build the squad to check legality and risk.`;
+    } else {
+      builderReviewStatus.textContent = "Build a squad to check budget, country limits, lineup shape, and risk.";
+    }
+  }
+
+  const activeStep = fullSquadBuilt
+    ? "save"
+    : partialSquadBuilt
+      ? "review"
+      : "build";
+
+  updateBuilderFlowSteps(activeStep);
+}
+
 function updateControlStates() {
   clearLockedButton.classList.toggle("hidden", lockedPlayerIds.size === 0);
   clearLockedButton.disabled = lockedPlayerIds.size === 0;
+  renderPicksBuilderTray();
+  renderBrowserSquadSaveStatus();
+  updateBuilderGuidance();
 }
 
 function renderRemovedPlayers() {
@@ -7572,7 +8189,7 @@ function renderWarning(tacticName, ignoredLockedPlayers, missingStarterSlots, mi
   }
 
   if (optimizerInfo.ran && !optimizerInfo.foundValidSquad) {
-    messages.push(`Optimizer v0 could not find a full legal ${squadLabel()} with the current locks, filters, removals, budget, and country limit.`);
+    messages.push(`Team Builder could not find a full legal ${squadLabel()} with the current locks, filters, removals, budget, and country limit.`);
   }
 
   if (riskInfo.riskConstraintsCouldNotFit) {
@@ -7677,6 +8294,7 @@ function benchSlotMapForTeam(bench, requirements) {
 
 function renderPlayerCard(player, slot, position, slotIndex) {
   const stat = activeCardStat();
+  const statLabel = activeCardStatLabel(stat);
   const projection = activeProjection(player);
   const fixtureText = projection ? ` · vs ${projection.opponent}` : "";
   const roleText = playerRoleText(player);
@@ -7690,7 +8308,7 @@ function renderPlayerCard(player, slot, position, slotIndex) {
       <p>${playerCountryText(player)} · ${player.club}${fixtureText}</p>
       <p class="player-card__price">Price ${playerPriceText(player)}</p>
       ${roleLine}
-      <p>${stat.label}: ${displayNumber(stat.value(player))}</p>
+      <p>${statLabel}: ${displayNumber(stat.value(player))}</p>
       ${starterSelectionControlsHtml(player)}
     </article>
   `;
@@ -7709,6 +8327,7 @@ function renderPlaceholderCard(position, slot, slotIndex) {
 
 function renderBenchCard(player, position, slotIndex) {
   const stat = activeCardStat();
+  const statLabel = activeCardStatLabel(stat);
   const projection = activeProjection(player);
   const fixtureText = projection ? ` · vs ${projection.opponent}` : "";
   const roleText = playerRoleText(player);
@@ -7720,7 +8339,7 @@ function renderBenchCard(player, position, slotIndex) {
       ${squadSelectionBadgeHtml(player, "bench")}
       <strong>${playerDetailButton(player, "player-name-button--bench", measureKeyForTrust(activeMeasure()))}</strong>
       <p>${playerCountryText(player)} · ${player.club}${fixtureText}</p>
-      <small>Price ${playerPriceText(player)}${roleDetail} · ${stat.label}: ${displayNumber(stat.value(player))}</small>
+      <small>Price ${playerPriceText(player)}${roleDetail} · ${statLabel}: ${displayNumber(stat.value(player))}</small>
       ${benchSelectionControlsHtml(player)}
     </article>
   `;
@@ -7834,15 +8453,15 @@ function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built", optio
     teamMessage.textContent = `Showing ${squad.length} locked squad player${squad.length === 1 ? "" : "s"}. Click Build My Squad to fill the full ${squadLabel()}.`;
   } else if (missingStarterSlots > 0 || missingSquadSlots > 0) {
     const riskText = builderRiskControlsActive() ? ` Risk controls: ${builderRiskSettingsSummary()}.` : "";
-    teamMessage.textContent = `Optimizer v0 found ${squad.length} squad player${squad.length === 1 ? "" : "s"} using ${activeMeasure().label}, ${trustModeLabel()}, and ${activeMatchdayLabel()}. Some spots are still open because the current locks, filters, removals, trust mode, budget, country limit, or risk controls are too tight.${riskText}`;
+    teamMessage.textContent = `Team Builder found ${squad.length} squad player${squad.length === 1 ? "" : "s"} using ${activeMeasure().label}, ${trustModeLabel()}, and ${activeMatchdayLabel()}. Some spots are still open because the current locks, filters, removals, confidence mode, budget, country limit, or risk controls are too tight.${riskText}`;
   } else if (isOverBudget) {
-    teamMessage.textContent = `Optimizer v0 built a ${squadLabel()} using ${activeMeasure().label}, ${trustModeLabel()}, and ${activeMatchdayLabel()}, but it is over the ${budgetText(initialBudget)} budget. Try removing expensive locked players or relaxing filters.`;
+    teamMessage.textContent = `Team Builder built a ${squadLabel()} using ${activeMeasure().label}, ${trustModeLabel()}, and ${activeMatchdayLabel()}, but it is over the ${budgetText(initialBudget)} budget. Try removing expensive locked players or relaxing filters.`;
   } else {
     const pathText = options.optimizerEvaluatedPaths
       ? ` after comparing ${compactCount(options.optimizerEvaluatedPaths)} candidate squad path${options.optimizerEvaluatedPaths === 1 ? "" : "s"}`
       : "";
     const riskText = builderRiskControlsActive() ? ` Risk controls: ${builderRiskSettingsSummary()}.` : "";
-    teamMessage.textContent = `Optimizer v0 built a ${squadLabel()} within the ${budgetText(initialBudget)} budget using ${activeMeasure().label}, ${trustModeLabel()}, and ${activeMatchdayLabel()}${pathText}: ${startingLineupTotal} starters on the field and ${benchLabel()} below.${riskText}`;
+    teamMessage.textContent = `Team Builder built a ${squadLabel()} within the ${budgetText(initialBudget)} budget using ${activeMeasure().label}, ${trustModeLabel()}, and ${activeMatchdayLabel()}${pathText}: ${startingLineupTotal} starters on the field and ${benchLabel()} below.${riskText}`;
   }
 
   renderWarning(
@@ -7869,6 +8488,7 @@ function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built", optio
   );
   updateSwapPrompt();
   renderSavedSquadDecisionPanels();
+  updateControlStates();
 }
 
 function renderCurrentSlotState(message) {
@@ -7938,6 +8558,73 @@ function renderLockedPreview() {
   renderTeam(starters, bench, ignoredLockedPlayers, "preview");
 }
 
+function lockedBuilderPlayers() {
+  return Array.from(lockedPlayerIds)
+    .map(playerById)
+    .filter(Boolean)
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function lockedPlayersLabel(playersToLabel) {
+  if (!playersToLabel.length) {
+    return "";
+  }
+
+  if (playersToLabel.length <= 3) {
+    return playersToLabel.map((player) => player.name).join(", ");
+  }
+
+  return `${playersToLabel.slice(0, 3).map((player) => player.name).join(", ")} and ${playersToLabel.length - 3} more`;
+}
+
+function renderPicksBuilderTray() {
+  if (!picksBuilderTray) {
+    return;
+  }
+
+  const lockedPlayers = lockedBuilderPlayers();
+
+  if (!lockedPlayers.length) {
+    picksBuilderTray.className = "picks-builder-tray picks-builder-tray--empty";
+    picksBuilderTray.innerHTML = `
+      <div>
+        <span>Team Builder</span>
+        <strong>No players locked yet</strong>
+        <p>Add players from pick cards, then build a squad around them.</p>
+      </div>
+      <a class="picks-builder-tray__link" href="#team-builder">Open Team Builder</a>
+    `;
+    return;
+  }
+
+  const playerChips = lockedPlayers.slice(0, 5).map((player) => `
+    <button class="locked-player-chip" type="button" data-remove-lock-player-id="${escapeHtml(player.id)}" title="Remove ${escapeHtml(player.name)} from locked players">
+      <span>${escapeHtml(player.name)}</span>
+      <span aria-hidden="true">Remove</span>
+    </button>
+  `).join("");
+  const moreChip = lockedPlayers.length > 5
+    ? `<span class="locked-player-chip locked-player-chip--more">+${lockedPlayers.length - 5} more</span>`
+    : "";
+
+  picksBuilderTray.className = "picks-builder-tray";
+  picksBuilderTray.innerHTML = `
+    <div class="picks-builder-tray__summary">
+      <span>Team Builder</span>
+      <strong>${lockedPlayers.length} locked player${lockedPlayers.length === 1 ? "" : "s"}</strong>
+      <p>${escapeHtml(lockedPlayersLabel(lockedPlayers))} ${lockedPlayers.length === 1 ? "is" : "are"} ready for the builder.</p>
+    </div>
+    <div class="picks-builder-tray__chips" aria-label="Locked players">
+      ${playerChips}
+      ${moreChip}
+    </div>
+    <div class="picks-builder-tray__actions">
+      <a class="picks-builder-tray__link picks-builder-tray__link--primary" href="#team-builder">Build My Squad</a>
+      <button class="picks-builder-tray__button" type="button" data-clear-pick-locks>Clear</button>
+    </div>
+  `;
+}
+
 function fantasyPoolCandidateStat(player, fieldName, suffix = "") {
   const candidate = player.preview_candidate || {};
   const number = Number(candidate[fieldName]);
@@ -7951,14 +8638,14 @@ function fantasyPoolCandidateStat(player, fieldName, suffix = "") {
 
 function fantasyPoolCandidateReason(player) {
   const candidate = player.preview_candidate || {};
-  const pickReason = Array.isArray(candidate.why_pick) && candidate.why_pick.length
-    ? candidate.why_pick.slice(0, 2).join("; ")
-    : "current official score";
+  const pickReason = publicFantasyPickReasonItems(player)[0] || `${candidate.mode_label || "Pick"}: current official score`;
   const carefulReason = Array.isArray(candidate.why_careful) && candidate.why_careful.length
     ? publicFantasyNoteText(candidate.why_careful[0])
     : "check the latest official status before deadline";
+  const cleanPickReason = String(pickReason).replace(/\s*[.!?]+$/g, "");
+  const cleanCarefulReason = String(carefulReason).replace(/\s*[.!?]+$/g, "");
 
-  return `${candidate.mode_label || "Pick"}: ${pickReason}. Careful: ${carefulReason}.`;
+  return `${cleanPickReason}. Careful: ${cleanCarefulReason}.`;
 }
 
 function fantasyPoolPreviewTableScore(player, label = "Pick score") {
@@ -8009,11 +8696,11 @@ function defaultFinanceChips(player, activeLens = activeAdviceFinanceLens()) {
 
   if (activeLens?.id !== "financeAlpha" && Number.isFinite(alpha)) chips.push(`<span class="finance-chip">Alpha ${displayNumber(alpha)}</span>`);
   if (activeLens?.id !== "downsideFloor" && Number.isFinite(downside)) chips.push(`<span class="finance-chip">Floor ${displayNumber(Math.max(0, 100 - downside))}</span>`);
-  if (activeLens?.id !== "volatility" && Number.isFinite(volatility)) chips.push(`<span class="finance-chip">Low Vol ${displayNumber(Math.max(0, 100 - volatility))}</span>`);
+  if (activeLens?.id !== "volatility" && Number.isFinite(volatility)) chips.push(`<span class="finance-chip">Steady ${displayNumber(Math.max(0, 100 - volatility))}</span>`);
   if (activeLens?.id !== "premiumCheck" && Number.isFinite(premium)) chips.push(`<span class="finance-chip">Premium ${displayNumber(Math.max(0, 100 - premium))}</span>`);
 
   if (!chips.length) {
-    if (Number.isFinite(varFloor)) chips.push(`<span class="finance-chip">VaR ${displayNumber(varFloor)}</span>`);
+    if (Number.isFinite(varFloor)) chips.push(`<span class="finance-chip">Floor ${displayNumber(varFloor)}</span>`);
     if (Number.isFinite(compositeRisk)) chips.push(`<span class="finance-chip">Low Risk ${displayNumber(Math.max(0, 100 - compositeRisk))}</span>`);
     if (Number.isFinite(premiumWorthIt)) chips.push(`<span class="finance-chip">Premium ${displayNumber(premiumWorthIt)}</span>`);
   }
@@ -8112,9 +8799,9 @@ function builderLockPlayerId(player) {
 function pickCardActionHtml(player) {
   const lockId = builderLockPlayerId(player);
   const alreadyLocked = lockId && lockedPlayerIds.has(lockId);
-  const lockLabel = alreadyLocked ? "Locked" : "Lock in Builder";
+  const lockLabel = alreadyLocked ? "Remove from Builder" : "Add to Builder";
   const lockButton = lockId
-    ? `<button class="pick-card__action pick-card__action--lock" type="button" data-lock-player-id="${escapeHtml(lockId)}">${lockLabel}</button>`
+    ? `<button class="pick-card__action pick-card__action--lock${alreadyLocked ? " is-active" : ""}" type="button" data-lock-player-id="${escapeHtml(lockId)}" aria-pressed="${alreadyLocked}">${lockLabel}</button>`
     : `<button class="pick-card__action" type="button" disabled title="This player is not available in the current Team Builder path.">Unavailable</button>`;
 
   return `
@@ -8169,15 +8856,27 @@ function lockPlayerFromPickCard(playerId) {
     return false;
   }
 
-  lockedPlayerIds.add(lockId);
+  const wasLocked = lockedPlayerIds.has(lockId);
+  if (wasLocked) {
+    lockedPlayerIds.delete(lockId);
+  } else {
+    lockedPlayerIds.add(lockId);
+  }
+
   renderPlayerPicker();
   renderLockedPreview();
   updateControlStates();
   renderDashboardSections();
   renderCaptainPicks();
   renderAdviceTable();
-  teamMessage.textContent = `${builderPlayer.name} is locked in the Team Builder. Click Build My Squad when you are ready.`;
-  return true;
+  teamMessage.textContent = wasLocked
+    ? `${builderPlayer.name} was removed from locked players. Add another pick or build with the current locks.`
+    : `${builderPlayer.name} was added to Team Builder. Add a few more picks or click Build My Squad.`;
+
+  return {
+    locked: !wasLocked,
+    player: builderPlayer
+  };
 }
 
 function handlePickCardActions(event) {
@@ -8189,10 +8888,30 @@ function handlePickCardActions(event) {
 
   event.preventDefault();
   event.stopPropagation();
-  const didLock = lockPlayerFromPickCard(lockButton.dataset.lockPlayerId);
-  if (didLock) {
-    lockButton.textContent = "Locked";
-    lockButton.disabled = true;
+  const lockResult = lockPlayerFromPickCard(lockButton.dataset.lockPlayerId);
+  if (lockResult) {
+    lockButton.textContent = lockResult.locked ? "Remove from Builder" : "Add to Builder";
+    lockButton.classList.toggle("is-active", lockResult.locked);
+    lockButton.setAttribute("aria-pressed", String(lockResult.locked));
+  }
+}
+
+function handlePicksBuilderTrayClick(event) {
+  const removeButton = event.target.closest("[data-remove-lock-player-id]");
+  const clearButton = event.target.closest("[data-clear-pick-locks]");
+
+  if (removeButton) {
+    event.preventDefault();
+    lockPlayerFromPickCard(removeButton.dataset.removeLockPlayerId);
+    return;
+  }
+
+  if (clearButton) {
+    event.preventDefault();
+    clearLockedPlayers();
+    renderDashboardSections();
+    renderCaptainPicks();
+    renderAdviceTable();
   }
 }
 
@@ -8286,7 +9005,7 @@ function renderFantasyPoolPreviewDashboardSections() {
     {
       label: "Balanced Pick",
       mode: "balanced",
-      stat: (player) => `Risk-adjusted ${fantasyPoolCandidateStat(player, "risk_adjusted_points")} · Price ${playerPriceText(player)}`,
+      stat: (player) => `Projected ${fantasyPoolCandidateStat(player, "risk_adjusted_points")} · Price ${playerPriceText(player)}`,
       qaStyle: "balanced"
     },
     {
@@ -8304,13 +9023,13 @@ function renderFantasyPoolPreviewDashboardSections() {
     {
       label: "Differential Pick",
       mode: "differential",
-      stat: (player) => `Value ${fantasyPoolCandidateStat(player, "value_score")} · Risk-adjusted ${fantasyPoolCandidateStat(player, "risk_adjusted_points")}`,
+      stat: (player) => `Value ${fantasyPoolCandidateStat(player, "value_score")} · Projected ${fantasyPoolCandidateStat(player, "risk_adjusted_points")}`,
       qaStyle: "bestValue"
     },
     {
       label: "Upside Pick",
       mode: "upside",
-      stat: (player) => `Ceiling ${fantasyPoolCandidateStat(player, "ceiling_points")} · Raw ${fantasyPoolCandidateStat(player, "raw_expected_points")}`,
+      stat: (player) => `Ceiling ${fantasyPoolCandidateStat(player, "ceiling_points")} · Projection ${fantasyPoolCandidateStat(player, "raw_expected_points")}`,
       qaStyle: "upside"
     }
   ].map((card) => ({ ...card, player: pickUniquePlayer(card.mode) }));
@@ -8358,11 +9077,11 @@ function renderDashboardSections() {
 
   dashboardGrid.innerHTML = [
     {
-      label: "Best Overall",
+      label: "Balanced Pick",
       player: bestOverallPick,
       stat: scoreSummaryText(bestOverallPick, measures.balanced),
       qaStyle: "balanced",
-      reason: `Top blend of expected return, reliability, data confidence, and risk in the real World Cup prototype model.${fixtureModelReason(bestOverallPick)}`
+      reason: `Top blend of projected points, reliability, data confidence, and risk in the current model.${fixtureModelReason(bestOverallPick)}`
     },
     {
       label: "Captain Candidate",
@@ -8372,28 +9091,28 @@ function renderDashboardSections() {
       reason: `Strong captain-style option with useful projected points and manageable risk.${fixtureModelReason(captainPick, "attack")}`
     },
     {
-      label: "Reliable Pick",
+      label: "Safe Pick",
       player: reliablePick,
       stat: `Risk: ${displayNumber(scoreValue(reliablePick, "finance_composite_risk_score", "risk_composite_score"))} · Reliability: ${displayNumber(scoreValue(reliablePick, "finance_minutes_security_score", "euro_style_reliability_score"))}`,
       qaStyle: "safe",
       reason: `Lower-risk profile with useful minutes and downside protection.${fixtureModelReason(reliablePick)}`
     },
     {
-      label: "Best Value Prototype",
+      label: "Undervalued Asset",
       player: valuePick,
-      stat: `${scoreSummaryText(valuePick, measures.bestValue)} · Proxy price ${displayNumber(proxyPrice(valuePick))}`,
+      stat: `${scoreSummaryText(valuePick, measures.bestValue)} · Budget ${displayNumber(proxyPrice(valuePick))}`,
       qaStyle: "bestValue",
-      reason: `Prototype value pick using placeholder price, role confidence, expected return, and overpay risk.${fixtureModelReason(valuePick)}`
+      reason: `Value pick using budget, role confidence, projected points, and budget pressure.${fixtureModelReason(valuePick)}`
     },
     {
-      label: "Attack Heavy",
+      label: "Upside Pick",
       player: attackPick,
       stat: scoreSummaryText(attackPick, measures.attackHeavy),
       qaStyle: "attackHeavy",
       reason: `Attack-first profile for users who want goals, assists, shots, and upside.${fixtureModelReason(attackPick, "attack")}`
     },
     {
-      label: "Very Risky Upside",
+      label: "Differential Watch",
       player: veryRiskyPick,
       stat: `${scoreSummaryText(veryRiskyPick, measures.veryRisky)} · Tail risk ${displayNumber(scoreValue(veryRiskyPick, "finance_tail_risk_score", "risk_tail_score"))}`,
       qaStyle: "veryRisky",
@@ -8454,7 +9173,7 @@ function renderFantasyPoolPreviewAdviceTable() {
   if (!visiblePool.length) {
     adviceTableBody.innerHTML = `
       <tr>
-        <td colspan="10">No official fantasy candidates match this Team Advice filter. Try Include watchlist punts, another position, or a broader recommendation style.</td>
+        <td colspan="10">No official fantasy candidates match this Pick Explorer filter. Try Include watchlist differentials, another position, or a broader strategy.</td>
       </tr>
     `;
   }
@@ -8515,7 +9234,7 @@ function renderAdviceTable() {
   if (!ranked.length) {
     adviceTableBody.innerHTML = `
       <tr>
-        <td colspan="10">No players match this Team Advice filter yet. Try Include watchlist punts, another position, or a broader recommendation style.</td>
+        <td colspan="10">No players match this Pick Explorer filter yet. Try Include watchlist differentials, another position, or a broader strategy.</td>
       </tr>
     `;
   }
@@ -8577,6 +9296,9 @@ function clearLockedPlayers() {
   builderWarning.classList.add("hidden");
   builderWarning.textContent = "";
   renderPlayerPicker();
+  renderDashboardSections();
+  renderCaptainPicks();
+  renderAdviceTable();
 
   if (currentRenderMode === "built") {
     updateSwapPrompt();
@@ -8807,6 +9529,9 @@ function setupBuilder() {
   if (!players.length) {
     teamMessage.textContent = "Player data could not be loaded.";
     buildTeamButtonBottom.disabled = true;
+    if (saveBrowserSquadButton) saveBrowserSquadButton.disabled = true;
+    if (loadBrowserSquadButton) loadBrowserSquadButton.disabled = true;
+    if (clearBrowserSquadButton) clearBrowserSquadButton.disabled = true;
     exportTeamJsonButton.disabled = true;
     return;
   }
@@ -8843,10 +9568,15 @@ function setupBuilder() {
     .filter(Boolean)
     .forEach((container) => container.addEventListener("click", handlePickCardActions));
   playerDetailBody?.addEventListener("click", handlePickCardActions);
+  picksBuilderTray?.addEventListener("click", handlePicksBuilderTrayClick);
   playerDetailClose?.addEventListener("click", closePlayerDetail);
   playerDetailModal?.addEventListener("click", handlePlayerDetailCloseClick);
   document.addEventListener("keydown", handlePlayerDetailKeydown);
   buildTeamButtonBottom.addEventListener("click", buildTeam);
+  saveBrowserSquadButton?.addEventListener("click", saveTeamToBrowser);
+  loadBrowserSquadButton?.addEventListener("click", loadTeamFromBrowser);
+  clearBrowserSquadButton?.addEventListener("click", clearBrowserSavedSquad);
+  builderReadyActions?.addEventListener("click", handleBuilderReadyActionClick);
   resetTeamButton.addEventListener("click", resetTeam);
   clearLockedButton.addEventListener("click", clearLockedPlayers);
   removeSelectedPlayerButton.addEventListener("click", removeSelectedPlayer);
@@ -8947,6 +9677,9 @@ function showDataLoadError(error) {
   resetTeamButton.disabled = true;
   clearLockedButton.disabled = true;
   removeSelectedPlayerButton.disabled = true;
+  if (saveBrowserSquadButton) saveBrowserSquadButton.disabled = true;
+  if (loadBrowserSquadButton) loadBrowserSquadButton.disabled = true;
+  if (clearBrowserSquadButton) clearBrowserSquadButton.disabled = true;
   exportTeamJsonButton.disabled = true;
   if (importTeamJsonInput) {
     importTeamJsonInput.disabled = true;

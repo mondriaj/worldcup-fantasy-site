@@ -15,11 +15,12 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 ## Player Recommendations
 
 - Picks show Official Fantasy Picks using official fantasy prices, positions, selectable status, scoring, projections, and finance metrics.
-- Player cards are the default surface and include a short reason, risk label, fixture context, View Profile, and Lock in Builder when the player is available to the builder.
-- Captain Picks focus on Captain Alpha candidates from the official fantasy pool.
-- Team Advice remains available as the deeper Pick Explorer for filtered Official Fantasy Picks by matchday, position, risk style, and recommendation pool.
-- Default visible strategy labels are Balanced, Safe, Upside, and Differential, with older/internal controls kept in advanced filters where needed.
-- Recommendation explanations show raw score context, trust-adjusted score context, role risk, data-quality warnings, and fixture environment notes.
+- Player cards are the default surface and include a short reason, risk label, fixture context, View Profile, and Add to Builder when the player is available to the builder.
+- Picks include a compact Builder tray that shows locked players, lets users remove them, and links directly to Team Builder.
+- Picks include a Captain Alpha lane for captain candidates from the official fantasy pool.
+- The deeper Pick Explorer remains available behind the card-first experience for filtered Official Fantasy Picks by strategy, matchday, position, and pick pool.
+- Default visible strategy labels are Balanced, Safe, Upside, and Differential. Captain Alpha is a dedicated captain surface, not a generic squad-building strategy.
+- Recommendation explanations show projected score context, strategy score context, role risk, data checks, and fixture environment notes.
 - Recommendations use the current official FIFA fantasy pool. The monitor should be rerun when FIFA changes player, price, position, status, rule, or deadline data.
 
 ## Match Environment
@@ -27,16 +28,16 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Fixture-level score prediction panel shows group-stage match environments.
 - Score Predictor v2 uses a PELE-forward team-quality model and preserved previous versions for comparison.
 - Predictions include expected goals, win/draw/loss probabilities, clean-sheet probability, goal environment, and upset risk.
-- Score prediction QA checks verify fixture coverage, probability bounds, PELE input coverage, favorite consistency, and player-matchday integration.
+- Score prediction checks verify fixture coverage, probability bounds, PELE input coverage, favorite consistency, and player-matchday integration.
 
 ## Team Builder
 
-- Builds a fantasy squad plan using selected pick style, draft budget, position counts, country limit, locked players, removed players, and filters.
+- Builds a fantasy squad plan using selected strategy, draft budget, position counts, country limit, locked players, removed players, and filters.
 - Team Builder is planning help and should be checked against the official game before saving.
-- The Team Builder surface follows a guided flow: choose strategy, lock or avoid players, build squad, review legality and risk, then save or export.
-- Supports risk controls for minimum start probability, expected minutes, QA-review count, and risky fill-ins.
+- The Team Builder surface follows visible step cards: choose strategy, lock or avoid players, build squad, review legality and risk, then save or export.
+- Supports advanced risk controls for minimum start probability, expected minutes, data-review count, and risky fill-ins.
 - Users should confirm locks, deadlines, boosters, and official-game legality inside FIFA's game.
-- Provides optimizer warnings when constraints are tight or force weaker/riskier picks.
+- Provides clear builder warnings when constraints are tight or force weaker/riskier picks.
 - Allows users to mark captain, vice captain, and bench order on built or imported squads.
 - Preserves user-selected captain, vice captain, and bench order through Team Export/Import when player IDs still match.
 
@@ -44,16 +45,17 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 - Fantasy Finance uses simple default labels such as Squad Risk Report, Portfolio Health, Bad-Week Floor, Country Stack Risk, Fixture Stack Risk, and Budget Pressure.
 - Squad Portfolio Analytics explains the built squad as a whole, not only as individual picks.
-- Metrics include expected return, risk-adjusted return, volatility, VaR/CVaR floor, QA load, country concentration, fixture concentration, and premium-squeeze warnings.
-- Portfolio Optimizer v0 uses these squad-level metrics as a small adjustment when choosing between completed candidate squads.
-- Exported team JSON includes portfolio metrics and optimizer context.
+- Default metrics include projected points, portfolio health, bad-week floor, data checks, country concentration, fixture concentration, and budget-pressure warnings.
+- Advanced model notes and exported JSON preserve deeper portfolio fields for transparency.
+- Team Builder can use squad-level portfolio context as a small tie-breaker when choosing between completed candidate squads.
 
 ## Matchday Decision Tools
 
 - Matchday Desk is the repeat-use hub for saved-squad status, captain switch checks, bench switch checks, and the matchday timeline.
+- Matchday Desk shows an action-first empty state, saved-squad readiness cards, and shortcut buttons into Captain Switch Check, Bench Switch Check, and My Matchday Timeline.
 - Captain Change Advisor v0 provides a manual Quick Captain Switch Check.
-- Users enter the current captain's raw fantasy points and compare one possible replacement who has not played yet.
-- The advisor is intentionally conservative with strong captain scores; a 12+ raw captain score should usually lead to keep unless the user is deliberately chasing a risky upside move.
+- Users enter the current captain's actual fantasy points before the captain double and compare one possible replacement who has not played yet.
+- The advisor is intentionally conservative with strong captain scores; a 12+ captain score should usually lead to keep unless the user is deliberately chasing a risky upside move.
 - Substitution Advisor v0 compares one played starter against one unplayed bench player using manual points and projection context.
 - Saved Squad Decision Mode can fill captain and substitution advisor fields from the current built or imported Team Builder squad.
 - Saved Squad Matchday Timeline groups a built/imported squad by MD1, MD2, and MD3 kickoff context and provides quick-fill buttons for decision tools.
@@ -64,7 +66,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 - Team Export JSON v1 records model metadata, builder settings, squad state, starters, bench, captain/vice references, locked and removed players, portfolio analytics, and decision-tool fields.
 - Saved Decision Export v0 includes the latest manual captain-change or substitution quick-check result after the user runs one.
-- Team Import v0 restores saved squads by exact current player IDs without rerunning the optimizer.
+- Team Import v0 restores saved squads by exact current player IDs without rerunning Team Builder.
 - Saved Decision Import v0 restores previous advisor scenarios as imported review context, not as fresh live recommendations.
 
 ## Data And Model Engine

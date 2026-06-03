@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>World Cup Fantasy Helper | Captain Alpha, Rankings, and Team Builder</title>
+    <title>World Cup Fantasy Helper | Picks, Team Builder, and Matchday Desk</title>
     <meta name="description" content="Current World Cup fantasy recommendations using official fantasy prices, positions, selectable status, and scoring." />
     <meta property="og:site_name" content="World Cup Fantasy Helper" />
     <meta property="og:title" content="World Cup Fantasy Helper" />
@@ -14,7 +14,7 @@
     <meta name="twitter:description" content="Compare captain picks, player rankings, and squad ideas in one simple fantasy football hub." />
     <!-- Add canonical and og:url once the final production URL is available. -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="stylesheet" href="style.css?v=20260603-official-final" />
+    <link rel="stylesheet" href="style.css?v=20260603-matchday-desk" />
   </head>
   <body>
     <header id="top" class="hero">
@@ -61,8 +61,8 @@
     <aside class="data-status" aria-label="Data status">
       <span class="data-status__label">Data status</span>
       <div class="data-status__body">
-        <p>Official fantasy-pool prices, positions, selectable status, and scoring are loaded. The monitor checks for source changes so picks can be refreshed when FIFA updates the game feed.</p>
-        <p class="data-status__meta">Current snapshot: official fantasy-pool recommendations, v3 projections, v1 finance metrics, 1,481 official fantasy-pool players. Page updated: June 3, 2026.</p>
+        <p>Official fantasy prices, positions, selectable status, and scoring are loaded for public picks.</p>
+        <p class="data-status__meta">Snapshot: 1,481 official fantasy-pool players. Updated June 3, 2026; rerun the monitor before major updates.</p>
       </div>
     </aside>
 
@@ -142,6 +142,15 @@
             <p>Enable JavaScript to lock players, choose a tactic, and build a fantasy squad.</p>
           </article>
         </div>
+
+        <div id="picks-builder-tray" class="picks-builder-tray" aria-live="polite">
+          <div>
+            <span>Team Builder</span>
+            <strong>No players locked yet</strong>
+            <p>Add players from pick cards, then build a squad around them.</p>
+          </div>
+          <a class="picks-builder-tray__link" href="#team-builder">Open Team Builder</a>
+        </div>
       </section>
 
       <details id="captain-picks" class="panel collapsible-panel">
@@ -215,9 +224,9 @@
         <details class="captain-change-guide matchday-decision-guide">
           <summary>How to use this center</summary>
           <ol>
-            <li>Build or import a Team Builder squad, then mark captain, vice captain, and bench order if needed.</li>
-            <li>Choose the matchday and risk style. Balanced is the default for normal play.</li>
-            <li>Enter actual raw points only after your captain or starter has played.</li>
+            <li>Build or load a Team Builder squad, then mark captain, vice captain, and bench order if needed.</li>
+            <li>Choose the matchday and strategy. Balanced is the default for normal play.</li>
+            <li>Enter actual points only after your captain or starter has played.</li>
             <li>Use the fill buttons to send one comparison into the detailed Captain Switch or Bench Switch check.</li>
           </ol>
         </details>
@@ -232,13 +241,14 @@
             <span>Strategy</span>
             <select id="matchday-decision-risk-select">
               <option value="balanced">Balanced</option>
-              <option value="safer">Safe</option>
+              <option value="safe">Safe</option>
               <option value="upside">Upside</option>
+              <option value="differential">Differential</option>
             </select>
           </label>
 
           <label class="control-group" for="matchday-decision-captain-points-input">
-            <span>Captain Raw Points</span>
+            <span>Captain Points</span>
             <input id="matchday-decision-captain-points-input" type="number" min="0" step="0.5" inputmode="decimal" placeholder="0" />
             <small class="control-helper">Use points before the captain double.</small>
           </label>
@@ -249,7 +259,7 @@
           </label>
 
           <label class="control-group" for="matchday-decision-starter-points-input">
-            <span>Starter Raw Points</span>
+            <span>Starter Points</span>
             <input id="matchday-decision-starter-points-input" type="number" min="0" step="0.5" inputmode="decimal" placeholder="0" />
             <small class="control-helper">Use actual fantasy points.</small>
           </label>
@@ -274,16 +284,16 @@
 
         <div id="captain-change-status" class="decision-tool-status" aria-live="polite">
           <span class="decision-tool-status__badge">Manual</span>
-          <span>Enter raw points and one unplayed replacement, then run the check.</span>
+          <span>Enter captain points and one unplayed replacement, then run the check.</span>
         </div>
 
         <details class="captain-change-guide">
           <summary>How to use this check</summary>
           <ol>
-            <li>Choose the matchday and enter your current captain's raw points before the captain double.</li>
+            <li>Choose the matchday and enter your current captain's points before the captain double.</li>
             <li>Pick one replacement captain who is in your squad and has not played yet.</li>
-            <li>Use Balanced by default. Safer protects a good current score; Upside is only for chasing.</li>
-            <li>Build or import a Team Builder squad to fill the captain fields from saved-squad buttons.</li>
+            <li>Use Balanced by default. Safe protects a good current score; Upside is only for chasing.</li>
+            <li>Build or load a Team Builder squad to fill the captain fields from saved-squad buttons.</li>
           </ol>
         </details>
 
@@ -301,7 +311,7 @@
           </label>
 
           <label class="control-group" for="captain-change-current-points-input">
-            <span>Raw Points</span>
+            <span>Captain Points</span>
             <input id="captain-change-current-points-input" type="number" min="0" step="0.5" inputmode="decimal" placeholder="0" />
             <small class="control-helper">Use points before the captain double.</small>
           </label>
@@ -315,8 +325,9 @@
             <span>Strategy</span>
             <select id="captain-change-risk-select">
               <option value="balanced">Balanced</option>
-              <option value="safer">Safe</option>
+              <option value="safe">Safe</option>
               <option value="upside">Upside</option>
+              <option value="differential">Differential</option>
             </select>
           </label>
 
@@ -357,10 +368,10 @@
         <details class="captain-change-guide substitution-advisor-guide">
           <summary>How to use this check</summary>
           <ol>
-            <li>Choose the matchday and enter the starter's raw points after that player has played.</li>
+            <li>Choose the matchday and enter the starter's points after that player has played.</li>
             <li>Pick one bench player who is in your squad and has not played yet.</li>
             <li>Check your fantasy formation rules before making a different-position substitution.</li>
-            <li>Build or import a Team Builder squad to fill the starter and bench fields from saved-squad buttons.</li>
+            <li>Build or load a Team Builder squad to fill the starter and bench fields from saved-squad buttons.</li>
           </ol>
         </details>
 
@@ -378,7 +389,7 @@
           </label>
 
           <label class="control-group" for="substitution-advisor-points-input">
-            <span>Raw Points</span>
+            <span>Starter Points</span>
             <input id="substitution-advisor-points-input" type="number" min="0" step="0.5" inputmode="decimal" placeholder="0" />
             <small class="control-helper">Use the starter's actual fantasy score.</small>
           </label>
@@ -392,8 +403,9 @@
             <span>Strategy</span>
             <select id="substitution-advisor-risk-select">
               <option value="balanced">Balanced</option>
-              <option value="safer">Safe</option>
+              <option value="safe">Safe</option>
               <option value="upside">Upside</option>
+              <option value="differential">Differential</option>
             </select>
           </label>
 
@@ -429,7 +441,7 @@
         <details class="captain-change-guide saved-squad-timeline-guide">
           <summary>How to use this timeline</summary>
           <ol>
-            <li>Build or import a full Team Builder squad.</li>
+            <li>Build or load a full Team Builder squad.</li>
             <li>Choose MD1, MD2, or MD3 to see your saved players grouped by kickoff.</li>
             <li>Use the quick-fill buttons to send players into Captain Switch Check or Bench Switch Check.</li>
             <li>Still enter actual points manually and confirm who has already played.</li>
@@ -457,13 +469,13 @@
         </summary>
 
         <div class="collapsible-body">
-          <p class="section-note"><strong>Official Fantasy Picks.</strong> Pick Explorer lists current recommendation candidates by matchday, position, and risk style.</p>
+          <p class="section-note"><strong>Official Fantasy Picks.</strong> Pick Explorer lists current recommendation candidates by matchday, position, and strategy.</p>
 
           <div class="table-toolbar advice-toolbar">
             <label class="control-group" for="advice-measure-select">
               <span>Strategy</span>
               <select id="advice-measure-select"></select>
-              <small class="control-helper">Choose the main list: Balanced, Safe, Upside, Differential, or Captain Alpha.</small>
+              <small class="control-helper">Choose the main list: Balanced, Safe, Upside, or Differential. Captain Alpha has its own section above.</small>
             </label>
 
             <label class="control-group" for="advice-position-select">
@@ -498,12 +510,12 @@
               </label>
 
               <label class="control-group" for="advice-pool-select">
-                <span>Recommendation Pool</span>
+                <span>Pick Pool</span>
                 <select id="advice-pool-select">
-                  <option value="playable">Playable recommendations</option>
-                  <option value="watchlist">Include watchlist punts</option>
+                  <option value="playable">Main picks</option>
+                  <option value="watchlist">Include watchlist differentials</option>
                 </select>
-                <small class="control-helper">Playable hides review-only players; watchlist mode shows the broader punt pool.</small>
+                <small class="control-helper">Playable hides review-only players; watchlist mode shows broader high-upside ideas.</small>
               </label>
 
               <label class="control-group" for="advice-finance-lens-select">
@@ -601,52 +613,66 @@
         </div>
 
         <ol class="builder-flow" aria-label="Team Builder flow">
-          <li><span>1</span><strong>Choose strategy</strong></li>
-          <li><span>2</span><strong>Lock or avoid players</strong></li>
-          <li><span>3</span><strong>Build squad</strong></li>
-          <li><span>4</span><strong>Review legality and risk</strong></li>
-          <li><span>5</span><strong>Save or export</strong></li>
+          <li class="is-current" data-builder-flow-step="strategy"><span>1</span><strong>Choose strategy</strong><small>Start here</small></li>
+          <li data-builder-flow-step="locks"><span>2</span><strong>Lock or avoid players</strong><small>Optional</small></li>
+          <li data-builder-flow-step="build"><span>3</span><strong>Build squad</strong><small>Next action</small></li>
+          <li data-builder-flow-step="review"><span>4</span><strong>Review legality and risk</strong><small>After build</small></li>
+          <li data-builder-flow-step="save"><span>5</span><strong>Save or export</strong><small>Finish</small></li>
         </ol>
 
         <div class="builder-workspace">
           <div class="builder-sidebar">
-            <div class="builder-controls">
-              <label class="control-group" for="measure-select">
-                <span>Strategy</span>
-                <select id="measure-select"></select>
-                <small class="control-helper">Balanced, Safe, Upside, Differential, or Captain Alpha.</small>
-              </label>
-
-              <label class="control-group" for="tactic-select">
-                <span>Formation</span>
-                <select id="tactic-select">
-                  <option>Loading formations</option>
-                </select>
-              </label>
-
-              <label class="control-group" for="builder-matchday-select">
-                <span>Matchday View</span>
-                <select id="builder-matchday-select"></select>
-                <small class="control-helper">Use Full Group Stage for balance, or one matchday for opponent-specific picks.</small>
-              </label>
-            </div>
-
-            <details class="advanced-control-panel advanced-control-panel--measure">
-              <summary>Model notes for this strategy</summary>
-              <div id="measure-info" class="measure-info"></div>
-            </details>
-
-            <div class="optimizer-note">
-              <strong>Squad Optimizer v0</strong>
-              <p>Searches for a 15-player squad using the current builder path. Confirm final legality, deadlines, and locks inside the official game before saving.</p>
-            </div>
-
-            <div class="locked-player-area">
-              <div class="section-heading section-heading--compact">
-                <h3>Lock Players</h3>
-                <p>Optional: choose players you want to keep, then the builder suggests the remaining squad spots.</p>
-                <p id="squad-rule-note" class="squad-rule-note">Fantasy squad rules load from fantasyRules.json.</p>
+            <section class="builder-step-card builder-step-card--strategy" aria-labelledby="builder-step-strategy-title">
+              <div class="builder-step-card__heading">
+                <span class="builder-step-number">1</span>
+                <div>
+                  <h3 id="builder-step-strategy-title">Choose Strategy</h3>
+                  <p>Balanced is the default. Change strategy, formation, or matchday view before building.</p>
+                </div>
               </div>
+
+              <div class="builder-controls">
+                <label class="control-group" for="measure-select">
+                  <span>Strategy</span>
+                  <select id="measure-select"></select>
+                  <small class="control-helper">Balanced, Safe, Upside, or Differential.</small>
+                </label>
+
+                <label class="control-group" for="tactic-select">
+                  <span>Formation</span>
+                  <select id="tactic-select">
+                    <option>Loading formations</option>
+                  </select>
+                </label>
+
+                <label class="control-group" for="builder-matchday-select">
+                  <span>Matchday View</span>
+                  <select id="builder-matchday-select"></select>
+                  <small class="control-helper">Use Full Group Stage for balance, or one matchday for opponent-specific picks.</small>
+                </label>
+              </div>
+
+              <details class="advanced-control-panel advanced-control-panel--measure">
+                <summary>Model notes for this strategy</summary>
+                <div id="measure-info" class="measure-info"></div>
+              </details>
+            </section>
+
+            <section class="builder-step-card builder-step-card--locks" aria-labelledby="builder-step-locks-title">
+              <div class="builder-step-card__heading">
+                <span class="builder-step-number">2</span>
+                <div>
+                  <h3 id="builder-step-locks-title">Lock or Avoid Players</h3>
+                  <p>Search for must-haves here, or add players from Picks. You can avoid players after a squad is built.</p>
+                </div>
+              </div>
+
+              <div class="builder-step-meta" aria-live="polite">
+                <span id="builder-lock-status">No players locked</span>
+                <span id="builder-removed-status">No avoided players</span>
+              </div>
+
+              <p id="squad-rule-note" class="squad-rule-note">Fantasy squad rules load from fantasyRules.json.</p>
 
               <label class="control-group player-search" for="player-search">
                 <span>Search players</span>
@@ -708,7 +734,7 @@
                   </label>
 
                   <label class="control-group" for="card-stat-select">
-                    <span>Card Stat</span>
+                    <span>Card Detail</span>
                     <select id="card-stat-select"></select>
                   </label>
                 </div>
@@ -718,40 +744,57 @@
                 </p>
               </details>
 
-              <div class="builder-actions" aria-label="Team Builder actions">
-                <button id="build-team-btn-bottom" class="primary-button builder-action-button">
-                  Build My Squad
-                </button>
-
-                <div class="builder-secondary-actions">
-                  <button id="reset-team-btn" class="utility-button" type="button">Reset Team</button>
-                  <button id="clear-locked-btn" class="utility-button hidden" type="button">Clear Locked Players</button>
-                  <button id="remove-selected-player-btn" class="utility-button" type="button">Remove Selected Player</button>
-                  <label class="utility-button utility-button--file" for="import-team-json-input">
-                    Load Squad
-                  </label>
-                  <input id="import-team-json-input" class="file-input-control" type="file" accept="application/json,.json" />
-                  <button id="export-team-json-btn" class="utility-button" type="button">Save Squad</button>
-                </div>
-
-                <div id="removed-players-panel" class="removed-players-panel hidden" aria-live="polite">
-                  <h4>Removed Players</h4>
-                  <div id="removed-players-list" class="removed-players-list"></div>
-                </div>
-
-                <div id="team-export-panel" class="team-export-panel hidden" aria-live="polite">
-                  <h4>Saved Squad JSON</h4>
-                  <p>Latest export. The same JSON is downloaded when you click Save Squad.</p>
-                  <textarea id="team-export-output" readonly rows="8"></textarea>
-                </div>
+              <div class="builder-lock-actions">
+                <button id="clear-locked-btn" class="utility-button hidden" type="button">Clear Locked Players</button>
               </div>
 
               <div id="player-picker" class="player-picker"></div>
-            </div>
+
+              <div id="removed-players-panel" class="removed-players-panel hidden" aria-live="polite">
+                <h4>Avoided Players</h4>
+                <div id="removed-players-list" class="removed-players-list"></div>
+              </div>
+            </section>
+
+            <section class="builder-step-card builder-step-card--build" aria-labelledby="builder-step-build-title">
+              <div class="builder-step-card__heading">
+                <span class="builder-step-number">3</span>
+                <div>
+                  <h3 id="builder-step-build-title">Build Squad</h3>
+                  <p id="builder-build-guidance">Click Build My Squad to fill 15 players from your strategy, locks, budget, and rules.</p>
+                </div>
+              </div>
+
+              <button id="build-team-btn-bottom" class="primary-button builder-action-button">
+                Build My Squad
+              </button>
+            </section>
           </div>
 
           <div class="builder-field-panel">
-            <div id="builder-warning" class="builder-warning hidden"></div>
+            <section class="builder-step-card builder-review-panel" aria-labelledby="builder-step-review-title">
+              <div class="builder-step-card__heading">
+                <span class="builder-step-number">4</span>
+                <div>
+                  <h3 id="builder-step-review-title">Review Legality and Risk</h3>
+                  <p id="builder-review-status">Build a squad to check budget, country limits, lineup shape, and risk.</p>
+                </div>
+              </div>
+
+              <div id="builder-warning" class="builder-warning hidden"></div>
+
+              <div id="builder-ready-actions" class="builder-ready-actions hidden" aria-live="polite">
+                <div class="builder-ready-actions__summary">
+                  <span>Squad Ready</span>
+                  <strong>Save it before matchday</strong>
+                  <p id="builder-ready-summary">Full squad built. Save it in this browser, export a backup, or open Matchday Desk.</p>
+                </div>
+                <div class="builder-ready-actions__buttons" aria-label="Squad ready actions">
+                  <button class="utility-button utility-button--strong" type="button" data-builder-ready-action="save">Save to Browser</button>
+                  <button class="utility-button" type="button" data-builder-ready-action="export">Export JSON</button>
+                  <a class="utility-button" href="#matchday-desk">Open Matchday Desk</a>
+                </div>
+              </div>
 
             <div class="team-summary">
               <div class="summary-chip">
@@ -830,6 +873,43 @@
             <p id="team-message" class="team-message">
               Lock a few players first, then click "Build My Squad" to optimize the squad.
             </p>
+
+              <div class="builder-review-actions" aria-label="Review actions">
+                <button id="reset-team-btn" class="utility-button" type="button">Reset Team</button>
+                <button id="remove-selected-player-btn" class="utility-button" type="button">Remove Selected Player</button>
+              </div>
+            </section>
+
+            <section class="builder-step-card builder-save-panel" aria-labelledby="builder-step-save-title">
+              <div class="builder-step-card__heading">
+                <span class="builder-step-number">5</span>
+                <div>
+                  <h3 id="builder-step-save-title">Save or Export</h3>
+                  <p>Your squad stays local. Save it in this browser for Matchday Desk, or export JSON for backup.</p>
+                </div>
+              </div>
+
+              <div class="builder-secondary-actions">
+                <button id="save-browser-squad-btn" class="utility-button utility-button--strong" type="button">Save to Browser</button>
+                <button id="load-browser-squad-btn" class="utility-button" type="button">Load Saved Squad</button>
+                <label class="utility-button utility-button--file" for="import-team-json-input">
+                  Load JSON
+                </label>
+                <input id="import-team-json-input" class="file-input-control" type="file" accept="application/json,.json" />
+                <button id="export-team-json-btn" class="utility-button" type="button">Export JSON</button>
+                <button id="clear-browser-squad-btn" class="utility-button utility-button--quiet" type="button">Clear Saved Squad</button>
+              </div>
+
+              <p id="browser-squad-status" class="browser-squad-status" aria-live="polite">
+                Browser save is empty. Build a full squad, then save it here for quick Matchday Desk access.
+              </p>
+
+              <div id="team-export-panel" class="team-export-panel hidden" aria-live="polite">
+                <h4>Saved Squad JSON</h4>
+                <p>Latest export. The same JSON is downloaded when you click Export JSON.</p>
+                <textarea id="team-export-output" readonly rows="8"></textarea>
+              </div>
+            </section>
           </div>
         </div>
       </section>
@@ -906,8 +986,8 @@
             <article class="method-card">
               <h3>3. Finance Risk Model</h3>
               <p><strong>Source:</strong> <code>data/playerFinanceMetrics_v0.json</code> and <code>data/fantasyFinanceModel_v0.md</code>.</p>
-              <p><strong>Used for:</strong> expected return, volatility, downside deviation, VaR, CVaR, bad-week probability, Sharpe-style score, Sortino-style score, Omega-style score, and strategy tilts.</p>
-              <p><strong>Important:</strong> official World Cup fantasy prices are not imported yet, so price-adjusted return fields remain blank in the source model.</p>
+              <p><strong>Used for:</strong> portfolio health, bad-week floor, budget pressure, country/fixture concentration, and advanced downside metrics.</p>
+              <p><strong>Important:</strong> public picks use official fantasy prices. Some preserved model files still include older estimated-price fields for compatibility and audit history.</p>
             </article>
           </div>
 
@@ -1148,7 +1228,7 @@
             <p>These labels appear in the dashboard, captain table, team advice table, lock-player list, and team builder cards. They are listed here at the end because they combine the source fields and calculated fields above.</p>
 
             <div class="formula-list">
-              <p><strong>Price:</strong> public pick cards use official World Cup fantasy prices. The current builder path may still show <code>proxy_price_v1</code> for older saved-squad compatibility.</p>
+              <p><strong>Price:</strong> public pick cards and current Team Builder paths use official World Cup fantasy prices when available. Older exports may still contain estimated-price fields for compatibility.</p>
               <p><strong>Captain Score:</strong> a captain shortlist score using expected return, risk-adjusted return, reliability, composite risk, and tail risk.</p>
               <p><strong>Reliability:</strong> a 0 to 100 minutes-security score from club minutes, starts, national-team usage, source confidence, and availability-style risk.</p>
               <p><strong>Start %:</strong> modeled probability that the player starts for his country in the selected matchday view.</p>
@@ -1156,16 +1236,16 @@
               <p><strong>Substitution Risk:</strong> a 0 to 100 risk score for limited minutes, bench role, or early substitution. Lower is better.</p>
               <p><strong>Per 90:</strong> modeled fantasy upside if the player played a full 90 minutes.</p>
               <p><strong>Risk:</strong> a composite score from source risk, minutes uncertainty, volatility, downside risk, fixture risk, discipline, and bad-week probability. Lower is better.</p>
-              <p><strong>Style Score:</strong> the score for the selected pick style, such as Best Overall, Projected Points, Reliable Pick, Upside Pick, Likely Minutes, Best Value Prototype, Cheap Enabler, Premium Worth It, Sharpe-style, Sortino-style, VaR, CVaR, Omega-style, Attack Heavy, Defensive Heavy, or Very Risky Upside.</p>
+              <p><strong>Strategy Score:</strong> the score for the selected strategy: Balanced, Safe, Upside, or Differential. Advanced notes may preserve older internal score names for audit history.</p>
               <p><strong>Projected:</strong> risk-adjusted expected fantasy points for one group-stage match.</p>
-              <p><strong>VaR And CVaR:</strong> downside floor measures. VaR is the modeled 10th percentile outcome, and CVaR is the modeled average of the worst 20% of outcomes.</p>
+              <p><strong>Advanced Bad-Week Floor Fields:</strong> deeper downside floor measures used by Model Notes and exports. They estimate bad-outcome cutoffs and worst-outcome averages.</p>
               <p><strong>Attack Heavy:</strong> tilts toward attacking players and attacking defenders with strong goal, assist, shot, and upside signals.</p>
               <p><strong>Very Risky Upside:</strong> intentionally searches for boom-or-bust players. It is useful for aggressive watchlists, not safe default picks.</p>
             </div>
 
             <details class="stat-example">
               <summary>Example: Price</summary>
-              <p>Until official prices are imported, each player uses <code>proxy_price_v1</code>. It is built from position, role-adjusted expected return, starter confidence, expected minutes, team quality, and risk. It is not an official price.</p>
+              <p>If the official fantasy feed lists a player at <code>8.5 units</code>, public pick cards and current builder views use that price. Older export payloads may keep estimated-price fields only so previous saves can still be inspected.</p>
             </details>
 
             <details class="stat-example">
@@ -1189,8 +1269,8 @@
             </details>
 
             <details class="stat-example">
-              <summary>Example: Style Score</summary>
-              <p>If Recommendation Style is Safe, the score shown in the lock list favors low downside and useful projected points. If Recommendation Style changes to Upside, the score shifts toward ceiling and attacking value.</p>
+              <summary>Example: Strategy Score</summary>
+              <p>If Strategy is Safe, the score shown in the lock list favors low downside and useful projected points. If Strategy changes to Upside, the score shifts toward ceiling and attacking value.</p>
             </details>
 
             <details class="stat-example">
@@ -1220,7 +1300,7 @@
 
             <details class="stat-example">
               <summary>Example: Avoid Bad Weeks (low tail-risk)</summary>
-              <p>If tail risk is low, VaR is positive, and CVaR is not painful, Avoid Bad Weeks likes the player even if another player has flashier upside.</p>
+              <p>If bad-week risk is low and the advanced floor fields look positive, Bad-Week Floor likes the player even if another player has flashier upside.</p>
             </details>
 
             <details class="stat-example">
@@ -1240,7 +1320,7 @@
 
             <details class="stat-example">
               <summary>Example: VaR and CVaR</summary>
-              <p>If VaR is <code>2.0</code>, the modeled bad-outcome cutoff is still positive. If CVaR is <code>-3.0</code>, the worst-outcome basket is much weaker, even if the headline projection looks useful.</p>
+              <p>If the advanced bad-outcome cutoff is <code>2.0</code>, the modeled bad week is still positive. If the worst-outcome average is <code>-3.0</code>, the player has more downside than the headline projection suggests.</p>
             </details>
 
             <details class="stat-example">
@@ -1358,16 +1438,15 @@
       <div class="site-footer__inner">
         <div>
           <h2>World Cup Fantasy Helper</h2>
-          <p>Independent fantasy football tools for picks, rankings, and squad ideas using current official fantasy prices, positions, selectable status, and scoring.</p>
+          <p>Independent fantasy football tools for picks, squad building, and matchday decisions using current official fantasy prices, positions, selectable status, and scoring.</p>
           <p class="site-footer__note">Not official FIFA fantasy advice. No betting or gambling content.</p>
         </div>
 
         <nav class="footer-nav" aria-label="Footer navigation">
           <a href="#top">Home</a>
           <a href="#picks">Picks</a>
-          <a href="#captain-picks">Captain Alpha</a>
-          <a href="#matchday-desk">Matchday Desk</a>
           <a href="#team-builder">Team Builder</a>
+          <a href="#matchday-desk">Matchday Desk</a>
           <a href="#fantasy-finance">Fantasy Finance</a>
           <a href="world-cup.html">World Cup Guide</a>
           <a href="#model-notes">Model Notes</a>
@@ -1402,6 +1481,6 @@
     <script src="fantasyPoolFinanceMetricsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolScorePredictionsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolOfficialDataStatusData.js?v=20260603-official-final"></script>
-    <script src="script.js?v=20260603-official-final"></script>
+    <script src="script.js?v=20260603-public-copy"></script>
   </body>
 </html>
