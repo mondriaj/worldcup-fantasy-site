@@ -2219,6 +2219,11 @@ html {
   line-height: 1.1;
 }
 
+.pick-card__metrics small {
+  font: inherit;
+  line-height: 1.2;
+}
+
 .pick-card__action {
   display: inline-flex;
   align-items: center;

@@ -2481,6 +2481,11 @@ function publicFantasyPickReasonItems(player) {
   const startText = Number.isFinite(startProbability)
     ? ` with ${Math.round(startProbability * 100)}% start chance`
     : "";
+  const isGroupStageScope = candidate.matchday === "group_stage_full";
+  const fixtureCount = Number(candidate.fixture_context?.fixture_count);
+  const scopeText = isGroupStageScope
+    ? `group-stage points across ${Number.isFinite(fixtureCount) && fixtureCount > 0 ? fixtureCount : 3} matches`
+    : `${matchdayLabelFromId(candidate.matchday)} points`;
   const fixture = pickFixtureLabel(player);
   const fixtureText = fixture && !fixture.toLowerCase().includes("needs check")
     ? `Fixture outlook: ${fixture}.`
@@ -2488,15 +2493,15 @@ function publicFantasyPickReasonItems(player) {
   const reasons = [];
 
   if (mode === "captain") {
-    reasons.push(`${modeLabel}: ${captain} captain signal and ${projected} projected points${startText}.`);
+    reasons.push(`${modeLabel}: ${captain} captain signal and ${projected} ${scopeText}${startText}.`);
   } else if (mode === "safe") {
-    reasons.push(`${modeLabel}: ${projected} projected points${startText} and a useful floor of ${floor}.`);
+    reasons.push(`${modeLabel}: ${projected} ${scopeText}${startText} and a useful floor of ${floor}.`);
   } else if (mode === "upside") {
-    reasons.push(`${modeLabel}: ${ceiling} upside ceiling with ${projected} projected points.`);
+    reasons.push(`${modeLabel}: ${ceiling} upside ceiling with ${projected} ${scopeText}.`);
   } else if (mode === "differential") {
-    reasons.push(`${modeLabel}: less obvious pick with ${projected} projected points${startText}.`);
+    reasons.push(`${modeLabel}: less obvious pick with ${projected} ${scopeText}${startText}.`);
   } else {
-    reasons.push(`${modeLabel}: ${projected} projected points${startText}.`);
+    reasons.push(`${modeLabel}: ${projected} ${scopeText}${startText}.`);
   }
 
   if (fixtureText) {
@@ -8805,6 +8810,17 @@ function pickRiskKind(player) {
 }
 
 function pickFixtureLabel(player) {
+  const candidate = player.preview_candidate || null;
+  if (candidate?.matchday === "group_stage_full") {
+    const opponents = Array.isArray(candidate.fixture_context?.opponents)
+      ? candidate.fixture_context.opponents.filter(Boolean)
+      : [];
+    if (opponents.length) {
+      return `Full group stage vs ${listText(opponents.slice(0, 3))}`;
+    }
+    return "Full group stage";
+  }
+
   const projections = playerMatchdayProjections(player);
   const activeProjectionRow = activeMatchdayId === "group_stage_full"
     ? null
@@ -8832,6 +8848,15 @@ function pickProjectedScore(player, measureKey = "balanced") {
   }
 
   return displayNumber(scoreValue(player, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate"));
+}
+
+function pickScoreLabel(player, measureKey = "balanced") {
+  if (measureKey === "captain") {
+    return "Captain Alpha";
+  }
+  return player?.preview_candidate?.matchday === "group_stage_full"
+    ? "Group Stage Pts"
+    : "Projected Score";
 }
 
 function pickReasonText(player, measureKey = "balanced") {
@@ -8873,7 +8898,7 @@ function pickCardActionHtml(player) {
 function renderPickCard(player, options = {}) {
   const measureKey = options.measureKey || "balanced";
   const label = options.label || measures[measureKey]?.label || "Pick";
-  const scoreLabel = measureKey === "captain" ? "Captain Alpha" : "Projected Score";
+  const scoreLabel = pickScoreLabel(player, measureKey);
   const riskLabel = pickRiskLabel(player);
   const riskHelpText = pickRiskHelpText(player, riskLabel);
 
@@ -8896,8 +8921,8 @@ function renderPickCard(player, options = {}) {
       ${playerDetailButton(player, "player-name-button--dashboard", measureKey)}
       <p class="pick-card__meta">${escapeHtml(playerCountryText(player))} · ${escapeHtml(player.position)} · ${escapeHtml(playerPriceText(player))}</p>
       <div class="pick-card__metrics">
-        <span><strong>${escapeHtml(pickProjectedScore(player, measureKey))}</strong>${escapeHtml(scoreLabel)}</span>
-        <span><strong>${displayNumber(scoreValue(player, "start_probability_percent"))}%</strong>Start</span>
+        <span><strong>${escapeHtml(pickProjectedScore(player, measureKey))}</strong> <small>${escapeHtml(scoreLabel)}</small></span>
+        <span><strong>${displayNumber(scoreValue(player, "start_probability_percent"))}%</strong> <small>Start</small></span>
       </div>
       <p class="pick-card__fixture">${escapeHtml(pickFixtureLabel(player))}</p>
       <p class="pick-card__reason">${escapeHtml(pickReasonText(player, measureKey))}</p>
