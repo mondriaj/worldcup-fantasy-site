@@ -2972,6 +2972,17 @@ function activeCardStatLabel(stat = activeCardStat()) {
     : stat.label;
 }
 
+function compactCardStatLabel(label) {
+  return String(label || "Score")
+    .replace(/\s+Score$/i, "")
+    .replace("Projected Points", "Projected")
+    .replace("Expected Minutes", "Minutes")
+    .replace("Substitution Risk", "Sub Risk")
+    .replace("Sharpe-Style", "Sharpe")
+    .replace("Sortino-Style", "Sortino")
+    .replace("Budget Price", "Price");
+}
+
 function measureScore(player, measure = activeMeasure(), mode = activeTrustMode()) {
   return trustAdjustedScore(player, measure, mode);
 }
@@ -8325,17 +8336,21 @@ function renderPlayerCard(player, slot, position, slotIndex) {
   const projection = activeProjection(player);
   const fixtureText = projection ? ` · vs ${projection.opponent}` : "";
   const roleText = playerRoleText(player);
-  const roleLine = roleText ? `<p>${roleText}</p>` : "";
+  const roleLine = roleText ? `<p class="player-card__detail">${roleText}</p>` : "";
+  const metaText = `${playerCountryText(player)} · ${player.club}${fixtureText}`;
+  const statText = `${compactCardStatLabel(statLabel)} ${displayNumber(stat.value(player))}`;
 
   return `
     <article class="player-card player-card--selectable" role="button" tabindex="0" data-area="starter" data-position="${position}" data-slot-index="${slotIndex}" data-player-id="${player.id}" style="top: ${slot.top}; left: ${slot.left};">
       <span class="player-card__role">${player.position}</span>
       ${squadSelectionBadgeHtml(player, "starter")}
       <strong>${playerDetailButton(player, "player-name-button--card", measureKeyForTrust(activeMeasure()))}</strong>
-      <p>${playerCountryText(player)} · ${player.club}${fixtureText}</p>
-      <p class="player-card__price">Price ${playerPriceText(player)}</p>
+      <p class="player-card__meta" title="${escapeHtml(metaText)}">${escapeHtml(metaText)}</p>
+      <div class="player-card__numbers">
+        <span>Price ${escapeHtml(playerPriceText(player))}</span>
+        <span>${escapeHtml(statText)}</span>
+      </div>
       ${roleLine}
-      <p>${statLabel}: ${displayNumber(stat.value(player))}</p>
       ${starterSelectionControlsHtml(player)}
     </article>
   `;

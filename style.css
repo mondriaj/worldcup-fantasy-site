@@ -3528,10 +3528,14 @@ input[type="number"] {
 
 .player-card {
   position: absolute;
-  width: clamp(102px, 9vw, 132px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: clamp(108px, 8.8vw, 124px);
   appearance: none;
-  padding: 10px 8px;
-  border-radius: 16px;
+  min-height: 166px;
+  padding: 8px 7px;
+  border-radius: 13px;
   background: rgba(255, 255, 255, 0.98);
   color: var(--text);
   font: inherit;
@@ -3562,13 +3566,14 @@ input[type="number"] {
 
 .player-card__role {
   display: inline-block;
-  margin-bottom: 8px;
-  padding: 4px 8px;
+  margin-bottom: 0;
+  padding: 3px 8px;
   border-radius: 999px;
   background: rgba(15, 143, 79, 0.14);
   color: var(--accent-dark);
-  font-size: 0.78rem;
-  font-weight: 700;
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 1.05;
 }
 
 .squad-selection-badge {
@@ -3576,7 +3581,7 @@ input[type="number"] {
   align-items: center;
   justify-content: center;
   min-height: 22px;
-  margin: 0 0 7px 4px;
+  margin: 0 0 0 4px;
   border-radius: 8px;
   padding: 3px 7px;
   background: rgba(255, 159, 28, 0.16);
@@ -3601,7 +3606,8 @@ input[type="number"] {
   flex-wrap: wrap;
   justify-content: center;
   gap: 4px;
-  margin-top: 8px;
+  margin-top: auto;
+  padding-top: 2px;
 }
 
 .squad-selection-controls--bench {
@@ -3610,8 +3616,8 @@ input[type="number"] {
 
 .squad-selection-button {
   appearance: none;
-  min-width: 30px;
-  height: 26px;
+  min-width: 28px;
+  height: 24px;
   border: 1px solid rgba(24, 78, 119, 0.16);
   border-radius: 8px;
   background: #f8fbff;
@@ -3639,20 +3645,65 @@ input[type="number"] {
 
 .player-card strong {
   display: block;
-  font-size: 0.82rem;
-  line-height: 1.18;
+  width: 100%;
+  min-width: 0;
+  margin-top: 3px;
+  font-size: 0.78rem;
+  line-height: 1.12;
+}
+
+.player-name-button--card {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow-wrap: anywhere;
 }
 
 .player-card p {
-  margin: 6px 0 0;
+  margin: 0;
   color: var(--muted);
-  font-size: 0.7rem;
-  line-height: 1.25;
+  font-size: 0.64rem;
+  line-height: 1.16;
 }
 
-.player-card__price {
-  color: var(--accent-cool) !important;
+.player-card__meta,
+.player-card__detail {
+  display: -webkit-box;
+  overflow: hidden;
+  width: 100%;
+  -webkit-box-orient: vertical;
+  overflow-wrap: anywhere;
+}
+
+.player-card__meta {
+  -webkit-line-clamp: 2;
+}
+
+.player-card__detail {
+  -webkit-line-clamp: 1;
+}
+
+.player-card__numbers {
+  display: grid;
+  width: 100%;
+  gap: 4px;
+  margin: 2px 0;
+}
+
+.player-card__numbers span {
+  display: block;
+  min-width: 0;
+  border-radius: 999px;
+  padding: 4px 6px;
+  background: rgba(15, 143, 79, 0.11);
+  color: var(--accent-dark);
+  font-size: 0.65rem;
   font-weight: 800;
+  line-height: 1.05;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .player-card--placeholder {
@@ -4326,10 +4377,22 @@ input[type="number"] {
   transform: translateY(-1px);
 }
 
-@media (max-width: 1020px) {
+@media (max-width: 1120px) {
   .builder-workspace {
     grid-template-columns: 1fr;
   }
+
+  .builder-sidebar {
+    position: static;
+  }
+
+  .player-picker {
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    max-height: 340px;
+  }
+}
+
+@media (max-width: 1020px) {
 
   .builder-flow {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -4385,15 +4448,6 @@ input[type="number"] {
     grid-template-columns: 1fr;
   }
 
-  .builder-sidebar {
-    position: static;
-  }
-
-  .player-picker {
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    max-height: 340px;
-  }
-
   .bench-players {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -4419,6 +4473,80 @@ input[type="number"] {
   .profile-grid--compact,
   .profile-grid--finance {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .soccer-field {
+    min-height: 0;
+    overflow: visible;
+    border-radius: 20px;
+    padding: 14px;
+  }
+
+  .field-markings {
+    display: none;
+  }
+
+  .team-players {
+    display: grid;
+    gap: 10px;
+    min-height: 0;
+  }
+
+  .player-card {
+    position: static;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 4px 10px;
+    align-items: start;
+    width: 100%;
+    min-height: 0;
+    padding: 12px;
+    border-radius: 14px;
+    text-align: left;
+    transform: none;
+  }
+
+  .player-card--selectable:hover {
+    transform: none;
+  }
+
+  .player-card__role {
+    grid-row: 1 / span 5;
+    margin-bottom: 0;
+    font-size: 0.72rem;
+  }
+
+  .player-card strong,
+  .player-card p,
+  .player-card__numbers,
+  .squad-selection-controls {
+    min-width: 0;
+  }
+
+  .player-card strong {
+    margin-top: 0;
+    font-size: 0.92rem;
+  }
+
+  .player-card p {
+    font-size: 0.76rem;
+  }
+
+  .player-card__numbers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 0;
+  }
+
+  .squad-selection-controls {
+    justify-content: flex-start;
+    margin-top: 2px;
+    padding-top: 0;
+  }
+
+  .player-silhouette {
+    display: none;
   }
 }
 
