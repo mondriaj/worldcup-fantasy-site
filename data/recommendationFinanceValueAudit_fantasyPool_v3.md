@@ -1,20 +1,20 @@
 # Recommendation Finance Value Audit Fantasy Pool v3
 
-Generated: 2026-06-02T18:41:18.502Z
+Generated: 2026-06-03T16:56:58.583Z
 
 Model stage: fantasy_pool_only. This audit does not promote recommendations, does not update active v2 recommendations, does not update browser-ready files, and does not make Team Builder, captain/substitution, or UX changes.
 
 ## Summary
 
 - Recommendation QA status: pass_with_staging_stop_conditions.
-- Finance diagnostic rows: 5024.
-- Efficient-frontier rows: 62.
-- Dominated rows: 4962.
+- Finance diagnostic rows: 4992.
+- Efficient-frontier rows: 61.
+- Dominated rows: 4931.
 - Above-replacement rows: 256.
-- Differential candidates on efficient frontier: 40.
-- Differential candidates dominated: 60.
+- Differential candidates on efficient frontier: 41.
+- Differential candidates dominated: 59.
 - Balanced vs Differential top-10 overlap: 0.
-- Balanced vs Differential top-25 overlap: 2.
+- Balanced vs Differential top-25 overlap: 1.
 - Safe for preliminary review: true.
 - Safe for public recommendations: false.
 
@@ -30,51 +30,51 @@ Model stage: fantasy_pool_only. This audit does not promote recommendations, doe
 
 | Pair | Compared rows | Rank limit | Spearman rank correlation |
 | --- | --- | --- | --- |
-| balanced_vs_safe | 140 | 100 | 0.297 |
-| balanced_vs_upside | 132 | 100 | 0.2446 |
-| balanced_vs_differential | 175 | 100 | -0.3217 |
-| balanced_vs_captain | 143 | 100 | 0.1027 |
-| safe_vs_upside | 159 | 100 | -0.021 |
-| safe_vs_differential | 192 | 100 | -0.555 |
-| safe_vs_captain | 160 | 100 | -0.0948 |
-| upside_vs_differential | 163 | 100 | -0.3822 |
-| upside_vs_captain | 123 | 100 | 0.7417 |
-| differential_vs_captain | 172 | 100 | -0.4962 |
+| balanced_vs_safe | 142 | 100 | 0.1915 |
+| balanced_vs_upside | 165 | 100 | -0.316 |
+| balanced_vs_differential | 166 | 100 | -0.3154 |
+| balanced_vs_captain | 143 | 100 | 0.1698 |
+| safe_vs_upside | 182 | 100 | -0.498 |
+| safe_vs_differential | 189 | 100 | -0.5701 |
+| safe_vs_captain | 166 | 100 | -0.196 |
+| upside_vs_differential | 136 | 100 | -0.0085 |
+| upside_vs_captain | 172 | 100 | -0.501 |
+| differential_vs_captain | 166 | 100 | -0.4368 |
 
 ## Mode Overlap
 
 | Pair | Top-10 overlap | Top-25 overlap |
 | --- | --- | --- |
-| Balanced vs Safe | 6 | 13 |
-| Balanced vs Differential | 0 | 2 |
+| Balanced vs Safe | 2 | 8 |
+| Balanced vs Differential | 0 | 1 |
 | Safe vs Differential | 0 | 0 |
-| Upside vs Captain Alpha | 8 | 20 |
+| Upside vs Captain Alpha | 0 | 0 |
 
 ## Mode Winners
 
 | Mode | Winner | Country | Pos | Scope | Score | Price |
 | --- | --- | --- | --- | --- | --- | --- |
-| Balanced | Nuno Alexandre Tavares Mendes | Portugal | DEF | md2 | 86.341 | 5.8 |
-| Safe | Nuno Alexandre Tavares Mendes | Portugal | DEF | md2 | 87.657 | 5.8 |
-| Upside | Lionel Messi | Argentina | FWD | md3 | 92.325 | 10 |
-| Differential | Giorgian de Arrascaeta | Uruguay | MID | md1 | 77.668 | 6.5 |
-| Captain Alpha | Lionel Messi | Argentina | FWD | md3 | 96.249 | 10 |
+| Balanced | Lionel Messi | Argentina | FWD | md3 | 82.947 | 10 |
+| Safe | Camilo Vargas | Colombia | GK | md1 | 89.896 | 4.3 |
+| Upside | Luis Suárez | Colombia | FWD | md1 | 77.474 | 5.7 |
+| Differential | Giorgian de Arrascaeta | Uruguay | MID | md1 | 88.724 | 6.5 |
+| Captain Alpha | Lionel Messi | Argentina | FWD | md3 | 98.178 | 10 |
 
 ## Mode Distributions
 
 | Mode | Positions | Price buckets | Confidence | Matchdays | Top countries |
 | --- | --- | --- | --- | --- | --- |
-| Balanced | DEF: 40; MID: 31; FWD: 19; GK: 10 | 8.0+: 34; 4.0-4.9: 28; 5.0-6.4: 24; 6.5-7.9: 12; under_4.0: 2 | high: 100 | group_stage_full: 25; md1: 25; md2: 25; md3: 25 | Argentina: 22; Colombia: 10; Spain: 10; Portugal: 9; England: 8; Uruguay: 8; France: 7; Germany: 5; Brazil: 4; Netherlands: 4 |
-| Safe | DEF: 40; GK: 23; FWD: 20; MID: 17 | 4.0-4.9: 40; 5.0-6.4: 22; 8.0+: 21; 6.5-7.9: 15; under_4.0: 2 | high: 100 | group_stage_full: 25; md1: 25; md2: 25; md3: 25 | Argentina: 23; Portugal: 15; Colombia: 14; England: 11; Uruguay: 6; Germany: 5; Netherlands: 5; Spain: 5; Ecuador: 4; Belgium: 3 |
-| Upside | FWD: 40; MID: 40; DEF: 20 | 8.0+: 48; 5.0-6.4: 21; 6.5-7.9: 21; 4.0-4.9: 10 | high: 100 | group_stage_full: 25; md1: 25; md2: 25; md3: 25 | Argentina: 19; Portugal: 10; Spain: 10; England: 8; France: 8; Brazil: 7; Colombia: 6; Germany: 5; Uruguay: 5; Belgium: 4 |
-| Differential | DEF: 35; FWD: 31; MID: 27; GK: 7 | 5.0-6.4: 34; 4.0-4.9: 31; under_4.0: 16; 6.5-7.9: 15; 8.0+: 4 | high: 100 | group_stage_full: 25; md1: 25; md2: 25; md3: 25 | Argentina: 13; Japan: 10; Uruguay: 9; Ecuador: 8; Belgium: 7; Colombia: 7; Croatia: 7; Spain: 5; Austria: 4; England: 4 |
-| Captain Alpha | FWD: 48; MID: 40; DEF: 12 | 8.0+: 51; 6.5-7.9: 28; 5.0-6.4: 14; 4.0-4.9: 7 | high: 100 | group_stage_full: 25; md1: 25; md2: 25; md3: 25 | Argentina: 18; Portugal: 13; England: 10; Spain: 9; France: 8; Uruguay: 7; Germany: 5; Brazil: 3; Colombia: 3; Croatia: 3 |
+| Balanced | DEF: 40; MID: 24; FWD: 23; GK: 13 | 8.0+: 37; 4.0-4.9: 33; 5.0-6.4: 17; 6.5-7.9: 9; under_4.0: 4 | high: 100 | group_stage_full: 25; md1: 25; md2: 25; md3: 25 | Argentina: 24; Colombia: 12; England: 10; Spain: 10; Portugal: 9; France: 8; Germany: 5; Japan: 4; Belgium: 3; Brazil: 3 |
+| Safe | DEF: 40; GK: 24; MID: 20; FWD: 16 | 4.0-4.9: 40; 5.0-6.4: 25; 8.0+: 19; 6.5-7.9: 15; under_4.0: 1 | high: 100 | group_stage_full: 25; md1: 25; md2: 25; md3: 25 | Argentina: 23; England: 19; Portugal: 15; Colombia: 12; Spain: 8; Germany: 5; Netherlands: 5; Belgium: 4; Brazil: 2; France: 2 |
+| Upside | FWD: 40; DEF: 31; MID: 29 | 5.0-6.4: 42; 4.0-4.9: 33; 6.5-7.9: 18; 8.0+: 6; under_4.0: 1 | high: 99; medium: 1 | group_stage_full: 25; md1: 25; md2: 25; md3: 25 | Argentina: 18; Croatia: 11; Portugal: 8; Belgium: 7; Colombia: 7; Spain: 6; England: 5; Germany: 5; Japan: 5; Netherlands: 5 |
+| Differential | DEF: 35; FWD: 29; MID: 28; GK: 8 | 5.0-6.4: 39; 4.0-4.9: 28; under_4.0: 14; 6.5-7.9: 12; 8.0+: 7 | high: 100 | group_stage_full: 25; md1: 25; md2: 25; md3: 25 | Argentina: 12; Colombia: 11; Uruguay: 10; Japan: 9; Croatia: 8; Ecuador: 8; Belgium: 7; Portugal: 6; England: 5; Spain: 5 |
+| Captain Alpha | FWD: 48; MID: 40; DEF: 12 | 8.0+: 50; 6.5-7.9: 27; 5.0-6.4: 17; 4.0-4.9: 6 | high: 100 | group_stage_full: 25; md1: 25; md2: 25; md3: 25 | Argentina: 20; Portugal: 12; Spain: 9; France: 8; England: 7; Uruguay: 7; Belgium: 4; Germany: 4; Brazil: 3; Colombia: 3 |
 
 ## Distinct Purpose Assessment
 
 - Balanced: best all-around staged candidate score. It should correlate with most modes but not define Differential alone.
 - Safe: floor, minutes, role/confidence, and low data-quality risk. Balanced/Safe overlap is natural.
-- Upside: ceiling and attacking context. Upside/Captain overlap is natural when elite attackers dominate both.
+- Upside: ceiling and attacking context per official price. It should surface explosive non-captain value rather than repeat the armband list.
 - Captain Alpha: captain-relevant ceiling and starts; not pure value.
 - Differential: defensible lower-obviousness value. It now uses value over replacement, scarcity-adjusted value, frontier status, and opportunity cost, while retaining an obviousness penalty.
 
@@ -153,12 +153,12 @@ Differential has limited overlap where finance value supports it, which is the i
 | Nicolás Tagliafico | Argentina | DEF | group_stage_full | Group stage average | 4.3 | 18.873 | 3.755 | 4.319 | 4.7195 | 4.3891 | true | false | 0 | 100 |
 | Emiliano Martínez | Argentina | GK | group_stage_full | Group stage average | 5 | 16.878 | 3.264 | 3.614 | 3.6294 | 3.3756 | true | false | 0 | 100 |
 | Lionel Messi | Argentina | FWD | md3 | Jordan | 10 | 7.55 | 2.658 | 3.488 | 0.8119 | 0.755 | true | false | 0 | 100 |
+| Lamine Yamal Nasraoui Ebana | Spain | MID | md1 | Cabo Verde | 10 | 8.076 | 2.69 | 3.487 | 0.8684 | 0.8076 | true | false | 0 | 97.261 |
 | Mikel Oyarzabal | Spain | FWD | group_stage_full | Group stage average | 8.1 | 16.88 | 3.239 | 3.419 | 2.2409 | 2.084 | true | false | 5.77 | 91.036 |
 | Nuno Alexandre Tavares Mendes | Portugal | DEF | md1 | Congo DR | 5.8 | 7.62 | 2.344 | 3.383 | 1.4126 | 1.3138 | true | false | 0 | 100 |
-| Lamine Yamal Nasraoui Ebana | Spain | MID | md1 | Cabo Verde | 10 | 8.076 | 2.506 | 3.373 | 0.8684 | 0.8076 | true | false | 0 | 95.701 |
+| Lamine Yamal Nasraoui Ebana | Spain | MID | md3 | Uruguay | 10 | 7.859 | 2.413 | 3.352 | 0.8451 | 0.7859 | true | false | 0 | 95.056 |
 | Lionel Messi | Argentina | FWD | md1 | Algeria | 10 | 7.55 | 2.811 | 3.341 | 0.8119 | 0.755 | true | false | 0 | 100 |
-| Lamine Yamal Nasraoui Ebana | Spain | MID | md3 | Uruguay | 10 | 7.859 | 2.332 | 3.271 | 0.8451 | 0.7859 | true | false | 0 | 94.246 |
-| Nuno Alexandre Tavares Mendes | Portugal | DEF | md2 | Uzbekistan | 5.8 | 7.675 | 2.157 | 3.217 | 1.4228 | 1.3233 | true | false | 0 | 100 |
+| Luis Díaz | Colombia | MID | md1 | Uzbekistan | 8.1 | 7.877 | 2.491 | 3.288 | 1.0457 | 0.9725 | true | false | 0.199 | 96.562 |
 
 ## Dominated Player Sample
 
@@ -184,31 +184,31 @@ Differential has limited overlap where finance value supports it, which is the i
 
 | Rank | Name | Country | Pos | Scope | Price | Score | Tier | Risk | Value | VOR | Scarcity | Frontier | Dominated | Opp cost | Def score | Obviousness |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Giorgian de Arrascaeta | Uruguay | MID | md1 | 6.5 | 77.668 | strong_candidate | 7.013 | 1.079 | 1.443 | 2.24 | true | false | 0 | 93.745 | 15 |
-| 1 | Nicolas Jackson | Senegal | FWD | md3 | 6.7 | 77.42 | strong_candidate | 5.748 | 0.858 | 0.856 | 1.596 | true | false | 0.165 | 80.595 | 5 |
-| 1 | Hiroki Ito | Japan | DEF | md2 | 3.9 | 77.011 | strong_candidate | 6.107 | 1.566 | 0.589 | 1.479 | true | false | 0 | 85.85 | 4 |
-| 2 | Luis Suárez | Colombia | FWD | md1 | 5.7 | 73.997 | strong_candidate | 6.015 | 1.055 | 1.276 | 1.886 | false | true | 0 | 65.94 | 2 |
-| 2 | Luis Suárez | Colombia | FWD | md2 | 5.7 | 73.885 | strong_candidate | 5.983 | 1.05 | 0.91 | 1.52 | false | true | 0 | 62.28 | 1 |
-| 2 | Martin Erlic | Croatia | DEF | md3 | 3.9 | 73.659 | strong_candidate | 5.274 | 1.352 | 0.095 | 0.985 | true | false | 0 | 79.746 | 0 |
-| 3 | Santiago Arias | Colombia | DEF | md1 | 3.9 | 72.62 | strong_candidate | 5.244 | 1.345 | -0.032 | 0.737 | true | false | 0.056 | 78.69 | 0 |
-| 3 | Emmanuel Agbadou | Côte d'Ivoire | DEF | md3 | 3.9 | 72.506 | strong_candidate | 5.205 | 1.335 | 0.026 | 0.986 | true | false | 0.069 | 79.997 | 0 |
-| 4 | Ismael Saibari | Morocco | MID | md3 | 6.8 | 72.076 | strong_candidate | 6.114 | 0.899 | 0.587 | 1.456 | true | false | 0.843 | 77.085 | 6 |
-| 1 | Charles De Ketelaere | Belgium | MID | group_stage_full | 5.6 | 71.605 | strong_candidate | 17.659 | 3.153 | 1.207 | 1.86 | true | false | 0 | 82.065 | 1 |
-| 4 | Nicolás Tagliafico | Argentina | DEF | md1 | 4.3 | 70.936 | strong_candidate | 6.305 | 1.466 | 1.029 | 1.818 | true | false | 0.533 | 89.705 | 12 |
-| 5 | Johan Mojica | Colombia | DEF | md1 | 3.9 | 70.923 | strong_candidate | 5.3 | 1.359 | 0.024 | 0.793 | true | false | 0 | 80.942 | 3 |
-| 5 | Duje Caleta-Car | Croatia | DEF | md3 | 4 | 70.833 | strong_candidate | 5.179 | 1.295 | 0 | 0.89 | true | false | 1.261 | 76.833 | 0 |
-| 3 | Junnosuke Suzuki | Japan | DEF | md2 | 3.5 | 70.615 | strong_candidate | 5.163 | 1.475 | -0.355 | 0.535 | true | false | 0.944 | 72.414 | 0 |
-| 2 | Silvan Widmer | Switzerland | DEF | group_stage_full | 4.2 | 70.39 | strong_candidate | 16.21 | 3.86 | 1.092 | 1.886 | true | false | 2.663 | 83.164 | 3 |
-| 6 | Torbjørn Heggem | Norway | DEF | md1 | 3.7 | 69.872 | strong_candidate | 5.091 | 1.376 | -0.185 | 0.584 | true | false | 0.209 | 77.949 | 0 |
-| 3 | Luis Suárez | Colombia | FWD | group_stage_full | 5.7 | 69.617 | strong_candidate | 15.99 | 2.805 | 2.349 | 2.609 | false | true | 0 | 75.27 | 0 |
-| 4 | Nico O'Reilly | England | DEF | md2 | 4.7 | 69.037 | strong_candidate | 6.44 | 1.37 | 0.922 | 1.712 | true | false | 0 | 88.272 | 13 |
-| 5 | Ritsu Doan | Japan | DEF | md2 | 5.1 | 68.948 | strong_candidate | 6.746 | 1.323 | 1.228 | 2.288 | true | false | 0.929 | 83.953 | 11 |
-| 6 | Christoph Baumgartner | Austria | MID | md3 | 6.7 | 67.951 | strong_candidate | 5.809 | 0.867 | 0.282 | 1.221 | true | false | 1.148 | 79.532 | 7 |
-| 7 | Julian Ryerson | Norway | DEF | md1 | 4.2 | 67.839 | strong_candidate | 6.472 | 1.541 | 1.196 | 2.065 | true | false | 0.366 | 91.964 | 17 |
-| 6 | Santiago Mele | Uruguay | GK | md2 | 3.5 | 67.409 | strong_candidate | 5.082 | 1.452 | 0.077 | 1.137 | true | false | 0 | 81.534 | 0 |
-| 7 | Kevin Rodríguez | Ecuador | FWD | md2 | 4.9 | 67.254 | strong_candidate | 5.328 | 1.087 | 0.255 | 1.035 | false | true | 0 | 61.99 | 2 |
-| 8 | Santiago Mele | Uruguay | GK | md1 | 3.5 | 66.848 | strong_candidate | 5.082 | 1.452 | 0 | 1.06 | true | false | 0 | 80.764 | 0 |
-| 4 | Mikel Oyarzabal | Spain | FWD | group_stage_full | 8.1 | 66.757 | strong_candidate | 16.88 | 2.084 | 3.239 | 3.419 | true | false | 5.77 | 91.036 | 8 |
+| 1 | Giorgian de Arrascaeta | Uruguay | MID | md1 | 6.5 | 88.724 | top_pick_candidate | 7.013 | 1.079 | 1.627 | 2.594 | true | false | 0 | 96.265 | 12 |
+| 1 | Giorgian de Arrascaeta | Uruguay | MID | md2 | 6.5 | 86.457 | top_pick_candidate | 7.271 | 1.119 | 1.699 | 2.595 | true | false | 0 | 96.699 | 17 |
+| 2 | Hiroki Ito | Japan | DEF | md2 | 3.9 | 83.942 | top_pick_candidate | 6.107 | 1.566 | 0.589 | 1.479 | true | false | 0 | 85.85 | 4 |
+| 2 | Julian Ryerson | Norway | DEF | md1 | 4.2 | 83.44 | top_pick_candidate | 6.472 | 1.541 | 1.196 | 2.065 | true | false | 0.366 | 91.964 | 5 |
+| 3 | Luis Suárez | Colombia | FWD | md2 | 5.7 | 82.532 | top_pick_candidate | 5.983 | 1.05 | 0.91 | 1.52 | false | true | 0 | 62.28 | 1 |
+| 3 | Luis Suárez | Colombia | FWD | md1 | 5.7 | 82.356 | top_pick_candidate | 6.015 | 1.055 | 1.276 | 1.886 | false | true | 0 | 65.94 | 2 |
+| 1 | Charles De Ketelaere | Belgium | MID | group_stage_full | 5.6 | 80.024 | top_pick_candidate | 17.659 | 3.153 | 1.207 | 1.86 | true | false | 0 | 82.065 | 1 |
+| 2 | Silvan Widmer | Switzerland | DEF | group_stage_full | 4.2 | 78.446 | strong_candidate | 16.21 | 3.86 | 1.092 | 1.886 | true | false | 2.663 | 83.164 | 3 |
+| 4 | Johan Mojica | Colombia | DEF | md1 | 3.9 | 78.061 | strong_candidate | 5.3 | 1.359 | 0.024 | 0.793 | true | false | 0 | 80.942 | 3 |
+| 3 | Luis Suárez | Colombia | FWD | group_stage_full | 5.7 | 78.044 | strong_candidate | 15.99 | 2.805 | 2.349 | 2.609 | false | true | 0 | 75.27 | 1 |
+| 1 | Ismael Saibari | Morocco | MID | md3 | 6.8 | 77.727 | strong_candidate | 6.114 | 0.899 | 0.668 | 1.537 | true | false | 0.843 | 77.895 | 6 |
+| 5 | Santiago Arias | Colombia | DEF | md1 | 3.9 | 76.491 | strong_candidate | 5.244 | 1.345 | -0.032 | 0.737 | true | false | 0.056 | 78.69 | 3 |
+| 2 | Martin Erlic | Croatia | DEF | md3 | 3.9 | 76.252 | strong_candidate | 5.274 | 1.352 | 0.095 | 0.985 | true | false | 0 | 79.746 | 0 |
+| 4 | Raphael Dias Belloli | Brazil | MID | md2 | 8.2 | 75.764 | strong_candidate | 7.957 | 0.97 | 2.385 | 3.011 | true | false | 0.119 | 95.056 | 20 |
+| 3 | Yahia Fofana | Côte d'Ivoire | GK | md3 | 4.2 | 75.714 | strong_candidate | 5.757 | 1.371 | 1.456 | 1.741 | true | false | 0 | 94.604 | 6 |
+| 4 | Giorgian de Arrascaeta | Uruguay | MID | group_stage_full | 6.5 | 75.591 | strong_candidate | 17.667 | 2.718 | 1.215 | 1.938 | true | false | 3.125 | 81.792 | 9 |
+| 5 | Sergio Rochet | Uruguay | GK | md2 | 4.1 | 75.028 | strong_candidate | 5.566 | 1.358 | 0.561 | 1.351 | true | false | 0.289 | 87.123 | 3 |
+| 6 | Junnosuke Suzuki | Japan | DEF | md2 | 3.5 | 74.75 | strong_candidate | 5.163 | 1.475 | -0.355 | 0.535 | true | false | 0.944 | 72.414 | 0 |
+| 6 | Nicolás Tagliafico | Argentina | DEF | md1 | 4.3 | 74.397 | strong_candidate | 6.305 | 1.466 | 1.029 | 1.818 | true | false | 0.533 | 89.705 | 16 |
+| 7 | Hernán Galíndez | Ecuador | GK | md2 | 4.2 | 74.348 | strong_candidate | 5.488 | 1.307 | 0.483 | 1.343 | true | false | 0.367 | 86.389 | 0 |
+| 4 | Donyell Malen | Netherlands | FWD | md3 | 6.1 | 74.316 | strong_candidate | 5.329 | 0.874 | 0.437 | 1.177 | false | true | 0.206 | 58.112 | 1.5 |
+| 8 | Santiago Mele | Uruguay | GK | md2 | 3.5 | 74.275 | strong_candidate | 5.082 | 1.452 | 0.077 | 1.137 | true | false | 0 | 81.534 | 0 |
+| 5 | Raphael Dias Belloli | Brazil | MID | md3 | 8.2 | 73.767 | strong_candidate | 7.714 | 0.941 | 2.268 | 3.137 | true | false | 0.145 | 94.779 | 18 |
+| 5 | Hiroki Ito | Japan | DEF | group_stage_full | 3.9 | 73.54 | strong_candidate | 13.482 | 3.457 | -1.636 | -1.012 | true | false | 0 | 62.537 | 0 |
+| 7 | Santiago Mele | Uruguay | GK | md1 | 3.5 | 73.406 | strong_candidate | 5.082 | 1.452 | 0 | 1.06 | true | false | 0 | 80.764 | 0 |
 
 ## Recommendation Concerns
 

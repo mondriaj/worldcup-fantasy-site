@@ -1,0 +1,549 @@
+{
+  "schema_version": "official_fantasy_data_update_check_v1",
+  "generated_at": "2026-06-03T17:19:38.544Z",
+  "monitor_status": "completed",
+  "summary": {
+    "official_data_changed": true,
+    "rerun_decision": "minor_change_no_model_rerun_needed",
+    "fetch_failures": 0,
+    "local_official_fantasy_players": 1481,
+    "live_official_fantasy_players": 1481,
+    "live_selectable_status_counts": {
+      "playing": 1248,
+      "transferred": 233
+    },
+    "live_position_counts": {
+      "DEF": 482,
+      "FWD": 306,
+      "MID": 512,
+      "GK": 181
+    },
+    "final_squad_status": "still_blocked_no_source_backed_final_squads"
+  },
+  "source_checks": [
+    {
+      "source_id": "fifaFantasyPlayersJson",
+      "source_type": "official_fantasy_player_data",
+      "url": "https://play.fifa.com/json/fantasy/players.json",
+      "status": 200,
+      "ok": true,
+      "content_type": "application/json",
+      "last_modified": "2026-06-03T17:04:10Z",
+      "etag": "\"cf2fb4d2bb4cfbf350511d76207a5387\"",
+      "bytes": 1096678,
+      "sha256": "6779192bf050e26829712ee1e0bcefb863a873a27bcdc75587dc50f1b99180b2",
+      "parse_error": null
+    },
+    {
+      "source_id": "fifaFantasySquadsJson",
+      "source_type": "official_squads",
+      "url": "https://play.fifa.com/json/fantasy/squads.json",
+      "status": 200,
+      "ok": true,
+      "content_type": "application/json",
+      "last_modified": "2026-05-13T10:08:23Z",
+      "etag": "\"afa396612cf465a13dbcbc1207c4e3d8\"",
+      "bytes": 6430,
+      "sha256": "7866dbe327c6c75d8b284a0869a600ef56ea3839d09e6f274fe9d949a3da6106",
+      "parse_error": null
+    },
+    {
+      "source_id": "fifaFantasyHelpPagesJson",
+      "source_type": "official_fantasy_rules",
+      "url": "https://play.fifa.com/json/fantasy/help_pages.json",
+      "status": 200,
+      "ok": true,
+      "content_type": "application/json",
+      "last_modified": "2026-05-29T09:05:39Z",
+      "etag": "\"ffd2ad8ac0faeccb3a06ff20d39bc868\"",
+      "bytes": 179308,
+      "sha256": "d13ecab67261b06b7e86a5ee075ea3be13437aacf0ecd6865f9474998de63358",
+      "parse_error": null
+    },
+    {
+      "source_id": "fifaFantasyRoundsJson",
+      "source_type": "official_fantasy_deadlines",
+      "url": "https://play.fifa.com/json/fantasy/rounds.json",
+      "status": 200,
+      "ok": true,
+      "content_type": "application/json",
+      "last_modified": "2026-06-03T15:01:08Z",
+      "etag": "\"5b869bd20fff491647b31929ebd2a811\"",
+      "bytes": 71303,
+      "sha256": "89a2aa2022e9580e40bc07807d8755adc144b0a071a3d0a2a576b6d520cb21cc",
+      "parse_error": null
+    },
+    {
+      "source_id": "fifaFantasyLanguageJson",
+      "source_type": "official_fantasy_rules",
+      "url": "https://play.fifa.com/json/langs/fantasy/en.json",
+      "status": 200,
+      "ok": true,
+      "content_type": "application/json",
+      "last_modified": "2026-06-03T13:21:47Z",
+      "etag": "\"2029855f1ac5fad728a4f8834f0d90d4\"",
+      "bytes": 27057,
+      "sha256": "6484732e3282d8b8e5ec8d803267ef11036b0978f295f6124fa7b64a810fdba2",
+      "parse_error": null
+    }
+  ],
+  "local_source_last_modified": {
+    "fifaFantasyPlayersJson": "2026-06-03T15:04:10Z",
+    "fifaFantasySquadsJson": "2026-05-13T10:08:23Z"
+  },
+  "diffs": {
+    "players": {
+      "local_count": 1481,
+      "live_count": 1481,
+      "new_players": [],
+      "removed_players": [],
+      "name_changes": [],
+      "price_changes": [],
+      "position_changes": [],
+      "selectable_status_changes": [],
+      "country_team_changes": [],
+      "fifa_player_id_changes": [],
+      "ownership_percent_changes": [
+        {
+          "official_fantasy_player_id": "114",
+          "name": "Maxim De Cuyper",
+          "country": "Belgium",
+          "team_id": "5",
+          "field": "ownership_percent",
+          "local_value": 3.3,
+          "live_value": 3.4
+        },
+        {
+          "official_fantasy_player_id": "164",
+          "name": "Gabriel dos Santos Magalhães",
+          "country": "Brazil",
+          "team_id": "7",
+          "field": "ownership_percent",
+          "local_value": 25.5,
+          "live_value": 25.4
+        },
+        {
+          "official_fantasy_player_id": "252",
+          "name": "Johan Mojica",
+          "country": "Colombia",
+          "team_id": "10",
+          "field": "ownership_percent",
+          "local_value": 3,
+          "live_value": 3.1
+        },
+        {
+          "official_fantasy_player_id": "352",
+          "name": "Leandro Bacuna",
+          "country": "Curaçao",
+          "team_id": "14",
+          "field": "ownership_percent",
+          "local_value": 0.4,
+          "live_value": 0.3
+        },
+        {
+          "official_fantasy_player_id": "370",
+          "name": "Tyrick Bodak",
+          "country": "Curaçao",
+          "team_id": "14",
+          "field": "ownership_percent",
+          "local_value": 0.1,
+          "live_value": 0.2
+        },
+        {
+          "official_fantasy_player_id": "498",
+          "name": "Lucas Digne",
+          "country": "France",
+          "team_id": "19",
+          "field": "ownership_percent",
+          "local_value": 1.3,
+          "live_value": 1.2
+        },
+        {
+          "official_fantasy_player_id": "677",
+          "name": "Zion Suzuki",
+          "country": "Japan",
+          "team_id": "25",
+          "field": "ownership_percent",
+          "local_value": 1.7,
+          "live_value": 1.8
+        },
+        {
+          "official_fantasy_player_id": "761",
+          "name": "Érick Sánchez",
+          "country": "Mexico",
+          "team_id": "28",
+          "field": "ownership_percent",
+          "local_value": 0.2,
+          "live_value": 0.1
+        },
+        {
+          "official_fantasy_player_id": "796",
+          "name": "Virgil van Dijk",
+          "country": "Netherlands",
+          "team_id": "30",
+          "field": "ownership_percent",
+          "local_value": 20.8,
+          "live_value": 20.7
+        },
+        {
+          "official_fantasy_player_id": "863",
+          "name": "Antonio Nusa",
+          "country": "Norway",
+          "team_id": "32",
+          "field": "ownership_percent",
+          "local_value": 3,
+          "live_value": 3.1
+        },
+        {
+          "official_fantasy_player_id": "939",
+          "name": "Bruno Miguel Borges Fernandes",
+          "country": "Portugal",
+          "team_id": "35",
+          "field": "ownership_percent",
+          "local_value": 48.8,
+          "live_value": 48.9
+        },
+        {
+          "official_fantasy_player_id": "1092",
+          "name": "Lamine Yamal Nasraoui Ebana",
+          "country": "Spain",
+          "team_id": "41",
+          "field": "ownership_percent",
+          "local_value": 44,
+          "live_value": 44.1
+        },
+        {
+          "official_fantasy_player_id": "1142",
+          "name": "Ricardo Rodríguez",
+          "country": "Switzerland",
+          "team_id": "43",
+          "field": "ownership_percent",
+          "local_value": 2.2,
+          "live_value": 2.1
+        },
+        {
+          "official_fantasy_player_id": "1153",
+          "name": "Gregor Kobel",
+          "country": "Switzerland",
+          "team_id": "43",
+          "field": "ownership_percent",
+          "local_value": 6.9,
+          "live_value": 6.8
+        },
+        {
+          "official_fantasy_player_id": "1259",
+          "name": "Chris Richards",
+          "country": "USA",
+          "team_id": "47",
+          "field": "ownership_percent",
+          "local_value": 0.8,
+          "live_value": 0.7
+        },
+        {
+          "official_fantasy_player_id": "1261",
+          "name": "Tim Ream",
+          "country": "USA",
+          "team_id": "47",
+          "field": "ownership_percent",
+          "local_value": 0.1,
+          "live_value": 0.2
+        },
+        {
+          "official_fantasy_player_id": "1520",
+          "name": "Alexander Isak",
+          "country": "Sweden",
+          "team_id": "42",
+          "field": "ownership_percent",
+          "local_value": 2.9,
+          "live_value": 3
+        },
+        {
+          "official_fantasy_player_id": "1544",
+          "name": "Saed Ahmad Salameh Al Rosan",
+          "country": "Jordan",
+          "team_id": "26",
+          "field": "ownership_percent",
+          "local_value": 0,
+          "live_value": 0.1
+        },
+        {
+          "official_fantasy_player_id": "1584",
+          "name": "Ersin Destanoglu",
+          "country": "Türkiye",
+          "team_id": "45",
+          "field": "ownership_percent",
+          "local_value": 0.2,
+          "live_value": 0.1
+        },
+        {
+          "official_fantasy_player_id": "1709",
+          "name": "Reece James",
+          "country": "England",
+          "team_id": "18",
+          "field": "ownership_percent",
+          "local_value": 4.1,
+          "live_value": 4.2
+        },
+        {
+          "official_fantasy_player_id": "1944",
+          "name": "Malcom DaCosta",
+          "country": "Ecuador",
+          "team_id": "16",
+          "field": "ownership_percent",
+          "local_value": 4.9,
+          "live_value": 4.8
+        },
+        {
+          "official_fantasy_player_id": "2037",
+          "name": "Jurriën Timber",
+          "country": "Netherlands",
+          "team_id": "30",
+          "field": "ownership_percent",
+          "local_value": 3.4,
+          "live_value": 3.5
+        },
+        {
+          "official_fantasy_player_id": "2056",
+          "name": "Iván Anderson",
+          "country": "Panama",
+          "team_id": "33",
+          "field": "ownership_percent",
+          "local_value": 0.1,
+          "live_value": 0
+        }
+      ],
+      "counts": {
+        "new_players": 0,
+        "removed_players": 0,
+        "name_changes": 0,
+        "price_changes": 0,
+        "position_changes": 0,
+        "selectable_status_changes": 0,
+        "country_team_changes": 0,
+        "fifa_player_id_changes": 0,
+        "ownership_percent_changes": 23
+      }
+    },
+    "squads": {
+      "local_team_count": 48,
+      "live_team_count": 48,
+      "new_teams": [],
+      "removed_teams": [],
+      "team_name_changes": [],
+      "live_metadata_fields": [
+        "abbr",
+        "group",
+        "id",
+        "isEliminated",
+        "name"
+      ],
+      "counts": {
+        "new_teams": 0,
+        "removed_teams": 0,
+        "team_name_changes": 0
+      }
+    },
+    "rules": {
+      "help_pages_hash": "192427fcd9b60cb9f7b8f8d38cf881dc712ff7379371aa3c124ed0a4fe100a58",
+      "help_text_hash": "106f86894c5b19e2bd8235677fcfc97dcdc47e7568aac1596ed4226c09197291",
+      "language_hash": "18e6b9114fdff3dbd7c28cd20c0f0a597442e9d7dd2372e13abf0e3ca846b9ac",
+      "rounds_hash": "33ff6b179cc5bc4d80916ac102d97681586d23e59db649a95a6de7a9b294686d",
+      "source_header_changes": [],
+      "mystery_booster": {
+        "local": {
+          "label": "Clean Sheet Shield",
+          "effect": "Activate the Clean Sheet Shield to gain an edge in any of the Knockout stages. Any goalkeeper, defender, or midfielder in your team will only lose their clean sheet after conceding 2 goals.",
+          "constraints": "Official help page says this booster is revealed once Round 3 locks and Round of 32 opens, and can be used for one knockout-stage round including the Final.",
+          "data_quality_flags": [
+            "deadline_semantics_still_under_review_for_active_promotion"
+          ]
+        },
+        "live": {
+          "header": "Clean Sheet Shield",
+          "desc_1": "Your new booster is now ready to be used!",
+          "desc_2": "Activate the Clean Sheet Shield to gain an edge in any of the Knockout stages. Any goalkeeper, defender, or midfielder in your team will only lose their clean sheet after conceding 2 goals.",
+          "confirm": "CLOSE"
+        },
+        "text_changed_vs_imported_rules": false,
+        "name_changed_vs_imported_rules": false,
+        "effect_changed_vs_imported_rules": false,
+        "effect_text_available_live": true
+      },
+      "deadline_round_changes": [],
+      "counts": {
+        "source_header_changes": 0,
+        "mystery_booster_text_changes": 0,
+        "deadline_round_changes": 0
+      }
+    },
+    "source_fields": {
+      "player_field_paths": [
+        "fifaId",
+        "firstName",
+        "id",
+        "knownName",
+        "lastName",
+        "matchStatus",
+        "oneToWatch",
+        "oneToWatchText",
+        "percentSelected",
+        "position",
+        "price",
+        "qualificationRoundIds",
+        "roundsSelected",
+        "roundsSelected.1",
+        "squadId",
+        "stats",
+        "stats.avgPoints",
+        "stats.form",
+        "stats.lastRoundPoints",
+        "stats.nextFixtureFromActiveRound",
+        "stats.nextFixtureFromScheduledRound",
+        "stats.roundPoints",
+        "stats.totalPoints",
+        "status"
+      ],
+      "squad_field_paths": [
+        "abbr",
+        "group",
+        "id",
+        "isEliminated",
+        "name"
+      ],
+      "round_field_paths": [
+        "endDate",
+        "id",
+        "stage",
+        "startDate",
+        "status",
+        "tournaments",
+        "tournaments[].awayGoalScorersAssists",
+        "tournaments[].awayPenaltyScore",
+        "tournaments[].awayScore",
+        "tournaments[].awaySquadAbbr",
+        "tournaments[].awaySquadId",
+        "tournaments[].awaySquadName",
+        "tournaments[].date",
+        "tournaments[].extraMinutes",
+        "tournaments[].homeGoalScorersAssists",
+        "tournaments[].homePenaltyScore",
+        "tournaments[].homeScore",
+        "tournaments[].homeSquadAbbr",
+        "tournaments[].homeSquadId",
+        "tournaments[].homeSquadName",
+        "tournaments[].id",
+        "tournaments[].minutes",
+        "tournaments[].period",
+        "tournaments[].status",
+        "tournaments[].venueCity",
+        "tournaments[].venueCityTranslationKey",
+        "tournaments[].venueId",
+        "tournaments[].venueName",
+        "tournaments[].venueNameTranslationKey"
+      ],
+      "language_mystery_booster_field_paths": [
+        "mystery_booster",
+        "mystery_booster.modal",
+        "mystery_booster.modal.confirm",
+        "mystery_booster.modal.desc_1",
+        "mystery_booster.modal.desc_2",
+        "mystery_booster.modal.header"
+      ],
+      "candidate_final_squad_helpful_fields": [
+        "player.fifaId",
+        "player.matchStatus",
+        "player.status",
+        "round.status",
+        "round.tournaments[].status",
+        "squad.isEliminated"
+      ],
+      "explicit_final_squad_fields_found": [],
+      "has_new_explicit_final_squad_status_field": false
+    },
+    "source_manifest": {
+      "checked_sources_present_in_manifest": [
+        {
+          "source_id": "fifaFantasyPlayersJson",
+          "url": "https://play.fifa.com/json/fantasy/players.json",
+          "present": true,
+          "manifest_entries": [
+            {
+              "group": "official_squads",
+              "source_id": "fifaFantasyPlayersJson",
+              "source_type": "official_fantasy_player_data",
+              "confidence": "official",
+              "checked_at": "2026-06-02"
+            }
+          ]
+        },
+        {
+          "source_id": "fifaFantasySquadsJson",
+          "url": "https://play.fifa.com/json/fantasy/squads.json",
+          "present": true,
+          "manifest_entries": [
+            {
+              "group": "official_squads",
+              "source_id": "fifaFantasySquadsJson",
+              "source_type": "official_squads",
+              "confidence": "official",
+              "checked_at": "2026-06-02"
+            }
+          ]
+        },
+        {
+          "source_id": "fifaFantasyHelpPagesJson",
+          "url": "https://play.fifa.com/json/fantasy/help_pages.json",
+          "present": true,
+          "manifest_entries": [
+            {
+              "group": "official_fantasy_rules",
+              "source_id": "fifaFantasyHelpPagesJson",
+              "source_type": "official_fantasy_rules",
+              "confidence": "official",
+              "checked_at": "2026-06-02"
+            }
+          ]
+        },
+        {
+          "source_id": "fifaFantasyRoundsJson",
+          "url": "https://play.fifa.com/json/fantasy/rounds.json",
+          "present": true,
+          "manifest_entries": [
+            {
+              "group": "official_fantasy_rules",
+              "source_id": "fifaFantasyRoundsJson",
+              "source_type": "official_fantasy_deadlines",
+              "confidence": "official",
+              "checked_at": "2026-06-02"
+            }
+          ]
+        },
+        {
+          "source_id": "fifaFantasyLanguageJson",
+          "url": "https://play.fifa.com/json/langs/fantasy/en.json",
+          "present": true,
+          "manifest_entries": [
+            {
+              "group": "official_fantasy_rules",
+              "source_id": "fifaFantasyLanguageJson",
+              "source_type": "official_fantasy_rules",
+              "confidence": "official",
+              "checked_at": "2026-06-02"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "recommendation": {
+    "rerun_decision": "minor_change_no_model_rerun_needed",
+    "reasons": [
+      "Only non-model source headers or ownership-style values changed."
+    ],
+    "player_import_needed": false,
+    "squad_import_needed": false,
+    "rules_import_needed": false,
+    "model_outputs_should_update_now": false,
+    "final_squad_status": "still_blocked_no_source_backed_final_squads"
+  }
+}

@@ -1,6 +1,6 @@
 import { readFile, writeFile } from "node:fs/promises";
 
-const TODAY = "2026-06-02";
+let SOURCE_CHECKED = "2026-06-02";
 const NOW = new Date().toISOString();
 
 const PATHS = {
@@ -13,6 +13,8 @@ const PATHS = {
   readiness: "data/officialDataReadiness_v0.json",
   activeRecommendationsV2: "data/matchdayRecommendations_v2.json",
   activeRecommendationQaV2: "data/recommendationQa_v2.json",
+  officialPlayers: "data/officialFantasyPlayers_v0.json",
+  fantasyPoolFinanceMetricsV2: "data/playerFinanceMetrics_fantasyPool_v2.json",
   output: "data/matchdayRecommendations_fantasyPool_v3.json",
   qa: "data/recommendationQa_fantasyPool_v3.json",
   report: "data/recommendationQaReport_fantasyPool_v3.md",
@@ -23,7 +25,7 @@ const PATHS = {
 };
 
 const MODEL_STAGE = "fantasy_pool_only";
-const SOURCE_MODEL_VERSION = "fantasy_pool_recommendation_candidates_v3_finance_value_preliminary_2026-06-02";
+const SOURCE_MODEL_VERSION = "fantasy_pool_recommendation_candidates_v3_finance_bridge_v2_preliminary_2026-06-02";
 const TOP_LIST_LIMIT = 25;
 const VALID_POSITIONS = new Set(["GK", "DEF", "MID", "FWD"]);
 const REPLACEMENT_RANK_BY_POSITION = {
@@ -88,6 +90,8 @@ const CALIBRATION_NOTES = [
   "Added per-scope Differential obviousness penalties based on Balanced/Safe rank, Captain Alpha rank, raw projection rank, price percentile by position, and cross-mode top-list status.",
   "Added finance-style diagnostics for value over replacement, scarcity-adjusted value, opportunity cost, efficient frontier status, and mode rank correlation.",
   "Softened Differential obviousness penalties with value-over-replacement and efficient-frontier credit so good value rows are not excluded merely to force zero overlap.",
+  "Consumed staged playerFinanceMetrics_fantasyPool_v2 finance-alpha, portfolio-fit, downside-risk, volatility, role-stability, premium-squeeze, and bridge-confidence fields.",
+  "Reframed the staged Upside scoring around ceiling and attacking paths per official price, with explicit penalties for obvious Captain Alpha rows.",
   "Kept all outputs fantasy_pool_only and staged; active v2 recommendation files and browser-ready files are not written."
 ];
 
@@ -287,6 +291,69 @@ function flagsOf(row) {
   return Array.isArray(row?.data_quality_flags) ? row.data_quality_flags.filter(Boolean) : [];
 }
 
+function rowsFromJson(data, keys) {
+  if (Array.isArray(data)) return data;
+  for (const key of keys) {
+    if (Array.isArray(data?.[key])) return data[key];
+  }
+  return [];
+}
+
+function officialPlayerStatusMap(data) {
+  return new Map(rowsFromJson(data, ["officialFantasyPlayers", "players", "data"])
+    .filter((row) => row?.official_fantasy_player_id)
+    .map((row) => [String(row.official_fantasy_player_id), row]));
+}
+
+function overlayCurrentOfficialStatus(row, officialStatusById) {
+  const official = officialStatusById.get(String(row.official_fantasy_player_id || ""));
+  if (!official) return row;
+
+  const selectableStatus = official.selectable_status || row.selectable_status || null;
+  const flags = new Set(flagsOf(row));
+  if (selectableStatus && selectableStatus !== "playing") {
+    flags.add("blocked_not_selectable");
+    flags.add("official_selectable_status_overlay");
+  }
+
+  return {
+    ...row,
+    selectable_status: selectableStatus,
+    official_status_overlay_source_checked: official.source_checked || null,
+    data_quality_flags: [...flags]
+  };
+}
+
+function overlayBlockedPlayers(projectionRows, officialStatusById, existingBlockedPlayers) {
+  const existingIds = new Set(existingBlockedPlayers.map((row) => String(row.official_fantasy_player_id || "")));
+  const byId = new Map();
+
+  for (const row of projectionRows) {
+    const officialId = String(row.official_fantasy_player_id || "");
+    const official = officialStatusById.get(officialId);
+    if (!official || existingIds.has(officialId) || official.selectable_status === "playing" || byId.has(officialId)) {
+      continue;
+    }
+
+    byId.set(officialId, {
+      internal_player_id: row.internal_player_id || "",
+      official_fantasy_player_id: officialId,
+      name: official.name || row.name,
+      country: official.country || row.country,
+      official_fantasy_position: official.official_fantasy_position || row.official_fantasy_position,
+      official_price: official.official_price ?? row.official_price,
+      model_input_status: "blocked_not_selectable",
+      minutes_model_status: "blocked",
+      blocked_reasons: [
+        "blocked_not_selectable",
+        "official_selectable_status_overlay"
+      ]
+    });
+  }
+
+  return [...existingBlockedPlayers, ...byId.values()];
+}
+
 function hasFlag(row, fragment) {
   const needle = normalize(fragment);
   return flagsOf(row).some((flag) => normalize(flag).includes(needle));
@@ -328,6 +395,40 @@ function valueMetric(row) {
   return riskAdjusted / price;
 }
 
+function financeProfile(row) {
+  return row.finance_profile || {};
+}
+
+function financeScore(row, field, fallback = 50) {
+  const value = num(financeProfile(row)[field]);
+  return Number.isFinite(value) ? clamp(value, 0, 100) : fallback;
+}
+
+function financePriorScore(row, field, fallback = 50) {
+  const value = num(financeProfile(row).prototype_priors?.[field]);
+  return Number.isFinite(value) ? clamp(value * 100, 0, 100) : fallback;
+}
+
+function financeSafetyScore(row, fallback = 50) {
+  const downside = financeScore(row, "downside_risk_score", fallback);
+  return clamp(100 - downside, 0, 100);
+}
+
+function lowVolatilityScore(row, fallback = 50) {
+  const volatility = financeScore(row, "volatility_score", fallback);
+  return clamp(100 - volatility, 0, 100);
+}
+
+function premiumSqueezeSafetyScore(row, fallback = 50) {
+  const squeeze = financeScore(row, "premium_squeeze_score", fallback);
+  return clamp(100 - squeeze, 0, 100);
+}
+
+function bridgeConfidenceScore(row, fallback = 50) {
+  const value = num(financeProfile(row).bridge_confidence);
+  return Number.isFinite(value) ? clamp(value * 100, 0, 100) : fallback;
+}
+
 function rowKey(row) {
   return String(row.player_matchday_projection_id || `${row.official_fantasy_player_id}:${row.matchday}:${row.fixture_id || "scope"}`);
 }
@@ -345,6 +446,20 @@ function normalized(value, range, fallback = 50) {
   return clamp(((value - range.min) / (range.max - range.min)) * 100, 0, 100);
 }
 
+function ceilingValueMetric(row) {
+  const ceiling = num(row.ceiling_points);
+  const price = num(row.official_price);
+  if (!Number.isFinite(ceiling) || !Number.isFinite(price) || price <= 0) return null;
+  return ceiling / price;
+}
+
+function attackValueMetric(row) {
+  const attack = (num(row.attacking_component) || 0) + (num(row.assist_component) || 0);
+  const price = num(row.official_price);
+  if (!Number.isFinite(attack) || !Number.isFinite(price) || price <= 0) return null;
+  return attack / price;
+}
+
 function buildRanges(rows) {
   return {
     raw: minMax(rows.map((row) => num(row.raw_expected_points))),
@@ -353,6 +468,8 @@ function buildRanges(rows) {
     floor: minMax(rows.map((row) => num(row.floor_points))),
     captain: minMax(rows.map((row) => num(row.captain_score))),
     value: minMax(rows.map(valueMetric)),
+    ceilingValue: minMax(rows.map(ceilingValueMetric)),
+    attackValue: minMax(rows.map(attackValueMetric)),
     attack: minMax(rows.map((row) => (num(row.attacking_component) || 0) + (num(row.assist_component) || 0))),
     cleanSheet: minMax(rows.map((row) => num(row.clean_sheet_component))),
     goalEnvironment: minMax(rows.map((row) => num(row.fixture_context?.expected_goals))),
@@ -557,6 +674,7 @@ function buildFinanceContext(rows, scopeId) {
       100
     );
     const concentrationRiskContribution = clamp((countryStrongOptions / Math.max(scopeStrongOptions, 1)) * 100, 0, 100);
+    const profile = financeProfile(row);
 
     const metrics = {
       key,
@@ -596,12 +714,28 @@ function buildFinanceContext(rows, scopeId) {
       concentration_risk_contribution: round(concentrationRiskContribution, 3),
       major_risk_flag_count: riskFlagCount,
       differential_defensibility_score: round(defensibilityScore, 3),
+      finance_alpha_score: round(num(profile.finance_alpha_score), 3),
+      portfolio_fit_score: round(num(profile.portfolio_fit_score), 3),
+      downside_risk_score: round(num(profile.downside_risk_score), 3),
+      volatility_score: round(num(profile.volatility_score), 3),
+      role_stability_score: round(num(profile.role_stability_score), 3),
+      premium_squeeze_score: round(num(profile.premium_squeeze_score), 3),
+      bridge_confidence: round(num(profile.bridge_confidence), 3),
+      bridge_missing_reason: profile.bridge_missing_reason || null,
+      prototype_differential_prior: round(num(profile.prototype_priors?.differential), 3),
+      prototype_upside_prior: round(num(profile.prototype_priors?.upside), 3),
+      prototype_captain_prior: round(num(profile.prototype_priors?.captain), 3),
       finance_quality_flags: unique([
         valueOverReplacement > 0 ? "above_replacement" : "below_replacement",
         efficientFrontier ? "efficient_frontier" : "dominated",
         opportunityCost >= 1.5 ? "high_price_tier_opportunity_cost" : null,
         scarcityAdjustedValue > valueOverReplacement + 0.25 ? "scarcity_boost" : null,
-        concentrationRiskContribution >= 15 ? "country_concentration_risk" : null
+        concentrationRiskContribution >= 15 ? "country_concentration_risk" : null,
+        profile.bridge_missing_reason ? "finance_bridge_missing" : null,
+        (num(profile.bridge_confidence) ?? 1) < 0.55 ? "finance_bridge_low_confidence" : null,
+        (num(profile.finance_alpha_score) ?? 0) >= 70 ? "high_finance_alpha" : null,
+        (num(profile.downside_risk_score) ?? 0) >= 70 ? "high_downside_risk_score" : null,
+        (num(profile.volatility_score) ?? 0) >= 70 ? "high_volatility_score" : null
       ])
     };
     metricsRows.push(metrics);
@@ -653,6 +787,15 @@ function buildDifferentialModeContext(rows, baseScoredRowsByMode, financeContext
   };
 }
 
+function buildUpsideModeContext(rows, captainScoredRows) {
+  const cappedCaptainRows = selectTopCandidatesWithPositionCaps(captainScoredRows || [], "captain");
+  return {
+    captain_ranks: rankMapFromScoredRows(cappedCaptainRows, TOP_LIST_LIMIT),
+    captain_score_ranks: rankMapFromRows(rows, (row) => num(row.captain_score) ?? 0),
+    price_percentile_by_position: pricePercentileByPosition(rows)
+  };
+}
+
 function rankPenalty(rank, thresholds) {
   if (!Number.isFinite(rank)) return 0;
   if (rank <= 1) return thresholds.top1;
@@ -660,6 +803,50 @@ function rankPenalty(rank, thresholds) {
   if (rank <= 10) return thresholds.top10;
   if (rank <= 25) return thresholds.top25;
   return 0;
+}
+
+function upsideCaptainObviousness(row, modeContext) {
+  if (!modeContext) return {
+    penalty: 0,
+    captain_rank: null,
+    captain_score_rank: null,
+    price_percentile_by_position: null,
+    reasons: []
+  };
+
+  const key = rowKey(row);
+  const captainRank = modeContext.captain_ranks.get(key)?.rank ?? null;
+  const captainScoreRank = modeContext.captain_score_ranks.get(key)?.rank ?? null;
+  const pricePercentile = modeContext.price_percentile_by_position.get(key) ?? null;
+  const price = num(row.official_price) ?? 0;
+  const reasons = [];
+
+  let penalty = 0;
+  const captainRankPenalty = rankPenalty(captainRank, { top1: 20, top5: 16, top10: 11, top25: 5 });
+  const captainScorePenalty = rankPenalty(captainScoreRank, { top1: 10, top5: 7, top10: 5, top25: 2 });
+  penalty += captainRankPenalty + captainScorePenalty;
+
+  if (Number.isFinite(pricePercentile)) {
+    if (pricePercentile >= 0.92) penalty += 6;
+    else if (pricePercentile >= 0.82) penalty += 4;
+    else if (pricePercentile >= 0.72) penalty += 2;
+  }
+
+  if (price >= 9.5 && Number.isFinite(captainRank) && captainRank <= 25) penalty += 8;
+  else if (price >= 8.5 && Number.isFinite(captainRank) && captainRank <= 10) penalty += 5;
+
+  if (captainRankPenalty) reasons.push(`Captain Alpha rank ${captainRank}`);
+  if (captainScorePenalty) reasons.push(`captain-score rank ${captainScoreRank}`);
+  if (Number.isFinite(pricePercentile) && pricePercentile >= 0.72) reasons.push(`price percentile ${round(pricePercentile, 2)} by position`);
+  if (price >= 8.5 && Number.isFinite(captainRank) && captainRank <= 25) reasons.push(`premium captain-candidate price ${round(price, 1)}`);
+
+  return {
+    penalty: round(clamp(penalty, 0, 42), 3),
+    captain_rank: captainRank,
+    captain_score_rank: captainScoreRank,
+    price_percentile_by_position: pricePercentile,
+    reasons
+  };
 }
 
 function differentialObviousness(row, modeContext) {
@@ -816,10 +1003,18 @@ function modeEligible(row, modeId) {
   const raw = num(row.raw_expected_points) ?? 0;
   const risk = num(row.risk_adjusted_points) ?? 0;
   const confidence = projectionConfidence(row);
+  const profile = financeProfile(row);
+  const financeAlpha = num(profile.finance_alpha_score);
+  const downsideRisk = num(profile.downside_risk_score);
+  const volatilityRisk = num(profile.volatility_score);
+  const roleStability = num(profile.role_stability_score);
 
   if (modeId === "safe") {
     if (isThinProfile(row) || confidence === "low" || confidence === "missing") return false;
     if (start < 0.62 || minutes < 58) return false;
+    if (Number.isFinite(downsideRisk) && downsideRisk >= 72) return false;
+    if (Number.isFinite(volatilityRisk) && volatilityRisk >= 78) return false;
+    if (Number.isFinite(roleStability) && roleStability < 45) return false;
   }
 
   if (modeId === "captain") {
@@ -843,6 +1038,10 @@ function modeEligible(row, modeId) {
     if (hasMissingUsage(row)) return false;
     if (start < 0.52 || minutes < 48) return false;
     if (raw < 3.2 || risk < 2.7) return false;
+    if (profile.bridge_missing_reason) return false;
+    if (Number.isFinite(financeAlpha) && financeAlpha < 35) return false;
+    if (Number.isFinite(downsideRisk) && downsideRisk >= 74) return false;
+    if (Number.isFinite(roleStability) && roleStability < 45) return false;
   }
 
   return true;
@@ -870,6 +1069,11 @@ function playerPenalty(row, modeId) {
   if (hasFlag(row, "position_conflict_audit")) penalty += modeId === "captain" ? 5 : 3;
   if (hasFlag(row, "minutes_uncertain")) penalty += modeId === "safe" || modeId === "captain" ? 10 : 6;
   if (hasMissingUsage(row)) penalty += modeId === "captain" ? 16 : modeId === "safe" ? 12 : 7;
+  if (financeProfile(row).bridge_missing_reason) penalty += modeId === "differential" ? 8 : 3;
+  if ((num(financeProfile(row).bridge_confidence) ?? 1) < 0.55) penalty += modeId === "safe" ? 4 : modeId === "differential" ? 3 : 1;
+  if ((num(financeProfile(row).downside_risk_score) ?? 0) >= 70) penalty += modeId === "safe" ? 12 : modeId === "balanced" ? 5 : 3;
+  if ((num(financeProfile(row).volatility_score) ?? 0) >= 74) penalty += modeId === "safe" ? 9 : modeId === "balanced" ? 3 : 1;
+  if ((num(financeProfile(row).premium_squeeze_score) ?? 0) >= 80) penalty += modeId === "differential" ? 5 : modeId === "balanced" ? 2 : 1;
   if (confidence === "low") penalty += modeId === "safe" || modeId === "captain" ? 14 : 8;
   if (confidence === "missing") penalty += modeId === "safe" || modeId === "captain" ? 18 : 10;
   if (isThinProfile(row)) penalty += modeId === "differential" ? 10 : 18;
@@ -894,21 +1098,81 @@ function scoreCandidate(row, modeId, ranges, modeContext = null) {
   const floor = normalized(num(row.floor_points), ranges.floor, 50);
   const captain = normalized(num(row.captain_score), ranges.captain, 50);
   const value = normalized(valueMetric(row), ranges.value, 50);
+  const ceilingValue = normalized(ceilingValueMetric(row), ranges.ceilingValue, value);
+  const attackValue = normalized(attackValueMetric(row), ranges.attackValue, value);
   const attack = normalized((num(row.attacking_component) || 0) + (num(row.assist_component) || 0), ranges.attack, 50);
   const start = clamp((num(row.start_probability) ?? 0) * 100, 0, 100);
   const minutes = clamp(((num(row.expected_minutes) ?? 0) / 90) * 100, 0, 100);
   const confidence = confidenceScore(row);
   const role = roleConfidenceScore(row);
   const fixture = fixtureScore(row, ranges);
+  const financeAlpha = financeScore(row, "finance_alpha_score", value);
+  const portfolioFit = financeScore(row, "portfolio_fit_score", confidence);
+  const downsideSafety = financeSafetyScore(row, floor);
+  const lowVolatility = lowVolatilityScore(row, 50);
+  const roleStability = financeScore(row, "role_stability_score", role);
+  const premiumSqueezeSafety = premiumSqueezeSafetyScore(row, 50);
+  const upsidePrior = financePriorScore(row, "upside", ceiling);
+  const differentialPrior = financePriorScore(row, "differential", financeAlpha);
+  const captainPrior = financePriorScore(row, "captain", captain);
+  const bridgeConfidence = bridgeConfidenceScore(row, confidence);
   const penalty = playerPenalty(row, modeId);
 
   let score;
   if (modeId === "balanced") {
-    score = risk * 0.2 + raw * 0.15 + start * 0.16 + minutes * 0.13 + confidence * 0.14 + value * 0.12 + fixture * 0.06 + role * 0.04;
+    score = risk * 0.16
+      + raw * 0.12
+      + start * 0.13
+      + minutes * 0.1
+      + confidence * 0.1
+      + value * 0.09
+      + fixture * 0.05
+      + role * 0.04
+      + financeAlpha * 0.08
+      + portfolioFit * 0.05
+      + roleStability * 0.04
+      + downsideSafety * 0.04;
   } else if (modeId === "safe") {
-    score = start * 0.24 + minutes * 0.2 + floor * 0.16 + risk * 0.12 + confidence * 0.16 + role * 0.08 + fixture * 0.04;
+    score = start * 0.2
+      + minutes * 0.17
+      + floor * 0.12
+      + risk * 0.1
+      + confidence * 0.1
+      + role * 0.06
+      + fixture * 0.03
+      + roleStability * 0.13
+      + downsideSafety * 0.06
+      + lowVolatility * 0.05
+      + portfolioFit * 0.04;
   } else if (modeId === "upside") {
-    score = ceiling * 0.24 + attack * 0.16 + captain * 0.13 + raw * 0.13 + fixture * 0.12 + start * 0.09 + value * 0.09 + confidence * 0.04;
+    const captainObviousness = upsideCaptainObviousness(row, modeContext);
+    score = ceiling * 0.18
+      + ceilingValue * 0.16
+      + attack * 0.15
+      + attackValue * 0.09
+      + raw * 0.08
+      + fixture * 0.08
+      + start * 0.05
+      + confidence * 0.03
+      + upsidePrior * 0.08
+      + financeAlpha * 0.07
+      + premiumSqueezeSafety * 0.03
+      - captainObviousness.penalty;
+    return {
+      score: round(clamp(score + positionScoreAdjustment(row, modeId) - penalty, 0, 100), 3),
+      context: {
+        upside_concept: "ceiling_and_attack_per_official_price_minus_obvious_captain_alpha",
+        ceiling_value_score: round(ceilingValue, 3),
+        attack_value_score: round(attackValue, 3),
+        upside_prior_score: round(upsidePrior, 3),
+        finance_alpha_score: round(financeAlpha, 3),
+        captain_alpha_obviousness_penalty: captainObviousness.penalty,
+        captain_alpha_obviousness_reasons: captainObviousness.reasons,
+        captain_rank: captainObviousness.captain_rank,
+        captain_score_rank: captainObviousness.captain_score_rank,
+        price_percentile_by_position: captainObviousness.price_percentile_by_position
+      }
+    };
   } else if (modeId === "differential") {
     const price = num(row.official_price) ?? 10;
     const lowerPriceSignal = clamp(((8.5 - price) / 5.5) * 100, 0, 100);
@@ -922,21 +1186,34 @@ function scoreCandidate(row, modeId, ranges, modeContext = null) {
     const opportunityCost = normalized(finance?.price_tier_opportunity_cost, financeRanges.price_tier_opportunity_cost || { min: null, max: null }, 0);
     const frontierCredit = finance?.efficient_frontier ? 7 : finance?.dominated_player ? -5 : 0;
     const strongFinanceCredit = (finance?.value_over_replacement ?? 0) > 1.25 && finance?.efficient_frontier ? 4 : 0;
-    score = risk * 0.13
-      + raw * 0.08
+    const financeAlphaContext = num(finance?.finance_alpha_score) ?? financeAlpha;
+    const portfolioFitContext = num(finance?.portfolio_fit_score) ?? portfolioFit;
+    const downsideSafetyContext = clamp(100 - (num(finance?.downside_risk_score) ?? (100 - downsideSafety)), 0, 100);
+    const roleStabilityContext = num(finance?.role_stability_score) ?? roleStability;
+    const differentialPriorContext = Number.isFinite(num(finance?.prototype_differential_prior))
+      ? clamp((num(finance?.prototype_differential_prior) ?? 0) * 100, 0, 100)
+      : differentialPrior;
+    score = risk * 0.1
+      + raw * 0.06
       + ceiling * 0.12
-      + value * 0.16
-      + attack * 0.11
+      + value * 0.1
+      + attack * 0.09
       + start * 0.07
-      + confidence * 0.05
+      + confidence * 0.04
       + fixture * 0.03
-      + lowerPriceSignal * 0.06
+      + lowerPriceSignal * 0.04
       + valueOverReplacement * 0.12
       + scarcityAdjusted * 0.08
       + defensibility * 0.07
+      + financeAlphaContext * 0.13
+      + portfolioFitContext * 0.05
+      + differentialPriorContext * 0.05
+      + roleStabilityContext * 0.03
+      + downsideSafetyContext * 0.03
       + frontierCredit
       + strongFinanceCredit
       - opportunityCost * 0.04
+      - (num(finance?.premium_squeeze_score) ?? (100 - premiumSqueezeSafety)) * 0.025
       - premiumPenalty
       - obviousness.penalty;
     return {
@@ -951,6 +1228,15 @@ function scoreCandidate(row, modeId, ranges, modeContext = null) {
         efficient_frontier: finance?.efficient_frontier ?? null,
         dominated_player: finance?.dominated_player ?? null,
         differential_defensibility_score: finance?.differential_defensibility_score ?? null,
+        finance_alpha_score: financeAlphaContext,
+        portfolio_fit_score: portfolioFitContext,
+        downside_risk_score: finance?.downside_risk_score ?? null,
+        volatility_score: finance?.volatility_score ?? null,
+        role_stability_score: roleStabilityContext,
+        premium_squeeze_score: finance?.premium_squeeze_score ?? null,
+        bridge_confidence: finance?.bridge_confidence ?? null,
+        bridge_missing_reason: finance?.bridge_missing_reason ?? null,
+        prototype_differential_prior: finance?.prototype_differential_prior ?? null,
         finance_frontier_credit: frontierCredit,
         strong_finance_credit: strongFinanceCredit,
         balanced_rank: obviousness.balanced_rank,
@@ -965,7 +1251,20 @@ function scoreCandidate(row, modeId, ranges, modeContext = null) {
       }
     };
   } else if (modeId === "captain") {
-    score = captain * 0.2 + raw * 0.16 + ceiling * 0.15 + attack * 0.09 + start * 0.17 + minutes * 0.1 + confidence * 0.08 + fixture * 0.03 + role * 0.02;
+    const captainOpportunityCost = financeScore(row, "captain_opportunity_cost", 0);
+    score = captain * 0.21
+      + raw * 0.15
+      + ceiling * 0.14
+      + attack * 0.09
+      + start * 0.16
+      + minutes * 0.08
+      + confidence * 0.06
+      + fixture * 0.03
+      + role * 0.02
+      + captainPrior * 0.04
+      + financeAlpha * 0.02
+      + bridgeConfidence * 0.02
+      - captainOpportunityCost * 0.03;
   } else {
     score = risk;
   }
@@ -1015,10 +1314,21 @@ function buildWhyPick(row, modeId, score) {
   const start = num(row.start_probability);
   const minutes = num(row.expected_minutes);
   const value = valueMetric(row);
+  const ceilingPerPrice = ceilingValueMetric(row);
+  const profile = financeProfile(row);
+  const alpha = num(profile.finance_alpha_score);
+  const portfolio = num(profile.portfolio_fit_score);
+  const downside = num(profile.downside_risk_score);
+  const roleStability = num(profile.role_stability_score);
 
   if (modeId === "captain" && Number.isFinite(row.captain_score)) reasons.push(`captain score ${round(num(row.captain_score), 2)}`);
   if (modeId === "upside" && Number.isFinite(ceiling)) reasons.push(`ceiling ${round(ceiling, 2)}`);
+  if (modeId === "upside" && Number.isFinite(ceilingPerPrice)) reasons.push(`ceiling per price ${round(ceilingPerPrice, 2)}`);
   if (modeId === "safe" && Number.isFinite(start) && Number.isFinite(minutes)) reasons.push(`start ${round(start, 2)} and ${round(minutes, 1)} expected minutes`);
+  if (modeId === "safe" && Number.isFinite(roleStability)) reasons.push(`role stability ${round(roleStability, 1)}`);
+  if (modeId === "differential" && Number.isFinite(alpha)) reasons.push(`finance alpha ${round(alpha, 1)}`);
+  if (modeId === "differential" && Number.isFinite(portfolio)) reasons.push(`portfolio fit ${round(portfolio, 1)}`);
+  if (Number.isFinite(downside) && downside <= 35 && (modeId === "safe" || modeId === "differential")) reasons.push(`controlled downside risk ${round(downside, 1)}`);
   if (Number.isFinite(risk)) reasons.push(`risk-adjusted projection ${round(risk, 2)}`);
   if (Number.isFinite(raw)) reasons.push(`raw projection ${round(raw, 2)}`);
   if (Number.isFinite(value) && value >= 0.45) reasons.push(`useful price-adjusted value`);
@@ -1040,6 +1350,11 @@ function buildWhyCareful(row) {
   if (projectionConfidence(row) === "missing") cautions.push("missing projection confidence");
   if (isThinProfile(row)) cautions.push("thin profile");
   if (hasFlag(row, "minutes_uncertain")) cautions.push("minutes uncertain");
+  if (financeProfile(row).bridge_missing_reason) cautions.push("missing finance bridge prior");
+  if ((num(financeProfile(row).bridge_confidence) ?? 1) < 0.55) cautions.push("low finance bridge confidence");
+  if ((num(financeProfile(row).downside_risk_score) ?? 0) >= 70) cautions.push(`high downside risk score ${round(num(financeProfile(row).downside_risk_score), 1)}`);
+  if ((num(financeProfile(row).volatility_score) ?? 0) >= 74) cautions.push(`high volatility score ${round(num(financeProfile(row).volatility_score), 1)}`);
+  if ((num(financeProfile(row).premium_squeeze_score) ?? 0) >= 80) cautions.push(`premium squeeze score ${round(num(financeProfile(row).premium_squeeze_score), 1)}`);
   if (Number.isFinite(start) && start < 0.65) cautions.push(`start probability only ${round(start, 2)}`);
   if (hasFlag(row, "brazil_neymar_usage_source_gap")) cautions.push("Brazil context carries Neymar usage uncertainty");
   if (hasFlag(row, "neymar_p0_usage_source_gap") || isNeymar(row)) cautions.push("Neymar remains a P0 usage source gap");
@@ -1052,6 +1367,7 @@ function buildWhyCareful(row) {
 function candidateBaseFlags(row) {
   return uniqueFlags([
     flagsOf(row),
+    financeProfile(row).finance_flags || [],
     REQUIRED_FLAGS,
     ["recommendation_candidates_staged_only"]
   ]);
@@ -1078,6 +1394,22 @@ function buildCandidate(row, mode, rank, score, scoreContext = null) {
     floor_points: round(num(row.floor_points), 3),
     captain_score: round(num(row.captain_score), 3),
     value_score: round(valueMetric(row), 3),
+    finance_context: {
+      finance_alpha_score: round(num(financeProfile(row).finance_alpha_score), 1),
+      portfolio_fit_score: round(num(financeProfile(row).portfolio_fit_score), 1),
+      downside_risk_score: round(num(financeProfile(row).downside_risk_score), 1),
+      volatility_score: round(num(financeProfile(row).volatility_score), 1),
+      role_stability_score: round(num(financeProfile(row).role_stability_score), 1),
+      premium_squeeze_score: round(num(financeProfile(row).premium_squeeze_score), 1),
+      captain_opportunity_cost: round(num(financeProfile(row).captain_opportunity_cost), 1),
+      bridge_confidence: round(num(financeProfile(row).bridge_confidence), 3),
+      bridge_missing_reason: financeProfile(row).bridge_missing_reason || null,
+      prototype_priors: {
+        upside: round(num(financeProfile(row).prototype_priors?.upside), 3),
+        differential: round(num(financeProfile(row).prototype_priors?.differential), 3),
+        captain: round(num(financeProfile(row).prototype_priors?.captain), 3)
+      }
+    },
     start_probability: round(num(row.start_probability), 3),
     expected_minutes: round(num(row.expected_minutes), 1),
     projection_confidence: projectionConfidence(row),
@@ -1199,6 +1531,64 @@ function aggregateRows(projectionRows) {
   return aggregated;
 }
 
+function compactFinanceProfile(row) {
+  const priors = row.finance_bridge?.prototype_priors || {};
+  return {
+    source_model_version: row.source_model_version,
+    finance_alpha_score: row.finance_alpha_score,
+    finance_alpha_rank: row.finance_alpha_rank,
+    portfolio_fit_score: row.portfolio_fit_score,
+    portfolio_fit_rank: row.portfolio_fit_rank,
+    downside_risk_score: row.downside_risk_score,
+    volatility_score: row.volatility_score,
+    role_stability_score: row.role_stability_score,
+    role_stability_rank: row.role_stability_rank,
+    premium_squeeze_score: row.premium_squeeze_score,
+    captain_opportunity_cost: row.captain_opportunity_cost,
+    bridge_confidence: row.bridge_confidence,
+    bridge_missing_reason: row.bridge_missing_reason,
+    bridge_prior_coverage_count: row.bridge_prior_coverage_count,
+    finance_flags: row.finance_flags || [],
+    prototype_priors: {
+      value: priors.value,
+      risk_adjusted_return: priors.risk_adjusted_return,
+      floor: priors.floor,
+      volatility: priors.volatility,
+      tail_risk: priors.tail_risk,
+      role_stability: priors.role_stability,
+      portfolio_fit: priors.portfolio_fit,
+      premium_squeeze: priors.premium_squeeze,
+      upside: priors.upside,
+      differential: priors.differential,
+      captain: priors.captain,
+      captain_opportunity_cost: priors.captain_opportunity_cost
+    }
+  };
+}
+
+function attachFinanceProfiles(projectionRows, financeMetricRows) {
+  const byInternalId = new Map(financeMetricRows.map((row) => [row.internal_player_id, row]));
+  const byOfficialId = new Map(financeMetricRows.map((row) => [String(row.official_fantasy_player_id), row]));
+
+  return projectionRows.map((row) => {
+    const financeRow = byInternalId.get(row.internal_player_id) || byOfficialId.get(String(row.official_fantasy_player_id));
+    if (!financeRow) {
+      return {
+        ...row,
+        finance_profile: {
+          bridge_missing_reason: "missing_fantasy_pool_finance_metrics_v2_row",
+          finance_flags: ["missing_fantasy_pool_finance_metrics_v2_row"],
+          prototype_priors: {}
+        }
+      };
+    }
+    return {
+      ...row,
+      finance_profile: compactFinanceProfile(financeRow)
+    };
+  });
+}
+
 function buildScopes(projectionRows) {
   const matchdays = ["md1", "md2", "md3"];
   return [
@@ -1269,9 +1659,13 @@ function buildRecommendations(scopes) {
     financeContextsByScope[scope.matchday_id] = financeContext;
     const topLists = {};
     const modeSummaries = {};
-    const baseScoredRowsByMode = Object.fromEntries(MODES
-      .filter((mode) => mode.id !== "differential")
-      .map((mode) => [mode.id, scoreRowsForMode(scope.rows, mode.id, ranges)]));
+    const baseScoredRowsByMode = {
+      balanced: scoreRowsForMode(scope.rows, "balanced", ranges),
+      safe: scoreRowsForMode(scope.rows, "safe", ranges),
+      captain: scoreRowsForMode(scope.rows, "captain", ranges)
+    };
+    const upsideModeContext = buildUpsideModeContext(scope.rows, baseScoredRowsByMode.captain);
+    baseScoredRowsByMode.upside = scoreRowsForMode(scope.rows, "upside", ranges, upsideModeContext);
     const differentialModeContext = buildDifferentialModeContext(scope.rows, baseScoredRowsByMode, financeContext);
 
     for (const mode of MODES) {
@@ -1292,6 +1686,8 @@ function buildRecommendations(scopes) {
         position_balance_warnings: positionAudit.warnings,
         mode_separation_note: mode.id === "differential"
           ? "Differential applies per-scope obviousness penalties plus finance diagnostics for value over replacement, scarcity-adjusted value, opportunity cost, and efficient frontier status."
+          : mode.id === "upside"
+            ? "Upside applies ceiling and attacking value per official price, then penalizes rows already obvious in Captain Alpha."
           : null
       };
       recommendationCandidates.push(...candidates);
@@ -1343,6 +1739,11 @@ function candidateSummary(candidate) {
     risk_adjusted_points: candidate.risk_adjusted_points,
     captain_score: candidate.captain_score,
     value_score: candidate.value_score,
+    finance_alpha_score: candidate.finance_context?.finance_alpha_score ?? null,
+    portfolio_fit_score: candidate.finance_context?.portfolio_fit_score ?? null,
+    downside_risk_score: candidate.finance_context?.downside_risk_score ?? null,
+    volatility_score: candidate.finance_context?.volatility_score ?? null,
+    role_stability_score: candidate.finance_context?.role_stability_score ?? null,
     start_probability: candidate.start_probability,
     expected_minutes: candidate.expected_minutes,
     projection_confidence: candidate.projection_confidence,
@@ -1427,10 +1828,10 @@ function modeSeparationMetrics(candidates) {
     distinct_purpose_assessment: {
       differential_meaningfully_different_from_balanced: Boolean(differentialWinner && balancedWinner && candidateKey(differentialWinner) !== candidateKey(balancedWinner) && top10.balanced_vs_differential.count <= 3),
       safe_meaningfully_different_from_balanced: top10.balanced_vs_safe.count <= 7,
-      upside_meaningfully_different_from_captain: top10.upside_vs_captain.count <= 8,
+      upside_meaningfully_different_from_captain: top10.upside_vs_captain.count <= 4 && top25.upside_vs_captain.count <= 12,
       notes: [
         "Safe can overlap with Balanced because high starts, minutes, and floor are also good overall signals.",
-        "Upside and Captain Alpha can overlap because elite attackers often lead both modes.",
+        "Upside can overlap with Captain Alpha, but it should not be a duplicate armband list.",
         "Differential should separate from Balanced/Safe by penalizing obvious top-list players while retaining projection defensibility."
       ]
     }
@@ -1507,7 +1908,15 @@ function compactFinanceRow(row) {
     efficient_frontier: row.efficient_frontier,
     dominated_player: row.dominated_player,
     opportunity_cost: row.price_tier_opportunity_cost,
-    differential_defensibility_score: row.differential_defensibility_score
+    differential_defensibility_score: row.differential_defensibility_score,
+    finance_alpha_score: row.finance_alpha_score,
+    portfolio_fit_score: row.portfolio_fit_score,
+    downside_risk_score: row.downside_risk_score,
+    volatility_score: row.volatility_score,
+    role_stability_score: row.role_stability_score,
+    premium_squeeze_score: row.premium_squeeze_score,
+    bridge_confidence: row.bridge_confidence,
+    bridge_missing_reason: row.bridge_missing_reason
   };
 }
 
@@ -1569,6 +1978,14 @@ function buildFinanceDiagnostics({ financeContextsByScope, candidates, qa }) {
       dominated_player: finance?.dominated_player ?? null,
       opportunity_cost: finance?.price_tier_opportunity_cost ?? null,
       differential_defensibility_score: finance?.differential_defensibility_score ?? null,
+      finance_alpha_score: finance?.finance_alpha_score ?? candidate.finance_context?.finance_alpha_score ?? null,
+      portfolio_fit_score: finance?.portfolio_fit_score ?? candidate.finance_context?.portfolio_fit_score ?? null,
+      downside_risk_score: finance?.downside_risk_score ?? candidate.finance_context?.downside_risk_score ?? null,
+      volatility_score: finance?.volatility_score ?? candidate.finance_context?.volatility_score ?? null,
+      role_stability_score: finance?.role_stability_score ?? candidate.finance_context?.role_stability_score ?? null,
+      premium_squeeze_score: finance?.premium_squeeze_score ?? candidate.finance_context?.premium_squeeze_score ?? null,
+      bridge_confidence: finance?.bridge_confidence ?? candidate.finance_context?.bridge_confidence ?? null,
+      bridge_missing_reason: finance?.bridge_missing_reason ?? candidate.finance_context?.bridge_missing_reason ?? null,
       obviousness_proxy: candidate.mode_separation_context?.differential_obviousness_penalty ?? null
     };
   });
@@ -1576,12 +1993,13 @@ function buildFinanceDiagnostics({ financeContextsByScope, candidates, qa }) {
   return {
     schema_version: "recommendation_finance_diagnostics_fantasy_pool_v3",
     generated_at: NOW,
-    source_checked: TODAY,
+    source_checked: SOURCE_CHECKED,
     model_stage: MODEL_STAGE,
     data_status: "staged_fantasy_pool_only_not_final_squad_backed",
     safety_labels: SAFETY_LABELS,
     source_files: [
       PATHS.playerMatchdayProjections,
+      PATHS.fantasyPoolFinanceMetricsV2,
       PATHS.output,
       PATHS.qa,
       PATHS.officialRules
@@ -1591,7 +2009,8 @@ function buildFinanceDiagnostics({ financeContextsByScope, candidates, qa }) {
       scarcity_adjusted_value: "Value over replacement plus small capped scarcity bonuses for position depth, price-tier depth, matchday depth, and country diversification. Scarcity is deliberately small so it cannot dominate raw quality.",
       efficient_frontier: "A row is frontier-eligible when it is not clearly dominated by another row at the same position or same price band with similar or better points, lower or similar price, equal/better confidence, and no worse major risk flags.",
       opportunity_cost: "Difference between a row's risk-adjusted points and the best risk-adjusted points in the same price-tier/position group.",
-      ownership_policy: "No ownership data is used; obviousness is approximated only from staged mode ranks, raw/captain rank, and price percentile."
+      ownership_policy: "No ownership data is used; obviousness is approximated only from staged mode ranks, raw/captain rank, and price percentile.",
+      bridge_finance_policy: "Staged playerFinanceMetrics_fantasyPool_v2 supplies finance alpha, portfolio fit, downside risk, volatility, role stability, premium squeeze, and bridge-confidence fields. These are prototype priors inside fantasy_pool_only outputs, not official fantasy data."
     },
     summary: {
       total_finance_rows: financeRows.length,
@@ -1599,10 +2018,14 @@ function buildFinanceDiagnostics({ financeContextsByScope, candidates, qa }) {
       efficient_frontier_rows: efficientFrontierRows.length,
       dominated_rows: dominatedRows.length,
       above_replacement_rows: financeRows.filter((row) => row.value_over_replacement > 0).length,
+      finance_alpha_70_plus_rows: financeRows.filter((row) => (row.finance_alpha_score ?? 0) >= 70).length,
+      bridge_missing_rows: financeRows.filter((row) => row.bridge_missing_reason).length,
       differential_candidates_on_frontier: differentialFinanceRows.filter((row) => row.efficient_frontier).length,
       differential_candidates_dominated: differentialFinanceRows.filter((row) => row.dominated_player).length,
+      differential_candidates_finance_alpha_70_plus: differentialFinanceRows.filter((row) => (row.finance_alpha_score ?? 0) >= 70).length,
       average_value_over_replacement: round(average(financeRows.map((row) => row.value_over_replacement)), 3),
       average_scarcity_adjusted_value: round(average(financeRows.map((row) => row.scarcity_adjusted_value)), 3),
+      average_finance_alpha_score: round(average(financeRows.map((row) => row.finance_alpha_score)), 3),
       rank_correlation_pairs: rankCorrelations.length,
       balanced_vs_differential_top10_overlap: top10Overlaps.balanced_vs_differential.count,
       balanced_vs_differential_top25_overlap: top25Overlaps.balanced_vs_differential.count,
@@ -1628,6 +2051,8 @@ function buildFinanceDiagnostics({ financeContextsByScope, candidates, qa }) {
     top_value_over_replacement: top(financeRows, 40, (row) => row.value_over_replacement).map(compactFinanceRow),
     top_scarcity_adjusted_value: top(financeRows, 40, (row) => row.scarcity_adjusted_value).map(compactFinanceRow),
     top_risk_adjusted_points_per_price: top(financeRows.filter((row) => Number.isFinite(row.risk_adjusted_points_per_price)), 40, (row) => row.risk_adjusted_points_per_price).map(compactFinanceRow),
+    top_finance_alpha_score: top(financeRows.filter((row) => Number.isFinite(row.finance_alpha_score)), 40, (row) => row.finance_alpha_score).map(compactFinanceRow),
+    top_portfolio_fit_score: top(financeRows.filter((row) => Number.isFinite(row.portfolio_fit_score)), 40, (row) => row.portfolio_fit_score).map(compactFinanceRow),
     efficient_frontier_sample: top(efficientFrontierRows, 40, (row) => row.scarcity_adjusted_value).map(compactFinanceRow),
     dominated_player_sample: top(dominatedRows, 40, (row) => row.price_tier_opportunity_cost).map(compactFinanceRow),
     differential_finance_candidates: differentialFinanceRows,
@@ -1654,6 +2079,7 @@ function buildRequiredFieldIssues(candidates) {
     "floor_points",
     "captain_score",
     "value_score",
+    "finance_context",
     "start_probability",
     "expected_minutes",
     "projection_confidence",
@@ -1898,11 +2324,28 @@ function buildChecks(candidates, projectionRows, blockedPlayers, requiredFieldIs
   const safeTop = top(candidates.filter((candidate) => candidate.mode === "safe"), TOP_LIST_LIMIT, (candidate) => candidate.recommendation_score);
   const safeGkCount = safeTop.filter((candidate) => candidate.official_fantasy_position === "GK").length;
   const unsafeSafeRows = safeTop.filter((candidate) => !["high", "medium"].includes(candidate.projection_confidence) || !["high", "medium"].includes(candidate.role_confidence) || candidate.start_probability < 0.62 || candidate.expected_minutes < 58);
+  const unsafeSafeFinanceRows = safeTop.filter((candidate) =>
+    (candidate.finance_context?.downside_risk_score ?? 0) >= 70 ||
+    (candidate.finance_context?.volatility_score ?? 0) >= 74 ||
+    (candidate.finance_context?.role_stability_score ?? 100) < 45
+  );
   const differentialTop = top(candidates.filter((candidate) => candidate.mode === "differential"), TOP_LIST_LIMIT, (candidate) => candidate.recommendation_score);
   const weakDifferentials = differentialTop.filter((candidate) => (candidate.raw_expected_points ?? 0) < 3 || (candidate.risk_adjusted_points ?? 0) < 2 || (candidate.start_probability ?? 0) < 0.5);
+  const weakFinanceDifferentials = differentialTop.filter((candidate) =>
+    candidate.finance_context?.bridge_missing_reason ||
+    (candidate.finance_context?.finance_alpha_score ?? 0) < 35 ||
+    (candidate.finance_context?.downside_risk_score ?? 0) >= 74 ||
+    (candidate.finance_context?.role_stability_score ?? 100) < 45
+  );
+  const missingFinanceContext = candidates.filter((candidate) => !candidate.finance_context || candidate.finance_context.bridge_missing_reason);
+  const currentRecommendationFinanceRows = candidates.filter((candidate) => candidate.rank <= TOP_LIST_LIMIT);
+  const highAlphaLowStartRows = currentRecommendationFinanceRows.filter((candidate) => (candidate.finance_context?.finance_alpha_score ?? 0) >= 70 && candidate.start_probability < 0.55);
+  const highAlphaHighDownsideRows = currentRecommendationFinanceRows.filter((candidate) => (candidate.finance_context?.finance_alpha_score ?? 0) >= 70 && (candidate.finance_context?.downside_risk_score ?? 0) >= 70);
   const modeSeparation = modeSeparationMetrics(candidates);
   const sameBalancedDifferentialWinner = balancedTop[0] && differentialTop[0] && candidateKey(balancedTop[0]) === candidateKey(differentialTop[0]);
   const differentialBalancedTop10Overlap = modeSeparation.top10_pair_overlaps.balanced_vs_differential.count;
+  const upsideCaptainTop10Overlap = modeSeparation.top10_pair_overlaps.upside_vs_captain.count;
+  const upsideCaptainTop25Overlap = modeSeparation.top25_pair_overlaps.upside_vs_captain.count;
   const upsideTop = top(candidates.filter((candidate) => candidate.mode === "upside"), TOP_LIST_LIMIT, (candidate) => candidate.recommendation_score);
   const upsideAttackers = upsideTop.filter((candidate) => ["MID", "FWD"].includes(candidate.official_fantasy_position)).length;
   const positionBalanceWarnings = buildPositionBalanceAudit(
@@ -1973,10 +2416,40 @@ function buildChecks(candidates, projectionRows, blockedPlayers, requiredFieldIs
       details: "Safe mode top 25 keeps high/medium confidence, acceptable starts, and acceptable minutes."
     },
     {
+      id: "safe_mode_finance_risk_controls",
+      status: unsafeSafeFinanceRows.length ? "fail" : "pass",
+      count: unsafeSafeFinanceRows.length,
+      details: "Safe mode top 25 avoids high downside, high volatility, and poor role-stability finance rows."
+    },
+    {
       id: "differential_mode_defensible_players",
       status: weakDifferentials.length ? "fail" : "pass",
       count: weakDifferentials.length,
       details: "Differential mode top 25 avoids weak low-minute, low-projection players."
+    },
+    {
+      id: "differential_mode_finance_alpha_supported",
+      status: weakFinanceDifferentials.length ? "fail" : "pass",
+      count: weakFinanceDifferentials.length,
+      details: "Differential mode top 25 has bridge-backed finance context, acceptable finance alpha, downside, and role stability."
+    },
+    {
+      id: "finance_context_present",
+      status: missingFinanceContext.length ? "fail" : "pass",
+      count: missingFinanceContext.length,
+      details: "Candidate rows carry bridge-aware fantasy-pool finance v2 context."
+    },
+    {
+      id: "finance_alpha_not_boosting_low_start_rows",
+      status: highAlphaLowStartRows.length ? "fail" : "pass",
+      count: highAlphaLowStartRows.length,
+      details: "High finance-alpha rows in candidate lists are not low-start rows."
+    },
+    {
+      id: "finance_alpha_not_boosting_high_downside_rows",
+      status: highAlphaHighDownsideRows.length ? "fail" : "pass",
+      count: highAlphaHighDownsideRows.length,
+      details: "High finance-alpha rows in candidate lists are not high-downside rows."
     },
     {
       id: "differential_top_distinct_from_balanced",
@@ -1989,6 +2462,12 @@ function buildChecks(candidates, projectionRows, blockedPlayers, requiredFieldIs
       status: differentialBalancedTop10Overlap > 3 ? "fail" : "pass",
       count: differentialBalancedTop10Overlap,
       details: "Differential top 10 is not dominated by Balanced top 10 candidate rows."
+    },
+    {
+      id: "upside_not_captain_alpha_duplicate",
+      status: upsideCaptainTop10Overlap > 4 || upsideCaptainTop25Overlap > 12 ? "fail" : "pass",
+      count: upsideCaptainTop10Overlap,
+      details: `Upside top 10 overlaps Captain Alpha by ${upsideCaptainTop10Overlap} rows; top 25 overlap is ${upsideCaptainTop25Overlap}.`
     },
     {
       id: "upside_mode_attacker_presence",
@@ -2046,6 +2525,10 @@ function buildQa({
   const lowConfidenceTop = topRankedCandidates.filter((candidate) => ["low", "missing", "thin_profile"].includes(candidate.projection_confidence));
   const thinTop = topRankedCandidates.filter((candidate) => candidate.data_quality_flags.includes("thin_profile") || candidate.projection_confidence === "thin_profile");
   const missingUsageTop = topRankedCandidates.filter(candidateHasMissingUsage);
+  const missingFinanceTop = topRankedCandidates.filter((candidate) => !candidate.finance_context || candidate.finance_context.bridge_missing_reason);
+  const highFinanceAlphaTop = topRankedCandidates.filter((candidate) => (candidate.finance_context?.finance_alpha_score ?? 0) >= 70);
+  const highAlphaLowStartTop = highFinanceAlphaTop.filter((candidate) => candidate.start_probability < 0.55);
+  const highAlphaHighDownsideTop = highFinanceAlphaTop.filter((candidate) => (candidate.finance_context?.downside_risk_score ?? 0) >= 70);
   const neymarCandidates = candidates.filter((candidate) => normalize(candidate.name).includes("neymar"));
   const brazilCandidates = candidates.filter((candidate) => candidate.country === "Brazil" && candidate.data_quality_flags.includes("brazil_neymar_usage_source_gap"));
   const highProjectionLowConfidence = top(
@@ -2109,7 +2592,7 @@ function buildQa({
   return {
     schema_version: "fantasy_pool_recommendation_qa_v3",
     generated_at: NOW,
-    source_checked: TODAY,
+    source_checked: SOURCE_CHECKED,
     model_stage: MODEL_STAGE,
     data_status: "staged_fantasy_pool_only_not_final_squad_backed",
     overall_status: checks.some((check) => check.status === "fail") ? "fail" : "pass_with_staging_stop_conditions",
@@ -2130,6 +2613,10 @@ function buildQa({
       low_confidence_candidates_in_top_lists: lowConfidenceTop.length,
       thin_profile_candidates_in_top_lists: thinTop.length,
       missing_usage_candidates_in_top_lists: missingUsageTop.length,
+      missing_finance_context_candidates_in_top_lists: missingFinanceTop.length,
+      high_finance_alpha_candidates_in_top_lists: highFinanceAlphaTop.length,
+      high_alpha_low_start_candidates_in_top_lists: highAlphaLowStartTop.length,
+      high_alpha_high_downside_candidates_in_top_lists: highAlphaHighDownsideTop.length,
       neymar_candidate_rows: neymarCandidates.length,
       brazil_uncertainty_candidate_rows: brazilCandidates.length,
       position_balance_warning_lists: positionBalanceAudit.warnings.length,
@@ -2145,7 +2632,12 @@ function buildQa({
       raw_expected_points: rangeSummary(candidates.map((candidate) => candidate.raw_expected_points)),
       risk_adjusted_points: rangeSummary(candidates.map((candidate) => candidate.risk_adjusted_points)),
       captain_score: rangeSummary(candidates.map((candidate) => candidate.captain_score)),
-      value_score: rangeSummary(candidates.map((candidate) => candidate.value_score))
+      value_score: rangeSummary(candidates.map((candidate) => candidate.value_score)),
+      finance_alpha_score: rangeSummary(candidates.map((candidate) => candidate.finance_context?.finance_alpha_score)),
+      portfolio_fit_score: rangeSummary(candidates.map((candidate) => candidate.finance_context?.portfolio_fit_score)),
+      downside_risk_score: rangeSummary(candidates.map((candidate) => candidate.finance_context?.downside_risk_score)),
+      volatility_score: rangeSummary(candidates.map((candidate) => candidate.finance_context?.volatility_score)),
+      role_stability_score: rangeSummary(candidates.map((candidate) => candidate.finance_context?.role_stability_score))
     },
     counts_by_data_quality_flag: Object.fromEntries(sortedCountEntries(flagCounts)),
     top_25_by_mode: topByMode,
@@ -2153,6 +2645,11 @@ function buildQa({
     top_25_by_position: topByPosition,
     top_25_captain_candidates: compactCandidateList(top(candidates.filter((candidate) => candidate.mode === "captain"), 25, (candidate) => candidate.recommendation_score)),
     top_25_value_looking_candidates_not_recommendations: valueLooking,
+    top_25_finance_alpha_candidates_not_recommendations: top(
+      candidates.filter((candidate) => Number.isFinite(candidate.finance_context?.finance_alpha_score)),
+      25,
+      (candidate) => candidate.finance_context?.finance_alpha_score ?? 0
+    ).map(candidateSummary),
     low_confidence_players_in_top_25: compactCandidateList(lowConfidenceTop, 50),
     thin_profiles_in_top_25: compactCandidateList(thinTop, 50),
     missing_usage_players_in_top_25: compactCandidateList(missingUsageTop, 50),
@@ -2291,6 +2788,7 @@ This staged layer converts playerMatchdayProjections_fantasyPool_v3 into prelimi
 - data/playerRecommendationInputs_v1.json
 - data/playerMinutesModel_fantasyPool_v0.json
 - data/playerMatchdayProjections_fantasyPool_v3.json
+- data/playerFinanceMetrics_fantasyPool_v2.json
 - data/scorePredictions_fantasyPool_v3.json
 - data/officialFantasyRules_v0.json
 - data/officialFantasyRulesImportReport_v0.json
@@ -2298,11 +2796,11 @@ This staged layer converts playerMatchdayProjections_fantasyPool_v3 into prelimi
 
 ## Mode Definitions
 
-- Balanced: risk-adjusted points, raw projection, start probability, minutes, projection confidence, value, fixture context, and data-quality penalties.
-- Safe: start probability, minutes, floor, risk-adjusted points, confidence, role confidence, and downside penalties.
-- Upside: ceiling, attacking and assist components, captain score, raw projection, fixture context, and acceptable minutes risk.
-- Differential: defensible lower-obviousness value using value over replacement, scarcity-adjusted value, efficient-frontier status, opportunity cost, upside, and sufficient projection floor. Weak players are not promoted just for being cheap.
-- Captain Alpha: captain score, raw points, ceiling, start probability, minutes, favorite/goal context, role confidence, and strong penalties for low starts, missing usage, thin profiles, and Neymar/Brazil uncertainty.
+- Balanced: risk-adjusted points, raw projection, start probability, minutes, projection confidence, value, fixture context, finance alpha, portfolio fit, role stability, downside safety, and data-quality penalties.
+- Safe: start probability, minutes, floor, risk-adjusted points, confidence, role confidence, role stability, low downside, low volatility, portfolio fit, and downside penalties.
+- Upside: ceiling per official price, attacking value per official price, raw ceiling, fixture context, v2 upside prior, finance alpha, and acceptable minutes risk. It penalizes rows already obvious in Captain Alpha.
+- Differential: defensible lower-obviousness value using finance alpha, portfolio fit, v2 differential prior, value over replacement, scarcity-adjusted value, efficient-frontier status, opportunity cost, role stability, downside safety, and sufficient projection floor. Weak players are not promoted just for being cheap.
+- Captain Alpha: captain score, raw points, ceiling, start probability, minutes, favorite/goal context, role confidence, v2 captain prior, captain opportunity cost, bridge confidence, and strong penalties for low starts, missing usage, thin profiles, and Neymar/Brazil uncertainty.
 
 ## Summary
 
@@ -2313,6 +2811,10 @@ This staged layer converts playerMatchdayProjections_fantasyPool_v3 into prelimi
 - Low-confidence rows in top lists: ${qa.summary.low_confidence_candidates_in_top_lists}.
 - Thin-profile rows in top lists: ${qa.summary.thin_profile_candidates_in_top_lists}.
 - Missing-usage rows in top lists: ${qa.summary.missing_usage_candidates_in_top_lists}.
+- Missing finance-context rows in top lists: ${qa.summary.missing_finance_context_candidates_in_top_lists}.
+- High finance-alpha rows in top lists: ${qa.summary.high_finance_alpha_candidates_in_top_lists}.
+- High-alpha low-start rows in top lists: ${qa.summary.high_alpha_low_start_candidates_in_top_lists}.
+- High-alpha high-downside rows in top lists: ${qa.summary.high_alpha_high_downside_candidates_in_top_lists}.
 - Safe for preliminary recommendation review: ${qa.summary.safe_for_preliminary_recommendation_review}.
 - Safe for public recommendations: ${qa.summary.safe_for_public_recommendations}.
 - Safe for Team Builder: ${qa.summary.safe_for_team_builder}.
@@ -2379,6 +2881,9 @@ function candidateAuditRow(candidate) {
     candidate.risk_adjusted_points,
     candidate.captain_score,
     candidate.value_score,
+    candidate.finance_context?.finance_alpha_score ?? "",
+    candidate.finance_context?.portfolio_fit_score ?? "",
+    candidate.finance_context?.downside_risk_score ?? "",
     candidate.start_probability,
     candidate.expected_minutes,
     candidate.projection_confidence
@@ -2387,7 +2892,7 @@ function candidateAuditRow(candidate) {
 
 function candidateAuditTable(candidates) {
   return mdTable(
-    ["Rank", "Name", "Country", "Pos", "Scope", "Opponent", "Score", "Tier", "Raw", "Risk", "Captain", "Value", "Start", "Min", "Conf"],
+    ["Rank", "Name", "Country", "Pos", "Scope", "Opponent", "Score", "Tier", "Raw", "Risk", "Captain", "Value", "Alpha", "Portfolio", "Downside", "Start", "Min", "Conf"],
     candidates.map(candidateAuditRow)
   );
 }
@@ -2670,7 +3175,7 @@ ${mdTable(["Scope", "Mode", "Top candidate", "GK", "DEF", "MID", "FWD", "Warning
 - Giorgian de Arrascaeta as Differential: plausible after the finance pass because he combines positive value over replacement, scarcity-adjusted value, efficient-frontier status, high confidence, acceptable starts/minutes, and only limited Balanced/Captain obviousness.
 - Luis Suárez as Differential: still a defensible lower-obviousness candidate in some rows, but the finance pass no longer forces him to win the mode when stronger value-over-replacement/frontier candidates exist.
 - Nicolás Tagliafico as a Differential candidate: still plausible as a value-looking staged candidate, but mode-separation penalties now stop high-overall defensive candidates from repeating the Balanced list.
-- Lionel Messi as Upside and Captain Alpha: plausible and expected. Upside/Captain Alpha now better reward elite attackers and attacking mids while keeping minutes and confidence safeguards.
+- Upside vs Captain Alpha: Upside now discounts obvious armband rows, while Captain Alpha remains the armband ceiling list.
 
 ## Official Scoring Effects
 
@@ -2833,10 +3338,10 @@ function bestPlayerRows(candidates, modeId, predicate, limit = 3) {
 
 function modePurposeRows(metrics) {
   return [
-    ["Balanced", "Best all-around staged candidate score: risk-adjusted points, raw points, starts/minutes, confidence, value, fixture context, and data-quality penalties.", "Can overlap with Safe and Captain candidates when the player is simply strong overall.", "Purpose is distinct if it is not used as the Differential source of truth."],
-    ["Safe", "Floor-first score: role confidence, start probability, expected minutes, floor/risk-adjusted points, and low data-quality risk.", "Some overlap with Balanced is expected and acceptable.", metrics.distinct_purpose_assessment.safe_meaningfully_different_from_balanced ? "Safe has acceptable separation from Balanced." : "Safe is close to Balanced; monitor if future runs become identical."],
-    ["Upside", "Ceiling/attack/captain-environment score for aggressive preliminary review.", "Can overlap heavily with Captain Alpha because elite attackers lead both.", metrics.distinct_purpose_assessment.upside_meaningfully_different_from_captain ? "Upside has enough separation from Captain Alpha." : "Upside and Captain Alpha overlap strongly; acceptable only if both remain attacker-led and well-supported."],
-    ["Differential", "Defensible value/upside with lower obviousness, not simply the best Balanced/Safe player repeated.", "Should penalize top Balanced/Safe rows and premium obvious picks.", metrics.distinct_purpose_assessment.differential_meaningfully_different_from_balanced ? "Differential is meaningfully separated from Balanced." : "Differential still needs review; overlap remains high."]
+    ["Balanced", "Best all-around staged candidate score: projection, starts/minutes, confidence, value, fixture context, finance alpha, portfolio fit, role stability, downside safety, and data-quality penalties.", "Can overlap with Safe and Captain candidates when the player is simply strong overall.", "Purpose is distinct if it is not used as the Differential source of truth."],
+    ["Safe", "Floor-first score: role confidence, start probability, expected minutes, floor/risk-adjusted points, role stability, low downside, low volatility, and low data-quality risk.", "Some overlap with Balanced is expected and acceptable.", metrics.distinct_purpose_assessment.safe_meaningfully_different_from_balanced ? "Safe has acceptable separation from Balanced." : "Safe is close to Balanced; monitor if future runs become identical."],
+    ["Upside", "Ceiling and attacking paths per official price, with v2 upside prior and finance-alpha support.", "Can overlap with Captain Alpha, but should avoid duplicating the obvious armband list.", metrics.distinct_purpose_assessment.upside_meaningfully_different_from_captain ? "Upside has acceptable separation from Captain Alpha." : "Upside is still too close to Captain Alpha; review overlap before UI work."],
+    ["Differential", "Defensible value/upside with lower obviousness, finance alpha, portfolio fit, v2 differential prior, frontier/scarcity context, and downside/role guardrails.", "Should penalize top Balanced/Safe rows and premium obvious picks.", metrics.distinct_purpose_assessment.differential_meaningfully_different_from_balanced ? "Differential is meaningfully separated from Balanced." : "Differential still needs review; overlap remains high."]
   ];
 }
 
@@ -2946,7 +3451,7 @@ ${mdTable(["Rank", "Name", "Country", "Pos", "Scope", "Opponent", "Price", "Scor
 
 ## Decision
 
-Differential now has a clearer staged meaning: it is a defensible lower-obviousness list, not a copy of Balanced or Safe. Safe still overlaps with Balanced, but it remains floor/minutes/confidence focused and is not identical. Upside and Captain Alpha remain attacker-led and can overlap because both naturally reward elite attacking rows.
+Differential now has a clearer staged meaning: it is a defensible lower-obviousness list, not a copy of Balanced or Safe. Safe still overlaps with Balanced, but it remains floor/minutes/confidence focused and is not identical. Upside now discounts obvious Captain Alpha rows so it can surface explosive non-captain value.
 
 The recommendation layer is still fantasy_pool_only, not final-squad-backed, not browser-ready, not Team Builder-ready, and blocked from public promotion.
 `;
@@ -3090,7 +3595,7 @@ ${modeDistributionTable(diagnostics)}
 
 - Balanced: best all-around staged candidate score. It should correlate with most modes but not define Differential alone.
 - Safe: floor, minutes, role/confidence, and low data-quality risk. Balanced/Safe overlap is natural.
-- Upside: ceiling and attacking context. Upside/Captain overlap is natural when elite attackers dominate both.
+- Upside: ceiling and attacking context per official price. It should surface explosive non-captain value rather than repeat the armband list.
 - Captain Alpha: captain-relevant ceiling and starts; not pure value.
 - Differential: defensible lower-obviousness value. It now uses value over replacement, scarcity-adjusted value, frontier status, and opportunity cost, while retaining an obviousness penalty.
 
@@ -3159,7 +3664,7 @@ function buildOutput({ candidates, matchdayRecommendations, qa }) {
   return {
     schema_version: "fantasy_pool_matchday_recommendations_v3",
     generated_at: NOW,
-    source_checked: TODAY,
+    source_checked: SOURCE_CHECKED,
     model_stage: MODEL_STAGE,
     data_status: "staged_fantasy_pool_only_not_final_squad_backed",
     safety_labels: SAFETY_LABELS,
@@ -3169,7 +3674,9 @@ function buildOutput({ candidates, matchdayRecommendations, qa }) {
       PATHS.playerRecommendationInputs,
       PATHS.minutesModel,
       PATHS.playerMatchdayProjections,
+      PATHS.fantasyPoolFinanceMetricsV2,
       PATHS.scorePredictions,
+      PATHS.officialPlayers,
       PATHS.officialRules,
       PATHS.officialRulesImportReport
     ],
@@ -3189,7 +3696,7 @@ function buildOutput({ candidates, matchdayRecommendations, qa }) {
       position_score_adjustments_by_mode: POSITION_SCORE_ADJUSTMENTS_BY_MODE,
       replacement_rank_by_position: REPLACEMENT_RANK_BY_POSITION,
       calibration_notes: CALIBRATION_NOTES,
-      scoring_note: "Staged mode scores use v3 risk-adjusted points, raw points, ceiling/floor, captain score, start probability, expected minutes, role/projection confidence, fixture context, weak price/value context, mode-specific position adjustments, position caps, and explicit data-quality penalties. Differential additionally uses staged finance diagnostics: value over replacement, scarcity-adjusted value, price-tier opportunity cost, and efficient-frontier status."
+      scoring_note: "Staged mode scores use v3 projections, official prices/positions, fixture context, mode-specific position adjustments, explicit data-quality penalties, per-scope VOR/scarcity/frontier diagnostics, and staged playerFinanceMetrics_fantasyPool_v2 finance alpha, portfolio fit, downside risk, volatility, role stability, premium squeeze, captain opportunity cost, and bridge confidence."
     },
     summary: qa.summary,
     stop_conditions: qa.stop_conditions,
@@ -3204,7 +3711,9 @@ async function main() {
     playerInputData,
     minutesModel,
     projectionData,
+    fantasyPoolFinanceMetricsV2,
     scoreData,
+    officialPlayersData,
     officialRules,
     officialRulesImportReport,
     readiness,
@@ -3214,7 +3723,9 @@ async function main() {
     readJson(PATHS.playerRecommendationInputs),
     readJson(PATHS.minutesModel),
     readJson(PATHS.playerMatchdayProjections),
+    readJson(PATHS.fantasyPoolFinanceMetricsV2),
     readJson(PATHS.scorePredictions),
+    readJson(PATHS.officialPlayers),
     readJson(PATHS.officialRules),
     readJson(PATHS.officialRulesImportReport),
     readJson(PATHS.readiness),
@@ -3222,9 +3733,14 @@ async function main() {
     readJson(PATHS.activeRecommendationQaV2)
   ]);
 
+  SOURCE_CHECKED = officialPlayersData.source_checked || SOURCE_CHECKED;
   const projectionRows = projectionData.playerMatchdayProjections || [];
-  const blockedPlayers = projectionData.blockedPlayers || [];
-  const eligibleProjectionRows = projectionRows.filter((row) => !isBlockedProjection(row));
+  const financeMetricRows = fantasyPoolFinanceMetricsV2.playerFinanceMetrics || [];
+  const officialStatusById = officialPlayerStatusMap(officialPlayersData);
+  const projectionRowsWithCurrentOfficialStatus = projectionRows.map((row) => overlayCurrentOfficialStatus(row, officialStatusById));
+  const blockedPlayers = overlayBlockedPlayers(projectionRows, officialStatusById, projectionData.blockedPlayers || []);
+  const projectionRowsWithFinance = attachFinanceProfiles(projectionRowsWithCurrentOfficialStatus, financeMetricRows);
+  const eligibleProjectionRows = projectionRowsWithFinance.filter((row) => !isBlockedProjection(row));
   const scopes = buildScopes(eligibleProjectionRows);
   const { recommendationCandidates, matchdayRecommendations, financeContextsByScope } = buildRecommendations(scopes);
 

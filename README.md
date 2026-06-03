@@ -4,17 +4,17 @@ A static fantasy football website for comparing quick picks, captain options, ca
 
 ## Current Status
 
-This is a public preview. The public recommendation sections now show **Official Fantasy Pool Preview** picks using official fantasy players, prices, positions, and scoring. These are not final-squad-backed recommendations: final squad status is not source-backed yet, deadline semantics still have a manual-review warning, and recommendations may change after final squad confirmation.
+This site now treats FIFA's official fantasy player feed as the working authority for website picks. Public recommendation sections show **Official Fantasy Picks** using official fantasy players, prices, positions, selectable status, and scoring. Keep running the monitor before major updates because FIFA can still change player status, prices, positions, rules, or deadlines.
 
 The current UX roadmap pass makes the site task-first: Home, Picks, Team Builder, Matchday Desk, Fantasy Finance, World Cup Guide, and Model Notes. The homepage centers the three primary actions - Build My Squad, See Top Picks, and Open Matchday Desk - while long status and methodology details sit lower in the page. Picks are card-first, Player Profile leads with user-facing pick rationale, Team Builder uses a guided flow, and Matchday Desk groups captain, bench, and saved-squad decisions.
 
-Team Builder remains prototype/blocked. It still uses the existing prototype path and should not be treated as official or final until final squad and rule gates pass.
+Team Builder is a planning tool. Users should confirm squad legality, locks, deadlines, and live status inside the official FIFA fantasy game before saving.
 
 Week 5 adds Optimizer v0: the Team Builder now searches for a rules-valid squad using the selected pick style, draft budget, position counts, country limit, locked players, filters, and removed-player exclusions.
 
 Week 6 adds `financePlayersData.js`, generated from `data/playerFinanceMetrics_v0.json`, `data/playerRecommendationInputs_v0.json`, `data/playerMinutesModel_v0.json`, `data/playerValueModel_v0.json`, and `data/playerValueModel_v1.json`. Step 6.5 imports PELE ratings from Silver Bulletin's downloadable Datawrapper CSVs into `data/peleRatings_v1.json`. The active model is now PELE-forward: `data/teamQuality.json` contains `team_quality_v2`, `data/teamQuality_v1.json` preserves the first PELE-backed blend, and `data/teamQuality_v0.json` preserves the pre-PELE model. `scorePredictionsData.js` now uses `data/scorePredictions_v2.json`, and `matchdayProjectionsData.js` is generated from `data/playerMatchdayProjections_v2.json`, so rankings and recommendation explanations use the PELE-forward score environment. Score Predictor v2 has machine-readable QA checks in `data/scorePredictionQa_v2.json` and passes with 48/48 World Cup teams matched to numeric PELE ratings. Player names in Quick Picks, Captain Picks, Team Advice, and Team Builder open a Player Profile view with identity, role, finance metrics, matchday fixtures, performance signals, and data-quality notes. Recommendation Modes v0 add Balanced, Safer Picks, High Upside, and Punts choices on top of the existing style scores, with visible raw versus trust-adjusted score breakdowns in recommendation views and exports. Team Advice now has a recommendation-pool filter for playable recommendations versus broader watchlist punts. Captain Change Advisor v0 adds a Quick Captain Switch Check: users enter a current captain's raw points and one replacement candidate, then the site compares that score against the candidate's compressed raw switch score, start probability, fixture context, and QA flags. Substitution Advisor v0 adds a manual quick check for one played starter against one unplayed bench player, using the same compressed raw-points scale plus start/minutes, fixture, QA, and formation-warning context. Team Export JSON v1 adds model metadata, builder settings, squad state, captain/vice references, locked/removed player context, portfolio analytics, and null-safe decision-tool fields. User Squad Selection v0 lets users mark captain, vice captain, and bench order on built/imported Team Builder squads; Team Export/Import preserves those choices by exact player ID with model captain fallback when unset. Matchday Decision Center v0 adds one saved-squad view for captain-switch and bench-order checks, using manual raw points and fill buttons that send one comparison into the detailed advisors. Saved Decision Export v0 now includes the latest manual captain/substitution quick-check result in Team Export JSON after the user runs one. Team Import v0 restores that saved JSON by exact player IDs without rerunning the optimizer, and Saved Decision Import v0 restores saved advisor scenarios as imported review context. Decision Tools QA Polish v0 adds Manual/Saved/Imported status badges and stronger rerun warnings for imported advisor scenarios. Saved Squad Decision Mode v0 lets the captain and substitution tools fill their manual fields from the current built/imported Team Builder squad while still requiring user-entered points and manual played/unplayed checks. Saved Squad Matchday Timeline v0 groups the built/imported squad by MD1/MD2/MD3 kickoff and can quick-fill captain/substitution advisor fields. Team Builder now has risk controls for start probability, expected minutes, QA-review count, and risky fill-ins, while Safer Picks acts as a scoring preference instead of a hard wall. Proxy Price v1 makes prototype prices more role-aware before official prices arrive. Squad Portfolio Analytics v0 adds team-level expected return, risk-adjusted return, VaR/CVaR floor, QA load, country concentration, fixture concentration, and premium-squeeze warnings to the Team Builder. Portfolio Optimizer v0 now uses those squad-level metrics as a small adjustment when choosing between completed candidate squads. The old `playersData.js` remains as a fallback, but the live homepage prefers the Week 6 finance data when it is present.
 
-Official Fantasy Pool Preview promotion adds separate browser-ready preview files: `fantasyPoolRecommendationsData.js`, `fantasyPoolMatchdayProjectionsData.js`, `fantasyPoolFinanceMetricsData.js`, `fantasyPoolScorePredictionsData.js`, and `fantasyPoolOfficialDataStatusData.js`. These are generated from staged fantasy-pool source files and do not overwrite the active v2/prototype files.
+Official fantasy browser data lives in separate browser-ready files: `fantasyPoolRecommendationsData.js`, `fantasyPoolMatchdayProjectionsData.js`, `fantasyPoolFinanceMetricsData.js`, `fantasyPoolScorePredictionsData.js`, and `fantasyPoolOfficialDataStatusData.js`. These are generated from fantasy-pool source files and preserve the older fallback files.
 
 ## Run Locally
 
@@ -37,7 +37,7 @@ The site can be opened from GitHub Pages or a local server. It loads browser-rea
 - `OFFICIAL_DATA_NEXT_STEPS.md` - operational roadmap for what Codex should do when official squads, fantasy players, prices, positions, and rules become available
 - `index.html` - task-first page structure, primary navigation, hero actions, Picks, Team Builder, Matchday Desk, Fantasy Finance, World Cup Guide, and Model Notes content
 - `style.css` - responsive layout and visual styling
-- `script.js` - uses browser-ready player, rules, matchday, score-prediction, and Official Fantasy Pool Preview data; public recommendation sections prefer preview candidates with legacy fallback, Player Profile can send available players into Team Builder, while Team Builder remains on the prototype path
+- `script.js` - uses browser-ready player, rules, matchday, score-prediction, and official fantasy-pool data; public recommendation sections prefer official fantasy candidates with legacy fallback, and Player Profile can send available players into Team Builder
 - `AGENTS.md` - project instructions for Codex, including the player/rules data loading pattern
 - `WEEK6_RECOMMENDATION_ENGINE_PLAN.md` - living plan for recommendation trust, Team Advice filters, Team Builder constraints, proxy price calibration, portfolio-aware optimization, and future score-predictor upgrades
 - `players.json` - source player dataset
@@ -45,11 +45,11 @@ The site can be opened from GitHub Pages or a local server. It loads browser-rea
 - `financePlayersData.js` - browser-ready Week 6 World Cup finance-model player data
 - `matchdayProjectionsData.js` - browser-ready Matchday 1, Matchday 2, and Matchday 3 opponent adjustments from PELE-backed score predictions
 - `scorePredictionsData.js` - browser-ready fixture score prediction data for the Match Environment panel
-- `fantasyPoolRecommendationsData.js` - browser-ready Official Fantasy Pool Preview recommendation candidates from `data/matchdayRecommendations_fantasyPool_v3.json`
+- `fantasyPoolRecommendationsData.js` - browser-ready Official Fantasy Picks recommendation candidates from `data/matchdayRecommendations_fantasyPool_v3.json`
 - `fantasyPoolMatchdayProjectionsData.js` - browser-ready staged v3 fantasy-pool player projections from `data/playerMatchdayProjections_fantasyPool_v3.json`
 - `fantasyPoolFinanceMetricsData.js` - browser-ready staged fantasy-pool finance/value metrics from `data/playerFinanceMetrics_fantasyPool_v1.json`
 - `fantasyPoolScorePredictionsData.js` - browser-ready staged fantasy-pool score predictions from `data/scorePredictions_fantasyPool_v3.json`
-- `fantasyPoolOfficialDataStatusData.js` - browser-ready public preview status and warning copy
+- `fantasyPoolOfficialDataStatusData.js` - browser-ready official fantasy status and monitor copy
 - `data/peleRatings_v1.json` - downloaded PELE rating, Tilt, and offense/defense data from Silver Bulletin Datawrapper CSVs
 - `data/teamQuality.json` - active PELE-forward `team_quality_v2` model; `data/teamQuality_v1.json` and `data/teamQuality_v0.json` preserve earlier models
 - `data/scorePredictions_v2.json` - active PELE-forward generated score prediction model for group-stage match environments
@@ -96,11 +96,11 @@ The site can be opened from GitHub Pages or a local server. It loads browser-rea
 
 ## Known Limits
 
-- Public recommendation sections are Official Fantasy Pool Preview recommendations, not final fantasy advice.
-- Final squad status is not source-backed; fantasy-pool selectable status is not final squad confirmation.
-- Official fantasy prices, positions, scoring, and the Clean Sheet Shield booster rule are imported for preview recommendations, but deadline semantics still have a manual-review warning.
-- Official Data Readiness v0 still reports `blocked_waiting_for_official_fantasy_data` because final squads and remaining rule warnings are unresolved.
-- Team Builder remains prototype/blocked and should not be treated as official or final.
+- Public recommendation sections use the current official FIFA fantasy pool.
+- FIFA can still update player status, prices, positions, rules, or deadlines; rerun the monitor before major updates.
+- Official fantasy prices, positions, scoring, and the Clean Sheet Shield booster rule are imported for recommendations.
+- Official Data Readiness v0 remains an internal audit gate for deeper model promotion, even though the public site now treats the fantasy feed as the website authority.
+- Team Builder is planning help and should be verified inside the official game before saving.
 - Optimizer v0 is a practical browser-side search, not a final tournament prediction model.
 - Score predictions are prototype model outputs and are not official projections or betting odds.
 - Captain Change Advisor v0 is a manual switch check. Without a built/imported Team Builder squad it does not know the user's full squad; with saved-squad mode it still cannot track live scores or verify played/unplayed status.
@@ -118,7 +118,7 @@ The site can be opened from GitHub Pages or a local server. It loads browser-rea
 
 ## Future World Cup Data Plan
 
-When reliable World Cup fantasy data becomes available, update final squad status, official rules, prices, and matchday-specific advice.
+When FIFA fantasy data changes, rerun the official data monitor, import only the changed official data, and refresh affected public recommendation files.
 
 Score model upgrade notes:
 

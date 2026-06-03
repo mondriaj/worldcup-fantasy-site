@@ -1,21 +1,34 @@
 // Source data lives in JSON files:
 // data/playerFinanceMetrics_v0.json stores the Week 6 finance model, players.json
-// stores the older preview fallback, and fantasyRules.json stores draft rules.
+// stores the older fallback, and fantasyRules.json stores draft rules.
 // The browser loads script-friendly copies first:
 // financePlayersData.js defines window.FINANCE_PLAYERS_DATA, playersData.js defines
 // window.PLAYERS_DATA, matchdayProjectionsData.js defines matchday projection globals,
 // scorePredictionsData.js defines fixture prediction globals, and fantasyRulesData.js
-// defines window.FANTASY_RULES_DATA. The Official Fantasy Pool Preview files define
-// separate FANTASY_POOL_* globals and are used only for public preview recommendations.
+// defines window.FANTASY_RULES_DATA. The official fantasy-pool files define
+// separate FANTASY_POOL_* globals for current official fantasy recommendations.
 // script.js then uses those datasets together without fetching JSON at runtime.
-const players = window.FINANCE_PLAYERS_DATA || window.PLAYERS_DATA || [];
+const fantasyPoolPreviewStatus = window.FANTASY_POOL_OFFICIAL_DATA_STATUS || null;
+const rawPlayers = window.FINANCE_PLAYERS_DATA || window.PLAYERS_DATA || [];
+const officialUnavailablePlayerRecords = fantasyPoolPreviewStatus?.unavailable_players || [];
+const officialUnavailablePlayerNames = new Set(
+  officialUnavailablePlayerRecords.map((player) => normalizeText(player.name || "")).filter(Boolean)
+);
+const officialUnavailablePlayerIds = new Set(
+  officialUnavailablePlayerRecords
+    .flatMap((player) => [player.official_fantasy_player_id, player.internal_player_id])
+    .filter(Boolean)
+    .map(String)
+);
+const players = officialUnavailablePlayerRecords.length
+  ? rawPlayers.filter((player) => !isUnavailableInOfficialFantasy(player))
+  : rawPlayers;
 const financeModelSummary = window.FINANCE_MODEL_SUMMARY || null;
 const usingFinanceModel = Boolean(window.FINANCE_PLAYERS_DATA);
 const matchdayProjectionRows = window.PLAYER_MATCHDAY_PROJECTIONS_DATA || [];
 const matchdayModelSummary = window.MATCHDAY_MODEL_SUMMARY || null;
 const scorePredictionRows = window.SCORE_FIXTURE_PREDICTIONS_DATA || [];
 const scorePredictionSummary = window.SCORE_PREDICTIONS_SUMMARY || null;
-const fantasyPoolPreviewStatus = window.FANTASY_POOL_OFFICIAL_DATA_STATUS || null;
 const fantasyPoolRecommendationRows = window.FANTASY_POOL_RECOMMENDATION_CANDIDATES || [];
 const fantasyPoolProjectionRows = window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || [];
 const fantasyPoolFinanceRows = window.FANTASY_POOL_PLAYER_FINANCE_METRICS || [];
@@ -43,6 +56,19 @@ const positionLabelCodes = Object.entries(positionCodeLabels).reduce((codes, [co
   codes[label] = code;
   return codes;
 }, {});
+
+function isUnavailableInOfficialFantasy(player) {
+  const candidateIds = [
+    player?.id,
+    player?.internal_player_id,
+    player?.official_fantasy_player_id,
+    player?.source_player_id
+  ].filter(Boolean).map(String);
+  const nameKey = normalizeText(player?.name || "");
+
+  return candidateIds.some((id) => officialUnavailablePlayerIds.has(id)) ||
+    (nameKey && officialUnavailablePlayerNames.has(nameKey));
+}
 
 const projectionFieldMap = {
   risk_adjusted_overall_score: "finance_strategy_risk_adjusted",
@@ -205,9 +231,9 @@ function fantasyPoolCandidateToPlayer(candidate) {
     position_code: positionCode,
     official_fantasy_position: positionCode,
     club: candidate.matchday === "group_stage_full"
-      ? "Official fantasy pool preview"
-      : `Preview vs ${candidate.opponent || "opponent"}`,
-    league: "Official fantasy pool preview",
+      ? "Official fantasy pool"
+      : `Official pick vs ${candidate.opponent || "opponent"}`,
+    league: "Official fantasy pool",
     price,
     official_price: price,
     price_is_proxy: false,
@@ -249,8 +275,8 @@ function fantasyPoolCandidateToPlayer(candidate) {
     proxy_price_percentile_v1: 50,
     source_review_flags: flags,
     short_reason: Array.isArray(candidate.why_pick) ? candidate.why_pick.join(". ") : "",
-    data_note: fantasyPoolPreviewStatus?.public_warning_html || "Official Fantasy Pool Preview. Final squad status is not yet source-backed.",
-    source_note: "Preview recommendations are not final public recommendations and are not Team Builder-ready.",
+    data_note: fantasyPoolPreviewStatus?.public_warning_html || "Official fantasy picks using the current FIFA fantasy feed.",
+    source_note: "Refresh with the monitor when FIFA changes player, price, position, status, rule, or deadline data.",
     minutes_model_source_note: `Role label: ${titleFromSnake(candidate.role_label || "unclear")}; confidence: ${titleFromSnake(candidate.role_confidence || confidence)}.`,
     preview_why_pick: candidate.why_pick || [],
     preview_why_careful: candidate.why_careful || [],
@@ -498,8 +524,8 @@ const measures = {
   },
   expected: {
     label: "Projected Points",
-    description: "Ranks players by prototype expected fantasy points for one group-stage match.",
-    formula: "Uses expected return points from the Week 6 finance model. The older preview fallback is risk-adjusted projected points.",
+    description: "Ranks players by modeled expected fantasy points for one group-stage match.",
+    formula: "Uses expected return points from the Week 6 finance model. The older fallback is risk-adjusted projected points.",
     score: (player) => scoreValue(player, "finance_expected_return_points", "risk_adjusted_expected_points_estimate")
   },
   safe: {
@@ -687,7 +713,7 @@ const financeLenses = {
     id: "valueOverReplacement",
     label: "Value Over Replacement",
     shortLabel: "VOR",
-    description: "Replacement-aware value signal when available; preview fallback uses risk-adjusted points per price.",
+    description: "Replacement-aware value signal when available; fallback uses risk-adjusted points per price.",
     value: (player) => {
       const replacementValue = financeContextScore(player, "value_over_replacement");
       if (Number.isFinite(replacementValue)) return replacementValue;
@@ -2301,10 +2327,78 @@ function profileFinanceGrid(player) {
   `;
 }
 
+function publicFantasyNoteText(item) {
+  const text = String(item || "").trim();
+  const normalized = text.toLowerCase().replace(/[_-]/g, " ");
+
+  if (!text) {
+    return "";
+  }
+
+  if (
+    normalized.includes("not final squad") ||
+    normalized.includes("final squad source missing") ||
+    normalized.includes("fantasy pool only not final squad")
+  ) {
+    return "Confirm player availability in the official FIFA game before locking.";
+  }
+
+  if (normalized.includes("not final public")) {
+    return "Refresh with the official data monitor before major recommendation changes.";
+  }
+
+  if (normalized.includes("not team builder")) {
+    return "Use Team Builder as planning help and verify squad legality in the official FIFA game.";
+  }
+
+  if (
+    (normalized.includes("official rules") && normalized.includes("manual")) ||
+    normalized.includes("rules manual review")
+  ) {
+    return "Confirm boosters, deadlines, and scoring details in the official FIFA game.";
+  }
+
+  if (normalized.includes("squad staging") || normalized.includes("squad review rows")) {
+    return "Confirm squad status in the official FIFA game before the deadline.";
+  }
+
+  if (normalized.includes("mystery booster")) {
+    return "Confirm Mystery Booster details in the official FIFA game.";
+  }
+
+  if (normalized.includes("deadline semantics")) {
+    return "Confirm deadline timing in the official FIFA game.";
+  }
+
+  if (normalized.includes("high team context uncertainty")) {
+    return "Team context still needs matchday confirmation.";
+  }
+
+  if (normalized.includes("missing national team usage review")) {
+    return "National-team usage should be checked before relying heavily on this pick.";
+  }
+
+  return text.includes("_") ? titleFromSnake(text) : text;
+}
+
 function previewListItems(items, fallback) {
-  const values = Array.isArray(items) ? items.filter(Boolean) : [];
+  const values = Array.isArray(items)
+    ? items.filter(Boolean).map(publicFantasyNoteText).filter(Boolean)
+    : [];
   const list = values.length ? values : [fallback];
-  return list.slice(0, 3).map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+  const seen = new Set();
+  return list
+    .filter((item) => {
+      const key = item.toLowerCase();
+      if (seen.has(key)) {
+        return false;
+      }
+      seen.add(key);
+      return true;
+    })
+    .slice(0, 3)
+    .map((item) => `<li>${escapeHtml(item)}</li>`)
+    .join("");
 }
 
 function profileWhyPickPanel(player) {
@@ -2418,7 +2512,7 @@ function profileNotesList(player) {
   ].filter(Boolean);
 
   if (Array.isArray(player.source_review_flags) && player.source_review_flags.length) {
-    notes.unshift(`Review flags: ${player.source_review_flags.map(titleFromSnake).join(", ")}.`);
+    notes.unshift(`Review notes: ${player.source_review_flags.map(publicFantasyNoteText).join(", ")}.`);
   }
 
   if (!notes.length) {
@@ -2434,7 +2528,7 @@ function profileBuilderActionHtml(player) {
   const lockLabel = alreadyLocked ? "Locked" : "Lock in Builder";
   const lockButton = lockId
     ? `<button class="pick-card__action pick-card__action--lock" type="button" data-lock-player-id="${escapeHtml(lockId)}"${alreadyLocked ? " disabled" : ""}>${lockLabel}</button>`
-    : `<button class="pick-card__action" type="button" disabled title="This preview player is not available in the prototype Team Builder path.">Preview only</button>`;
+    : `<button class="pick-card__action" type="button" disabled title="This player is not available in the current Team Builder path.">Unavailable</button>`;
 
   return `
     <div class="profile-action-row">
@@ -5740,8 +5834,8 @@ function exportModelMetadata() {
     export_schema_version: "team-export-v1",
     generated_at: new Date().toISOString(),
     site_name: "World Cup Fantasy Helper",
-    site_status: "public_preview",
-    data_mode: usingFinanceModel ? "week6_world_cup_finance_model" : "fallback_preview_players",
+    site_status: "current_official_fantasy",
+    data_mode: usingFinanceModel ? "week6_world_cup_finance_model" : "fallback_players",
     browser_models: {
       finance: financeModelSummary ? {
         schema_version: financeModelSummary.schema_version,
@@ -6040,7 +6134,7 @@ function exportExplanation(starters, bench) {
 
   const priceNote = usingFinanceModel
     ? "Prices use proxy_price_v1 because official World Cup fantasy prices are not imported yet; proxy_price_v0 is preserved for audit."
-    : "Current data is a public preview test dataset.";
+    : "Current data is the local fallback dataset.";
 
   return `Generated by Optimizer v0 using ${activeMeasure().label}, ${trustModeLabel()}, and ${activeMatchdayLabel()}. Portfolio-aware scoring is enabled as a small squad-level adjustment. Risk controls: ${builderRiskSettingsSummary()}. The squad costs ${budgetText(totalPrice)} with ${remainingBudgetText(totalPrice)} remaining. Country counts: ${countryCounts || "none"}. ${priceNote}`;
 }
@@ -6100,7 +6194,7 @@ function teamExportPayload() {
     recommendation_notes: {
       explanation,
       generated_by: "Optimizer v0 with Portfolio Optimizer v0 adjustment",
-      model_caveat: "Prototype World Cup fantasy recommendations. Official fantasy prices, official fantasy rules, final squads, injuries, and lineups are still pending.",
+      model_caveat: "World Cup fantasy recommendations using the current available model data. Confirm live lineups, locks, deadlines, and official-game legality before acting.",
       next_use: "This export is structured so a future import flow can prefill saved squads and decision-tool context."
     },
     explanation,
@@ -6114,8 +6208,8 @@ function teamExportPayload() {
       "data/scorePredictions_v2.json",
       "dataSources.md",
       usingFinanceModel
-        ? "Current public preview uses the Week 6 World Cup finance model with prototype proxy prices."
-        : "Current public preview uses EPL/FPL-style test player data."
+        ? "Current official fantasy view uses the Week 6 World Cup finance model."
+        : "Current fallback view uses the older local player data."
     ],
     rules_sources: [
       "fantasyRules.json",
@@ -7737,7 +7831,7 @@ function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built", optio
   if (mode === "preview" && squad.length === 0) {
     teamMessage.textContent = `Transparent slots show the selected starting tactic. Build My Squad will create a ${squadLabel()} with ${benchLabel()} below.`;
   } else if (mode === "preview") {
-    teamMessage.textContent = `Previewing ${squad.length} locked squad player${squad.length === 1 ? "" : "s"}. Click Build My Squad to fill the full ${squadLabel()}.`;
+    teamMessage.textContent = `Showing ${squad.length} locked squad player${squad.length === 1 ? "" : "s"}. Click Build My Squad to fill the full ${squadLabel()}.`;
   } else if (missingStarterSlots > 0 || missingSquadSlots > 0) {
     const riskText = builderRiskControlsActive() ? ` Risk controls: ${builderRiskSettingsSummary()}.` : "";
     teamMessage.textContent = `Optimizer v0 found ${squad.length} squad player${squad.length === 1 ? "" : "s"} using ${activeMeasure().label}, ${trustModeLabel()}, and ${activeMatchdayLabel()}. Some spots are still open because the current locks, filters, removals, trust mode, budget, country limit, or risk controls are too tight.${riskText}`;
@@ -7823,7 +7917,7 @@ function renderCurrentSlotState(message) {
   renderSavedSquadDecisionPanels();
 }
 
-// This preview appears as soon as someone locks players, before building the full team.
+// This view appears as soon as someone locks players, before building the full team.
 function renderLockedPreview() {
   clearSavedDecisionExports();
   clearUserSquadSelections();
@@ -7859,15 +7953,15 @@ function fantasyPoolCandidateReason(player) {
   const candidate = player.preview_candidate || {};
   const pickReason = Array.isArray(candidate.why_pick) && candidate.why_pick.length
     ? candidate.why_pick.slice(0, 2).join("; ")
-    : "staged preview score";
+    : "current official score";
   const carefulReason = Array.isArray(candidate.why_careful) && candidate.why_careful.length
-    ? candidate.why_careful[0]
-    : "not final-squad-backed";
+    ? publicFantasyNoteText(candidate.why_careful[0])
+    : "check the latest official status before deadline";
 
-  return `${candidate.mode_label || "Preview"}: ${pickReason}. Careful: ${carefulReason}.`;
+  return `${candidate.mode_label || "Pick"}: ${pickReason}. Careful: ${carefulReason}.`;
 }
 
-function fantasyPoolPreviewTableScore(player, label = "Preview score") {
+function fantasyPoolPreviewTableScore(player, label = "Pick score") {
   return `
     <span class="score-breakdown" title="${escapeHtml(fantasyPoolCandidateReason(player))}">
       <strong>${fantasyPoolCandidateStat(player, "recommendation_score")}</strong>
@@ -8021,7 +8115,7 @@ function pickCardActionHtml(player) {
   const lockLabel = alreadyLocked ? "Locked" : "Lock in Builder";
   const lockButton = lockId
     ? `<button class="pick-card__action pick-card__action--lock" type="button" data-lock-player-id="${escapeHtml(lockId)}">${lockLabel}</button>`
-    : `<button class="pick-card__action" type="button" disabled title="This preview player is not available in the prototype Team Builder path.">Preview only</button>`;
+    : `<button class="pick-card__action" type="button" disabled title="This player is not available in the current Team Builder path.">Unavailable</button>`;
 
   return `
     <div class="pick-card__actions">
@@ -8041,8 +8135,8 @@ function renderPickCard(player, options = {}) {
     return `
       <article class="pick-card pick-card--empty">
         <span class="pick-card__label">${escapeHtml(label)}</span>
-        <strong>Preview data unavailable</strong>
-        <p>The site will fall back to prototype data if the preview source file is missing.</p>
+        <strong>Official fantasy data unavailable</strong>
+        <p>The site will fall back to the older local dataset if the official fantasy source file is missing.</p>
       </article>
     `;
   }
@@ -8134,7 +8228,7 @@ function renderFantasyPoolPreviewCaptainPicks() {
   if (!captainCandidates.length) {
     captainTableBody.innerHTML = `
       <tr class="fallback-table-row">
-        <td colspan="9">Official Fantasy Pool Preview captain candidates did not load. The site will fall back to the prototype captain table when preview data is unavailable.</td>
+        <td colspan="9">Official fantasy captain candidates did not load. The site will fall back to the older captain table when official fantasy data is unavailable.</td>
       </tr>
     `;
   }
@@ -8190,31 +8284,31 @@ function renderFantasyPoolPreviewDashboardSections() {
 
   const cards = [
     {
-      label: "Balanced Preview",
+      label: "Balanced Pick",
       mode: "balanced",
       stat: (player) => `Risk-adjusted ${fantasyPoolCandidateStat(player, "risk_adjusted_points")} · Price ${playerPriceText(player)}`,
       qaStyle: "balanced"
     },
     {
-      label: "Captain Alpha Preview",
+      label: "Captain Alpha",
       mode: "captain",
       stat: (player) => `Captain score ${fantasyPoolCandidateStat(player, "captain_score")} · Start ${displayNumber(scoreValue(player, "start_probability_percent"))}%`,
       qaStyle: "captain"
     },
     {
-      label: "Safe Preview",
+      label: "Safe Pick",
       mode: "safe",
       stat: (player) => `Floor ${fantasyPoolCandidateStat(player, "floor_points")} · Minutes ${displayNumber(scoreValue(player, "expected_minutes_v0"))}`,
       qaStyle: "safe"
     },
     {
-      label: "Differential Preview",
+      label: "Differential Pick",
       mode: "differential",
       stat: (player) => `Value ${fantasyPoolCandidateStat(player, "value_score")} · Risk-adjusted ${fantasyPoolCandidateStat(player, "risk_adjusted_points")}`,
       qaStyle: "bestValue"
     },
     {
-      label: "Upside Preview",
+      label: "Upside Pick",
       mode: "upside",
       stat: (player) => `Ceiling ${fantasyPoolCandidateStat(player, "ceiling_points")} · Raw ${fantasyPoolCandidateStat(player, "raw_expected_points")}`,
       qaStyle: "upside"
@@ -8331,7 +8425,7 @@ function renderFantasyPoolPreviewAdviceTable() {
     ? "Finance badges show the staged finance model context."
     : `Advanced Finance Lens: sorted by ${financeLens.label}.`;
 
-  adviceStyleNote.textContent = `Official Fantasy Pool Preview: showing ${titleFromSnake(previewMode)} candidates for ${positionLabel} in ${activeMatchdayLabel()} with ${trustModeLabel()}. ${visiblePool.length} ranked from ${positionPool.length} preview candidate${positionPool.length === 1 ? "" : "s"}${hiddenCount ? `; ${hiddenCount} watchlist candidate${hiddenCount === 1 ? "" : "s"} hidden` : ""}. ${financeNote} Final squad status is not source-backed, so treat this as preview content only.`;
+  adviceStyleNote.textContent = `Official Fantasy Picks: showing ${titleFromSnake(previewMode)} candidates for ${positionLabel} in ${activeMatchdayLabel()} with ${trustModeLabel()}. ${visiblePool.length} ranked from ${positionPool.length} official candidate${positionPool.length === 1 ? "" : "s"}${hiddenCount ? `; ${hiddenCount} watchlist candidate${hiddenCount === 1 ? "" : "s"} hidden` : ""}. ${financeNote} Refresh with the monitor when FIFA changes the fantasy feed.`;
 
   if (adviceCardGrid) {
     adviceCardGrid.innerHTML = visiblePool.length
@@ -8360,7 +8454,7 @@ function renderFantasyPoolPreviewAdviceTable() {
   if (!visiblePool.length) {
     adviceTableBody.innerHTML = `
       <tr>
-        <td colspan="10">No Official Fantasy Pool Preview candidates match this Team Advice filter. Try Include watchlist punts, another position, or a broader recommendation style.</td>
+        <td colspan="10">No official fantasy candidates match this Team Advice filter. Try Include watchlist punts, another position, or a broader recommendation style.</td>
       </tr>
     `;
   }

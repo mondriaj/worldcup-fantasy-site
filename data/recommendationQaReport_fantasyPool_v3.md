@@ -1,6 +1,6 @@
 # Fantasy Pool Recommendation Candidates v3 QA
 
-Generated: 2026-06-02T18:41:18.502Z
+Generated: 2026-06-03T16:56:58.583Z
 
 Model stage: fantasy_pool_only. These outputs are not final-squad-backed, not final public recommendations, not Team Builder-ready, not browser-ready, and safe only for preliminary recommendation QA.
 
@@ -13,6 +13,7 @@ This staged layer converts playerMatchdayProjections_fantasyPool_v3 into prelimi
 - data/playerRecommendationInputs_v1.json
 - data/playerMinutesModel_fantasyPool_v0.json
 - data/playerMatchdayProjections_fantasyPool_v3.json
+- data/playerFinanceMetrics_fantasyPool_v2.json
 - data/scorePredictions_fantasyPool_v3.json
 - data/officialFantasyRules_v0.json
 - data/officialFantasyRulesImportReport_v0.json
@@ -20,21 +21,25 @@ This staged layer converts playerMatchdayProjections_fantasyPool_v3 into prelimi
 
 ## Mode Definitions
 
-- Balanced: risk-adjusted points, raw projection, start probability, minutes, projection confidence, value, fixture context, and data-quality penalties.
-- Safe: start probability, minutes, floor, risk-adjusted points, confidence, role confidence, and downside penalties.
-- Upside: ceiling, attacking and assist components, captain score, raw projection, fixture context, and acceptable minutes risk.
-- Differential: defensible lower-obviousness value using value over replacement, scarcity-adjusted value, efficient-frontier status, opportunity cost, upside, and sufficient projection floor. Weak players are not promoted just for being cheap.
-- Captain Alpha: captain score, raw points, ceiling, start probability, minutes, favorite/goal context, role confidence, and strong penalties for low starts, missing usage, thin profiles, and Neymar/Brazil uncertainty.
+- Balanced: risk-adjusted points, raw projection, start probability, minutes, projection confidence, value, fixture context, finance alpha, portfolio fit, role stability, downside safety, and data-quality penalties.
+- Safe: start probability, minutes, floor, risk-adjusted points, confidence, role confidence, role stability, low downside, low volatility, portfolio fit, and downside penalties.
+- Upside: ceiling per official price, attacking value per official price, raw ceiling, fixture context, v2 upside prior, finance alpha, and acceptable minutes risk. It penalizes rows already obvious in Captain Alpha.
+- Differential: defensible lower-obviousness value using finance alpha, portfolio fit, v2 differential prior, value over replacement, scarcity-adjusted value, efficient-frontier status, opportunity cost, role stability, downside safety, and sufficient projection floor. Weak players are not promoted just for being cheap.
+- Captain Alpha: captain score, raw points, ceiling, start probability, minutes, favorite/goal context, role confidence, v2 captain prior, captain opportunity cost, bridge confidence, and strong penalties for low starts, missing usage, thin profiles, and Neymar/Brazil uncertainty.
 
 ## Summary
 
 - Candidate rows generated: 500.
 - Candidate scopes: 4.
-- Projection rows available: 3768.
-- Blocked players excluded: 225.
+- Projection rows available: 3744.
+- Blocked players excluded: 233.
 - Low-confidence rows in top lists: 0.
 - Thin-profile rows in top lists: 0.
 - Missing-usage rows in top lists: 0.
+- Missing finance-context rows in top lists: 0.
+- High finance-alpha rows in top lists: 94.
+- High-alpha low-start rows in top lists: 0.
+- High-alpha high-downside rows in top lists: 0.
 - Safe for preliminary recommendation review: true.
 - Safe for public recommendations: false.
 - Safe for Team Builder: false.
@@ -43,10 +48,10 @@ This staged layer converts playerMatchdayProjections_fantasyPool_v3 into prelimi
 
 | Pair | Top-10 overlap | Top-25 overlap |
 | --- | --- | --- |
-| Balanced vs Safe | 6 | 13 |
-| Balanced vs Differential | 0 | 2 |
+| Balanced vs Safe | 2 | 8 |
+| Balanced vs Differential | 0 | 1 |
 | Safe vs Differential | 0 | 0 |
-| Upside vs Captain Alpha | 8 | 20 |
+| Upside vs Captain Alpha | 0 | 0 |
 
 - Differential distinct from Balanced: true.
 - Safe distinct from Balanced: true.
@@ -66,26 +71,26 @@ This staged layer converts playerMatchdayProjections_fantasyPool_v3 into prelimi
 
 | Mode | Top candidate | Country | Scope | Opponent | Pos | Score | Tier | Confidence |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Balanced | Nuno Alexandre Tavares Mendes | Portugal | md2 | Uzbekistan | DEF | 86.341 | top_pick_candidate | high |
-| Safe | Nuno Alexandre Tavares Mendes | Portugal | md2 | Uzbekistan | DEF | 87.657 | top_pick_candidate | high |
-| Upside | Lionel Messi | Argentina | md3 | Jordan | FWD | 92.325 | top_pick_candidate | high |
-| Differential | Giorgian de Arrascaeta | Uruguay | md1 | Saudi Arabia | MID | 77.668 | strong_candidate | high |
-| Captain Alpha | Lionel Messi | Argentina | md3 | Jordan | FWD | 96.249 | top_pick_candidate | high |
+| Balanced | Lionel Messi | Argentina | md3 | Jordan | FWD | 82.947 | top_pick_candidate | high |
+| Safe | Camilo Vargas | Colombia | md1 | Uzbekistan | GK | 89.896 | top_pick_candidate | high |
+| Upside | Luis Suárez | Colombia | md1 | Uzbekistan | FWD | 77.474 | strong_candidate | high |
+| Differential | Giorgian de Arrascaeta | Uruguay | md1 | Saudi Arabia | MID | 88.724 | top_pick_candidate | high |
+| Captain Alpha | Lionel Messi | Argentina | md3 | Jordan | FWD | 98.178 | top_pick_candidate | high |
 
 ## Country Concentration
 
 | Country | Top-list candidate rows |
 | --- | --- |
-| Argentina | 95 |
+| Argentina | 97 |
 | Portugal | 50 |
-| England | 41 |
-| Colombia | 40 |
-| Spain | 39 |
-| Uruguay | 35 |
-| France | 24 |
-| Germany | 23 |
-| Japan | 21 |
-| Belgium | 19 |
+| England | 46 |
+| Colombia | 45 |
+| Spain | 38 |
+| Belgium | 25 |
+| Croatia | 23 |
+| Uruguay | 23 |
+| Japan | 22 |
+| France | 20 |
 
 ## Low-Confidence Top-List Warnings
 
@@ -94,7 +99,7 @@ This staged layer converts playerMatchdayProjections_fantasyPool_v3 into prelimi
 
 ## Neymar And Brazil
 
-Brazil candidate rows carrying Neymar uncertainty: 19.
+Brazil candidate rows carrying Neymar uncertainty: 14.
 
 No Neymar rows appear in top candidate lists.
 
@@ -103,7 +108,7 @@ Neymar remains a P0 usage source gap. Brazil team context keeps uncertainty flag
 ## V3 vs V2 Comparison
 
 - Comparable top lists: 20.
-- Average top-25 overlap rate: 0.364.
+- Average top-25 overlap rate: 0.316.
 - V2 used prototype/player finance recommendation inputs and active browser files; v3 uses official fantasy-pool staged projections. Lower overlap is expected.
 
 ## Stop Conditions Before Public Promotion

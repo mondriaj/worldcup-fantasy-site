@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>World Cup Fantasy Helper | Captain Alpha, Rankings, and Team Builder</title>
-    <meta name="description" content="Official Fantasy Pool Preview recommendations using official fantasy prices, positions, and scoring, with final-squad uncertainty clearly shown." />
+    <meta name="description" content="Current World Cup fantasy recommendations using official fantasy prices, positions, selectable status, and scoring." />
     <meta property="og:site_name" content="World Cup Fantasy Helper" />
     <meta property="og:title" content="World Cup Fantasy Helper" />
     <meta property="og:description" content="Compare captain picks, player rankings, and squad ideas in one simple fantasy football hub." />
@@ -29,7 +29,7 @@
       </nav>
 
       <div class="hero__content">
-        <p class="eyebrow">Official Fantasy Pool Preview</p>
+        <p class="eyebrow">Official Fantasy Picks</p>
         <h1>World Cup Fantasy Helper</h1>
         <p class="hero__text">
           Find good World Cup fantasy picks, build a squad, and manage captain and bench decisions with risk-aware help.
@@ -61,37 +61,37 @@
     <aside class="data-status" aria-label="Data status">
       <span class="data-status__label">Data status</span>
       <div class="data-status__body">
-        <p>Official fantasy-pool prices, positions, and scoring are loaded for preview picks. Final squad status is not source-backed yet, so recommendations can still change.</p>
-        <p class="data-status__meta">Current snapshot: staged fantasy_pool_only v3 recommendations, v3 projections, v1 finance metrics, 1,481 official fantasy-pool players. Page updated: June 2, 2026.</p>
+        <p>Official fantasy-pool prices, positions, selectable status, and scoring are loaded. The monitor checks for source changes so picks can be refreshed when FIFA updates the game feed.</p>
+        <p class="data-status__meta">Current snapshot: official fantasy-pool recommendations, v3 projections, v1 finance metrics, 1,481 official fantasy-pool players. Page updated: June 3, 2026.</p>
       </div>
     </aside>
 
     <details id="official-data-readiness" class="official-readiness" aria-label="Official data readiness">
       <summary class="official-readiness__summary">
         <span class="official-readiness__label">Official Data Readiness</span>
-        <strong>Preview live, final gate still blocked</strong>
-        <span>Open for source and rule blockers.</span>
+        <strong>Official fantasy data current</strong>
+        <span>Open for source notes and monitor status.</span>
       </summary>
       <div class="official-readiness__grid" aria-label="Official data blockers">
         <article>
-          <span>Squads</span>
-          <strong>Not source-backed</strong>
-          <p>0 confirmed final squad rows are imported. Fantasy-pool rows are not final squad confirmation.</p>
+          <span>Fantasy Pool</span>
+          <strong>Current official feed</strong>
+          <p>Selectable players come from FIFA's fantasy game feed and are used as the site authority for picks.</p>
         </article>
         <article>
           <span>Players</span>
           <strong>1,481 imported</strong>
-          <p>Official fantasy player IDs, prices, and positions are available for preview recommendations.</p>
+          <p>Official fantasy player IDs, prices, positions, and selectable status are imported for recommendations.</p>
         </article>
         <article>
           <span>Prices</span>
           <strong>Official</strong>
-          <p>Preview recommendation and finance layers use official fantasy prices.</p>
+          <p>Recommendation and finance layers use official fantasy prices.</p>
         </article>
         <article>
           <span>Rules</span>
-          <strong>Imported, review</strong>
-          <p>Official scoring is imported. Mystery Booster and deadline semantics still need review.</p>
+          <strong>Imported</strong>
+          <p>Official scoring is imported. Users should still confirm game deadlines inside FIFA before acting.</p>
         </article>
       </div>
     </details>
@@ -112,7 +112,7 @@
           <p>Start with card-first player ideas, then open the advanced tables only when you want the full detail.</p>
         </div>
 
-        <p class="section-note"><strong>Official Fantasy Pool Preview.</strong> These picks use official fantasy prices, positions, and scoring. Final squad status is not yet source-backed, so recommendations may change.</p>
+        <p class="section-note"><strong>Official Fantasy Picks.</strong> These picks use official fantasy prices, positions, selectable status, and scoring from the current FIFA fantasy feed.</p>
 
         <details class="advanced-control-panel">
           <summary>Advanced pick settings</summary>
@@ -148,13 +148,13 @@
         <summary class="collapsible-summary">
           <span>
             <h2>Captain Alpha</h2>
-            <p>Captain Alpha preview shortlist using official fantasy-pool staged projections.</p>
+            <p>Captain Alpha shortlist using official fantasy-pool projections.</p>
           </span>
           <span class="collapsible-action" aria-hidden="true"></span>
         </summary>
 
         <div class="collapsible-body">
-          <p class="section-note"><strong>Official Fantasy Pool Preview.</strong> Captain candidates are preview-only and may change after final squad confirmation.</p>
+          <p class="section-note"><strong>Official Fantasy Picks.</strong> Captain candidates use the current official fantasy pool and are refreshed when the monitor finds player-feed changes.</p>
 
           <div id="captain-card-grid" class="pick-card-grid" aria-live="polite"></div>
 
@@ -457,7 +457,7 @@
         </summary>
 
         <div class="collapsible-body">
-          <p class="section-note"><strong>Official Fantasy Pool Preview.</strong> Pick Explorer lists staged candidate rows, not final public recommendations or Team Builder inputs.</p>
+          <p class="section-note"><strong>Official Fantasy Picks.</strong> Pick Explorer lists current recommendation candidates by matchday, position, and risk style.</p>
 
           <div class="table-toolbar advice-toolbar">
             <label class="control-group" for="advice-measure-select">
@@ -546,7 +546,7 @@
       <section id="match-environment" class="panel">
         <div class="section-heading">
           <h2>Fixture Outlook</h2>
-          <p>Fixture-level goal environment, clean-sheet watch, and upset risk from the prototype score model.</p>
+          <p>Fixture-level goal environment, clean-sheet watch, and upset risk from the score model.</p>
         </div>
 
         <div class="table-toolbar match-environment-toolbar">
@@ -592,12 +592,12 @@
       <section id="team-builder" class="panel panel--team">
         <div class="section-heading">
           <h2>Team Builder</h2>
-          <p>Guided prototype squad builder for locking players, building a squad, checking risk, and saving your team.</p>
+          <p>Guided squad builder for locking players, building a team, checking risk, and saving your squad.</p>
         </div>
 
         <div class="method-note method-note--warning">
-          <strong>Team Builder is still in prototype mode.</strong>
-          Official prices and rules are available, but final squad status is not source-backed yet. Do not treat generated squads as final.
+          <strong>Team Builder check:</strong>
+          Use the builder as planning help, then confirm squad legality, locks, and deadlines inside the official FIFA fantasy game.
         </div>
 
         <ol class="builder-flow" aria-label="Team Builder flow">
@@ -637,8 +637,8 @@
             </details>
 
             <div class="optimizer-note">
-              <strong>Prototype Optimizer v0</strong>
-              <p>Searches for a 15-player squad using the current prototype Team Builder path. Public preview recommendations do not make this final-squad-ready.</p>
+              <strong>Squad Optimizer v0</strong>
+              <p>Searches for a 15-player squad using the current builder path. Confirm final legality, deadlines, and locks inside the official game before saving.</p>
             </div>
 
             <div class="locked-player-area">
@@ -741,7 +741,7 @@
 
                 <div id="team-export-panel" class="team-export-panel hidden" aria-live="polite">
                   <h4>Saved Squad JSON</h4>
-                  <p>Latest export preview. The same JSON is downloaded when you click Save Squad.</p>
+                  <p>Latest export. The same JSON is downloaded when you click Save Squad.</p>
                   <textarea id="team-export-output" readonly rows="8"></textarea>
                 </div>
               </div>
@@ -838,7 +838,7 @@
         <div class="fixture-gateway">
           <div class="section-heading">
             <h2>World Cup Fixtures</h2>
-            <p>See the tournament groups, tournament structure, and bracket shell on the World Cup page. Homepage picks now include prototype matchday opponent adjustments.</p>
+            <p>See the tournament groups, tournament structure, and bracket shell on the World Cup page. Homepage picks now include matchday opponent adjustments.</p>
           </div>
 
           <div class="fixture-facts" aria-label="World Cup 2026 facts">
@@ -1148,11 +1148,11 @@
             <p>These labels appear in the dashboard, captain table, team advice table, lock-player list, and team builder cards. They are listed here at the end because they combine the source fields and calculated fields above.</p>
 
             <div class="formula-list">
-              <p><strong>Price:</strong> official World Cup fantasy prices are pending. The current builder shows <code>proxy_price_v1</code>, a prototype placeholder used only to test budget and value logic.</p>
+              <p><strong>Price:</strong> public pick cards use official World Cup fantasy prices. The current builder path may still show <code>proxy_price_v1</code> for older saved-squad compatibility.</p>
               <p><strong>Captain Score:</strong> a captain shortlist score using expected return, risk-adjusted return, reliability, composite risk, and tail risk.</p>
               <p><strong>Reliability:</strong> a 0 to 100 minutes-security score from club minutes, starts, national-team usage, source confidence, and availability-style risk.</p>
-              <p><strong>Start %:</strong> prototype probability that the player starts for his country in the selected matchday view.</p>
-              <p><strong>Expected Minutes:</strong> prototype minutes estimate using national-team usage first, then club usage, roster status, captain signal, and country position depth.</p>
+              <p><strong>Start %:</strong> modeled probability that the player starts for his country in the selected matchday view.</p>
+              <p><strong>Expected Minutes:</strong> modeled minutes estimate using national-team usage first, then club usage, roster status, captain signal, and country position depth.</p>
               <p><strong>Substitution Risk:</strong> a 0 to 100 risk score for limited minutes, bench role, or early substitution. Lower is better.</p>
               <p><strong>Per 90:</strong> modeled fantasy upside if the player played a full 90 minutes.</p>
               <p><strong>Risk:</strong> a composite score from source risk, minutes uncertainty, volatility, downside risk, fixture risk, discipline, and bad-week probability. Lower is better.</p>
@@ -1261,21 +1261,21 @@
       <section id="data-sources" class="panel trust-panel">
         <div class="section-heading">
           <h2>Data Sources</h2>
-          <p>What the current preview uses and what will change later.</p>
+          <p>What the current official fantasy workflow uses.</p>
         </div>
 
         <div class="trust-grid">
           <article>
-            <h3>Current Preview</h3>
-            <p>The public recommendation sections now use the Official Fantasy Pool Preview: official fantasy players, prices, positions, scoring, staged projections, and staged finance metrics.</p>
+            <h3>Current Official Pool</h3>
+            <p>The recommendation sections use official fantasy players, prices, positions, selectable status, scoring, projections, and finance metrics.</p>
           </article>
           <article>
-            <h3>World Cup Data Plan</h3>
-            <p>Final squads are still not source-backed. Final-squad-backed recommendations, Team Builder promotion, and final model claims remain blocked.</p>
+            <h3>Update Monitor</h3>
+            <p>The daily monitor compares the site data against FIFA's live fantasy feed and flags player, price, position, status, rule, and deadline changes.</p>
           </article>
           <article>
-            <h3>Official Data Gate</h3>
-            <p>Official Data Readiness v0 tracks the remaining blockers: final squads, Mystery Booster effect, deadline semantics, and browser promotion QA.</p>
+            <h3>Game Checks</h3>
+            <p>Before deadlines, users should confirm locks, boosters, and live status inside the official FIFA fantasy game.</p>
           </article>
           <article>
             <h3>Independence</h3>
@@ -1287,15 +1287,22 @@
       <section id="changelog" class="panel trust-panel">
         <div class="section-heading">
           <h2>Changelog</h2>
-          <p>Recent improvements in this public preview.</p>
+          <p>Recent improvements.</p>
         </div>
 
         <div class="change-entry">
+          <h3>June 3, 2026</h3>
+          <ul class="compact-list">
+            <li>Imported the latest official fantasy selectable-status changes.</li>
+            <li>Removed newly transferred players from public recommendation candidates.</li>
+            <li>Updated public language to current official fantasy picks.</li>
+          </ul>
+
           <h3>June 2, 2026</h3>
           <ul class="compact-list">
-            <li>Official Fantasy Pool Preview recommendations are now shown on the public site using official fantasy prices, positions, and scoring.</li>
-            <li>Final squad uncertainty, rules warnings, and Team Builder prototype status remain visible.</li>
-            <li>Legacy active data files are preserved for rollback and prototype tools.</li>
+            <li>Official fantasy recommendations are now shown on the public site using official fantasy prices, positions, and scoring.</li>
+            <li>Source, rule, and Team Builder verification notes remain available.</li>
+            <li>Legacy active data files are preserved for fallback tools.</li>
           </ul>
 
           <h3>June 1, 2026</h3>
@@ -1309,7 +1316,7 @@
         <div class="change-entry">
           <h3>May 13, 2026</h3>
           <ul class="compact-list">
-            <li>Public preview status and data notes added.</li>
+            <li>Public status and data notes added.</li>
             <li>SEO, sharing metadata, and no-JS fallback cleaned up.</li>
             <li>Mobile tables and Team Builder layout improved.</li>
             <li>Quick Picks and pick-style labels rewritten for fantasy users.</li>
@@ -1332,15 +1339,14 @@
           </article>
           <article>
             <h3>Current Status</h3>
-            <p>The public recommendation sections now show Official Fantasy Pool Preview picks using official fantasy prices, positions, and scoring. Final-squad-backed recommendations are still blocked.</p>
+            <p>The public recommendation sections now show current official fantasy picks using official fantasy prices, positions, selectable status, and scoring.</p>
           </article>
           <article>
             <h3>Known Limits</h3>
             <ul class="compact-list">
-              <li>Final squad status is not yet source-backed.</li>
-              <li>Mystery Booster effect and deadline semantics still have manual-review warnings.</li>
-              <li>Recommendations are preview-only and may change after final squad confirmation.</li>
-              <li>Team Builder remains prototype/blocked and should not be treated as final.</li>
+              <li>FIFA can still update player status, prices, positions, rules, or deadlines.</li>
+              <li>Users should confirm boosters, deadlines, locks, and live status inside the official game.</li>
+              <li>Team Builder output should be verified against official-game legality before saving.</li>
             </ul>
           </article>
         </div>
@@ -1352,7 +1358,7 @@
       <div class="site-footer__inner">
         <div>
           <h2>World Cup Fantasy Helper</h2>
-          <p>Independent fantasy football tools for picks, rankings, and squad ideas. Public Official Fantasy Pool Preview using official fantasy prices, positions, and scoring while final squads remain unsourced.</p>
+          <p>Independent fantasy football tools for picks, rankings, and squad ideas using current official fantasy prices, positions, selectable status, and scoring.</p>
           <p class="site-footer__note">Not official FIFA fantasy advice. No betting or gambling content.</p>
         </div>
 

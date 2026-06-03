@@ -14,13 +14,13 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 ## Player Recommendations
 
-- Picks show Official Fantasy Pool Preview candidates using official fantasy prices, positions, scoring, staged projections, and staged finance metrics.
-- Player cards are the default surface and include a short reason, risk label, fixture context, View Profile, and Lock in Builder when the player is available to the prototype builder.
-- Captain Picks focus on staged Captain Alpha preview candidates.
-- Team Advice remains available as the deeper Pick Explorer for filtered Official Fantasy Pool Preview candidate pools by matchday, position, risk style, and recommendation pool.
+- Picks show Official Fantasy Picks using official fantasy prices, positions, selectable status, scoring, projections, and finance metrics.
+- Player cards are the default surface and include a short reason, risk label, fixture context, View Profile, and Lock in Builder when the player is available to the builder.
+- Captain Picks focus on Captain Alpha candidates from the official fantasy pool.
+- Team Advice remains available as the deeper Pick Explorer for filtered Official Fantasy Picks by matchday, position, risk style, and recommendation pool.
 - Default visible strategy labels are Balanced, Safe, Upside, and Differential, with older/internal controls kept in advanced filters where needed.
 - Recommendation explanations show raw score context, trust-adjusted score context, role risk, data-quality warnings, and fixture environment notes.
-- Preview recommendations remain fantasy-pool-only, not final-squad-backed, not Team Builder-ready, and not final public recommendations.
+- Recommendations use the current official FIFA fantasy pool. The monitor should be rerun when FIFA changes player, price, position, status, rule, or deadline data.
 
 ## Match Environment
 
@@ -31,11 +31,11 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 ## Team Builder
 
-- Builds a prototype fantasy squad using selected pick style, draft budget, position counts, country limit, locked players, removed players, and filters.
-- Team Builder remains prototype/blocked after the Official Fantasy Pool Preview promotion.
+- Builds a fantasy squad plan using selected pick style, draft budget, position counts, country limit, locked players, removed players, and filters.
+- Team Builder is planning help and should be checked against the official game before saving.
 - The Team Builder surface follows a guided flow: choose strategy, lock or avoid players, build squad, review legality and risk, then save or export.
 - Supports risk controls for minimum start probability, expected minutes, QA-review count, and risky fill-ins.
-- It should not be treated as official or final until final squad and rule gates pass.
+- Users should confirm locks, deadlines, boosters, and official-game legality inside FIFA's game.
 - Provides optimizer warnings when constraints are tight or force weaker/riskier picks.
 - Allows users to mark captain, vice captain, and bench order on built or imported squads.
 - Preserves user-selected captain, vice captain, and bench order through Team Export/Import when player IDs still match.
@@ -74,28 +74,27 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Active score predictions use `data/scorePredictions_v2.json`.
 - Active matchday player projections use `data/playerMatchdayProjections_v2.json`.
 - Active recommendation shortlists use `data/matchdayRecommendations_v2.json`.
-- Public preview recommendation sections now load separate staged fantasy-pool browser files: `fantasyPoolRecommendationsData.js`, `fantasyPoolMatchdayProjectionsData.js`, `fantasyPoolFinanceMetricsData.js`, `fantasyPoolScorePredictionsData.js`, and `fantasyPoolOfficialDataStatusData.js`.
+- Public recommendation sections load separate official fantasy-pool browser files: `fantasyPoolRecommendationsData.js`, `fantasyPoolMatchdayProjectionsData.js`, `fantasyPoolFinanceMetricsData.js`, `fantasyPoolScorePredictionsData.js`, and `fantasyPoolOfficialDataStatusData.js`.
 - The staged source files are `data/matchdayRecommendations_fantasyPool_v3.json`, `data/playerMatchdayProjections_fantasyPool_v3.json`, `data/playerFinanceMetrics_fantasyPool_v1.json`, and `data/scorePredictions_fantasyPool_v3.json`.
 - Previous model versions are preserved where material changes were made.
 - Official Data Readiness v0 tracks blockers before rerunning final value, Team Builder, score, and recommendation models.
 
 ## Official Data Pipelines
 
-- Official fantasy players, prices, positions, and scoring have been imported for preview recommendations.
+- Official fantasy players, prices, positions, selectable status, and scoring have been imported for recommendations.
 - Official fantasy rules now include the Clean Sheet Shield booster rule; deadline semantics still carry a manual-review warning.
-- Official final squad reconciliation exists, but final squads are not source-backed yet.
-- Public preview recommendations remain fantasy-pool-based until final squad data becomes source-backed; fantasy-pool selectable status is not final squad confirmation.
+- Official final squad reconciliation remains available as an internal audit trail, while the public site uses FIFA's fantasy pool as the working authority.
 - `scripts/checkOfficialFantasyDataUpdates.mjs` monitors live FIFA fantasy JSON for player, squad, rules, round, and language changes before deciding whether imports or model reruns are needed.
 - Import templates are provided in `data/imports/`.
 - Readiness validation reports whether final model reruns are allowed or still blocked by missing official data.
 
 ## Current Limits
 
-- The site is a public preview, not official FIFA fantasy advice.
-- Public recommendations are labeled Official Fantasy Pool Preview, not final recommendations.
-- Final squad status is not source-backed; fantasy-pool selectable status is not final squad confirmation.
-- Official fantasy prices, positions, scoring, and the Clean Sheet Shield booster rule are available for preview, but deadline semantics still have a manual-review warning.
-- Team Builder remains prototype/blocked and should not be treated as final.
+- The site is independent, not official FIFA fantasy advice.
+- Public recommendations are labeled Official Fantasy Picks.
+- FIFA can still update player status, prices, positions, rules, or deadlines; rerun the monitor before major changes.
+- Official fantasy prices, positions, scoring, and the Clean Sheet Shield booster rule are available.
+- Team Builder is planning help and should be verified in the official game.
 - Score predictions are prototype model outputs, not official projections or betting odds.
 - Captain and substitution tools require manual points and manual played/unplayed checks.
 - The site does not track live scores, official deadlines, official lineup locks, or official fantasy-game legality.
@@ -104,4 +103,4 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 ## Most Important Next Step
 
-Use the preview as clearly labeled public staging only. The next final-promotion gate is source-backed final squads plus resolution of the remaining official rules warnings, followed by final score predictions, matchday projections, recommendations, and Team Builder value/model reruns.
+Use the site as the current official fantasy-pool helper. Keep the daily monitor as the operating gate for future FIFA feed changes.

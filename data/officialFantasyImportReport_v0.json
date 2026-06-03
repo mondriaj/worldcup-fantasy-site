@@ -1,7 +1,7 @@
 {
   "schema_version": "official_fantasy_import_report_v0",
-  "generated_at": "2026-06-02",
-  "source_checked": "2026-06-02",
+  "generated_at": "2026-06-03",
+  "source_checked": "2026-06-03",
   "status": "imported_needs_manual_review",
   "input_file": "data/imports/officialFantasyPlayers.csv",
   "current_player_rows_checked": 1339,
@@ -14,8 +14,8 @@
     "official_price_rows": 1481,
     "official_position_rows": 1481,
     "selectable_status_counts": {
-      "playing": 1256,
-      "transferred": 225
+      "playing": 1248,
+      "transferred": 233
     },
     "match_method_counts": {
       "country_and_normalized_name": 996,

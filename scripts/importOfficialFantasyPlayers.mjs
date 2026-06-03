@@ -1,7 +1,7 @@
 import { access, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-const TODAY = "2026-06-02";
+const GENERATED_AT = new Date().toISOString().slice(0, 10);
 
 const DEFAULT_INPUT = "data/imports/officialFantasyPlayers.csv";
 const OUTPUT_PLAYERS = "data/officialFantasyPlayers_v0.json";
@@ -197,6 +197,13 @@ function countBy(rows, key) {
     counts[value] = (counts[value] || 0) + 1;
     return counts;
   }, {});
+}
+
+function sourceCheckedFromRows(rows) {
+  const dates = [...new Set(rows.map((row) => row.source_checked).filter(hasValue))]
+    .map((value) => String(value).trim())
+    .sort();
+  return dates.at(-1) || GENERATED_AT;
 }
 
 function addToMap(map, key, value) {
@@ -406,6 +413,7 @@ function importStatus(summary) {
 function reportFromRows(inputPath, rows, currentPlayerCount) {
   const summary = buildSummary(rows);
   const status = importStatus(summary);
+  const sourceChecked = sourceCheckedFromRows(rows);
   const manualReviewRows = rows
     .filter((row) =>
       row.validation_errors.length ||
@@ -428,8 +436,8 @@ function reportFromRows(inputPath, rows, currentPlayerCount) {
 
   return {
     schema_version: "official_fantasy_import_report_v0",
-    generated_at: TODAY,
-    source_checked: TODAY,
+    generated_at: GENERATED_AT,
+    source_checked: sourceChecked,
     status,
     input_file: inputPath,
     current_player_rows_checked: currentPlayerCount,
@@ -460,8 +468,8 @@ function reportFromRows(inputPath, rows, currentPlayerCount) {
 function waitingReport(inputPath, currentPlayerCount) {
   return {
     schema_version: "official_fantasy_import_report_v0",
-    generated_at: TODAY,
-    source_checked: TODAY,
+    generated_at: GENERATED_AT,
+    source_checked: GENERATED_AT,
     status: "awaiting_official_input",
     input_file: inputPath,
     current_player_rows_checked: currentPlayerCount,
@@ -506,8 +514,8 @@ async function main() {
   const report = reportFromRows(inputPath, rows, currentPlayers.length);
   const output = {
     schema_version: "official_fantasy_players_v0",
-    generated_at: TODAY,
-    source_checked: TODAY,
+    generated_at: report.generated_at,
+    source_checked: report.source_checked,
     data_status: report.status,
     input_file: inputPath,
     summary: report.summary,
