@@ -40,8 +40,11 @@ const defaultMatchdayOptions = [
   { matchday_id: "md3", label: "Matchday 3" }
 ];
 const matchdayOptions = matchdayModelSummary?.matchday_options || defaultMatchdayOptions;
-let activeMatchdayId = "group_stage_full";
-let activeEnvironmentMatchdayId = "group_stage_full";
+const defaultActiveMatchdayId = matchdayOptions.some((option) => option.matchday_id === "md1")
+  ? "md1"
+  : matchdayOptions[0]?.matchday_id || "group_stage_full";
+let activeMatchdayId = defaultActiveMatchdayId;
+let activeEnvironmentMatchdayId = defaultActiveMatchdayId;
 let activeTrustModeId = "balanced";
 let activeAdvicePoolModeId = "playable";
 const browserSquadStorageKey = "worldCupFantasyHelper.teamExport.v1";
@@ -2472,7 +2475,7 @@ function publicFantasyPickReasonItems(player) {
   const candidate = player.preview_candidate || {};
   const mode = candidate.mode || player.value_role || "balanced";
   const modeLabel = candidate.mode_label || player.preview_mode_label || titleFromSnake(mode);
-  const projected = fantasyPoolCandidateStat(player, "risk_adjusted_points");
+  const projected = projectedMatchdayPoints(player);
   const captain = fantasyPoolCandidateStat(player, "captain_score");
   const ceiling = fantasyPoolCandidateStat(player, "ceiling_points");
   const floor = fantasyPoolCandidateStat(player, "floor_points");
@@ -2481,11 +2484,13 @@ function publicFantasyPickReasonItems(player) {
   const startText = Number.isFinite(startProbability)
     ? ` with ${Math.round(startProbability * 100)}% start chance`
     : "";
-  const isGroupStageScope = candidate.matchday === "group_stage_full";
+  const projection = activeProjection(player);
+  const scopeMatchdayId = projection?.matchday_id || candidate.matchday || activeMatchdayId;
+  const isGroupStageScope = !projection && scopeMatchdayId === "group_stage_full";
   const fixtureCount = Number(candidate.fixture_context?.fixture_count);
   const scopeText = isGroupStageScope
-    ? `group-stage points across ${Number.isFinite(fixtureCount) && fixtureCount > 0 ? fixtureCount : 3} matches`
-    : `${matchdayLabelFromId(candidate.matchday)} points`;
+    ? `projected points across the group stage (${Number.isFinite(fixtureCount) && fixtureCount > 0 ? fixtureCount : 3} matches)`
+    : `projected points for ${matchdayLabelFromId(scopeMatchdayId)}`;
   const fixture = pickFixtureLabel(player);
   const fixtureText = fixture && !fixture.toLowerCase().includes("needs check")
     ? `Fixture outlook: ${fixture}.`
@@ -2562,7 +2567,7 @@ function profileBestUseGrid(player, measureKey = measureKeyForTrust(activeMeasur
   return `
     <div class="profile-grid profile-grid--compact">
       ${profileMetric("Best Use", bestUse, strategy)}
-      ${profileMetric("Projected Score", profileScore(expected), "risk-aware points")}
+      ${profileMetric("Projected Pts / Matchday", profileScore(expected), projectionContextText(player))}
       ${profileMetric("Risk Label", pickRiskLabel(player), `${displayNumber(risk)} risk score`)}
       ${profileMetric("Start Chance", profileScore(start, "%"), titleFromSnake(player.country_role))}
     </div>
@@ -7525,10 +7530,20 @@ function renderPlayerPicker() {
     .filter(priceMatchesFilters)
     .filter((player) => playerMatchesBuilderRiskControls(player, builderRiskSettings(), { keepLocked: true }))
     .filter((player) => playerSearchText(player).includes(searchValue));
-  const visiblePlayers = rankedRecommendationPlayers(filteredPlayers, measure, activeTrustMode(), {
+  const rankedPlayers = rankedRecommendationPlayers(filteredPlayers, measure, activeTrustMode(), {
     allowFallback: true,
     keepLocked: true
-  })
+  });
+  const lockedVisiblePlayers = filteredPlayers.filter((player) => lockedPlayerIds.has(player.id));
+  const seenVisiblePlayerIds = new Set();
+  const visiblePlayers = [...lockedVisiblePlayers, ...rankedPlayers]
+    .filter((player) => {
+      if (seenVisiblePlayerIds.has(player.id)) {
+        return false;
+      }
+      seenVisiblePlayerIds.add(player.id);
+      return true;
+    })
     .slice(0, 80);
 
   if (!visiblePlayers.length) {
@@ -7584,7 +7599,7 @@ function updateBuilderFilters() {
 function updateMatchdayView(nextMatchdayId) {
   activeMatchdayId = matchdayOptions.some((option) => option.matchday_id === nextMatchdayId)
     ? nextMatchdayId
-    : "group_stage_full";
+    : defaultActiveMatchdayId;
 
   [adviceMatchdaySelect, builderMatchdaySelect].filter(Boolean).forEach((select) => {
     select.value = activeMatchdayId;
@@ -8683,6 +8698,16 @@ function fantasyPoolCandidateStat(player, fieldName, suffix = "") {
   return `${displayNumber(number)}${suffix}`;
 }
 
+function projectedMatchdayPoints(player) {
+  const projected = optionalScoreValue(
+    player,
+    "finance_risk_adjusted_return_points",
+    "risk_adjusted_expected_points_estimate"
+  );
+
+  return projected === null ? "Needs check" : displayNumber(projected);
+}
+
 function fantasyPoolCandidateReason(player) {
   const candidate = player.preview_candidate || {};
   const pickReason = publicFantasyPickReasonItems(player)[0] || `${candidate.mode_label || "Pick"}: current official score`;
@@ -8811,7 +8836,13 @@ function pickRiskKind(player) {
 
 function pickFixtureLabel(player) {
   const candidate = player.preview_candidate || null;
-  if (candidate?.matchday === "group_stage_full") {
+  const projections = playerMatchdayProjections(player);
+  const activeProjectionRow = activeMatchdayId === "group_stage_full"
+    ? null
+    : projections.find((projection) => projection.matchday_id === activeMatchdayId);
+  const projection = activeProjectionRow || projections[0];
+
+  if (!activeProjectionRow && candidate?.matchday === "group_stage_full") {
     const opponents = Array.isArray(candidate.fixture_context?.opponents)
       ? candidate.fixture_context.opponents.filter(Boolean)
       : [];
@@ -8820,12 +8851,6 @@ function pickFixtureLabel(player) {
     }
     return "Full group stage";
   }
-
-  const projections = playerMatchdayProjections(player);
-  const activeProjectionRow = activeMatchdayId === "group_stage_full"
-    ? null
-    : projections.find((projection) => projection.matchday_id === activeMatchdayId);
-  const projection = activeProjectionRow || projections[0];
 
   if (!projection) {
     return player.preview_opponent ? `vs ${player.preview_opponent}` : "Fixture needs check";
@@ -8840,7 +8865,7 @@ function pickProjectedScore(player, measureKey = "balanced") {
     if (measureKey === "captain") {
       return fantasyPoolCandidateStat(player, "captain_score");
     }
-    return fantasyPoolCandidateStat(player, "risk_adjusted_points");
+    return projectedMatchdayPoints(player);
   }
 
   if (measureKey === "captain") {
@@ -8854,9 +8879,10 @@ function pickScoreLabel(player, measureKey = "balanced") {
   if (measureKey === "captain") {
     return "Captain Alpha";
   }
-  return player?.preview_candidate?.matchday === "group_stage_full"
+  const hasMatchdayProjection = Boolean(activeProjection(player));
+  return !hasMatchdayProjection && player?.preview_candidate?.matchday === "group_stage_full"
     ? "Group Stage Pts"
-    : "Projected Score";
+    : "Projected Pts / Matchday";
 }
 
 function pickReasonText(player, measureKey = "balanced") {
@@ -9246,7 +9272,7 @@ function renderFantasyPoolPreviewAdviceTable() {
       <td>${player.position}</td>
       <td>${playerPriceText(player)}</td>
       <td>${fantasyPoolPreviewTableScore(player, player.preview_mode_label || titleFromSnake(previewMode))}</td>
-      <td>${fantasyPoolCandidateStat(player, "risk_adjusted_points")}</td>
+      <td>${projectedMatchdayPoints(player)}</td>
       <td>${displayNumber(scoreValue(player, "finance_composite_risk_score"))}</td>
       <td>${financeLensCell(player, financeLens)}</td>
       <td>${qaChipRow(qaFlagsForPlayer(player, measureKey), { compact: true, maxVisible: 2 })}</td>
