@@ -464,13 +464,13 @@
         <summary class="collapsible-summary">
           <span>
             <h2>Pick Explorer</h2>
-            <p>Compare Matchday 1 player ideas by strategy, position, and matchday.</p>
+            <p>Compare player ideas by strategy, position, and matchday.</p>
           </span>
           <span class="collapsible-action" aria-hidden="true"></span>
         </summary>
 
         <div class="collapsible-body">
-          <p class="section-note"><strong>Official Fantasy Picks.</strong> Pick Explorer defaults to Matchday 1 and lists current recommendation candidates by matchday, position, and strategy.</p>
+          <p class="section-note"><strong>Official Fantasy Picks.</strong> Pick cards show Matchday 1 projected points by default while ranking candidates by the selected matchday view.</p>
 
           <div class="table-toolbar advice-toolbar">
             <label class="control-group" for="advice-measure-select">
@@ -493,7 +493,7 @@
             <label class="control-group" for="advice-matchday-select">
               <span>Matchday</span>
               <select id="advice-matchday-select"></select>
-              <small class="control-helper">Matchday 1 is the default; switch views for later group opponents.</small>
+              <small class="control-helper">Use Full Group Stage for the broad ranking, or choose one matchday for opponent-specific lists.</small>
             </label>
 
             <p id="advice-style-note">Simple player notes using projected points per matchday and risk scores.</p>
@@ -654,7 +654,7 @@
                 <label class="control-group" for="builder-matchday-select">
                   <span>Matchday View</span>
                   <select id="builder-matchday-select"></select>
-                  <small class="control-helper">Matchday 1 is the default. Use Full Group Stage only when you want all three group matches together.</small>
+                  <small class="control-helper">Use Full Group Stage for balance, or one matchday for opponent-specific squad planning.</small>
                 </label>
               </div>
 
@@ -1243,7 +1243,7 @@
               <p><strong>Per 90:</strong> modeled fantasy upside if the player played a full 90 minutes.</p>
               <p><strong>Risk:</strong> a composite score from source risk, minutes uncertainty, volatility, downside risk, fixture risk, discipline, and bad-week probability. Lower is better.</p>
               <p><strong>Strategy Score:</strong> the score for the selected strategy: Balanced, Safe, Upside, or Differential. Advanced notes may preserve older internal score names for audit history.</p>
-              <p><strong>Projected Pts / Matchday:</strong> risk-adjusted expected fantasy points for the selected matchday. The default view is Matchday 1.</p>
+              <p><strong>Projected Pts / Matchday:</strong> risk-adjusted expected fantasy points for one matchday. Pick cards highlight Matchday 1 unless you choose a specific matchday view.</p>
               <p><strong>Advanced Bad-Week Floor Fields:</strong> deeper downside floor measures used by Model Notes and exports. They estimate bad-outcome cutoffs and worst-outcome averages.</p>
               <p><strong>Attack Heavy:</strong> tilts toward attacking players and attacking defenders with strong goal, assist, shot, and upside signals.</p>
               <p><strong>Very Risky Upside:</strong> intentionally searches for boom-or-bust players. It is useful for aggressive watchlists, not safe default picks.</p>
@@ -1487,6 +1487,6 @@
     <script src="fantasyPoolFinanceMetricsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolScorePredictionsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolOfficialDataStatusData.js?v=20260603-official-final"></script>
-    <script src="script.js?v=20260603-score-predictions"></script>
+    <script src="script.js?v=20260603-stable-picks-md1-points"></script>
   </body>
 </html>
