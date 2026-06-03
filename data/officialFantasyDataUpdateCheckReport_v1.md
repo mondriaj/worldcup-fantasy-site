@@ -1,6 +1,6 @@
 # Official Fantasy Data Update Check v1
 
-Generated: 2026-06-03T17:19:38.544Z
+Generated: 2026-06-03T22:49:36.012Z
 
 ## Summary
 
@@ -16,10 +16,10 @@ Generated: 2026-06-03T17:19:38.544Z
 
 | Source | HTTP | Parsed | Last-Modified | Bytes |
 | --- | --- | --- | --- | --- |
-| fifaFantasyPlayersJson | 200 | yes | 2026-06-03T17:04:10Z | 1096678 |
+| fifaFantasyPlayersJson | 200 | yes | 2026-06-03T22:04:11Z | 1096680 |
 | fifaFantasySquadsJson | 200 | yes | 2026-05-13T10:08:23Z | 6430 |
 | fifaFantasyHelpPagesJson | 200 | yes | 2026-05-29T09:05:39Z | 179308 |
-| fifaFantasyRoundsJson | 200 | yes | 2026-06-03T15:01:08Z | 71303 |
+| fifaFantasyRoundsJson | 200 | yes | 2026-06-03T20:01:05Z | 71303 |
 | fifaFantasyLanguageJson | 200 | yes | 2026-06-03T13:21:47Z | 27057 |
 
 ## Change Counts
@@ -36,7 +36,7 @@ Generated: 2026-06-03T17:19:38.544Z
 | Rules source/header changes | 0 |
 | Deadline/round changes | 0 |
 | Mystery Booster text changes | 0 |
-| Ownership percent changes | 23 |
+| Ownership percent changes | 68 |
 
 ## Recommendation
 

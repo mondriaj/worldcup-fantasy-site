@@ -1,19 +1,18 @@
 # Official Data Next Steps
 
-This is the first file future Codex sessions should read when official World Cup fantasy data becomes available.
+This is the first file future Codex sessions should read when official World Cup fantasy data changes.
 
-The project is currently paused at the official-data gate. Do not expand the recommendation model again until final squads, official fantasy player data, prices, positions, and rules are imported and validated.
+The project now has an official fantasy-pool public layer. Do not expand the recommendation model again unless the monitor finds player, price, position, status, rules, round, or language changes that affect model fields, or unless final squads become source-backed.
 
 ## Current Expected State
 
-- Official data readiness: `blocked_waiting_for_official_fantasy_data`
-- Official fantasy players: waiting for `data/imports/officialFantasyPlayers.csv`
-- Official fantasy rules: waiting for `data/imports/officialFantasyRules.json`
-- Official final squads: waiting for `data/imports/officialSquads.csv`
-- Active prices: `proxy_price_v1`, not official prices
+- Official data readiness: public official-fantasy-pool layer is active; final model rerun remains blocked by final-squad source-backing.
+- Official fantasy players: imported from FIFA's fantasy player JSON.
+- Official fantasy rules: imported, with active rules promoted to `fantasyRules.json` and `fantasyRulesData.js`.
+- Official final squads: fantasy pool is used as the public site authority; final-squad source-backing remains an internal audit blocker.
+- Active public pick prices: official fantasy prices.
 - Active score model: PELE-forward prototype `data/scorePredictions_v2.json`
-- Active matchday projections: `data/playerMatchdayProjections_v2.json`
-- Active recommendation shortlists: `data/matchdayRecommendations_v2.json`
+- Active public official-pool browser files: `fantasyPoolRecommendationsData.js`, `fantasyPoolMatchdayProjectionsData.js`, `fantasyPoolFinanceMetricsData.js`, `fantasyPoolScorePredictionsData.js`, and `fantasyPoolOfficialDataStatusData.js`.
 
 ## Input Files To Add
 
@@ -33,15 +32,13 @@ Use the templates in `data/imports/` and keep source URLs/dates on every row.
 
 ## Import Order
 
-If only one official file is available, import that file and stop at the readiness gate.
+If the monitor finds material changes, use this preferred order:
 
-If all official files are available, use this preferred order:
-
-1. Import final official squads.
-2. Import official fantasy players, IDs, positions, prices, and selectable status.
-3. Import official fantasy rules, scoring, deadlines, captain rules, and substitution rules.
-4. Run the official-data readiness validator.
-5. Only continue to model reruns if readiness says `ready_for_official_model_rerun`.
+1. Import official fantasy players, IDs, positions, prices, and selectable status when player fields changed.
+2. Import official fantasy rules, scoring, deadlines, captain rules, and substitution rules when rules or language fields changed.
+3. Import or reconcile final official squads only when a source-backed final-squad feed or source list is available.
+4. Run the official-data update check and readiness validator.
+5. Continue to model reruns only if the change affects model fields or final-squad source-backing becomes ready.
 
 Commands:
 
@@ -52,14 +49,14 @@ node scripts/importOfficialFantasyRules.mjs
 node scripts/validateOfficialDataReadiness.mjs
 ```
 
-Expected import-success statuses before model reruns:
+Expected import-success statuses before a full final-squad model rerun:
 
 - `data/officialSquadsImportReport_v0.json`: `imported_ready_for_readiness_check`
 - `data/officialFantasyImportReport_v0.json`: `imported_ready_for_readiness_check`
 - `data/officialFantasyRulesImportReport_v0.json`: `imported_ready_for_readiness_check`
 - `data/officialDataReadiness_v0.json`: `ready_for_official_model_rerun`
 
-Stop if any report says `awaiting_*`, `imported_with_errors`, `imported_needs_manual_review`, `imported_needs_team_completion_review`, or `blocked_waiting_for_official_fantasy_data`.
+Stop a full final-squad model rerun if any report says `awaiting_*`, `imported_with_errors`, `imported_needs_manual_review`, `imported_needs_team_completion_review`, or `blocked_waiting_for_official_fantasy_data`. Public official-pool maintenance can still proceed when the monitor reports only non-model-field changes.
 
 ## Manual Review Before Model Reruns
 
@@ -119,11 +116,16 @@ Create a new version if the score model changes materially.
 
 ## Team Builder And Decision Tool Updates
 
-After official prices and rules pass validation:
+Current launch state:
 
-- Replace prototype budget behavior with official prices.
-- Replace draft squad, budget, country, position, transfer, booster, captain, and substitution rules with official rules only after review.
-- Keep proxy prices as audit fields, not active budget values.
+- Active public picks use official prices, positions, selectable status, and scoring.
+- Active `fantasyRules.json` uses the official rules import summary.
+- Team Builder remains planning help and must be checked inside the official FIFA game.
+
+For future material changes:
+
+- Refresh affected public browser-ready files only after the monitor or import reports identify model-field changes.
+- Keep older proxy-price fields as audit fields, not public pick values.
 - Re-test Team Builder legality against official rules.
 - Re-test Captain Change Advisor and Substitution Advisor against official captain/substitution windows.
 - Keep manual points entry unless a reliable official live fantasy feed is added.
@@ -181,8 +183,8 @@ Stop and report the blocker instead of continuing if:
 - official prices are incomplete
 - official fantasy positions are incomplete
 - official squad matching has unresolved review rows
-- official rules are incomplete or still draft/starter status
+- official rules become incomplete, missing, or materially changed without review
 - readiness does not return `ready_for_official_model_rerun`
 - browser validation fails after regeneration
 
-The right behavior is to leave the site clearly marked as a prototype until the official-data gate passes.
+The right behavior is to leave public picks marked as current official-fantasy-pool picks, while clearly separating any blocked final-squad model rerun from the public recommendation layer.

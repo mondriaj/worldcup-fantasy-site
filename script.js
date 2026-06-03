@@ -1,6 +1,6 @@
 // Source data lives in JSON files:
 // data/playerFinanceMetrics_v0.json stores the Week 6 finance model, players.json
-// stores the older fallback, and fantasyRules.json stores draft rules.
+// stores the older fallback, and fantasyRules.json stores the active official rules summary.
 // The browser loads script-friendly copies first:
 // financePlayersData.js defines window.FINANCE_PLAYERS_DATA, playersData.js defines
 // window.PLAYERS_DATA, matchdayProjectionsData.js defines matchday projection globals,
@@ -223,7 +223,7 @@ function normalizeFantasyPoolProjection(row) {
     team_win_probability: fixture.win_probability ?? row.team_win_probability ?? null,
     match_upset_risk_probability: fixture.upset_risk_probability ?? row.match_upset_risk_probability ?? null,
     match_goal_environment: fixture.goal_environment ?? row.match_goal_environment ?? null,
-    fixture_use: "official_fantasy_pool_preview",
+    fixture_use: "current_official_fantasy_pool",
     finance_expected_return_points: row.raw_expected_points,
     finance_risk_adjusted_return_points: row.risk_adjusted_points,
     finance_upside_p90_points: row.ceiling_points,
@@ -272,12 +272,12 @@ function fantasyPoolCandidateToPlayer(candidate) {
     price,
     official_price: price,
     price_is_proxy: false,
-    price_note: "Official fantasy price imported from the staged official fantasy pool.",
-    roster_status: "fantasy_pool_only",
+    price_note: "Official fantasy price imported from the current FIFA fantasy pool.",
+    roster_status: "official_fantasy_pool",
     selectable_status: "playing",
     recommendation_use: "safe_to_rank",
     finance_label: "official_fantasy_pool_preview",
-    portfolio_use: "preview_only",
+    portfolio_use: "official_pool_planning",
     risk_profile: confidence,
     value_role: candidate.mode || "preview",
     data_confidence_score: dataConfidence,
@@ -320,7 +320,7 @@ function fantasyPoolCandidateToPlayer(candidate) {
     preview_matchday: candidate.matchday,
     preview_opponent: candidate.opponent,
     recommendation_tier_label: titleFromSnake(candidate.recommendation_tier),
-    model_stage: "official_fantasy_pool_preview"
+    model_stage: "current_official_fantasy_pool"
   };
 }
 
@@ -696,7 +696,7 @@ const measures = {
     label: "Differential",
     optionLabel: "Differential",
     description: "Looks for lower-obviousness or mispriced players with a defensible projection.",
-    formula: "Uses the staged Differential candidate score when available. Legacy fallback uses the very-risky finance strategy with data-check penalties.",
+    formula: "Uses the current Official Fantasy Differential candidate score when available. Legacy fallback uses the very-risky finance strategy with data-check penalties.",
     score: (player) => player.preview_candidate?.mode === "differential"
       ? scoreValue(player, "finance_strategy_risk_adjusted")
       : scoreValue(player, "finance_strategy_very_risky")
@@ -705,7 +705,7 @@ const measures = {
     label: "Captain Alpha",
     optionLabel: "Captain Alpha",
     description: "Ranks armband candidates by captain ceiling, starts, raw points, and fixture context.",
-    formula: "Uses the staged Captain Alpha score when available. Legacy fallback uses the captain score.",
+    formula: "Uses the current Official Fantasy Captain Alpha score when available. Legacy fallback uses the captain score.",
     score: (player) => player.preview_candidate?.mode === "captain"
       ? scoreValue(player, "finance_strategy_risk_adjusted")
       : scoreValue(player, "finance_captain_score")
@@ -1440,7 +1440,7 @@ function scorePredictionQualityLabel() {
   }
 
   if (quality.status === "pass_with_prototype_caveats") {
-    return "Data check caveats";
+    return "Model caveats";
   }
 
   if (quality.status === "fail") {
@@ -1856,7 +1856,7 @@ function qaFlagsForPlayer(player, measureKey = "balanced") {
     addQaFlag(flags, "low_data_confidence");
   }
 
-  if (player.roster_status && player.roster_status !== "confirmed") {
+  if (player.roster_status && !["confirmed", "official_fantasy_pool"].includes(player.roster_status)) {
     addQaFlag(flags, "roster_not_confirmed");
   }
 
@@ -2327,7 +2327,7 @@ function playerRecommendationLabels(player, measureKey = measureKeyForTrust(acti
     labels.push({ text: "Data review", kind: "watch" });
   }
 
-  if (player.roster_status && player.roster_status !== "confirmed") {
+  if (player.roster_status && !["confirmed", "official_fantasy_pool"].includes(player.roster_status)) {
     labels.push({ text: "Roster watch", kind: "watch" });
   }
 
@@ -2353,7 +2353,7 @@ function profileIdentityGrid(player) {
       ${profileMetric("Position", player.position, player.position_code || "")}
       ${profileMetric("Club", player.club, player.league || "")}
       ${profileMetric("Roster", titleFromSnake(player.roster_status), recommendationUseForPlayer(player))}
-      ${profileMetric("Budget Price", playerPriceDetailText(player), player.price_note || "Official price pending")}
+      ${profileMetric("Budget Price", playerPriceDetailText(player), player.price_note || "Official fantasy price")}
       ${profileMetric("Data Confidence", `${displayNumber(player.data_confidence_score)} / 100`, titleFromSnake(player.data_confidence_band))}
     </div>
   `;
@@ -2392,7 +2392,7 @@ function profileFinanceGrid(player) {
       ${profileMetric("Risk Efficiency", profileScore(scoreValue(player, "finance_sharpe_like_percentile", "risk_adjusted_sharpe_like")), "percentile")}
       ${profileMetric("Downside Protection", profileScore(scoreValue(player, "finance_sortino_like_percentile", "risk_adjusted_sortino_like")), "percentile")}
       ${profileMetric("Upside Balance", profileScore(scoreValue(player, "finance_omega_like_percentile")), "percentile")}
-      ${profileMetric("Bad-Week Probability", profilePercent(player.finance_bad_week_probability), "prototype")}
+      ${profileMetric("Bad-Week Probability", profilePercent(player.finance_bad_week_probability), "model estimate")}
       ${profileMetric("Tail Risk", profileScore(scoreValue(player, "finance_tail_risk_score", "risk_tail_score")), "0 low, 100 high")}
       ${profileMetric("Composite Risk", profileScore(scoreValue(player, "finance_composite_risk_score", "risk_composite_score")), "0 low, 100 high")}
       ${profileMetric("Upside Per 90", profileScore(scoreValue(player, "finance_upside_p90_points", "euro_style_points_per90_estimate")), "points")}
@@ -2535,7 +2535,7 @@ function profileWhyPickPanel(player) {
     ? `Risk is elevated at ${displayNumber(risk)}, so check role and matchup before relying on him.`
     : start < 45
       ? `Start probability is only ${displayNumber(start)}%, so confirm role news before locking him in.`
-      : "Final squad status and matchday role still need manual confirmation.";
+      : "Confirm matchday role and official-game status before locking him in.";
 
   return `
     <div class="profile-reason-grid">
@@ -5642,7 +5642,7 @@ function updateRuleCopy() {
   }
 
   if (squadRuleNote) {
-    squadRuleNote.textContent = `Full fantasy squad target: ${positionRequirementText()}. Rules loaded from fantasyRules.json.`;
+    squadRuleNote.textContent = `Official fantasy squad target: ${positionRequirementText()}. Rules loaded from fantasyRules.json.`;
   }
 
   if (benchDescription) {
@@ -6007,7 +6007,7 @@ function portfolioWarningsForAnalytics(analytics) {
     warnings.push({
       kind: "pass",
       label: "Portfolio Health",
-      detail: "No major squad-level portfolio warning is triggered by the current prototype thresholds."
+      detail: "No major squad-level portfolio warning is triggered by the current model thresholds."
     });
   }
 
@@ -6661,7 +6661,7 @@ function exportExplanation(starters, bench) {
     .join(", ");
 
   const priceNote = usingFinanceModel
-    ? "Fallback builder prices are estimated where needed; official fantasy prices remain the public pick source."
+    ? "Team Builder uses the current model player layer with official unavailable-player filtering; public pick cards use official fantasy prices."
     : "Current data is the local fallback dataset.";
 
   return `Generated by Team Builder using ${activeMeasure().label}, ${trustModeLabel()}, and ${activeMatchdayLabel()}. Squad risk scoring is enabled as a small squad-level adjustment. Risk controls: ${builderRiskSettingsSummary()}. The squad costs ${budgetText(totalPrice)} with ${remainingBudgetText(totalPrice)} remaining. Country counts: ${countryCounts || "none"}. ${priceNote}`;
@@ -6736,14 +6736,14 @@ function teamExportPayload() {
       "data/scorePredictions_v2.json",
       "dataSources.md",
       usingFinanceModel
-        ? "Current official fantasy view uses the Week 6 World Cup finance model."
+        ? "Current Team Builder view uses the Week 6 World Cup finance model with official unavailable-player filtering."
         : "Current fallback view uses the older local player data."
     ],
     rules_sources: [
       "fantasyRules.json",
       "fantasyRulesData.js",
       "rulesSources.md",
-      fantasyRules?.rules_status || "Draft rules, not official FIFA World Cup 2026 fantasy rules."
+      fantasyRules?.rules_status || "Official rules data unavailable; confirm in the official FIFA fantasy game."
     ]
   };
 }
@@ -9303,7 +9303,7 @@ function renderFantasyPoolPreviewAdviceTable() {
   const hiddenCount = Math.max(0, positionPool.length - visiblePool.length);
   const rankedPool = financeLens.defaultLens ? visiblePool : sortByFinanceLens(visiblePool, financeLens);
   const financeNote = financeLens.defaultLens
-    ? "Finance badges show the staged finance model context."
+    ? "Finance badges show the current model context."
     : `Advanced Finance Lens: sorted by ${financeLens.label}.`;
 
   adviceStyleNote.textContent = `Official Fantasy Picks: showing ${titleFromSnake(previewMode)} candidates for ${positionLabel} in ${activeMatchdayLabel()} with ${trustModeLabel()}. ${visiblePool.length} ranked from ${positionPool.length} official candidate${positionPool.length === 1 ? "" : "s"}${hiddenCount ? `; ${hiddenCount} watchlist candidate${hiddenCount === 1 ? "" : "s"} hidden` : ""}. ${financeNote} Refresh with the monitor when FIFA changes the fantasy feed.`;

@@ -69,11 +69,11 @@ The site can be opened from GitHub Pages or a local server. It loads browser-rea
 - `data/matchdayDecisionCenter_v0.md` - plain-language notes for the saved-squad captain and bench decision center
 - `data/officialDataReadiness_v0.json` - generated readiness snapshot for official squads, fantasy player IDs, positions, prices, rules, scoring, and deadlines
 - `data/officialFantasyImportSchema_v0.json` - machine-readable import contract for future official fantasy player, final squad, and rules data
-- `data/officialFantasyImportReport_v0.json` - generated import-pipeline report; currently waiting for the official fantasy player file
+- `data/officialFantasyImportReport_v0.json` - generated import-pipeline report for the official fantasy player feed
 - `data/officialFantasyImportPipeline_v0.md` - plain-language notes for the official fantasy player import pipeline
-- `data/officialFantasyRulesImportReport_v0.json` - generated rules-import report; currently waiting for official fantasy rules
+- `data/officialFantasyRulesImportReport_v0.json` - generated official fantasy rules-import report; deadline semantics still require manual live-game confirmation
 - `data/officialFantasyRulesImportPipeline_v0.md` - plain-language notes for the official fantasy rules import pipeline
-- `data/officialSquadsImportReport_v0.json` - generated final-squad reconciliation report; currently waiting for official final squad input
+- `data/officialSquadsImportReport_v0.json` - generated final-squad reconciliation report; final squad source-backing remains an internal audit blocker
 - `data/officialSquadsImportPipeline_v0.md` - plain-language notes for the final official squad reconciliation pipeline
 - `data/officialDataReadiness_v0.md` - plain-language notes for the official-data gate and model rerun sequence
 - `data/savedSquadDecisionMode_v0.md` - plain-language notes for using a built/imported Team Builder squad inside the manual decision tools
@@ -84,9 +84,9 @@ The site can be opened from GitHub Pages or a local server. It loads browser-rea
 - `data/playerValueModel_v1.json` - legacy budget/value calibration data preserved for compatibility with older model paths
 - `data/squadPortfolioAnalytics_v0.md` - plain-language notes for Team Builder squad-level risk, return, concentration, and premium-squeeze analytics
 - `data/portfolioOptimizerModel_v0.md` - plain-language notes for the portfolio-aware Team Builder scoring adjustment used to choose between completed squad candidates
-- `fantasyRules.json` - source Week 5 draft fantasy rules
+- `fantasyRules.json` - active official fantasy rules summary promoted from `data/officialFantasyRules_v0.json`
 - `fantasyRulesData.js` - browser-ready copy of `fantasyRules.json`
-- `rulesSources.md` - source notes for the draft fantasy rules
+- `rulesSources.md` - source notes for the official fantasy rules import and remaining manual checks
 - `world-cup.html` - separate tournament information page
 - `worldCupData.js` - static World Cup groups, group-stage fixtures, bracket paths, and source notes
 - `worldCupPage.js` - renderer for the tournament information page
@@ -105,14 +105,14 @@ The site can be opened from GitHub Pages or a local server. It loads browser-rea
 - Score predictions are prototype model outputs and are not official projections or betting odds.
 - Captain Change Advisor v0 is a manual switch check. Without a built/imported Team Builder squad it does not know the user's full squad; with saved-squad mode it still cannot track live scores or verify played/unplayed status.
 - Substitution Advisor v0 is a manual one-bench-player check. Without a built/imported Team Builder squad it does not know the user's full squad; with saved-squad mode it still cannot verify played/unplayed status and flags different-position moves for manual formation checks.
-- Team Import v0 restores saved prototype player IDs only. It does not migrate old exports to future official fantasy IDs or confirm that a saved squad is legal in the official game.
-- User Squad Selection v0 stores captain, vice captain, and bench order as local prototype user state only. It does not validate official deadlines, live points, or official fantasy-game legality.
+- Team Import v0 restores saved current player IDs only. It does not migrate old exports across future ID changes or confirm that a saved squad is legal in the official game.
+- User Squad Selection v0 stores captain, vice captain, and bench order as local browser state only. It does not validate official deadlines, live points, or official fantasy-game legality.
 - Matchday Decision Center v0 does not infer played/unplayed state, live points, official deadlines, or formation legality. It only organizes manual checks from the saved squad.
 - Saved Squad Decision Mode v0 can fill advisor fields from a built/imported Team Builder squad, but it still cannot verify live points, played/unplayed status, or official-game legality.
 - Saved Decision Export v0 stores only the latest manual quick-check result after the user runs it.
 - Saved Decision Import v0 restores saved quick-check scenarios as imported review context, not fresh live recommendations.
 - Decision tool status badges are UI guidance only; users still must confirm actual scores, played/unplayed state, deadlines, and official-game legality.
-- Saved Squad Matchday Timeline v0 uses prototype matchday projection kickoff labels. It does not infer live match status, official fantasy deadlines, or same-day captain/substitution legality.
+- Saved Squad Matchday Timeline v0 uses model matchday projection kickoff labels. It does not infer live match status, official fantasy deadlines, or same-day captain/substitution legality.
 - This is independent and not official FIFA fantasy advice.
 - No betting or gambling content is included.
 
@@ -122,7 +122,7 @@ When FIFA fantasy data changes, rerun the official data monitor, import only the
 
 Score model upgrade notes:
 
-- v2: active PELE-forward model. Upgrade again after final squads, official fantasy players, prices, positions, scoring rules, injuries, and updated national-team form are imported.
+- v2: active PELE-forward model. Upgrade again after source-backed final squads, injuries, and updated national-team form materially change team context.
 - Future calibration: after the roster-weighted model is stable, backtest or calibrate low-score/draw behavior with a Dixon-Coles-style adjustment.
 
 Stage B adds FIFA-sourced tournament structure and group-stage fixture data while keeping player recommendations separate.

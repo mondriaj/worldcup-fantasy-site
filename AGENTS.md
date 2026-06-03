@@ -23,9 +23,10 @@ This site is a static GitHub Pages-style project. Browser-ready data scripts avo
 ## Fantasy Rules Caution
 
 - Do not invent official FIFA World Cup 2026 fantasy rules.
-- Keep Week 5 rules clearly marked as draft rules until official rules are available.
-- Do not connect rules, fixtures, or player recommendations to final World Cup claims until official squads, prices, positions, and rules are available.
+- Active `fantasyRules.json` is now promoted from `data/officialFantasyRules_v0.json`; keep it synced through `scripts/promoteOfficialFantasyRules.mjs`.
+- Keep live deadline, lock, booster, captain, and substitution checks as manual confirmations inside FIFA unless a future pass implements and verifies live rule logic.
+- Do not connect player recommendations to final-squad claims unless final squads are source-backed.
 
 ## Official Data Roadmap
 
-When official World Cup fantasy data becomes available, read `OFFICIAL_DATA_NEXT_STEPS.md` before making model changes. Use the import pipelines and readiness validator there as the gate before replacing proxy prices, draft rules, preliminary roster status, score predictions, matchday projections, or player recommendations.
+When official World Cup fantasy data changes, read `OFFICIAL_DATA_NEXT_STEPS.md` before making model changes. Use the monitor, import pipelines, and readiness validator as the gate before replacing public browser data, score predictions, matchday projections, or player recommendations.

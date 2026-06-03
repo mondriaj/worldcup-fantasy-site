@@ -14,7 +14,7 @@
     <meta name="twitter:description" content="Compare captain picks, player rankings, and squad ideas in one simple fantasy football hub." />
     <!-- Add canonical and og:url once the final production URL is available. -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="stylesheet" href="style.css?v=20260603-builder-overlap" />
+    <link rel="stylesheet" href="style.css?v=20260603-launch-final" />
   </head>
   <body>
     <header id="top" class="hero">
@@ -62,14 +62,14 @@
       <span class="data-status__label">Data status</span>
       <div class="data-status__body">
         <p>Official fantasy prices, positions, selectable status, and scoring are loaded for public picks.</p>
-        <p class="data-status__meta">Snapshot: 1,481 official fantasy-pool players. Updated June 3, 2026; rerun the monitor before major updates.</p>
+        <p class="data-status__meta">Snapshot: 1,481 official fantasy-pool players. Monitor checked June 3, 2026 at 22:49 UTC; only ownership percentages changed.</p>
       </div>
     </aside>
 
     <details id="official-data-readiness" class="official-readiness" aria-label="Official data readiness">
       <summary class="official-readiness__summary">
         <span class="official-readiness__label">Official Data Readiness</span>
-        <strong>Official fantasy data current</strong>
+        <strong>Launch data checked</strong>
         <span>Open for source notes and monitor status.</span>
       </summary>
       <div class="official-readiness__grid" aria-label="Official data blockers">
@@ -726,7 +726,7 @@
                       <input id="allow-risky-picks-toggle" type="checkbox" checked />
                       <span>Include risky fill-ins</span>
                     </span>
-                    <small class="control-helper">Recommended while data is provisional. Turn off only if you accept fewer options.</small>
+                    <small class="control-helper">Recommended for broader squad builds. Turn off only if you accept fewer options.</small>
                   </label>
 
                   <label class="control-group" for="min-price-filter">
@@ -979,7 +979,7 @@
               <h3>1. World Cup Player Base</h3>
               <p><strong>Source:</strong> <code>data/players.json</code>, <code>data/teams.json</code>, <code>data/fixtures.json</code>, and source notes in <code>data/dataSources.md</code>.</p>
               <p><strong>Used for:</strong> player name, country, team, group, roster status, position, club, league, team quality, and group-stage fixture context.</p>
-              <p><strong>Important:</strong> some squads are still preliminary or tracker-based until final official World Cup squad releases are complete.</p>
+              <p><strong>Important:</strong> the public fantasy pool is the working authority for picks; users should still confirm matchday availability inside FIFA before deadlines.</p>
             </article>
 
             <article class="method-card">
@@ -998,76 +998,19 @@
           </div>
 
           <div class="formula-section">
-            <h3>Performance Stats</h3>
-            <p>These are estimated fantasy points made from available season stats and EURO-style scoring rules. They are not official tournament points.</p>
+            <h3>Official Scoring Context</h3>
+            <p>Public picks use official FIFA fantasy positions, prices, selectable status, and scoring categories. The model still estimates player role, minutes, and matchday context because those are not live lineup facts.</p>
 
             <div class="formula-list">
-              <p><strong>Appearance points:</strong> appearances x 1.</p>
-              <p><strong>60-minute points:</strong> estimated 60+ minute matches x 1. A 60+ minute match is estimated as <code>min(appearances, max(starts, floor(minutes / 60)))</code>.</p>
-              <p><strong>Goal points:</strong> goalkeeper or defender goal = 6, midfielder goal = 5, forward goal = 4.</p>
-              <p><strong>Assist points:</strong> assists x 3.</p>
-              <p><strong>Clean sheet points:</strong> goalkeeper or defender clean sheet = 4, midfielder clean sheet = 1, forward clean sheet = 0.</p>
-              <p><strong>Recovery points:</strong> <code>floor(recoveries / 3)</code>.</p>
-              <p><strong>Goalkeeper save points:</strong> for goalkeepers only, <code>floor(saves / 3)</code>.</p>
-              <p><strong>Penalty save points:</strong> penalties saved x 5.</p>
-              <p><strong>Goals conceded penalty:</strong> for goalkeepers and defenders, <code>floor(goals_conceded / 2) x -1</code>.</p>
-              <p><strong>Negative points:</strong> yellow cards x -1, red cards x -3, own goals x -2, missed penalties x -2.</p>
-              <p><strong>Total estimate:</strong> all the positive points and negative penalties above added together.</p>
+              <p><strong>Squad rules:</strong> 15 players, 11 starters, 2 GK, 5 DEF, 5 MID, 3 FWD, $100m starting budget, and 3 players per country in the group stage.</p>
+              <p><strong>Core scoring:</strong> appearance, 60-minute appearance, assists, cards, own goals, penalty won/conceded, saves, clean sheets, goals by position, tackles, chances created, shots on target, direct free-kick goals, and scouting bonus.</p>
+              <p><strong>Model estimates:</strong> expected starts, expected minutes, projected points, fixture effects, downside floor, and risk scores.</p>
+              <p><strong>Manual checks:</strong> live locks, deadlines, boosters, played/unplayed state, and final in-game legality should be confirmed inside FIFA before acting.</p>
             </div>
 
             <details class="stat-example">
-              <summary>Example: Appearance points</summary>
-              <p>If a player appeared in 24 matches, appearance points = <code>24 x 1 = 24</code>.</p>
-            </details>
-
-            <details class="stat-example">
-              <summary>Example: 60-minute points</summary>
-              <p>If a player made 18 appearances, 12 starts, and played 1,050 minutes, then estimated 60-minute matches = <code>min(18, max(12, floor(1050 / 60))) = min(18, 17) = 17</code>. 60-minute points = <code>17</code>.</p>
-            </details>
-
-            <details class="stat-example">
-              <summary>Example: Goal points</summary>
-              <p>If a midfielder scores 7 goals, goal points = <code>7 x 5 = 35</code>. If a forward scores 7 goals, goal points = <code>7 x 4 = 28</code>.</p>
-            </details>
-
-            <details class="stat-example">
-              <summary>Example: Assist points</summary>
-              <p>If a player has 9 assists, assist points = <code>9 x 3 = 27</code>.</p>
-            </details>
-
-            <details class="stat-example">
-              <summary>Example: Clean sheet points</summary>
-              <p>If a defender has 10 clean sheets, clean sheet points = <code>10 x 4 = 40</code>. If a midfielder has 10 clean sheets, clean sheet points = <code>10 x 1 = 10</code>.</p>
-            </details>
-
-            <details class="stat-example">
-              <summary>Example: Recovery points</summary>
-              <p>If a player has 137 recoveries, recovery points = <code>floor(137 / 3) = 45</code>. The extra 2 recoveries do not make another full point.</p>
-            </details>
-
-            <details class="stat-example">
-              <summary>Example: Goalkeeper save points</summary>
-              <p>If a goalkeeper has 88 saves, goalkeeper save points = <code>floor(88 / 3) = 29</code>. This only applies to goalkeepers.</p>
-            </details>
-
-            <details class="stat-example">
-              <summary>Example: Penalty save points</summary>
-              <p>If a goalkeeper saves 2 penalties, penalty save points = <code>2 x 5 = 10</code>.</p>
-            </details>
-
-            <details class="stat-example">
-              <summary>Example: Goals conceded penalty</summary>
-              <p>If a defender's team conceded 31 goals, goals conceded penalty = <code>floor(31 / 2) x -1 = -15</code>. This penalty applies only to goalkeepers and defenders.</p>
-            </details>
-
-            <details class="stat-example">
-              <summary>Example: Negative points</summary>
-              <p>If a player has 5 yellow cards, 1 red card, and 1 missed penalty, negative points = <code>5 x -1 + 1 x -3 + 1 x -2 = -10</code>.</p>
-            </details>
-
-            <details class="stat-example">
-              <summary>Example: Performance total</summary>
-              <p>A midfielder with 20 appearances, 15 estimated 60-minute matches, 6 goals, 5 assists, 8 clean sheets, 90 recoveries, and 4 yellow cards gets: appearances 20, minutes 15, goals <code>6 x 5 = 30</code>, assists <code>5 x 3 = 15</code>, clean sheets <code>8 x 1 = 8</code>, recoveries <code>floor(90 / 3) = 30</code>, cards <code>4 x -1 = -4</code>. Total estimate = <code>114</code>.</p>
+              <summary>Examples of official scoring values</summary>
+              <p>Official scoring includes assists = 3, yellow cards = -1, red cards = -2, goalkeeper/defender clean sheets = 5, midfielder clean sheets = 1, defender goals = 7, midfielder goals = 6, forward goals = 5, and every 3 goalkeeper saves = 1.</p>
             </details>
           </div>
 
@@ -1337,7 +1280,7 @@
 
           <div class="method-note method-note--warning">
             <strong>Important limits:</strong>
-            These are learning-project estimates, not official World Cup predictions. Some official fantasy stats are missing because the source data does not include them yet, including Player of the Match, penalty won, penalty conceded, and goals from outside the box.
+            These are model projections, not official FIFA predictions. Official scoring, prices, positions, and selectable status are imported, while starts, minutes, live locks, deadlines, boosters, and played/unplayed state still need official-game confirmation before acting.
           </div>
         </div>
       </details>
@@ -1395,7 +1338,7 @@
           <ul class="compact-list">
             <li>Official Data Readiness v0 added to track final squads, fantasy player IDs, fantasy positions, prices, rules, scoring, and deadlines.</li>
             <li>Future official fantasy imports now have a schema contract and repeatable readiness check.</li>
-            <li>The homepage now shows which parts of the model are still waiting for official fantasy data.</li>
+            <li>The homepage added the official-data gate that led to the current official fantasy-pool launch pass.</li>
           </ul>
         </div>
 
@@ -1487,6 +1430,6 @@
     <script src="fantasyPoolFinanceMetricsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolScorePredictionsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolOfficialDataStatusData.js?v=20260603-official-final"></script>
-    <script src="script.js?v=20260603-stable-picks-md1-points"></script>
+    <script src="script.js?v=20260603-launch-final"></script>
   </body>
 </html>

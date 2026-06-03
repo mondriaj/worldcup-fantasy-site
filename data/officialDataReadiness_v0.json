@@ -66,8 +66,8 @@
     {
       "id": "official_rules_scoring_deadlines",
       "label": "Official rules, scoring, and deadlines",
-      "status": "blocked",
-      "current": "data/fantasyRules.json=not_imported; active fantasyRules.json=Draft rules based on past tournament fantasy games. Not official FIFA World Cup 2026 fantasy rules.",
+      "status": "ready",
+      "current": "data/fantasyRules.json=official_imported_with_deadline_manual_check; active fantasyRules.json=official_imported_with_deadline_manual_check",
       "needed": "Official squad rules, budget, country limits, scoring, transfers, boosters, deadlines, captain, and substitutions.",
       "nextAction": "Import official rules, regenerate fantasyRulesData.js, and re-test Team Builder plus decision tools."
     }
@@ -105,8 +105,7 @@
       "final_official_squads",
       "official_fantasy_player_ids",
       "official_fantasy_prices",
-      "official_fantasy_positions",
-      "official_rules_scoring_deadlines"
+      "official_fantasy_positions"
     ]
   }
 }

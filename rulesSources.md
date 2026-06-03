@@ -1,6 +1,6 @@
 # Fantasy Rules Sources
 
-This file records the sources used for the Week 5 fantasy rules research.
+This file records the sources used for the active official fantasy rules summary and the earlier Week 5 rules research.
 
 ## Primary Source
 
@@ -21,8 +21,36 @@ Used for:
 - Confirming broad scoring categories.
 
 Notes:
-- This is the most important source for the draft rules engine.
-- It gives strong high-level rules, but not every detailed edge case.
+- This is the most important public source for the active rules engine.
+- Detailed active values now come from FIFA Play JSON files where available.
+
+### FIFA Play fantasy help pages JSON
+
+URL: https://play.fifa.com/json/fantasy/help_pages.json
+
+Used for:
+- Squad, lineup, budget, transfer, substitution, booster, scoring, and lockout text.
+- Source-backed official rules import in `data/officialFantasyRules_v0.json`.
+
+Notes:
+- This is an official FIFA Play public JSON source.
+- Live deadline and lock semantics should still be confirmed inside the official game before acting.
+
+### FIFA Play fantasy rounds JSON
+
+URL: https://play.fifa.com/json/fantasy/rounds.json
+
+Used for:
+- Round start and end references.
+- Official-data monitor checks for deadline/round changes.
+
+### FIFA Play fantasy language JSON
+
+URL: https://play.fifa.com/json/langs/fantasy/en.json
+
+Used for:
+- Official app labels, modal text, scoring labels, and booster labels.
+- Clean Sheet Shield name and effect.
 
 ## Supporting Sources
 
@@ -85,10 +113,11 @@ Used for:
 Notes:
 - FPL is a season-long club fantasy game, so it should not drive World Cup tournament rules.
 
-## Week 5 Rule Source Decision
+## Current Rule Source Decision
 
-For the Week 5 draft rules engine:
+For the active rules engine:
 - Use FIFA World Cup 2026 as the primary source.
 - Keep detailed scoring, transfers, booster behavior, and formation rules configurable.
 - Do not treat third-party guides as final if they conflict with FIFA.
 - Do not invent rules that are not supported by a source.
+- Keep manual live-game checks for deadlines, locks, boosters, captain changes, substitutions, and played/unplayed state.

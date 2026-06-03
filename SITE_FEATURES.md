@@ -32,7 +32,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 ## Team Builder
 
-- Builds a fantasy squad plan using selected strategy, draft budget, position counts, country limit, locked players, removed players, and filters.
+- Builds a fantasy squad plan using selected strategy, official budget, position counts, country limit, locked players, removed players, and filters.
 - Team Builder is planning help and should be checked against the official game before saving.
 - The Team Builder surface follows visible step cards: choose strategy, lock or avoid players, build squad, review legality and risk, then save or export.
 - Supports advanced risk controls for minimum start probability, expected minutes, data-review count, and risky fill-ins.
@@ -83,8 +83,8 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 ## Official Data Pipelines
 
-- Official fantasy players, prices, positions, selectable status, and scoring have been imported for recommendations.
-- Official fantasy rules now include the Clean Sheet Shield booster rule; deadline semantics still carry a manual-review warning.
+- Official fantasy players, prices, positions, selectable status, scoring, squad structure, budget, country limits, transfers, and boosters have been imported.
+- Official fantasy rules now include the Clean Sheet Shield booster rule; live deadline and lock semantics still require manual confirmation inside FIFA before acting.
 - Official final squad reconciliation remains available as an internal audit trail, while the public site uses FIFA's fantasy pool as the working authority.
 - `scripts/checkOfficialFantasyDataUpdates.mjs` monitors live FIFA fantasy JSON for player, squad, rules, round, and language changes before deciding whether imports or model reruns are needed.
 - Import templates are provided in `data/imports/`.
@@ -100,7 +100,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Score predictions are prototype model outputs, not official projections or betting odds.
 - Captain and substitution tools require manual points and manual played/unplayed checks.
 - The site does not track live scores, official deadlines, official lineup locks, or official fantasy-game legality.
-- Team Import restores current prototype player IDs only and may need migration after official fantasy IDs arrive.
+- Team Import restores current player IDs only and may need migration if future model IDs change.
 - No betting or gambling content is included.
 
 ## Most Important Next Step
