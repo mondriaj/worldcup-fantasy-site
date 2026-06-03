@@ -6,16 +6,19 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 - Static website that can run from GitHub Pages or a local HTTP server.
 - Main fantasy helper page for player recommendations, squad building, matchday decisions, and model inspection.
+- Primary navigation is task-based: Home, Picks, Team Builder, Matchday Desk, Fantasy Finance, World Cup Guide, and Model Notes.
+- The default experience is simple and card-first, with deeper tables, model details, and finance terminology kept in advanced sections.
 - Separate World Cup page for tournament groups, group-stage fixtures, and bracket-path context.
 - Browser-ready data files are loaded directly by the page, so the site does not need runtime API calls.
-- Player names in the main recommendation views open a Player Profile view with identity, role, finance metrics, matchday fixtures, performance signals, and data-quality notes.
+- Player names in the main recommendation views open a Player Profile view focused first on why to pick him, why to be careful, best use, fixture outlook, fantasy finance, and data checks.
 
 ## Player Recommendations
 
-- Quick Picks show Official Fantasy Pool Preview candidates using official fantasy prices, positions, scoring, staged projections, and staged finance metrics.
+- Picks show Official Fantasy Pool Preview candidates using official fantasy prices, positions, scoring, staged projections, and staged finance metrics.
+- Player cards are the default surface and include a short reason, risk label, fixture context, View Profile, and Lock in Builder when the player is available to the prototype builder.
 - Captain Picks focus on staged Captain Alpha preview candidates.
-- Team Advice provides filtered Official Fantasy Pool Preview candidate pools by matchday, position, risk style, and recommendation pool.
-- Recommendation modes include Balanced, Safer Picks, High Upside, and Punts.
+- Team Advice remains available as the deeper Pick Explorer for filtered Official Fantasy Pool Preview candidate pools by matchday, position, risk style, and recommendation pool.
+- Default visible strategy labels are Balanced, Safe, Upside, and Differential, with older/internal controls kept in advanced filters where needed.
 - Recommendation explanations show raw score context, trust-adjusted score context, role risk, data-quality warnings, and fixture environment notes.
 - Preview recommendations remain fantasy-pool-only, not final-squad-backed, not Team Builder-ready, and not final public recommendations.
 
@@ -30,6 +33,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 - Builds a prototype fantasy squad using selected pick style, draft budget, position counts, country limit, locked players, removed players, and filters.
 - Team Builder remains prototype/blocked after the Official Fantasy Pool Preview promotion.
+- The Team Builder surface follows a guided flow: choose strategy, lock or avoid players, build squad, review legality and risk, then save or export.
 - Supports risk controls for minimum start probability, expected minutes, QA-review count, and risky fill-ins.
 - It should not be treated as official or final until final squad and rule gates pass.
 - Provides optimizer warnings when constraints are tight or force weaker/riskier picks.
@@ -38,6 +42,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 ## Portfolio Analytics
 
+- Fantasy Finance uses simple default labels such as Squad Risk Report, Portfolio Health, Bad-Week Floor, Country Stack Risk, Fixture Stack Risk, and Budget Pressure.
 - Squad Portfolio Analytics explains the built squad as a whole, not only as individual picks.
 - Metrics include expected return, risk-adjusted return, volatility, VaR/CVaR floor, QA load, country concentration, fixture concentration, and premium-squeeze warnings.
 - Portfolio Optimizer v0 uses these squad-level metrics as a small adjustment when choosing between completed candidate squads.
@@ -45,6 +50,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 ## Matchday Decision Tools
 
+- Matchday Desk is the repeat-use hub for saved-squad status, captain switch checks, bench switch checks, and the matchday timeline.
 - Captain Change Advisor v0 provides a manual Quick Captain Switch Check.
 - Users enter the current captain's raw fantasy points and compare one possible replacement who has not played yet.
 - The advisor is intentionally conservative with strong captain scores; a 12+ raw captain score should usually lead to keep unless the user is deliberately chasing a risky upside move.
@@ -76,8 +82,10 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 ## Official Data Pipelines
 
 - Official fantasy players, prices, positions, and scoring have been imported for preview recommendations.
-- Official fantasy rules still carry manual-review warnings for Mystery Booster and deadline semantics.
+- Official fantasy rules now include the Clean Sheet Shield booster rule; deadline semantics still carry a manual-review warning.
 - Official final squad reconciliation exists, but final squads are not source-backed yet.
+- Public preview recommendations remain fantasy-pool-based until final squad data becomes source-backed; fantasy-pool selectable status is not final squad confirmation.
+- `scripts/checkOfficialFantasyDataUpdates.mjs` monitors live FIFA fantasy JSON for player, squad, rules, round, and language changes before deciding whether imports or model reruns are needed.
 - Import templates are provided in `data/imports/`.
 - Readiness validation reports whether final model reruns are allowed or still blocked by missing official data.
 
@@ -86,7 +94,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - The site is a public preview, not official FIFA fantasy advice.
 - Public recommendations are labeled Official Fantasy Pool Preview, not final recommendations.
 - Final squad status is not source-backed; fantasy-pool selectable status is not final squad confirmation.
-- Official fantasy prices, positions, and scoring are available for preview, but rules still have manual-review warnings.
+- Official fantasy prices, positions, scoring, and the Clean Sheet Shield booster rule are available for preview, but deadline semantics still have a manual-review warning.
 - Team Builder remains prototype/blocked and should not be treated as final.
 - Score predictions are prototype model outputs, not official projections or betting odds.
 - Captain and substitution tools require manual points and manual played/unplayed checks.

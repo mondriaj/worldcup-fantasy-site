@@ -4,7 +4,9 @@ A static fantasy football website for comparing quick picks, captain options, ca
 
 ## Current Status
 
-This is a public preview. The public recommendation sections now show **Official Fantasy Pool Preview** picks using official fantasy players, prices, positions, and scoring. These are not final-squad-backed recommendations: final squad status is not source-backed yet, rules still have manual-review warnings, and recommendations may change after final squad confirmation.
+This is a public preview. The public recommendation sections now show **Official Fantasy Pool Preview** picks using official fantasy players, prices, positions, and scoring. These are not final-squad-backed recommendations: final squad status is not source-backed yet, deadline semantics still have a manual-review warning, and recommendations may change after final squad confirmation.
+
+The current UX roadmap pass makes the site task-first: Home, Picks, Team Builder, Matchday Desk, Fantasy Finance, World Cup Guide, and Model Notes. The homepage centers the three primary actions - Build My Squad, See Top Picks, and Open Matchday Desk - while long status and methodology details sit lower in the page. Picks are card-first, Player Profile leads with user-facing pick rationale, Team Builder uses a guided flow, and Matchday Desk groups captain, bench, and saved-squad decisions.
 
 Team Builder remains prototype/blocked. It still uses the existing prototype path and should not be treated as official or final until final squad and rule gates pass.
 
@@ -33,9 +35,9 @@ The site can be opened from GitHub Pages or a local server. It loads browser-rea
 
 - `SITE_FEATURES.md` - readable product-level summary of the site's current features, data/model engine, official-data pipelines, and limits
 - `OFFICIAL_DATA_NEXT_STEPS.md` - operational roadmap for what Codex should do when official squads, fantasy players, prices, positions, and rules become available
-- `index.html` - page structure and content
+- `index.html` - task-first page structure, primary navigation, hero actions, Picks, Team Builder, Matchday Desk, Fantasy Finance, World Cup Guide, and Model Notes content
 - `style.css` - responsive layout and visual styling
-- `script.js` - uses browser-ready player, rules, matchday, score-prediction, and Official Fantasy Pool Preview data; public recommendation sections prefer preview candidates with legacy fallback, while Team Builder remains on the prototype path
+- `script.js` - uses browser-ready player, rules, matchday, score-prediction, and Official Fantasy Pool Preview data; public recommendation sections prefer preview candidates with legacy fallback, Player Profile can send available players into Team Builder, while Team Builder remains on the prototype path
 - `AGENTS.md` - project instructions for Codex, including the player/rules data loading pattern
 - `WEEK6_RECOMMENDATION_ENGINE_PLAN.md` - living plan for recommendation trust, Team Advice filters, Team Builder constraints, proxy price calibration, portfolio-aware optimization, and future score-predictor upgrades
 - `players.json` - source player dataset
@@ -96,7 +98,7 @@ The site can be opened from GitHub Pages or a local server. It loads browser-rea
 
 - Public recommendation sections are Official Fantasy Pool Preview recommendations, not final fantasy advice.
 - Final squad status is not source-backed; fantasy-pool selectable status is not final squad confirmation.
-- Official fantasy prices, positions, and scoring are imported for preview recommendations, but Mystery Booster and deadline semantics still have manual-review warnings.
+- Official fantasy prices, positions, scoring, and the Clean Sheet Shield booster rule are imported for preview recommendations, but deadline semantics still have a manual-review warning.
 - Official Data Readiness v0 still reports `blocked_waiting_for_official_fantasy_data` because final squads and remaining rule warnings are unresolved.
 - Team Builder remains prototype/blocked and should not be treated as official or final.
 - Optimizer v0 is a practical browser-side search, not a final tournament prediction model.
@@ -134,6 +136,14 @@ Official-data readiness check:
 ```bash
 node scripts/validateOfficialDataReadiness.mjs
 ```
+
+Official fantasy data update check:
+
+```bash
+node scripts/checkOfficialFantasyDataUpdates.mjs
+```
+
+This compares live FIFA fantasy players, squads, rules/help pages, rounds, and language JSON against the local official-data staging files. It writes `data/officialFantasyDataUpdateCheck_v1.json` and `data/officialFantasyDataUpdateCheckReport_v1.md`, then recommends whether an import or model rerun is needed. It does not import data or rerun models.
 
 Official fantasy player import pipeline:
 

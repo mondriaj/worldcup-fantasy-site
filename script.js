@@ -254,6 +254,7 @@ function fantasyPoolCandidateToPlayer(candidate) {
     minutes_model_source_note: `Role label: ${titleFromSnake(candidate.role_label || "unclear")}; confidence: ${titleFromSnake(candidate.role_confidence || confidence)}.`,
     preview_why_pick: candidate.why_pick || [],
     preview_why_careful: candidate.why_careful || [],
+    preview_finance_context: candidate.finance_context || {},
     preview_mode_label: candidate.mode_label || titleFromSnake(candidate.mode),
     preview_matchday: candidate.matchday,
     preview_opponent: candidate.opponent,
@@ -285,6 +286,10 @@ function fantasyPoolPreviewCandidatesForMode(mode, matchdayId = activeMatchdayId
 }
 
 function fantasyPoolPreviewModeForAdvice(measureKey, trustMode) {
+  if (["balanced", "safe", "upside", "differential", "captain"].includes(measureKey)) {
+    return measureKey;
+  }
+
   if (trustMode?.id === "strict" || ["safe", "minutes", "lowTailRisk", "var10", "cvar20", "defensiveHeavy"].includes(measureKey)) {
     return "safe";
   }
@@ -485,7 +490,8 @@ const countryDisplayNames = {
 // Each measure has a score function and a beginner explanation for the info panel.
 const measures = {
   balanced: {
-    label: "Best Overall",
+    label: "Balanced",
+    optionLabel: "Balanced",
     description: "Best all-around option. It balances expected return, reliability, source confidence, and risk.",
     formula: "Uses the Week 6 risk-adjusted strategy score when available. It blends expected fantasy return, reliability, lower composite risk, and lower tail risk.",
     score: (player) => scoreValue(player, "finance_strategy_risk_adjusted", "risk_adjusted_overall_score")
@@ -497,7 +503,8 @@ const measures = {
     score: (player) => scoreValue(player, "finance_expected_return_points", "risk_adjusted_expected_points_estimate")
   },
   safe: {
-    label: "Reliable Pick",
+    label: "Safe",
+    optionLabel: "Safe",
     description: "Favors steady players with lower risk before chasing upside.",
     formula: "Uses the Week 6 safe-floor strategy score when available. It rewards expected return, minutes security, lower source risk, and lower downside risk.",
     score: (player) => hasScoreValue(player, "finance_strategy_safe_floor")
@@ -505,7 +512,8 @@ const measures = {
       : (100 - value(player.risk_composite_score)) + value(player.risk_adjusted_expected_points_estimate) * 8
   },
   upside: {
-    label: "Upside Pick",
+    label: "Upside",
+    optionLabel: "Upside",
     description: "Looks for players who produce a lot when they are on the field.",
     formula: "Uses the Week 6 upside strategy score when available. It leans toward high expected return, high per-90 upside, and positive event involvement.",
     score: (player) => scoreValue(player, "finance_strategy_upside", "euro_style_points_per90_estimate")
@@ -622,6 +630,24 @@ const measures = {
     description: "A deliberately aggressive style for boom-or-bust recommendations.",
     formula: "Uses the Week 6 very-risky strategy score. It rewards upside, volatility, event dependency, and high-risk profiles, so it should be used as an aggressive watchlist.",
     score: (player) => scoreValue(player, "finance_strategy_very_risky")
+  },
+  differential: {
+    label: "Differential",
+    optionLabel: "Differential",
+    description: "Looks for lower-obviousness or mispriced players with a defensible projection.",
+    formula: "Uses the staged Differential candidate score when available. Legacy fallback uses the very-risky finance strategy with QA penalties.",
+    score: (player) => player.preview_candidate?.mode === "differential"
+      ? scoreValue(player, "finance_strategy_risk_adjusted")
+      : scoreValue(player, "finance_strategy_very_risky")
+  },
+  captain: {
+    label: "Captain Alpha",
+    optionLabel: "Captain Alpha",
+    description: "Ranks armband candidates by captain ceiling, starts, raw points, and fixture context.",
+    formula: "Uses the staged Captain Alpha score when available. Legacy fallback uses the captain score.",
+    score: (player) => player.preview_candidate?.mode === "captain"
+      ? scoreValue(player, "finance_strategy_risk_adjusted")
+      : scoreValue(player, "finance_captain_score")
   }
 };
 
@@ -629,13 +655,130 @@ Object.entries(measures).forEach(([key, measure]) => {
   measure.key = key;
 });
 
+function previewFinanceContext(player) {
+  return player.preview_candidate?.finance_context || player.preview_finance_context || {};
+}
+
+function financeContextScore(player, fieldName) {
+  const rawValue = previewFinanceContext(player)[fieldName];
+  if (rawValue === null || rawValue === undefined || rawValue === "") return null;
+
+  const valueFromContext = Number(rawValue);
+  return Number.isFinite(valueFromContext) ? valueFromContext : null;
+}
+
+const financeLenses = {
+  styleRanking: {
+    id: "styleRanking",
+    label: "Style Ranking",
+    shortLabel: "Style",
+    description: "Keep the selected recommendation style order.",
+    defaultLens: true,
+    value: () => null
+  },
+  financeAlpha: {
+    id: "financeAlpha",
+    label: "Finance Alpha",
+    shortLabel: "Alpha",
+    description: "How much better the player looks than price, risk, and obviousness suggest.",
+    value: (player) => financeContextScore(player, "finance_alpha_score")
+  },
+  valueOverReplacement: {
+    id: "valueOverReplacement",
+    label: "Value Over Replacement",
+    shortLabel: "VOR",
+    description: "Replacement-aware value signal when available; preview fallback uses risk-adjusted points per price.",
+    value: (player) => {
+      const replacementValue = financeContextScore(player, "value_over_replacement");
+      if (Number.isFinite(replacementValue)) return replacementValue;
+
+      const adjustedReturn = optionalScoreValue(player, "finance_risk_adjusted_return_points");
+      const price = proxyPrice(player);
+      return Number.isFinite(adjustedReturn) && price > 0 ? adjustedReturn / Math.max(price, 0.1) : null;
+    }
+  },
+  downsideFloor: {
+    id: "downsideFloor",
+    label: "Downside Floor",
+    shortLabel: "Floor",
+    description: "Higher means a better modeled floor and less downside pressure.",
+    value: (player) => {
+      const downside = financeContextScore(player, "downside_risk_score");
+      const floor = optionalScoreValue(player, "finance_var10_points");
+      return Number.isFinite(downside) ? Math.max(0, 100 - downside) : floor;
+    }
+  },
+  volatility: {
+    id: "volatility",
+    label: "Low Volatility",
+    shortLabel: "Low Vol",
+    description: "Higher means less modeled volatility.",
+    value: (player) => {
+      const volatility = financeContextScore(player, "volatility_score");
+      const risk = optionalScoreValue(player, "finance_composite_risk_score", "risk_composite_score");
+      return Number.isFinite(volatility)
+        ? Math.max(0, 100 - volatility)
+        : Number.isFinite(risk) ? Math.max(0, 100 - risk) : null;
+    }
+  },
+  portfolioFit: {
+    id: "portfolioFit",
+    label: "Portfolio Fit",
+    shortLabel: "Portfolio",
+    description: "How well the player fits a balanced fantasy portfolio.",
+    value: (player) => financeContextScore(player, "portfolio_fit_score")
+  },
+  premiumCheck: {
+    id: "premiumCheck",
+    label: "Premium Check",
+    shortLabel: "Premium",
+    description: "Higher means less premium squeeze or overpay pressure.",
+    value: (player) => {
+      const squeeze = financeContextScore(player, "premium_squeeze_score");
+      const overpayRisk = optionalScoreValue(player, "overpay_risk_v1", "overpay_risk");
+      const premiumWorthIt = optionalScoreValue(player, "premium_worth_it_score_v1", "premium_worth_it_score");
+      if (Number.isFinite(squeeze)) return Math.max(0, 100 - squeeze);
+      if (Number.isFinite(overpayRisk)) return Math.max(0, 100 - overpayRisk);
+      return premiumWorthIt;
+    }
+  },
+  sharpe: {
+    id: "sharpe",
+    label: "Sharpe-Like Efficiency",
+    shortLabel: "Sharpe",
+    description: "Expected return balanced against overall volatility.",
+    value: (player) => optionalScoreValue(player, "finance_sharpe_like_percentile", "risk_adjusted_sharpe_like")
+  },
+  sortino: {
+    id: "sortino",
+    label: "Sortino-Like Efficiency",
+    shortLabel: "Sortino",
+    description: "Expected return balanced against downside volatility.",
+    value: (player) => optionalScoreValue(player, "finance_sortino_like_percentile", "risk_adjusted_sortino_like")
+  },
+  var10: {
+    id: "var10",
+    label: "VaR Floor",
+    shortLabel: "VaR",
+    description: "Modeled 10th percentile floor.",
+    value: (player) => optionalScoreValue(player, "finance_var10_points")
+  },
+  cvar20: {
+    id: "cvar20",
+    label: "CVaR Worst-Case Floor",
+    shortLabel: "CVaR",
+    description: "Average of the worst modeled outcomes.",
+    value: (player) => optionalScoreValue(player, "finance_cvar20_points")
+  }
+};
+
 const trustModes = {
   strict: {
     id: "strict",
-    label: "Safer Picks",
-    optionLabel: "Safer Picks",
-    description: "Lower-risk recommendations. Strongly prefers confirmed players with better data, starts, minutes, and downside profile without making the squad builder feel blocked.",
-    formula: "Safer Picks strongly penalizes uncertain roster status, non-safe recommendation use, data confidence below 65, start probability below 55%, expected minutes below 45, composite risk 65+, and tail risk 70+. It keeps players available so the builder can still complete squads.",
+    label: "Safe",
+    optionLabel: "Safe",
+    description: "Lower-risk preference. Strongly prefers confirmed players with better data, starts, minutes, and downside profile without making the squad builder feel blocked.",
+    formula: "Conservative strongly penalizes uncertain roster status, non-safe recommendation use, data confidence below 65, start probability below 55%, expected minutes below 45, composite risk 65+, and tail risk 70+. It keeps players available so the builder can still complete squads.",
     filtersRanking: false,
     minDataConfidence: 65,
     minStartProbability: 55,
@@ -665,10 +808,10 @@ const trustModes = {
   },
   aggressive: {
     id: "aggressive",
-    label: "High Upside",
-    optionLabel: "High Upside",
-    description: "Allows more uncertainty for users chasing upside. QA warnings still appear, but the score penalty is lighter.",
-    formula: "High Upside keeps the full player pool, applies lighter QA penalties, and adds a small boost for upside, attack-heavy, and very-risky profile signals.",
+    label: "Upside",
+    optionLabel: "Upside",
+    description: "Allows more uncertainty for users chasing upside. Data warnings still appear, but the score penalty is lighter.",
+    formula: "Aggressive keeps the full player pool, applies lighter QA penalties, and adds a small boost for upside, attack-heavy, and very-risky profile signals.",
     filtersRanking: false,
     flagPenaltyMultiplier: 0.35,
     failurePenalty: 0,
@@ -678,9 +821,9 @@ const trustModes = {
   },
   chaos: {
     id: "chaos",
-    label: "Punts",
-    optionLabel: "Punts",
-    description: "Speculative mode for differential picks and boom-or-bust watchlists. It tolerates weak floors and rewards upside, volatility, and upset context.",
+    label: "Differential",
+    optionLabel: "Differential",
+    description: "Speculative mode for differential picks and boom-or-bust watchlists. It tolerates weak floors and rewards upside and upset context.",
     formula: "Punts applies only small QA penalties, then boosts very-risky strategy score, upside percentile, volatility percentile, and match upset probability.",
     filtersRanking: false,
     flagPenaltyMultiplier: 0.15,
@@ -809,7 +952,7 @@ const cardStats = {
     value: (player) => value(player.risk_composite_score)
   },
   tailRisk: {
-    label: "Tail Risk",
+    label: "Squad Risk",
     value: (player) => value(player.risk_tail_score)
   },
   sharpe: {
@@ -833,7 +976,7 @@ const cardStats = {
     value: (player) => scoreValue(player, "substitution_risk")
   },
   proxyPrice: {
-    label: "Proxy Price",
+    label: "Budget Price",
     value: (player) => proxyPrice(player)
   },
   bestValue: {
@@ -849,15 +992,15 @@ const cardStats = {
     value: (player) => scoreValue(player, "premium_worth_it_score_v1", "premium_worth_it_score")
   },
   overpayRisk: {
-    label: "Overpay Risk",
+    label: "Budget Pressure",
     value: (player) => scoreValue(player, "overpay_risk_v1", "overpay_risk")
   },
   var10: {
-    label: "VaR 10%",
+    label: "Bad-Week Floor",
     value: (player) => scoreValue(player, "finance_var10_points")
   },
   cvar20: {
-    label: "CVaR Worst 20%",
+    label: "Worst-Case Floor",
     value: (player) => scoreValue(player, "finance_cvar20_points")
   },
   omega: {
@@ -897,6 +1040,7 @@ const squadRuleNote = document.getElementById("squad-rule-note");
 const tacticSelect = document.getElementById("tactic-select");
 const measureSelect = document.getElementById("measure-select");
 const adviceMeasureSelect = document.getElementById("advice-measure-select");
+const adviceFinanceLensSelect = document.getElementById("advice-finance-lens-select");
 const advicePositionSelect = document.getElementById("advice-position-select");
 const adviceMatchdaySelect = document.getElementById("advice-matchday-select");
 const advicePoolSelect = document.getElementById("advice-pool-select");
@@ -980,7 +1124,9 @@ const summaryBudget = document.getElementById("summary-budget");
 const summaryRisk = document.getElementById("summary-risk");
 const summaryLocked = document.getElementById("summary-locked");
 const dashboardGrid = document.getElementById("dashboard-grid");
+const captainCardGrid = document.getElementById("captain-card-grid");
 const captainTableBody = document.getElementById("captain-table-body");
+const adviceCardGrid = document.getElementById("advice-card-grid");
 const adviceTableBody = document.getElementById("advice-table-body");
 const adviceStyleNote = document.getElementById("advice-style-note");
 const trustModeSummary = document.getElementById("trust-mode-summary");
@@ -1068,6 +1214,24 @@ function scoreValue(player, ...fieldNames) {
   const fieldName = fieldNames.find((name) => hasScoreValue(player, name));
 
   return fieldName ? Number(player[fieldName]) : 0;
+}
+
+function optionalScoreValue(player, ...fieldNames) {
+  const projection = activeProjection(player);
+
+  if (projection) {
+    const projectedField = fieldNames
+      .map(projectionFieldName)
+      .find((fieldName) => hasScoreValue(projection, fieldName));
+
+    if (projectedField) {
+      return Number(projection[projectedField]);
+    }
+  }
+
+  const fieldName = fieldNames.find((name) => hasScoreValue(player, name));
+
+  return fieldName ? Number(player[fieldName]) : null;
 }
 
 function projectionContextText(player) {
@@ -1756,7 +1920,7 @@ function activeAdvicePoolMode() {
 }
 
 function trustModeLabel(mode = activeTrustMode()) {
-  return `${mode.label} trust mode`;
+  return `${mode.label} confidence`;
 }
 
 function measureKeyForTrust(measure = activeMeasure()) {
@@ -2108,13 +2272,24 @@ function profileRoleGrid(player) {
 }
 
 function profileFinanceGrid(player) {
+  const context = previewFinanceContext(player);
+  const premiumSqueeze = financeContextScore(player, "premium_squeeze_score");
+  const previewFinanceMetrics = Object.keys(context).length ? `
+      ${profileMetric("Undervalued Assets", profileScore(financeContextScore(player, "finance_alpha_score")), "price/risk edge")}
+      ${profileMetric("Portfolio Fit", profileScore(financeContextScore(player, "portfolio_fit_score")), "squad fit")}
+      ${profileMetric("Bad-Week Floor", profileScore(Number.isFinite(financeContextScore(player, "downside_risk_score")) ? 100 - financeContextScore(player, "downside_risk_score") : null), "higher is safer")}
+      ${profileMetric("Portfolio Health", profileScore(Number.isFinite(financeContextScore(player, "volatility_score")) ? 100 - financeContextScore(player, "volatility_score") : null), "steadiness")}
+      ${profileMetric("Role Stability", profileScore(financeContextScore(player, "role_stability_score")), "0 low, 100 high")}
+      ${profileMetric("Budget Pressure", profileScore(Number.isFinite(premiumSqueeze) ? 100 - premiumSqueeze : null), "higher is easier to justify")}
+  ` : "";
+
   return `
     <div class="profile-grid profile-grid--finance">
+      ${previewFinanceMetrics}
       ${profileMetric("Expected Return", profileScore(scoreValue(player, "finance_expected_return_points")), "points")}
       ${profileMetric("Risk-Adjusted Return", profileScore(scoreValue(player, "finance_risk_adjusted_return_points")), "points")}
-      ${profileMetric("Volatility", profileScore(scoreValue(player, "finance_volatility_points")), "points")}
-      ${profileMetric("VaR 10%", profileScore(scoreValue(player, "finance_var10_points")), "bad-outcome floor")}
-      ${profileMetric("CVaR Worst 20%", profileScore(scoreValue(player, "finance_cvar20_points")), "worst-case basket")}
+      ${profileMetric("Bad-Week Floor", profileScore(scoreValue(player, "finance_var10_points")), "bad-outcome floor")}
+      ${profileMetric("Worst-Case Floor", profileScore(scoreValue(player, "finance_cvar20_points")), "worst-case basket")}
       ${profileMetric("Sharpe-Style", profileScore(scoreValue(player, "finance_sharpe_like_percentile", "risk_adjusted_sharpe_like")), "percentile")}
       ${profileMetric("Sortino-Style", profileScore(scoreValue(player, "finance_sortino_like_percentile", "risk_adjusted_sortino_like")), "percentile")}
       ${profileMetric("Omega-Style", profileScore(scoreValue(player, "finance_omega_like_percentile")), "percentile")}
@@ -2122,6 +2297,64 @@ function profileFinanceGrid(player) {
       ${profileMetric("Tail Risk", profileScore(scoreValue(player, "finance_tail_risk_score", "risk_tail_score")), "0 low, 100 high")}
       ${profileMetric("Composite Risk", profileScore(scoreValue(player, "finance_composite_risk_score", "risk_composite_score")), "0 low, 100 high")}
       ${profileMetric("Upside Per 90", profileScore(scoreValue(player, "finance_upside_p90_points", "euro_style_points_per90_estimate")), "points")}
+    </div>
+  `;
+}
+
+function previewListItems(items, fallback) {
+  const values = Array.isArray(items) ? items.filter(Boolean) : [];
+  const list = values.length ? values : [fallback];
+  return list.slice(0, 3).map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+}
+
+function profileWhyPickPanel(player) {
+  const previewPickReasons = player.preview_why_pick || player.preview_candidate?.why_pick;
+  const previewCarefulReasons = player.preview_why_careful || player.preview_candidate?.why_careful;
+  const defaultPick = player.short_reason || styleReason(player, measureKeyForTrust(activeMeasure()));
+  const risk = scoreValue(player, "finance_composite_risk_score", "risk_composite_score");
+  const start = scoreValue(player, "start_probability_percent");
+  const defaultCareful = risk >= 65
+    ? `Risk is elevated at ${displayNumber(risk)}, so check role and matchup before relying on him.`
+    : start < 45
+      ? `Start probability is only ${displayNumber(start)}%, so confirm role news before locking him in.`
+      : "Final squad status and matchday role still need manual confirmation.";
+
+  return `
+    <div class="profile-reason-grid">
+      <article class="profile-reason-card profile-reason-card--pick">
+        <h4>Why Pick Him</h4>
+        <ul>${previewListItems(previewPickReasons, defaultPick)}</ul>
+      </article>
+      <article class="profile-reason-card profile-reason-card--careful">
+        <h4>Why Be Careful</h4>
+        <ul>${previewListItems(previewCarefulReasons, defaultCareful)}</ul>
+      </article>
+    </div>
+  `;
+}
+
+function profileBestUseGrid(player, measureKey = measureKeyForTrust(activeMeasure())) {
+  const risk = scoreValue(player, "finance_composite_risk_score", "risk_composite_score");
+  const start = scoreValue(player, "start_probability_percent");
+  const expected = scoreValue(player, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate");
+  const captain = scoreValue(player, "finance_captain_score");
+  const strategy = measures[measureKey]?.label || titleFromSnake(measureKey);
+  const bestUse = measureKey === "captain" || captain >= 70
+    ? "Captain shortlist"
+    : measureKey === "safe" || (risk <= 45 && start >= 65)
+      ? "Safe starter"
+      : measureKey === "upside"
+        ? "Upside swing"
+        : measureKey === "differential"
+          ? "Differential watch"
+          : "Balanced pick";
+
+  return `
+    <div class="profile-grid profile-grid--compact">
+      ${profileMetric("Best Use", bestUse, strategy)}
+      ${profileMetric("Projected Score", profileScore(expected), "risk-aware points")}
+      ${profileMetric("Risk Label", pickRiskLabel(player), `${displayNumber(risk)} risk score`)}
+      ${profileMetric("Start Chance", profileScore(start, "%"), titleFromSnake(player.country_role))}
     </div>
   `;
 }
@@ -2195,6 +2428,21 @@ function profileNotesList(player) {
   return notes.map((note) => `<li>${escapeHtml(note)}</li>`).join("");
 }
 
+function profileBuilderActionHtml(player) {
+  const lockId = builderLockPlayerId(player);
+  const alreadyLocked = lockId && lockedPlayerIds.has(lockId);
+  const lockLabel = alreadyLocked ? "Locked" : "Lock in Builder";
+  const lockButton = lockId
+    ? `<button class="pick-card__action pick-card__action--lock" type="button" data-lock-player-id="${escapeHtml(lockId)}"${alreadyLocked ? " disabled" : ""}>${lockLabel}</button>`
+    : `<button class="pick-card__action" type="button" disabled title="This preview player is not available in the prototype Team Builder path.">Preview only</button>`;
+
+  return `
+    <div class="profile-action-row">
+      ${lockButton}
+    </div>
+  `;
+}
+
 function renderPlayerDetail(player, measureKey = measureKeyForTrust(activeMeasure())) {
   const recommendationTags = playerRecommendationLabels(player, measureKey)
     .map((label) => profileTag(label.text, label.kind))
@@ -2211,26 +2459,22 @@ function renderPlayerDetail(player, measureKey = measureKeyForTrust(activeMeasur
   playerDetailBody.innerHTML = `
     <div class="profile-tags">
       ${recommendationTags}
-      ${strategyTags}
     </div>
 
+    ${profileBuilderActionHtml(player)}
+
     <section class="profile-section">
-      <h3>Identity</h3>
-      ${profileIdentityGrid(player)}
+      <h3>Why Pick Him</h3>
+      ${profileWhyPickPanel(player)}
     </section>
 
     <section class="profile-section">
-      <h3>Role Model</h3>
-      ${profileRoleGrid(player)}
+      <h3>Best Use</h3>
+      ${profileBestUseGrid(player, measureKey)}
     </section>
 
     <section class="profile-section">
-      <h3>Finance Metrics</h3>
-      ${profileFinanceGrid(player)}
-    </section>
-
-    <section class="profile-section">
-      <h3>Matchday Fixtures</h3>
+      <h3>Fixture Outlook</h3>
       <div class="table-wrapper player-detail-table-wrapper">
         <table>
           <thead>
@@ -2251,14 +2495,35 @@ function renderPlayerDetail(player, measureKey = measureKeyForTrust(activeMeasur
     </section>
 
     <section class="profile-section">
-      <h3>Performance Signals</h3>
-      ${profilePerformanceGrid(player)}
+      <h3>Fantasy Finance</h3>
+      ${profileFinanceGrid(player)}
     </section>
 
     <section class="profile-section">
-      <h3>Recommendation QA</h3>
+      <h3>Data Checks</h3>
       ${profileQaPanel(player, measureKey)}
     </section>
+
+    <details class="profile-section profile-section--advanced">
+      <summary>Advanced player details</summary>
+      <div class="profile-advanced-body">
+        <div class="profile-tags">
+          ${strategyTags}
+        </div>
+        <section class="profile-section">
+          <h3>Identity</h3>
+          ${profileIdentityGrid(player)}
+        </section>
+        <section class="profile-section">
+          <h3>Role Model</h3>
+          ${profileRoleGrid(player)}
+        </section>
+        <section class="profile-section">
+          <h3>Performance Signals</h3>
+          ${profilePerformanceGrid(player)}
+        </section>
+      </div>
+    </details>
 
     <section class="profile-section">
       <h3>Data Quality Notes</h3>
@@ -2486,6 +2751,10 @@ function activeMeasure() {
 
 function activeAdviceMeasure() {
   return measureFromSelect(adviceMeasureSelect);
+}
+
+function activeAdviceFinanceLens() {
+  return financeLenses[adviceFinanceLensSelect?.value] || financeLenses.styleRanking;
 }
 
 function activeCardStat() {
@@ -5069,16 +5338,16 @@ function portfolioWarningsForAnalytics(analytics) {
   if (analytics.qaReviewCount > 0) {
     warnings.push({
       kind: analytics.qaReviewCount >= 3 ? "review" : "watch",
-      label: "QA Load",
-      detail: `${analytics.qaReviewCount} squad player${analytics.qaReviewCount === 1 ? "" : "s"} carry QA review status and ${analytics.qaWatchCount} carry watch status.`
+      label: "Data Checks",
+      detail: `${analytics.qaReviewCount} squad player${analytics.qaReviewCount === 1 ? "" : "s"} need review and ${analytics.qaWatchCount} carry watch status.`
     });
   }
 
   if (analytics.premiumPlayers >= 3 && analytics.benchWeakCount >= 2) {
     warnings.push({
       kind: "review",
-      label: "Premium Squeeze",
-      detail: `${analytics.premiumPlayers} premium proxy-price players are forcing ${analytics.benchWeakCount} weak bench or low-minutes picks.`
+      label: "Budget Pressure",
+      detail: `${analytics.premiumPlayers} premium players are forcing ${analytics.benchWeakCount} weak bench or low-minutes picks.`
     });
   } else if (analytics.benchWeakCount >= 2) {
     warnings.push({
@@ -5091,7 +5360,7 @@ function portfolioWarningsForAnalytics(analytics) {
   if (topCountryCount >= groupStageCountryLimit) {
     warnings.push({
       kind: "watch",
-      label: "Country Concentration",
+      label: "Country Stack Risk",
       detail: `${topCountryLabel} is at the group-stage country limit with ${topCountryCount}/${groupStageCountryLimit} players.`
     });
   }
@@ -5099,7 +5368,7 @@ function portfolioWarningsForAnalytics(analytics) {
   if (analytics.hardestMatchdayHardFixtures >= 3) {
     warnings.push({
       kind: "watch",
-      label: "Fixture Concentration",
+      label: "Fixture Stack Risk",
       detail: `${analytics.hardestMatchday.label} has ${analytics.hardestMatchdayHardFixtures} starters in hard fixtures.`
     });
   }
@@ -5107,7 +5376,7 @@ function portfolioWarningsForAnalytics(analytics) {
   if (analytics.tailRiskAverage >= 65) {
     warnings.push({
       kind: "review",
-      label: "Tail Risk",
+      label: "Bad-Week Floor",
       detail: `Average squad tail risk is ${displayNumber(analytics.tailRiskAverage)}, so bad-outcome exposure is high.`
     });
   }
@@ -5115,7 +5384,7 @@ function portfolioWarningsForAnalytics(analytics) {
   if (!warnings.length) {
     warnings.push({
       kind: "pass",
-      label: "Portfolio Balance",
+      label: "Portfolio Health",
       detail: "No major squad-level portfolio warning is triggered by the current prototype thresholds."
     });
   }
@@ -5303,7 +5572,7 @@ function renderPortfolioAnalytics(starters = [], bench = []) {
   if (!squad.length) {
     portfolioAnalytics.classList.remove("portfolio-analytics--low", "portfolio-analytics--medium", "portfolio-analytics--high");
     portfolioRiskLabel.textContent = "Waiting";
-    portfolioSummary.textContent = "Build a squad to see expected return, downside risk, QA load, and fixture concentration.";
+    portfolioSummary.textContent = "Build a squad to see portfolio health, bad-week floor, data checks, and fixture stack risk.";
     portfolioMetrics.innerHTML = "";
     portfolioWarnings.innerHTML = "";
     return;
@@ -5321,16 +5590,16 @@ function renderPortfolioAnalytics(starters = [], bench = []) {
   portfolioRiskLabel.textContent = riskLevel.label;
   portfolioSummary.textContent = `${activeMeasure().label}, ${trustModeLabel()}, ${activeMatchdayLabel()}. Top country: ${topCountryLabel} ${analytics.topCountry[1]}/${groupStageCountryLimit}. Fixture spread: ${fixtureSummary}.`;
   portfolioMetrics.innerHTML = [
-    portfolioMetric("XI Expected", portfolioNumber(analytics.starterExpected), "points"),
-    portfolioMetric("XI Risk-Adjusted", portfolioNumber(analytics.starterRiskAdjusted), "points"),
+    portfolioMetric("Projected Points", portfolioNumber(analytics.starterExpected), "starting XI"),
+    portfolioMetric("Risk-Aware Points", portfolioNumber(analytics.starterRiskAdjusted), "starting XI"),
     portfolioMetric("Avg Start", portfolioNumber(analytics.startAverage, "%"), "starting XI"),
     portfolioMetric("Expected Minutes", portfolioNumber(analytics.expectedMinutesTotal), "starting XI total"),
-    portfolioMetric("Volatility", portfolioNumber(analytics.starterVolatility), "XI portfolio"),
-    portfolioMetric("VaR 10%", portfolioNumber(analytics.starterVar10), "XI bad-outcome floor"),
-    portfolioMetric("CVaR Worst 20%", portfolioNumber(analytics.starterCvar20), "XI worst-case basket"),
-    portfolioMetric("Tail Risk", portfolioNumber(analytics.tailRiskAverage), "squad average"),
-    portfolioMetric("QA Review", String(analytics.qaReviewCount), `${analytics.qaWatchCount} watch`),
-    portfolioMetric("Premium Squeeze", `${analytics.premiumPlayers} premium`, `${analytics.benchWeakCount} weak bench`)
+    portfolioMetric("Portfolio Health", portfolioNumber(Math.max(0, 100 - analytics.starterVolatility)), "higher is steadier"),
+    portfolioMetric("Bad-Week Floor", portfolioNumber(analytics.starterVar10), "starting XI"),
+    portfolioMetric("Worst-Case Floor", portfolioNumber(analytics.starterCvar20), "starting XI"),
+    portfolioMetric("Squad Risk", portfolioNumber(analytics.tailRiskAverage), "average"),
+    portfolioMetric("Data Checks", String(analytics.qaReviewCount), `${analytics.qaWatchCount} watch`),
+    portfolioMetric("Budget Pressure", `${analytics.premiumPlayers} premium`, `${analytics.benchWeakCount} weak bench`)
   ].join("");
   portfolioWarnings.innerHTML = portfolioWarningsForAnalytics(analytics)
     .map((warning) => portfolioWarningItem(warning.kind, warning.label, warning.detail))
@@ -6193,30 +6462,23 @@ async function importTeamJson(event) {
 }
 
 function renderMeasureOptions() {
-  const simpleMeasureKeys = ["balanced", "expected", "safe", "upside", "minutes"];
-  const valueMeasureKeys = ["bestValue", "cheapEnabler", "premiumWorthIt"];
-  const advancedMeasureKeys = ["sharpe", "sortino", "lowTailRisk", "var10", "cvar20", "omega"];
-  const financeMeasureKeys = ["attackHeavy", "defensiveHeavy", "veryRisky"];
+  const recommendationStyleKeys = ["balanced", "safe", "upside", "differential", "captain"];
   const renderOptions = (keys) => keys
     .map((key) => `<option value="${key}">${measures[key].optionLabel || measures[key].label}</option>`)
     .join("");
-  const measureOptions = `
-    <optgroup label="Simple fantasy styles">
-      ${renderOptions(simpleMeasureKeys)}
-    </optgroup>
-    <optgroup label="Prototype value styles">
-      ${renderOptions(valueMeasureKeys)}
-    </optgroup>
-    <optgroup label="Finance risk styles">
-      ${renderOptions(advancedMeasureKeys)}
-    </optgroup>
-    <optgroup label="Portfolio tilt styles">
-      ${renderOptions(financeMeasureKeys)}
-    </optgroup>
-  `;
+  const measureOptions = renderOptions(recommendationStyleKeys);
 
   measureSelect.innerHTML = measureOptions;
   adviceMeasureSelect.innerHTML = measureOptions;
+}
+
+function renderFinanceLensOptions() {
+  if (!adviceFinanceLensSelect) return;
+
+  adviceFinanceLensSelect.innerHTML = Object.values(financeLenses)
+    .map((lens) => `<option value="${lens.id}">${lens.label}</option>`)
+    .join("");
+  adviceFinanceLensSelect.value = "styleRanking";
 }
 
 function renderTrustModeOptions() {
@@ -6271,7 +6533,7 @@ function renderMeasureInfo() {
     <p>${measure.description}</p>
     <p><strong>How it is calculated:</strong> ${measure.formula}</p>
     <p><strong>Matchday view:</strong> ${matchdayCopy}</p>
-    <p><strong>Trust mode:</strong> ${trustMode.formula}</p>
+    <p><strong>Risk appetite:</strong> ${trustMode.formula}</p>
   `;
 }
 
@@ -7614,8 +7876,243 @@ function fantasyPoolPreviewTableScore(player, label = "Preview score") {
   `;
 }
 
+function financeLensDisplayValue(player, lens = activeAdviceFinanceLens()) {
+  const rawValue = lens.value(player);
+  if (rawValue === null || rawValue === undefined || rawValue === "") return null;
+
+  const numericValue = Number(rawValue);
+  return Number.isFinite(numericValue) ? numericValue : null;
+}
+
+function sortByFinanceLens(playerList, lens = activeAdviceFinanceLens()) {
+  if (!lens || lens.defaultLens) return [...playerList];
+
+  return [...playerList].sort((a, b) => {
+    const aValue = financeLensDisplayValue(a, lens);
+    const bValue = financeLensDisplayValue(b, lens);
+    const aRank = Number.isFinite(aValue) ? aValue : -Infinity;
+    const bRank = Number.isFinite(bValue) ? bValue : -Infinity;
+    return bRank - aRank || Number(a.preview_candidate?.rank || 999) - Number(b.preview_candidate?.rank || 999);
+  });
+}
+
+function financeLensChip(player, lens = activeAdviceFinanceLens()) {
+  const value = financeLensDisplayValue(player, lens);
+  if (!Number.isFinite(value)) return "";
+
+  return `<span class="finance-chip finance-chip--primary">${escapeHtml(lens.shortLabel || lens.label)} ${displayNumber(value)}</span>`;
+}
+
+function defaultFinanceChips(player, activeLens = activeAdviceFinanceLens()) {
+  const chips = [];
+  const alpha = financeContextScore(player, "finance_alpha_score");
+  const downside = financeContextScore(player, "downside_risk_score");
+  const volatility = financeContextScore(player, "volatility_score");
+  const premium = financeContextScore(player, "premium_squeeze_score");
+  const varFloor = optionalScoreValue(player, "finance_var10_points");
+  const compositeRisk = optionalScoreValue(player, "finance_composite_risk_score", "risk_composite_score");
+  const premiumWorthIt = optionalScoreValue(player, "premium_worth_it_score_v1", "premium_worth_it_score");
+
+  if (activeLens?.id !== "financeAlpha" && Number.isFinite(alpha)) chips.push(`<span class="finance-chip">Alpha ${displayNumber(alpha)}</span>`);
+  if (activeLens?.id !== "downsideFloor" && Number.isFinite(downside)) chips.push(`<span class="finance-chip">Floor ${displayNumber(Math.max(0, 100 - downside))}</span>`);
+  if (activeLens?.id !== "volatility" && Number.isFinite(volatility)) chips.push(`<span class="finance-chip">Low Vol ${displayNumber(Math.max(0, 100 - volatility))}</span>`);
+  if (activeLens?.id !== "premiumCheck" && Number.isFinite(premium)) chips.push(`<span class="finance-chip">Premium ${displayNumber(Math.max(0, 100 - premium))}</span>`);
+
+  if (!chips.length) {
+    if (Number.isFinite(varFloor)) chips.push(`<span class="finance-chip">VaR ${displayNumber(varFloor)}</span>`);
+    if (Number.isFinite(compositeRisk)) chips.push(`<span class="finance-chip">Low Risk ${displayNumber(Math.max(0, 100 - compositeRisk))}</span>`);
+    if (Number.isFinite(premiumWorthIt)) chips.push(`<span class="finance-chip">Premium ${displayNumber(premiumWorthIt)}</span>`);
+  }
+
+  return chips.slice(0, 3).join(" ");
+}
+
+function financeLensCell(player, lens = activeAdviceFinanceLens()) {
+  const lensChip = financeLensChip(player, lens);
+  const defaultChips = defaultFinanceChips(player, lens);
+  const unavailableLensChip = !lens?.defaultLens && !lensChip
+    ? `<span class="finance-chip finance-chip--muted">${escapeHtml(lens.shortLabel || lens.label)} n/a</span>`
+    : "";
+  const description = lens?.description ? `<small>${escapeHtml(lens.description)}</small>` : "";
+  const primaryChips = lensChip || unavailableLensChip || defaultChips || "<span class=\"finance-chip finance-chip--muted\">Finance n/a</span>";
+  const extraChips = (lensChip || unavailableLensChip) && defaultChips
+    ? `<span class="finance-chip-row__extra">${defaultChips}</span>`
+    : "";
+
+  return `
+    <span class="finance-chip-row" title="${escapeHtml(lens?.description || "Finance model lens")}">
+      ${primaryChips}
+      ${extraChips}
+      ${description}
+    </span>
+  `;
+}
+
+function pickRiskLabel(player) {
+  const risk = scoreValue(player, "finance_composite_risk_score", "risk_composite_score");
+  const qaStatus = qaStatusFromFlags(qaFlagsForPlayer(player, measureKeyForTrust(activeMeasure())));
+
+  if (qaStatus === "review") return "Review";
+  if (risk <= 38) return "Low Risk";
+  if (risk <= 62) return "Medium Risk";
+  return "High Risk";
+}
+
+function pickRiskKind(player) {
+  const label = pickRiskLabel(player);
+  if (label === "Low Risk") return "safe";
+  if (label === "Medium Risk") return "watch";
+  return "review";
+}
+
+function pickFixtureLabel(player) {
+  const projections = playerMatchdayProjections(player);
+  const activeProjectionRow = activeMatchdayId === "group_stage_full"
+    ? null
+    : projections.find((projection) => projection.matchday_id === activeMatchdayId);
+  const projection = activeProjectionRow || projections[0];
+
+  if (!projection) {
+    return player.preview_opponent ? `vs ${player.preview_opponent}` : "Fixture needs check";
+  }
+
+  const difficulty = fixtureDifficultyLabel(projection.fixture_difficulty_band);
+  return `${projection.matchday_label || matchdayLabelFromId(projection.matchday_id)} vs ${projection.opponent} · ${difficulty}`;
+}
+
+function pickProjectedScore(player, measureKey = "balanced") {
+  if (player.preview_candidate) {
+    if (measureKey === "captain") {
+      return fantasyPoolCandidateStat(player, "captain_score");
+    }
+    return fantasyPoolCandidateStat(player, "risk_adjusted_points");
+  }
+
+  if (measureKey === "captain") {
+    return displayNumber(captainRecommendationScore(player));
+  }
+
+  return displayNumber(scoreValue(player, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate"));
+}
+
+function pickReasonText(player, measureKey = "balanced") {
+  const reason = player.preview_candidate
+    ? fantasyPoolCandidateReason(player)
+    : styleReason(player, measureKey);
+
+  return reason.length > 190 ? `${reason.slice(0, 187).trim()}...` : reason;
+}
+
+function builderLockPlayerId(player) {
+  if (!player) return null;
+  if (players.some((candidate) => candidate.id === player.id)) return player.id;
+  if (player.source_player_id && players.some((candidate) => candidate.id === player.source_player_id)) {
+    return player.source_player_id;
+  }
+  if (player.internal_player_id && players.some((candidate) => candidate.id === player.internal_player_id)) {
+    return player.internal_player_id;
+  }
+  return null;
+}
+
+function pickCardActionHtml(player) {
+  const lockId = builderLockPlayerId(player);
+  const alreadyLocked = lockId && lockedPlayerIds.has(lockId);
+  const lockLabel = alreadyLocked ? "Locked" : "Lock in Builder";
+  const lockButton = lockId
+    ? `<button class="pick-card__action pick-card__action--lock" type="button" data-lock-player-id="${escapeHtml(lockId)}">${lockLabel}</button>`
+    : `<button class="pick-card__action" type="button" disabled title="This preview player is not available in the prototype Team Builder path.">Preview only</button>`;
+
+  return `
+    <div class="pick-card__actions">
+      <button class="pick-card__action" type="button" data-player-detail-id="${escapeHtml(player.id)}">View Profile</button>
+      ${lockButton}
+    </div>
+  `;
+}
+
+function renderPickCard(player, options = {}) {
+  const measureKey = options.measureKey || "balanced";
+  const label = options.label || measures[measureKey]?.label || "Pick";
+  const scoreLabel = measureKey === "captain" ? "Captain Alpha" : "Projected Score";
+  const riskLabel = pickRiskLabel(player);
+
+  if (!player) {
+    return `
+      <article class="pick-card pick-card--empty">
+        <span class="pick-card__label">${escapeHtml(label)}</span>
+        <strong>Preview data unavailable</strong>
+        <p>The site will fall back to prototype data if the preview source file is missing.</p>
+      </article>
+    `;
+  }
+
+  return `
+    <article class="pick-card pick-card--${pickRiskKind(player)}">
+      <div class="pick-card__top">
+        <span class="pick-card__label">${escapeHtml(label)}</span>
+        <span class="pick-card__risk">${escapeHtml(riskLabel)}</span>
+      </div>
+      ${playerDetailButton(player, "player-name-button--dashboard", measureKey)}
+      <p class="pick-card__meta">${escapeHtml(playerCountryText(player))} · ${escapeHtml(player.position)} · ${escapeHtml(playerPriceText(player))}</p>
+      <div class="pick-card__metrics">
+        <span><strong>${escapeHtml(pickProjectedScore(player, measureKey))}</strong>${escapeHtml(scoreLabel)}</span>
+        <span><strong>${displayNumber(scoreValue(player, "start_probability_percent"))}%</strong>Start</span>
+      </div>
+      <p class="pick-card__fixture">${escapeHtml(pickFixtureLabel(player))}</p>
+      <p class="pick-card__reason">${escapeHtml(pickReasonText(player, measureKey))}</p>
+      ${pickCardActionHtml(player)}
+    </article>
+  `;
+}
+
+function lockPlayerFromPickCard(playerId) {
+  const player = playerById(playerId);
+  const lockId = player ? builderLockPlayerId(player) : playerId;
+  const builderPlayer = playerById(lockId);
+
+  if (!lockId || !builderPlayer || !players.some((candidate) => candidate.id === lockId)) {
+    return false;
+  }
+
+  lockedPlayerIds.add(lockId);
+  renderPlayerPicker();
+  renderLockedPreview();
+  updateControlStates();
+  renderDashboardSections();
+  renderCaptainPicks();
+  renderAdviceTable();
+  teamMessage.textContent = `${builderPlayer.name} is locked in the Team Builder. Click Build My Squad when you are ready.`;
+  return true;
+}
+
+function handlePickCardActions(event) {
+  const lockButton = event.target.closest("[data-lock-player-id]");
+
+  if (!lockButton) {
+    return;
+  }
+
+  event.preventDefault();
+  event.stopPropagation();
+  const didLock = lockPlayerFromPickCard(lockButton.dataset.lockPlayerId);
+  if (didLock) {
+    lockButton.textContent = "Locked";
+    lockButton.disabled = true;
+  }
+}
+
 function renderFantasyPoolPreviewCaptainPicks() {
   const captainCandidates = fantasyPoolPreviewCandidatesForMode("captain").slice(0, 6);
+
+  if (captainCardGrid) {
+    captainCardGrid.innerHTML = captainCandidates.length
+      ? captainCandidates.map((player, index) => renderPickCard(player, {
+        label: index === 0 ? "Best Captain" : `Captain ${index + 1}`,
+        measureKey: "captain"
+      })).join("")
+      : renderPickCard(null, { label: "Captain Alpha", measureKey: "captain" });
+  }
 
   captainTableBody.innerHTML = captainCandidates.map((player, index) => {
     const candidate = player.preview_candidate || {};
@@ -7657,6 +8154,13 @@ function renderCaptainPicks() {
   );
   const captainCandidates = [...captainPool]
     .sort((a, b) => captainRecommendationScore(b) - captainRecommendationScore(a));
+
+  if (captainCardGrid) {
+    captainCardGrid.innerHTML = captainCandidates.slice(0, 6).map((player, index) => renderPickCard(player, {
+      label: index === 0 ? "Best Captain" : `Captain ${index + 1}`,
+      measureKey: "captain"
+    })).join("");
+  }
 
   captainTableBody.innerHTML = captainCandidates.slice(0, 6).map((player, index) => `
     <tr>
@@ -7717,28 +8221,9 @@ function renderFantasyPoolPreviewDashboardSections() {
     }
   ].map((card) => ({ ...card, player: pickUniquePlayer(card.mode) }));
 
-  dashboardGrid.innerHTML = cards.map(({ label, player, stat, qaStyle }) => {
-    if (!player) {
-      return `
-        <article class="info-card">
-          <span class="info-card__label">${escapeHtml(label)}</span>
-          <strong>Preview data unavailable</strong>
-          <p>The site will fall back to prototype data if the preview source file is missing.</p>
-        </article>
-      `;
-    }
-
-    return `
-      <article class="info-card">
-        <span class="info-card__label">${escapeHtml(label)}</span>
-        ${playerDetailButton(player, "player-name-button--dashboard", qaStyle)}
-        <p>${playerCountryText(player)} · ${escapeHtml(player.club)}</p>
-        <p class="info-card__stat">${stat(player)}</p>
-        ${qaChipRow(qaFlagsForPlayer(player, qaStyle), { compact: true, maxVisible: 2 })}
-        <p>${escapeHtml(fantasyPoolCandidateReason(player))}</p>
-      </article>
-    `;
-  }).join("");
+  dashboardGrid.innerHTML = cards.map(({ label, player, qaStyle }) =>
+    renderPickCard(player, { label, measureKey: qaStyle })
+  ).join("");
 }
 
 function renderDashboardSections() {
@@ -7820,16 +8305,7 @@ function renderDashboardSections() {
       qaStyle: "veryRisky",
       reason: `Boom-or-bust portfolio pick. Useful for aggressive watchlists, not a safe default.${fixtureModelReason(veryRiskyPick, "risk")}`
     }
-  ].map(({ label, player, stat, qaStyle, reason }) => `
-    <article class="info-card">
-      <span class="info-card__label">${label}</span>
-      ${playerDetailButton(player, "player-name-button--dashboard", qaStyle)}
-      <p>${playerCountryText(player)} · ${player.club}</p>
-      <p class="info-card__stat">${stat}</p>
-      ${qaChipRow(qaFlagsForPlayer(player, qaStyle), { compact: true, maxVisible: 2 })}
-      <p>${reason}</p>
-    </article>
-  `).join("");
+  ].map(({ label, player, qaStyle }) => renderPickCard(player, { label, measureKey: qaStyle })).join("");
 }
 
 function renderFantasyPoolPreviewAdviceTable() {
@@ -7837,6 +8313,7 @@ function renderFantasyPoolPreviewAdviceTable() {
   const positionFilterValue = advicePositionSelect.value || "All";
   const trustMode = activeTrustMode();
   const poolMode = activeAdvicePoolMode();
+  const financeLens = activeAdviceFinanceLens();
   const previewMode = fantasyPoolPreviewModeForAdvice(measureKey, trustMode);
   const previewPlayers = fantasyPoolPreviewCandidatesForMode(previewMode);
   const positionPool = positionFilterValue === "All"
@@ -7849,10 +8326,23 @@ function renderFantasyPoolPreviewAdviceTable() {
     );
   const positionLabel = positionFilterValue === "All" ? "all positions" : positionFilterValue.toLowerCase();
   const hiddenCount = Math.max(0, positionPool.length - visiblePool.length);
+  const rankedPool = financeLens.defaultLens ? visiblePool : sortByFinanceLens(visiblePool, financeLens);
+  const financeNote = financeLens.defaultLens
+    ? "Finance badges show the staged finance model context."
+    : `Advanced Finance Lens: sorted by ${financeLens.label}.`;
 
-  adviceStyleNote.textContent = `Official Fantasy Pool Preview: showing ${titleFromSnake(previewMode)} candidates for ${positionLabel} in ${activeMatchdayLabel()}. ${visiblePool.length} ranked from ${positionPool.length} preview candidate${positionPool.length === 1 ? "" : "s"}${hiddenCount ? `; ${hiddenCount} watchlist candidate${hiddenCount === 1 ? "" : "s"} hidden` : ""}. Final squad status is not source-backed, so treat this as preview content only.`;
+  adviceStyleNote.textContent = `Official Fantasy Pool Preview: showing ${titleFromSnake(previewMode)} candidates for ${positionLabel} in ${activeMatchdayLabel()} with ${trustModeLabel()}. ${visiblePool.length} ranked from ${positionPool.length} preview candidate${positionPool.length === 1 ? "" : "s"}${hiddenCount ? `; ${hiddenCount} watchlist candidate${hiddenCount === 1 ? "" : "s"} hidden` : ""}. ${financeNote} Final squad status is not source-backed, so treat this as preview content only.`;
 
-  adviceTableBody.innerHTML = visiblePool.slice(0, 8).map((player) => `
+  if (adviceCardGrid) {
+    adviceCardGrid.innerHTML = visiblePool.length
+      ? rankedPool.slice(0, 8).map((player, index) => renderPickCard(player, {
+        label: index === 0 ? `${titleFromSnake(previewMode)} pick` : `${titleFromSnake(previewMode)} ${index + 1}`,
+        measureKey
+      })).join("")
+      : renderPickCard(null, { label: "Pick Explorer", measureKey });
+  }
+
+  adviceTableBody.innerHTML = rankedPool.slice(0, 8).map((player) => `
     <tr>
       <td>${playerDetailButton(player, "", measureKey)}</td>
       <td>${playerCountryText(player)}</td>
@@ -7861,6 +8351,7 @@ function renderFantasyPoolPreviewAdviceTable() {
       <td>${fantasyPoolPreviewTableScore(player, player.preview_mode_label || titleFromSnake(previewMode))}</td>
       <td>${fantasyPoolCandidateStat(player, "risk_adjusted_points")}</td>
       <td>${displayNumber(scoreValue(player, "finance_composite_risk_score"))}</td>
+      <td>${financeLensCell(player, financeLens)}</td>
       <td>${qaChipRow(qaFlagsForPlayer(player, measureKey), { compact: true, maxVisible: 2 })}</td>
       <td>${escapeHtml(fantasyPoolCandidateReason(player))}</td>
     </tr>
@@ -7869,7 +8360,7 @@ function renderFantasyPoolPreviewAdviceTable() {
   if (!visiblePool.length) {
     adviceTableBody.innerHTML = `
       <tr>
-        <td colspan="9">No Official Fantasy Pool Preview candidates match this Team Advice filter. Try Include watchlist punts, another position, or a broader recommendation mode.</td>
+        <td colspan="10">No Official Fantasy Pool Preview candidates match this Team Advice filter. Try Include watchlist punts, another position, or a broader recommendation style.</td>
       </tr>
     `;
   }
@@ -7886,6 +8377,7 @@ function renderAdviceTable() {
   const measure = activeAdviceMeasure();
   const trustMode = activeTrustMode();
   const poolMode = activeAdvicePoolMode();
+  const financeLens = activeAdviceFinanceLens();
   const advicePlayers = positionFilterValue === "All"
     ? players
     : players.filter((player) => player.position === positionFilterValue);
@@ -7895,11 +8387,21 @@ function renderAdviceTable() {
   const visiblePool = basePool.filter((player) =>
     playerAllowedByAdvicePool(player, measureKey, poolMode)
   );
-  const ranked = sortPlayers(visiblePool, measure, trustMode);
+  const ranked = financeLens.defaultLens ? sortPlayers(visiblePool, measure, trustMode) : sortByFinanceLens(visiblePool, financeLens);
   const counts = advicePoolCounts(advicePlayers, basePool, visiblePool, measureKey, trustMode, poolMode);
   const positionLabel = positionFilterValue === "All" ? "all positions" : positionFilterValue.toLowerCase();
 
-  adviceStyleNote.textContent = `Showing ${positionLabel} advice for ${measure.label} in ${activeMatchdayLabel()} with ${trustModeLabel()}. ${advicePoolNote(counts, poolMode, trustFallbackUsed)} Scores include QA penalties or filters for data quality, role confidence, risk, and fixture context.`;
+  const financeNote = financeLens.defaultLens ? "" : ` Advanced Finance Lens: sorted by ${financeLens.label}.`;
+  adviceStyleNote.textContent = `Showing ${positionLabel} advice for ${measure.label} in ${activeMatchdayLabel()} with ${trustModeLabel()}. ${advicePoolNote(counts, poolMode, trustFallbackUsed)} Scores include data-check penalties or filters for source quality, role confidence, risk, and fixture context.${financeNote}`;
+
+  if (adviceCardGrid) {
+    adviceCardGrid.innerHTML = ranked.length
+      ? ranked.slice(0, 8).map((player, index) => renderPickCard(player, {
+        label: index === 0 ? `${measure.label} pick` : `${measure.label} ${index + 1}`,
+        measureKey
+      })).join("")
+      : renderPickCard(null, { label: "Pick Explorer", measureKey });
+  }
 
   adviceTableBody.innerHTML = ranked.slice(0, 8).map((player) => `
     <tr>
@@ -7910,6 +8412,7 @@ function renderAdviceTable() {
       <td>${scoreBreakdownHtml(player, measure)}</td>
       <td>${displayNumber(scoreValue(player, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate"))}</td>
       <td>${displayNumber(scoreValue(player, "finance_composite_risk_score", "risk_composite_score"))}</td>
+      <td>${financeLensCell(player, financeLens)}</td>
       <td>${qaChipRow(qaFlagsForPlayer(player, measureKey), { compact: true, maxVisible: 2 })}</td>
       <td>${styleReason(player, measureKey)}</td>
     </tr>
@@ -7918,7 +8421,7 @@ function renderAdviceTable() {
   if (!ranked.length) {
     adviceTableBody.innerHTML = `
       <tr>
-        <td colspan="9">No players match this Team Advice filter yet. Try Include watchlist punts, another position, or a broader recommendation mode.</td>
+        <td colspan="10">No players match this Team Advice filter yet. Try Include watchlist punts, another position, or a broader recommendation style.</td>
       </tr>
     `;
   }
@@ -8218,6 +8721,7 @@ function setupBuilder() {
   renderPositionFilterOptions();
   updateRuleCopy();
   renderMeasureOptions();
+  renderFinanceLensOptions();
   renderTrustModeOptions();
   renderMatchdayOptions();
   renderCaptainChangeOptions();
@@ -8238,9 +8742,13 @@ function setupBuilder() {
   updateControlStates();
   renderRemovedPlayers();
 
-  [dashboardGrid, captainTableBody, adviceTableBody, playerPicker, teamPlayers, benchPlayers]
+  [dashboardGrid, captainCardGrid, adviceCardGrid, captainTableBody, adviceTableBody, playerPicker, teamPlayers, benchPlayers]
     .filter(Boolean)
     .forEach((container) => container.addEventListener("click", handlePlayerDetailTrigger));
+  [dashboardGrid, captainCardGrid, adviceCardGrid]
+    .filter(Boolean)
+    .forEach((container) => container.addEventListener("click", handlePickCardActions));
+  playerDetailBody?.addEventListener("click", handlePickCardActions);
   playerDetailClose?.addEventListener("click", closePlayerDetail);
   playerDetailModal?.addEventListener("click", handlePlayerDetailCloseClick);
   document.addEventListener("keydown", handlePlayerDetailKeydown);
@@ -8263,6 +8771,7 @@ function setupBuilder() {
     }
   });
   adviceMeasureSelect.addEventListener("change", renderAdviceTable);
+  adviceFinanceLensSelect?.addEventListener("change", renderAdviceTable);
   advicePositionSelect.addEventListener("change", renderAdviceTable);
   advicePoolSelect?.addEventListener("change", (event) => {
     activeAdvicePoolModeId = advicePoolModes[event.target.value] ? event.target.value : "playable";
