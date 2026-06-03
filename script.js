@@ -8781,6 +8781,22 @@ function pickRiskLabel(player) {
   return "High Risk";
 }
 
+function pickRiskHelpText(player, riskLabel) {
+  const risk = scoreValue(player, "finance_composite_risk_score", "risk_composite_score");
+  const scoreText = Number.isFinite(risk)
+    ? `${displayNumber(risk)}/100`
+    : "not available";
+  const basis = player?.is_fantasy_pool_preview
+    ? "start chance, expected minutes, projection confidence, role stability, downside floor, volatility, and ceiling/floor spread"
+    : "availability, minutes, discipline, volatility, and bad-week floor";
+
+  if (riskLabel === "Review") {
+    return `Review: this pick has data warnings to check before trusting it. Practical risk score: ${scoreText}.`;
+  }
+
+  return `${riskLabel}: practical pick risk ${scoreText}. Low is 0-38, Medium is 39-62, High is 63+. Based on ${basis}. Data-readiness caveats are shown separately.`;
+}
+
 function pickRiskKind(player) {
   const label = pickRiskLabel(player);
   if (label === "Low Risk") return "safe";
@@ -8859,6 +8875,7 @@ function renderPickCard(player, options = {}) {
   const label = options.label || measures[measureKey]?.label || "Pick";
   const scoreLabel = measureKey === "captain" ? "Captain Alpha" : "Projected Score";
   const riskLabel = pickRiskLabel(player);
+  const riskHelpText = pickRiskHelpText(player, riskLabel);
 
   if (!player) {
     return `
@@ -8874,7 +8891,7 @@ function renderPickCard(player, options = {}) {
     <article class="pick-card pick-card--${pickRiskKind(player)}">
       <div class="pick-card__top">
         <span class="pick-card__label">${escapeHtml(label)}</span>
-        <span class="pick-card__risk">${escapeHtml(riskLabel)}</span>
+        <span class="pick-card__risk" title="${escapeHtml(riskHelpText)}" aria-label="${escapeHtml(riskHelpText)}">${escapeHtml(riskLabel)}</span>
       </div>
       ${playerDetailButton(player, "player-name-button--dashboard", measureKey)}
       <p class="pick-card__meta">${escapeHtml(playerCountryText(player))} · ${escapeHtml(player.position)} · ${escapeHtml(playerPriceText(player))}</p>
