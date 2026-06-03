@@ -161,15 +161,42 @@ function importantPreviewFlags(flags = []) {
 }
 
 function fantasyPoolRiskScore(candidate, financeMetric) {
-  if (Number.isFinite(Number(financeMetric?.data_risk))) {
-    return Math.min(100, Math.max(0, Number(financeMetric.data_risk)));
-  }
+  const numberFrom = (...values) => {
+    for (const valueToCheck of values) {
+      const number = Number(valueToCheck);
+      if (Number.isFinite(number)) {
+        return number;
+      }
+    }
+    return null;
+  };
+  const financeContext = candidate?.finance_context || {};
+  const startProbability = Math.min(1, Math.max(0, numberFrom(candidate?.start_probability, financeMetric?.average_start_probability, 0) ?? 0));
+  const expectedMinutes = Math.max(0, numberFrom(candidate?.expected_minutes, financeMetric?.average_expected_minutes, 0) ?? 0);
+  const downsideRisk = numberFrom(financeContext.downside_risk_score, financeMetric?.downside_risk_score);
+  const volatilityRisk = numberFrom(financeContext.volatility_score, financeMetric?.volatility_score);
+  const roleStability = numberFrom(financeContext.role_stability_score, financeMetric?.role_stability_score);
+  const ceilingPoints = numberFrom(candidate?.ceiling_points, 0) ?? 0;
+  const floorPoints = numberFrom(candidate?.floor_points, 0) ?? 0;
 
-  const startRisk = Math.max(0, 1 - Number(candidate.start_probability || 0)) * 45;
-  const confidenceRisk = Math.max(0, 90 - confidenceScore(candidate.projection_confidence)) * 0.55;
-  const floorRisk = Math.max(0, Number(candidate.ceiling_points || 0) - Number(candidate.floor_points || 0)) * 0.5;
+  const startRisk = Math.max(0, 1 - startProbability) * 45;
+  const minutesRisk = Math.max(0, 75 - expectedMinutes) * 0.35;
+  const confidenceRisk = Math.max(0, 90 - confidenceScore(candidate?.projection_confidence || financeMetric?.projection_confidence)) * 0.5;
+  const downsideRiskContribution = downsideRisk === null ? 8 : downsideRisk * 0.22;
+  const volatilityRiskContribution = volatilityRisk === null ? 6 : volatilityRisk * 0.13;
+  const roleRiskContribution = roleStability === null ? 6 : Math.max(0, 100 - roleStability) * 0.16;
+  const floorSpreadRisk = Math.max(0, ceilingPoints - floorPoints) * 0.12;
 
-  return Math.min(100, startRisk + confidenceRisk + floorRisk + 25);
+  return Math.min(
+    100,
+    startRisk +
+      minutesRisk +
+      confidenceRisk +
+      downsideRiskContribution +
+      volatilityRiskContribution +
+      roleRiskContribution +
+      floorSpreadRisk
+  );
 }
 
 function normalizeFantasyPoolProjection(row) {
