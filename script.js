@@ -2544,6 +2544,219 @@ function profileMetric(label, valueToDisplay, note = "") {
   `;
 }
 
+function metricNumber(valueToCheck) {
+  const number = Number(valueToCheck);
+  return Number.isFinite(number) ? number : null;
+}
+
+function metricFieldValue(record, ...fieldNames) {
+  for (const fieldName of fieldNames) {
+    const number = metricNumber(record?.[fieldName]);
+    if (number !== null) {
+      return number;
+    }
+  }
+
+  return null;
+}
+
+function fantasyPoolFinanceRowForPlayer(player) {
+  const key = fantasyPoolPlayerKey(player);
+  return key ? fantasyPoolFinanceLookup.get(key) || null : null;
+}
+
+function publicMetricRecordForPlayer(player) {
+  return fantasyPoolFinanceRowForPlayer(player) || player || null;
+}
+
+function publicMetricPoolRecords() {
+  const sourceRecords = fantasyPoolFinanceRows.length
+    ? fantasyPoolFinanceRows
+    : usingFantasyPoolPreview
+      ? fantasyPoolPreviewPlayers
+      : players;
+  const seen = new Set();
+
+  return sourceRecords.filter((record) => {
+    const key = fantasyPoolPlayerKey(record) ||
+      record?.preview_player_key ||
+      record?.source_player_id ||
+      record?.id ||
+      record?.name;
+
+    if (!key || seen.has(key)) {
+      return false;
+    }
+
+    seen.add(key);
+    return true;
+  });
+}
+
+function metricValuesForPool(metricFn) {
+  return publicMetricPoolRecords()
+    .map((record) => metricFn(record))
+    .filter((number) => number !== null);
+}
+
+function metricIndex(valueToRank, values, options = {}) {
+  const valueNumber = metricNumber(valueToRank);
+  const numericValues = values.filter((number) => metricNumber(number) !== null);
+
+  if (valueNumber === null || !numericValues.length) {
+    return null;
+  }
+
+  const comparableValue = options.lowerIsBetter ? -valueNumber : valueNumber;
+  const comparableValues = numericValues.map((number) => options.lowerIsBetter ? -number : number);
+  const min = Math.min(...comparableValues);
+  const max = Math.max(...comparableValues);
+
+  if (min === max) {
+    return 100;
+  }
+
+  return Math.max(0, Math.min(100, Math.round(((comparableValue - min) / (max - min)) * 100)));
+}
+
+function metricPercentile(valueToRank, values, options = {}) {
+  const valueNumber = metricNumber(valueToRank);
+  const numericValues = values.filter((number) => metricNumber(number) !== null);
+
+  if (valueNumber === null || !numericValues.length) {
+    return null;
+  }
+
+  const comparableValue = options.lowerIsBetter ? -valueNumber : valueNumber;
+  const comparableValues = numericValues.map((number) => options.lowerIsBetter ? -number : number);
+  const countAtOrBelow = comparableValues.filter((number) => number <= comparableValue).length;
+
+  return Math.max(1, Math.min(100, Math.round((countAtOrBelow / comparableValues.length) * 100)));
+}
+
+function ordinalNumber(numberToFormat) {
+  const number = Number(numberToFormat);
+
+  if (!Number.isFinite(number)) {
+    return "";
+  }
+
+  const rounded = Math.round(number);
+  const lastTwo = rounded % 100;
+  const suffix = lastTwo >= 11 && lastTwo <= 13
+    ? "th"
+    : rounded % 10 === 1
+      ? "st"
+      : rounded % 10 === 2
+        ? "nd"
+        : rounded % 10 === 3
+          ? "rd"
+          : "th";
+
+  return `${rounded}${suffix}`;
+}
+
+function profileIndexMetric(label, valueToRank, poolValues, note = "", options = {}) {
+  const index = metricIndex(valueToRank, poolValues, options);
+  const percentile = metricPercentile(valueToRank, poolValues, options);
+
+  if (index === null || percentile === null) {
+    return "";
+  }
+
+  return profileMetric(label, `${index}/100 (${ordinalNumber(percentile)} percentile)`, note);
+}
+
+function profilePointMetric(label, pointValue, matchdayLabel, notePrefix) {
+  const number = metricNumber(pointValue);
+
+  if (number === null) {
+    return "";
+  }
+
+  return profileMetric(label, `${displayNumber(number)} pts`, `${notePrefix} for ${matchdayLabel}.`);
+}
+
+function expectedMatchdayPointValue(player) {
+  const projection = pickProjectionRow(player);
+
+  if (projection) {
+    const projectedField = [
+      "finance_expected_return_points",
+      "raw_expected_points"
+    ].find((fieldName) => hasScoreValue(projection, fieldName));
+
+    if (projectedField) {
+      return Number(projection[projectedField]);
+    }
+  }
+
+  if (player?.preview_candidate) {
+    const candidate = player.preview_candidate;
+    const modeledPoints = Number(candidate.raw_expected_points);
+    const fixtureCount = Number(candidate.fixture_context?.fixture_count);
+    if (Number.isFinite(modeledPoints)) {
+      return candidate.matchday === "group_stage_full" && Number.isFinite(fixtureCount) && fixtureCount > 0
+        ? modeledPoints / fixtureCount
+        : modeledPoints;
+    }
+  }
+
+  const record = publicMetricRecordForPlayer(player);
+  const matchdayExpected = metricFieldValue(record, "finance_expected_return_points");
+  if (matchdayExpected !== null) {
+    return matchdayExpected;
+  }
+
+  const groupStageExpected = metricFieldValue(record, "group_stage_expected_points");
+  return groupStageExpected === null ? null : groupStageExpected / 3;
+}
+
+function riskAdjustedMatchdayPointValue(player) {
+  const projected = projectedMatchdayPointValue(player);
+
+  if (metricNumber(projected) !== null) {
+    return projected;
+  }
+
+  const record = publicMetricRecordForPlayer(player);
+  const groupStageProjected = metricFieldValue(record, "group_stage_risk_adjusted_points");
+  return groupStageProjected === null ? null : groupStageProjected / 3;
+}
+
+function valueIndexRawMetric(record) {
+  return metricFieldValue(record, "risk_adjusted_points_per_price", "value_over_replacement", "value_score_v1");
+}
+
+function squadFitIndexRawMetric(record) {
+  return metricFieldValue(record, "scarcity_adjusted_value", "confidence_adjusted_value", "portfolio_fit_score");
+}
+
+function captainAlphaRawMetric(record) {
+  return metricFieldValue(record, "captain_score", "finance_captain_score");
+}
+
+function badWeekFloorRawMetric(record) {
+  return metricFieldValue(record, "bad_week_floor", "group_stage_floor_points", "finance_var10_points");
+}
+
+function budgetEaseRawMetric(record) {
+  return metricFieldValue(record, "price_tier_opportunity_cost", "overpay_risk_v1");
+}
+
+function riskControlRawMetric(record) {
+  const riskParts = [
+    metricFieldValue(record, "downside_risk_proxy", "finance_composite_risk_score", "risk_composite_score"),
+    metricFieldValue(record, "volatility_proxy", "finance_tail_risk_score", "risk_tail_score"),
+    metricFieldValue(record, "minutes_risk"),
+    metricFieldValue(record, "role_risk")
+  ].filter((number) => number !== null);
+
+  return riskParts.length
+    ? riskParts.reduce((sum, number) => sum + number, 0)
+    : null;
+}
+
 function playerRecommendationLabels(player, measureKey = measureKeyForTrust(activeMeasure())) {
   const labels = [];
   const startProbability = scoreValue(player, "start_probability_percent");
@@ -2640,31 +2853,29 @@ function profileRoleGrid(player) {
 }
 
 function profileFinanceGrid(player) {
-  const context = previewFinanceContext(player);
-  const premiumSqueeze = financeContextScore(player, "premium_squeeze_score");
-  const previewFinanceMetrics = Object.keys(context).length ? `
-      ${profileMetric("Undervalued Assets", profileScore(financeContextScore(player, "finance_alpha_score")), "price/risk edge")}
-      ${profileMetric("Portfolio Fit", profileScore(financeContextScore(player, "portfolio_fit_score")), "squad fit")}
-      ${profileMetric("Bad-Week Floor", profileScore(Number.isFinite(financeContextScore(player, "downside_risk_score")) ? 100 - financeContextScore(player, "downside_risk_score") : null), "higher is safer")}
-      ${profileMetric("Portfolio Health", profileScore(Number.isFinite(financeContextScore(player, "volatility_score")) ? 100 - financeContextScore(player, "volatility_score") : null), "steadiness")}
-      ${profileMetric("Role Stability", profileScore(financeContextScore(player, "role_stability_score")), "0 low, 100 high")}
-      ${profileMetric("Budget Pressure", profileScore(Number.isFinite(premiumSqueeze) ? 100 - premiumSqueeze : null), "higher is easier to justify")}
-  ` : "";
+  const record = publicMetricRecordForPlayer(player);
+  const matchdayLabel = pickCardMatchdayLabel(player);
+  const valuePool = metricValuesForPool(valueIndexRawMetric);
+  const fitPool = metricValuesForPool(squadFitIndexRawMetric);
+  const captainPool = metricValuesForPool(captainAlphaRawMetric);
+  const floorPool = metricValuesForPool(badWeekFloorRawMetric);
+  const riskPool = metricValuesForPool(riskControlRawMetric);
+  const budgetPool = metricValuesForPool(budgetEaseRawMetric);
+  const metrics = [
+    profilePointMetric("Expected Points", expectedMatchdayPointValue(player), matchdayLabel, "Projected fantasy points"),
+    profilePointMetric("Points After Risk", riskAdjustedMatchdayPointValue(player), matchdayLabel, "Risk-adjusted fantasy points"),
+    profileIndexMetric("Value Index", valueIndexRawMetric(record), valuePool, "Value per price vs player pool."),
+    profileIndexMetric("Squad Fit Index", squadFitIndexRawMetric(record), fitPool, "Scarcity-adjusted value vs player pool."),
+    profileIndexMetric("Captain Alpha Index", captainAlphaRawMetric(record), captainPool, "Captain score vs player pool."),
+    profileIndexMetric("Bad-Week Floor Index", badWeekFloorRawMetric(record), floorPool, "Higher floor is better."),
+    profileIndexMetric("Risk-Control Index", riskControlRawMetric(record), riskPool, "Lower downside, volatility, minutes, and role risk shown as better.", { lowerIsBetter: true }),
+    profileIndexMetric("Budget Ease Index", budgetEaseRawMetric(record), budgetPool, "Lower opportunity cost shown as better.", { lowerIsBetter: true })
+  ].filter(Boolean).join("");
 
   return `
+    <p class="profile-metric-explainer">Points are shown per matchday. Indexes run from 0 to 100, and percentiles compare this player with the current fantasy-pool player set.</p>
     <div class="profile-grid profile-grid--finance">
-      ${previewFinanceMetrics}
-      ${profileMetric("Expected Return", profileScore(scoreValue(player, "finance_expected_return_points")), "points")}
-      ${profileMetric("Points After Risk", profileScore(scoreValue(player, "finance_risk_adjusted_return_points")), "points")}
-      ${profileMetric("Bad-Week Floor", profileScore(scoreValue(player, "finance_var10_points")), "bad-outcome floor")}
-      ${profileMetric("Worst-Case Floor", profileScore(scoreValue(player, "finance_cvar20_points")), "worst-case basket")}
-      ${profileMetric("Risk Efficiency", profileScore(scoreValue(player, "finance_sharpe_like_percentile", "risk_adjusted_sharpe_like")), "percentile")}
-      ${profileMetric("Downside Protection", profileScore(scoreValue(player, "finance_sortino_like_percentile", "risk_adjusted_sortino_like")), "percentile")}
-      ${profileMetric("Upside Balance", profileScore(scoreValue(player, "finance_omega_like_percentile")), "percentile")}
-      ${profileMetric("Bad-Week Probability", profilePercent(player.finance_bad_week_probability), "model estimate")}
-      ${profileMetric("Tail Risk", profileScore(scoreValue(player, "finance_tail_risk_score", "risk_tail_score")), "0 low, 100 high")}
-      ${profileMetric("Composite Risk", profileScore(scoreValue(player, "finance_composite_risk_score", "risk_composite_score")), "0 low, 100 high")}
-      ${profileMetric("Upside Per 90", profileScore(scoreValue(player, "finance_upside_p90_points", "euro_style_points_per90_estimate")), "points")}
+      ${metrics || profileMetric("Fantasy Finance", "Unavailable", "No public finance metrics are available for this player.")}
     </div>
   `;
 }
