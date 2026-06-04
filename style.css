@@ -3956,6 +3956,26 @@ input[type="number"] {
   gap: 8px;
 }
 
+.profile-tags-wrap {
+  display: grid;
+  gap: 10px;
+}
+
+.profile-tags-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.profile-tags-header .profile-tags {
+  flex: 1 1 auto;
+}
+
+.profile-tag-help-button {
+  flex: 0 0 auto;
+}
+
 .profile-tag {
   display: inline-flex;
   align-items: center;
@@ -3977,7 +3997,11 @@ input[type="number"] {
 }
 
 .profile-tag--upside,
-.profile-tag--attack {
+.profile-tag--attack,
+.profile-tag--fixture,
+.profile-tag--value,
+.profile-tag--captain,
+.profile-tag--differential {
   border-color: rgba(255, 159, 28, 0.3);
   background: rgba(255, 159, 28, 0.14);
   color: #7a4a00;
@@ -3989,6 +4013,32 @@ input[type="number"] {
   border-color: rgba(219, 58, 52, 0.28);
   background: rgba(219, 58, 52, 0.1);
   color: #9f1d1d;
+}
+
+.profile-tag-help {
+  border: 1px solid rgba(24, 78, 119, 0.14);
+  border-radius: 8px;
+  padding: 12px;
+  background: #f8fbff;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.profile-tag-help ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.profile-tag-help p {
+  margin: 10px 0 0;
+}
+
+.profile-tag-help a {
+  color: var(--accent-cool);
+  font-weight: 900;
 }
 
 .profile-action-row {
@@ -4834,7 +4884,7 @@ input[type="number"] {
   }
 
   #captain-table-body td:nth-child(5)::before {
-    content: "Captain Score";
+    content: "Projected";
   }
 
   #captain-table-body td:nth-child(6)::before {
@@ -4847,10 +4897,6 @@ input[type="number"] {
 
   #captain-table-body td:nth-child(8)::before {
     content: "Risk";
-  }
-
-  #captain-table-body td:nth-child(9)::before {
-    content: "Data Checks";
   }
 
   #advice-table-body td:nth-child(1)::before {
@@ -4886,10 +4932,6 @@ input[type="number"] {
   }
 
   #advice-table-body td:nth-child(9)::before {
-    content: "Data Checks";
-  }
-
-  #advice-table-body td:nth-child(10)::before {
     content: "Reason";
   }
 

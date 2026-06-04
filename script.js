@@ -268,18 +268,18 @@ function fantasyPoolCandidateToPlayer(candidate) {
     position_code: positionCode,
     official_fantasy_position: positionCode,
     club: candidate.matchday === "group_stage_full"
-      ? "Official fantasy pool"
-      : `Official pick vs ${candidate.opponent || "opponent"}`,
-    league: "Official fantasy pool",
+      ? "Fantasy pool"
+      : `Pick vs ${candidate.opponent || "opponent"}`,
+    league: "Fantasy pool",
     price,
     official_price: price,
     price_is_proxy: false,
-    price_note: "Official fantasy price imported from the current FIFA fantasy pool.",
+    price_note: "Fantasy price from the current game feed.",
     roster_status: "official_fantasy_pool",
     selectable_status: "playing",
     recommendation_use: "safe_to_rank",
-    finance_label: "official_fantasy_pool_preview",
-    portfolio_use: "official_pool_planning",
+    finance_label: "fantasy_pool_preview",
+    portfolio_use: "fantasy_pool_planning",
     risk_profile: confidence,
     value_role: candidate.mode || "preview",
     data_confidence_score: dataConfidence,
@@ -312,8 +312,8 @@ function fantasyPoolCandidateToPlayer(candidate) {
     proxy_price_percentile_v1: 50,
     source_review_flags: flags,
     short_reason: Array.isArray(candidate.why_pick) ? candidate.why_pick.join(". ") : "",
-    data_note: fantasyPoolPreviewStatus?.public_warning_html || "Official fantasy picks using the current FIFA fantasy feed.",
-    source_note: "Refresh with the monitor when FIFA changes player, price, position, status, rule, or deadline data.",
+    data_note: fantasyPoolPreviewStatus?.public_warning_html || "Fantasy picks using the current game feed.",
+    source_note: "Refresh when player, price, position, status, rule, or deadline data changes.",
     minutes_model_source_note: `Role label: ${titleFromSnake(candidate.role_label || "unclear")}; confidence: ${titleFromSnake(candidate.role_confidence || confidence)}.`,
     preview_why_pick: candidate.why_pick || [],
     preview_why_careful: candidate.why_careful || [],
@@ -1811,6 +1811,77 @@ function profileTag(text, kind = "neutral") {
   return `<span class="profile-tag profile-tag--${kind}">${escapeHtml(text)}</span>`;
 }
 
+const publicProfileTagDefinitions = [
+  {
+    label: "Safe",
+    kind: "safe",
+    explanation: "A steadier pick with stronger role or minutes profile."
+  },
+  {
+    label: "Balanced",
+    kind: "neutral",
+    explanation: "A general pick with a mix of points, role, fixture, and risk."
+  },
+  {
+    label: "Upside",
+    kind: "upside",
+    explanation: "A pick with higher ceiling, but also more uncertainty."
+  },
+  {
+    label: "Differential",
+    kind: "differential",
+    explanation: "A less obvious pick that may help separate a squad."
+  },
+  {
+    label: "Captain Option",
+    kind: "captain",
+    explanation: "A player who may be useful for captain planning."
+  },
+  {
+    label: "Fixture Boost",
+    kind: "fixture",
+    explanation: "A player helped by the match environment."
+  },
+  {
+    label: "Minutes Risk",
+    kind: "risk",
+    explanation: "A player whose playing time may be less secure."
+  },
+  {
+    label: "Rotation Risk",
+    kind: "risk",
+    explanation: "A player who may be more likely to be rested or rotated."
+  },
+  {
+    label: "Boom-or-Bust",
+    kind: "upside",
+    explanation: "A player with useful upside, but a wider range of outcomes."
+  },
+  {
+    label: "Value",
+    kind: "value",
+    explanation: "A player who looks useful relative to price."
+  }
+];
+
+const publicProfileTagByLabel = new Map(publicProfileTagDefinitions.map((definition) => [definition.label, definition]));
+
+function publicProfileTagHelpHtml() {
+  return `
+    <div class="profile-tag-help hidden" id="profile-tag-help">
+      <ul>
+        ${publicProfileTagDefinitions.map((definition) => `
+          <li>
+            <strong>${escapeHtml(definition.label)}:</strong>
+            <span>${escapeHtml(definition.explanation)}</span>
+          </li>
+        `).join("")}
+      </ul>
+      <p>For more detail, see the detailed stats explanations in <a href="#model-notes" data-profile-model-notes-link>Model Notes</a>.</p>
+    </div>
+  `;
+}
+
 const qaFlagDefinitions = {
   not_safe_to_rank: {
     label: "Rank review",
@@ -2468,48 +2539,65 @@ function profileMetric(label, valueToDisplay, note = "") {
 function playerRecommendationLabels(player, measureKey = measureKeyForTrust(activeMeasure())) {
   const labels = [];
   const startProbability = scoreValue(player, "start_probability_percent");
+  const expectedMinutes = scoreValue(player, "expected_minutes_v0");
+  const substitutionRisk = scoreValue(player, "substitution_risk");
   const risk = scoreValue(player, "finance_composite_risk_score", "risk_composite_score");
   const tailRisk = scoreValue(player, "finance_tail_risk_score", "risk_tail_score");
-  const qaStatus = qaStatusFromFlags(qaFlagsForPlayer(player, measureKey));
+  const volatility = financeContextScore(player, "volatility_score");
+  const valueScore = optionalScoreValue(player, "value_score_v1", "cheap_enabler_score_v1");
+  const captainScore = scoreValue(player, "finance_captain_score");
+  const fixtureContext = qaFixtureContext(player);
+  const candidateMode = player.preview_candidate?.mode || player.value_role || measureKey;
 
-  if (player.recommendation_tier_label) {
-    labels.push({ text: player.recommendation_tier_label, kind: "neutral" });
+  const addTag = (label) => {
+    const definition = publicProfileTagByLabel.get(label);
+    if (definition) {
+      labels.push({ text: definition.label, kind: definition.kind });
+    }
+  };
+
+  if (candidateMode === "balanced" || measureKey === "balanced" || scoreValue(player, "finance_strategy_risk_adjusted") >= 70) {
+    addTag("Balanced");
   }
 
-  if (scoreValue(player, "finance_strategy_safe_floor") >= 75 && risk <= 45 && startProbability >= 65) {
-    labels.push({ text: "Safe pick", kind: "safe" });
+  if (measureKey === "safe" || scoreValue(player, "finance_strategy_safe_floor") >= 75 && risk <= 45 && startProbability >= 65) {
+    addTag("Safe");
   }
 
-  if (scoreValue(player, "finance_strategy_upside") >= 75 || scoreValue(player, "finance_upside_p90_percentile") >= 75) {
-    labels.push({ text: "Upside pick", kind: "upside" });
+  if (measureKey === "upside" || scoreValue(player, "finance_strategy_upside") >= 75 || scoreValue(player, "finance_upside_p90_percentile") >= 75) {
+    addTag("Upside");
   }
 
-  if (scoreValue(player, "finance_strategy_attack_heavy", "attack_score") >= 75) {
-    labels.push({ text: "Attack-heavy pick", kind: "attack" });
+  if (candidateMode === "differential" || measureKey === "differential" || scoreValue(player, "finance_strategy_very_risky") >= 70) {
+    addTag("Differential");
   }
 
-  if (scoreValue(player, "finance_strategy_defensive_heavy", "defense_score") >= 75) {
-    labels.push({ text: "Defensive-heavy pick", kind: "defense" });
+  if (candidateMode === "captain" || captainScore >= 70 || measureKey === "captain") {
+    addTag("Captain Option");
   }
 
-  if (scoreValue(player, "finance_strategy_very_risky") >= 70 || tailRisk >= 70) {
-    labels.push({ text: "Very risky", kind: "risk" });
+  if (fixtureContext.difficulty !== null && fixtureContext.difficulty <= 35) {
+    addTag("Fixture Boost");
   }
 
-  if (startProbability < 35 || player.finance_label === "avoid_for_now") {
-    labels.push({ text: "Avoid/watchlist", kind: "watch" });
+  if (startProbability < 60 || expectedMinutes < 55) {
+    addTag("Minutes Risk");
   }
 
-  if (value(player.data_confidence_score) < 50 || recommendationUseForPlayer(player) !== "safe_to_rank") {
-    labels.push({ text: "Data review", kind: "watch" });
+  if (substitutionRisk >= 45 || ["rotation", "rotation_risk", "unclear"].includes(String(player.country_role || "").toLowerCase())) {
+    addTag("Rotation Risk");
   }
 
-  if (player.roster_status && !["confirmed", "official_fantasy_pool"].includes(player.roster_status)) {
-    labels.push({ text: "Roster watch", kind: "watch" });
+  if ((scoreValue(player, "finance_strategy_upside") >= 75 || scoreValue(player, "finance_upside_p90_points") >= 8) && (tailRisk >= 60 || volatility >= 55)) {
+    addTag("Boom-or-Bust");
   }
 
-  if (qaStatus !== "pass") {
-    labels.push({ text: qaStatusLabel(qaStatus), kind: qaStatus });
+  if (Number.isFinite(valueScore) && valueScore >= 65 || ["bestValue", "valueQuant"].includes(measureKey) || candidateMode === "bestValue" || candidateMode === "valueQuant") {
+    addTag("Value");
+  }
+
+  if (!labels.length) {
+    addTag("Balanced");
   }
 
   const seen = new Set();
@@ -2590,34 +2678,34 @@ function publicFantasyNoteText(item) {
     normalized.includes("final squad source missing") ||
     normalized.includes("fantasy pool only not final squad")
   ) {
-    return "Confirm player availability in the official FIFA game before locking.";
+    return "Check latest availability before relying heavily on this pick.";
   }
 
   if (normalized.includes("not final public")) {
-    return "Refresh with the official data monitor before major recommendation changes.";
+    return "Refresh the player feed before major recommendation changes.";
   }
 
   if (normalized.includes("not team builder")) {
-    return "Use Team Builder as planning help and verify squad legality in the official FIFA game.";
+    return "Use Team Builder as planning help and check squad legality before the deadline.";
   }
 
   if (
     (normalized.includes("official rules") && normalized.includes("manual")) ||
     normalized.includes("rules manual review")
   ) {
-    return "Confirm boosters, deadlines, and scoring details in the official FIFA game.";
+    return "Confirm boosters, deadlines, and scoring details before the matchday locks.";
   }
 
   if (normalized.includes("squad staging") || normalized.includes("squad review rows")) {
-    return "Confirm squad status in the official FIFA game before the deadline.";
+    return "Check latest squad status before the deadline.";
   }
 
   if (normalized.includes("mystery booster")) {
-    return "Confirm Mystery Booster details in the official FIFA game.";
+    return "Confirm Mystery Booster details before using it.";
   }
 
   if (normalized.includes("deadline semantics")) {
-    return "Confirm deadline timing in the official FIFA game.";
+    return "Confirm deadline timing before the matchday locks.";
   }
 
   if (normalized.includes("high team context uncertainty")) {
@@ -2625,7 +2713,7 @@ function publicFantasyNoteText(item) {
   }
 
   if (normalized.includes("missing national team usage review")) {
-    return "National-team usage should be checked before relying heavily on this pick.";
+    return "National-team role is less clear for this player.";
   }
 
   return text.includes("_") ? titleFromSnake(text) : text;
@@ -2656,11 +2744,9 @@ function publicFantasyPickReasonItems(player) {
   const mode = candidate.mode || player.value_role || "balanced";
   const modeLabel = candidate.mode_label || player.preview_mode_label || titleFromSnake(mode);
   const projected = projectedMatchdayPoints(player);
-  const captain = fantasyPoolCandidateStat(player, "captain_score");
   const ceiling = fantasyPoolCandidateStat(player, "ceiling_points");
   const floor = fantasyPoolCandidateStat(player, "floor_points");
   const startProbability = Number(candidate.start_probability);
-  const confidence = candidate.projection_confidence || player.data_confidence_band;
   const startText = Number.isFinite(startProbability)
     ? ` with ${Math.round(startProbability * 100)}% start chance`
     : "";
@@ -2669,7 +2755,7 @@ function publicFantasyPickReasonItems(player) {
   const isGroupStageScope = !projection && scopeMatchdayId === "group_stage_full";
   const fixtureCount = Number(candidate.fixture_context?.fixture_count);
   const scopeText = isGroupStageScope
-    ? `projected points across the group stage (${Number.isFinite(fixtureCount) && fixtureCount > 0 ? fixtureCount : 3} matches)`
+    ? `projected points per matchday across the group stage (${Number.isFinite(fixtureCount) && fixtureCount > 0 ? fixtureCount : 3} matches)`
     : `projected points for ${matchdayLabelFromId(scopeMatchdayId)}`;
   const fixture = pickFixtureLabel(player);
   const fixtureText = fixture && !fixture.toLowerCase().includes("needs check")
@@ -2678,7 +2764,7 @@ function publicFantasyPickReasonItems(player) {
   const reasons = [];
 
   if (mode === "captain") {
-    reasons.push(`${modeLabel}: ${captain} captain signal and ${projected} ${scopeText}${startText}.`);
+    reasons.push(`${modeLabel}: strong captain-planning profile with ${projected} ${scopeText}${startText}.`);
   } else if (mode === "safe") {
     reasons.push(`${modeLabel}: ${projected} ${scopeText}${startText} and a useful floor of ${floor}.`);
   } else if (mode === "upside") {
@@ -2691,10 +2777,6 @@ function publicFantasyPickReasonItems(player) {
 
   if (fixtureText) {
     reasons.push(fixtureText);
-  }
-
-  if (confidence) {
-    reasons.push(`${titleFromSnake(confidence)} projection confidence in the current data.`);
   }
 
   return reasons;
@@ -2712,7 +2794,7 @@ function profileWhyPickPanel(player) {
     ? `Risk is elevated at ${displayNumber(risk)}, so check role and matchup before relying on him.`
     : start < 45
       ? `Start probability is only ${displayNumber(start)}%, so confirm role news before locking him in.`
-      : "Confirm matchday role and official-game status before locking him in.";
+      : "Check matchday role before locking him in.";
 
   return `
     <div class="profile-reason-grid">
@@ -2769,6 +2851,14 @@ function profilePerformanceGrid(player) {
   `;
 }
 
+function publicFixtureUseLabel(fixtureUse) {
+  if (fixtureUse === "current_official_fantasy_pool") {
+    return "Current fantasy pool";
+  }
+
+  return titleFromSnake(fixtureUse);
+}
+
 function profileFixtureRows(player) {
   const projections = playerMatchdayProjections(player);
 
@@ -2798,7 +2888,7 @@ function profileFixtureRows(player) {
       <td>${profileScore(projection.team_expected_goals_against)}</td>
       <td>${profilePercent(projection.team_clean_sheet_probability)}</td>
       <td>${profilePercent(projection.match_upset_risk_probability)}</td>
-      <td>${escapeHtml(titleFromSnake(projection.fixture_use))}</td>
+      <td>${escapeHtml(publicFixtureUseLabel(projection.fixture_use))}</td>
     </tr>
   `).join("");
 }
@@ -2842,18 +2932,18 @@ function renderPlayerDetail(player, measureKey = measureKeyForTrust(activeMeasur
   const recommendationTags = playerRecommendationLabels(player, measureKey)
     .map((label) => profileTag(label.text, label.kind))
     .join("");
-  const strategyTags = [
-    profileTag(titleFromSnake(player.finance_label), "neutral"),
-    profileTag(titleFromSnake(player.portfolio_use), "neutral"),
-    profileTag(titleFromSnake(player.risk_profile), "neutral"),
-    profileTag(titleFromSnake(player.value_role), "neutral")
-  ].join("");
 
   playerDetailTitle.textContent = player.name;
-  playerDetailSubtitle.textContent = `${playerCountryText(player)} · ${player.position} · ${player.club || "club needs check"} · ${player.league || "league needs check"}`;
+  playerDetailSubtitle.textContent = `${playerCountryText(player)} · ${player.position}`;
   playerDetailBody.innerHTML = `
-    <div class="profile-tags">
-      ${recommendationTags}
+    <div class="profile-tags-wrap">
+      <div class="profile-tags-header">
+        <div class="profile-tags">
+          ${recommendationTags}
+        </div>
+        <button class="info-button info-button--small profile-tag-help-button" type="button" aria-expanded="false" aria-controls="profile-tag-help" data-profile-tag-help>?</button>
+      </div>
+      ${publicProfileTagHelpHtml()}
     </div>
 
     ${profileBuilderActionHtml(player)}
@@ -2894,39 +2984,6 @@ function renderPlayerDetail(player, measureKey = measureKeyForTrust(activeMeasur
     <section class="profile-section">
       <h3>Fantasy Finance</h3>
       ${profileFinanceGrid(player)}
-    </section>
-
-    <section class="profile-section">
-      <h3>Data Checks</h3>
-      ${profileQaPanel(player, measureKey)}
-    </section>
-
-    <details class="profile-section profile-section--advanced">
-      <summary>Advanced player details</summary>
-      <div class="profile-advanced-body">
-        <div class="profile-tags">
-          ${strategyTags}
-        </div>
-        <section class="profile-section">
-          <h3>Identity</h3>
-          ${profileIdentityGrid(player)}
-        </section>
-        <section class="profile-section">
-          <h3>Role Model</h3>
-          ${profileRoleGrid(player)}
-        </section>
-        <section class="profile-section">
-          <h3>Performance Signals</h3>
-          ${profilePerformanceGrid(player)}
-        </section>
-      </div>
-    </details>
-
-    <section class="profile-section">
-      <h3>Data Quality Notes</h3>
-      <ul class="profile-notes">
-        ${profileNotesList(player)}
-      </ul>
     </section>
   `;
 }
@@ -8939,6 +8996,17 @@ function projectedMatchdayPointValue(player) {
     }
   }
 
+  if (player?.preview_candidate) {
+    const candidate = player.preview_candidate;
+    const modeledPoints = Number(candidate.risk_adjusted_points ?? candidate.raw_expected_points);
+    const fixtureCount = Number(candidate.fixture_context?.fixture_count);
+    if (Number.isFinite(modeledPoints)) {
+      return candidate.matchday === "group_stage_full" && Number.isFinite(fixtureCount) && fixtureCount > 0
+        ? modeledPoints / fixtureCount
+        : modeledPoints;
+    }
+  }
+
   return optionalScoreValue(
     player,
     "finance_risk_adjusted_return_points",
@@ -8964,14 +9032,10 @@ function pickProjectionContextText(player) {
 
 function fantasyPoolCandidateReason(player) {
   const candidate = player.preview_candidate || {};
-  const pickReason = publicFantasyPickReasonItems(player)[0] || `${candidate.mode_label || "Pick"}: current official score`;
-  const carefulReason = Array.isArray(candidate.why_careful) && candidate.why_careful.length
-    ? publicFantasyNoteText(candidate.why_careful[0])
-    : "check the latest official status before deadline";
+  const pickReason = publicFantasyPickReasonItems(player)[0] || `${candidate.mode_label || "Pick"}: current model pick`;
   const cleanPickReason = String(pickReason).replace(/\s*[.!?]+$/g, "");
-  const cleanCarefulReason = String(carefulReason).replace(/\s*[.!?]+$/g, "");
 
-  return `${cleanPickReason}. Careful: ${cleanCarefulReason}.`;
+  return `${cleanPickReason}.`;
 }
 
 function fantasyPoolPreviewTableScore(player, label = "Pick score") {
@@ -8979,6 +9043,15 @@ function fantasyPoolPreviewTableScore(player, label = "Pick score") {
     <span class="score-breakdown" title="${escapeHtml(fantasyPoolCandidateReason(player))}">
       <strong>${fantasyPoolCandidateStat(player, "recommendation_score")}</strong>
       <small>${escapeHtml(label)}</small>
+    </span>
+  `;
+}
+
+function projectedMatchdayPointScoreHtml(player) {
+  return `
+    <span class="score-breakdown" title="${escapeHtml(pickReasonText(player))}">
+      <strong>${escapeHtml(projectedMatchdayPoints(player))}</strong>
+      <small>Projected Pts / Matchday</small>
     </span>
   `;
 }
@@ -9057,9 +9130,7 @@ function financeLensCell(player, lens = activeAdviceFinanceLens()) {
 
 function pickRiskLabel(player) {
   const risk = scoreValue(player, "finance_composite_risk_score", "risk_composite_score");
-  const qaStatus = qaStatusFromFlags(qaFlagsForPlayer(player, measureKeyForTrust(activeMeasure())));
 
-  if (qaStatus === "review") return "Review";
   if (risk <= 38) return "Low Risk";
   if (risk <= 62) return "Medium Risk";
   return "High Risk";
@@ -9071,14 +9142,10 @@ function pickRiskHelpText(player, riskLabel) {
     ? `${displayNumber(risk)}/100`
     : "not available";
   const basis = player?.is_fantasy_pool_preview
-    ? "start chance, expected minutes, projection confidence, role stability, downside floor, volatility, and ceiling/floor spread"
+    ? "start chance, expected minutes, role stability, downside floor, volatility, and ceiling/floor spread"
     : "availability, minutes, discipline, volatility, and bad-week floor";
 
-  if (riskLabel === "Review") {
-    return `Review: this pick has data warnings to check before trusting it. Practical risk score: ${scoreText}.`;
-  }
-
-  return `${riskLabel}: practical pick risk ${scoreText}. Low is 0-38, Medium is 39-62, High is 63+. Based on ${basis}. Data-readiness caveats are shown separately.`;
+  return `${riskLabel}: practical pick risk ${scoreText}. Low is 0-38, Medium is 39-62, High is 63+. Based on ${basis}.`;
 }
 
 function pickRiskKind(player) {
@@ -9114,27 +9181,14 @@ function pickFixtureLabel(player) {
 
 function pickProjectedScore(player, measureKey = "balanced") {
   if (player.preview_candidate) {
-    if (measureKey === "captain") {
-      return fantasyPoolCandidateStat(player, "captain_score");
-    }
     return projectedMatchdayPoints(player);
-  }
-
-  if (measureKey === "captain") {
-    return displayNumber(captainRecommendationScore(player));
   }
 
   return displayNumber(scoreValue(player, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate"));
 }
 
 function pickScoreLabel(player, measureKey = "balanced") {
-  if (measureKey === "captain") {
-    return "Captain Alpha";
-  }
-  const hasMatchdayProjection = Boolean(pickProjectionRow(player));
-  return !hasMatchdayProjection && player?.preview_candidate?.matchday === "group_stage_full"
-    ? "Group Stage Pts"
-    : "Projected Pts / Matchday";
+  return "Projected Pts / Matchday";
 }
 
 function pickReasonText(player, measureKey = "balanced") {
@@ -9181,8 +9235,8 @@ function renderPickCard(player, options = {}) {
   const riskHelpText = pickRiskHelpText(player, riskLabel);
 
   if (!player) {
-    const emptyTitle = options.emptyTitle || "Official fantasy data unavailable";
-    const emptyCopy = options.emptyCopy || "The site will fall back to the older local dataset if the official fantasy source file is missing.";
+    const emptyTitle = options.emptyTitle || "Fantasy data unavailable";
+    const emptyCopy = options.emptyCopy || "The site will fall back to the older local dataset if the current fantasy source file is missing.";
 
     return `
       <article class="pick-card pick-card--empty">
@@ -9300,11 +9354,10 @@ function renderFantasyPoolPreviewCaptainPicks() {
         <td>${playerDetailButton(player, "", "captain")}</td>
         <td>${playerCountryText(player)}</td>
         <td>${escapeHtml(player.club)}</td>
-        <td>${fantasyPoolPreviewTableScore(player, "Captain Alpha")}</td>
+        <td>${projectedMatchdayPointScoreHtml(player)}</td>
         <td>${displayNumber(scoreValue(player, "start_probability_percent"))}%</td>
         <td>${fantasyPoolCandidateStat(player, "ceiling_points")}</td>
         <td>${displayNumber(scoreValue(player, "finance_composite_risk_score"))}</td>
-        <td>${qaChipRow(qaFlagsForPlayer(player, "captain"), { compact: true, maxVisible: 2 })}</td>
       </tr>
     `;
   }).join("");
@@ -9312,7 +9365,7 @@ function renderFantasyPoolPreviewCaptainPicks() {
   if (!captainCandidates.length) {
     captainTableBody.innerHTML = `
       <tr class="fallback-table-row">
-        <td colspan="9">Official fantasy captain candidates did not load. The site will fall back to the older captain table when official fantasy data is unavailable.</td>
+        <td colspan="8">Captain candidates did not load. The site will fall back to the older captain table when current fantasy data is unavailable.</td>
       </tr>
     `;
   }
@@ -9346,11 +9399,10 @@ function renderCaptainPicks() {
       <td>${playerDetailButton(player, "", "captain")}</td>
       <td>${playerCountryText(player)}</td>
       <td>${player.club}</td>
-      <td>${scoreBreakdownHtml(player, captainTrustMeasure)}</td>
+      <td>${projectedMatchdayPointScoreHtml(player)}</td>
       <td>${displayNumber(scoreValue(player, "finance_minutes_security_score", "euro_style_reliability_score"))}</td>
       <td>${displayNumber(scoreValue(player, "finance_upside_p90_points", "euro_style_points_per90_estimate"))}</td>
       <td>${displayNumber(scoreValue(player, "finance_composite_risk_score", "risk_composite_score"))}</td>
-      <td>${qaChipRow(qaFlagsForPlayer(player, "captain"), { compact: true, maxVisible: 2 })}</td>
     </tr>
   `).join("");
 }
@@ -9462,7 +9514,7 @@ function renderFantasyPoolPreviewAdviceTable() {
     ? "Finance badges show the current model context."
     : `Advanced Finance Lens: sorted by ${financeLens.label}.`;
 
-  adviceStyleNote.textContent = `Official Fantasy Picks: showing ${pickOption.label} candidates for ${positionLabel} in ${activeMatchdayLabel()} with ${trustModeLabel()}. ${visiblePool.length} ranked from ${positionPool.length} official candidate${positionPool.length === 1 ? "" : "s"}${hiddenCount ? `; ${hiddenCount} watchlist candidate${hiddenCount === 1 ? "" : "s"} hidden` : ""}. ${financeNote} Refresh with the monitor when FIFA changes the fantasy feed.`;
+  adviceStyleNote.textContent = `Showing ${pickOption.label} candidates for ${positionLabel} in ${activeMatchdayLabel()} with ${trustModeLabel()}. ${visiblePool.length} ranked from ${positionPool.length} candidate${positionPool.length === 1 ? "" : "s"}${hiddenCount ? `; ${hiddenCount} watchlist candidate${hiddenCount === 1 ? "" : "s"} hidden` : ""}. ${financeNote} Refresh when the fantasy feed changes.`;
 
   if (adviceCardGrid) {
     adviceCardGrid.innerHTML = visiblePool.length
@@ -9475,7 +9527,7 @@ function renderFantasyPoolPreviewAdviceTable() {
         label: "Pick Explorer",
         measureKey: pickOption.measureKey,
         emptyTitle: "No matching picks",
-        emptyCopy: "No official fantasy candidates match this Pick Explorer filter. Try another position, model, or confidence mode."
+        emptyCopy: "No fantasy candidates match this Pick Explorer filter. Try another position, model, or confidence mode."
       });
   }
 
@@ -9489,7 +9541,6 @@ function renderFantasyPoolPreviewAdviceTable() {
       <td>${projectedMatchdayPoints(player)}</td>
       <td>${displayNumber(scoreValue(player, "finance_composite_risk_score"))}</td>
       <td>${financeLensCell(player, financeLens)}</td>
-      <td>${qaChipRow(qaFlagsForPlayer(player, measureKey), { compact: true, maxVisible: 2 })}</td>
       <td>${escapeHtml(fantasyPoolCandidateReason(player))}</td>
     </tr>
   `).join("");
@@ -9497,7 +9548,7 @@ function renderFantasyPoolPreviewAdviceTable() {
   if (!visiblePool.length) {
     adviceTableBody.innerHTML = `
       <tr>
-        <td colspan="10">No official fantasy candidates match this Pick Explorer filter. Try Include watchlist differentials, another position, or a broader strategy.</td>
+        <td colspan="9">No fantasy candidates match this Pick Explorer filter. Try Include watchlist differentials, another position, or a broader strategy.</td>
       </tr>
     `;
   }
@@ -9531,7 +9582,7 @@ function renderAdviceTable() {
   const positionLabel = positionFilterValue === "All" ? "all positions" : positionFilterValue.toLowerCase();
 
   const financeNote = financeLens.defaultLens ? "" : ` Advanced Finance Lens: sorted by ${financeLens.label}.`;
-  adviceStyleNote.textContent = `Showing ${positionLabel} advice for ${pickOption.label} in ${activeMatchdayLabel()} with ${trustModeLabel()}. ${advicePoolNote(counts, poolMode, trustFallbackUsed)} Scores include data-check penalties or filters for source quality, role confidence, risk, and fixture context.${financeNote}`;
+  adviceStyleNote.textContent = `Showing ${positionLabel} advice for ${pickOption.label} in ${activeMatchdayLabel()} with ${trustModeLabel()}. ${advicePoolNote(counts, poolMode, trustFallbackUsed)} Scores include role, minutes, risk, and fixture context.${financeNote}`;
 
   if (adviceCardGrid) {
     adviceCardGrid.innerHTML = ranked.length
@@ -9558,7 +9609,6 @@ function renderAdviceTable() {
       <td>${displayNumber(scoreValue(player, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate"))}</td>
       <td>${displayNumber(scoreValue(player, "finance_composite_risk_score", "risk_composite_score"))}</td>
       <td>${financeLensCell(player, financeLens)}</td>
-      <td>${qaChipRow(qaFlagsForPlayer(player, measureKey), { compact: true, maxVisible: 2 })}</td>
       <td>${styleReason(player, measureKey)}</td>
     </tr>
   `).join("");
@@ -9566,7 +9616,7 @@ function renderAdviceTable() {
   if (!ranked.length) {
     adviceTableBody.innerHTML = `
       <tr>
-        <td colspan="10">No players match this Pick Explorer filter yet. Try Include watchlist differentials, another position, or a broader strategy.</td>
+        <td colspan="9">No players match this Pick Explorer filter yet. Try Include watchlist differentials, another position, or a broader strategy.</td>
       </tr>
     `;
   }
@@ -9849,6 +9899,21 @@ function handlePlayerDetailCloseClick(event) {
   closePlayerDetail();
 }
 
+function handlePlayerDetailBodyClick(event) {
+  const tagHelpButton = event.target.closest("[data-profile-tag-help]");
+
+  if (tagHelpButton) {
+    const tagHelp = playerDetailBody?.querySelector("#profile-tag-help");
+    const isHidden = tagHelp?.classList.toggle("hidden") ?? true;
+    tagHelpButton.setAttribute("aria-expanded", String(!isHidden));
+    return;
+  }
+
+  if (event.target.closest("[data-profile-model-notes-link]")) {
+    closePlayerDetail();
+  }
+}
+
 function handlePlayerDetailKeydown(event) {
   if (event.key === "Escape" && !playerDetailModal?.classList.contains("hidden")) {
     closePlayerDetail();
@@ -9900,6 +9965,7 @@ function setupBuilder() {
     .filter(Boolean)
     .forEach((container) => container.addEventListener("click", handlePickCardActions));
   playerDetailBody?.addEventListener("click", handlePickCardActions);
+  playerDetailBody?.addEventListener("click", handlePlayerDetailBodyClick);
   picksBuilderTray?.addEventListener("click", handlePicksBuilderTrayClick);
   playerDetailClose?.addEventListener("click", closePlayerDetail);
   playerDetailModal?.addEventListener("click", handlePlayerDetailCloseClick);

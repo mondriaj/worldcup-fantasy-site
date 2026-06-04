@@ -14,7 +14,7 @@
     <meta name="twitter:description" content="Compare captain picks, player rankings, and squad ideas in one simple fantasy football hub." />
     <!-- Add canonical and og:url once the final production URL is available. -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="stylesheet" href="style.css?v=20260604-picks" />
+    <link rel="stylesheet" href="style.css?v=20260604-profile-ui" />
   </head>
   <body>
     <header id="top" class="hero">
@@ -29,7 +29,7 @@
       </nav>
 
       <div class="hero__content">
-        <p class="eyebrow">Official Fantasy Picks</p>
+        <p class="eyebrow">Model-backed fantasy picks</p>
         <h1>Fantasy Quant</h1>
         <p class="hero__text">
           Fantasy Quant is a World Cup fantasy helper that uses models, data science, and quant methods to help you find good picks, build a squad, and manage captain and bench decisions with risk-aware advice.
@@ -62,7 +62,7 @@
 
         <p class="section-note"><strong>How to use Picks.</strong> These picks are strong players to build a squad around. Use them as squad-builder starters, then complete the team around budget, position limits, country limits, captain choices, and risk.</p>
         <p class="section-note"><strong>Model-backed rankings.</strong> Fantasy Quant uses models, data science, and quant methods to rank players in simple pick lists.</p>
-        <p class="section-note"><strong>Official Fantasy Picks.</strong> These picks use official fantasy prices, positions, selectable status, and scoring from the current FIFA fantasy feed.</p>
+        <p class="section-note"><strong>Current fantasy picks.</strong> These picks use current fantasy prices, positions, selectable status, and scoring from the game feed.</p>
 
         <details class="advanced-control-panel">
           <summary>Advanced pick settings</summary>
@@ -131,13 +131,13 @@
         <summary class="collapsible-summary">
           <span>
             <h2>Captain Alpha</h2>
-            <p>Captain Alpha shortlist using official fantasy-pool projections.</p>
+            <p>Captain Alpha shortlist for captain-planning upside.</p>
           </span>
           <span class="collapsible-action" aria-hidden="true"></span>
         </summary>
 
         <div class="collapsible-body">
-          <p class="section-note"><strong>Official Fantasy Picks.</strong> Captain candidates use the current official fantasy pool and are refreshed when the monitor finds player-feed changes.</p>
+          <p class="section-note"><strong>Captain planning.</strong> Captain candidates use the current player feed and model projections.</p>
 
           <div id="captain-card-grid" class="pick-card-grid" aria-live="polite"></div>
 
@@ -154,12 +154,11 @@
 
           <div id="score-info" class="measure-info hidden">
             <strong>What these columns mean</strong>
-            <p><strong>Reliability</strong> is a 0 to 100 score for how dependable the player looks based on playing time, availability, and data confidence.</p>
+            <p><strong>Reliability</strong> is a 0 to 100 score for how dependable the player looks based on playing time, availability, and role security.</p>
             <p><strong>Per 90</strong> estimates fantasy points if the player played a full 90 minutes.</p>
             <p><strong>Risk</strong> is a 0 to 100 score where lower is better. Pick cards translate it as Low Risk up to 38, Medium Risk from 39 to 62, and High Risk from 63 upward.</p>
-            <p>For current official-pool picks, that badge is based on start chance, expected minutes, projection confidence, role stability, downside floor, volatility, and ceiling/floor spread. Data-readiness warnings are shown separately in the careful notes.</p>
-            <p><strong>Data Checks</strong> show role, risk, source, and fixture warnings that should be checked before trusting a recommendation.</p>
-            <p><strong>Confidence Mode</strong> changes how strongly those warnings affect the ranking.</p>
+            <p>For current picks, that badge is based on start chance, expected minutes, role stability, downside floor, volatility, and ceiling/floor spread.</p>
+            <p><strong>Confidence Mode</strong> changes how strict the ranking is about role, minutes, and risk.</p>
           </div>
 
           <details class="advanced-table-panel">
@@ -172,16 +171,15 @@
                     <th>Player</th>
                     <th>Country</th>
                     <th>Club</th>
-                    <th>Captain Score</th>
+                    <th>Projected Pts / Matchday</th>
                     <th>Reliability</th>
                     <th>Per 90</th>
                     <th>Risk</th>
-                    <th>Data Checks</th>
                   </tr>
                 </thead>
                 <tbody id="captain-table-body">
                   <tr class="fallback-table-row">
-                    <td colspan="9">Enable JavaScript to see captain rankings from the current fantasy dataset.</td>
+                    <td colspan="8">Enable JavaScript to see captain rankings from the current fantasy dataset.</td>
                   </tr>
                 </tbody>
               </table>
@@ -444,7 +442,7 @@
         </summary>
 
         <div class="collapsible-body">
-          <p class="section-note"><strong>Official Fantasy Picks.</strong> Pick cards show Matchday 1 projected points by default while ranking candidates by the selected matchday view.</p>
+          <p class="section-note"><strong>Current fantasy picks.</strong> Pick cards show Matchday 1 projected points by default while ranking candidates by the selected matchday view.</p>
 
           <div class="table-toolbar advice-toolbar">
             <label class="control-group" for="advice-measure-select">
@@ -515,13 +513,12 @@
                     <th>Projected Pts / Matchday</th>
                     <th>Risk</th>
                     <th>Finance</th>
-                    <th>Data Checks</th>
                     <th>Reason</th>
                   </tr>
                 </thead>
                 <tbody id="advice-table-body">
                   <tr class="fallback-table-row">
-                    <td colspan="10">Enable JavaScript to see player advice by style, position, projected points, finance, and risk.</td>
+                    <td colspan="9">Enable JavaScript to see player advice by style, position, projected points, finance, and risk.</td>
                   </tr>
                 </tbody>
               </table>
@@ -1404,6 +1401,6 @@
     <script src="fantasyPoolFinanceMetricsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolScorePredictionsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolOfficialDataStatusData.js?v=20260603-official-final"></script>
-    <script src="script.js?v=20260604-picks"></script>
+    <script src="script.js?v=20260604-profile-ui"></script>
   </body>
 </html>
