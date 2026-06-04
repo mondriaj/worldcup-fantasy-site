@@ -3565,10 +3565,8 @@ function decisionComparisonMode(select, modes) {
 
   return {
     ...fallbackMode,
-    label: strategyLabel,
-    badge: `${strategyLabel} check`,
-    projectionLabel: "Projected score",
-    usesFallbackComparison: true
+    usesFallbackComparison: true,
+    requestedStrategyLabel: strategyLabel
   };
 }
 
