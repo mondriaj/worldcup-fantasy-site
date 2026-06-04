@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>World Cup Fantasy Helper | Picks, Team Builder, and Matchday Desk</title>
+    <title>World Cup Fantasy Helper | Picks, Team Builder, and Decision Tools</title>
     <meta name="description" content="Current World Cup fantasy recommendations using official fantasy prices, positions, selectable status, and scoring." />
     <meta property="og:site_name" content="World Cup Fantasy Helper" />
     <meta property="og:title" content="World Cup Fantasy Helper" />
@@ -14,7 +14,7 @@
     <meta name="twitter:description" content="Compare captain picks, player rankings, and squad ideas in one simple fantasy football hub." />
     <!-- Add canonical and og:url once the final production URL is available. -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="stylesheet" href="style.css?v=20260604-captain-selection" />
+    <link rel="stylesheet" href="style.css?v=20260604-decision-tools" />
   </head>
   <body>
     <header id="top" class="hero">
@@ -22,7 +22,7 @@
         <a href="#top">Home</a>
         <a href="#picks">Picks</a>
         <a href="#team-builder">Team Builder</a>
-        <a href="#matchday-desk">Matchday Desk</a>
+        <a href="#captain-change-advisor">Decision Tools</a>
         <a href="#fantasy-finance">Fantasy Finance</a>
         <a href="world-cup.html">World Cup Guide</a>
         <a href="#model-notes">Model Notes</a>
@@ -38,7 +38,7 @@
         <div class="hero__actions" aria-label="Homepage actions">
           <a class="primary-button primary-button--hero" href="#team-builder">Build My Squad</a>
           <a class="secondary-link" href="#picks">See Top Picks</a>
-          <a class="secondary-link secondary-link--quiet" href="#matchday-desk">Open Matchday Desk</a>
+          <a class="secondary-link secondary-link--quiet" href="#captain-change-advisor">Check Decisions</a>
         </div>
 
       </div>
@@ -75,7 +75,7 @@
 
         <div id="dashboard-grid" class="dashboard-grid" aria-live="polite">
           <article class="info-card info-card--fallback">
-            <span class="info-card__label">Captain Alpha</span>
+            <span class="info-card__label">Captain Selection</span>
             <strong>Interactive shortlist</strong>
             <p>Enable JavaScript to see captain options from the current fantasy dataset.</p>
           </article>
@@ -117,7 +117,7 @@
         </div>
       </details>
 
-      <section id="matchday-desk" class="panel matchday-decision-center-panel">
+      <section id="matchday-desk" class="panel matchday-decision-center-panel" hidden aria-hidden="true">
         <div class="section-heading">
           <h2>Matchday Desk</h2>
           <p>One saved-squad hub for captain switches, bench checks, and your matchday timeline.</p>
@@ -174,26 +174,26 @@
         <summary class="collapsible-summary">
           <span>
             <h2>Captain Switch Check</h2>
-            <p>Manual switch check for one current captain score against one unplayed replacement.</p>
+            <p>Manual switch check for one current captain score against one possible new captain.</p>
           </span>
           <span class="collapsible-action" aria-hidden="true"></span>
         </summary>
         <div class="collapsible-body">
         <div class="section-heading">
           <h2>Captain Switch Check</h2>
-          <p>Manual switch check for one current captain score against one unplayed replacement in the same matchday.</p>
+          <p>Manual switch check for one current captain score against one possible new captain in the same matchday.</p>
         </div>
 
         <div id="captain-change-status" class="decision-tool-status" aria-live="polite">
           <span class="decision-tool-status__badge">Manual</span>
-          <span>Enter captain points and one unplayed replacement, then run the check.</span>
+          <span>Enter current captain points and one possible new captain, then run the check.</span>
         </div>
 
         <details class="captain-change-guide">
           <summary>How to use this check</summary>
           <ol>
             <li>Choose the matchday and enter your current captain's points before the captain double.</li>
-            <li>Pick one replacement captain who is in your squad and has not played yet.</li>
+            <li>Pick one possible new captain who is in your squad and has not played yet.</li>
             <li>Use Balanced by default. Safe protects a good current score; Upside is only for chasing.</li>
             <li>Build or load a Team Builder squad to fill the captain fields from saved-squad buttons.</li>
           </ol>
@@ -202,48 +202,74 @@
         <div id="captain-change-squad-panel" class="decision-squad-panel" aria-live="polite"></div>
 
         <form id="captain-change-form" class="captain-change-form">
-          <label class="control-group" for="captain-change-matchday-select">
+          <div class="decision-tool-row decision-tool-row--captain-current">
+            <label class="control-group" for="captain-change-current-country-select">
+              <span>Country</span>
+              <select id="captain-change-current-country-select"></select>
+            </label>
+
+            <label class="control-group" for="captain-change-current-position-select">
+              <span>Position</span>
+              <select id="captain-change-current-position-select"></select>
+            </label>
+
+            <label class="control-group" for="captain-change-current-player-input">
+              <span>Current captain</span>
+              <select id="captain-change-current-player-input"></select>
+            </label>
+
+            <label class="control-group" for="captain-change-current-points-input">
+              <span>Current captain points</span>
+              <input id="captain-change-current-points-input" type="number" min="0" step="0.5" inputmode="decimal" placeholder="0" />
+              <small class="control-helper">Use points before the captain double.</small>
+            </label>
+          </div>
+
+          <div class="decision-tool-row decision-tool-row--captain-candidate">
+            <label class="control-group" for="captain-change-candidate-country-select">
+              <span>Country</span>
+              <select id="captain-change-candidate-country-select"></select>
+            </label>
+
+            <label class="control-group" for="captain-change-candidate-position-select">
+              <span>Position</span>
+              <select id="captain-change-candidate-position-select"></select>
+            </label>
+
+            <label class="control-group" for="captain-change-candidate-input">
+              <span>Possible new captain</span>
+              <select id="captain-change-candidate-input"></select>
+            </label>
+
+            <label class="control-group" for="captain-change-risk-select">
+              <span>Strategy</span>
+              <select id="captain-change-risk-select">
+                <option value="balanced">Balanced</option>
+                <option value="safe">Safe</option>
+                <option value="upside">Upside</option>
+                <option value="differential">Differential</option>
+                <option value="bestValue">Value</option>
+                <option value="valueQuant">Value Quant</option>
+                <option value="captain">Captain Selection</option>
+                <option value="riskControl">Risk-Control Pick</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="control-group decision-tool-matchday" for="captain-change-matchday-select">
             <span>Matchday</span>
             <select id="captain-change-matchday-select"></select>
           </label>
 
-          <label class="control-group" for="captain-change-current-player-input">
-            <span>Current Captain</span>
-            <input id="captain-change-current-player-input" type="text" list="captain-change-player-list" placeholder="Search current captain" autocomplete="off" />
-          </label>
-
-          <label class="control-group" for="captain-change-current-points-input">
-            <span>Captain Points</span>
-            <input id="captain-change-current-points-input" type="number" min="0" step="0.5" inputmode="decimal" placeholder="0" />
-            <small class="control-helper">Use points before the captain double.</small>
-          </label>
-
-          <label class="control-group" for="captain-change-candidate-input">
-            <span>New Captain</span>
-            <input id="captain-change-candidate-input" type="text" list="captain-change-player-list" placeholder="Search replacement" autocomplete="off" />
-          </label>
-
-          <label class="control-group" for="captain-change-risk-select">
-            <span>Strategy</span>
-            <select id="captain-change-risk-select">
-              <option value="balanced">Balanced</option>
-              <option value="safe">Safe</option>
-              <option value="upside">Upside</option>
-              <option value="differential">Differential</option>
-            </select>
-          </label>
-
           <div class="captain-change-actions">
-            <button id="captain-change-check-btn" class="builder-action-button captain-change-button" type="submit">Check Switch</button>
+            <button id="captain-change-check-btn" class="builder-action-button captain-change-button" type="submit">Check captain switch</button>
             <button id="captain-change-reset-btn" class="utility-button" type="button">Reset</button>
           </div>
-
-          <datalist id="captain-change-player-list"></datalist>
         </form>
 
         <div id="captain-change-result" class="captain-change-result captain-change-result--empty" aria-live="polite">
-          <strong>Enter your captain score and a replacement captain.</strong>
-          <p>The replacement should be in your squad and still unplayed in the selected matchday.</p>
+          <strong>Enter current captain points and a possible new captain.</strong>
+          <p>The possible new captain should be in your squad and still unplayed in the selected matchday.</p>
         </div>
         </div>
       </details>
@@ -252,26 +278,26 @@
         <summary class="collapsible-summary">
           <span>
             <h2>Bench Switch Check</h2>
-            <p>Manual quick check for one played starter score against one unplayed bench player.</p>
+            <p>Manual quick check for one current starter score against one possible substitute.</p>
           </span>
           <span class="collapsible-action" aria-hidden="true"></span>
         </summary>
         <div class="collapsible-body">
         <div class="section-heading">
           <h2>Bench Switch Check</h2>
-          <p>Manual quick check for one played starter score against one unplayed bench player.</p>
+          <p>Manual quick check for one current starter score against one possible substitute.</p>
         </div>
 
         <div id="substitution-advisor-status" class="decision-tool-status" aria-live="polite">
           <span class="decision-tool-status__badge">Manual</span>
-          <span>Enter the starter score and one unplayed bench option, then run the check.</span>
+          <span>Enter current starter points and one possible substitute, then run the check.</span>
         </div>
 
         <details class="captain-change-guide substitution-advisor-guide">
           <summary>How to use this check</summary>
           <ol>
             <li>Choose the matchday and enter the starter's points after that player has played.</li>
-            <li>Pick one bench player who is in your squad and has not played yet.</li>
+            <li>Pick one possible substitute who is in your squad and has not played yet.</li>
             <li>Check your fantasy formation rules before making a different-position substitution.</li>
             <li>Build or load a Team Builder squad to fill the starter and bench fields from saved-squad buttons.</li>
           </ol>
@@ -280,53 +306,79 @@
         <div id="substitution-advisor-squad-panel" class="decision-squad-panel" aria-live="polite"></div>
 
         <form id="substitution-advisor-form" class="captain-change-form substitution-advisor-form">
-          <label class="control-group" for="substitution-advisor-matchday-select">
+          <div class="decision-tool-row decision-tool-row--bench-current">
+            <label class="control-group" for="substitution-advisor-starter-country-select">
+              <span>Country</span>
+              <select id="substitution-advisor-starter-country-select"></select>
+            </label>
+
+            <label class="control-group" for="substitution-advisor-starter-position-select">
+              <span>Position</span>
+              <select id="substitution-advisor-starter-position-select"></select>
+            </label>
+
+            <label class="control-group" for="substitution-advisor-starter-input">
+              <span>Current starter</span>
+              <select id="substitution-advisor-starter-input"></select>
+            </label>
+
+            <label class="control-group" for="substitution-advisor-points-input">
+              <span>Current starter points</span>
+              <input id="substitution-advisor-points-input" type="number" min="0" step="0.5" inputmode="decimal" placeholder="0" />
+              <small class="control-helper">Use the starter's actual fantasy score.</small>
+            </label>
+          </div>
+
+          <div class="decision-tool-row decision-tool-row--bench-candidate">
+            <label class="control-group" for="substitution-advisor-bench-country-select">
+              <span>Country</span>
+              <select id="substitution-advisor-bench-country-select"></select>
+            </label>
+
+            <label class="control-group" for="substitution-advisor-bench-position-select">
+              <span>Position</span>
+              <select id="substitution-advisor-bench-position-select"></select>
+            </label>
+
+            <label class="control-group" for="substitution-advisor-bench-input">
+              <span>Possible substitute</span>
+              <select id="substitution-advisor-bench-input"></select>
+            </label>
+
+            <label class="control-group" for="substitution-advisor-risk-select">
+              <span>Strategy</span>
+              <select id="substitution-advisor-risk-select">
+                <option value="balanced">Balanced</option>
+                <option value="safe">Safe</option>
+                <option value="upside">Upside</option>
+                <option value="differential">Differential</option>
+                <option value="bestValue">Value</option>
+                <option value="valueQuant">Value Quant</option>
+                <option value="captain">Captain Selection</option>
+                <option value="riskControl">Risk-Control Pick</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="control-group decision-tool-matchday" for="substitution-advisor-matchday-select">
             <span>Matchday</span>
             <select id="substitution-advisor-matchday-select"></select>
           </label>
 
-          <label class="control-group" for="substitution-advisor-starter-input">
-            <span>Played Starter</span>
-            <input id="substitution-advisor-starter-input" type="text" list="substitution-advisor-player-list" placeholder="Search starter" autocomplete="off" />
-          </label>
-
-          <label class="control-group" for="substitution-advisor-points-input">
-            <span>Starter Points</span>
-            <input id="substitution-advisor-points-input" type="number" min="0" step="0.5" inputmode="decimal" placeholder="0" />
-            <small class="control-helper">Use the starter's actual fantasy score.</small>
-          </label>
-
-          <label class="control-group" for="substitution-advisor-bench-input">
-            <span>Bench Player</span>
-            <input id="substitution-advisor-bench-input" type="text" list="substitution-advisor-player-list" placeholder="Search bench player" autocomplete="off" />
-          </label>
-
-          <label class="control-group" for="substitution-advisor-risk-select">
-            <span>Strategy</span>
-            <select id="substitution-advisor-risk-select">
-              <option value="balanced">Balanced</option>
-              <option value="safe">Safe</option>
-              <option value="upside">Upside</option>
-              <option value="differential">Differential</option>
-            </select>
-          </label>
-
           <div class="captain-change-actions substitution-advisor-actions">
-            <button id="substitution-advisor-check-btn" class="builder-action-button captain-change-button substitution-advisor-button" type="submit">Check Sub</button>
+            <button id="substitution-advisor-check-btn" class="builder-action-button captain-change-button substitution-advisor-button" type="submit">Check bench switch</button>
             <button id="substitution-advisor-reset-btn" class="utility-button" type="button">Reset</button>
           </div>
-
-          <datalist id="substitution-advisor-player-list"></datalist>
         </form>
 
         <div id="substitution-advisor-result" class="captain-change-result substitution-advisor-result captain-change-result--empty" aria-live="polite">
-          <strong>Enter a played starter score and one bench candidate.</strong>
-          <p>The bench player should be in your squad and still unplayed in the selected matchday.</p>
+          <strong>Enter current starter points and one possible substitute.</strong>
+          <p>The substitute should be in your squad and still unplayed in the selected matchday.</p>
         </div>
         </div>
       </details>
 
-      <details id="saved-squad-timeline" class="panel collapsible-panel saved-squad-timeline-panel">
+      <details id="saved-squad-timeline" class="panel collapsible-panel saved-squad-timeline-panel" hidden aria-hidden="true">
         <summary class="collapsible-summary">
           <span>
             <h2>My Matchday Timeline</h2>
@@ -515,7 +567,7 @@
 
         <div class="method-note method-note--warning">
           <strong>Team Builder check:</strong>
-          Use the builder as planning help, then confirm squad legality, locks, and deadlines inside the official FIFA fantasy game.
+          Use the builder as planning help, then confirm squad legality, locks, and deadlines inside the fantasy game.
         </div>
 
         <ol class="builder-flow" aria-label="Team Builder flow">
@@ -693,12 +745,12 @@
                 <div class="builder-ready-actions__summary">
                   <span>Squad Ready</span>
                   <strong>Save it before matchday</strong>
-                  <p id="builder-ready-summary">Full squad built. Save it in this browser, export a backup, or open Matchday Desk.</p>
+                  <p id="builder-ready-summary">Full squad built. Save it in this browser, export a backup, or open Decision Tools.</p>
                 </div>
                 <div class="builder-ready-actions__buttons" aria-label="Squad ready actions">
                   <button class="utility-button utility-button--strong" type="button" data-builder-ready-action="save">Save to Browser</button>
                   <button class="utility-button" type="button" data-builder-ready-action="export">Export JSON</button>
-                  <a class="utility-button" href="#matchday-desk">Open Matchday Desk</a>
+                  <a class="utility-button" href="#captain-change-advisor">Open Captain Switch</a>
                 </div>
               </div>
 
@@ -791,7 +843,7 @@
                 <span class="builder-step-number">5</span>
                 <div>
                   <h3 id="builder-step-save-title">Save or Export</h3>
-                  <p>Your squad stays local. Save it in this browser for Matchday Desk, or export JSON for backup.</p>
+                  <p>Your squad stays local. Save it in this browser for Decision Tools, or export JSON for backup.</p>
                 </div>
               </div>
 
@@ -807,7 +859,7 @@
               </div>
 
               <p id="browser-squad-status" class="browser-squad-status" aria-live="polite">
-                Browser save is empty. Build a full squad, then save it here for quick Matchday Desk access.
+                Browser save is empty. Build a full squad, then save it here for quick Decision Tools access.
               </p>
 
               <div id="team-export-panel" class="team-export-panel hidden" aria-live="polite">
@@ -854,7 +906,7 @@
 
         <div class="finance-feature-grid">
           <article><span>Portfolio Health</span><strong>Squad balance</strong></article>
-          <article><span>Captain Alpha</span><strong>Armband edge</strong></article>
+          <article><span>Captain Selection</span><strong>Armband edge</strong></article>
           <article><span>Market Movers</span><strong>Watchlist shifts</strong></article>
           <article><span>Undervalued Assets</span><strong>Price-aware picks</strong></article>
           <article><span>Country Stack Risk</span><strong>Country concentration</strong></article>
@@ -885,7 +937,7 @@
             <article class="method-card">
               <h3>2. Performance Matching</h3>
               <p><strong>Source:</strong> <code>data/playerRecommendationInputs_v0.json</code> and the club/national-team sources documented in <code>data/dataSources.md</code>.</p>
-              <p><strong>Used for:</strong> club minutes, starts, goals, assists, clean sheets, cards, selected attacking stats, national-team qualifier usage, caps signals, starter confidence, expected minutes, and data confidence.</p>
+              <p><strong>Used for:</strong> club minutes, starts, goals, assists, clean sheets, cards, selected attacking stats, national-team qualifier usage, caps signals, starter confidence, expected minutes, and data coverage.</p>
               <p><strong>Important:</strong> weak-source and estimated-minute rows stay in the model, but they carry lower confidence and higher source risk.</p>
             </article>
 
@@ -1104,7 +1156,7 @@
 
             <details class="stat-example">
               <summary>Example: Reliability on the page</summary>
-              <p>A reliability score of 85 means the player has strong data confidence, looks available, and usually plays meaningful minutes. A score of 35 means the player may be useful but has more playing-time uncertainty.</p>
+              <p>A reliability score of 85 means the player has strong support from the available information, looks available, and usually plays meaningful minutes. A score of 35 means the player may be useful but has more playing-time uncertainty.</p>
             </details>
 
             <details class="stat-example">
@@ -1180,7 +1232,7 @@
 
           <div class="method-note method-note--warning">
             <strong>Important limits:</strong>
-            These are model projections, not official FIFA predictions. Official scoring, prices, positions, and selectable status are imported, while starts, minutes, live locks, deadlines, boosters, and played/unplayed state still need official-game confirmation before acting.
+            These are model projections, not official FIFA predictions. Official scoring, prices, positions, and selectable status are imported, while starts, minutes, live locks, deadlines, boosters, and played/unplayed state still need game-rule confirmation before acting.
           </div>
         </div>
       </details>
@@ -1204,7 +1256,7 @@
           </article>
           <article>
             <h3>Game Checks</h3>
-            <p>Before deadlines, users should confirm locks, boosters, and live status inside the official FIFA fantasy game.</p>
+            <p>Before deadlines, users should confirm locks, boosters, and live status inside the fantasy game.</p>
           </article>
           <article>
             <h3>Independence</h3>
@@ -1275,7 +1327,7 @@
             <ul class="compact-list">
               <li>FIFA can still update player status, prices, positions, rules, or deadlines.</li>
               <li>Users should confirm boosters, deadlines, locks, and live status inside the official game.</li>
-              <li>Team Builder output should be verified against official-game legality before saving.</li>
+              <li>Team Builder output should be verified against game rules before saving.</li>
             </ul>
           </article>
         </div>
@@ -1295,7 +1347,7 @@
           <a href="#top">Home</a>
           <a href="#picks">Picks</a>
           <a href="#team-builder">Team Builder</a>
-          <a href="#matchday-desk">Matchday Desk</a>
+          <a href="#captain-change-advisor">Decision Tools</a>
           <a href="#fantasy-finance">Fantasy Finance</a>
           <a href="world-cup.html">World Cup Guide</a>
           <a href="#model-notes">Model Notes</a>
@@ -1330,6 +1382,6 @@
     <script src="fantasyPoolFinanceMetricsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolScorePredictionsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolOfficialDataStatusData.js?v=20260603-official-final"></script>
-    <script src="script.js?v=20260604-captain-selection"></script>
+    <script src="script.js?v=20260604-decision-tools"></script>
   </body>
 </html>

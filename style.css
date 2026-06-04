@@ -1312,9 +1312,20 @@ html {
 
 .captain-change-form {
   display: grid;
-  grid-template-columns: minmax(150px, 0.7fr) minmax(190px, 1fr) minmax(120px, 0.55fr) minmax(190px, 1fr) minmax(150px, 0.7fr);
+  grid-template-columns: 1fr;
   gap: 12px;
   align-items: start;
+}
+
+.decision-tool-row {
+  display: grid;
+  grid-template-columns: minmax(130px, 0.7fr) minmax(140px, 0.7fr) minmax(230px, 1.35fr) minmax(160px, 0.8fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.decision-tool-matchday {
+  max-width: 220px;
 }
 
 .captain-change-actions {
@@ -4577,6 +4588,10 @@ input[type="number"] {
   }
 
   .captain-change-form {
+    grid-template-columns: 1fr;
+  }
+
+  .decision-tool-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -4710,6 +4725,7 @@ input[type="number"] {
     .matchday-decision-grid--bench,
     .matchday-decision-metrics,
     .captain-change-form,
+    .decision-tool-row,
     .captain-change-actions,
     .captain-change-metrics,
   .timeline-player-stats,
@@ -4719,8 +4735,12 @@ input[type="number"] {
 
   .matchday-desk-actions,
   .matchday-desk-button,
-  .matchday-desk-action-panel__heading {
+    .matchday-desk-action-panel__heading {
     width: 100%;
+  }
+
+  .decision-tool-matchday {
+    max-width: none;
   }
 
   .matchday-desk-actions,

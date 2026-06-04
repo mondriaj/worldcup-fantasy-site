@@ -588,7 +588,7 @@ const measures = {
   minutes: {
     label: "Likely Minutes",
     description: "Looks for players who are more likely to play regularly.",
-    formula: "Uses the Week 6 minutes-floor strategy score when available. It favors club minutes, national-team usage, data confidence, and minutes security.",
+    formula: "Uses the Week 6 minutes-floor strategy score when available. It favors club minutes, national-team usage, input coverage, and minutes security.",
     score: (player) => scoreValue(player, "finance_strategy_minutes_floor", "euro_style_reliability_score")
   },
   lowTailRisk: {
@@ -708,10 +708,10 @@ const measures = {
       : scoreValue(player, "finance_strategy_very_risky")
   },
   captain: {
-    label: "Captain Alpha",
-    optionLabel: "Captain Alpha",
+    label: "Captain Selection",
+    optionLabel: "Captain Selection",
     description: "Ranks armband candidates by captain ceiling, starts, raw points, and fixture context.",
-    formula: "Uses the current Official Fantasy Captain Alpha score when available. Legacy fallback uses the captain score.",
+    formula: "Uses the current captain selection score when available. Legacy fallback uses the captain score.",
     score: (player) => player.preview_candidate?.mode === "captain"
       ? scoreValue(player, "finance_strategy_risk_adjusted")
       : scoreValue(player, "finance_captain_score")
@@ -806,13 +806,13 @@ const pickModelOptions = {
   },
   captain: {
     id: "captain",
-    label: "Captain Alpha",
-    cardLabel: "Captain Alpha",
+    label: "Captain Selection",
+    cardLabel: "Captain Selection",
     group: "advanced",
     sourceMode: "captain",
     measureKey: "captain",
     help: "Focuses on captain upside and strong matchday captain candidates.",
-    cardDescription: "Captain Alpha focuses on players who can help captain planning.",
+    cardDescription: "Captain Selection focuses on players who can help captain planning.",
     score: (player) => captainRecommendationScore(player)
   },
   riskControl: {
@@ -992,7 +992,7 @@ const trustModes = {
     label: "Safe",
     optionLabel: "Safe",
     description: "Lower-risk preference. Strongly prefers confirmed players with better data, starts, minutes, and downside profile without making the squad builder feel blocked.",
-    formula: "Conservative strongly penalizes uncertain roster status, non-safe recommendation use, data confidence below 65, start probability below 55%, expected minutes below 45, composite risk 65+, and tail risk 70+. It keeps players available so the builder can still complete squads.",
+    formula: "Conservative strongly penalizes uncertain roster status, non-safe recommendation use, input coverage below 65, start probability below 55%, expected minutes below 45, composite risk 65+, and tail risk 70+. It keeps players available so the builder can still complete squads.",
     filtersRanking: false,
     minDataConfidence: 65,
     minStartProbability: 55,
@@ -1303,8 +1303,12 @@ const matchdayDecisionStarterPointsInput = document.getElementById("matchday-dec
 const matchdayDecisionCenterContent = document.getElementById("matchday-decision-center-content");
 const captainChangeForm = document.getElementById("captain-change-form");
 const captainChangeMatchdaySelect = document.getElementById("captain-change-matchday-select");
+const captainChangeCurrentCountrySelect = document.getElementById("captain-change-current-country-select");
+const captainChangeCurrentPositionSelect = document.getElementById("captain-change-current-position-select");
 const captainChangeCurrentPlayerInput = document.getElementById("captain-change-current-player-input");
 const captainChangeCurrentPointsInput = document.getElementById("captain-change-current-points-input");
+const captainChangeCandidateCountrySelect = document.getElementById("captain-change-candidate-country-select");
+const captainChangeCandidatePositionSelect = document.getElementById("captain-change-candidate-position-select");
 const captainChangeCandidateInput = document.getElementById("captain-change-candidate-input");
 const captainChangeRiskSelect = document.getElementById("captain-change-risk-select");
 const captainChangeResetButton = document.getElementById("captain-change-reset-btn");
@@ -1314,8 +1318,12 @@ const captainChangeStatus = document.getElementById("captain-change-status");
 const captainChangeResult = document.getElementById("captain-change-result");
 const substitutionAdvisorForm = document.getElementById("substitution-advisor-form");
 const substitutionAdvisorMatchdaySelect = document.getElementById("substitution-advisor-matchday-select");
+const substitutionAdvisorStarterCountrySelect = document.getElementById("substitution-advisor-starter-country-select");
+const substitutionAdvisorStarterPositionSelect = document.getElementById("substitution-advisor-starter-position-select");
 const substitutionAdvisorStarterInput = document.getElementById("substitution-advisor-starter-input");
 const substitutionAdvisorPointsInput = document.getElementById("substitution-advisor-points-input");
+const substitutionAdvisorBenchCountrySelect = document.getElementById("substitution-advisor-bench-country-select");
+const substitutionAdvisorBenchPositionSelect = document.getElementById("substitution-advisor-bench-position-select");
 const substitutionAdvisorBenchInput = document.getElementById("substitution-advisor-bench-input");
 const substitutionAdvisorRiskSelect = document.getElementById("substitution-advisor-risk-select");
 const substitutionAdvisorResetButton = document.getElementById("substitution-advisor-reset-btn");
@@ -2281,7 +2289,7 @@ function trustModeFailures(player, measureKey = "balanced", mode = activeTrustMo
   }
 
   if (mode.minDataConfidence !== undefined && value(player.data_confidence_score) < mode.minDataConfidence) {
-    failures.push(`data confidence below ${mode.minDataConfidence}`);
+    failures.push(`input coverage below ${mode.minDataConfidence}`);
   }
 
   if (mode.minStartProbability !== undefined && scoreValue(player, "start_probability_percent") < mode.minStartProbability) {
@@ -2866,7 +2874,7 @@ function profileFinanceGrid(player) {
     profilePointMetric("Points After Risk", riskAdjustedMatchdayPointValue(player), matchdayLabel, "Risk-adjusted fantasy points"),
     profileIndexMetric("Value Index", valueIndexRawMetric(record), valuePool, "Value per price vs player pool."),
     profileIndexMetric("Squad Fit Index", squadFitIndexRawMetric(record), fitPool, "Scarcity-adjusted value vs player pool."),
-    profileIndexMetric("Captain Alpha Index", captainAlphaRawMetric(record), captainPool, "Captain score vs player pool."),
+    profileIndexMetric("Captain Selection Index", captainAlphaRawMetric(record), captainPool, "Captain score vs player pool."),
     profileIndexMetric("Bad-Week Floor Index", badWeekFloorRawMetric(record), floorPool, "Higher floor is better."),
     profileIndexMetric("Risk-Control Index", riskControlRawMetric(record), riskPool, "Lower downside, volatility, minutes, and role risk shown as better.", { lowerIsBetter: true }),
     profileIndexMetric("Budget Ease Index", budgetEaseRawMetric(record), budgetPool, "Lower opportunity cost shown as better.", { lowerIsBetter: true })
@@ -3512,14 +3520,198 @@ function captainChangeMatchdayIds() {
 }
 
 function captainChangePlayerLabel(player) {
-  return `${player.name} | ${playerCountryText(player)} | ${player.position} | ${player.club || "Club needs check"}`;
+  return `${player.name} · ${player.position} · ${captainChangeCountryLabel(player)}`;
+}
+
+function captainChangeCountryLabel(player) {
+  const country = playerCountryText(player);
+  return country === "Needs check" ? "Unknown country" : country;
+}
+
+function decisionStrategyLabel(strategyKey) {
+  if (strategyKey === "captain") {
+    return "Captain Selection";
+  }
+
+  return pickModelOptions[strategyKey]?.label || titleFromSnake(strategyKey || "balanced");
+}
+
+function decisionStrategyOptionsHtml() {
+  return pickModelOptionKeys
+    .map((strategyKey) => `<option value="${escapeHtml(strategyKey)}">${escapeHtml(decisionStrategyLabel(strategyKey))}</option>`)
+    .join("");
+}
+
+function renderDecisionStrategyOptions() {
+  const strategyHtml = decisionStrategyOptionsHtml();
+
+  [captainChangeRiskSelect, substitutionAdvisorRiskSelect].filter(Boolean).forEach((select) => {
+    const previousValue = select.value;
+    select.innerHTML = strategyHtml;
+    select.value = pickModelOptionKeys.includes(previousValue) ? previousValue : "balanced";
+  });
+}
+
+function decisionComparisonMode(select, modes) {
+  const strategyKey = select?.value || "balanced";
+  const selectedMode = modes[strategyKey];
+
+  if (selectedMode) {
+    return selectedMode;
+  }
+
+  const fallbackMode = modes.balanced;
+  const strategyLabel = decisionStrategyLabel(strategyKey);
+
+  return {
+    ...fallbackMode,
+    label: strategyLabel,
+    badge: `${strategyLabel} check`,
+    projectionLabel: "Projected score",
+    usesFallbackComparison: true
+  };
+}
+
+function decisionSelectConfigFor(select) {
+  if (select === captainChangeCurrentPlayerInput) {
+    return {
+      countrySelect: captainChangeCurrentCountrySelect,
+      positionSelect: captainChangeCurrentPositionSelect,
+      placeholder: "Choose current captain"
+    };
+  }
+
+  if (select === captainChangeCandidateInput) {
+    return {
+      countrySelect: captainChangeCandidateCountrySelect,
+      positionSelect: captainChangeCandidatePositionSelect,
+      placeholder: "Choose possible new captain"
+    };
+  }
+
+  if (select === substitutionAdvisorStarterInput) {
+    return {
+      countrySelect: substitutionAdvisorStarterCountrySelect,
+      positionSelect: substitutionAdvisorStarterPositionSelect,
+      placeholder: "Choose current starter"
+    };
+  }
+
+  if (select === substitutionAdvisorBenchInput) {
+    return {
+      countrySelect: substitutionAdvisorBenchCountrySelect,
+      positionSelect: substitutionAdvisorBenchPositionSelect,
+      placeholder: "Choose possible substitute"
+    };
+  }
+
+  return null;
+}
+
+function decisionPlayerSelects() {
+  return [captainChangeCurrentPlayerInput, captainChangeCandidateInput, substitutionAdvisorStarterInput, substitutionAdvisorBenchInput]
+    .filter(Boolean);
+}
+
+function decisionFilterSelects() {
+  return [
+    captainChangeCurrentCountrySelect,
+    captainChangeCurrentPositionSelect,
+    captainChangeCandidateCountrySelect,
+    captainChangeCandidatePositionSelect,
+    substitutionAdvisorStarterCountrySelect,
+    substitutionAdvisorStarterPositionSelect,
+    substitutionAdvisorBenchCountrySelect,
+    substitutionAdvisorBenchPositionSelect
+  ].filter(Boolean);
+}
+
+function decisionPlayerMatchesFilters(player, config) {
+  const countryValue = config?.countrySelect?.value || "All";
+  const positionValue = config?.positionSelect?.value || "All";
+
+  return (countryValue === "All" || captainChangeCountryLabel(player) === countryValue) &&
+    (positionValue === "All" || player.position === positionValue);
+}
+
+function renderDecisionFilterOptions() {
+  const countryOptions = [...new Set(players.map(captainChangeCountryLabel))]
+    .filter(Boolean)
+    .sort((a, b) => a.localeCompare(b));
+  const countryHtml = [
+    `<option value="All">All countries</option>`,
+    ...countryOptions.map((country) => `<option value="${escapeHtml(country)}">${escapeHtml(country)}</option>`)
+  ].join("");
+  const positionOptions = positionOrder.filter((position) => players.some((player) => player.position === position));
+  const positionHtml = [
+    `<option value="All">All positions</option>`,
+    ...positionOptions.map((position) => `<option value="${escapeHtml(position)}">${escapeHtml(position)}</option>`)
+  ].join("");
+
+  [
+    captainChangeCurrentCountrySelect,
+    captainChangeCandidateCountrySelect,
+    substitutionAdvisorStarterCountrySelect,
+    substitutionAdvisorBenchCountrySelect
+  ].filter(Boolean).forEach((select) => {
+    const previousValue = select.value;
+    select.innerHTML = countryHtml;
+    select.value = countryOptions.includes(previousValue) ? previousValue : "All";
+  });
+
+  [
+    captainChangeCurrentPositionSelect,
+    captainChangeCandidatePositionSelect,
+    substitutionAdvisorStarterPositionSelect,
+    substitutionAdvisorBenchPositionSelect
+  ].filter(Boolean).forEach((select) => {
+    const previousValue = select.value;
+    select.innerHTML = positionHtml;
+    select.value = positionOptions.includes(previousValue) ? previousValue : "All";
+  });
+}
+
+function renderDecisionPlayerSelect(select) {
+  const config = decisionSelectConfigFor(select);
+
+  if (!select || !config) {
+    return;
+  }
+
+  const previousValue = select.value;
+  const matchingPlayers = [...players]
+    .filter((player) => decisionPlayerMatchesFilters(player, config))
+    .sort((a, b) => a.name.localeCompare(b.name) || captainChangeCountryLabel(a).localeCompare(captainChangeCountryLabel(b)));
+
+  if (!matchingPlayers.length) {
+    select.innerHTML = `<option value="">No players match this country and position.</option>`;
+    select.value = "";
+    return;
+  }
+
+  select.innerHTML = [
+    `<option value="">${escapeHtml(config.placeholder)}</option>`,
+    ...matchingPlayers.map((player) => `<option value="${escapeHtml(player.id)}">${escapeHtml(captainChangePlayerLabel(player))}</option>`)
+  ].join("");
+  select.value = matchingPlayers.some((player) => player.id === previousValue) ? previousValue : "";
+}
+
+function renderDecisionPlayerSelects() {
+  decisionPlayerSelects().forEach(renderDecisionPlayerSelect);
+}
+
+function refreshDecisionPlayerLookup() {
+  captainChangePlayerLabelLookup.clear();
+  players.forEach((player) => {
+    captainChangePlayerLabelLookup.set(String(player.id).toLowerCase(), player);
+    captainChangePlayerLabelLookup.set(captainChangePlayerLabel(player).toLowerCase(), player);
+  });
 }
 
 function renderCaptainChangeOptions() {
   const matchdaySelects = [matchdayDecisionMatchdaySelect, captainChangeMatchdaySelect, substitutionAdvisorMatchdaySelect].filter(Boolean);
-  const playerLists = [captainChangePlayerList, substitutionAdvisorPlayerList].filter(Boolean);
 
-  if (!matchdaySelects.length || !playerLists.length) {
+  if (!matchdaySelects.length && !decisionPlayerSelects().length) {
     return;
   }
 
@@ -3534,18 +3726,10 @@ function renderCaptainChangeOptions() {
     select.value = matchdayIds.includes(previousValue) ? previousValue : matchdayIds[0] || "md1";
   });
 
-  captainChangePlayerLabelLookup.clear();
-  const optionHtml = [...players]
-    .sort((a, b) => a.name.localeCompare(b.name) || playerCountryText(a).localeCompare(playerCountryText(b)))
-    .map((player) => {
-      const label = captainChangePlayerLabel(player);
-      captainChangePlayerLabelLookup.set(label.toLowerCase(), player);
-      return `<option value="${escapeHtml(label)}"></option>`;
-    })
-    .join("");
-  playerLists.forEach((list) => {
-    list.innerHTML = optionHtml;
-  });
+  renderDecisionStrategyOptions();
+  renderDecisionFilterOptions();
+  refreshDecisionPlayerLookup();
+  renderDecisionPlayerSelects();
 }
 
 function savedDecisionSquad() {
@@ -3659,8 +3843,8 @@ function renderBrowserSquadSaveStatus() {
   }
 
   browserSquadStatus.textContent = canSave
-    ? "No browser-saved squad yet. Save this squad here for quick Matchday Desk access."
-    : "Browser save is empty. Build a full squad, then save it here for quick Matchday Desk access.";
+    ? "No browser-saved squad yet. Save this squad here for quick Decision Tools access."
+    : "Browser save is empty. Build a full squad, then save it here for quick Decision Tools access.";
 }
 
 function renderBuilderReadyActions(canSave = fullBuiltSquadIsReady(), hasSavedSquad = readBrowserSavedSquad().payload?.schema_version === "team-export-v1") {
@@ -4660,6 +4844,21 @@ function setDecisionPlayerInput(input, player) {
     return;
   }
 
+  const config = decisionSelectConfigFor(input);
+  if (config) {
+    if (config.countrySelect) {
+      config.countrySelect.value = captainChangeCountryLabel(player);
+    }
+
+    if (config.positionSelect) {
+      config.positionSelect.value = player.position;
+    }
+
+    renderDecisionPlayerSelect(input);
+    input.value = player.id;
+    return;
+  }
+
   input.value = captainChangePlayerLabel(player);
 }
 
@@ -5083,6 +5282,11 @@ function findCaptainChangePlayer(rawInput) {
     return null;
   }
 
+  const playerFromId = playerById(input);
+  if (playerFromId) {
+    return playerFromId;
+  }
+
   const lowerInput = input.toLowerCase();
   const directMatch = captainChangePlayerLabelLookup.get(lowerInput);
   if (directMatch) {
@@ -5119,7 +5323,7 @@ function withTemporaryMatchday(matchdayId, callback) {
 }
 
 function captainChangeMode() {
-  return captainChangeRiskModes[captainChangeRiskSelect?.value] || captainChangeRiskModes.balanced;
+  return decisionComparisonMode(captainChangeRiskSelect, captainChangeRiskModes);
 }
 
 function captainChangeRawSignal(valueToCompress, ceiling = 9.5, multiplier = 1.3) {
@@ -5205,7 +5409,7 @@ function captainChangeWarnings(player, projection, matchdayId, currentPlayer) {
   }
 
   if (qaStatus === "review") {
-    warnings.push("Data-check review flags are active for this matchday.");
+    warnings.push("Review this player carefully before acting.");
   }
 
   return warnings;
@@ -5301,13 +5505,13 @@ function renderDecisionToolStatuses() {
   renderDecisionToolStatus(
     captainChangeStatus,
     lastCaptainChangeDecision,
-    "Enter captain points and one unplayed replacement, then run the check.",
+    "Enter current captain points and one possible new captain, then run the check.",
     "Latest captain check will be included in Team Export JSON."
   );
   renderDecisionToolStatus(
     substitutionAdvisorStatus,
     lastSubstitutionDecision,
-    "Enter the starter score and one unplayed bench option, then run the check.",
+    "Enter current starter points and one possible substitute, then run the check.",
     "Latest substitution check will be included in Team Export JSON."
   );
 }
@@ -5326,7 +5530,7 @@ function cloneDecisionForImport(decision, toolLabel) {
     saved_decision_import_version: "saved_decision_import_v0",
     imported_requires_rerun: true,
     source: "imported_team_export",
-    note: `Imported saved ${toolLabel} scenario. Review the restored fields and rerun the advisor before acting; live points, played/unplayed status, and official-game legality are not verified.`
+    note: `Imported saved ${toolLabel} scenario. Review the restored fields and rerun the advisor before acting; played status, deadlines, and squad rules are not verified.`
   };
 }
 
@@ -5396,15 +5600,15 @@ function renderImportedCaptainDecision(decision, currentPlayer, candidate, point
       <span class="captain-change-badge">Imported</span>
       <strong>Imported saved captain check</strong>
     </div>
-    <div class="captain-change-import-warning">Rerun this advisor before acting. Imported checks do not verify live points, played/unplayed status, deadlines, or official-game legality.</div>
-    <p>Restored ${escapeHtml(candidate.name)} as the replacement captain with ${displayNumber(points)} points kept from ${escapeHtml(currentPlayer?.name || "the current captain")}. This is imported context, not a fresh live recommendation. Click Check Switch to recalculate before acting.</p>
+    <div class="captain-change-import-warning">Rerun this advisor before acting. Imported checks do not verify played status, deadlines, or squad rules.</div>
+    <p>Restored ${escapeHtml(candidate.name)} as the possible new captain with ${displayNumber(points)} points kept from ${escapeHtml(currentPlayer?.name || "the current captain")}. This is imported context, not a fresh recommendation. Click Check captain switch to recalculate before acting.</p>
     <div class="captain-change-metrics">
       ${importedDecisionMetric("Imported result", decision.result || "Needs rerun", decision.result_class || "review")}
-      ${importedDecisionMetric("Matchday", matchdayLabelFromId(matchdayId), decision.risk_style_label || decision.risk_style || "strategy needs check")}
+      ${importedDecisionMetric("Matchday", matchdayLabelFromId(matchdayId), decision.risk_style_label || decision.risk_style || "strategy")}
       ${importedDecisionMetric("Old switch score", decision.switch_score, `threshold ${decision.switch_threshold ?? "N/A"}`)}
       ${importedDecisionMetric("Saved at", decision.saved_at ? new Date(decision.saved_at).toLocaleString() : "N/A", "from imported file")}
     </div>
-    <p>Played/unplayed state, official deadlines, and squad legality are still manual checks.</p>
+    <p>Played status, deadlines, and squad rules are still manual checks.</p>
   `;
 }
 
@@ -5420,15 +5624,15 @@ function renderImportedSubstitutionDecision(decision, starter, benchPlayer, poin
       <span class="captain-change-badge">Imported</span>
       <strong>Imported saved substitution check</strong>
     </div>
-    <div class="captain-change-import-warning">Rerun this advisor before acting. Imported checks do not verify live points, played/unplayed status, deadlines, or formation legality.</div>
-    <p>Restored ${escapeHtml(benchPlayer.name)} as the bench candidate against ${displayNumber(points)} points from ${escapeHtml(starter?.name || "the played starter")}. This is imported context, not a fresh live recommendation. Click Check Sub to recalculate before acting.</p>
+    <div class="captain-change-import-warning">Rerun this advisor before acting. Imported checks do not verify played status, deadlines, or formation rules.</div>
+    <p>Restored ${escapeHtml(benchPlayer.name)} as the possible substitute against ${displayNumber(points)} points from ${escapeHtml(starter?.name || "the current starter")}. This is imported context, not a fresh recommendation. Click Check bench switch to recalculate before acting.</p>
     <div class="captain-change-metrics">
       ${importedDecisionMetric("Imported result", decision.result || "Needs rerun", decision.result_class || "review")}
-      ${importedDecisionMetric("Matchday", matchdayLabelFromId(matchdayId), decision.risk_style_label || decision.risk_style || "strategy needs check")}
+      ${importedDecisionMetric("Matchday", matchdayLabelFromId(matchdayId), decision.risk_style_label || decision.risk_style || "strategy")}
       ${importedDecisionMetric("Old sub score", decision.substitution_score, `threshold ${decision.substitution_threshold ?? "N/A"}`)}
       ${importedDecisionMetric("Saved at", decision.saved_at ? new Date(decision.saved_at).toLocaleString() : "N/A", "from imported file")}
     </div>
-    <p>Played/unplayed state, official deadlines, and formation legality are still manual checks.</p>
+    <p>Played status, deadlines, and formation rules are still manual checks.</p>
   `;
 }
 
@@ -5444,7 +5648,7 @@ function restoreImportedCaptainDecision(decision) {
   const points = importedDecisionNumber(decision.current_captain_raw_points);
 
   if (!candidate) {
-    warnings.push("Imported captain check was skipped because the replacement captain is missing from the current player data.");
+    warnings.push("Imported captain check was skipped because the possible new captain is missing from the current player data.");
     return { imported: false, warnings };
   }
 
@@ -5483,7 +5687,7 @@ function restoreImportedSubstitutionDecision(decision) {
   const points = importedDecisionNumber(decision.played_starter_raw_points);
 
   if (!benchPlayer) {
-    warnings.push("Imported substitution check was skipped because the bench candidate is missing from the current player data.");
+    warnings.push("Imported bench switch check was skipped because the possible substitute is missing from the current player data.");
     return { imported: false, warnings };
   }
 
@@ -5556,8 +5760,8 @@ function renderCaptainChangeAdvisor(event) {
     renderDecisionToolStatuses();
     captainChangeResult.className = "captain-change-result captain-change-result--empty";
     captainChangeResult.innerHTML = `
-      <strong>Choose a replacement captain from the player list.</strong>
-      <p>The replacement should be a player in your squad who has not played yet in ${escapeHtml(matchdayLabelFromId(matchdayId))}.</p>
+      <strong>Choose a possible new captain from the player list.</strong>
+      <p>The possible new captain should be a player in your squad who has not played yet in ${escapeHtml(matchdayLabelFromId(matchdayId))}.</p>
     `;
     return;
   }
@@ -5569,7 +5773,7 @@ function renderCaptainChangeAdvisor(event) {
       model_version: "captain_change_advisor_v0",
       scope: "quick_manual_switch_check",
       ...savedDecisionBase("Captain Change Advisor", matchdayId, riskStyle, mode, "Needs check", "review", [
-        "No matchday projection is available for the replacement candidate."
+        "No matchday projection is available for the possible new captain."
       ]),
       current_captain_id: currentPlayer?.id || null,
       current_captain: exportedPlayerReference(currentPlayer),
@@ -5589,7 +5793,7 @@ function renderCaptainChangeAdvisor(event) {
     captainChangeResult.className = "captain-change-result captain-change-result--review";
     captainChangeResult.innerHTML = `
       <div class="captain-change-verdict">
-        <span class="captain-change-badge">Needs check</span>
+        <span class="captain-change-badge">Review manually</span>
         <strong>No matchday projection for ${escapeHtml(candidate.name)}.</strong>
       </div>
       <p>Pick a player with a ${escapeHtml(matchdayLabelFromId(matchdayId))} fixture projection before using the switch check.</p>
@@ -5611,9 +5815,9 @@ function renderCaptainChangeAdvisor(event) {
   let explanation = `${candidate.name}'s ${mode.projectionLabel.toLowerCase()} is below the switch threshold.`;
 
   if (isSamePlayer) {
-    verdict = "Needs check";
+    verdict = "Choose another player";
     resultClass = "review";
-    explanation = "Choose a different replacement before making a switch decision.";
+    explanation = "Choose a different possible new captain before making a switch decision.";
   } else if (comparisonScore >= breakEven) {
     verdict = "Switch captain";
     resultClass = "switch";
@@ -5633,7 +5837,6 @@ function renderCaptainChangeAdvisor(event) {
   const warningHtml = warnings.length
     ? `<div class="captain-change-warning-list">${warnings.map((warning) => `<span>${escapeHtml(warning)}</span>`).join("")}</div>`
     : `<div class="captain-change-warning-list"><span>No major switch warnings for this comparison.</span></div>`;
-  const qaHtml = withTemporaryMatchday(matchdayId, () => qaChipRow(qaFlagsForPlayer(candidate, "captain"), { compact: true, maxVisible: 4 }));
   lastCaptainChangeDecision = {
     model_version: "captain_change_advisor_v0",
     scope: "quick_manual_switch_check",
@@ -5665,15 +5868,14 @@ function renderCaptainChangeAdvisor(event) {
       <span class="captain-change-badge">${escapeHtml(mode.badge)}</span>
       <strong>${escapeHtml(verdict)}</strong>
     </div>
-    <p>${escapeHtml(explanation)} Keeping ${escapeHtml(currentName)} keeps a ${displayNumber(currentPoints)} captain score before the double; switching needs the new captain to beat that by enough for your selected strategy.${escapeHtml(currentScoreContext)}</p>
+    <p>${escapeHtml(explanation)} Keeping ${escapeHtml(currentName)} keeps a ${displayNumber(currentPoints)} captain score before the double; switching needs the possible new captain to beat that by enough for your selected strategy.${escapeHtml(currentScoreContext)}</p>
     <div class="captain-change-metrics">
-      ${captainChangeMetric("Current points", displayNumber(currentPoints), currentName)}
+      ${captainChangeMetric("Current captain points", displayNumber(currentPoints), currentName)}
       ${captainChangeMetric(mode.projectionLabel, displayNumber(comparisonScore), `${displayNumber(edge)} vs current`)}
       ${captainChangeMetric("Projection / floor", `${displayNumber(scoreParts.rawExpected)} / ${displayNumber(scoreParts.rawFloor)}`, `${displayNumber(scoreParts.rawUpside)} upside signal`)}
-      ${captainChangeMetric("Fixture", `${projection.opponent} · ${fixtureDifficulty === null ? "Needs check" : displayNumber(fixtureDifficulty)}`, `${displayNumber(startProbability)}% start · ${displayNumber(expectedMinutes)} min`)}
+      ${captainChangeMetric("Fixture", `${projection.opponent} · ${fixtureDifficulty === null ? "Review manually" : displayNumber(fixtureDifficulty)}`, `${displayNumber(startProbability)}% start · ${displayNumber(expectedMinutes)} min`)}
     </div>
     ${warningHtml}
-    ${qaHtml}
     <p>${escapeHtml(matchdayLabelFromId(matchdayId))} model context: ${escapeHtml(singleFixtureModelReason(projection, "attack").trim())}</p>
     <p>This latest captain check will be included in Team Export JSON until it is reset or replaced.</p>
   `;
@@ -5682,6 +5884,12 @@ function renderCaptainChangeAdvisor(event) {
 function resetCaptainChangeAdvisor() {
   lastCaptainChangeDecision = null;
   renderDecisionToolStatuses();
+  [captainChangeCurrentCountrySelect, captainChangeCurrentPositionSelect, captainChangeCandidateCountrySelect, captainChangeCandidatePositionSelect]
+    .filter(Boolean)
+    .forEach((select) => {
+      select.value = "All";
+    });
+  renderDecisionPlayerSelects();
   if (captainChangeCurrentPlayerInput) captainChangeCurrentPlayerInput.value = "";
   if (captainChangeCurrentPointsInput) captainChangeCurrentPointsInput.value = "";
   if (captainChangeCandidateInput) captainChangeCandidateInput.value = "";
@@ -5691,14 +5899,14 @@ function resetCaptainChangeAdvisor() {
   if (captainChangeResult) {
     captainChangeResult.className = "captain-change-result captain-change-result--empty";
     captainChangeResult.innerHTML = `
-      <strong>Enter a current captain score and a replacement captain.</strong>
-      <p>The replacement should be in your squad and still unplayed in the selected matchday.</p>
+      <strong>Enter current captain points and a possible new captain.</strong>
+      <p>The possible new captain should be in your squad and still unplayed in the selected matchday.</p>
     `;
   }
 }
 
 function substitutionAdvisorMode() {
-  return substitutionAdvisorRiskModes[substitutionAdvisorRiskSelect?.value] || substitutionAdvisorRiskModes.balanced;
+  return decisionComparisonMode(substitutionAdvisorRiskSelect, substitutionAdvisorRiskModes);
 }
 
 function substitutionAdvisorProjectionScore(projection, mode) {
@@ -5761,7 +5969,7 @@ function substitutionAdvisorWarnings(starter, benchPlayer, projection, matchdayI
   }
 
   if (qaStatus === "review") {
-    warnings.push("Data-check review flags are active for this matchday.");
+    warnings.push("Review this player carefully before acting.");
   }
 
   return warnings;
@@ -5787,7 +5995,7 @@ function renderSubstitutionAdvisor(event) {
     renderDecisionToolStatuses();
     substitutionAdvisorResult.className = "captain-change-result substitution-advisor-result captain-change-result--empty";
     substitutionAdvisorResult.innerHTML = `
-      <strong>Enter the played starter's points.</strong>
+      <strong>Enter the current starter's points.</strong>
       <p>Use the actual fantasy score before deciding whether a bench player is worth bringing in.</p>
     `;
     return;
@@ -5798,8 +6006,8 @@ function renderSubstitutionAdvisor(event) {
     renderDecisionToolStatuses();
     substitutionAdvisorResult.className = "captain-change-result substitution-advisor-result captain-change-result--empty";
     substitutionAdvisorResult.innerHTML = `
-      <strong>Choose a bench player from the player list.</strong>
-      <p>The bench player should be in your squad and still unplayed in ${escapeHtml(matchdayLabelFromId(matchdayId))}.</p>
+      <strong>Choose a possible substitute from the player list.</strong>
+      <p>The possible substitute should be in your squad and still unplayed in ${escapeHtml(matchdayLabelFromId(matchdayId))}.</p>
     `;
     return;
   }
@@ -5811,7 +6019,7 @@ function renderSubstitutionAdvisor(event) {
       model_version: "substitution_advisor_v0",
       scope: "quick_manual_substitution_check",
       ...savedDecisionBase("Substitution Advisor", matchdayId, riskStyle, mode, "Needs check", "review", [
-        "No matchday projection is available for the bench candidate."
+        "No matchday projection is available for the possible substitute."
       ]),
       played_starter_id: starter?.id || null,
       played_starter: exportedPlayerReference(starter),
@@ -5833,10 +6041,10 @@ function renderSubstitutionAdvisor(event) {
     substitutionAdvisorResult.className = "captain-change-result substitution-advisor-result captain-change-result--review";
     substitutionAdvisorResult.innerHTML = `
       <div class="captain-change-verdict">
-        <span class="captain-change-badge">Needs check</span>
+        <span class="captain-change-badge">Review manually</span>
         <strong>No matchday projection for ${escapeHtml(benchPlayer.name)}.</strong>
       </div>
-      <p>Pick a bench player with a ${escapeHtml(matchdayLabelFromId(matchdayId))} fixture projection before using the sub check.</p>
+      <p>Pick a possible substitute with a ${escapeHtml(matchdayLabelFromId(matchdayId))} fixture projection before using the bench switch check.</p>
     `;
     return;
   }
@@ -5855,9 +6063,9 @@ function renderSubstitutionAdvisor(event) {
   let explanation = `${benchPlayer.name}'s ${mode.projectionLabel.toLowerCase()} is below the substitution threshold.`;
 
   if (isSamePlayer) {
-    verdict = "Needs check";
+    verdict = "Choose another player";
     resultClass = "review";
-    explanation = "Choose a different bench player before making a substitution decision.";
+    explanation = "Choose a different possible substitute before making a bench switch decision.";
   } else if (comparisonScore >= breakEven) {
     verdict = "Sub in bench player";
     resultClass = "switch";
@@ -5877,7 +6085,6 @@ function renderSubstitutionAdvisor(event) {
   const warningHtml = warnings.length
     ? `<div class="captain-change-warning-list">${warnings.map((warning) => `<span>${escapeHtml(warning)}</span>`).join("")}</div>`
     : `<div class="captain-change-warning-list"><span>No major substitution warnings for this comparison.</span></div>`;
-  const qaHtml = withTemporaryMatchday(matchdayId, () => qaChipRow(qaFlagsForPlayer(benchPlayer, "risk_adjusted"), { compact: true, maxVisible: 4 }));
   lastSubstitutionDecision = {
     model_version: "substitution_advisor_v0",
     scope: "quick_manual_substitution_check",
@@ -5911,15 +6118,14 @@ function renderSubstitutionAdvisor(event) {
       <span class="captain-change-badge">${escapeHtml(mode.badge)}</span>
       <strong>${escapeHtml(verdict)}</strong>
     </div>
-    <p>${escapeHtml(explanation)} Keeping ${escapeHtml(starterName)} keeps ${displayNumber(currentPoints)} points; subbing needs the bench player to beat that by enough for your selected strategy.${escapeHtml(currentScoreContext)}</p>
+    <p>${escapeHtml(explanation)} Keeping ${escapeHtml(starterName)} keeps ${displayNumber(currentPoints)} points; switching needs the possible substitute to beat that by enough for your selected strategy.${escapeHtml(currentScoreContext)}</p>
     <div class="captain-change-metrics">
-      ${captainChangeMetric("Starter points", displayNumber(currentPoints), starterName)}
+      ${captainChangeMetric("Current starter points", displayNumber(currentPoints), starterName)}
       ${captainChangeMetric(mode.projectionLabel, displayNumber(comparisonScore), `${displayNumber(edge)} vs starter`)}
       ${captainChangeMetric("Projection / floor", `${displayNumber(scoreParts.rawExpected)} / ${displayNumber(scoreParts.rawFloor)}`, `${displayNumber(scoreParts.rawUpside)} upside signal`)}
-      ${captainChangeMetric("Fixture", `${projection.opponent} · ${fixtureDifficulty === null ? "Needs check" : displayNumber(fixtureDifficulty)}`, `${displayNumber(startProbability)}% start · ${displayNumber(expectedMinutes)} min`)}
+      ${captainChangeMetric("Fixture", `${projection.opponent} · ${fixtureDifficulty === null ? "Review manually" : displayNumber(fixtureDifficulty)}`, `${displayNumber(startProbability)}% start · ${displayNumber(expectedMinutes)} min`)}
     </div>
     ${warningHtml}
-    ${qaHtml}
     <p>${escapeHtml(matchdayLabelFromId(matchdayId))} model context: ${escapeHtml(singleFixtureModelReason(projection, "balanced").trim())}</p>
     <p>This latest substitution check will be included in Team Export JSON until it is reset or replaced.</p>
   `;
@@ -5928,6 +6134,12 @@ function renderSubstitutionAdvisor(event) {
 function resetSubstitutionAdvisor() {
   lastSubstitutionDecision = null;
   renderDecisionToolStatuses();
+  [substitutionAdvisorStarterCountrySelect, substitutionAdvisorStarterPositionSelect, substitutionAdvisorBenchCountrySelect, substitutionAdvisorBenchPositionSelect]
+    .filter(Boolean)
+    .forEach((select) => {
+      select.value = "All";
+    });
+  renderDecisionPlayerSelects();
   if (substitutionAdvisorStarterInput) substitutionAdvisorStarterInput.value = "";
   if (substitutionAdvisorPointsInput) substitutionAdvisorPointsInput.value = "";
   if (substitutionAdvisorBenchInput) substitutionAdvisorBenchInput.value = "";
@@ -5937,8 +6149,8 @@ function resetSubstitutionAdvisor() {
   if (substitutionAdvisorResult) {
     substitutionAdvisorResult.className = "captain-change-result substitution-advisor-result captain-change-result--empty";
     substitutionAdvisorResult.innerHTML = `
-      <strong>Enter a played starter score and one bench candidate.</strong>
-      <p>The bench player should be in your squad and still unplayed in the selected matchday.</p>
+      <strong>Enter current starter points and one possible substitute.</strong>
+      <p>The possible substitute should be in your squad and still unplayed in the selected matchday.</p>
     `;
   }
 }
@@ -7171,7 +7383,7 @@ function teamExportPayload() {
     recommendation_notes: {
       explanation,
       generated_by: "Team Builder with squad risk adjustment",
-      model_caveat: "World Cup fantasy recommendations using the current available model data. Confirm live lineups, locks, deadlines, and official-game legality before acting.",
+      model_caveat: "World Cup fantasy recommendations using the current available model data. Confirm lineups, locks, deadlines, and game rules before acting.",
       next_use: "This export is structured so a future import flow can prefill saved squads and decision-tool context."
     },
     explanation,
@@ -7192,7 +7404,7 @@ function teamExportPayload() {
       "fantasyRules.json",
       "fantasyRulesData.js",
       "rulesSources.md",
-      fantasyRules?.rules_status || "Official rules data unavailable; confirm in the official FIFA fantasy game."
+      fantasyRules?.rules_status || "Rules data unavailable; confirm inside the fantasy game."
     ]
   };
 }
@@ -7252,7 +7464,7 @@ function saveTeamToBrowser() {
       browser_saved_at: new Date().toISOString()
     };
     storage.setItem(browserSquadStorageKey, JSON.stringify(payload));
-    teamMessage.textContent = "Squad saved in this browser. Matchday Desk can now reload it without a JSON file.";
+    teamMessage.textContent = "Squad saved in this browser. Decision Tools can now reload it without a JSON file.";
     renderBrowserSquadSaveStatus();
     renderSavedSquadDecisionPanels();
   } catch (error) {
@@ -8614,7 +8826,7 @@ function updateBuilderGuidance() {
 
   if (builderBuildGuidance) {
     if (fullSquadBuilt) {
-      builderBuildGuidance.textContent = "Full squad built. Review the checks, then save it for Matchday Desk.";
+      builderBuildGuidance.textContent = "Full squad built. Review the checks, then save it for Decision Tools.";
     } else if (partialSquadBuilt) {
       builderBuildGuidance.textContent = `Only ${squadSize} of ${squadTotalPlayers} players fit. Loosen locks, avoids, budget, or advanced filters and rebuild.`;
     } else if (lockedCount > 0 || avoidedCount > 0) {
@@ -10385,9 +10597,16 @@ function setupBuilder() {
     .forEach((input) => input.addEventListener("input", renderMatchdayDecisionCenter));
   matchdayDecisionCenterContent?.addEventListener("click", handleMatchdayDecisionCenterClick);
   captainChangeForm?.addEventListener("submit", renderCaptainChangeAdvisor);
-  [captainChangeCurrentPlayerInput, captainChangeCurrentPointsInput, captainChangeCandidateInput]
+  captainChangeCurrentPointsInput?.addEventListener("input", renderCaptainChangeAdvisor);
+  [captainChangeCurrentPlayerInput, captainChangeCandidateInput]
     .filter(Boolean)
-    .forEach((input) => input.addEventListener("input", renderCaptainChangeAdvisor));
+    .forEach((select) => select.addEventListener("change", renderCaptainChangeAdvisor));
+  [captainChangeCurrentCountrySelect, captainChangeCurrentPositionSelect, captainChangeCandidateCountrySelect, captainChangeCandidatePositionSelect]
+    .filter(Boolean)
+    .forEach((select) => select.addEventListener("change", () => {
+      renderDecisionPlayerSelects();
+      renderCaptainChangeAdvisor();
+    }));
   [captainChangeMatchdaySelect, captainChangeRiskSelect]
     .filter(Boolean)
     .forEach((select) => select.addEventListener("change", () => {
@@ -10397,9 +10616,16 @@ function setupBuilder() {
   captainChangeSquadPanel?.addEventListener("click", handleCaptainSavedSquadClick);
   captainChangeResetButton?.addEventListener("click", resetCaptainChangeAdvisor);
   substitutionAdvisorForm?.addEventListener("submit", renderSubstitutionAdvisor);
-  [substitutionAdvisorStarterInput, substitutionAdvisorPointsInput, substitutionAdvisorBenchInput]
+  substitutionAdvisorPointsInput?.addEventListener("input", renderSubstitutionAdvisor);
+  [substitutionAdvisorStarterInput, substitutionAdvisorBenchInput]
     .filter(Boolean)
-    .forEach((input) => input.addEventListener("input", renderSubstitutionAdvisor));
+    .forEach((select) => select.addEventListener("change", renderSubstitutionAdvisor));
+  [substitutionAdvisorStarterCountrySelect, substitutionAdvisorStarterPositionSelect, substitutionAdvisorBenchCountrySelect, substitutionAdvisorBenchPositionSelect]
+    .filter(Boolean)
+    .forEach((select) => select.addEventListener("change", () => {
+      renderDecisionPlayerSelects();
+      renderSubstitutionAdvisor();
+    }));
   [substitutionAdvisorMatchdaySelect, substitutionAdvisorRiskSelect]
     .filter(Boolean)
     .forEach((select) => select.addEventListener("change", () => {
