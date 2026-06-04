@@ -7993,6 +7993,8 @@ function availableFillCandidates(position, usedIds, countryCounts = null) {
 }
 
 function toggleScoreInfo() {
+  if (!scoreInfo || !scoreInfoButton) return;
+
   const isHidden = scoreInfo.classList.toggle("hidden");
   scoreInfoButton.setAttribute("aria-expanded", String(!isHidden));
 }
@@ -9593,7 +9595,7 @@ function renderPickCard(player, options = {}) {
   }
 
   const projectionSummary = pickCardProjectionSummary(player);
-  const modelDescription = pickCardModelDescription(modelKey, measureKey);
+  const modelDescription = options.modelDescription || pickCardModelDescription(modelKey, measureKey);
   const riskDescription = pickCardRiskDescription(player, measureKey, modelKey);
 
   return `
@@ -9682,15 +9684,21 @@ function handlePicksBuilderTrayClick(event) {
 }
 
 function renderFantasyPoolPreviewCaptainPicks() {
-  const captainCandidates = fantasyPoolPreviewCandidatesForMode("captain").slice(0, 6);
+  const captainCandidates = fantasyPoolPreviewCandidatesForMode("captain").slice(0, 8);
+  const captainModelDescription = "Captain advice based on projected points, matchup, start chance, and risk.";
 
   if (captainCardGrid) {
     captainCardGrid.innerHTML = captainCandidates.length
       ? captainCandidates.map((player, index) => renderPickCard(player, {
         label: index === 0 ? "Best Captain" : `Captain ${index + 1}`,
-        measureKey: "captain"
+        measureKey: "captain",
+        modelDescription: captainModelDescription
       })).join("")
-      : renderPickCard(null, { label: "Captain Alpha", measureKey: "captain" });
+      : renderPickCard(null, { label: "Captain Selection", measureKey: "captain" });
+  }
+
+  if (!captainTableBody) {
+    return;
   }
 
   captainTableBody.innerHTML = captainCandidates.map((player, index) => {
@@ -9732,15 +9740,21 @@ function renderCaptainPicks() {
   );
   const captainCandidates = [...captainPool]
     .sort((a, b) => captainRecommendationScore(b) - captainRecommendationScore(a));
+  const captainModelDescription = "Captain advice based on projected points, matchup, start chance, and risk.";
 
   if (captainCardGrid) {
-    captainCardGrid.innerHTML = captainCandidates.slice(0, 6).map((player, index) => renderPickCard(player, {
+    captainCardGrid.innerHTML = captainCandidates.slice(0, 8).map((player, index) => renderPickCard(player, {
       label: index === 0 ? "Best Captain" : `Captain ${index + 1}`,
-      measureKey: "captain"
+      measureKey: "captain",
+      modelDescription: captainModelDescription
     })).join("");
   }
 
-  captainTableBody.innerHTML = captainCandidates.slice(0, 6).map((player, index) => `
+  if (!captainTableBody) {
+    return;
+  }
+
+  captainTableBody.innerHTML = captainCandidates.slice(0, 8).map((player, index) => `
     <tr>
       <td>${index + 1}</td>
       <td>${playerDetailButton(player, "", "captain")}</td>
@@ -10331,7 +10345,7 @@ function setupBuilder() {
   exportTeamJsonButton.addEventListener("click", exportTeamJson);
   importTeamJsonInput?.addEventListener("change", importTeamJson);
   removedPlayersList.addEventListener("click", handleRemovedPlayersClick);
-  scoreInfoButton.addEventListener("click", toggleScoreInfo);
+  scoreInfoButton?.addEventListener("click", toggleScoreInfo);
   quickPickModelSelect?.addEventListener("change", (event) => updateQuickPickModel(event.target.value));
   quickPositionSelect?.addEventListener("change", (event) => updateQuickPickPosition(event.target.value));
   quickModelHelpButton?.addEventListener("click", toggleQuickModelHelp);
