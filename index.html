@@ -14,7 +14,7 @@
     <meta name="twitter:description" content="Compare captain picks, player rankings, and squad ideas in one simple fantasy football hub." />
     <!-- Add canonical and og:url once the final production URL is available. -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="stylesheet" href="style.css?v=20260604-profile-ui" />
+    <link rel="stylesheet" href="style.css?v=20260604-simple-picks" />
   </head>
   <body>
     <header id="top" class="hero">
@@ -61,43 +61,19 @@
         </div>
 
         <p class="section-note"><strong>How to use Picks.</strong> These picks are strong players to build a squad around. Use them as squad-builder starters, then complete the team around budget, position limits, country limits, captain choices, and risk.</p>
-        <p class="section-note"><strong>Model-backed rankings.</strong> Fantasy Quant uses models, data science, and quant methods to rank players in simple pick lists.</p>
-        <p class="section-note"><strong>Current fantasy picks.</strong> These picks use current fantasy prices, positions, selectable status, and scoring from the game feed.</p>
 
-        <details class="advanced-control-panel">
-          <summary>Advanced pick settings</summary>
-          <div class="advanced-control-grid advanced-control-grid--picks">
-            <label class="control-group" for="quick-pick-model-select">
-              <span>Model</span>
-              <span class="inline-control">
-                <select id="quick-pick-model-select"></select>
-                <button id="quick-model-help-btn" class="info-button info-button--small" type="button" aria-expanded="false" aria-controls="quick-model-help">?</button>
-              </span>
-            </label>
-
-            <label class="control-group" for="quick-position-select">
-              <span>Position</span>
-              <select id="quick-position-select">
-                <option value="All">All</option>
-                <option value="Goalkeeper">Goalkeeper</option>
-                <option value="Defender">Defender</option>
-                <option value="Midfielder">Midfielder</option>
-                <option value="Forward">Forward</option>
-              </select>
-            </label>
-
-            <label class="control-group" for="quick-trust-mode-select">
-              <span>Confidence Mode</span>
-              <select id="quick-trust-mode-select"></select>
-            </label>
-          </div>
-          <div id="quick-model-help" class="measure-info quick-model-help hidden">
-            <strong>Pick Models</strong>
-            <ul class="compact-list" id="quick-model-help-list"></ul>
-            <p>For more detail, see the detailed stats explanations in <a href="#model-notes">Model Notes</a>.</p>
-          </div>
-          <p id="trust-mode-summary" class="trust-mode-summary">Balanced mode keeps the experience smooth while still applying data-check penalties.</p>
-        </details>
+        <div class="picks-control-row">
+          <label class="control-group picks-position-filter" for="quick-position-select">
+            <span>Position</span>
+            <select id="quick-position-select">
+              <option value="All">All</option>
+              <option value="Goalkeeper">Goalkeeper</option>
+              <option value="Defender">Defender</option>
+              <option value="Midfielder">Midfielder</option>
+              <option value="Forward">Forward</option>
+            </select>
+          </label>
+        </div>
 
         <div id="dashboard-grid" class="dashboard-grid" aria-live="polite">
           <article class="info-card info-card--fallback">
@@ -107,7 +83,7 @@
           </article>
           <article class="info-card info-card--fallback">
             <span class="info-card__label">Top Picks</span>
-            <strong>Model-backed rankings</strong>
+            <strong>Player cards</strong>
             <p>Enable JavaScript to compare players by projected points, value, reliability, and risk.</p>
           </article>
           <article class="info-card info-card--fallback">
@@ -442,7 +418,7 @@
         </summary>
 
         <div class="collapsible-body">
-          <p class="section-note"><strong>Current fantasy picks.</strong> Pick cards show Matchday 1 projected points by default while ranking candidates by the selected matchday view.</p>
+          <p class="section-note">Pick cards show Matchday 1 projected points by default while ranking candidates by the selected matchday view.</p>
 
           <div class="table-toolbar advice-toolbar">
             <label class="control-group" for="advice-measure-select">
@@ -1401,6 +1377,6 @@
     <script src="fantasyPoolFinanceMetricsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolScorePredictionsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolOfficialDataStatusData.js?v=20260603-official-final"></script>
-    <script src="script.js?v=20260604-profile-ui"></script>
+    <script src="script.js?v=20260604-simple-picks"></script>
   </body>
 </html>

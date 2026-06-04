@@ -274,7 +274,7 @@ function fantasyPoolCandidateToPlayer(candidate) {
     price,
     official_price: price,
     price_is_proxy: false,
-    price_note: "Fantasy price from the current game feed.",
+    price_note: "Fantasy price from the current data.",
     roster_status: "official_fantasy_pool",
     selectable_status: "playing",
     recommendation_use: "safe_to_rank",
@@ -312,7 +312,7 @@ function fantasyPoolCandidateToPlayer(candidate) {
     proxy_price_percentile_v1: 50,
     source_review_flags: flags,
     short_reason: Array.isArray(candidate.why_pick) ? candidate.why_pick.join(". ") : "",
-    data_note: fantasyPoolPreviewStatus?.public_warning_html || "Fantasy picks using the current game feed.",
+    data_note: fantasyPoolPreviewStatus?.public_warning_html || "Fantasy picks using the current data.",
     source_note: "Refresh when player, price, position, status, rule, or deadline data changes.",
     minutes_model_source_note: `Role label: ${titleFromSnake(candidate.role_label || "unclear")}; confidence: ${titleFromSnake(candidate.role_confidence || confidence)}.`,
     preview_why_pick: candidate.why_pick || [],
@@ -741,7 +741,8 @@ const pickModelOptions = {
     group: "basic",
     sourceMode: "balanced",
     measureKey: "balanced",
-    help: "A general recommendation using points, role, fixture, and risk."
+    help: "A general recommendation using points, role, fixture, and risk.",
+    cardDescription: "Balanced combines projected points, role, fixture, and risk."
   },
   safe: {
     id: "safe",
@@ -750,7 +751,8 @@ const pickModelOptions = {
     group: "basic",
     sourceMode: "safe",
     measureKey: "safe",
-    help: "More weight on minutes, role security, and lower downside."
+    help: "More weight on minutes, role security, and lower downside.",
+    cardDescription: "Safe favors steadier roles, stronger minutes, and lower downside."
   },
   upside: {
     id: "upside",
@@ -759,7 +761,8 @@ const pickModelOptions = {
     group: "basic",
     sourceMode: "upside",
     measureKey: "upside",
-    help: "More weight on ceiling and attacking opportunity."
+    help: "More weight on ceiling and attacking opportunity.",
+    cardDescription: "Upside looks for higher ceiling and stronger attacking opportunity."
   },
   differential: {
     id: "differential",
@@ -768,7 +771,8 @@ const pickModelOptions = {
     group: "basic",
     sourceMode: "differential",
     measureKey: "differential",
-    help: "More weight on players who may be less obvious but have useful upside."
+    help: "More weight on players who may be less obvious but have useful upside.",
+    cardDescription: "Differential looks for less obvious picks with useful upside."
   },
   bestValue: {
     id: "bestValue",
@@ -777,7 +781,8 @@ const pickModelOptions = {
     group: "basic",
     sourceMode: "differential",
     measureKey: "bestValue",
-    help: "More weight on price efficiency."
+    help: "More weight on price efficiency.",
+    cardDescription: "Value looks for useful players relative to price."
   },
   valueQuant: {
     id: "valueQuant",
@@ -787,6 +792,7 @@ const pickModelOptions = {
     sourceMode: "balanced",
     measureKey: "bestValue",
     help: "Advanced value model using price and projected output.",
+    cardDescription: "Value Quant blends projected output, price, and value signals.",
     score: (player) => {
       const financeAlpha = financeContextScore(player, "finance_alpha_score");
       const valueScore = optionalScoreValue(player, "value_score_v1", "cheap_enabler_score_v1");
@@ -806,6 +812,7 @@ const pickModelOptions = {
     sourceMode: "captain",
     measureKey: "captain",
     help: "Focuses on captain upside and strong matchday captain candidates.",
+    cardDescription: "Captain Alpha focuses on players who can help captain planning.",
     score: (player) => captainRecommendationScore(player)
   },
   riskControl: {
@@ -816,6 +823,7 @@ const pickModelOptions = {
     sourceMode: "safe",
     measureKey: "safe",
     help: "Looks for useful picks after accounting for downside and reliability.",
+    cardDescription: "Risk-Control Pick looks for useful picks after downside and role risk.",
     score: (player, mode = activeTrustMode()) => trustAdjustedScore(player, measures.safe, mode) +
       Math.max(0, 100 - scoreValue(player, "finance_composite_risk_score", "risk_composite_score")) * 0.22 +
       scoreValue(player, "finance_minutes_security_score", "euro_style_reliability_score") * 0.16 +
@@ -2548,6 +2556,16 @@ function playerRecommendationLabels(player, measureKey = measureKeyForTrust(acti
   const captainScore = scoreValue(player, "finance_captain_score");
   const fixtureContext = qaFixtureContext(player);
   const candidateMode = player.preview_candidate?.mode || player.value_role || measureKey;
+  const primaryTagByMode = {
+    balanced: "Balanced",
+    safe: "Safe",
+    upside: "Upside",
+    differential: "Differential",
+    bestValue: "Value",
+    valueQuant: "Value",
+    captain: "Captain Option",
+    riskControl: "Safe"
+  };
 
   const addTag = (label) => {
     const definition = publicProfileTagByLabel.get(label);
@@ -2556,23 +2574,9 @@ function playerRecommendationLabels(player, measureKey = measureKeyForTrust(acti
     }
   };
 
-  if (candidateMode === "balanced" || measureKey === "balanced" || scoreValue(player, "finance_strategy_risk_adjusted") >= 70) {
-    addTag("Balanced");
-  }
+  addTag(primaryTagByMode[measureKey] || primaryTagByMode[candidateMode] || "Balanced");
 
-  if (measureKey === "safe" || scoreValue(player, "finance_strategy_safe_floor") >= 75 && risk <= 45 && startProbability >= 65) {
-    addTag("Safe");
-  }
-
-  if (measureKey === "upside" || scoreValue(player, "finance_strategy_upside") >= 75 || scoreValue(player, "finance_upside_p90_percentile") >= 75) {
-    addTag("Upside");
-  }
-
-  if (candidateMode === "differential" || measureKey === "differential" || scoreValue(player, "finance_strategy_very_risky") >= 70) {
-    addTag("Differential");
-  }
-
-  if (candidateMode === "captain" || captainScore >= 70 || measureKey === "captain") {
+  if ((candidateMode === "captain" || captainScore >= 70 || measureKey === "captain") && measureKey !== "captain") {
     addTag("Captain Option");
   }
 
@@ -2608,7 +2612,7 @@ function playerRecommendationLabels(player, measureKey = measureKeyForTrust(acti
     }
     seen.add(key);
     return true;
-  });
+  }).slice(0, 3);
 }
 
 function profileIdentityGrid(player) {
@@ -2782,19 +2786,21 @@ function publicFantasyPickReasonItems(player) {
   return reasons;
 }
 
-function profileWhyPickPanel(player) {
+function profileWhyPickPanel(player, measureKey = measureKeyForTrust(activeMeasure())) {
   const previewPickReasons = player.preview_candidate
     ? publicFantasyPickReasonItems(player)
     : player.preview_why_pick;
-  const previewCarefulReasons = player.preview_why_careful || player.preview_candidate?.why_careful;
-  const defaultPick = player.short_reason || styleReason(player, measureKeyForTrust(activeMeasure()));
-  const risk = scoreValue(player, "finance_composite_risk_score", "risk_composite_score");
-  const start = scoreValue(player, "start_probability_percent");
-  const defaultCareful = risk >= 65
-    ? `Risk is elevated at ${displayNumber(risk)}, so check role and matchup before relying on him.`
-    : start < 45
-      ? `Start probability is only ${displayNumber(start)}%, so confirm role news before locking him in.`
-      : "Check matchday role before locking him in.";
+  const defaultPick = player.short_reason || styleReason(player, measureKey);
+  const carefulReasons = publicFantasyRiskReasons(player, measureKey);
+  const carefulItems = carefulReasons.length
+    ? [`Risk view: ${publicRiskSentence(carefulReasons)}`]
+    : [];
+  const carefulCard = carefulItems.length ? `
+      <article class="profile-reason-card profile-reason-card--careful">
+        <h4>Why Be Careful</h4>
+        <ul>${carefulItems.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+      </article>
+  ` : "";
 
   return `
     <div class="profile-reason-grid">
@@ -2802,10 +2808,7 @@ function profileWhyPickPanel(player) {
         <h4>Why Pick Him</h4>
         <ul>${previewListItems(previewPickReasons, defaultPick)}</ul>
       </article>
-      <article class="profile-reason-card profile-reason-card--careful">
-        <h4>Why Be Careful</h4>
-        <ul>${previewListItems(previewCarefulReasons, defaultCareful)}</ul>
-      </article>
+      ${carefulCard}
     </div>
   `;
 }
@@ -2950,7 +2953,7 @@ function renderPlayerDetail(player, measureKey = measureKeyForTrust(activeMeasur
 
     <section class="profile-section">
       <h3>Why Pick Him</h3>
-      ${profileWhyPickPanel(player)}
+      ${profileWhyPickPanel(player, measureKey)}
     </section>
 
     <section class="profile-section">
@@ -9155,6 +9158,91 @@ function pickRiskKind(player) {
   return "review";
 }
 
+function publicRiskSentence(reasons) {
+  const reasonText = reasons.length === 2
+    ? `${reasons[0]} and ${reasons[1]}`
+    : listText(reasons);
+
+  return `${reasons.length === 1 ? "Main risk is" : "Main risks are"} ${reasonText}.`;
+}
+
+function publicFantasyRiskReasons(player, measureKey = "balanced", modelKey = "") {
+  const reasons = [];
+  const addReason = (reason) => {
+    if (reason && !reasons.includes(reason)) {
+      reasons.push(reason);
+    }
+  };
+  const startProbability = optionalScoreValue(player, "start_probability_percent");
+  const expectedMinutes = optionalScoreValue(player, "expected_minutes_v0");
+  const substitutionRisk = optionalScoreValue(player, "substitution_risk");
+  const tailRisk = optionalScoreValue(player, "finance_tail_risk_score", "risk_tail_score");
+  const compositeRisk = optionalScoreValue(player, "finance_composite_risk_score", "risk_composite_score");
+  const volatility = optionalScoreValue(player, "finance_volatility_points", "volatility_score");
+  const floor = optionalScoreValue(player, "finance_var10_points");
+  const fixtureContext = qaFixtureContext(player);
+  const roleText = String(player.country_role || player.role_label || "").toLowerCase();
+  const premiumSqueeze = financeContextScore(player, "premium_squeeze_score");
+  const price = proxyPrice(player);
+
+  if (Number.isFinite(startProbability) && startProbability < 55) {
+    addReason("minutes risk");
+  } else if (Number.isFinite(expectedMinutes) && expectedMinutes < 60) {
+    addReason("minutes risk");
+  }
+
+  if (Number.isFinite(substitutionRisk) && substitutionRisk >= 45) {
+    addReason("substitution risk");
+  }
+
+  if (roleText.includes("rotation")) {
+    addReason("rotation risk");
+  } else if (roleText.includes("unclear") || roleText.includes("bench")) {
+    addReason("role uncertainty");
+  }
+
+  if (fixtureContext.difficulty !== null && fixtureContext.difficulty >= 65) {
+    addReason("harder matchup");
+  } else if (fixtureContext.difficulty !== null && fixtureContext.difficulty >= 55) {
+    addReason("fixture difficulty");
+  }
+
+  if (["Goalkeeper", "Defender"].includes(player.position) && fixtureContext.cleanSheet !== null && fixtureContext.cleanSheet < 0.3) {
+    addReason("low clean-sheet chance");
+  }
+
+  if ((Number.isFinite(premiumSqueeze) && premiumSqueeze >= 65) || price >= 8.5) {
+    addReason("price pressure");
+  }
+
+  if (measureKey === "captain" || modelKey === "captain") {
+    addReason("captain downside");
+  }
+
+  if (
+    measureKey === "upside" ||
+    modelKey === "upside" ||
+    Number.isFinite(tailRisk) && tailRisk >= 65 ||
+    Number.isFinite(volatility) && volatility >= 55
+  ) {
+    addReason("boom-or-bust scoring profile");
+  }
+
+  if (Number.isFinite(floor) && floor < 2) {
+    addReason("lower floor");
+  }
+
+  if (["Forward", "Midfielder"].includes(player.position) && ["upside", "captain"].includes(measureKey)) {
+    addReason("dependency on goals or assists");
+  }
+
+  if (!reasons.length && Number.isFinite(compositeRisk) && compositeRisk >= 55) {
+    addReason("lower floor");
+  }
+
+  return reasons.slice(0, 2);
+}
+
 function pickFixtureLabel(player) {
   const candidate = player.preview_candidate || null;
   const projections = playerMatchdayProjections(player);
@@ -9199,6 +9287,52 @@ function pickReasonText(player, measureKey = "balanced") {
   return reason.length > 190 ? `${reason.slice(0, 187).trim()}...` : reason;
 }
 
+function pickCardMatchdayLabel(player) {
+  const projection = pickProjectionRow(player);
+
+  if (projection) {
+    return projection.matchday_label || matchdayLabelFromId(projection.matchday_id);
+  }
+
+  const previewMatchday = player?.preview_candidate?.matchday;
+  if (previewMatchday && previewMatchday !== "group_stage_full") {
+    return matchdayLabelFromId(previewMatchday);
+  }
+
+  return activeMatchdayId === "group_stage_full"
+    ? matchdayLabelFromId(defaultPickProjectionMatchdayId)
+    : activeMatchdayLabel();
+}
+
+function pickCardProjectionSummary(player) {
+  const parts = [];
+  const projected = projectedMatchdayPoints(player);
+  const startChance = optionalScoreValue(player, "start_probability_percent");
+
+  if (projected !== "Needs check") {
+    parts.push(`${projected} projected points for ${pickCardMatchdayLabel(player)}`);
+  }
+
+  if (Number.isFinite(startChance)) {
+    parts.push(`${displayNumber(startChance)}% start chance`);
+  }
+
+  return parts.join(" · ");
+}
+
+function pickCardModelDescription(modelKey, measureKey = "balanced") {
+  const option = pickModelOptions[modelKey] || Object.values(pickModelOptions).find((candidate) => candidate.measureKey === measureKey);
+  const description = option?.cardDescription || option?.help || measures[measureKey]?.description || "This model ranks useful fantasy picks.";
+
+  return `Model view: ${description}`;
+}
+
+function pickCardRiskDescription(player, measureKey = "balanced", modelKey = "") {
+  const reasons = publicFantasyRiskReasons(player, measureKey, modelKey);
+
+  return reasons.length ? `Risk view: ${publicRiskSentence(reasons)}` : "";
+}
+
 function builderLockPlayerId(player) {
   if (!player) return null;
   if (players.some((candidate) => candidate.id === player.id)) return player.id;
@@ -9230,9 +9364,9 @@ function pickCardActionHtml(player) {
 function renderPickCard(player, options = {}) {
   const measureKey = options.measureKey || "balanced";
   const label = options.label || measures[measureKey]?.label || "Pick";
-  const scoreLabel = pickScoreLabel(player, measureKey);
   const riskLabel = pickRiskLabel(player);
   const riskHelpText = pickRiskHelpText(player, riskLabel);
+  const modelKey = options.modelKey || "";
 
   if (!player) {
     const emptyTitle = options.emptyTitle || "Fantasy data unavailable";
@@ -9247,6 +9381,10 @@ function renderPickCard(player, options = {}) {
     `;
   }
 
+  const projectionSummary = pickCardProjectionSummary(player);
+  const modelDescription = pickCardModelDescription(modelKey, measureKey);
+  const riskDescription = pickCardRiskDescription(player, measureKey, modelKey);
+
   return `
     <article class="pick-card pick-card--${pickRiskKind(player)}">
       <div class="pick-card__top">
@@ -9254,13 +9392,11 @@ function renderPickCard(player, options = {}) {
         <span class="pick-card__risk" title="${escapeHtml(riskHelpText)}" aria-label="${escapeHtml(riskHelpText)}">${escapeHtml(riskLabel)}</span>
       </div>
       ${playerDetailButton(player, "player-name-button--dashboard", measureKey)}
-      <p class="pick-card__meta">${escapeHtml(playerCountryText(player))} · ${escapeHtml(player.position)} · ${escapeHtml(playerPriceText(player))}</p>
-      <div class="pick-card__metrics">
-        <span><strong>${escapeHtml(pickProjectedScore(player, measureKey))}</strong> <small>${escapeHtml(scoreLabel)}</small></span>
-        <span><strong>${displayNumber(scoreValue(player, "start_probability_percent"))}%</strong> <small>Start</small></span>
-      </div>
+      <p class="pick-card__meta">${escapeHtml(playerCountryText(player))} · ${escapeHtml(player.position)}</p>
+      ${projectionSummary ? `<p class="pick-card__summary">${escapeHtml(projectionSummary)}</p>` : ""}
       <p class="pick-card__fixture">${escapeHtml(pickFixtureLabel(player))}</p>
-      <p class="pick-card__reason">${escapeHtml(pickReasonText(player, measureKey))}</p>
+      <p class="pick-card__model">${escapeHtml(modelDescription)}</p>
+      ${riskDescription ? `<p class="pick-card__reason">${escapeHtml(riskDescription)}</p>` : ""}
       ${pickCardActionHtml(player)}
     </article>
   `;
@@ -9443,12 +9579,15 @@ function uniquePickPlayer(playerList, usedPlayerKeys) {
 
 function quickPickCandidatesForOption(option) {
   const measure = pickModelMeasure(option);
-  const trustMode = activeTrustMode();
+  const trustMode = trustModes.balanced;
   const sourceMode = fantasyPoolPreviewModeForAdvice(option.id, trustMode);
   const sourcePool = usingFantasyPoolPreview
     ? fantasyPoolPreviewCandidatesForMode(sourceMode)
     : players;
-  const positionPool = filterQuickPickPosition(sourcePool);
+  let positionPool = filterQuickPickPosition(sourcePool);
+  if (usingFantasyPoolPreview && activeQuickPickPosition !== "All" && !positionPool.length) {
+    positionPool = filterQuickPickPosition(fantasyPoolPreviewPlayers);
+  }
   const trustPool = trustFilteredPlayers(positionPool, measure, trustMode, { allowFallback: true });
   const basePool = trustPool.length ? trustPool : positionPool;
 
@@ -9461,10 +9600,10 @@ function quickPickFallbackCard(option) {
     : `No ${activeQuickPickPosition.toLowerCase()} picks match this model yet.`;
 
   return renderPickCard(null, {
-    label: option.cardLabel,
+    label: option.label,
     measureKey: option.measureKey,
     emptyTitle: "No matching picks",
-    emptyCopy: `${positionText} Try All positions, another model, or a broader confidence mode.`
+    emptyCopy: `${positionText} Try All positions.`
   });
 }
 
@@ -9476,7 +9615,7 @@ function renderDashboardSections() {
 
     return player
       ? renderPickCard(player, {
-        label: option.cardLabel,
+        label: option.label,
         measureKey: option.measureKey,
         modelKey: option.id
       })
