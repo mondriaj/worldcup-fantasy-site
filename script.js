@@ -50,6 +50,8 @@ let activeMatchdayId = defaultActiveMatchdayId;
 let activeEnvironmentMatchdayId = defaultPickProjectionMatchdayId;
 let activeTrustModeId = "balanced";
 let activeAdvicePoolModeId = "playable";
+let activeQuickPickModelKey = "balanced";
+let activeQuickPickPosition = "All";
 const browserSquadStorageKey = "worldCupFantasyHelper.teamExport.v1";
 
 const positionCodeLabels = {
@@ -347,6 +349,10 @@ function fantasyPoolPreviewCandidatesForMode(mode, matchdayId = activeMatchdayId
 }
 
 function fantasyPoolPreviewModeForAdvice(measureKey, trustMode) {
+  if (pickModelOptions[measureKey]?.sourceMode) {
+    return pickModelOptions[measureKey].sourceMode;
+  }
+
   if (["balanced", "safe", "upside", "differential", "captain"].includes(measureKey)) {
     return measureKey;
   }
@@ -715,6 +721,145 @@ const measures = {
 Object.entries(measures).forEach(([key, measure]) => {
   measure.key = key;
 });
+
+const pickModelOptionKeys = [
+  "balanced",
+  "safe",
+  "upside",
+  "differential",
+  "bestValue",
+  "valueQuant",
+  "captain",
+  "riskControl"
+];
+
+const pickModelOptions = {
+  balanced: {
+    id: "balanced",
+    label: "Balanced",
+    cardLabel: "Balanced Pick",
+    group: "basic",
+    sourceMode: "balanced",
+    measureKey: "balanced",
+    help: "A general recommendation using points, role, fixture, and risk."
+  },
+  safe: {
+    id: "safe",
+    label: "Safe",
+    cardLabel: "Safe Pick",
+    group: "basic",
+    sourceMode: "safe",
+    measureKey: "safe",
+    help: "More weight on minutes, role security, and lower downside."
+  },
+  upside: {
+    id: "upside",
+    label: "Upside",
+    cardLabel: "Upside Pick",
+    group: "basic",
+    sourceMode: "upside",
+    measureKey: "upside",
+    help: "More weight on ceiling and attacking opportunity."
+  },
+  differential: {
+    id: "differential",
+    label: "Differential",
+    cardLabel: "Differential Pick",
+    group: "basic",
+    sourceMode: "differential",
+    measureKey: "differential",
+    help: "More weight on players who may be less obvious but have useful upside."
+  },
+  bestValue: {
+    id: "bestValue",
+    label: "Value",
+    cardLabel: "Value Pick",
+    group: "basic",
+    sourceMode: "differential",
+    measureKey: "bestValue",
+    help: "More weight on price efficiency."
+  },
+  valueQuant: {
+    id: "valueQuant",
+    label: "Value Quant",
+    cardLabel: "Value Quant",
+    group: "advanced",
+    sourceMode: "balanced",
+    measureKey: "bestValue",
+    help: "Advanced value model using price and projected output.",
+    score: (player) => {
+      const financeAlpha = financeContextScore(player, "finance_alpha_score");
+      const valueScore = optionalScoreValue(player, "value_score_v1", "cheap_enabler_score_v1");
+      const projectedPoints = optionalScoreValue(player, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate");
+      const price = proxyPrice(player);
+
+      return (Number.isFinite(financeAlpha) ? financeAlpha : 0) * 1.8 +
+        (Number.isFinite(valueScore) ? valueScore : 0) * 0.7 +
+        (Number.isFinite(projectedPoints) && price > 0 ? (projectedPoints / price) * 22 : 0);
+    }
+  },
+  captain: {
+    id: "captain",
+    label: "Captain Alpha",
+    cardLabel: "Captain Alpha",
+    group: "advanced",
+    sourceMode: "captain",
+    measureKey: "captain",
+    help: "Focuses on captain upside and strong matchday captain candidates.",
+    score: (player) => captainRecommendationScore(player)
+  },
+  riskControl: {
+    id: "riskControl",
+    label: "Risk-Control Pick",
+    cardLabel: "Risk-Control Pick",
+    group: "advanced",
+    sourceMode: "safe",
+    measureKey: "safe",
+    help: "Looks for useful picks after accounting for downside and reliability.",
+    score: (player, mode = activeTrustMode()) => trustAdjustedScore(player, measures.safe, mode) +
+      Math.max(0, 100 - scoreValue(player, "finance_composite_risk_score", "risk_composite_score")) * 0.22 +
+      scoreValue(player, "finance_minutes_security_score", "euro_style_reliability_score") * 0.16 +
+      scoreValue(player, "finance_var10_points") * 2
+  }
+};
+
+function pickModelOption(key) {
+  return pickModelOptions[key] || pickModelOptions.balanced;
+}
+
+function pickModelMeasure(optionOrKey) {
+  const option = typeof optionOrKey === "string" ? pickModelOption(optionOrKey) : optionOrKey;
+  return measures[option?.measureKey] || measures.balanced;
+}
+
+function pickModelScore(player, optionOrKey, mode = activeTrustMode()) {
+  const option = typeof optionOrKey === "string" ? pickModelOption(optionOrKey) : optionOrKey;
+  if (typeof option?.score === "function") {
+    return option.score(player, mode);
+  }
+  return trustAdjustedScore(player, pickModelMeasure(option), mode);
+}
+
+function sortByPickModel(playerList, optionOrKey, mode = activeTrustMode()) {
+  return [...playerList].sort((a, b) => {
+    const modelDifference = pickModelScore(b, optionOrKey, mode) - pickModelScore(a, optionOrKey, mode);
+
+    if (modelDifference !== 0) {
+      return modelDifference;
+    }
+
+    return scoreValue(b, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate") -
+      scoreValue(a, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate");
+  });
+}
+
+function pickListCardLabel(option, index) {
+  if (index > 0) {
+    return `${option.label} ${index + 1}`;
+  }
+
+  return /pick$/i.test(option.label) ? option.label : `${option.label} pick`;
+}
 
 function previewFinanceContext(player) {
   return player.preview_candidate?.finance_context || player.preview_finance_context || {};
@@ -1130,6 +1275,11 @@ const advicePositionSelect = document.getElementById("advice-position-select");
 const adviceMatchdaySelect = document.getElementById("advice-matchday-select");
 const advicePoolSelect = document.getElementById("advice-pool-select");
 const builderMatchdaySelect = document.getElementById("builder-matchday-select");
+const quickPickModelSelect = document.getElementById("quick-pick-model-select");
+const quickPositionSelect = document.getElementById("quick-position-select");
+const quickModelHelpButton = document.getElementById("quick-model-help-btn");
+const quickModelHelp = document.getElementById("quick-model-help");
+const quickModelHelpList = document.getElementById("quick-model-help-list");
 const quickTrustModeSelect = document.getElementById("quick-trust-mode-select");
 const captainTrustModeSelect = document.getElementById("captain-trust-mode-select");
 const adviceTrustModeSelect = document.getElementById("advice-trust-mode-select");
@@ -2269,13 +2419,40 @@ function captainRecommendationScore(player, mode = activeTrustMode()) {
 }
 
 function trustModeSummaryText(mode = activeTrustMode()) {
-  return `${trustModeLabel(mode)}: ${mode.description}`;
+  return `${activeQuickPickModelOption().label} model for ${activeQuickPickPositionLabel()} with ${trustModeLabel(mode)}: ${mode.description}`;
 }
 
 function renderTrustModeSummary() {
   if (trustModeSummary) {
     trustModeSummary.textContent = trustModeSummaryText();
   }
+}
+
+function updateQuickPickModel(nextModelKey) {
+  activeQuickPickModelKey = pickModelOptions[nextModelKey] ? nextModelKey : "balanced";
+  if (quickPickModelSelect) {
+    quickPickModelSelect.value = activeQuickPickModelKey;
+  }
+  renderTrustModeSummary();
+  renderDashboardSections();
+}
+
+function updateQuickPickPosition(nextPosition) {
+  activeQuickPickPosition = nextPosition === "All" || positionOrder.includes(nextPosition)
+    ? nextPosition
+    : "All";
+  if (quickPositionSelect) {
+    quickPositionSelect.value = activeQuickPickPosition;
+  }
+  renderTrustModeSummary();
+  renderDashboardSections();
+}
+
+function toggleQuickModelHelp() {
+  if (!quickModelHelp || !quickModelHelpButton) return;
+
+  const isHidden = quickModelHelp.classList.toggle("hidden");
+  quickModelHelpButton.setAttribute("aria-expanded", String(!isHidden));
 }
 
 function profileMetric(label, valueToDisplay, note = "") {
@@ -2962,7 +3139,8 @@ function renderMatchEnvironmentTable() {
 }
 
 function measureFromSelect(selectElement) {
-  return measures[selectElement.value] || measures.balanced;
+  const selectedKey = selectElement?.value || "balanced";
+  return measures[pickModelOptions[selectedKey]?.measureKey || selectedKey] || measures.balanced;
 }
 
 function activeMeasure() {
@@ -7148,15 +7326,37 @@ async function importTeamJson(event) {
 
 function renderMeasureOptions() {
   const renderOptions = (keys) => keys
-    .map((key) => `<option value="${key}">${measures[key].optionLabel || measures[key].label}</option>`)
+    .map((key) => {
+      const option = pickModelOptions[key];
+      if (option) {
+        return `<option value="${key}">${option.label}</option>`;
+      }
+      return `<option value="${key}">${measures[key].optionLabel || measures[key].label}</option>`;
+    })
     .join("");
   const measureOptions = renderOptions(primaryStrategyKeys);
+  const pickModelOptionsHtml = renderOptions(pickModelOptionKeys);
 
-  [measureSelect, adviceMeasureSelect].filter(Boolean).forEach((select) => {
+  if (measureSelect) {
+    const previousValue = measureSelect.value;
+    measureSelect.innerHTML = measureOptions;
+    measureSelect.value = primaryStrategyKeys.includes(previousValue) ? previousValue : "balanced";
+  }
+
+  [quickPickModelSelect, adviceMeasureSelect].filter(Boolean).forEach((select) => {
     const previousValue = select.value;
-    select.innerHTML = measureOptions;
-    select.value = primaryStrategyKeys.includes(previousValue) ? previousValue : "balanced";
+    select.innerHTML = pickModelOptionsHtml;
+    select.value = pickModelOptionKeys.includes(previousValue) ? previousValue : "balanced";
   });
+
+  if (quickModelHelpList) {
+    quickModelHelpList.innerHTML = pickModelOptionKeys
+      .map((key) => {
+        const option = pickModelOption(key);
+        return `<li><strong>${option.label}:</strong> ${option.help}</li>`;
+      })
+      .join("");
+  }
 }
 
 function renderFinanceLensOptions() {
@@ -8981,11 +9181,14 @@ function renderPickCard(player, options = {}) {
   const riskHelpText = pickRiskHelpText(player, riskLabel);
 
   if (!player) {
+    const emptyTitle = options.emptyTitle || "Official fantasy data unavailable";
+    const emptyCopy = options.emptyCopy || "The site will fall back to the older local dataset if the official fantasy source file is missing.";
+
     return `
       <article class="pick-card pick-card--empty">
         <span class="pick-card__label">${escapeHtml(label)}</span>
-        <strong>Official fantasy data unavailable</strong>
-        <p>The site will fall back to the older local dataset if the official fantasy source file is missing.</p>
+        <strong>${escapeHtml(emptyTitle)}</strong>
+        <p>${escapeHtml(emptyCopy)}</p>
       </article>
     `;
   }
@@ -9152,139 +9355,89 @@ function renderCaptainPicks() {
   `).join("");
 }
 
-function renderFantasyPoolPreviewDashboardSections() {
-  const usedPlayerKeys = new Set();
-  const pickUniquePlayer = (mode) => {
-    const playerList = fantasyPoolPreviewCandidatesForMode(mode);
-    const player = playerList.find((candidate) => !usedPlayerKeys.has(candidate.preview_player_key)) || playerList[0];
-    if (player) {
-      usedPlayerKeys.add(player.preview_player_key);
-    }
-    return player;
-  };
+function activeQuickPickModelOption() {
+  return pickModelOption(activeQuickPickModelKey);
+}
 
-  const cards = [
-    {
-      label: "Balanced Pick",
-      mode: "balanced",
-      stat: (player) => `Projected ${fantasyPoolCandidateStat(player, "risk_adjusted_points")} · Price ${playerPriceText(player)}`,
-      qaStyle: "balanced"
-    },
-    {
-      label: "Captain Alpha",
-      mode: "captain",
-      stat: (player) => `Captain score ${fantasyPoolCandidateStat(player, "captain_score")} · Start ${displayNumber(scoreValue(player, "start_probability_percent"))}%`,
-      qaStyle: "captain"
-    },
-    {
-      label: "Safe Pick",
-      mode: "safe",
-      stat: (player) => `Floor ${fantasyPoolCandidateStat(player, "floor_points")} · Minutes ${displayNumber(scoreValue(player, "expected_minutes_v0"))}`,
-      qaStyle: "safe"
-    },
-    {
-      label: "Differential Pick",
-      mode: "differential",
-      stat: (player) => `Value ${fantasyPoolCandidateStat(player, "value_score")} · Projected ${fantasyPoolCandidateStat(player, "risk_adjusted_points")}`,
-      qaStyle: "bestValue"
-    },
-    {
-      label: "Upside Pick",
-      mode: "upside",
-      stat: (player) => `Ceiling ${fantasyPoolCandidateStat(player, "ceiling_points")} · Projection ${fantasyPoolCandidateStat(player, "raw_expected_points")}`,
-      qaStyle: "upside"
-    }
-  ].map((card) => ({ ...card, player: pickUniquePlayer(card.mode) }));
+function activeQuickPickPositionLabel() {
+  return activeQuickPickPosition === "All" ? "all positions" : activeQuickPickPosition.toLowerCase();
+}
 
-  dashboardGrid.innerHTML = cards.map(({ label, player, qaStyle }) =>
-    renderPickCard(player, { label, measureKey: qaStyle })
-  ).join("");
+function orderedQuickPickModelKeys() {
+  return [
+    activeQuickPickModelKey,
+    ...pickModelOptionKeys.filter((key) => key !== activeQuickPickModelKey)
+  ].filter((key, index, keys) => pickModelOptions[key] && keys.indexOf(key) === index);
+}
+
+function filterQuickPickPosition(playerList) {
+  return activeQuickPickPosition === "All"
+    ? playerList
+    : playerList.filter((player) => player.position === activeQuickPickPosition);
+}
+
+function uniquePickPlayer(playerList, usedPlayerKeys) {
+  const player = playerList.find((candidate) => {
+    const key = candidate.preview_player_key || candidate.source_player_id || candidate.id;
+    return key && !usedPlayerKeys.has(key);
+  }) || playerList[0];
+
+  if (player) {
+    usedPlayerKeys.add(player.preview_player_key || player.source_player_id || player.id);
+  }
+
+  return player;
+}
+
+function quickPickCandidatesForOption(option) {
+  const measure = pickModelMeasure(option);
+  const trustMode = activeTrustMode();
+  const sourceMode = fantasyPoolPreviewModeForAdvice(option.id, trustMode);
+  const sourcePool = usingFantasyPoolPreview
+    ? fantasyPoolPreviewCandidatesForMode(sourceMode)
+    : players;
+  const positionPool = filterQuickPickPosition(sourcePool);
+  const trustPool = trustFilteredPlayers(positionPool, measure, trustMode, { allowFallback: true });
+  const basePool = trustPool.length ? trustPool : positionPool;
+
+  return sortByPickModel(basePool, option, trustMode);
+}
+
+function quickPickFallbackCard(option) {
+  const positionText = activeQuickPickPosition === "All"
+    ? "No players match this pick model yet."
+    : `No ${activeQuickPickPosition.toLowerCase()} picks match this model yet.`;
+
+  return renderPickCard(null, {
+    label: option.cardLabel,
+    measureKey: option.measureKey,
+    emptyTitle: "No matching picks",
+    emptyCopy: `${positionText} Try All positions, another model, or a broader confidence mode.`
+  });
 }
 
 function renderDashboardSections() {
-  if (usingFantasyPoolPreview) {
-    renderFantasyPoolPreviewDashboardSections();
-    return;
-  }
+  const usedPlayerKeys = new Set();
+  const cards = orderedQuickPickModelKeys().map((key) => {
+    const option = pickModelOption(key);
+    const player = uniquePickPlayer(quickPickCandidatesForOption(option), usedPlayerKeys);
 
-  const usedPlayerIds = new Set();
-  const pickUniquePlayer = (playerList) => {
-    const player = playerList.find((candidate) => !usedPlayerIds.has(candidate.id)) || playerList[0];
-    if (player) {
-      usedPlayerIds.add(player.id);
-    }
-    return player;
-  };
-  const bestOverallPick = pickUniquePlayer(rankedRecommendationPlayers(players, measures.balanced, activeTrustMode(), { allowFallback: true }));
-  const captainPick = pickUniquePlayer(
-    trustFilteredPlayers(
-      players.filter((player) => player.position !== "Goalkeeper"),
-      captainTrustMeasure,
-      activeTrustMode(),
-      { allowFallback: true }
-    ).sort((a, b) => captainRecommendationScore(b) - captainRecommendationScore(a))
-  );
-  const reliablePick = pickUniquePlayer(rankedRecommendationPlayers(players, measures.safe, activeTrustMode(), { allowFallback: true }));
-  const valuePick = pickUniquePlayer(rankedRecommendationPlayers(players, measures.bestValue, activeTrustMode(), { allowFallback: true }));
-  const attackPick = pickUniquePlayer(rankedRecommendationPlayers(players, measures.attackHeavy, activeTrustMode(), { allowFallback: true }));
-  const veryRiskyCandidates = players.filter((player) =>
-    ["high_risk_high_upside", "high_upside_option"].includes(player.finance_label)
-  );
-  const veryRiskyPick = pickUniquePlayer(rankedRecommendationPlayers(
-    veryRiskyCandidates.length ? veryRiskyCandidates : players,
-    measures.veryRisky,
-    activeTrustMode(),
-    { allowFallback: true }
-  ));
+    return player
+      ? renderPickCard(player, {
+        label: option.cardLabel,
+        measureKey: option.measureKey,
+        modelKey: option.id
+      })
+      : quickPickFallbackCard(option);
+  });
 
-  dashboardGrid.innerHTML = [
-    {
-      label: "Balanced Pick",
-      player: bestOverallPick,
-      stat: scoreSummaryText(bestOverallPick, measures.balanced),
-      qaStyle: "balanced",
-      reason: `Top blend of projected points, reliability, data confidence, and risk in the current model.${fixtureModelReason(bestOverallPick)}`
-    },
-    {
-      label: "Captain Candidate",
-      player: captainPick,
-      stat: scoreSummaryText(captainPick, captainTrustMeasure),
-      qaStyle: "captain",
-      reason: `Strong captain-style option with useful projected points and manageable risk.${fixtureModelReason(captainPick, "attack")}`
-    },
-    {
-      label: "Safe Pick",
-      player: reliablePick,
-      stat: `Risk: ${displayNumber(scoreValue(reliablePick, "finance_composite_risk_score", "risk_composite_score"))} · Reliability: ${displayNumber(scoreValue(reliablePick, "finance_minutes_security_score", "euro_style_reliability_score"))}`,
-      qaStyle: "safe",
-      reason: `Lower-risk profile with useful minutes and downside protection.${fixtureModelReason(reliablePick)}`
-    },
-    {
-      label: "Undervalued Asset",
-      player: valuePick,
-      stat: `${scoreSummaryText(valuePick, measures.bestValue)} · Budget ${displayNumber(proxyPrice(valuePick))}`,
-      qaStyle: "bestValue",
-      reason: `Value pick using budget, role confidence, projected points, and budget pressure.${fixtureModelReason(valuePick)}`
-    },
-    {
-      label: "Upside Pick",
-      player: attackPick,
-      stat: scoreSummaryText(attackPick, measures.attackHeavy),
-      qaStyle: "attackHeavy",
-      reason: `Attack-first profile for users who want goals, assists, shots, and upside.${fixtureModelReason(attackPick, "attack")}`
-    },
-    {
-      label: "Differential Watch",
-      player: veryRiskyPick,
-      stat: `${scoreSummaryText(veryRiskyPick, measures.veryRisky)} · Tail risk ${displayNumber(scoreValue(veryRiskyPick, "finance_tail_risk_score", "risk_tail_score"))}`,
-      qaStyle: "veryRisky",
-      reason: `Boom-or-bust portfolio pick. Useful for aggressive watchlists, not a safe default.${fixtureModelReason(veryRiskyPick, "risk")}`
-    }
-  ].map(({ label, player, qaStyle }) => renderPickCard(player, { label, measureKey: qaStyle })).join("");
+  dashboardGrid.innerHTML = cards.join("");
 }
 
 function renderFantasyPoolPreviewAdviceTable() {
   const measureKey = adviceMeasureSelect.value || "balanced";
+  const pickOption = pickModelOption(measureKey);
+  const measure = pickModelMeasure(pickOption);
   const positionFilterValue = advicePositionSelect.value || "All";
   const trustMode = activeTrustMode();
   const poolMode = activeAdvicePoolMode();
@@ -9294,27 +9447,36 @@ function renderFantasyPoolPreviewAdviceTable() {
   const positionPool = positionFilterValue === "All"
     ? previewPlayers
     : previewPlayers.filter((player) => player.position === positionFilterValue);
+  const trustPool = trustFilteredPlayers(positionPool, measure, trustMode, { allowFallback: true });
+  const basePool = trustPool.length ? trustPool : positionPool;
   const visiblePool = poolMode.id === "watchlist"
-    ? positionPool
-    : positionPool.filter((player) =>
+    ? basePool
+    : basePool.filter((player) =>
       ["top_pick_candidate", "strong_candidate"].includes(player.preview_candidate?.recommendation_tier)
     );
   const positionLabel = positionFilterValue === "All" ? "all positions" : positionFilterValue.toLowerCase();
   const hiddenCount = Math.max(0, positionPool.length - visiblePool.length);
-  const rankedPool = financeLens.defaultLens ? visiblePool : sortByFinanceLens(visiblePool, financeLens);
+  const modelRankedPool = sortByPickModel(visiblePool, pickOption, trustMode);
+  const rankedPool = financeLens.defaultLens ? modelRankedPool : sortByFinanceLens(modelRankedPool, financeLens);
   const financeNote = financeLens.defaultLens
     ? "Finance badges show the current model context."
     : `Advanced Finance Lens: sorted by ${financeLens.label}.`;
 
-  adviceStyleNote.textContent = `Official Fantasy Picks: showing ${titleFromSnake(previewMode)} candidates for ${positionLabel} in ${activeMatchdayLabel()} with ${trustModeLabel()}. ${visiblePool.length} ranked from ${positionPool.length} official candidate${positionPool.length === 1 ? "" : "s"}${hiddenCount ? `; ${hiddenCount} watchlist candidate${hiddenCount === 1 ? "" : "s"} hidden` : ""}. ${financeNote} Refresh with the monitor when FIFA changes the fantasy feed.`;
+  adviceStyleNote.textContent = `Official Fantasy Picks: showing ${pickOption.label} candidates for ${positionLabel} in ${activeMatchdayLabel()} with ${trustModeLabel()}. ${visiblePool.length} ranked from ${positionPool.length} official candidate${positionPool.length === 1 ? "" : "s"}${hiddenCount ? `; ${hiddenCount} watchlist candidate${hiddenCount === 1 ? "" : "s"} hidden` : ""}. ${financeNote} Refresh with the monitor when FIFA changes the fantasy feed.`;
 
   if (adviceCardGrid) {
     adviceCardGrid.innerHTML = visiblePool.length
       ? rankedPool.slice(0, 8).map((player, index) => renderPickCard(player, {
-        label: index === 0 ? `${titleFromSnake(previewMode)} pick` : `${titleFromSnake(previewMode)} ${index + 1}`,
-        measureKey
+        label: pickListCardLabel(pickOption, index),
+        measureKey: pickOption.measureKey,
+        modelKey: pickOption.id
       })).join("")
-      : renderPickCard(null, { label: "Pick Explorer", measureKey });
+      : renderPickCard(null, {
+        label: "Pick Explorer",
+        measureKey: pickOption.measureKey,
+        emptyTitle: "No matching picks",
+        emptyCopy: "No official fantasy candidates match this Pick Explorer filter. Try another position, model, or confidence mode."
+      });
   }
 
   adviceTableBody.innerHTML = rankedPool.slice(0, 8).map((player) => `
@@ -9323,7 +9485,7 @@ function renderFantasyPoolPreviewAdviceTable() {
       <td>${playerCountryText(player)}</td>
       <td>${player.position}</td>
       <td>${playerPriceText(player)}</td>
-      <td>${fantasyPoolPreviewTableScore(player, player.preview_mode_label || titleFromSnake(previewMode))}</td>
+      <td>${fantasyPoolPreviewTableScore(player, pickOption.label)}</td>
       <td>${projectedMatchdayPoints(player)}</td>
       <td>${displayNumber(scoreValue(player, "finance_composite_risk_score"))}</td>
       <td>${financeLensCell(player, financeLens)}</td>
@@ -9348,8 +9510,9 @@ function renderAdviceTable() {
   }
 
   const measureKey = adviceMeasureSelect.value || "balanced";
+  const pickOption = pickModelOption(measureKey);
   const positionFilterValue = advicePositionSelect.value || "All";
-  const measure = activeAdviceMeasure();
+  const measure = pickModelMeasure(pickOption);
   const trustMode = activeTrustMode();
   const poolMode = activeAdvicePoolMode();
   const financeLens = activeAdviceFinanceLens();
@@ -9362,20 +9525,27 @@ function renderAdviceTable() {
   const visiblePool = basePool.filter((player) =>
     playerAllowedByAdvicePool(player, measureKey, poolMode)
   );
-  const ranked = financeLens.defaultLens ? sortPlayers(visiblePool, measure, trustMode) : sortByFinanceLens(visiblePool, financeLens);
+  const modelRankedPool = sortByPickModel(visiblePool, pickOption, trustMode);
+  const ranked = financeLens.defaultLens ? modelRankedPool : sortByFinanceLens(modelRankedPool, financeLens);
   const counts = advicePoolCounts(advicePlayers, basePool, visiblePool, measureKey, trustMode, poolMode);
   const positionLabel = positionFilterValue === "All" ? "all positions" : positionFilterValue.toLowerCase();
 
   const financeNote = financeLens.defaultLens ? "" : ` Advanced Finance Lens: sorted by ${financeLens.label}.`;
-  adviceStyleNote.textContent = `Showing ${positionLabel} advice for ${measure.label} in ${activeMatchdayLabel()} with ${trustModeLabel()}. ${advicePoolNote(counts, poolMode, trustFallbackUsed)} Scores include data-check penalties or filters for source quality, role confidence, risk, and fixture context.${financeNote}`;
+  adviceStyleNote.textContent = `Showing ${positionLabel} advice for ${pickOption.label} in ${activeMatchdayLabel()} with ${trustModeLabel()}. ${advicePoolNote(counts, poolMode, trustFallbackUsed)} Scores include data-check penalties or filters for source quality, role confidence, risk, and fixture context.${financeNote}`;
 
   if (adviceCardGrid) {
     adviceCardGrid.innerHTML = ranked.length
       ? ranked.slice(0, 8).map((player, index) => renderPickCard(player, {
-        label: index === 0 ? `${measure.label} pick` : `${measure.label} ${index + 1}`,
-        measureKey
+        label: pickListCardLabel(pickOption, index),
+        measureKey: pickOption.measureKey,
+        modelKey: pickOption.id
       })).join("")
-      : renderPickCard(null, { label: "Pick Explorer", measureKey });
+      : renderPickCard(null, {
+        label: "Pick Explorer",
+        measureKey: pickOption.measureKey,
+        emptyTitle: "No matching picks",
+        emptyCopy: "No players match this Pick Explorer filter yet. Try another position, model, or confidence mode."
+      });
   }
 
   adviceTableBody.innerHTML = ranked.slice(0, 8).map((player) => `
@@ -9746,6 +9916,9 @@ function setupBuilder() {
   importTeamJsonInput?.addEventListener("change", importTeamJson);
   removedPlayersList.addEventListener("click", handleRemovedPlayersClick);
   scoreInfoButton.addEventListener("click", toggleScoreInfo);
+  quickPickModelSelect?.addEventListener("change", (event) => updateQuickPickModel(event.target.value));
+  quickPositionSelect?.addEventListener("change", (event) => updateQuickPickPosition(event.target.value));
+  quickModelHelpButton?.addEventListener("click", toggleQuickModelHelp);
   measureSelect.addEventListener("change", () => {
     renderMeasureInfo();
     renderPlayerPicker();

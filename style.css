@@ -1981,7 +1981,7 @@ html {
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -2289,6 +2289,26 @@ html {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   padding: 0 14px 14px;
+}
+
+.advanced-control-grid--picks {
+  align-items: end;
+}
+
+.inline-control {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.quick-model-help {
+  margin: 0 14px 14px;
+}
+
+.quick-model-help a {
+  color: var(--accent-cool);
+  font-weight: 900;
 }
 
 .advanced-table-panel .table-wrapper {
@@ -4391,6 +4411,10 @@ input[type="number"] {
 }
 
 @media (max-width: 1120px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .builder-workspace {
     grid-template-columns: 1fr;
   }

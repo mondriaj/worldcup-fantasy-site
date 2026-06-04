@@ -14,7 +14,7 @@
     <meta name="twitter:description" content="Compare captain picks, player rankings, and squad ideas in one simple fantasy football hub." />
     <!-- Add canonical and og:url once the final production URL is available. -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="stylesheet" href="style.css?v=20260603-launch-final" />
+    <link rel="stylesheet" href="style.css?v=20260604-picks" />
   </head>
   <body>
     <header id="top" class="hero">
@@ -30,9 +30,9 @@
 
       <div class="hero__content">
         <p class="eyebrow">Official Fantasy Picks</p>
-        <h1>World Cup Fantasy Helper</h1>
+        <h1>Fantasy Quant</h1>
         <p class="hero__text">
-          Find good World Cup fantasy picks, build a squad, and manage captain and bench decisions with risk-aware help.
+          Fantasy Quant is a World Cup fantasy helper that uses models, data science, and quant methods to help you find good picks, build a squad, and manage captain and bench decisions with risk-aware advice.
         </p>
 
         <div class="hero__actions" aria-label="Homepage actions">
@@ -41,60 +41,8 @@
           <a class="secondary-link secondary-link--quiet" href="#matchday-desk">Open Matchday Desk</a>
         </div>
 
-        <div class="hero-highlights" aria-label="Website highlights">
-          <article>
-            <span>1,481</span>
-            <p>official fantasy-pool players imported</p>
-          </article>
-          <article>
-            <span id="hero-squad-total">Rules</span>
-            <p id="hero-squad-copy">squad builder from rules data</p>
-          </article>
-          <article>
-            <span>4</span>
-            <p>simple strategies: Balanced, Safe, Upside, Differential</p>
-          </article>
-        </div>
       </div>
     </header>
-
-    <aside class="data-status" aria-label="Data status">
-      <span class="data-status__label">Data status</span>
-      <div class="data-status__body">
-        <p>Official fantasy prices, positions, selectable status, and scoring are loaded for public picks.</p>
-        <p class="data-status__meta">Snapshot: 1,481 official fantasy-pool players. Monitor checked June 3, 2026 at 22:49 UTC; only ownership percentages changed.</p>
-      </div>
-    </aside>
-
-    <details id="official-data-readiness" class="official-readiness" aria-label="Official data readiness">
-      <summary class="official-readiness__summary">
-        <span class="official-readiness__label">Official Data Readiness</span>
-        <strong>Launch data checked</strong>
-        <span>Open for source notes and monitor status.</span>
-      </summary>
-      <div class="official-readiness__grid" aria-label="Official data blockers">
-        <article>
-          <span>Fantasy Pool</span>
-          <strong>Current official feed</strong>
-          <p>Selectable players come from FIFA's fantasy game feed and are used as the site authority for picks.</p>
-        </article>
-        <article>
-          <span>Players</span>
-          <strong>1,481 imported</strong>
-          <p>Official fantasy player IDs, prices, positions, and selectable status are imported for recommendations.</p>
-        </article>
-        <article>
-          <span>Prices</span>
-          <strong>Official</strong>
-          <p>Recommendation and finance layers use official fantasy prices.</p>
-        </article>
-        <article>
-          <span>Rules</span>
-          <strong>Imported</strong>
-          <p>Official scoring is imported. Users should still confirm game deadlines inside FIFA before acting.</p>
-        </article>
-      </div>
-    </details>
 
     <main class="page-shell">
       <noscript>
@@ -112,17 +60,43 @@
           <p>Start with card-first player ideas, then open the advanced tables only when you want the full detail.</p>
         </div>
 
+        <p class="section-note"><strong>How to use Picks.</strong> These picks are strong players to build a squad around. Use them as squad-builder starters, then complete the team around budget, position limits, country limits, captain choices, and risk.</p>
+        <p class="section-note"><strong>Model-backed rankings.</strong> Fantasy Quant uses models, data science, and quant methods to rank players in simple pick lists.</p>
         <p class="section-note"><strong>Official Fantasy Picks.</strong> These picks use official fantasy prices, positions, selectable status, and scoring from the current FIFA fantasy feed.</p>
 
         <details class="advanced-control-panel">
           <summary>Advanced pick settings</summary>
-          <div class="trust-mode-bar">
-          <label class="control-group" for="quick-trust-mode-select">
-            <span>Confidence Mode</span>
-            <select id="quick-trust-mode-select"></select>
-          </label>
-          <p id="trust-mode-summary" class="trust-mode-summary">Balanced mode keeps the experience smooth while still applying data-check penalties.</p>
+          <div class="advanced-control-grid advanced-control-grid--picks">
+            <label class="control-group" for="quick-pick-model-select">
+              <span>Model</span>
+              <span class="inline-control">
+                <select id="quick-pick-model-select"></select>
+                <button id="quick-model-help-btn" class="info-button info-button--small" type="button" aria-expanded="false" aria-controls="quick-model-help">?</button>
+              </span>
+            </label>
+
+            <label class="control-group" for="quick-position-select">
+              <span>Position</span>
+              <select id="quick-position-select">
+                <option value="All">All</option>
+                <option value="Goalkeeper">Goalkeeper</option>
+                <option value="Defender">Defender</option>
+                <option value="Midfielder">Midfielder</option>
+                <option value="Forward">Forward</option>
+              </select>
+            </label>
+
+            <label class="control-group" for="quick-trust-mode-select">
+              <span>Confidence Mode</span>
+              <select id="quick-trust-mode-select"></select>
+            </label>
           </div>
+          <div id="quick-model-help" class="measure-info quick-model-help hidden">
+            <strong>Pick Models</strong>
+            <ul class="compact-list" id="quick-model-help-list"></ul>
+            <p>For more detail, see the detailed stats explanations in <a href="#model-notes">Model Notes</a>.</p>
+          </div>
+          <p id="trust-mode-summary" class="trust-mode-summary">Balanced mode keeps the experience smooth while still applying data-check penalties.</p>
         </details>
 
         <div id="dashboard-grid" class="dashboard-grid" aria-live="polite">
@@ -476,7 +450,7 @@
             <label class="control-group" for="advice-measure-select">
               <span>Strategy</span>
               <select id="advice-measure-select"></select>
-              <small class="control-helper">Choose the main list: Balanced, Safe, Upside, or Differential. Captain Alpha has its own section above.</small>
+              <small class="control-helper">Choose the model view: basic picks, value, captain upside, or risk-control.</small>
             </label>
 
             <label class="control-group" for="advice-position-select">
@@ -1336,9 +1310,9 @@
 
           <h3>June 1, 2026</h3>
           <ul class="compact-list">
-            <li>Official Data Readiness v0 added to track final squads, fantasy player IDs, fantasy positions, prices, rules, scoring, and deadlines.</li>
-            <li>Future official fantasy imports now have a schema contract and repeatable readiness check.</li>
-            <li>The homepage added the official-data gate that led to the current official fantasy-pool launch pass.</li>
+            <li>Internal source tracking was added for final squads, fantasy player IDs, fantasy positions, prices, rules, scoring, and deadlines.</li>
+            <li>Future official fantasy imports now have a schema contract and repeatable source check.</li>
+            <li>Internal data checks supported the current official fantasy-pool launch pass.</li>
           </ul>
         </div>
 
@@ -1430,6 +1404,6 @@
     <script src="fantasyPoolFinanceMetricsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolScorePredictionsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolOfficialDataStatusData.js?v=20260603-official-final"></script>
-    <script src="script.js?v=20260603-launch-final"></script>
+    <script src="script.js?v=20260604-picks"></script>
   </body>
 </html>
