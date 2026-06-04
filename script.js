@@ -3345,7 +3345,7 @@ function renderMatchEnvironmentTable() {
   }
 
   if (!scorePredictionRows.length) {
-    matchEnvironmentSummary.textContent = "Score prediction data is not loaded.";
+    matchEnvironmentSummary.textContent = "";
     matchEnvironmentTableBody.innerHTML = `
       <tr>
         <td colspan="6">Score prediction data is not loaded yet.</td>
@@ -3356,20 +3356,7 @@ function renderMatchEnvironmentTable() {
 
   const rows = scorePredictionRowsForFilters();
   const visibleRows = rows.slice(0, 12);
-  const totalGoals = rows.reduce((sum, row) => sum + value(row.total_expected_goals), 0);
-  const averageGoals = rows.length ? totalGoals / rows.length : 0;
-  const cleanSheetRows = rows.filter((row) => strongestCleanSheetTeam(row).probability >= 0.48).length;
-  const upsetRows = rows.filter((row) => value(row.upset_risk_probability) >= 0.18).length;
-  const qualityLabel = scorePredictionQualityLabel();
-  const qualityDetail = scorePredictionQualityDetail();
-
-  matchEnvironmentSummary.innerHTML = `
-    <span><strong>${visibleRows.length}</strong> shown of ${rows.length} fixtures</span>
-    <span><strong>${displayNumber(averageGoals)}</strong> avg total xG</span>
-    <span><strong>${cleanSheetRows}</strong> clean-sheet watches</span>
-    <span><strong>${upsetRows}</strong> upset-risk watches</span>
-    ${qualityLabel ? `<span title="${escapeHtml(qualityDetail)}"><strong>${escapeHtml(qualityLabel)}</strong> model check</span>` : ""}
-  `;
+  matchEnvironmentSummary.textContent = "";
 
   if (!visibleRows.length) {
     matchEnvironmentTableBody.innerHTML = `
@@ -10081,14 +10068,10 @@ function renderFantasyPoolPreviewAdviceTable() {
       ["top_pick_candidate", "strong_candidate"].includes(player.preview_candidate?.recommendation_tier)
     );
   const positionLabel = positionFilterValue === "All" ? "all positions" : positionFilterValue.toLowerCase();
-  const hiddenCount = Math.max(0, positionPool.length - visiblePool.length);
   const modelRankedPool = sortByPickModel(visiblePool, pickOption, trustMode);
   const rankedPool = financeLens.defaultLens ? modelRankedPool : sortByFinanceLens(modelRankedPool, financeLens);
-  const financeNote = financeLens.defaultLens
-    ? "Finance badges show the current model context."
-    : `Advanced Finance Lens: sorted by ${financeLens.label}.`;
 
-  adviceStyleNote.textContent = `Showing ${pickOption.label} candidates for ${positionLabel} in ${activeMatchdayLabel()} with ${trustModeLabel()}. ${visiblePool.length} ranked from ${positionPool.length} candidate${positionPool.length === 1 ? "" : "s"}${hiddenCount ? `; ${hiddenCount} watchlist candidate${hiddenCount === 1 ? "" : "s"} hidden` : ""}. ${financeNote} Refresh when the fantasy feed changes.`;
+  adviceStyleNote.textContent = `Showing ${pickOption.label} candidates for ${positionLabel} in ${activeMatchdayLabel()}. Pick cards use projected points, role, matchup, and risk.`;
 
   if (adviceCardGrid) {
     adviceCardGrid.innerHTML = visiblePool.length
@@ -10101,7 +10084,7 @@ function renderFantasyPoolPreviewAdviceTable() {
         label: "Pick Explorer",
         measureKey: pickOption.measureKey,
         emptyTitle: "No matching picks",
-        emptyCopy: "No fantasy candidates match this Pick Explorer filter. Try another position, model, or confidence mode."
+        emptyCopy: "No fantasy candidates match this Pick Explorer filter. Try another position or strategy."
       });
   }
 
@@ -10152,11 +10135,9 @@ function renderAdviceTable() {
   );
   const modelRankedPool = sortByPickModel(visiblePool, pickOption, trustMode);
   const ranked = financeLens.defaultLens ? modelRankedPool : sortByFinanceLens(modelRankedPool, financeLens);
-  const counts = advicePoolCounts(advicePlayers, basePool, visiblePool, measureKey, trustMode, poolMode);
   const positionLabel = positionFilterValue === "All" ? "all positions" : positionFilterValue.toLowerCase();
 
-  const financeNote = financeLens.defaultLens ? "" : ` Advanced Finance Lens: sorted by ${financeLens.label}.`;
-  adviceStyleNote.textContent = `Showing ${positionLabel} advice for ${pickOption.label} in ${activeMatchdayLabel()} with ${trustModeLabel()}. ${advicePoolNote(counts, poolMode, trustFallbackUsed)} Scores include role, minutes, risk, and fixture context.${financeNote}`;
+  adviceStyleNote.textContent = `Showing ${positionLabel} advice for ${pickOption.label} in ${activeMatchdayLabel()}. Pick cards use projected points, role, matchup, and risk.`;
 
   if (adviceCardGrid) {
     adviceCardGrid.innerHTML = ranked.length
@@ -10169,7 +10150,7 @@ function renderAdviceTable() {
         label: "Pick Explorer",
         measureKey: pickOption.measureKey,
         emptyTitle: "No matching picks",
-        emptyCopy: "No players match this Pick Explorer filter yet. Try another position, model, or confidence mode."
+        emptyCopy: "No players match this Pick Explorer filter yet. Try another position or strategy."
       });
   }
 
