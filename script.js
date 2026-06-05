@@ -936,35 +936,40 @@ const teamBuilderStrategyOptions = {
     label: "Balanced Squad",
     measureKey: "balanced",
     description: "Strong all-around squad with a mix of starters, bench depth, budget efficiency, and moderate diversification.",
-    mappingNote: "Phase 2A mapping: uses the existing Core Picks scorer for individual player ranking, then keeps the current budget, country-limit, and portfolio-risk checks."
+    mappingNote: "Phase 2C mapping: starts from the Core Picks scorer, then applies Balanced Squad weights for starter quality, bench strength, budget efficiency, moderate upside, and moderate diversification.",
+    optimizationNote: "Balanced Squad is the default all-around optimizer profile."
   },
   diversifiedSquad: {
     id: "diversifiedSquad",
     label: "Diversified Squad",
     measureKey: "safe",
     description: "Reduces dependence on one country, one match, or a small group of stars.",
-    mappingNote: "Phase 2A mapping: uses the existing High-Floor scorer as the safer-player base, then keeps the current squad-level country, fixture, and budget-pressure warnings."
+    mappingNote: "Phase 2C mapping: starts from the High-Floor scorer, then adds stronger diversification, bench, minutes, and downside-protection weights.",
+    optimizationNote: "Diversified Squad penalizes country stacks, fixture stacks, top-player dependence, weak bench spots, and fragile minutes more than the default."
   },
   concentratedUpside: {
     id: "concentratedUpside",
     label: "Concentrated Upside",
     measureKey: "upside",
     description: "Intentionally leans into strong attacking fixtures and higher-ceiling stacks.",
-    mappingNote: "Phase 2A mapping: uses the existing Upside scorer for individual player ranking, with the current portfolio adjustment still warning about fragile stacks."
+    mappingNote: "Phase 2C mapping: starts from the Upside scorer, then rewards ceiling, favorable attacking environments, and controlled stacks while keeping role guardrails.",
+    optimizationNote: "Concentrated Upside allows more stack exposure when the fixture context is strong."
   },
   starsAndScrubs: {
     id: "starsAndScrubs",
     label: "Stars and Scrubs",
     measureKey: "premiumWorthIt",
     description: "Spends heavily on elite starters and accepts a cheaper bench.",
-    mappingNote: "Phase 2A mapping: uses the existing premium-worth-it scorer to favor expensive players who still justify the spend, while the current optimizer fills the bench under budget."
+    mappingNote: "Phase 2C mapping: starts from the Premium Worth It scorer, then increases starter, premium, captain, and top-player weights while allowing a lighter bench.",
+    optimizationNote: "Stars and Scrubs tolerates more star dependence and weaker bench depth when premiums justify the spend."
   },
   valueSquad: {
     id: "valueSquad",
     label: "Value Squad",
     measureKey: "bestValue",
     description: "Builds the deepest squad for the budget.",
-    mappingNote: "Phase 2A mapping: uses the existing Value Picks scorer for individual player ranking, with the current optimizer also considering cheap playable fill-ins."
+    mappingNote: "Phase 2C mapping: starts from the Value Picks scorer, then rewards value over price, budget efficiency, playable bench depth, and premium-squeeze avoidance.",
+    optimizationNote: "Value Squad prefers efficient spend and a stronger bench over top-heavy premium concentration."
   }
 };
 
@@ -988,6 +993,269 @@ const teamBuilderStrategyAliases = {
   captain_first: "balancedSquad",
   noStarsBalanced: "balancedSquad",
   no_stars_balanced: "balancedSquad"
+};
+
+const teamBuilderStrategyScoringProfiles = {
+  balancedSquad: {
+    id: "balancedSquad",
+    version: "team_builder_strategy_weights_v1",
+    stateLimit: 330,
+    partialBaseWeight: 0.78,
+    partialStrategyWeight: 0.52,
+    partialReserveWeight: 0.2,
+    partialConcentrationPenalty: 1.1,
+    partialPremiumReward: 0.25,
+    partialCheapReward: 0.08,
+    starterScoreWeight: 1,
+    benchScoreWeight: 0.42,
+    captainBonusWeight: 1,
+    budgetBufferWeight: 1,
+    playerWeights: {
+      starter: { base: 0.8, expected: 0.18, riskAdjusted: 0.2, upside: 0.06, floor: 0.08, reliability: 0.08, value: 0.07, premium: 0.03, price: -0.08, attackingContext: 0.03, captain: 0.02 },
+      bench: { base: 0.5, expected: 0.08, riskAdjusted: 0.16, floor: 0.12, reliability: 0.16, value: 0.18, cheap: 0.08, premium: -0.02, price: -0.18, attackingContext: 0.01, captain: 0 }
+    },
+    portfolioWeights: {
+      expected: 0.16,
+      riskAdjusted: 0.16,
+      upside: 0.05,
+      var10: 0.12,
+      cvar20: 0.09,
+      start: 0.06,
+      minutes: 0.01,
+      benchExpectedReward: 0.16,
+      benchStrengthReward: 0.18,
+      valueEfficiencyReward: 0.05,
+      budgetUseReward: 0.05,
+      budgetRemainingReward: 0.02,
+      topProjectedReward: 0.02,
+      premiumReward: 0.1,
+      controlledStackReward: 0.12,
+      attackingStackReward: 0.04,
+      volatilityPenalty: 0.08,
+      tailPenalty: 0.08,
+      compositePenalty: 0.05,
+      qaReviewPenalty: 1.8,
+      qaWatchPenalty: 0.35,
+      weakBenchPenalty: 1.5,
+      premiumSqueezePenalty: 1.6,
+      countryLimitPenalty: 1.1,
+      hardFixturePenalty: 1.1,
+      countryStackPenalty: 0.9,
+      fixtureStackPenalty: 0.9,
+      starDependencePenalty: 0.45,
+      poorPremiumPenalty: 0.8,
+      favorableFixtureReward: 0.18,
+      excessiveStackPenalty: 0.8
+    }
+  },
+  diversifiedSquad: {
+    id: "diversifiedSquad",
+    version: "team_builder_strategy_weights_v1",
+    stateLimit: 420,
+    partialBaseWeight: 0.62,
+    partialStrategyWeight: 0.72,
+    partialReserveWeight: 0.3,
+    partialConcentrationPenalty: 5.6,
+    partialPremiumReward: -0.05,
+    partialCheapReward: 0.12,
+    starterScoreWeight: 0.9,
+    benchScoreWeight: 0.58,
+    captainBonusWeight: 0.65,
+    budgetBufferWeight: 1.25,
+    playerWeights: {
+      starter: { base: 0.62, expected: 0.08, riskAdjusted: 0.2, upside: 0.01, floor: 0.18, reliability: 0.22, value: 0.06, premium: -0.04, cheap: 0.03, price: -0.12, attackingContext: -0.01, captain: 0 },
+      bench: { base: 0.42, expected: 0.06, riskAdjusted: 0.16, floor: 0.2, reliability: 0.24, value: 0.14, cheap: 0.1, premium: -0.06, price: -0.2, attackingContext: 0, captain: 0 }
+    },
+    portfolioWeights: {
+      expected: 0.08,
+      riskAdjusted: 0.22,
+      upside: 0.01,
+      var10: 0.22,
+      cvar20: 0.17,
+      start: 0.14,
+      minutes: 0.022,
+      benchExpectedReward: 0.26,
+      benchStrengthReward: 0.35,
+      valueEfficiencyReward: 0.05,
+      budgetUseReward: 0.02,
+      budgetRemainingReward: 0.06,
+      topProjectedReward: -0.02,
+      premiumReward: -0.04,
+      controlledStackReward: -0.04,
+      attackingStackReward: -0.02,
+      volatilityPenalty: 0.15,
+      tailPenalty: 0.14,
+      compositePenalty: 0.09,
+      qaReviewPenalty: 2.8,
+      qaWatchPenalty: 0.65,
+      weakBenchPenalty: 2.4,
+      premiumSqueezePenalty: 2.4,
+      countryLimitPenalty: 3.4,
+      hardFixturePenalty: 2.4,
+      countryStackPenalty: 4.8,
+      fixtureStackPenalty: 4.4,
+      starDependencePenalty: 2.6,
+      poorPremiumPenalty: 1.2,
+      favorableFixtureReward: 0.1,
+      excessiveStackPenalty: 3.4
+    }
+  },
+  concentratedUpside: {
+    id: "concentratedUpside",
+    version: "team_builder_strategy_weights_v1",
+    stateLimit: 380,
+    partialBaseWeight: 0.72,
+    partialStrategyWeight: 0.72,
+    partialReserveWeight: 0.12,
+    partialConcentrationPenalty: 0.35,
+    partialPremiumReward: 0.22,
+    partialCheapReward: -0.02,
+    starterScoreWeight: 1.08,
+    benchScoreWeight: 0.3,
+    captainBonusWeight: 1.1,
+    budgetBufferWeight: 0.55,
+    playerWeights: {
+      starter: { base: 0.62, expected: 0.2, riskAdjusted: 0.06, upside: 0.28, floor: -0.02, reliability: 0.05, value: 0.03, premium: 0.04, cheap: -0.02, price: -0.02, attackingContext: 0.22, captain: 0.08 },
+      bench: { base: 0.38, expected: 0.08, riskAdjusted: 0.08, upside: 0.14, floor: 0.04, reliability: 0.1, value: 0.12, cheap: 0.08, price: -0.12, attackingContext: 0.08, captain: 0.01 }
+    },
+    portfolioWeights: {
+      expected: 0.2,
+      riskAdjusted: 0.07,
+      upside: 0.18,
+      var10: 0.03,
+      cvar20: 0.02,
+      start: 0.03,
+      minutes: 0.004,
+      benchExpectedReward: 0.08,
+      benchStrengthReward: 0.05,
+      valueEfficiencyReward: 0.01,
+      budgetUseReward: 0.08,
+      budgetRemainingReward: -0.03,
+      topProjectedReward: 0.12,
+      premiumReward: 0.16,
+      controlledStackReward: 1.3,
+      attackingStackReward: 0.85,
+      volatilityPenalty: 0.02,
+      tailPenalty: 0.035,
+      compositePenalty: 0.025,
+      qaReviewPenalty: 0.9,
+      qaWatchPenalty: 0.18,
+      weakBenchPenalty: 0.75,
+      premiumSqueezePenalty: 0.65,
+      countryLimitPenalty: 0.25,
+      hardFixturePenalty: 0.45,
+      countryStackPenalty: 0.15,
+      fixtureStackPenalty: 0.05,
+      starDependencePenalty: -0.25,
+      poorPremiumPenalty: 0.65,
+      favorableFixtureReward: 0.42,
+      excessiveStackPenalty: 0.45
+    }
+  },
+  starsAndScrubs: {
+    id: "starsAndScrubs",
+    version: "team_builder_strategy_weights_v1",
+    stateLimit: 390,
+    partialBaseWeight: 0.68,
+    partialStrategyWeight: 0.74,
+    partialReserveWeight: -0.04,
+    partialConcentrationPenalty: 0.55,
+    partialPremiumReward: 1.8,
+    partialCheapReward: 0.22,
+    starterScoreWeight: 1.22,
+    benchScoreWeight: 0.18,
+    captainBonusWeight: 1.45,
+    budgetBufferWeight: 0.2,
+    playerWeights: {
+      starter: { base: 0.58, expected: 0.28, riskAdjusted: 0.06, upside: 0.13, floor: -0.03, reliability: 0.04, value: 0.02, premium: 0.32, cheap: -0.08, price: 0.16, attackingContext: 0.08, captain: 0.18 },
+      bench: { base: 0.22, expected: 0.02, riskAdjusted: 0.06, upside: 0.02, floor: 0.06, reliability: 0.08, value: 0.16, cheap: 0.2, premium: -0.08, price: -0.35, attackingContext: 0, captain: 0 }
+    },
+    portfolioWeights: {
+      expected: 0.24,
+      riskAdjusted: 0.05,
+      upside: 0.1,
+      var10: 0.01,
+      cvar20: 0,
+      start: 0.02,
+      minutes: 0.003,
+      benchExpectedReward: 0.02,
+      benchStrengthReward: -0.08,
+      valueEfficiencyReward: 0.02,
+      budgetUseReward: 0.2,
+      budgetRemainingReward: -0.08,
+      topProjectedReward: 0.55,
+      premiumReward: 1.05,
+      controlledStackReward: 0.12,
+      attackingStackReward: 0.08,
+      volatilityPenalty: 0.01,
+      tailPenalty: 0.03,
+      compositePenalty: 0.02,
+      qaReviewPenalty: 0.75,
+      qaWatchPenalty: 0.15,
+      weakBenchPenalty: 0.35,
+      premiumSqueezePenalty: 0.2,
+      countryLimitPenalty: 0.45,
+      hardFixturePenalty: 0.45,
+      countryStackPenalty: 0.3,
+      fixtureStackPenalty: 0.25,
+      starDependencePenalty: -0.75,
+      poorPremiumPenalty: 1.65,
+      favorableFixtureReward: 0.18,
+      excessiveStackPenalty: 0.6
+    }
+  },
+  valueSquad: {
+    id: "valueSquad",
+    version: "team_builder_strategy_weights_v1",
+    stateLimit: 380,
+    partialBaseWeight: 0.72,
+    partialStrategyWeight: 0.7,
+    partialReserveWeight: 0.38,
+    partialConcentrationPenalty: 1,
+    partialPremiumReward: -0.28,
+    partialCheapReward: 0.42,
+    starterScoreWeight: 0.88,
+    benchScoreWeight: 0.66,
+    captainBonusWeight: 0.58,
+    budgetBufferWeight: 1.35,
+    playerWeights: {
+      starter: { base: 0.62, expected: 0.08, riskAdjusted: 0.11, upside: 0.03, floor: 0.07, reliability: 0.1, value: 0.32, cheap: 0.12, premium: -0.08, price: -0.28, attackingContext: 0.01, captain: 0 },
+      bench: { base: 0.42, expected: 0.05, riskAdjusted: 0.12, upside: 0.02, floor: 0.12, reliability: 0.17, value: 0.32, cheap: 0.22, premium: -0.12, price: -0.35, attackingContext: 0, captain: 0 }
+    },
+    portfolioWeights: {
+      expected: 0.08,
+      riskAdjusted: 0.13,
+      upside: 0.02,
+      var10: 0.08,
+      cvar20: 0.06,
+      start: 0.08,
+      minutes: 0.012,
+      benchExpectedReward: 0.34,
+      benchStrengthReward: 0.42,
+      valueEfficiencyReward: 0.65,
+      budgetUseReward: -0.02,
+      budgetRemainingReward: 0.14,
+      topProjectedReward: -0.04,
+      premiumReward: -0.15,
+      controlledStackReward: 0.02,
+      attackingStackReward: 0.02,
+      volatilityPenalty: 0.07,
+      tailPenalty: 0.06,
+      compositePenalty: 0.05,
+      qaReviewPenalty: 1.6,
+      qaWatchPenalty: 0.3,
+      weakBenchPenalty: 2.6,
+      premiumSqueezePenalty: 3,
+      countryLimitPenalty: 0.8,
+      hardFixturePenalty: 0.9,
+      countryStackPenalty: 0.55,
+      fixtureStackPenalty: 0.55,
+      starDependencePenalty: 0.6,
+      poorPremiumPenalty: 1.35,
+      favorableFixtureReward: 0.1,
+      excessiveStackPenalty: 0.7
+    }
+  }
 };
 
 function knownTeamBuilderStrategyKey(key) {
@@ -1024,6 +1292,14 @@ function teamBuilderStrategyMeasure(strategyOrKey) {
     : strategyOrKey;
 
   return measures[option?.measureKey] || measures.balanced;
+}
+
+function teamBuilderStrategyScoringProfile(strategyOrKey = activeBuilderStrategyOption()) {
+  const option = typeof strategyOrKey === "string"
+    ? teamBuilderStrategyOption(strategyOrKey)
+    : strategyOrKey;
+
+  return teamBuilderStrategyScoringProfiles[option?.id] || teamBuilderStrategyScoringProfiles.balancedSquad;
 }
 
 function pickModelOption(key) {
@@ -1421,7 +1697,7 @@ const captainTrustMeasure = {
 const cardStats = {
   balanced: {
     label: "Strategy Score",
-    value: (player) => measureScore(player, activeMeasure())
+    value: (player) => teamBuilderStrategyPlayerScore(player, activeMeasure(), "starter", teamBuilderStrategyScoringProfile())
   },
   expected: {
     label: "Projected Points",
@@ -1679,6 +1955,7 @@ let optimizerStateRankCache = new WeakMap();
 const qaFlagsCache = new Map();
 const rawMeasureScoreCache = new Map();
 const trustAdjustedScoreCache = new Map();
+const teamBuilderStrategyPlayerScoreCache = new Map();
 const captainChangePlayerLabelLookup = new Map();
 
 function value(number) {
@@ -3745,6 +4022,116 @@ function sortPlayers(playerList, measure = activeMeasure(), mode = activeTrustMo
 
     return scoreValue(b, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate") -
       scoreValue(a, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate");
+  });
+}
+
+function playerReliabilityScore(player) {
+  const startProbability = scoreValue(player, "start_probability_percent");
+  const minutesScore = Math.min(100, (scoreValue(player, "expected_minutes_v0") / 90) * 100);
+
+  return startProbability * 0.6 + minutesScore * 0.4;
+}
+
+function playerAttackingContextScore(player) {
+  const projection = activeProjection(player);
+
+  if (!projection) {
+    return 0;
+  }
+
+  const teamXg = fieldNumber(projection, "team_expected_goals");
+  const attackEnvironment = fieldNumber(projection, "team_attacking_environment_score");
+  const difficulty = fieldNumber(projection, "fixture_difficulty_score");
+  const favorableFixture = difficulty > 0 ? Math.max(0, 55 - difficulty) : 0;
+
+  return teamXg * 24 + attackEnvironment * 0.32 + favorableFixture * 0.45;
+}
+
+function playerFloorScore(player) {
+  const var10 = scoreValue(player, "finance_var10_points");
+  const cvar20 = scoreValue(player, "finance_cvar20_points");
+  const tailSafety = Math.max(0, 100 - scoreValue(player, "finance_tail_risk_score", "risk_tail_score"));
+
+  return var10 * 9 + cvar20 * 5 + tailSafety * 0.32 + playerReliabilityScore(player) * 0.18;
+}
+
+function playerFragilityPenalty(player) {
+  const startProbability = scoreValue(player, "start_probability_percent");
+  const expectedMinutes = scoreValue(player, "expected_minutes_v0");
+  const compositeRisk = scoreValue(player, "finance_composite_risk_score", "risk_composite_score");
+  const tailRisk = scoreValue(player, "finance_tail_risk_score", "risk_tail_score");
+
+  return Math.max(0, 45 - startProbability) * 1.1 +
+    Math.max(0, 40 - expectedMinutes) * 0.9 +
+    Math.max(0, compositeRisk - 75) * 0.25 +
+    Math.max(0, tailRisk - 78) * 0.2;
+}
+
+function teamBuilderStrategyPlayerScore(player, measure = activeMeasure(), role = "starter", profile = teamBuilderStrategyScoringProfile()) {
+  const cacheKey = [
+    activeMatchdayId,
+    activeTrustMode().id,
+    measureKeyForTrust(measure),
+    profile.id,
+    role,
+    player.id
+  ].join(":");
+
+  if (teamBuilderStrategyPlayerScoreCache.has(cacheKey)) {
+    return teamBuilderStrategyPlayerScoreCache.get(cacheKey);
+  }
+
+  const weights = profile.playerWeights?.[role] ||
+    profile.playerWeights?.starter ||
+    teamBuilderStrategyScoringProfiles.balancedSquad.playerWeights.starter;
+  const price = proxyPrice(player);
+  const expectedScore = scoreValue(player, "finance_expected_return_points", "risk_adjusted_expected_points_estimate") * 12;
+  const riskAdjustedScore = scoreValue(player, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate") * 12;
+  const upsideScore = scoreValue(player, "finance_upside_p90_points", "euro_style_points_per90_estimate") * 8;
+  const valueScore = measureScore(player, measures.bestValue);
+  const cheapScore = measureScore(player, measures.cheapEnabler);
+  const premiumScore = measureScore(player, measures.premiumWorthIt);
+  const captainSignal = captainRecommendationScore(player);
+  const reliabilityScore = playerReliabilityScore(player);
+  const floorScore = playerFloorScore(player);
+  const attackingContext = playerAttackingContextScore(player);
+  const priceScore = price * 10;
+  const fragilityWeight = weights.fragilityPenalty ?? (
+    profile.id === "concentratedUpside" ? 0.28 :
+      profile.id === "starsAndScrubs" ? 0.18 :
+        profile.id === "diversifiedSquad" ? 0.55 :
+          profile.id === "valueSquad" ? 0.42 : 0.35
+  );
+
+  const score =
+    measureScore(player, measure) * (weights.base || 0) +
+    expectedScore * (weights.expected || 0) +
+    riskAdjustedScore * (weights.riskAdjusted || 0) +
+    upsideScore * (weights.upside || 0) +
+    floorScore * (weights.floor || 0) +
+    reliabilityScore * (weights.reliability || 0) +
+    valueScore * (weights.value || 0) +
+    cheapScore * (weights.cheap || 0) +
+    premiumScore * (weights.premium || 0) +
+    attackingContext * (weights.attackingContext || 0) +
+    captainSignal * (weights.captain || 0) +
+    priceScore * (weights.price || 0) -
+    playerFragilityPenalty(player) * fragilityWeight;
+
+  teamBuilderStrategyPlayerScoreCache.set(cacheKey, score);
+  return score;
+}
+
+function sortPlayersForBuilderStrategy(playerList, measure = activeMeasure(), role = "starter", profile = teamBuilderStrategyScoringProfile()) {
+  return [...playerList].sort((a, b) => {
+    const scoreDifference = teamBuilderStrategyPlayerScore(b, measure, role, profile) -
+      teamBuilderStrategyPlayerScore(a, measure, role, profile);
+
+    if (scoreDifference !== 0) {
+      return scoreDifference;
+    }
+
+    return measureScore(b, measure) - measureScore(a, measure);
   });
 }
 
@@ -6866,11 +7253,15 @@ function starterFixtureStackEntries(starters) {
         label: strategyReportFixtureLabel(projection, matchdayId),
         count: 0,
         hardFixtures: 0,
-        favorableFixtures: 0
+        favorableFixtures: 0,
+        teamXgSum: 0,
+        attackEnvironmentSum: 0
       };
       const difficulty = fieldNumber(projection, "fixture_difficulty_score");
 
       current.count += 1;
+      current.teamXgSum += fieldNumber(projection, "team_expected_goals");
+      current.attackEnvironmentSum += fieldNumber(projection, "team_attacking_environment_score");
 
       if (difficulty >= 70) {
         current.hardFixtures += 1;
@@ -6885,9 +7276,15 @@ function starterFixtureStackEntries(starters) {
   });
 
   return Array.from(fixtureCounts.values())
+    .map((entry) => ({
+      ...entry,
+      avgTeamXg: entry.count ? entry.teamXgSum / entry.count : 0,
+      avgAttackEnvironment: entry.count ? entry.attackEnvironmentSum / entry.count : 0
+    }))
     .sort((a, b) =>
       b.count - a.count ||
       b.hardFixtures - a.hardFixtures ||
+      b.avgTeamXg - a.avgTeamXg ||
       a.label.localeCompare(b.label)
     );
 }
@@ -6966,6 +7363,77 @@ function squadPortfolioAnalytics(starters = [], bench = []) {
   };
 }
 
+function portfolioStrategyShape(analytics) {
+  const starterExpectedScores = analytics.starters
+    .map((player) => Math.max(0, scoreValue(player, "finance_expected_return_points", "risk_adjusted_expected_points_estimate")))
+    .sort((a, b) => b - a);
+  const topThreeExpected = starterExpectedScores.slice(0, 3).reduce((sum, score) => sum + score, 0);
+  const topThreeShare = analytics.starterExpected > 0 ? topThreeExpected / analytics.starterExpected : 0;
+  const benchExpected = sumPlayerField(analytics.bench, "finance_expected_return_points", "risk_adjusted_expected_points_estimate");
+  const playableBenchCount = Math.max(0, analytics.bench.length - analytics.benchWeakCount);
+  const benchPlayableShare = analytics.bench.length ? playableBenchCount / analytics.bench.length : 0;
+  const benchAverageStart = averagePlayerField(analytics.bench, "start_probability_percent");
+  const benchStrengthScore = analytics.bench.length
+    ? benchPlayableShare * 70 + Math.min(30, benchAverageStart * 0.3)
+    : 0;
+  const totalPrice = squadCost(analytics.squad);
+  const budgetRemaining = initialBudget - totalPrice;
+  const valueEfficiency = analytics.squad.length
+    ? analytics.squad.reduce((sum, player) => sum + measureScore(player, measures.bestValue), 0) / analytics.squad.length
+    : 0;
+  const premiumPlayers = analytics.squad.filter((player) => proxyPrice(player) >= 9.5);
+  const justifiedPremiumCount = premiumPlayers.filter((player) =>
+    measureScore(player, measures.premiumWorthIt) >= 70 ||
+    scoreValue(player, "finance_expected_return_points", "risk_adjusted_expected_points_estimate") >= 5.5 ||
+    captainRecommendationScore(player) >= 75
+  ).length;
+  const poorPremiumCount = premiumPlayers.filter((player) =>
+    measureScore(player, measures.premiumWorthIt) < 55 &&
+    scoreValue(player, "finance_expected_return_points", "risk_adjusted_expected_points_estimate") < 4.5
+  ).length;
+  const countryStackPressure = Math.max(0, analytics.topCountry[1] - 1);
+  const topFixtureCount = analytics.topFixture?.count || 0;
+  const fixtureStackPressure = Math.max(0, topFixtureCount - 1);
+  const excessiveStackLoad = analytics.fixtureStackEntries
+    .reduce((sum, entry) => sum + Math.max(0, entry.count - 3), 0);
+  const controlledStackScore = analytics.fixtureStackEntries.reduce((sum, entry) => {
+    if (entry.count < 2 || entry.count > 3) {
+      return sum;
+    }
+
+    const attackLift = Math.max(0, entry.avgTeamXg - 1.25) * 8 +
+      Math.max(0, entry.avgAttackEnvironment - 55) * 0.12 +
+      entry.favorableFixtures * 0.45;
+
+    return sum + attackLift * entry.count;
+  }, 0);
+  const attackingStackScore = analytics.fixtureStackEntries.reduce((sum, entry) =>
+    sum + Math.max(0, entry.avgTeamXg - 1.35) * entry.count * 6 +
+      Math.max(0, entry.avgAttackEnvironment - 60) * entry.count * 0.08,
+  0);
+
+  return {
+    topThreeExpected,
+    topThreeShare,
+    starDependenceLoad: Math.max(0, topThreeShare - 0.36) * 100,
+    benchExpected,
+    playableBenchCount,
+    benchPlayableShare,
+    benchStrengthScore,
+    totalPrice,
+    budgetRemaining,
+    budgetUse: Math.max(0, totalPrice - initialBudget * 0.92),
+    valueEfficiency,
+    justifiedPremiumCount,
+    poorPremiumCount,
+    countryStackPressure,
+    fixtureStackPressure,
+    excessiveStackLoad,
+    controlledStackScore,
+    attackingStackScore
+  };
+}
+
 function portfolioWarningsForAnalytics(analytics) {
   const warnings = [];
   const topCountryLabel = countryCountLabel(analytics.topCountry[0]);
@@ -7020,87 +7488,42 @@ function portfolioWarningsForAnalytics(analytics) {
   return warnings;
 }
 
-function portfolioOptimizerWeights(mode = activeTrustMode(), measure = activeMeasure()) {
-  const weightsByMode = {
-    strict: {
-      expected: 0.08,
-      riskAdjusted: 0.18,
-      upside: 0.01,
-      var10: 0.22,
-      cvar20: 0.18,
-      start: 0.12,
-      minutes: 0.018,
-      volatilityPenalty: 0.16,
-      tailPenalty: 0.12,
-      compositePenalty: 0.08,
-      qaReviewPenalty: 2.8,
-      qaWatchPenalty: 0.6,
-      weakBenchPenalty: 2.1,
-      premiumSqueezePenalty: 2.2,
-      countryLimitPenalty: 1.4,
-      hardFixturePenalty: 1.5,
-      favorableFixtureReward: 0.22
-    },
-    balanced: {
-      expected: 0.13,
-      riskAdjusted: 0.14,
-      upside: 0.03,
-      var10: 0.12,
-      cvar20: 0.1,
-      start: 0.06,
-      minutes: 0.01,
-      volatilityPenalty: 0.08,
-      tailPenalty: 0.08,
-      compositePenalty: 0.05,
-      qaReviewPenalty: 1.8,
-      qaWatchPenalty: 0.35,
-      weakBenchPenalty: 1.4,
-      premiumSqueezePenalty: 1.7,
-      countryLimitPenalty: 1.1,
-      hardFixturePenalty: 1.1,
-      favorableFixtureReward: 0.18
-    },
-    aggressive: {
-      expected: 0.18,
-      riskAdjusted: 0.08,
-      upside: 0.1,
-      var10: 0.03,
-      cvar20: 0.02,
-      start: 0.03,
-      minutes: 0.004,
-      volatilityPenalty: 0.015,
-      tailPenalty: 0.035,
-      compositePenalty: 0.025,
-      qaReviewPenalty: 0.8,
-      qaWatchPenalty: 0.15,
-      weakBenchPenalty: 0.8,
-      premiumSqueezePenalty: 0.7,
-      countryLimitPenalty: 0.7,
-      hardFixturePenalty: 0.6,
-      favorableFixtureReward: 0.2
-    },
-    chaos: {
-      expected: 0.14,
-      riskAdjusted: 0.02,
-      upside: 0.2,
-      var10: 0,
-      cvar20: 0,
-      start: 0,
-      minutes: 0,
-      volatilityPenalty: -0.03,
-      tailPenalty: 0.005,
-      compositePenalty: 0,
-      qaReviewPenalty: 0.2,
-      qaWatchPenalty: 0,
-      weakBenchPenalty: 0.15,
-      premiumSqueezePenalty: 0.15,
-      countryLimitPenalty: 0.35,
-      hardFixturePenalty: 0.15,
-      favorableFixtureReward: 0.12
-    }
+function portfolioOptimizerWeights(mode = activeTrustMode(), measure = activeMeasure(), profile = teamBuilderStrategyScoringProfile()) {
+  const weights = {
+    ...teamBuilderStrategyScoringProfiles.balancedSquad.portfolioWeights,
+    ...(profile.portfolioWeights || {})
   };
-  const weights = { ...(weightsByMode[mode.id] || weightsByMode.balanced) };
   const measureKey = measureKeyForTrust(measure);
+
+  if (mode.id === "strict") {
+    weights.riskAdjusted += 0.04;
+    weights.var10 += 0.05;
+    weights.cvar20 += 0.04;
+    weights.start += 0.04;
+    weights.minutes += 0.006;
+    weights.tailPenalty += 0.03;
+    weights.compositePenalty += 0.02;
+    weights.weakBenchPenalty += 0.45;
+    weights.qaReviewPenalty += 0.7;
+  } else if (mode.id === "aggressive") {
+    weights.expected += 0.03;
+    weights.upside += 0.04;
+    weights.attackingStackReward += 0.08;
+    weights.var10 *= 0.75;
+    weights.cvar20 *= 0.75;
+    weights.tailPenalty *= 0.75;
+    weights.weakBenchPenalty *= 0.75;
+  } else if (mode.id === "chaos") {
+    weights.expected += 0.02;
+    weights.upside += 0.08;
+    weights.attackingStackReward += 0.12;
+    weights.controlledStackReward += 0.15;
+    weights.var10 *= 0.45;
+    weights.cvar20 *= 0.45;
+    weights.volatilityPenalty *= 0.4;
+    weights.tailPenalty *= 0.45;
+    weights.weakBenchPenalty *= 0.45;
+  }
 
   if (["safeFloor", "tailRiskAvoidance", "sharpe", "sortino", "var10", "cvar20"].includes(measureKey)) {
     weights.riskAdjusted += 0.05;
@@ -7127,9 +7550,10 @@ function portfolioOptimizerWeights(mode = activeTrustMode(), measure = activeMea
   return weights;
 }
 
-function portfolioOptimizerAdjustment(starters, bench, measure = activeMeasure(), mode = activeTrustMode()) {
+function portfolioOptimizerAdjustment(starters, bench, measure = activeMeasure(), mode = activeTrustMode(), profile = teamBuilderStrategyScoringProfile()) {
   const analytics = squadPortfolioAnalytics(starters, bench);
-  const weights = portfolioOptimizerWeights(mode, measure);
+  const weights = portfolioOptimizerWeights(mode, measure, profile);
+  const shape = portfolioStrategyShape(analytics);
   const premiumSqueeze = analytics.premiumPlayers >= 3 && analytics.benchWeakCount >= 2
     ? analytics.premiumPlayers + analytics.benchWeakCount
     : 0;
@@ -7150,6 +7574,15 @@ function portfolioOptimizerAdjustment(starters, bench, measure = activeMeasure()
     analytics.starterCvar20 * weights.cvar20 +
     startLift * weights.start +
     minutesLift * weights.minutes +
+    shape.benchExpected * weights.benchExpectedReward +
+    shape.benchStrengthScore * weights.benchStrengthReward +
+    shape.valueEfficiency * weights.valueEfficiencyReward +
+    shape.budgetUse * weights.budgetUseReward +
+    Math.max(0, shape.budgetRemaining) * weights.budgetRemainingReward +
+    shape.topThreeExpected * weights.topProjectedReward +
+    shape.justifiedPremiumCount * weights.premiumReward +
+    shape.controlledStackScore * weights.controlledStackReward +
+    shape.attackingStackScore * weights.attackingStackReward +
     analytics.totalFavorableFixtureStarters * weights.favorableFixtureReward -
     volatilityLoad * weights.volatilityPenalty -
     tailLoad * weights.tailPenalty -
@@ -7159,12 +7592,19 @@ function portfolioOptimizerAdjustment(starters, bench, measure = activeMeasure()
     analytics.benchWeakCount * weights.weakBenchPenalty -
     premiumSqueeze * weights.premiumSqueezePenalty -
     countryLimitLoad * weights.countryLimitPenalty -
-    hardFixtureLoad * weights.hardFixturePenalty;
+    hardFixtureLoad * weights.hardFixturePenalty -
+    shape.countryStackPressure * weights.countryStackPenalty -
+    shape.fixtureStackPressure * weights.fixtureStackPenalty -
+    shape.starDependenceLoad * weights.starDependencePenalty -
+    shape.poorPremiumCount * weights.poorPremiumPenalty -
+    shape.excessiveStackLoad * weights.excessiveStackPenalty;
 
   return {
-    version: "portfolio_optimizer_v0",
+    version: "team_builder_strategy_weights_v1",
     mode: mode.id,
     mode_label: mode.label,
+    strategy_id: profile.id,
+    strategy_label: teamBuilderStrategyOption(profile.id).label,
     measure_key: measureKeyForTrust(measure),
     adjustment_score: Number(score.toFixed(2)),
     inputs: {
@@ -7182,11 +7622,20 @@ function portfolioOptimizerAdjustment(starters, bench, measure = activeMeasure()
       qa_watch_players: analytics.qaWatchCount,
       weak_bench_players: analytics.benchWeakCount,
       premium_players: analytics.premiumPlayers,
+      justified_premium_players: shape.justifiedPremiumCount,
+      poor_premium_players: shape.poorPremiumCount,
       top_country_count: analytics.topCountry[1],
+      top_fixture_count: analytics.topFixture?.count || 0,
+      top_three_projected_share: Number(shape.topThreeShare.toFixed(3)),
+      bench_strength_score: Number(shape.benchStrengthScore.toFixed(1)),
+      bench_expected_points: Number(shape.benchExpected.toFixed(1)),
+      value_efficiency_score: Number(shape.valueEfficiency.toFixed(1)),
+      controlled_stack_score: Number(shape.controlledStackScore.toFixed(1)),
+      attacking_stack_score: Number(shape.attackingStackScore.toFixed(1)),
       hardest_matchday_hard_fixtures: analytics.hardestMatchdayHardFixtures,
       total_favorable_fixture_starters: analytics.totalFavorableFixtureStarters
     },
-    note: "Small optimizer adjustment that nudges completed squads toward the selected recommendation mode's portfolio profile."
+    note: "Strategy-aware optimizer adjustment that nudges completed legal squads toward the selected public Team Builder strategy without changing budget, position, country-limit, lock, avoid, or risk-control constraints."
   };
 }
 
@@ -7725,6 +8174,7 @@ function exportModelMetadata() {
       "data/scorePredictions_v2.json",
       "data/playerValueModel_v1.json",
       "data/recommendationTrustModel_v0.md",
+      "data/teamBuilderStrategyWeights_v1.md",
       "data/captainChangeAdvisorModel_v0.md",
       "data/substitutionAdvisorModel_v0.md",
       "data/savedDecisionExport_v0.md"
@@ -7752,7 +8202,9 @@ function builderSettingsForExport() {
       description: selectedStrategyOption.description,
       measure_key: measure.key,
       mapped_scoring_view: measure.optionLabel || measure.label,
-      phase_2a_mapping_note: selectedStrategyOption.mappingNote
+      phase_2c_mapping_note: selectedStrategyOption.mappingNote,
+      strategy_weight_version: teamBuilderStrategyScoringProfile(selectedStrategyOption).version,
+      strategy_optimization_note: selectedStrategyOption.optimizationNote
     },
     trust_mode: {
       id: trustMode.id,
@@ -8053,6 +8505,7 @@ function teamExportPayload() {
       "scorePredictionsData.js",
       "data/playerMatchdayProjections_v2.json",
       "data/scorePredictions_v2.json",
+      "data/teamBuilderStrategyWeights_v1.md",
       "dataSources.md",
       usingFinanceModel
         ? "Current Team Builder view uses the Week 6 World Cup finance model with official unavailable-player filtering."
@@ -9019,10 +9472,12 @@ function updateLockedPlayers(event) {
 }
 
 // Locked players are kept first, but only while they fit the loaded squad limits.
-function getValidLockedSquadPlayers(measure) {
-  const lockedPlayers = sortPlayers(
+function getValidLockedSquadPlayers(measure, profile = teamBuilderStrategyScoringProfile()) {
+  const lockedPlayers = sortPlayersForBuilderStrategy(
     players.filter((player) => lockedPlayerIds.has(player.id) && !excludedPlayerIds.has(player.id)),
-    measure
+    measure,
+    "starter",
+    profile
   );
   const usedByPosition = emptyPositionCounts();
   const usedByCountry = {};
@@ -9045,18 +9500,22 @@ function getValidLockedSquadPlayers(measure) {
   return { validLockedPlayers, ignoredLockedPlayers, usedByPosition, usedByCountry };
 }
 
-function chooseStartersFromSquad(squad, requirements, measure) {
+function chooseStartersFromSquad(squad, requirements, measure, profile = teamBuilderStrategyScoringProfile()) {
   const starters = [];
   const starterIds = new Set();
 
   positionOrder.forEach((position) => {
-    const lockedOptions = sortPlayers(
+    const lockedOptions = sortPlayersForBuilderStrategy(
       squad.filter((player) => player.position === position && lockedPlayerIds.has(player.id)),
-      measure
+      measure,
+      "starter",
+      profile
     );
-    const otherOptions = sortPlayers(
+    const otherOptions = sortPlayersForBuilderStrategy(
       squad.filter((player) => player.position === position && !lockedPlayerIds.has(player.id)),
-      measure
+      measure,
+      "starter",
+      profile
     );
 
     [...lockedOptions, ...otherOptions].slice(0, requirements[position]).forEach((player) => {
@@ -9126,6 +9585,10 @@ function resetOptimizerStateRankCache() {
   optimizerStateRankCache = new WeakMap();
 }
 
+function resetTeamBuilderStrategyPlayerScoreCache() {
+  teamBuilderStrategyPlayerScoreCache.clear();
+}
+
 function optimizerPriceFloorsByPosition() {
   if (optimizerPriceFloorCache) {
     return optimizerPriceFloorCache;
@@ -9189,6 +9652,7 @@ function optimizerStateRank(state, measure, tacticName) {
     return cachedRank;
   }
 
+  const profile = teamBuilderStrategyScoringProfile();
   let rank;
 
   if (state.squad.length < squadTotalPlayers) {
@@ -9201,26 +9665,54 @@ function optimizerStateRank(state, measure, tacticName) {
     const remainingAfterMinimum = initialBudget - state.totalPrice - cheapestRemainingCost;
     const budgetPressurePenalty = Math.max(0, -remainingAfterMinimum) * 25;
 
-    const budgetReserveWeight = builderRiskControlsActive() ? 0.55 : 0.18;
+    const budgetReserveWeight = builderRiskControlsActive()
+      ? Math.max(0.55, profile.partialReserveWeight)
+      : profile.partialReserveWeight;
+    const strategyStateScore = state.squad.reduce((sum, player) =>
+      sum + teamBuilderStrategyPlayerScore(player, measure, "starter", profile),
+    0);
+    const topCountryLoad = Math.max(0, Math.max(0, ...Object.values(state.countryCounts)) - 1);
+    const premiumCount = state.squad.filter((player) => proxyPrice(player) >= 9.5).length;
+    const cheapPlayableCount = state.squad.filter((player) =>
+      proxyPrice(player) <= 6 &&
+      scoreValue(player, "start_probability_percent") >= 45 &&
+      scoreValue(player, "expected_minutes_v0") >= 40
+    ).length;
 
-    rank = state.score + Math.max(0, remainingAfterMinimum) * budgetReserveWeight - budgetPressurePenalty;
+    rank =
+      state.score * profile.partialBaseWeight +
+      strategyStateScore * profile.partialStrategyWeight +
+      Math.max(0, remainingAfterMinimum) * budgetReserveWeight -
+      budgetPressurePenalty -
+      topCountryLoad * profile.partialConcentrationPenalty +
+      premiumCount * profile.partialPremiumReward +
+      cheapPlayableCount * profile.partialCheapReward;
     optimizerStateRankCache.set(state, rank);
     return rank;
   }
 
   const requirements = tactics[tacticName] || {};
-  const { starters, starterIds } = chooseStartersFromSquad(state.squad, requirements, measure);
+  const { starters, starterIds } = chooseStartersFromSquad(state.squad, requirements, measure, profile);
   const bench = state.squad.filter((player) => !starterIds.has(player.id));
-  const starterScore = starters.reduce((sum, player) => sum + measureScore(player, measure), 0);
-  const benchScore = bench.reduce((sum, player) => sum + measureScore(player, measure), 0);
+  const starterScore = starters.reduce((sum, player) =>
+    sum + teamBuilderStrategyPlayerScore(player, measure, "starter", profile),
+  0);
+  const benchScore = bench.reduce((sum, player) =>
+    sum + teamBuilderStrategyPlayerScore(player, measure, "bench", profile),
+  0);
   const captain = [...starters]
     .filter((player) => player.position !== "Goalkeeper")
     .sort((a, b) => captainRecommendationScore(b) - captainRecommendationScore(a))[0];
-  const captainBonus = captain ? captainRecommendationScore(captain) * 0.04 : 0;
-  const budgetBuffer = Math.max(0, initialBudget - state.totalPrice) * 0.02;
-  const portfolioAdjustment = portfolioOptimizerAdjustment(starters, bench, measure).adjustment_score;
+  const captainBonus = captain ? captainRecommendationScore(captain) * 0.04 * profile.captainBonusWeight : 0;
+  const budgetBuffer = Math.max(0, initialBudget - state.totalPrice) * 0.02 * profile.budgetBufferWeight;
+  const portfolioAdjustment = portfolioOptimizerAdjustment(starters, bench, measure, activeTrustMode(), profile).adjustment_score;
 
-  rank = starterScore + benchScore * 0.35 + captainBonus + budgetBuffer + portfolioAdjustment;
+  rank =
+    starterScore * profile.starterScoreWeight +
+    benchScore * profile.benchScoreWeight +
+    captainBonus +
+    budgetBuffer +
+    portfolioAdjustment;
   optimizerStateRankCache.set(state, rank);
   return rank;
 }
@@ -9250,6 +9742,7 @@ function uniqueOptimizerCandidates(candidateLists) {
 function optimizerCandidatePools(measure) {
   const riskSettings = builderRiskSettings();
   const measureKey = measureKeyForTrust(measure);
+  const profile = teamBuilderStrategyScoringProfile();
 
   return positionOrder.reduce((pools, position) => {
     const candidates = players.filter((player) =>
@@ -9267,6 +9760,21 @@ function optimizerCandidatePools(measure) {
       cheapEnablerScore: scoreValue(player, "cheap_enabler_score_v1", "cheap_enabler_score"),
       riskAdjustedReturn: scoreValue(player, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate")
     }));
+    const strategyScoredCandidates = trustCandidates.map((player) => ({
+      player,
+      starterScore: teamBuilderStrategyPlayerScore(player, measure, "starter", profile),
+      benchScore: teamBuilderStrategyPlayerScore(player, measure, "bench", profile),
+      expectedReturn: scoreValue(player, "finance_expected_return_points", "risk_adjusted_expected_points_estimate"),
+      riskAdjustedReturn: scoreValue(player, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate"),
+      upsideReturn: scoreValue(player, "finance_upside_p90_points", "euro_style_points_per90_estimate"),
+      reliabilityScore: playerReliabilityScore(player),
+      floorScore: playerFloorScore(player),
+      valueScore: measureScore(player, measures.bestValue),
+      cheapEnablerScore: scoreValue(player, "cheap_enabler_score_v1", "cheap_enabler_score"),
+      premiumScore: measureScore(player, measures.premiumWorthIt),
+      price: proxyPrice(player),
+      attackingContext: playerAttackingContextScore(player)
+    }));
     const rawScoredCandidates = candidates.map((player) => ({
       player,
       rawScore: rawMeasureScore(player, measure),
@@ -9283,6 +9791,25 @@ function optimizerCandidatePools(measure) {
       .filter((entry) => entry.cheapEnablerScore >= 50 || entry.player.value_role === "cheap_enabler")
       .sort((a, b) => b.cheapEnablerScore - a.cheapEnablerScore || a.price - b.price)
       .map((entry) => entry.player);
+    const byStrategyStarter = [...strategyScoredCandidates]
+      .sort((a, b) => b.starterScore - a.starterScore || b.expectedReturn - a.expectedReturn)
+      .map((entry) => entry.player);
+    const byStrategyBench = [...strategyScoredCandidates]
+      .sort((a, b) => b.benchScore - a.benchScore || a.price - b.price)
+      .map((entry) => entry.player);
+    const byReliableFloor = [...strategyScoredCandidates]
+      .sort((a, b) => b.reliabilityScore + b.floorScore * 0.35 - (a.reliabilityScore + a.floorScore * 0.35))
+      .map((entry) => entry.player);
+    const byUpsideContext = [...strategyScoredCandidates]
+      .sort((a, b) => b.upsideReturn * 8 + b.attackingContext - (a.upsideReturn * 8 + a.attackingContext))
+      .map((entry) => entry.player);
+    const byPremiumStarter = [...strategyScoredCandidates]
+      .filter((entry) => entry.price >= 8.5 || entry.premiumScore >= 65)
+      .sort((a, b) => b.premiumScore + b.expectedReturn * 6 - (a.premiumScore + a.expectedReturn * 6))
+      .map((entry) => entry.player);
+    const byValueDepth = [...strategyScoredCandidates]
+      .sort((a, b) => b.valueScore + b.benchScore * 0.35 - (a.valueScore + a.benchScore * 0.35) || a.price - b.price)
+      .map((entry) => entry.player);
     const qaSafeCandidates = trustScoredCandidates.filter((entry) =>
       qaStatusFromFlags(qaFlagsForPlayer(entry.player, measureKey)) !== "review"
     );
@@ -9298,8 +9825,43 @@ function optimizerCandidatePools(measure) {
     const fallbackByCheapPlayable = [...rawScoredCandidates]
       .sort((a, b) => a.price - b.price || b.rawScore - a.rawScore)
       .map((entry) => entry.player);
+    const strategyExtraLists = {
+      balancedSquad: [
+        byStrategyStarter.slice(0, 110),
+        byStrategyBench.slice(0, 70),
+        byReliableFloor.slice(0, 45),
+        byValueDepth.slice(0, 45)
+      ],
+      diversifiedSquad: [
+        byStrategyStarter.slice(0, 115),
+        byStrategyBench.slice(0, 100),
+        byReliableFloor.slice(0, 115),
+        byValueDepth.slice(0, 60)
+      ],
+      concentratedUpside: [
+        byStrategyStarter.slice(0, 125),
+        byUpsideContext.slice(0, 125),
+        byPremiumStarter.slice(0, 55),
+        byStrategyBench.slice(0, 55)
+      ],
+      starsAndScrubs: [
+        byStrategyStarter.slice(0, 130),
+        byPremiumStarter.slice(0, 125),
+        byMeasure.slice(0, 90),
+        byCheapPlayable.slice(0, 115),
+        byCheapEnabler.slice(0, 80)
+      ],
+      valueSquad: [
+        byStrategyStarter.slice(0, 115),
+        byStrategyBench.slice(0, 120),
+        byValueDepth.slice(0, 135),
+        byCheapPlayable.slice(0, 120),
+        byCheapEnabler.slice(0, 95)
+      ]
+    };
 
     pools[position] = uniqueOptimizerCandidates([
+      ...(strategyExtraLists[profile.id] || strategyExtraLists.balancedSquad),
       byMeasure.slice(0, 90),
       byCheapPlayable.slice(0, 90),
       byCheapEnabler.slice(0, 60),
@@ -9318,6 +9880,7 @@ function optimizerCandidatePools(measure) {
 function pruneOptimizerStates(states, measure, tacticName) {
   const stateKeys = new Set();
   const uniqueStates = [];
+  const profile = teamBuilderStrategyScoringProfile();
 
   states.forEach((state) => {
     const key = [...state.usedIds].sort().join("|");
@@ -9329,8 +9892,8 @@ function pruneOptimizerStates(states, measure, tacticName) {
   });
 
   const stateLimit = builderRiskControlsActive()
-    ? 420
-    : activeTrustMode().filtersRanking ? 320 : 300;
+    ? Math.max(420, profile.stateLimit + 40)
+    : activeTrustMode().filtersRanking ? Math.max(320, profile.stateLimit) : profile.stateLimit;
 
   return uniqueStates
     .sort((a, b) => optimizerStateRank(b, measure, tacticName) - optimizerStateRank(a, measure, tacticName))
@@ -9341,12 +9904,14 @@ function pruneOptimizerStates(states, measure, tacticName) {
 function buildSuggestedSquad() {
   resetOptimizerPriceFloorCache();
   resetOptimizerStateRankCache();
+  resetTeamBuilderStrategyPlayerScoreCache();
   const tacticName = tacticSelect.value;
   const requirements = tactics[tacticName];
   const measure = activeMeasure();
+  const profile = teamBuilderStrategyScoringProfile();
   const riskSettings = builderRiskSettings();
   const { validLockedPlayers, ignoredLockedPlayers, usedByCountry } =
-    getValidLockedSquadPlayers(measure);
+    getValidLockedSquadPlayers(measure, profile);
   const lockedState = optimizerStateFromPlayers(validLockedPlayers, measure);
   let states = [lockedState];
   let bestPartialState = lockedState;
@@ -9421,7 +9986,7 @@ function buildSuggestedSquad() {
     : bestPartialState;
   const foundValidSquad = validFullStates.length > 0;
   const squad = selectedState.squad;
-  const { starters, starterIds } = chooseStartersFromSquad(squad, requirements, measure);
+  const { starters, starterIds } = chooseStartersFromSquad(squad, requirements, measure, profile);
   const bench = squad.filter((player) => !starterIds.has(player.id));
 
   return {
