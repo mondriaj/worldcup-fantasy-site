@@ -6,6 +6,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 - Static website that can run from GitHub Pages or a local HTTP server.
 - Main fantasy helper page for player recommendations, squad building, matchday decisions, and model inspection.
+- Launch basics are tracked in `data/launchBasics_v1.md`, including metadata, social preview, analytics, support link, domain, and disclaimer readiness.
 - Primary navigation is task-based: Home, Picks, Team Builder, Matchday Desk, Fantasy Finance, World Cup Guide, and Model Notes.
 - The default experience is simple and card-first, with deeper tables, model details, and finance terminology kept in advanced sections.
 - Separate World Cup page for tournament groups, group-stage fixtures, and bracket-path context.

@@ -55,6 +55,7 @@ The site can be opened from GitHub Pages or a local server. It loads static data
 - `data/scorePredictionDataFlow_v1.md` - plain-language note for the active score prediction browser data flow
 - `data/peleAnchoredFantasyScoreModel_v1.md` - plain-language note for the PELE anchor, fixture-specific Projected xG meaning, score uncertainty fields, fantasy context labels, and PELE source freshness check
 - `data/launchOperationsChecklist_v1.md` - post-launch operating checklist for monitor cadence, refresh decisions, rerun triggers, and public-site checks
+- `data/launchBasics_v1.md` - launch metadata, social preview, analytics, support link, custom-domain, and public disclaimer readiness note
 - `data/scorePredictions_v1.json` - preserved first PELE-backed score prediction model
 - `data/scorePredictions_v0.json` - preserved pre-PELE score prediction model
 - `data/scorePredictionModelRoadmap.md` - score model upgrade notes
