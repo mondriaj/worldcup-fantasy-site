@@ -22,7 +22,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - The deeper Pick Explorer remains available behind the card-first experience for filtered Official Fantasy Picks by strategy, matchday, position, and pick pool.
 - Normal public pick labels are Projected Points, Core Picks, High-Floor Picks, Upside Picks, Value Picks, and Differential Picks. Captain Watchlist is a dedicated captain surface; captain usefulness lives there, in Player Profile, and in matchday tools rather than as a repeated card badge.
 - Recommendation explanations show projected score context, strategy score context, role/caution context, data checks, and short fixture-specific Match Environment notes such as strong team projected xG, clean-sheet outlook, or high-variance match setup when useful.
-- Recommendations use the current official FIFA fantasy pool. The monitor should be rerun when FIFA changes player, price, position, status, rule, or deadline data.
+- Recommendations use the current official FIFA fantasy pool. Rerun the data check when FIFA changes player, price, position, status, or rule data.
 
 ## Match Environment
 
@@ -86,18 +86,18 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - The data engine combines team data, fixtures, roster candidates, player performance matching, national-team usage, and fantasy value metrics.
 - PELE ratings from Silver Bulletin are central to the active team-quality and score-prediction model.
 - Active public Match Environment score projection context uses the current fantasy score projection data with a static backup.
-- The active score context is PELE-anchored and converts PELE plus fixture context into fantasy-facing Projected xG, scoreline, match uncertainty, defender/keeper context, clean-sheet context, and goal environment. Public Match Environment, player explanations, Player Profile fixture notes, and Team Builder squad-risk scoring use the cleaned public fields rather than presenting Upset Risk as a main field.
+- The active score context is PELE-anchored and converts PELE plus fixture context into fantasy-facing Projected xG, scoreline, match uncertainty, defender/keeper context, clean-sheet context, and goal environment. Public Match Environment, player explanations, Player Profile fixture notes, and Team Builder squad-risk scoring use the cleaned public fields.
 - Active matchday player projections support the card reasons, Player Profile fixture notes, and Team Builder context.
 - Active recommendation shortlists support Official Fantasy Picks, the curated starter pack, Pick Explorer, Captain Watchlist, and Add to Builder.
 - Previous model notes are preserved where material changes were made.
-- Official Data Readiness tracks blockers before rerunning final value, Team Builder, score, and recommendation models.
+- Official Data Readiness tracks inputs before rerunning value, Team Builder, score, and recommendation models.
 
 ## Official Data Pipelines
 
 - Official fantasy players, prices, positions, selectable status, scoring, squad structure, budget, country limits, transfers, and boosters have been imported.
 - Official fantasy rules now include the Clean Sheet Shield booster rule; live deadline and lock semantics still require manual confirmation inside FIFA before acting.
 - Official final squad reconciliation remains available as an audit trail, while the public site uses FIFA's fantasy pool as the working authority.
-- The official data monitor checks live FIFA fantasy data for player, squad, rules, round, and language changes before deciding whether imports or model reruns are needed.
+- The official data check reviews FIFA fantasy data for player, squad, rules, round, and language changes before deciding whether imports or model reruns are needed.
 - Import templates are provided for future manual reconciliation work.
 - Readiness validation reports whether final model reruns are allowed or still blocked by missing official data.
 
@@ -105,7 +105,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 - The site is independent, not official FIFA fantasy advice.
 - Public recommendations are labeled Official Fantasy Picks.
-- FIFA can still update player status, prices, positions, rules, or deadlines; rerun the monitor before major changes.
+- FIFA can still update player status, prices, positions, or rules; rerun the data check before major changes.
 - Official fantasy prices, positions, scoring, and the Clean Sheet Shield booster rule are available.
 - Team Builder is planning help and should be verified in the official game.
 - Score predictions are prototype model outputs, not official projections or live match facts.
@@ -115,4 +115,4 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 ## Most Important Next Step
 
-Use the site as the current official fantasy-pool helper. Keep the daily monitor as the operating gate for future FIFA feed changes.
+Use the site as the current official fantasy-pool helper. Keep the data check as the operating gate for future FIFA feed changes.

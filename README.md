@@ -4,7 +4,7 @@ A static fantasy football website for comparing quick picks, captain options, ca
 
 ## Current Status
 
-This site treats FIFA's official fantasy player feed as the working authority for public picks. Recommendation sections show **Official Fantasy Picks** using official fantasy players, prices, positions, selectable status, and scoring. Keep running the monitor before major updates because FIFA can still change player status, prices, positions, rules, or deadlines.
+This site treats FIFA's official fantasy player feed as the working authority for public picks. Recommendation sections show **Official Fantasy Picks** using official fantasy players, prices, positions, selectable status, and scoring. Keep running the data check before major updates because FIFA can still change player status, prices, positions, or rules.
 
 The current UX is task-first: Home, Picks, Team Builder, Matchday Desk, Fantasy Finance, World Cup Guide, and Model Notes. The homepage centers the three primary actions - Build My Squad, See Top Picks, and Open Matchday Desk. Picks are card-first with one primary pick-type badge; Player Profile and Captain Watchlist keep the deeper practical rationale, captain context, and caution context. Squad Builder Starter shows an 8-card curated starter pack instead of one card per model: 1 Top Projection, 2 Core Picks, 1 High-Floor Pick, 1 Upside Pick, 2 value-oriented picks with a Budget Enabler when available, and 1 Differential Pick. Team Builder uses a guided step flow with squad-building strategies, and Matchday Desk groups saved-squad captain, bench, and timeline decisions.
 
@@ -100,7 +100,7 @@ The site can be opened from GitHub Pages or a local server. It loads static data
 ## Known Limits
 
 - Public recommendation sections use the current official FIFA fantasy pool.
-- FIFA can still update player status, prices, positions, rules, or deadlines; rerun the monitor before major updates.
+- FIFA can still update player status, prices, positions, or rules; rerun the data check before major updates.
 - Official fantasy prices, positions, scoring, and the Clean Sheet Shield booster rule are imported for recommendations.
 - Official Data Readiness remains an internal audit gate for deeper model promotion, even though the public site now treats the fantasy feed as the website authority.
 - Team Builder is planning help and should be verified inside the official game before saving.
@@ -120,11 +120,11 @@ The site can be opened from GitHub Pages or a local server. It loads static data
 
 ## Future World Cup Data Plan
 
-When FIFA fantasy data changes, rerun the official data monitor, import only the changed official data, and refresh affected public recommendation files.
+When FIFA fantasy data changes, rerun the official data check, import only the changed official data, and refresh affected public recommendation files.
 
 Score model upgrade notes:
 
-- Current score-context note: Match Environment is PELE-anchored and shows fixture-specific Projected xG, win/draw/win, most likely score, match uncertainty, and clean-sheet context. Those fields feed short player fixture notes, compact Player Profile fixture context, and Team Builder squad-risk scoring. Total goals range stays as supporting detail, while upset-risk fields stay out of the main public display. Upgrade again after source-backed final squads, injuries, and updated national-team form materially change team context.
+- Current score-context note: Match Environment is PELE-anchored and shows fixture-specific Projected xG, win/draw/win, most likely score, match uncertainty, and clean-sheet context. Those fields feed short player fixture notes, compact Player Profile fixture context, and Team Builder squad-risk scoring. Upgrade again after source-backed final squads, injuries, and updated national-team form materially change team context.
 - Future calibration: after the roster-weighted model is stable, backtest or calibrate low-score/draw behavior with a Dixon-Coles-style adjustment.
 
 Tournament structure and group-stage fixture data stay separate from player recommendations.

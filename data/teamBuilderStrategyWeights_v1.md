@@ -85,7 +85,7 @@ The strategies reuse existing player and squad context:
 - value and budget-enabler signals
 - premium-value signals
 - premium count and premium concentration
-- captain score as a supporting starter-ceiling signal
+- starter-ceiling signals
 - fixture-specific Projected xG
 - match uncertainty
 - clean-sheet context for defenders and keepers

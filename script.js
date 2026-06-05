@@ -4303,7 +4303,7 @@ function profileBestUseGrid(player, measureKey = measureKeyForTrust(activeMeasur
     <div class="profile-grid profile-grid--compact">
       ${profileMetric("Best Use", bestUse, strategy)}
       ${profileMetric("Projected Pts / Matchday", profileScore(expected), pickProjectionContextText(player))}
-      ${profileMetric("Risk Label", pickRiskLabel(player), `${displayNumber(risk)} risk score`)}
+      ${profileMetric("Role Caution", pickRiskLabel(player), `${displayNumber(risk)} downside score`)}
       ${profileMetric("Start Chance", profileScore(start, "%"), titleFromSnake(player.country_role))}
     </div>
   `;
@@ -7805,7 +7805,7 @@ function updateRuleCopy() {
   }
 
   if (squadRuleNote) {
-    squadRuleNote.textContent = `Squad target: ${positionRequirementText()}. Rules loaded from the static rules summary.`;
+    squadRuleNote.textContent = `Squad target: ${positionRequirementText()}. Rules loaded for planning.`;
   }
 
   if (benchDescription) {
@@ -11744,11 +11744,8 @@ function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built", optio
   } else if (isOverBudget) {
     teamMessage.textContent = `Team Builder built a ${squadLabel()} using ${activeBuilderStrategyLabel()}, ${trustModeLabel()}, and ${activeMatchdayLabel()}, but it is over the ${budgetText(initialBudget)} budget. Try removing expensive locked players or relaxing filters.`;
   } else {
-    const pathText = options.optimizerEvaluatedPaths
-      ? ` after comparing ${compactCount(options.optimizerEvaluatedPaths)} candidate squad path${options.optimizerEvaluatedPaths === 1 ? "" : "s"}`
-      : "";
     const riskText = builderRiskControlsActive() ? ` Risk controls: ${builderRiskSettingsSummary()}.` : "";
-    teamMessage.textContent = `Team Builder built a ${squadLabel()} within the ${budgetText(initialBudget)} budget using ${activeBuilderStrategyLabel()}, ${trustModeLabel()}, and ${activeMatchdayLabel()}${pathText}: ${startingLineupTotal} starters on the field and ${benchLabel()} below.${riskText}`;
+    teamMessage.textContent = `Team Builder built a ${squadLabel()} within the ${budgetText(initialBudget)} budget using ${activeBuilderStrategyLabel()}, ${trustModeLabel()}, and ${activeMatchdayLabel()}: ${startingLineupTotal} starters on the field and ${benchLabel()} below.${riskText}`;
   }
 
   renderWarning(
@@ -12060,7 +12057,7 @@ function defaultFinanceChips(player, activeLens = activeAdviceFinanceLens()) {
 
   if (!chips.length) {
     if (Number.isFinite(varFloor)) chips.push(`<span class="finance-chip">Floor ${displayNumber(varFloor)}</span>`);
-    if (Number.isFinite(compositeRisk)) chips.push(`<span class="finance-chip">Low Risk ${displayNumber(Math.max(0, 100 - compositeRisk))}</span>`);
+    if (Number.isFinite(compositeRisk)) chips.push(`<span class="finance-chip">Safety ${displayNumber(Math.max(0, 100 - compositeRisk))}</span>`);
     if (Number.isFinite(premiumWorthIt)) chips.push(`<span class="finance-chip">Premium ${displayNumber(premiumWorthIt)}</span>`);
   }
 
@@ -12091,15 +12088,15 @@ function financeLensCell(player, lens = activeAdviceFinanceLens()) {
 function pickRiskLabel(player) {
   const risk = scoreValue(player, "finance_composite_risk_score", "risk_composite_score");
 
-  if (risk <= 38) return "Low Risk";
-  if (risk <= 62) return "Medium Risk";
-  return "High Risk";
+  if (risk <= 38) return "Safer floor";
+  if (risk <= 62) return "Check role";
+  return "Higher variance";
 }
 
 function pickRiskKind(player) {
-  const label = pickRiskLabel(player);
-  if (label === "Low Risk") return "safe";
-  if (label === "Medium Risk") return "watch";
+  const risk = scoreValue(player, "finance_composite_risk_score", "risk_composite_score");
+  if (risk <= 38) return "safe";
+  if (risk <= 62) return "watch";
   return "review";
 }
 
@@ -12817,7 +12814,7 @@ function renderFantasyPoolPreviewAdviceTable() {
   const modelRankedPool = sortByPickModel(visiblePool, pickOption, trustMode);
   const rankedPool = financeLens.defaultLens ? modelRankedPool : sortByFinanceLens(modelRankedPool, financeLens);
 
-  adviceStyleNote.textContent = `Showing ${pickOption.label} candidates for ${positionLabel} in ${activeMatchdayLabel()}. Pick cards use projected points, role, matchup, and risk.`;
+  adviceStyleNote.textContent = `Showing ${pickOption.label} candidates for ${positionLabel} in ${activeMatchdayLabel()}. Pick cards use projected points, role, matchup, and downside context.`;
 
   if (adviceCardGrid) {
     adviceCardGrid.innerHTML = visiblePool.length
@@ -12883,7 +12880,7 @@ function renderAdviceTable() {
   const ranked = financeLens.defaultLens ? modelRankedPool : sortByFinanceLens(modelRankedPool, financeLens);
   const positionLabel = positionFilterValue === "All" ? "all positions" : positionFilterValue.toLowerCase();
 
-  adviceStyleNote.textContent = `Showing ${positionLabel} advice for ${pickOption.label} in ${activeMatchdayLabel()}. Pick cards use projected points, role, matchup, and risk.`;
+  adviceStyleNote.textContent = `Showing ${positionLabel} advice for ${pickOption.label} in ${activeMatchdayLabel()}. Pick cards use projected points, role, matchup, and downside context.`;
 
   if (adviceCardGrid) {
     adviceCardGrid.innerHTML = ranked.length
@@ -13394,7 +13391,7 @@ function setupBuilder() {
 }
 
 function showDataLoadError(error) {
-  console.error("Website data could not be loaded from playersData.js and fantasyRulesData.js.", error);
+  console.error("Website data could not be loaded.", error);
   if (buildTeamButtonTop) buildTeamButtonTop.disabled = true;
   buildTeamButtonBottom.disabled = true;
   resetTeamButton.disabled = true;
