@@ -28,8 +28,9 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 - Fixture-level score prediction panel shows group-stage match environments.
 - Match Environment prefers the fantasy-pool score projection bundle and keeps the PELE-forward v2 bundle as a static fallback.
-- Predictions include expected goals, win/draw/loss probabilities, clean-sheet probability, goal environment, and upset risk.
-- Score prediction checks verify fixture coverage, probability bounds, PELE input coverage, favorite consistency, and player-matchday integration.
+- Public columns emphasize Goal range, Match uncertainty, Attacker context, Clean-sheet context, and Upset risk.
+- Row details still include base xG, win/draw/loss probabilities, clean-sheet probability, favorite probability, goal environment, and top scoreline context.
+- Score prediction checks verify fixture coverage, probability bounds, PELE input coverage, favorite consistency, ordered uncertainty bands, base-xG preservation, fantasy context labels, and player-matchday integration.
 
 ## Team Builder
 
@@ -82,6 +83,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Week 6 data engine combines team data, fixtures, roster candidates, player performance matching, national-team usage, and finance-style fantasy metrics.
 - PELE ratings from Silver Bulletin are imported into `data/peleRatings_v1.json` and are central to the active team-quality and score-prediction model.
 - Active public Match Environment score projection context uses `data/scorePredictions_fantasyPool_v3.json` through `fantasyPoolScorePredictionsData.js`, with `data/scorePredictions_v2.json` and `scorePredictionsData.js` preserved as the fallback.
+- The active score context is PELE-anchored and adds fantasy-facing goal ranges, Match uncertainty, attacker/defender/keeper context, clean-sheet context, goal environment, and upset risk labels.
 - Active matchday player projections use `data/playerMatchdayProjections_v2.json`.
 - Active recommendation shortlists use `data/matchdayRecommendations_v2.json`.
 - Public recommendation sections load separate official fantasy-pool browser files: `fantasyPoolRecommendationsData.js`, `fantasyPoolMatchdayProjectionsData.js`, `fantasyPoolFinanceMetricsData.js`, `fantasyPoolScorePredictionsData.js`, and `fantasyPoolOfficialDataStatusData.js`.
@@ -105,11 +107,10 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - FIFA can still update player status, prices, positions, rules, or deadlines; rerun the monitor before major changes.
 - Official fantasy prices, positions, scoring, and the Clean Sheet Shield booster rule are available.
 - Team Builder is planning help and should be verified in the official game.
-- Score predictions are prototype model outputs, not official projections or betting odds.
+- Score predictions are prototype model outputs, not official projections or live match facts.
 - Captain and substitution tools require manual points and manual played/unplayed checks.
 - The site does not track live scores, official deadlines, official lineup locks, or official fantasy-game legality.
 - Team Import restores current player IDs only and may need migration if future model IDs change.
-- No betting or gambling content is included.
 
 ## Most Important Next Step
 

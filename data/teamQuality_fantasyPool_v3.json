@@ -1,7 +1,7 @@
 {
   "schema_version": "team_quality_fantasy_pool_v3",
-  "generated_at": "2026-06-02T16:03:21.186Z",
-  "source_checked": "2026-06-02",
+  "generated_at": "2026-06-05T18:09:51.848Z",
+  "source_checked": "2026-06-05",
   "model_stage": "fantasy_pool_only",
   "data_status": "staged_fantasy_pool_only_not_final_squad_backed",
   "safety_labels": [
@@ -14,7 +14,7 @@
   "previous_active_team_quality_file": "data/teamQuality.json",
   "model": {
     "model_id": "team_quality_fantasy_pool_v3",
-    "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+    "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
     "baseline": "data/teamQuality.json team_quality_v2",
     "formula_summary": "Start from PELE-forward team_quality_v2, then add small fantasy-pool-only team-position, availability, and data-quality adjustments. Apply a visible final-squad uncertainty penalty to every team because confirmed final squad rows are zero.",
     "price_use_policy": "Official fantasy price is used only as a weak player-context signal inside team-position aggregation and cannot confirm starts or dominate PELE.",
@@ -131,9 +131,9 @@
         "quality_tier": "elite",
         "base_team_quality_v2_score": 92,
         "total_fantasy_pool_adjustment": -0.89,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -442,9 +442,9 @@
         "quality_tier": "elite",
         "base_team_quality_v2_score": 91.58,
         "total_fantasy_pool_adjustment": -0.82,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -753,9 +753,9 @@
         "quality_tier": "elite",
         "base_team_quality_v2_score": 85.88,
         "total_fantasy_pool_adjustment": -0.8,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -1064,9 +1064,9 @@
         "quality_tier": "elite",
         "base_team_quality_v2_score": 82.86,
         "total_fantasy_pool_adjustment": -0.77,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -1375,9 +1375,9 @@
         "quality_tier": "elite",
         "base_team_quality_v2_score": 81.25,
         "total_fantasy_pool_adjustment": -1.07,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -1686,9 +1686,9 @@
         "quality_tier": "strong",
         "base_team_quality_v2_score": 73.25,
         "total_fantasy_pool_adjustment": -0.82,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -1997,9 +1997,9 @@
         "quality_tier": "strong",
         "base_team_quality_v2_score": 73.15,
         "total_fantasy_pool_adjustment": -0.98,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -2308,9 +2308,9 @@
         "quality_tier": "strong",
         "base_team_quality_v2_score": 71.89,
         "total_fantasy_pool_adjustment": -1,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -2619,9 +2619,9 @@
         "quality_tier": "strong",
         "base_team_quality_v2_score": 68.26,
         "total_fantasy_pool_adjustment": -0.74,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -2930,9 +2930,9 @@
         "quality_tier": "competitive",
         "base_team_quality_v2_score": 65.49,
         "total_fantasy_pool_adjustment": -0.83,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -3241,9 +3241,9 @@
         "quality_tier": "competitive",
         "base_team_quality_v2_score": 63.36,
         "total_fantasy_pool_adjustment": -0.75,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -3552,9 +3552,9 @@
         "quality_tier": "competitive",
         "base_team_quality_v2_score": 61.96,
         "total_fantasy_pool_adjustment": -1.02,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -3863,9 +3863,9 @@
         "quality_tier": "competitive",
         "base_team_quality_v2_score": 60.53,
         "total_fantasy_pool_adjustment": -0.82,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -4174,9 +4174,9 @@
         "quality_tier": "competitive",
         "base_team_quality_v2_score": 59.4,
         "total_fantasy_pool_adjustment": -1,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -4485,9 +4485,9 @@
         "quality_tier": "competitive",
         "base_team_quality_v2_score": 58.92,
         "total_fantasy_pool_adjustment": -0.89,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -4796,9 +4796,9 @@
         "quality_tier": "competitive",
         "base_team_quality_v2_score": 58.35,
         "total_fantasy_pool_adjustment": -0.84,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -5107,9 +5107,9 @@
         "quality_tier": "competitive",
         "base_team_quality_v2_score": 58.42,
         "total_fantasy_pool_adjustment": -0.94,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -5418,9 +5418,9 @@
         "quality_tier": "competitive",
         "base_team_quality_v2_score": 58.02,
         "total_fantasy_pool_adjustment": -1,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -5729,9 +5729,9 @@
         "quality_tier": "competitive",
         "base_team_quality_v2_score": 58.77,
         "total_fantasy_pool_adjustment": -2.51,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -6040,9 +6040,9 @@
         "quality_tier": "competitive",
         "base_team_quality_v2_score": 56.37,
         "total_fantasy_pool_adjustment": -1.72,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -6351,9 +6351,9 @@
         "quality_tier": "outsider",
         "base_team_quality_v2_score": 50.32,
         "total_fantasy_pool_adjustment": -0.85,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -6662,9 +6662,9 @@
         "quality_tier": "outsider",
         "base_team_quality_v2_score": 49.46,
         "total_fantasy_pool_adjustment": -1.11,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -6973,9 +6973,9 @@
         "quality_tier": "outsider",
         "base_team_quality_v2_score": 48.96,
         "total_fantasy_pool_adjustment": -2.48,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -7284,9 +7284,9 @@
         "quality_tier": "outsider",
         "base_team_quality_v2_score": 45.48,
         "total_fantasy_pool_adjustment": -2.73,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -7595,9 +7595,9 @@
         "quality_tier": "outsider",
         "base_team_quality_v2_score": 43.47,
         "total_fantasy_pool_adjustment": -1.06,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -7906,9 +7906,9 @@
         "quality_tier": "outsider",
         "base_team_quality_v2_score": 42.44,
         "total_fantasy_pool_adjustment": -1.76,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -8217,9 +8217,9 @@
         "quality_tier": "outsider",
         "base_team_quality_v2_score": 41.37,
         "total_fantasy_pool_adjustment": -1.02,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -8528,9 +8528,9 @@
         "quality_tier": "outsider",
         "base_team_quality_v2_score": 42.85,
         "total_fantasy_pool_adjustment": -2.92,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -8839,9 +8839,9 @@
         "quality_tier": "outsider",
         "base_team_quality_v2_score": 41.4,
         "total_fantasy_pool_adjustment": -1.47,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -9150,9 +9150,9 @@
         "quality_tier": "outsider",
         "base_team_quality_v2_score": 36.9,
         "total_fantasy_pool_adjustment": -1.05,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -9461,9 +9461,9 @@
         "quality_tier": "outsider",
         "base_team_quality_v2_score": 37.07,
         "total_fantasy_pool_adjustment": -1.39,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -9772,9 +9772,9 @@
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 36.28,
         "total_fantasy_pool_adjustment": -1.69,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -10083,9 +10083,9 @@
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 35.24,
         "total_fantasy_pool_adjustment": -1.96,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -10394,9 +10394,9 @@
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 33.73,
         "total_fantasy_pool_adjustment": -1.09,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -10705,9 +10705,9 @@
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 29.11,
         "total_fantasy_pool_adjustment": -0.82,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -11016,9 +11016,9 @@
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 28.17,
         "total_fantasy_pool_adjustment": -1.44,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -11327,9 +11327,9 @@
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 25.49,
         "total_fantasy_pool_adjustment": -1.92,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -11638,9 +11638,9 @@
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 24.32,
         "total_fantasy_pool_adjustment": -1.08,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -11949,9 +11949,9 @@
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 20.7,
         "total_fantasy_pool_adjustment": -1.06,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -12260,9 +12260,9 @@
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 20.47,
         "total_fantasy_pool_adjustment": -1.6,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -12571,9 +12571,9 @@
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 18.74,
         "total_fantasy_pool_adjustment": -1.18,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -12882,9 +12882,9 @@
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 18.71,
         "total_fantasy_pool_adjustment": -1.93,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -13193,9 +13193,9 @@
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 19.33,
         "total_fantasy_pool_adjustment": -2.58,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -13504,9 +13504,9 @@
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 16.58,
         "total_fantasy_pool_adjustment": -1.24,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -13815,9 +13815,9 @@
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 14.81,
         "total_fantasy_pool_adjustment": -1.11,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -14126,9 +14126,9 @@
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 10.59,
         "total_fantasy_pool_adjustment": -1.76,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -14437,9 +14437,9 @@
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 5.9,
         "total_fantasy_pool_adjustment": -1.14,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {
@@ -14748,9 +14748,9 @@
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 5.55,
         "total_fantasy_pool_adjustment": -1.27,
-        "formula_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
-        "source_model_version": "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02",
+        "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "data_status": "staged_fantasy_pool_only_not_final_squad_backed"
       },
       "team_quality_v2": {

@@ -1,7 +1,7 @@
 {
   "schema_version": "score_prediction_qa_fantasy_pool_v3",
-  "generated_at": "2026-06-02T16:03:21.186Z",
-  "source_checked": "2026-06-02",
+  "generated_at": "2026-06-05T18:09:51.848Z",
+  "source_checked": "2026-06-05",
   "model_stage": "fantasy_pool_only",
   "data_status": "staged_pass_blocked_from_final_promotion",
   "overall_status": "pass_with_staging_stop_conditions",
@@ -26,8 +26,8 @@
     "data/scorePredictions_v2.json"
   ],
   "summary": {
-    "checks_total": 13,
-    "checks_passed": 13,
+    "checks_total": 17,
+    "checks_passed": 17,
     "checks_failed": 0,
     "warning_checks": 2,
     "fixture_prediction_count": 72,
@@ -40,7 +40,28 @@
     "neymar_brazil_uncertainty_flagged": true,
     "safe_for_preliminary_matchday_projection_staging": true,
     "safe_for_final_public_recommendations": false,
-    "safe_for_final_team_builder_promotion": false
+    "safe_for_final_team_builder_promotion": false,
+    "match_uncertainty_counts": {
+      "Medium": 14,
+      "High": 19,
+      "Low": 39
+    },
+    "public_upset_risk_counts": {
+      "Medium": 28,
+      "High": 13,
+      "Low": 31
+    },
+    "attacker_environment_counts": {
+      "Good": 29,
+      "Difficult": 3,
+      "Neutral": 15,
+      "Strong": 25
+    },
+    "clean_sheet_context_counts": {
+      "Strong": 40,
+      "Neutral": 7,
+      "Good": 25
+    }
   },
   "input_coverage": {
     "fixtures_total": 72,
@@ -80,6 +101,16 @@
       "min": 1.742,
       "max": 3.55,
       "average": 2.463
+    },
+    "low_total_goals": {
+      "min": 1.021,
+      "max": 3.092,
+      "average": 1.908
+    },
+    "high_total_goals": {
+      "min": 2.333,
+      "max": 4.008,
+      "average": 3.018
     },
     "favorite_win_probability": {
       "min": 0.3527,
@@ -685,6 +716,34 @@
       "detail": "All rows remain model_stage=fantasy_pool_only and uses_final_rosters=false."
     },
     {
+      "check_id": "score_uncertainty_fields",
+      "label": "Score uncertainty fields present",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Every fixture has Low/Medium/High uncertainty labels, xG bands, total-goal bands, and a short reason."
+    },
+    {
+      "check_id": "score_uncertainty_bands_ordered",
+      "label": "Score uncertainty bands ordered",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Every fixture has low <= base <= high for total, home xG, and away xG."
+    },
+    {
+      "check_id": "score_uncertainty_base_preserved",
+      "label": "Base xG preserved in uncertainty fields",
+      "status": "pass",
+      "severity": "error",
+      "detail": "homeXgBase, awayXgBase, and baseTotalGoals match the original base expected-goal fields."
+    },
+    {
+      "check_id": "fantasy_context_fields",
+      "label": "Fantasy context fields present",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Every fixture has attacker, defender, keeper, clean-sheet, goal, upset-risk, and match-uncertainty public context labels."
+    },
+    {
       "check_id": "extreme_expected_goals",
       "label": "Extreme expected goals flagged",
       "status": "pass",
@@ -731,10 +790,10 @@
       "details": "Neymar remains a P0 national-team usage source gap and is not credited as confirmed Brazil attack strength."
     },
     {
-      "id": "browser_ready_files_not_regenerated",
-      "status": "stop",
-      "count": 1,
-      "details": "This staging pass intentionally did not update scorePredictionsData.js or other browser-ready files."
+      "id": "browser_ready_files_regenerated_by_preview_export",
+      "status": "pass",
+      "count": 0,
+      "details": "After this source pass, run scripts/buildFantasyPoolPreviewBrowserData.mjs so fantasyPoolScorePredictionsData.js stays synced."
     },
     {
       "id": "player_matchday_projection_not_rerun",
@@ -747,7 +806,7 @@
     "fantasy_pool_only_not_final_squad_backed",
     "official_rules_manual_review",
     "neymar_p0_usage_source_gap",
-    "scorePredictionsData.js intentionally not regenerated"
+    "rerun browser preview export after score-source regeneration"
   ],
   "recommended_next_step": "Use this only for preliminary score/projection staging. Resolve final squad sources, official rules warnings, and Neymar's P0 usage source gap before final promotion."
 }

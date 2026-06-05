@@ -1,6 +1,6 @@
 import { readFile, writeFile } from "node:fs/promises";
 
-const TODAY = "2026-06-02";
+const TODAY = "2026-06-05";
 const NOW = new Date().toISOString();
 
 const PATHS = {
@@ -22,7 +22,7 @@ const PATHS = {
 };
 
 const MODEL_STAGE = "fantasy_pool_only";
-const SOURCE_MODEL_VERSION = "fantasy_pool_score_prediction_v3_pele_forward_preliminary_2026-06-02";
+const SOURCE_MODEL_VERSION = "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05";
 const TEAM_QUALITY_VERSION = "team_quality_fantasy_pool_v3";
 const REQUIRED_SAFETY_LABELS = [
   "fantasy_pool_only",
@@ -160,6 +160,204 @@ function upsetRiskBand(probability) {
   if (probability >= 0.2) return "medium_high";
   if (probability >= 0.12) return "medium";
   return "low";
+}
+
+function publicGoalEnvironmentLabel(totalExpectedGoals) {
+  if (totalExpectedGoals >= 2.95) return "Strong";
+  if (totalExpectedGoals >= 2.55) return "Good";
+  if (totalExpectedGoals >= 2.2) return "Neutral";
+  return "Difficult";
+}
+
+function publicUpsetRiskLabel(probability) {
+  if (probability >= 0.28) return "High";
+  if (probability >= 0.12) return "Medium";
+  return "Low";
+}
+
+function fixtureAttackerEnvironment(homeXg, awayXg, totalExpectedGoals) {
+  const maxTeamXg = Math.max(homeXg, awayXg);
+  if (maxTeamXg >= 2.05 || totalExpectedGoals >= 3.05) return "Strong";
+  if (maxTeamXg >= 1.55 || totalExpectedGoals >= 2.6) return "Good";
+  if (maxTeamXg >= 1.1 || totalExpectedGoals >= 2.25) return "Neutral";
+  return "Difficult";
+}
+
+function teamAttackerEnvironment(expectedGoals) {
+  if (expectedGoals >= 1.9) return "Strong";
+  if (expectedGoals >= 1.35) return "Good";
+  if (expectedGoals >= 0.9) return "Neutral";
+  return "Difficult";
+}
+
+function cleanSheetContextLabel(probability) {
+  if (probability >= 0.55) return "Strong";
+  if (probability >= 0.38) return "Good";
+  if (probability >= 0.22) return "Neutral";
+  return "Difficult";
+}
+
+function defenderEnvironmentLabel(cleanSheetProbability, expectedGoalsAgainst) {
+  if (cleanSheetProbability >= 0.55 && expectedGoalsAgainst <= 0.75) return "Strong";
+  if (cleanSheetProbability >= 0.38 || expectedGoalsAgainst <= 1.05) return "Good";
+  if (cleanSheetProbability >= 0.22 || expectedGoalsAgainst <= 1.45) return "Neutral";
+  return "Difficult";
+}
+
+function keeperEnvironmentLabel(cleanSheetProbability, expectedGoalsAgainst) {
+  if (cleanSheetProbability >= 0.55 && expectedGoalsAgainst <= 0.75) return "Strong";
+  if (cleanSheetProbability >= 0.38 || expectedGoalsAgainst <= 1.1) return "Good";
+  if (cleanSheetProbability >= 0.22 || expectedGoalsAgainst <= 1.65) return "Neutral";
+  return "Difficult";
+}
+
+function goalBandSpread(expectedGoals, uncertaintyLabel) {
+  const profiles = {
+    Low: { base: 0.11, rate: 0.08, max: 0.32 },
+    Medium: { base: 0.17, rate: 0.11, max: 0.45 },
+    High: { base: 0.23, rate: 0.15, max: 0.62 }
+  };
+  const profile = profiles[uncertaintyLabel] || profiles.Medium;
+  return round(clamp(profile.base + expectedGoals * profile.rate, 0.12, profile.max), 3);
+}
+
+function fixtureUncertaintyContext({ fixture, home, away, homeXg, awayXg, totalExpectedGoals, grid, upsetRiskProbability, qaFlags }) {
+  const qualityGap = Math.abs(home.team_quality_fantasyPool_v3.overall_score - away.team_quality_fantasyPool_v3.overall_score);
+  const favoriteWinProbability = Math.max(grid.homeWin, grid.awayWin);
+  const homeContextUncertainty = home.fantasy_pool_context_v3.uncertainty_score;
+  const awayContextUncertainty = away.fantasy_pool_context_v3.uncertainty_score;
+  const maxContextUncertainty = Math.max(homeContextUncertainty, awayContextUncertainty);
+  const hostCountry = hostVenueCountry(fixture);
+  const hostVenueTeamInvolved = [fixture.home_team_id, fixture.away_team_id].includes(hostCountry);
+  const reasons = [];
+  let score = 12;
+
+  if (qualityGap <= 5) {
+    score += 18;
+    reasons.push("close team-quality gap");
+  } else if (qualityGap <= 10) {
+    score += 10;
+    reasons.push("moderate team-quality gap");
+  }
+
+  if (upsetRiskProbability >= 0.28) {
+    score += 18;
+    reasons.push("higher upset risk");
+  } else if (upsetRiskProbability >= 0.2) {
+    score += 10;
+    reasons.push("credible upset path");
+  }
+
+  if (totalExpectedGoals >= 2.95) {
+    score += 10;
+    reasons.push("higher goal environment");
+  } else if (totalExpectedGoals <= 2.05) {
+    score += 7;
+    reasons.push("lower-goal setup can swing on one moment");
+  }
+
+  if (maxContextUncertainty >= 60) {
+    score += 14;
+    reasons.push("team-role context needs review");
+  } else if (maxContextUncertainty >= 52) {
+    score += 8;
+    reasons.push("some team-role uncertainty");
+  }
+
+  if (qaFlags.includes("brazil_neymar_usage_source_gap")) {
+    score += 8;
+    reasons.push("Brazil role context needs review");
+  }
+
+  if (hostVenueTeamInvolved) {
+    score += 4;
+    reasons.push("host venue context");
+  }
+
+  if (favoriteWinProbability >= 0.86) {
+    score -= 10;
+  } else if (favoriteWinProbability >= 0.78) {
+    score -= 6;
+  }
+
+  const uncertaintyScore = round(clamp(score, 0, 100), 1);
+  const uncertaintyLabel = uncertaintyScore >= 40 ? "High" : uncertaintyScore >= 24 ? "Medium" : "Low";
+  const homeSpread = goalBandSpread(homeXg, uncertaintyLabel);
+  const awaySpread = goalBandSpread(awayXg, uncertaintyLabel);
+  const homeXgLow = round(clamp(homeXg - homeSpread, 0.12, homeXg), 3);
+  const awayXgLow = round(clamp(awayXg - awaySpread, 0.12, awayXg), 3);
+  const homeXgHigh = round(homeXg + homeSpread, 3);
+  const awayXgHigh = round(awayXg + awaySpread, 3);
+  const defaultReason = uncertaintyLabel === "Low"
+    ? "clearer favorite and contained scoring range"
+    : uncertaintyLabel === "Medium"
+      ? "some score-path sensitivity"
+      : "multiple score-path risks";
+  const reasonText = reasons.slice(0, 3).join(", ") || defaultReason;
+
+  return {
+    uncertaintyScore,
+    uncertainty_score: uncertaintyScore,
+    uncertaintyLabel,
+    uncertainty_label: uncertaintyLabel,
+    matchUncertainty: uncertaintyLabel,
+    match_uncertainty: uncertaintyLabel,
+    lowTotalGoals: round(homeXgLow + awayXgLow, 3),
+    low_total_goals: round(homeXgLow + awayXgLow, 3),
+    baseTotalGoals: totalExpectedGoals,
+    base_total_goals: totalExpectedGoals,
+    highTotalGoals: round(homeXgHigh + awayXgHigh, 3),
+    high_total_goals: round(homeXgHigh + awayXgHigh, 3),
+    homeXgLow,
+    home_xg_low: homeXgLow,
+    homeXgBase: homeXg,
+    home_xg_base: homeXg,
+    homeXgHigh,
+    home_xg_high: homeXgHigh,
+    awayXgLow,
+    away_xg_low: awayXgLow,
+    awayXgBase: awayXg,
+    away_xg_base: awayXg,
+    awayXgHigh,
+    away_xg_high: awayXgHigh,
+    uncertaintyReason: `${uncertaintyLabel} uncertainty: ${reasonText}.`,
+    uncertainty_reason: `${uncertaintyLabel} uncertainty: ${reasonText}.`,
+    uncertainty_inputs: {
+      quality_gap: round(qualityGap, 2),
+      favorite_win_probability: favoriteWinProbability,
+      upset_risk_probability: upsetRiskProbability,
+      total_expected_goals: totalExpectedGoals,
+      max_team_context_uncertainty: round(maxContextUncertainty, 2),
+      host_venue_team_involved: hostVenueTeamInvolved
+    }
+  };
+}
+
+function fixtureFantasyContext({ homeXg, awayXg, totalExpectedGoals, homeCleanSheet, awayCleanSheet, upsetRiskProbability, uncertaintyLabel }) {
+  const strongestCleanSheetProbability = Math.max(homeCleanSheet, awayCleanSheet);
+  const cleanSheetContext = cleanSheetContextLabel(strongestCleanSheetProbability);
+  const defenderEnvironment = defenderEnvironmentLabel(strongestCleanSheetProbability, Math.min(homeXg, awayXg));
+  const keeperEnvironment = keeperEnvironmentLabel(strongestCleanSheetProbability, Math.min(homeXg, awayXg));
+  const attackerEnvironment = fixtureAttackerEnvironment(homeXg, awayXg, totalExpectedGoals);
+  const goalEnvironmentPublic = publicGoalEnvironmentLabel(totalExpectedGoals);
+  const upsetRiskPublic = publicUpsetRiskLabel(upsetRiskProbability);
+
+  return {
+    attackerEnvironment,
+    attacker_environment: attackerEnvironment,
+    defenderEnvironment,
+    defender_environment: defenderEnvironment,
+    keeperEnvironment,
+    keeper_environment: keeperEnvironment,
+    cleanSheetContext,
+    clean_sheet_context: cleanSheetContext,
+    goalEnvironment: goalEnvironmentPublic,
+    goal_environment_public: goalEnvironmentPublic,
+    upsetRisk: upsetRiskPublic,
+    upset_risk_public: upsetRiskPublic,
+    matchUncertainty: uncertaintyLabel,
+    match_uncertainty: uncertaintyLabel
+  };
 }
 
 function hostVenueCountry(fixture) {
@@ -543,7 +741,7 @@ function expectedGoalsComponents(team, opponent, fixture, isListedHome) {
   };
 }
 
-function teamPredictionView(fixture, team, opponent, expectedGoals, expectedGoalsAgainst, winProbability, drawProbability, lossProbability, cleanSheetProbability, goalEnv, upsetRiskProbability, upsetBand, side) {
+function teamPredictionView(fixture, team, opponent, expectedGoals, expectedGoalsAgainst, winProbability, drawProbability, lossProbability, cleanSheetProbability, goalEnv, upsetRiskProbability, upsetBand, side, matchUncertainty = null) {
   const qualityGap = team.team_quality_fantasyPool_v3.overall_score - opponent.team_quality_fantasyPool_v3.overall_score;
   const fixtureDifficulty = round(clamp(50 - qualityGap * 0.7, 0, 100), 2);
   const attackingEnvironmentScore = round(clamp(((expectedGoals - 0.45) / 1.6) * 100, 0, 100), 1);
@@ -555,6 +753,14 @@ function teamPredictionView(fixture, team, opponent, expectedGoals, expectedGoal
     0,
     100
   ), 1);
+  const totalExpectedGoals = round(expectedGoals + expectedGoalsAgainst, 3);
+  const attackerEnvironment = teamAttackerEnvironment(expectedGoals);
+  const defenderEnvironment = defenderEnvironmentLabel(cleanSheetProbability, expectedGoalsAgainst);
+  const keeperEnvironment = keeperEnvironmentLabel(cleanSheetProbability, expectedGoalsAgainst);
+  const cleanSheetContext = cleanSheetContextLabel(cleanSheetProbability);
+  const goalEnvironmentPublic = publicGoalEnvironmentLabel(totalExpectedGoals);
+  const upsetRiskPublic = publicUpsetRiskLabel(upsetRiskProbability);
+
   return {
     fixture_difficulty_score: fixtureDifficulty,
     fixture_difficulty_band: difficultyBand(fixtureDifficulty),
@@ -569,6 +775,20 @@ function teamPredictionView(fixture, team, opponent, expectedGoals, expectedGoal
     attacking_environment_score: attackingEnvironmentScore,
     defensive_environment_score: defensiveEnvironmentScore,
     captain_environment_score: captainEnvironmentScore,
+    attackerEnvironment,
+    attacker_environment: attackerEnvironment,
+    defenderEnvironment,
+    defender_environment: defenderEnvironment,
+    keeperEnvironment,
+    keeper_environment: keeperEnvironment,
+    cleanSheetContext,
+    clean_sheet_context: cleanSheetContext,
+    goalEnvironment: goalEnvironmentPublic,
+    goal_environment_public: goalEnvironmentPublic,
+    upsetRisk: upsetRiskPublic,
+    upset_risk_public: upsetRiskPublic,
+    matchUncertainty,
+    match_uncertainty: matchUncertainty,
     side,
     model_stage: MODEL_STAGE
   };
@@ -620,10 +840,30 @@ function buildScorePredictions(fixturesData, matchdaysData, teamQualityV3, score
     const underdogWinProbability = homeFavorite ? grid.awayWin : grid.homeWin;
     const upsetRiskProbability = round(underdogWinProbability + grid.draw * 0.24, 4);
     const upsetBand = upsetRiskBand(upsetRiskProbability);
-    const homeTeamPrediction = teamPredictionView(fixture, home, away, homeComponents.expected_goals, awayComponents.expected_goals, grid.homeWin, grid.draw, grid.awayWin, grid.homeCleanSheet, goalEnv, upsetRiskProbability, upsetBand, "home_listed");
-    const awayTeamPrediction = teamPredictionView(fixture, away, home, awayComponents.expected_goals, homeComponents.expected_goals, grid.awayWin, grid.draw, grid.homeWin, grid.awayCleanSheet, goalEnv, upsetRiskProbability, upsetBand, "away_listed");
     const v2 = v2ByFixture.get(fixture.match_id);
     const qaFlags = fixtureQaFlags(home, away);
+    const uncertaintyContext = fixtureUncertaintyContext({
+      fixture,
+      home,
+      away,
+      homeXg: homeComponents.expected_goals,
+      awayXg: awayComponents.expected_goals,
+      totalExpectedGoals: totalExpected,
+      grid,
+      upsetRiskProbability,
+      qaFlags
+    });
+    const fantasyContext = fixtureFantasyContext({
+      homeXg: homeComponents.expected_goals,
+      awayXg: awayComponents.expected_goals,
+      totalExpectedGoals: totalExpected,
+      homeCleanSheet: grid.homeCleanSheet,
+      awayCleanSheet: grid.awayCleanSheet,
+      upsetRiskProbability,
+      uncertaintyLabel: uncertaintyContext.uncertaintyLabel
+    });
+    const homeTeamPrediction = teamPredictionView(fixture, home, away, homeComponents.expected_goals, awayComponents.expected_goals, grid.homeWin, grid.draw, grid.awayWin, grid.homeCleanSheet, goalEnv, upsetRiskProbability, upsetBand, "home_listed", uncertaintyContext.uncertaintyLabel);
+    const awayTeamPrediction = teamPredictionView(fixture, away, home, awayComponents.expected_goals, homeComponents.expected_goals, grid.awayWin, grid.draw, grid.homeWin, grid.awayCleanSheet, goalEnv, upsetRiskProbability, upsetBand, "away_listed", uncertaintyContext.uncertaintyLabel);
 
     fixtureScorePredictions.push({
       prediction_id: `${fixture.match_id}-score-fantasy-pool-v3`,
@@ -668,6 +908,8 @@ function buildScorePredictions(fixturesData, matchdaysData, teamQualityV3, score
       underdog_win_probability: underdogWinProbability,
       upset_risk_probability: upsetRiskProbability,
       upset_risk_band: upsetBand,
+      ...uncertaintyContext,
+      ...fantasyContext,
       top_scorelines: grid.topScorelines,
       home_team_prediction: homeTeamPrediction,
       away_team_prediction: awayTeamPrediction,
@@ -754,9 +996,27 @@ function buildScorePredictions(fixturesData, matchdaysData, teamQualityV3, score
       attacking_environment_score: homeTeamPrediction.attacking_environment_score,
       defensive_environment_score: homeTeamPrediction.defensive_environment_score,
       captain_environment_score: homeTeamPrediction.captain_environment_score,
+      attackerEnvironment: homeTeamPrediction.attackerEnvironment,
+      attacker_environment: homeTeamPrediction.attacker_environment,
+      defenderEnvironment: homeTeamPrediction.defenderEnvironment,
+      defender_environment: homeTeamPrediction.defender_environment,
+      keeperEnvironment: homeTeamPrediction.keeperEnvironment,
+      keeper_environment: homeTeamPrediction.keeper_environment,
+      cleanSheetContext: homeTeamPrediction.cleanSheetContext,
+      clean_sheet_context: homeTeamPrediction.clean_sheet_context,
+      goalEnvironment: homeTeamPrediction.goalEnvironment,
+      goal_environment_public: homeTeamPrediction.goal_environment_public,
+      upsetRisk: homeTeamPrediction.upsetRisk,
+      upset_risk_public: homeTeamPrediction.upset_risk_public,
+      matchUncertainty: homeTeamPrediction.matchUncertainty,
+      match_uncertainty: homeTeamPrediction.match_uncertainty,
       goal_environment: goalEnv,
       upset_risk_probability: upsetRiskProbability,
       upset_risk_band: upsetBand,
+      uncertaintyLabel: uncertaintyContext.uncertaintyLabel,
+      uncertainty_label: uncertaintyContext.uncertainty_label,
+      uncertaintyReason: uncertaintyContext.uncertaintyReason,
+      uncertainty_reason: uncertaintyContext.uncertainty_reason,
       model_stage: MODEL_STAGE,
       qa_flags: qaFlags
     });
@@ -782,9 +1042,27 @@ function buildScorePredictions(fixturesData, matchdaysData, teamQualityV3, score
       attacking_environment_score: awayTeamPrediction.attacking_environment_score,
       defensive_environment_score: awayTeamPrediction.defensive_environment_score,
       captain_environment_score: awayTeamPrediction.captain_environment_score,
+      attackerEnvironment: awayTeamPrediction.attackerEnvironment,
+      attacker_environment: awayTeamPrediction.attacker_environment,
+      defenderEnvironment: awayTeamPrediction.defenderEnvironment,
+      defender_environment: awayTeamPrediction.defender_environment,
+      keeperEnvironment: awayTeamPrediction.keeperEnvironment,
+      keeper_environment: awayTeamPrediction.keeper_environment,
+      cleanSheetContext: awayTeamPrediction.cleanSheetContext,
+      clean_sheet_context: awayTeamPrediction.clean_sheet_context,
+      goalEnvironment: awayTeamPrediction.goalEnvironment,
+      goal_environment_public: awayTeamPrediction.goal_environment_public,
+      upsetRisk: awayTeamPrediction.upsetRisk,
+      upset_risk_public: awayTeamPrediction.upset_risk_public,
+      matchUncertainty: awayTeamPrediction.matchUncertainty,
+      match_uncertainty: awayTeamPrediction.match_uncertainty,
       goal_environment: goalEnv,
       upset_risk_probability: upsetRiskProbability,
       upset_risk_band: upsetBand,
+      uncertaintyLabel: uncertaintyContext.uncertaintyLabel,
+      uncertainty_label: uncertaintyContext.uncertainty_label,
+      uncertaintyReason: uncertaintyContext.uncertaintyReason,
+      uncertainty_reason: uncertaintyContext.uncertainty_reason,
       model_stage: MODEL_STAGE,
       qa_flags: qaFlags
     });
@@ -802,21 +1080,21 @@ function buildScorePredictions(fixturesData, matchdaysData, teamQualityV3, score
     team_quality_file: PATHS.teamQualityV3,
     safety_labels: REQUIRED_SAFETY_LABELS,
     model: {
-      model_name: "PELE-forward fantasy-pool-only staged score predictor v3",
+      model_name: "PELE-anchored fantasy-pool score predictor v3 with uncertainty",
       formula_version: SOURCE_MODEL_VERSION,
       team_quality_version: TEAM_QUALITY_VERSION,
+      uncertainty_layer_version: "score_uncertainty_v1",
       base_world_cup_team_goals: 1.33,
       max_score_grid_goals: 10,
       uses_betting_odds: false,
       uses_final_squads: false,
       uses_official_fantasy_price: "weak_context_only",
-      plain_language_summary: "Start from PELE-forward v2 team quality, add small fantasy-pool-only team-position context from the preliminary minutes model, keep final-squad uncertainty visible, and convert expected goals into scoreline probabilities with a Poisson grid.",
+      plain_language_summary: "Start from PELE-forward v2 team quality, add small fantasy-pool-only team-position context from the preliminary minutes model, keep team-context uncertainty visible, convert expected goals into scoreline probabilities with a Poisson grid, and expose public goal-range plus fantasy context labels.",
       current_inputs: [PATHS.fixtures, PATHS.matchdays, PATHS.teamQualityV2, PATHS.peleRatings, PATHS.playerMinutes, PATHS.playerRecommendationInputs, PATHS.officialSquads, PATHS.scoreV2],
       stop_before_promotion: [
         "official final squads are not source-backed",
         "official rules still have manual-review warnings",
         "Neymar remains a P0 national-team usage source gap",
-        "browser-ready score prediction files were intentionally not regenerated",
         "player matchday projections and recommendations were intentionally not rerun"
       ]
     },
@@ -828,6 +1106,8 @@ function buildScorePredictions(fixturesData, matchdaysData, teamQualityV3, score
       "not betting odds",
       "not final public recommendations",
       "PELE ratings remain the dominant current-strength signal.",
+      "Goal ranges and Match uncertainty are explanatory bands around the existing base xG, not replacements for the base expected-goal values.",
+      "Fantasy context labels translate fixture rows into attacker, defender, keeper, clean-sheet, goal, upset-risk, and match-uncertainty signals for public display.",
       "Official fantasy prices are weak player-context signals only and do not confirm starters or team strength.",
       "Neymar is handled as Brazil uncertainty because source-backed usage remains missing."
     ],
@@ -850,7 +1130,13 @@ function buildScoreSummary(fixtureRows, teamRows) {
     safe_for_final_public_recommendations: false,
     safe_for_final_team_builder_promotion: false,
     goal_environment_counts: countBy(fixtureRows, (row) => row.goal_environment),
+    public_goal_environment_counts: countBy(fixtureRows, (row) => row.goalEnvironment),
     upset_risk_counts: countBy(fixtureRows, (row) => row.upset_risk_band),
+    public_upset_risk_counts: countBy(fixtureRows, (row) => row.upsetRisk),
+    match_uncertainty_counts: countBy(fixtureRows, (row) => row.matchUncertainty),
+    attacker_environment_counts: countBy(fixtureRows, (row) => row.attackerEnvironment),
+    clean_sheet_context_counts: countBy(fixtureRows, (row) => row.cleanSheetContext),
+    average_goal_range_width: round(average(fixtureRows.map((row) => row.highTotalGoals - row.lowTotalGoals)), 3),
     qa_flag_counts: fixtureRows.reduce((counts, row) => {
       for (const flag of row.qa_flags || []) counts[flag] = (counts[flag] || 0) + 1;
       return counts;
@@ -869,6 +1155,15 @@ function buildScoreSummary(fixtureRows, teamRows) {
       fixture: `${row.home_team} vs ${row.away_team}`,
       total_expected_goals: row.total_expected_goals,
       goal_environment: row.goal_environment
+    })),
+    highest_uncertainty_fixtures: top(fixtureRows, 8, (row) => row.uncertaintyScore).map((row) => ({
+      fixture_id: row.fixture_id,
+      match_number: row.match_number,
+      fixture: `${row.home_team} vs ${row.away_team}`,
+      matchUncertainty: row.matchUncertainty,
+      uncertaintyScore: row.uncertaintyScore,
+      goal_range: `${row.lowTotalGoals}-${row.highTotalGoals}`,
+      uncertaintyReason: row.uncertaintyReason
     }))
   };
 }
@@ -1031,6 +1326,44 @@ function buildQa(scorePredictions, teamQuality, fixturesData, peleRatings, offic
   const brazilFixtures = scorePredictions.fixtureScorePredictions.filter((row) => row.home_team_id === "brazil" || row.away_team_id === "brazil");
   const brazilNeymarFlagged = brazilFixtures.length > 0 && brazilFixtures.every((row) => row.qa_flags.includes("brazil_neymar_usage_source_gap"));
   const noFinalSquadClaims = scorePredictions.fixtureScorePredictions.every((row) => row.model_stage === MODEL_STAGE && row.data_quality.uses_final_rosters === false);
+  const publicContextLabels = new Set(["Strong", "Good", "Neutral", "Difficult"]);
+  const publicRiskLabels = new Set(["Low", "Medium", "High"]);
+  const uncertaintyFieldsPresent = scorePredictions.fixtureScorePredictions.every((row) =>
+    publicRiskLabels.has(row.uncertaintyLabel) &&
+    publicRiskLabels.has(row.matchUncertainty) &&
+    Number.isFinite(row.lowTotalGoals) &&
+    Number.isFinite(row.baseTotalGoals) &&
+    Number.isFinite(row.highTotalGoals) &&
+    Number.isFinite(row.homeXgLow) &&
+    Number.isFinite(row.homeXgBase) &&
+    Number.isFinite(row.homeXgHigh) &&
+    Number.isFinite(row.awayXgLow) &&
+    Number.isFinite(row.awayXgBase) &&
+    Number.isFinite(row.awayXgHigh) &&
+    Boolean(row.uncertaintyReason)
+  );
+  const uncertaintyBandsOrdered = scorePredictions.fixtureScorePredictions.every((row) =>
+    row.lowTotalGoals <= row.baseTotalGoals &&
+    row.baseTotalGoals <= row.highTotalGoals &&
+    row.homeXgLow <= row.homeXgBase &&
+    row.homeXgBase <= row.homeXgHigh &&
+    row.awayXgLow <= row.awayXgBase &&
+    row.awayXgBase <= row.awayXgHigh
+  );
+  const uncertaintyBasePreserved = scorePredictions.fixtureScorePredictions.every((row) =>
+    row.homeXgBase === row.home_expected_goals &&
+    row.awayXgBase === row.away_expected_goals &&
+    row.baseTotalGoals === row.total_expected_goals
+  );
+  const fantasyContextFieldsPresent = scorePredictions.fixtureScorePredictions.every((row) =>
+    publicContextLabels.has(row.attackerEnvironment) &&
+    publicContextLabels.has(row.defenderEnvironment) &&
+    publicContextLabels.has(row.keeperEnvironment) &&
+    publicContextLabels.has(row.cleanSheetContext) &&
+    publicContextLabels.has(row.goalEnvironment) &&
+    publicRiskLabels.has(row.upsetRisk) &&
+    publicRiskLabels.has(row.matchUncertainty)
+  );
 
   pushCheck("fixture_coverage", "Group-stage fixture coverage", predictionFixtureIds.size === fixtureIds.size && scorePredictions.fixtureScorePredictions.length === fixturesData.fixtures.length, `${scorePredictions.fixtureScorePredictions.length}/${fixturesData.fixtures.length} group-stage fixtures have one score prediction row; ${predictionFixtureIds.size} unique fixture IDs.`);
   pushCheck("team_fixture_coverage", "Team-fixture coverage", scorePredictions.teamFixturePredictions.length === fixturesData.fixtures.length * 2, `${scorePredictions.teamFixturePredictions.length}/${fixturesData.fixtures.length * 2} team-fixture rows exist.`);
@@ -1043,6 +1376,10 @@ function buildQa(scorePredictions, teamQuality, fixturesData, peleRatings, offic
   pushCheck("fantasy_pool_uncertainty_flags", "Fantasy-pool uncertainty flags present", uncertaintyFlagsPresent, "Every fixture carries fantasy_pool_only and not_final_squad_backed QA flags.");
   pushCheck("brazil_neymar_uncertainty", "Brazil Neymar uncertainty flagged", brazilNeymarFlagged, `${brazilFixtures.length} Brazil fixtures carry Neymar usage-source-gap QA flag.`);
   pushCheck("no_final_squad_backed_claims", "No final-squad-backed claims", noFinalSquadClaims, "All rows remain model_stage=fantasy_pool_only and uses_final_rosters=false.");
+  pushCheck("score_uncertainty_fields", "Score uncertainty fields present", uncertaintyFieldsPresent, "Every fixture has Low/Medium/High uncertainty labels, xG bands, total-goal bands, and a short reason.");
+  pushCheck("score_uncertainty_bands_ordered", "Score uncertainty bands ordered", uncertaintyBandsOrdered, "Every fixture has low <= base <= high for total, home xG, and away xG.");
+  pushCheck("score_uncertainty_base_preserved", "Base xG preserved in uncertainty fields", uncertaintyBasePreserved, "homeXgBase, awayXgBase, and baseTotalGoals match the original base expected-goal fields.");
+  pushCheck("fantasy_context_fields", "Fantasy context fields present", fantasyContextFieldsPresent, "Every fixture has attacker, defender, keeper, clean-sheet, goal, upset-risk, and match-uncertainty public context labels.");
 
   const extremeExpectedGoals = scorePredictions.fixtureScorePredictions.filter((row) => row.total_expected_goals > 4.2 || row.home_expected_goals > 3.35 || row.away_expected_goals > 3.35);
   const extremeWinProbabilities = scorePredictions.fixtureScorePredictions.filter((row) => row.favorite_win_probability > 0.93);
@@ -1082,10 +1419,10 @@ function buildQa(scorePredictions, teamQuality, fixturesData, peleRatings, offic
       details: "Neymar remains a P0 national-team usage source gap and is not credited as confirmed Brazil attack strength."
     },
     {
-      id: "browser_ready_files_not_regenerated",
-      status: "stop",
-      count: 1,
-      details: "This staging pass intentionally did not update scorePredictionsData.js or other browser-ready files."
+      id: "browser_ready_files_regenerated_by_preview_export",
+      status: "pass",
+      count: 0,
+      details: "After this source pass, run scripts/buildFantasyPoolPreviewBrowserData.mjs so fantasyPoolScorePredictionsData.js stays synced."
     },
     {
       id: "player_matchday_projection_not_rerun",
@@ -1131,7 +1468,11 @@ function buildQa(scorePredictions, teamQuality, fixturesData, peleRatings, offic
       neymar_brazil_uncertainty_flagged: brazilNeymarFlagged,
       safe_for_preliminary_matchday_projection_staging: checksFailed === 0,
       safe_for_final_public_recommendations: false,
-      safe_for_final_team_builder_promotion: false
+      safe_for_final_team_builder_promotion: false,
+      match_uncertainty_counts: scorePredictions.summary.match_uncertainty_counts,
+      public_upset_risk_counts: scorePredictions.summary.public_upset_risk_counts,
+      attacker_environment_counts: scorePredictions.summary.attacker_environment_counts,
+      clean_sheet_context_counts: scorePredictions.summary.clean_sheet_context_counts
     },
     input_coverage: {
       fixtures_total: fixturesData.fixtures.length,
@@ -1160,6 +1501,8 @@ function buildQa(scorePredictions, teamQuality, fixturesData, peleRatings, offic
       home_expected_goals: rangeSummary(scorePredictions.fixtureScorePredictions.map((row) => row.home_expected_goals)),
       away_expected_goals: rangeSummary(scorePredictions.fixtureScorePredictions.map((row) => row.away_expected_goals)),
       total_expected_goals: rangeSummary(scorePredictions.fixtureScorePredictions.map((row) => row.total_expected_goals)),
+      low_total_goals: rangeSummary(scorePredictions.fixtureScorePredictions.map((row) => row.lowTotalGoals)),
+      high_total_goals: rangeSummary(scorePredictions.fixtureScorePredictions.map((row) => row.highTotalGoals)),
       favorite_win_probability: rangeSummary(scorePredictions.fixtureScorePredictions.map((row) => row.favorite_win_probability), 4),
       upset_risk_probability: rangeSummary(scorePredictions.fixtureScorePredictions.map((row) => row.upset_risk_probability), 4),
       home_clean_sheet_probability: rangeSummary(scorePredictions.fixtureScorePredictions.map((row) => row.home_clean_sheet_probability), 4),
@@ -1172,7 +1515,7 @@ function buildQa(scorePredictions, teamQuality, fixturesData, peleRatings, offic
       "fantasy_pool_only_not_final_squad_backed",
       "official_rules_manual_review",
       "neymar_p0_usage_source_gap",
-      "scorePredictionsData.js intentionally not regenerated"
+      "rerun browser preview export after score-source regeneration"
     ],
     recommended_next_step: "Use this only for preliminary score/projection staging. Resolve final squad sources, official rules warnings, and Neymar's P0 usage source gap before final promotion."
   };
@@ -1215,6 +1558,22 @@ function buildReport(scorePredictions, qa, teamQuality) {
     review_rows: row.review_rows,
     neymar_gap: row.neymar_usage_source_gap
   }));
+  const uncertaintyCounts = Object.entries(scorePredictions.summary.match_uncertainty_counts || {}).map(([label, count]) => ({
+    label,
+    count
+  }));
+  const fantasyContextCounts = [
+    { field: "Attacker context", counts: JSON.stringify(scorePredictions.summary.attacker_environment_counts || {}) },
+    { field: "Clean-sheet context", counts: JSON.stringify(scorePredictions.summary.clean_sheet_context_counts || {}) },
+    { field: "Upset risk", counts: JSON.stringify(scorePredictions.summary.public_upset_risk_counts || {}) }
+  ];
+  const highUncertaintyFixtures = (scorePredictions.summary.highest_uncertainty_fixtures || []).map((row) => ({
+    fixture: row.fixture,
+    uncertainty: row.matchUncertainty,
+    score: row.uncertaintyScore,
+    goal_range: row.goal_range,
+    reason: row.uncertaintyReason
+  }));
   const brazil = teamQuality.teams.find((team) => team.team_id === "brazil");
 
   return `# Score Prediction QA Report Fantasy Pool v3
@@ -1237,10 +1596,11 @@ This is a staged \`fantasy_pool_only\` score predictor. It is not final-squad-ba
 | Safe for preliminary projection staging | ${qa.summary.safe_for_preliminary_matchday_projection_staging} |
 | Safe for final public recommendations | ${qa.summary.safe_for_final_public_recommendations} |
 | Safe for final Team Builder promotion | ${qa.summary.safe_for_final_team_builder_promotion} |
+| Average goal-range width | ${scorePredictions.summary.average_goal_range_width} |
 
 ## Model Purpose
 
-Score Predictor v3 starts from the active PELE-forward v2 team-quality and Poisson score model, then adds a small, transparent fantasy-pool context layer from official fantasy-pool players and the preliminary minutes model. PELE remains the dominant team-strength signal. Official fantasy prices are weak player-context signals only and cannot confirm starters or drive team strength.
+Score Predictor v3 starts from the active PELE-forward v2 team-quality and Poisson score model, then adds a small, transparent fantasy-pool context layer from official fantasy-pool players and the preliminary minutes model. PELE remains the dominant team-strength signal. Phase 3B adds goal-range bands, Match uncertainty, and fantasy-facing context labels without replacing the base xG values.
 
 ## Inputs Used
 
@@ -1255,7 +1615,37 @@ Score Predictor v3 starts from the active PELE-forward v2 team-quality and Poiss
 
 ## Why Fantasy Pool Only
 
-Confirmed final squad rows are still zero, official squads are not source-backed complete, and official rules still have manual-review warnings. Every team carries \`final_squad_source_status: fantasy_pool_only\` plus a final-squad uncertainty penalty. This output does not update \`scorePredictionsData.js\`.
+Confirmed final squad rows are still zero, official squads are not source-backed complete, and official rules still have manual-review warnings. Every team carries \`final_squad_source_status: fantasy_pool_only\` plus a final-squad uncertainty penalty. The preserved fallback stays in \`scorePredictionsData.js\`.
+
+The active public bundle is \`fantasyPoolScorePredictionsData.js\`; \`scorePredictionsData.js\` remains the preserved PELE-forward fallback.
+
+## Phase 3B Uncertainty And Fantasy Context
+
+Goal ranges are explanatory bands around the existing base xG. They use transparent proxies already in this source: team-quality gap, upset risk, goal environment, team-role uncertainty flags, Brazil role-source review, and host venue context where present.
+
+### Match Uncertainty Counts
+
+${markdownTable(uncertaintyCounts, [
+    { key: "label", label: "Label" },
+    { key: "count", label: "Fixtures" }
+  ])}
+
+### Fantasy Context Counts
+
+${markdownTable(fantasyContextCounts, [
+    { key: "field", label: "Field" },
+    { key: "counts", label: "Counts" }
+  ])}
+
+### Highest Match Uncertainty Fixtures
+
+${markdownTable(highUncertaintyFixtures, [
+    { key: "fixture", label: "Fixture" },
+    { key: "uncertainty", label: "Uncertainty" },
+    { key: "score", label: "Score" },
+    { key: "goal_range", label: "Goal range" },
+    { key: "reason", label: "Reason" }
+  ])}
 
 ## Main Differences From v2
 

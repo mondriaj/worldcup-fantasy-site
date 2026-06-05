@@ -30,6 +30,9 @@ function scorePredictionSourceFromWindow() {
       source_schema_version: fantasyPoolData?.schema_version || null,
       source_generated_at: fantasyPoolData?.generated_at || null,
       source_checked: fantasyPoolData?.source_checked || null,
+      model_name: fantasyPoolData?.model?.model_name || null,
+      formula_version: fantasyPoolData?.model?.formula_version || null,
+      uncertainty_layer_version: fantasyPoolData?.model?.uncertainty_layer_version || null,
       source_files: ["data/scorePredictions_fantasyPool_v3.json"],
       previous_model_file: fantasyPoolData?.previous_model_file || "data/scorePredictions_v2.json",
       fixture_prediction_count: fantasyPoolRows.length,
@@ -2213,6 +2216,89 @@ function goalEnvironmentLabel(environment) {
   return labels[environment] || titleFromSnake(environment);
 }
 
+function scoreContextField(row, camelField, snakeField) {
+  if (!row) {
+    return null;
+  }
+
+  return row[camelField] ?? row[snakeField] ?? null;
+}
+
+function publicGoalContextFromTotal(totalExpectedGoals) {
+  const total = value(totalExpectedGoals);
+  if (total >= 2.95) return "Strong";
+  if (total >= 2.55) return "Good";
+  if (total >= 2.2) return "Neutral";
+  return "Difficult";
+}
+
+function publicUpsetRiskFromProbability(probability) {
+  const risk = value(probability);
+  if (risk >= 0.28) return "High";
+  if (risk >= 0.12) return "Medium";
+  return "Low";
+}
+
+function publicCleanSheetContextFromProbability(probability) {
+  const cleanSheet = value(probability);
+  if (cleanSheet >= 0.55) return "Strong";
+  if (cleanSheet >= 0.38) return "Good";
+  if (cleanSheet >= 0.22) return "Neutral";
+  return "Difficult";
+}
+
+function scoreContextLabel(row, camelField, snakeField, fallback) {
+  return scoreContextField(row, camelField, snakeField) || fallback || "Neutral";
+}
+
+function matchUncertaintyLabel(row) {
+  const explicit = scoreContextField(row, "matchUncertainty", "match_uncertainty") ||
+    scoreContextField(row, "uncertaintyLabel", "uncertainty_label");
+  if (explicit) {
+    return explicit;
+  }
+
+  const upsetRisk = value(row?.upset_risk_probability);
+  const favoriteWin = value(row?.favorite_win_probability);
+  const totalGoals = value(row?.total_expected_goals);
+  if (upsetRisk >= 0.28 || favoriteWin < 0.48 || totalGoals >= 2.95) return "High";
+  if (upsetRisk >= 0.12 || favoriteWin < 0.62 || totalGoals >= 2.55 || totalGoals <= 2.05) return "Medium";
+  return "Low";
+}
+
+function matchUncertaintyReason(row) {
+  return scoreContextField(row, "uncertaintyReason", "uncertainty_reason") || "Based on goal range, favorite strength, and upset risk.";
+}
+
+function goalRangeForRow(row) {
+  const baseTotal = value(scoreContextField(row, "baseTotalGoals", "base_total_goals") ?? row?.total_expected_goals);
+  const homeBase = value(scoreContextField(row, "homeXgBase", "home_xg_base") ?? row?.home_expected_goals);
+  const awayBase = value(scoreContextField(row, "awayXgBase", "away_xg_base") ?? row?.away_expected_goals);
+  let low = value(scoreContextField(row, "lowTotalGoals", "low_total_goals"));
+  let high = value(scoreContextField(row, "highTotalGoals", "high_total_goals"));
+
+  if (!Number.isFinite(low) || !Number.isFinite(high)) {
+    const fallbackSpread = matchUncertaintyLabel(row) === "High" ? 0.7 : matchUncertaintyLabel(row) === "Medium" ? 0.5 : 0.35;
+    low = Math.max(0.3, baseTotal - fallbackSpread);
+    high = baseTotal + fallbackSpread;
+  }
+
+  return { low, baseTotal, high, homeBase, awayBase };
+}
+
+function topScorelineText(row) {
+  const topScoreline = Array.isArray(row?.top_scorelines) ? row.top_scorelines[0] : null;
+  if (topScoreline?.scoreline) {
+    return `${topScoreline.scoreline} (${percentText(topScoreline.probability)})`;
+  }
+
+  if (row?.top_scoreline) {
+    return `${row.top_scoreline} (${percentText(row.top_scoreline_probability)})`;
+  }
+
+  return "needs check";
+}
+
 function scorePredictionQualityLabel() {
   const quality = scorePredictionSummary?.quality_checks;
 
@@ -2326,23 +2412,30 @@ function singleFixtureModelReason(projection, focus = "overall") {
   const winChance = fieldPercent(projection, "team_win_probability");
   const upsetRisk = fieldPercent(projection, "match_upset_risk_probability");
   const goalEnvironment = goalEnvironmentLabel(projection.match_goal_environment || fixturePrediction?.goal_environment);
+  const attackerContext = fixturePrediction
+    ? scoreContextLabel(fixturePrediction, "attackerEnvironment", "attacker_environment", publicGoalContextFromTotal(fixturePrediction.total_expected_goals)).toLowerCase()
+    : null;
+  const cleanSheetContext = fixturePrediction
+    ? scoreContextLabel(fixturePrediction, "cleanSheetContext", "clean_sheet_context", publicCleanSheetContextFromProbability(Math.max(value(fixturePrediction.home_clean_sheet_probability), value(fixturePrediction.away_clean_sheet_probability)))).toLowerCase()
+    : null;
+  const matchUncertainty = fixturePrediction ? matchUncertaintyLabel(fixturePrediction).toLowerCase() : null;
   const difficulty = fixtureDifficultyLabel(projection.fixture_difficulty_band);
   const fixturePrefix = `Fixture model vs ${projection.opponent}:`;
   const compactDifficulty = difficulty ? `${difficulty} fixture` : null;
 
   if (focus === "attack") {
-    return ` ${fixturePrefix} Team xG: ${teamXg || "needs check"}; ${goalEnvironment} goal environment; ${compactDifficulty || "difficulty needs check"}.`;
+    return ` ${fixturePrefix} Team xG: ${teamXg || "needs check"}; ${attackerContext ? `${attackerContext} attacker context` : `${goalEnvironment} goal environment`}; ${compactDifficulty || "difficulty needs check"}.`;
   }
 
   if (focus === "defense") {
-    return ` ${fixturePrefix} Clean-sheet model: ${cleanSheet || "needs check"}; ${xga || "needs check"} xGA; ${compactDifficulty || "difficulty needs check"}.`;
+    return ` ${fixturePrefix} Clean-sheet model: ${cleanSheet || "needs check"}; ${cleanSheetContext ? `${cleanSheetContext} clean-sheet context` : `${xga || "needs check"} xGA`}; ${compactDifficulty || "difficulty needs check"}.`;
   }
 
   if (focus === "risk") {
-    return ` ${fixturePrefix} Match upset risk: ${upsetRisk || "needs check"}; win chance ${winChance || "needs check"}; ${goalEnvironment} goal environment.`;
+    return ` ${fixturePrefix} Match uncertainty: ${matchUncertainty || "needs check"}; upset risk ${upsetRisk || "needs check"}; win chance ${winChance || "needs check"}.`;
   }
 
-  return ` ${fixturePrefix} Team xG ${teamXg || "needs check"}; clean sheet ${cleanSheet || "needs check"}; match upset risk ${upsetRisk || "needs check"}.`;
+  return ` ${fixturePrefix} Team xG ${teamXg || "needs check"}; clean sheet ${cleanSheet || "needs check"}; match uncertainty ${matchUncertainty || "needs check"}; upset risk ${upsetRisk || "needs check"}.`;
 }
 
 function groupFixtureModelReason(player, focus = "overall") {
@@ -4007,9 +4100,12 @@ function renderMatchEnvironmentTable() {
 
   matchEnvironmentTableBody.innerHTML = visibleRows.map((row) => {
     const cleanSheet = strongestCleanSheetTeam(row);
-    const topScoreline = row.top_scoreline
-      ? `${row.top_scoreline} (${percentText(row.top_scoreline_probability)})`
-      : "needs check";
+    const goalRange = goalRangeForRow(row);
+    const matchUncertainty = matchUncertaintyLabel(row);
+    const attackerContext = scoreContextLabel(row, "attackerEnvironment", "attacker_environment", publicGoalContextFromTotal(row.total_expected_goals));
+    const cleanSheetContext = scoreContextLabel(row, "cleanSheetContext", "clean_sheet_context", publicCleanSheetContextFromProbability(cleanSheet.probability));
+    const upsetRisk = scoreContextLabel(row, "upsetRisk", "upset_risk_public", publicUpsetRiskFromProbability(row.upset_risk_probability));
+    const winDrawLossText = `${row.home_team} ${percentText(row.home_win_probability)} · Draw ${percentText(row.draw_probability)} · ${row.away_team} ${percentText(row.away_win_probability)}`;
 
     return `
       <tr>
@@ -4018,24 +4114,25 @@ function renderMatchEnvironmentTable() {
           <small>Group ${row.group} · ${matchdayLabelFromId(row.fantasy_matchday_id)} · ${row.eastern_datetime_label || row.date}</small>
         </td>
         <td>
-          <strong>${displayNumber(row.home_expected_goals)} - ${displayNumber(row.away_expected_goals)}</strong>
-          <small>Top score: ${topScoreline}</small>
+          <strong>${displayNumber(goalRange.low)}-${displayNumber(goalRange.high)} goals</strong>
+          <small>Base xG: ${row.home_team} ${displayNumber(goalRange.homeBase)} · ${row.away_team} ${displayNumber(goalRange.awayBase)}</small>
         </td>
         <td>
-          <strong>${row.favorite_team}</strong>
-          <small>${percentText(row.favorite_win_probability)} win</small>
+          <strong>${matchUncertainty}</strong>
+          <small>${matchUncertaintyReason(row)}</small>
+          <small>${winDrawLossText}</small>
         </td>
         <td>
-          <strong>${cleanSheet.team}</strong>
-          <small>${percentText(cleanSheet.probability)}</small>
+          <strong>${attackerContext}</strong>
+          <small>${goalEnvironmentLabel(row.goal_environment)} goals · Top score ${topScorelineText(row)}</small>
         </td>
         <td>
-          <strong>${goalEnvironmentLabel(row.goal_environment)}</strong>
-          <small>Over 2.5: ${percentText(row.over_2_5_goals_probability)}</small>
+          <strong>${cleanSheetContext}</strong>
+          <small>${cleanSheet.team} ${percentText(cleanSheet.probability)} clean sheet</small>
         </td>
         <td>
-          <strong>${titleFromSnake(row.upset_risk_band)}</strong>
-          <small>${percentText(row.upset_risk_probability)}</small>
+          <strong>${upsetRisk}</strong>
+          <small>${percentText(row.upset_risk_probability)} · Favorite ${row.favorite_team} ${percentText(row.favorite_win_probability)}</small>
         </td>
       </tr>
     `;
@@ -8590,7 +8687,12 @@ function exportModelMetadata() {
         source_schema_version: scorePredictionSummary.source_schema_version,
         source_generated_at: scorePredictionSummary.source_generated_at,
         source_checked: scorePredictionSummary.source_checked,
-        fixture_prediction_count: scorePredictionSummary.fixture_prediction_count
+        model_name: scorePredictionSummary.model_name,
+        formula_version: scorePredictionSummary.formula_version,
+        uncertainty_layer_version: scorePredictionSummary.uncertainty_layer_version,
+        fixture_prediction_count: scorePredictionSummary.fixture_prediction_count,
+        match_uncertainty_counts: scorePredictionSummary.match_uncertainty_counts || null,
+        public_upset_risk_counts: scorePredictionSummary.public_upset_risk_counts || null
       } : null,
       fantasy_rules: {
         rules_version: fantasyRules?.rules_version || null,
@@ -8614,6 +8716,7 @@ function exportModelMetadata() {
       activeScorePredictionSource.sourceFile,
       "data/scorePredictions_v2.json",
       "data/scorePredictionDataFlow_v1.md",
+      "data/peleAnchoredFantasyScoreModel_v1.md",
       "data/playerValueModel_v1.json",
       "data/recommendationTrustModel_v0.md",
       "data/teamBuilderStrategyWeights_v1.md",
@@ -8951,6 +9054,7 @@ function teamExportPayload() {
       activeScorePredictionSource.sourceFile,
       "data/scorePredictions_v2.json",
       "data/scorePredictionDataFlow_v1.md",
+      "data/peleAnchoredFantasyScoreModel_v1.md",
       "data/teamBuilderStrategyWeights_v1.md",
       "data/teamBuilderStrategyComparison_v1.md",
       "dataSources.md",

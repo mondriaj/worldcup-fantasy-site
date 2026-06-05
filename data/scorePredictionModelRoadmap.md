@@ -4,13 +4,14 @@ Status: active score model notes
 Current public Match Environment flow: `fantasyPoolScorePredictionsData.js` from `scorePredictions_fantasyPool_v3.json`, with `scorePredictionsData.js` from `scorePredictions_v2.json` preserved as the static fallback.
 Preserved base model: `scorePredictions_v2.json`
 
-## Current Public Data Flow: Phase 3A
+## Current Public Data Flow: Phase 3A And Phase 3B
 
 The public Match Environment table now prefers the fantasy-pool score projection context:
 
 - Browser file: `../fantasyPoolScorePredictionsData.js`
 - Source file: `scorePredictions_fantasyPool_v3.json`
 - Window rows used by `script.js`: `window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS`
+- Phase 3B public display fields: Goal range, Match uncertainty, Attacker context, Clean-sheet context, and Upset risk
 
 The older PELE-forward v2 browser bundle remains loaded as a safe static fallback:
 
@@ -18,7 +19,49 @@ The older PELE-forward v2 browser bundle remains loaded as a safe static fallbac
 - Source file: `scorePredictions_v2.json`
 - Window rows used if the fantasy-pool bundle is unavailable: `window.SCORE_FIXTURE_PREDICTIONS_DATA`
 
-See `scorePredictionDataFlow_v1.md` for the plain-language browser data-flow note.
+See `scorePredictionDataFlow_v1.md` for the plain-language browser data-flow note, and `peleAnchoredFantasyScoreModel_v1.md` for the Phase 3B PELE and uncertainty note.
+
+## Phase 3B PELE-Anchored Uncertainty Layer
+
+Status: complete as of June 5, 2026.
+
+This pass keeps PELE as the main team-quality anchor and keeps the current base xG and Poisson probability outputs intact. It adds an explanatory fantasy-facing layer so the public Match Environment table can show goal ranges and uncertainty without implying a different score model.
+
+Files updated:
+
+- `scorePredictions_fantasyPool_v3.json`
+- `fantasyPoolScorePredictionsData.js`
+- `scorePredictionQa_fantasyPool_v3.json`
+- `scorePredictionQaReport_fantasyPool_v3.md`
+- `peleAnchoredFantasyScoreModel_v1.md`
+
+New fixture-level fields:
+
+- `uncertaintyLabel`
+- `lowTotalGoals`, `baseTotalGoals`, `highTotalGoals`
+- `homeXgLow`, `homeXgBase`, `homeXgHigh`
+- `awayXgLow`, `awayXgBase`, `awayXgHigh`
+- `uncertaintyReason`
+- `attackerEnvironment`, `defenderEnvironment`, `keeperEnvironment`
+- `cleanSheetContext`, `goalEnvironment`, `upsetRisk`, `matchUncertainty`
+
+What changed in the public surface:
+
+- Match Environment now emphasizes Goal range, Match uncertainty, Attacker context, Clean-sheet context, and Upset risk.
+- Base xG, win/draw/loss probabilities, clean-sheet probabilities, top scoreline, and favorite probability remain visible in row details.
+- Player Profile fixture reasons can use Match uncertainty and context labels when fixture rows are available.
+
+What did not change:
+
+- No historical calibration pass.
+- No low-score or draw-model rewrite.
+- No roster-weighted likely XI model.
+- No injury, live lineup, final-squad, deadline, lock, or booster claims.
+
+PELE source check:
+
+- On June 5, 2026, the existing PELE Datawrapper CSV URLs used by `scripts/step65PeleIntegration.mjs` were reachable and matched the local 2026-06-01 CSV files.
+- Because the remote files matched, this pass did not refresh `data/peleRatings_v1.json`.
 
 ## Preserved Base Model: v2
 
@@ -54,7 +97,6 @@ What it does not use yet:
 - Injuries or suspensions.
 - Official fantasy prices.
 - Official fantasy scoring rules.
-- Betting odds.
 - Recent friendlies or full recent international form.
 - Player-weighted attack and defense strength.
 

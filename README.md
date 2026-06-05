@@ -12,7 +12,7 @@ Public player-pick labels are **Projected Points**, **Core Picks**, **High-Floor
 
 Team Builder is a planning tool. Users should confirm squad legality, locks, deadlines, boosters, live points, and played/unplayed status inside the official FIFA fantasy game before saving or acting.
 
-The current data/model stack uses browser-ready official fantasy-pool files for recommendations, matchday projections, finance/value metrics, score predictions, and official-data status. Match Environment now prefers the fantasy-pool score projection bundle and keeps the PELE-forward v2 score bundle as a static fallback. Preserved model versions remain available for model inspection, but the public experience is organized around the fantasy jobs: find picks, build a squad, and make matchday decisions.
+The current data/model stack uses browser-ready official fantasy-pool files for recommendations, matchday projections, finance/value metrics, score predictions, and official-data status. Match Environment now prefers the fantasy-pool score projection bundle, keeps the PELE-forward v2 score bundle as a static fallback, and shows goal range, match uncertainty, attacker context, clean-sheet context, and upset risk. Preserved model versions remain available for model inspection, but the public experience is organized around the fantasy jobs: find picks, build a squad, and make matchday decisions.
 
 Official fantasy browser data lives in separate browser-ready files: `fantasyPoolRecommendationsData.js`, `fantasyPoolMatchdayProjectionsData.js`, `fantasyPoolFinanceMetricsData.js`, `fantasyPoolScorePredictionsData.js`, and `fantasyPoolOfficialDataStatusData.js`. These are generated from fantasy-pool source files and preserve the older fallback files.
 
@@ -55,6 +55,7 @@ The site can be opened from GitHub Pages or a local server. It loads browser-rea
 - `data/scorePredictions_fantasyPool_v3.json` - active fantasy-pool score projection source for public Match Environment context
 - `data/scorePredictions_v2.json` - preserved PELE-forward generated score prediction model and static fallback for group-stage match environments
 - `data/scorePredictionDataFlow_v1.md` - plain-language note for the active score prediction browser data flow
+- `data/peleAnchoredFantasyScoreModel_v1.md` - plain-language note for the PELE anchor, score uncertainty fields, fantasy context labels, and PELE source freshness check
 - `data/scorePredictions_v1.json` - preserved first PELE-backed score prediction model
 - `data/scorePredictions_v0.json` - preserved pre-PELE score prediction model
 - `data/scorePredictionModelRoadmap.md` - v1/v2 score model upgrade notes
@@ -106,7 +107,7 @@ The site can be opened from GitHub Pages or a local server. It loads browser-rea
 - Official Data Readiness v0 remains an internal audit gate for deeper model promotion, even though the public site now treats the fantasy feed as the website authority.
 - Team Builder is planning help and should be verified inside the official game before saving.
 - Team Builder is a practical browser-side squad search, not a final tournament prediction model.
-- Score predictions are prototype model outputs and are not official projections or betting odds.
+- Score predictions are prototype model outputs, not official projections or live match facts.
 - Captain Change Advisor v0 is a manual switch check. Without a built/imported Team Builder squad it does not know the user's full squad; with saved-squad mode it still cannot track live scores or verify played/unplayed status.
 - Substitution Advisor v0 is a manual one-bench-player check. Without a built/imported Team Builder squad it does not know the user's full squad; with saved-squad mode it still cannot verify played/unplayed status and flags different-position moves for manual formation checks.
 - Team Import v0 restores saved current player IDs only. It does not migrate old exports across future ID changes or confirm that a saved squad is legal in the official game.
@@ -118,7 +119,6 @@ The site can be opened from GitHub Pages or a local server. It loads browser-rea
 - Decision tool status badges are UI guidance only; users still must confirm actual scores, played/unplayed state, deadlines, and official-game legality.
 - Saved Squad Matchday Timeline v0 uses model matchday projection kickoff labels. It does not infer live match status, official fantasy deadlines, or same-day captain/substitution legality.
 - This is independent and not official FIFA fantasy advice.
-- No betting or gambling content is included.
 
 ## Future World Cup Data Plan
 
@@ -126,7 +126,7 @@ When FIFA fantasy data changes, rerun the official data monitor, import only the
 
 Score model upgrade notes:
 
-- v2: active PELE-forward model. Upgrade again after source-backed final squads, injuries, and updated national-team form materially change team context.
+- Phase 3B: active public Match Environment source is PELE-anchored fantasy-pool v3 with goal-range and match-uncertainty labels. Upgrade again after source-backed final squads, injuries, and updated national-team form materially change team context.
 - Future calibration: after the roster-weighted model is stable, backtest or calibrate low-score/draw behavior with a Dixon-Coles-style adjustment.
 
 Stage B adds FIFA-sourced tournament structure and group-stage fixture data while keeping player recommendations separate.

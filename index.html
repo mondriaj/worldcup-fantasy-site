@@ -493,7 +493,7 @@
         <summary class="collapsible-summary">
           <span>
             <h2>Score Prediction</h2>
-            <p>Fixture-level goal environment, clean-sheet watch, and upset risk from the score model.</p>
+            <p>Fixture-level goal range, match uncertainty, clean-sheet context, and upset risk from the score model.</p>
           </span>
           <span class="collapsible-action" aria-hidden="true"></span>
         </summary>
@@ -523,10 +523,10 @@
               <thead>
                 <tr>
                   <th>Fixture</th>
-                  <th>Model xG</th>
-                  <th>Favorite</th>
-                  <th>Clean Sheet</th>
-                  <th>Goal Env</th>
+                  <th>Goal Range</th>
+                  <th>Match Uncertainty</th>
+                  <th>Attacker Context</th>
+                  <th>Clean-Sheet Context</th>
                   <th>Upset Risk</th>
                 </tr>
               </thead>
@@ -953,7 +953,7 @@
               <p><strong>Team Builder cards:</strong> show price, the selected card metric, country, club, role notes, and the selected matchday opponent when available.</p>
               <p><strong>Squad Risk Report:</strong> summarizes portfolio health, projected points, start chance, minutes, bad-week floor, squad risk, country stack risk, fixture stack risk, and budget pressure.</p>
               <p><strong>Switch checks:</strong> compare actual points already earned with a possible captain or bench option still to play.</p>
-              <p><strong>Score Prediction:</strong> shows model xG, favorite, clean-sheet outlook, goal environment, and upset risk for fixtures.</p>
+              <p><strong>Score Prediction:</strong> shows goal range, match uncertainty, attacker context, clean-sheet context, and upset risk for fixtures.</p>
             </div>
           </div>
 
@@ -1030,13 +1030,13 @@
 
           <div class="formula-section">
             <h3>Score Prediction</h3>
-            <p>Score Prediction gives fixture context for fantasy decisions. It is meant for comparing match environments, not for betting or exact-score certainty.</p>
+            <p>Score Prediction gives fixture context for fantasy decisions. It is meant for comparing match environments, not for exact-score certainty.</p>
 
             <div class="formula-list">
-              <p><strong>Model xG:</strong> estimated goals for each team.</p>
-              <p><strong>Favorite:</strong> the team with the stronger win outlook in the model.</p>
-              <p><strong>Clean Sheet:</strong> the best clean-sheet outlook in the fixture.</p>
-              <p><strong>Goal Env:</strong> whether the match looks low, medium, or high scoring.</p>
+              <p><strong>Goal Range:</strong> a low-base-high band around the model xG total.</p>
+              <p><strong>Match Uncertainty:</strong> whether the fixture has a clearer or more fragile score path.</p>
+              <p><strong>Attacker Context:</strong> how friendly the fixture looks for attacking fantasy picks.</p>
+              <p><strong>Clean-Sheet Context:</strong> how strong the best defensive outlook looks in the fixture.</p>
               <p><strong>Upset Risk:</strong> whether the favorite has elevated downside in the matchup.</p>
             </div>
           </div>
@@ -1375,7 +1375,7 @@
           </article>
           <article>
             <h3>Independence</h3>
-            <p>This site is independent. It is not official FIFA fantasy advice, and it does not include betting or gambling content.</p>
+            <p>This site is independent. It is not official FIFA fantasy advice.</p>
           </article>
         </div>
       </section>
@@ -1455,7 +1455,7 @@
         <div>
           <h2>The Fantasy Economist</h2>
           <p>Independent fantasy football tools for squad starters, team building, captain choices, bench decisions, and score prediction.</p>
-          <p class="site-footer__note">Independent fantasy advice. No betting or gambling content.</p>
+          <p class="site-footer__note">Independent fantasy advice for planning and comparison.</p>
         </div>
 
         <nav class="footer-nav" aria-label="Footer navigation">

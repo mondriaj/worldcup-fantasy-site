@@ -4,7 +4,7 @@ Date: 2026-06-05
 
 ## Purpose
 
-This note documents which static score projection files the public site uses after the Phase 3A data-flow cleanup. It does not change the expected-goal formulas, probability model, calibration, player recommendations, or Team Builder optimizer.
+This note documents which static score projection files the public site uses after the Phase 3A data-flow cleanup and the Phase 3B PELE-anchored uncertainty pass. Phase 3B adds public goal-range and fantasy-context fields; it does not replace the base expected-goal formulas, probability model, player recommendations, or Team Builder optimizer.
 
 ## Public Site Loading
 
@@ -19,7 +19,15 @@ No runtime JSON fetch is used for score prediction data.
 
 `script.js` now prefers `window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS` from `fantasyPoolScorePredictionsData.js` for the public Match Environment table.
 
-That bundle is generated from `data/scorePredictions_fantasyPool_v3.json`. It has all 72 group-stage fixture rows and carries the same Match Environment fields the table displays: expected goals, win/draw/loss probabilities, clean-sheet probability, goal environment, and upset risk.
+That bundle is generated from `data/scorePredictions_fantasyPool_v3.json`. It has all 72 group-stage fixture rows and carries the Match Environment fields the table displays:
+
+- Goal range
+- Match uncertainty
+- Attacker context
+- Clean-sheet context
+- Upset risk
+
+The same rows still carry base expected goals, win/draw/loss probabilities, clean-sheet probabilities, goal environment, top scorelines, and upset-risk probability for details and fallback display.
 
 ## Fallback Source
 
@@ -32,6 +40,30 @@ That fallback is generated from `data/scorePredictions_v2.json`, the preserved P
 Player recommendation cards and the Pick Explorer use `fantasyPoolRecommendationsData.js`, `fantasyPoolMatchdayProjectionsData.js`, and `fantasyPoolFinanceMetricsData.js` when those official fantasy-pool browser files are loaded.
 
 Team Builder uses the same current official fantasy-pool player layer and player-level projection/finance context for squad construction. Fixture-level score rows support Match Environment and player profile fixture context; they are not fetched from JSON at runtime.
+
+## Phase 3B PELE And Uncertainty Notes
+
+The active fantasy-pool score source remains PELE-anchored through `data/peleRatings_v1.json` and the PELE-forward team-quality model. On 2026-06-05, the existing PELE Datawrapper source URLs were reachable and matched the local 2026-06-01 CSV files, so no PELE refresh was needed.
+
+Phase 3B adds these fixture-level uncertainty fields while preserving the base xG fields:
+
+- `uncertaintyLabel`
+- `lowTotalGoals`, `baseTotalGoals`, `highTotalGoals`
+- `homeXgLow`, `homeXgBase`, `homeXgHigh`
+- `awayXgLow`, `awayXgBase`, `awayXgHigh`
+- `uncertaintyReason`
+
+It also adds fantasy-facing context fields:
+
+- `attackerEnvironment`
+- `defenderEnvironment`
+- `keeperEnvironment`
+- `cleanSheetContext`
+- `goalEnvironment`
+- `upsetRisk`
+- `matchUncertainty`
+
+See `peleAnchoredFantasyScoreModel_v1.md` for the model note and PELE source check.
 
 ## Current Limits
 

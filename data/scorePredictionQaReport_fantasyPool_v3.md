@@ -1,6 +1,6 @@
 # Score Prediction QA Report Fantasy Pool v3
 
-Generated: 2026-06-02T16:03:21.186Z
+Generated: 2026-06-05T18:09:51.848Z
 
 ## Status
 
@@ -18,10 +18,11 @@ This is a staged `fantasy_pool_only` score predictor. It is not final-squad-back
 | Safe for preliminary projection staging | true |
 | Safe for final public recommendations | false |
 | Safe for final Team Builder promotion | false |
+| Average goal-range width | 1.11 |
 
 ## Model Purpose
 
-Score Predictor v3 starts from the active PELE-forward v2 team-quality and Poisson score model, then adds a small, transparent fantasy-pool context layer from official fantasy-pool players and the preliminary minutes model. PELE remains the dominant team-strength signal. Official fantasy prices are weak player-context signals only and cannot confirm starters or drive team strength.
+Score Predictor v3 starts from the active PELE-forward v2 team-quality and Poisson score model, then adds a small, transparent fantasy-pool context layer from official fantasy-pool players and the preliminary minutes model. PELE remains the dominant team-strength signal. Phase 3B adds goal-range bands, Match uncertainty, and fantasy-facing context labels without replacing the base xG values.
 
 ## Inputs Used
 
@@ -36,7 +37,42 @@ Score Predictor v3 starts from the active PELE-forward v2 team-quality and Poiss
 
 ## Why Fantasy Pool Only
 
-Confirmed final squad rows are still zero, official squads are not source-backed complete, and official rules still have manual-review warnings. Every team carries `final_squad_source_status: fantasy_pool_only` plus a final-squad uncertainty penalty. This output does not update `scorePredictionsData.js`.
+Confirmed final squad rows are still zero, official squads are not source-backed complete, and official rules still have manual-review warnings. Every team carries `final_squad_source_status: fantasy_pool_only` plus a final-squad uncertainty penalty. The preserved fallback stays in `scorePredictionsData.js`.
+
+The active public bundle is `fantasyPoolScorePredictionsData.js`; `scorePredictionsData.js` remains the preserved PELE-forward fallback.
+
+## Phase 3B Uncertainty And Fantasy Context
+
+Goal ranges are explanatory bands around the existing base xG. They use transparent proxies already in this source: team-quality gap, upset risk, goal environment, team-role uncertainty flags, Brazil role-source review, and host venue context where present.
+
+### Match Uncertainty Counts
+
+| Label | Fixtures |
+| --- | --- |
+| Medium | 14 |
+| High | 19 |
+| Low | 39 |
+
+### Fantasy Context Counts
+
+| Field | Counts |
+| --- | --- |
+| Attacker context | {"Good":29,"Difficult":3,"Neutral":15,"Strong":25} |
+| Clean-sheet context | {"Strong":40,"Neutral":7,"Good":25} |
+| Upset risk | {"Medium":28,"High":13,"Low":31} |
+
+### Highest Match Uncertainty Fixtures
+
+| Fixture | Uncertainty | Score | Goal range | Reason |
+| --- | --- | --- | --- | --- |
+| USA vs Paraguay | High | 66 | 1.509-3.123 | High uncertainty: close team-quality gap, higher upset risk, team-role context needs review. |
+| Egypt vs IR Iran | High | 63 | 1.22-2.734 | High uncertainty: close team-quality gap, higher upset risk, lower-goal setup can swing on one moment. |
+| Korea Republic vs Czechia | High | 62 | 1.313-2.859 | High uncertainty: close team-quality gap, higher upset risk, team-role context needs review. |
+| Congo DR vs Uzbekistan | High | 62 | 1.341-2.895 | High uncertainty: close team-quality gap, higher upset risk, team-role context needs review. |
+| USA vs Australia | High | 58 | 1.508-3.124 | High uncertainty: moderate team-quality gap, higher upset risk, team-role context needs review. |
+| Cabo Verde vs Saudi Arabia | High | 55 | 1.021-2.463 | High uncertainty: moderate team-quality gap, higher upset risk, lower-goal setup can swing on one moment. |
+| Türkiye vs Paraguay | High | 54 | 1.545-3.173 | High uncertainty: moderate team-quality gap, higher upset risk, team-role context needs review. |
+| Paraguay vs Australia | High | 53 | 1.143-2.629 | High uncertainty: moderate team-quality gap, credible upset path, lower-goal setup can swing on one moment. |
 
 ## Main Differences From v2
 
@@ -129,7 +165,7 @@ Brazil has `brazil_neymar_usage_source_gap` on every Brazil fixture because Neym
 | readiness_not_ready_for_model_rerun | stop | 1 | Official data readiness is blocked_waiting_for_official_fantasy_data. |
 | no_final_squad_rows_exist | stop | 0 | There are 0 source-backed confirmed_final_squad rows in the official squad staging layer. |
 | neymar_p0_usage_source_gap | stop | 1 | Neymar remains a P0 national-team usage source gap and is not credited as confirmed Brazil attack strength. |
-| browser_ready_files_not_regenerated | stop | 1 | This staging pass intentionally did not update scorePredictionsData.js or other browser-ready files. |
+| browser_ready_files_regenerated_by_preview_export | pass | 0 | After this source pass, run scripts/buildFantasyPoolPreviewBrowserData.mjs so fantasyPoolScorePredictionsData.js stays synced. |
 | player_matchday_projection_not_rerun | stop | 1 | This staging pass intentionally did not rerun player matchday projections or recommendations. |
 
 ## QA Checks
@@ -147,6 +183,10 @@ Brazil has `brazil_neymar_usage_source_gap` on every Brazil fixture because Neym
 | fantasy_pool_uncertainty_flags | pass | error | Every fixture carries fantasy_pool_only and not_final_squad_backed QA flags. |
 | brazil_neymar_uncertainty | pass | error | 3 Brazil fixtures carry Neymar usage-source-gap QA flag. |
 | no_final_squad_backed_claims | pass | error | All rows remain model_stage=fantasy_pool_only and uses_final_rosters=false. |
+| score_uncertainty_fields | pass | error | Every fixture has Low/Medium/High uncertainty labels, xG bands, total-goal bands, and a short reason. |
+| score_uncertainty_bands_ordered | pass | error | Every fixture has low <= base <= high for total, home xG, and away xG. |
+| score_uncertainty_base_preserved | pass | error | homeXgBase, awayXgBase, and baseTotalGoals match the original base expected-goal fields. |
+| fantasy_context_fields | pass | error | Every fixture has attacker, defender, keeper, clean-sheet, goal, upset-risk, and match-uncertainty public context labels. |
 | extreme_expected_goals | pass | warning | 0 fixtures exceed the staging watch threshold. |
 | extreme_win_probabilities | pass | warning | 0 fixtures exceed the staging watch threshold. |
 
