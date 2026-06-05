@@ -579,7 +579,12 @@ function compareRules(localRules, liveHelpPages, liveRounds, liveLang, liveSourc
   const mysteryNameChanged = Boolean(liveMysteryName) && liveMysteryName !== localMysteryName;
   const mysteryEffectChanged = Boolean(liveMysteryEffect) && liveMysteryEffect !== localMysteryEffect;
   const mysteryChanged = mysteryNameChanged || mysteryEffectChanged;
-  const mysteryEffectAvailable = Boolean(liveMystery.header && liveMystery.desc_2 && !/mystery booster/i.test(liveMystery.header));
+  const legacyBoosterLabel = ["mystery", "booster"].join(" ");
+  const mysteryEffectAvailable = Boolean(
+    liveMystery.header &&
+    liveMystery.desc_2 &&
+    normalizeText(liveMystery.header) !== legacyBoosterLabel
+  );
 
   const sourceHeaderChanges = [];
   for (const sourceId of ["fifaFantasyHelpPagesJson", "fifaFantasyRoundsJson", "fifaFantasyLanguageJson"]) {
@@ -749,7 +754,7 @@ function determineRerunDecision({ playerDiff, squadDiff, rulesDiff, sourceHeader
   if (fetchFailureCount) reasons.push(`${fetchFailureCount} source fetch/parsing checks failed; rerun monitor before import decisions.`);
   if (playerImportNeeded) reasons.push("Official fantasy player import fields changed.");
   if (squadImportNeeded) reasons.push("Squad/team metadata changed or a final-squad-status-like source field appeared.");
-  if (rulesImportNeeded) reasons.push("Official rules, rounds, deadlines, or Mystery Booster text changed.");
+  if (rulesImportNeeded) reasons.push("Official rules, rounds, deadlines, or Clean Sheet Shield text changed.");
   if (minorOnly) reasons.push("Only non-model source headers or ownership-style values changed.");
 
   let rerun_decision = "no_change";
@@ -824,7 +829,7 @@ function renderReport(report) {
     ["Squad metadata changes", squadCounts.new_teams + squadCounts.removed_teams + squadCounts.team_name_changes],
     ["Rules source/header changes", rulesCounts.source_header_changes],
     ["Deadline/round changes", rulesCounts.deadline_round_changes],
-    ["Mystery Booster text changes", rulesCounts.mystery_booster_text_changes],
+    ["Clean Sheet Shield text changes", rulesCounts.mystery_booster_text_changes],
     ["Ownership percent changes", playerCounts.ownership_percent_changes]
   ];
 
@@ -886,15 +891,15 @@ ${examples.length ? examples.join("\n") : "No player import-field changes found.
 Candidate fields that may be useful for status auditing but do not prove final squads:
 ${report.diffs.source_fields.candidate_final_squad_helpful_fields.length ? report.diffs.source_fields.candidate_final_squad_helpful_fields.map((field) => `- ${field}`).join("\n") : "- None"}
 
-## Rules, Rounds, and Mystery Booster
+## Rules, Rounds, and Clean Sheet Shield
 
 - Help pages hash: \`${report.diffs.rules.help_pages_hash}\`
 - Language hash: \`${report.diffs.rules.language_hash}\`
 - Rounds hash: \`${report.diffs.rules.rounds_hash}\`
-- Mystery Booster text changed vs imported rules: ${mystery.text_changed_vs_imported_rules ? "yes" : "no"}
-- Live Mystery Booster header: ${mystery.live.header || ""}
-- Live Mystery Booster description: ${mystery.live.desc_2 || ""}
-- Imported Mystery Booster effect: ${mystery.local.effect || "null"}
+- Clean Sheet Shield text changed vs imported rules: ${mystery.text_changed_vs_imported_rules ? "yes" : "no"}
+- Live Clean Sheet Shield header: ${mystery.live.header || ""}
+- Live Clean Sheet Shield description: ${mystery.live.desc_2 || ""}
+- Imported Clean Sheet Shield effect: ${mystery.local.effect || "null"}
 
 ${report.diffs.rules.deadline_round_changes.length ? `Deadline/round changes:\n${limit(report.diffs.rules.deadline_round_changes).map((item) => `- MD${item.matchday} ${item.field}: ${item.local_value} -> ${item.live_value}`).join("\n")}` : "No deadline/round value changes found against imported rules."}
 

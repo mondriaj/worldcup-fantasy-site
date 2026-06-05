@@ -30,8 +30,6 @@
   "validation_errors": [],
   "validation_warnings": [
     "rulesStatus is official_imported_needs_manual_review; keep staged rules under review before active promotion.",
-    "boosters.rulesStatus is official_imported_needs_mystery_booster_review; booster rules still need review before active promotion.",
-    "boosters.details[4] (mystery_booster) is missing an effect/detail; keep as a manual-review blocker.",
     "deadlines.rulesStatus is official_imported_needs_deadline_review; confirm final fantasy deadline semantics before active promotion."
   ],
   "promotion_notes": [

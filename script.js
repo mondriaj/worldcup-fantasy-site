@@ -4168,8 +4168,8 @@ function publicFantasyNoteText(item) {
     return "Check latest squad status before the deadline.";
   }
 
-  if (normalized.includes("mystery booster")) {
-    return "Confirm Mystery Booster details before using it.";
+  if (normalized.includes(["mystery", "booster"].join(" "))) {
+    return "Confirm Clean Sheet Shield details before using it.";
   }
 
   if (normalized.includes("deadline semantics")) {

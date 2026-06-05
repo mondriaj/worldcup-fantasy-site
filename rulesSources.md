@@ -1,6 +1,6 @@
 # Fantasy Rules Sources
 
-This file records the sources used for the active official fantasy rules summary and the earlier Week 5 rules research.
+This file records the sources used for the active official fantasy rules summary and earlier rules research.
 
 ## Primary Source
 
@@ -17,7 +17,7 @@ Used for:
 - Confirming player prices do not fluctuate.
 - Confirming group-stage country limit starts at 3 players per nation.
 - Confirming captain switches and bench substitutions are part of the game.
-- Confirming booster names: Wildcard, 12th Man, Maximum Captain, Qualification Booster, Mystery Booster.
+- Confirming launch booster names. The active imported rules use the FIFA Play language JSON for the current Clean Sheet Shield label and effect.
 - Confirming broad scoring categories.
 
 Notes:

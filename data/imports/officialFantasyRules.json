@@ -25,7 +25,10 @@
         "transfers",
         "boosters",
         "scoring",
-        "lockout"
+        "lockout",
+        "Clean Sheet Shield reveal timing",
+        "Clean Sheet Shield knockout availability",
+        "booster global restrictions"
       ],
       "confidence": "official",
       "notes": "Official FIFA Play public help-pages JSON; English how_to_play entry id 793 contains the full rules text used for this import."
@@ -75,10 +78,13 @@
         "scoring labels",
         "captain modal text",
         "substitution modal text",
-        "transfer penalty text"
+        "transfer penalty text",
+        "Clean Sheet Shield name",
+        "Clean Sheet Shield effect",
+        "Clean Sheet Shield modal text"
       ],
       "confidence": "official",
-      "notes": "Official FIFA Play public language JSON used to corroborate app labels and modal text."
+      "notes": "Official FIFA Play public language JSON used to corroborate app labels and modal text. On 2026-06-02 it exposes mystery_booster.modal.header as Clean Sheet Shield and desc_2 as the clean-sheet threshold effect."
     }
   ],
   "squad": {
@@ -167,7 +173,7 @@
     "additionalTransferPenaltyPoints": -3
   },
   "boosters": {
-    "rulesStatus": "official_imported_needs_mystery_booster_review",
+    "rulesStatus": "official_imported",
     "details": [
       {
         "boosterId": "wildcard",
@@ -195,12 +201,24 @@
       },
       {
         "boosterId": "mystery_booster",
-        "label": "Mystery Booster",
-        "effect": null,
+        "label": "Clean Sheet Shield",
+        "effect": "Activate the Clean Sheet Shield to gain an edge in any of the Knockout stages. Any goalkeeper, defender, or midfielder in your team will only lose their clean sheet after conceding 2 goals.",
         "constraints": "Official help page says this booster is revealed once Round 3 locks and Round of 32 opens, and can be used for one knockout-stage round including the Final.",
         "data_quality_flags": [
-          "mystery_booster_effect_not_yet_officially_finalized_in_help_page"
-        ]
+          "deadline_semantics_still_under_review_for_active_promotion"
+        ],
+        "availability": "Revealed once Round 3 locks and the Round of 32 opens. Can be used for one round of the knockout stage, including the Final.",
+        "activation_restrictions": "Can be used once. Multiple boosters cannot be used at the same time. Can be reversed before the round locks out because the official help page says all boosters except Wildcard can be reversed before lockout.",
+        "source_url": "https://play.fifa.com/json/langs/fantasy/en.json",
+        "source_checked": "2026-06-02",
+        "source_notes": "FIFA language JSON mystery_booster.modal.header names Clean Sheet Shield and modal desc_2 gives the clean-sheet threshold effect. FIFA help-pages JSON remains the source for reveal timing and one-knockout-round availability.",
+        "source_fields": {
+          "name": "mystery_booster.modal.header",
+          "effect": "mystery_booster.modal.desc_2",
+          "availability": "help_pages.how_to_play booster reveal paragraph",
+          "global_restrictions": "help_pages.how_to_play booster global rules paragraph"
+        },
+        "effect_summary": "Any goalkeeper, defender, or midfielder in your team will only lose their clean sheet after conceding 2 goals."
       }
     ],
     "globalRules": [
@@ -460,5 +478,5 @@
     "deadlineRules": "Transfers use a fixed lockout for each round. Users can make unlimited changes until the first match of the FIFA World Cup 2026 kicks off on Thursday, 11 June 2026. Team changes during live rounds use rolling player lockouts.",
     "lockWindows": "Round-level transfer lock references are sourced from official rounds.json startDate values. Player-level live-round locks are rolling: a locked player is one whose team is currently playing; unlocked players have not yet played; captain changes and manual substitutions cannot use players whose matches are in progress."
   },
-  "notes": "Imported from official FIFA public sources. Active root fantasyRules.json and fantasyRulesData.js remain unchanged. Mystery Booster effect and any future app-specific deadline refinements should be reviewed before promotion to active model inputs."
+  "notes": "Imported from official FIFA public sources. Active root fantasyRules.json and fantasyRulesData.js should be regenerated through the promotion script after review. Clean Sheet Shield details are imported from FIFA Play language JSON; live deadline and lock details still require manual confirmation inside FIFA."
 }
