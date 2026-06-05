@@ -2926,6 +2926,11 @@ th {
   min-width: 0;
 }
 
+.builder-review-panel,
+.builder-save-panel {
+  grid-column: 1 / -1;
+}
+
 .builder-step-card {
   border: 1px solid rgba(24, 78, 119, 0.12);
   border-radius: 12px;
@@ -2939,12 +2944,20 @@ th {
   background: #f8fcf9;
 }
 
+.builder-field-card {
+  align-self: start;
+}
+
 .builder-step-card__heading {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: 12px;
   align-items: start;
   margin-bottom: 14px;
+}
+
+.builder-step-card__heading--field {
+  grid-template-columns: 1fr;
 }
 
 .builder-step-card__heading h3 {
@@ -3253,6 +3266,10 @@ input[type="number"] {
     0 0 0 8px rgba(255, 159, 28, 0.18);
 }
 
+.builder-action-button--top {
+  margin-top: 14px;
+}
+
 .builder-secondary-actions {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
@@ -3464,6 +3481,14 @@ input[type="number"] {
     inset 0 0 0 2px rgba(255, 255, 255, 0.15),
     inset 0 30px 60px rgba(255, 255, 255, 0.08),
     inset 0 -30px 60px rgba(0, 0, 0, 0.12);
+}
+
+.builder-field-card .soccer-field {
+  min-height: 720px;
+}
+
+.builder-field-card .team-players {
+  min-height: 672px;
 }
 
 .field-markings {
@@ -4623,6 +4648,10 @@ input[type="number"] {
     padding: 14px;
   }
 
+  .builder-field-card .soccer-field {
+    min-height: 0;
+  }
+
   .field-markings {
     display: none;
   }
@@ -4630,6 +4659,10 @@ input[type="number"] {
   .team-players {
     display: grid;
     gap: 10px;
+    min-height: 0;
+  }
+
+  .builder-field-card .team-players {
     min-height: 0;
   }
 
@@ -5088,6 +5121,10 @@ input[type="number"] {
     padding: 14px;
   }
 
+  .builder-field-card .soccer-field {
+    min-height: 0;
+  }
+
   .field-markings {
     display: none;
   }
@@ -5095,6 +5132,10 @@ input[type="number"] {
   .team-players {
     display: grid;
     gap: 10px;
+    min-height: 0;
+  }
+
+  .builder-field-card .team-players {
     min-height: 0;
   }
 

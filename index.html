@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>World Cup Fantasy Helper | Picks, Team Builder, and Decision Tools</title>
+    <title>Fantasy Quant | Squad Builder Starter, Team Builder, and Decision Tools</title>
     <meta name="description" content="Current World Cup fantasy recommendations using official fantasy prices, positions, selectable status, and scoring." />
     <meta property="og:site_name" content="World Cup Fantasy Helper" />
     <meta property="og:title" content="World Cup Fantasy Helper" />
@@ -20,7 +20,7 @@
     <header id="top" class="hero">
       <nav class="site-nav" aria-label="Primary navigation">
         <a href="#top">Home</a>
-        <a href="#picks">Picks</a>
+        <a href="#picks">Squad Builder Starter</a>
         <a href="#team-builder">Team Builder</a>
         <a href="#captain-change-advisor">Decision Tools</a>
         <a href="#fantasy-finance">Fantasy Finance</a>
@@ -29,7 +29,7 @@
       </nav>
 
       <div class="hero__content">
-        <p class="eyebrow">Model-backed fantasy picks</p>
+        <p class="eyebrow">Model-backed fantasy advice</p>
         <h1>Fantasy Quant</h1>
         <p class="hero__text">
           Fantasy Quant is a World Cup fantasy helper that uses models, data science, and quant methods to help you find good picks, build a squad, and manage captain and bench decisions with risk-aware advice.
@@ -37,7 +37,7 @@
 
         <div class="hero__actions" aria-label="Homepage actions">
           <a class="primary-button primary-button--hero" href="#team-builder">Build My Squad</a>
-          <a class="secondary-link" href="#picks">See Top Picks</a>
+          <a class="secondary-link" href="#picks">Open Squad Builder Starter</a>
           <a class="secondary-link secondary-link--quiet" href="#captain-change-advisor">Check Decisions</a>
         </div>
 
@@ -48,7 +48,7 @@
       <noscript>
         <section class="panel no-js-panel" aria-label="JavaScript required">
           <h2>Interactive Tools Need JavaScript</h2>
-          <p>This page uses JavaScript to load the current dataset, build Top Picks, rank captain options, and power the Team Builder.</p>
+          <p>This page uses JavaScript to load the current dataset, build Squad Builder Starter cards, rank captain options, and power the Team Builder.</p>
           <p>You can still read the Model Notes below, but player recommendations and squad tools are available only when JavaScript is enabled.</p>
         </section>
       </noscript>
@@ -56,8 +56,8 @@
       <section id="picks" class="panel">
         <span id="quick-picks" class="anchor-offset" aria-hidden="true"></span>
         <div class="section-heading">
-          <h2>Picks</h2>
-          <p>How to use Picks. These picks are strong players to build a squad around. Use them as squad-builder starters, then complete the team around budget, position limits, country limits, captain choices, and risk.</p>
+          <h2>Squad Builder Starter</h2>
+          <p>Start with these model-backed player ideas, then complete the squad around budget, position limits, country limits, captain choices, and risk.</p>
         </div>
 
         <div class="picks-control-row">
@@ -80,7 +80,7 @@
             <p>Enable JavaScript to see captain options from the current fantasy dataset.</p>
           </article>
           <article class="info-card info-card--fallback">
-            <span class="info-card__label">Top Picks</span>
+            <span class="info-card__label">Starter Ideas</span>
             <strong>Player cards</strong>
             <p>Enable JavaScript to compare players by projected points, value, reliability, and risk.</p>
           </article>
@@ -95,7 +95,7 @@
           <div>
             <span>Team Builder</span>
             <strong>No players locked yet</strong>
-            <p>Add players from pick cards, then build a squad around them.</p>
+            <p>Add players from starter cards, then build a squad around them.</p>
           </div>
           <a class="picks-builder-tray__link" href="#team-builder">Open Team Builder</a>
         </div>
@@ -179,10 +179,6 @@
           <span class="collapsible-action" aria-hidden="true"></span>
         </summary>
         <div class="collapsible-body">
-        <div class="section-heading">
-          <h2>Captain Switch Check</h2>
-          <p>Manual switch check for one current captain score against one possible new captain in the same matchday.</p>
-        </div>
 
         <div id="captain-change-status" class="decision-tool-status" aria-live="polite">
           <span class="decision-tool-status__badge">Manual</span>
@@ -283,10 +279,6 @@
           <span class="collapsible-action" aria-hidden="true"></span>
         </summary>
         <div class="collapsible-body">
-        <div class="section-heading">
-          <h2>Bench Switch Check</h2>
-          <p>Manual quick check for one current starter score against one possible substitute.</p>
-        </div>
 
         <div id="substitution-advisor-status" class="decision-tool-status" aria-live="polite">
           <span class="decision-tool-status__badge">Manual</span>
@@ -458,9 +450,9 @@
             <summary>Advanced filters</summary>
             <div class="advanced-control-grid">
               <label class="control-group" for="advice-trust-mode-select">
-                <span>Confidence Mode</span>
+                <span>Safety Preference</span>
                 <select id="advice-trust-mode-select"></select>
-                <small class="control-helper">Changes how strongly data and role warnings affect the order.</small>
+                <small class="control-helper">Changes how strongly role and risk warnings affect the order.</small>
               </label>
 
               <label class="control-group" for="advice-pool-select">
@@ -593,7 +585,7 @@
                 <label class="control-group" for="measure-select">
                   <span>Strategy</span>
                   <select id="measure-select"></select>
-                  <small class="control-helper">Balanced, Safe, Upside, or Differential.</small>
+                  <small class="control-helper">Choose from the same strategy set used in Squad Builder Starter.</small>
                 </label>
 
                 <label class="control-group" for="tactic-select">
@@ -610,6 +602,10 @@
                 </label>
               </div>
 
+              <button id="build-team-btn-top" class="primary-button builder-action-button builder-action-button--top" type="button">
+                Build My Squad
+              </button>
+
               <details class="advanced-control-panel advanced-control-panel--measure">
                 <summary>Model notes for this strategy</summary>
                 <div id="measure-info" class="measure-info"></div>
@@ -621,7 +617,7 @@
                 <span class="builder-step-number">2</span>
                 <div>
                   <h3 id="builder-step-locks-title">Lock or Avoid Players</h3>
-                  <p>Search for must-haves here, or add players from Picks. You can avoid players after a squad is built.</p>
+                  <p>Search for must-haves here, or add players from Squad Builder Starter. You can avoid players after a squad is built.</p>
                 </div>
               </div>
 
@@ -648,10 +644,18 @@
                     </select>
                   </label>
 
+                  <label class="control-group" for="country-filter">
+                    <span>Country</span>
+                    <select id="country-filter">
+                      <option>Loading countries</option>
+                    </select>
+                    <small class="control-helper">Suggested fill-ins must match this country. Locked players stay visible.</small>
+                  </label>
+
                   <label class="control-group" for="builder-trust-mode-select">
-                    <span>Confidence Mode</span>
+                    <span>Safety Preference</span>
                     <select id="builder-trust-mode-select"></select>
-                    <small class="control-helper">Balanced is smoothest. Safe strongly prefers higher-confidence fills without blocking the squad builder.</small>
+                    <small class="control-helper">Balanced is smoothest. Safe prefers steadier fill-ins without blocking the squad builder.</small>
                   </label>
 
                   <label class="control-group" for="min-start-filter">
@@ -664,21 +668,6 @@
                     <span>Minimum Minutes</span>
                     <input id="min-minutes-filter" type="number" min="0" max="120" step="5" placeholder="No min" />
                     <small class="control-helper">Suggested fill-ins must meet this expected-minutes floor.</small>
-                  </label>
-
-                  <label class="control-group" for="max-qa-review-filter">
-                    <span>Data Review Limit</span>
-                    <input id="max-qa-review-filter" type="number" min="0" max="15" step="1" placeholder="No max" />
-                    <small class="control-helper">Advanced. Leave blank for smoother builds; 0 can make squads incomplete.</small>
-                  </label>
-
-                  <label class="control-group control-group--checkbox" for="allow-risky-picks-toggle">
-                    <span>Risky Fill-ins</span>
-                    <span class="checkbox-control">
-                      <input id="allow-risky-picks-toggle" type="checkbox" checked />
-                      <span>Include risky fill-ins</span>
-                    </span>
-                    <small class="control-helper">Recommended for broader squad builds. Turn off only if you accept fewer options.</small>
                   </label>
 
                   <label class="control-group" for="min-price-filter">
@@ -697,8 +686,10 @@
                   </label>
                 </div>
 
+                <input id="allow-risky-picks-toggle" type="checkbox" checked hidden aria-hidden="true" />
+
                 <p class="filter-note">
-                  These filters change the lock list and the suggested fill-in players. Locked players stay visible even when they break a risk control. Advanced risk limits can make a squad incomplete, so the builder warns clearly and blocks partial exports.
+                  These filters change the lock list and the suggested fill-in players. Locked players stay visible even when they do not match a filter, and the builder warns clearly before export.
                 </p>
               </details>
 
@@ -730,29 +721,78 @@
           </div>
 
           <div class="builder-field-panel">
-            <section class="builder-step-card builder-review-panel" aria-labelledby="builder-step-review-title">
-              <div class="builder-step-card__heading">
-                <span class="builder-step-number">4</span>
+            <section class="builder-step-card builder-field-card" aria-labelledby="builder-field-title">
+              <div class="builder-step-card__heading builder-step-card__heading--field">
                 <div>
-                  <h3 id="builder-step-review-title">Review Legality and Risk</h3>
-                  <p id="builder-review-status">Build a squad to check budget, country limits, lineup shape, and risk.</p>
+                  <h3 id="builder-field-title">Squad Field</h3>
+                  <p>Build a squad to fill the pitch and bench from the selected strategy.</p>
                 </div>
               </div>
 
-              <div id="builder-warning" class="builder-warning hidden"></div>
-
-              <div id="builder-ready-actions" class="builder-ready-actions hidden" aria-live="polite">
-                <div class="builder-ready-actions__summary">
-                  <span>Squad Ready</span>
-                  <strong>Save it before matchday</strong>
-                  <p id="builder-ready-summary">Full squad built. Save it in this browser, export a backup, or open Decision Tools.</p>
+              <!-- JavaScript fills this field with starter cards after players are locked or the button is clicked. -->
+              <div id="team-field" class="soccer-field hidden" aria-live="polite">
+                <div class="field-markings">
+                  <div class="goal goal--top"></div>
+                  <div class="goal goal--bottom"></div>
+                  <div class="penalty-box penalty-box--top"></div>
+                  <div class="penalty-box penalty-box--bottom"></div>
+                  <div class="center-circle"></div>
+                  <div class="center-line"></div>
+                  <div class="goal-box goal-box--top"></div>
+                  <div class="goal-box goal-box--bottom"></div>
                 </div>
-                <div class="builder-ready-actions__buttons" aria-label="Squad ready actions">
-                  <button class="utility-button utility-button--strong" type="button" data-builder-ready-action="save">Save to Browser</button>
-                  <button class="utility-button" type="button" data-builder-ready-action="export">Export JSON</button>
-                  <a class="utility-button" href="#captain-change-advisor">Open Captain Switch</a>
-                </div>
+                <div id="team-players" class="team-players"></div>
               </div>
+
+              <section id="bench-panel" class="bench-panel hidden" aria-live="polite">
+                <div class="bench-panel__heading">
+                  <div>
+                    <h3>Bench</h3>
+                    <p id="bench-description">Bench rules load from fantasyRules.json. Click a starter and a bench player to try a swap.</p>
+                  </div>
+                  <span id="bench-count">0 / 0</span>
+                </div>
+                <div id="bench-players" class="bench-players"></div>
+              </section>
+
+              <p id="swap-message" class="swap-message">
+                Build a full squad first, then click a starter and a bench player to swap them.
+              </p>
+
+              <p id="team-message" class="team-message">
+                Lock a few players first, then click "Build My Squad" to optimize the squad.
+              </p>
+
+              <div class="builder-review-actions" aria-label="Squad field actions">
+                <button id="reset-team-btn" class="utility-button" type="button">Reset Team</button>
+                <button id="remove-selected-player-btn" class="utility-button" type="button">Remove Selected Player</button>
+              </div>
+            </section>
+          </div>
+
+          <section class="builder-step-card builder-review-panel" aria-labelledby="builder-step-review-title">
+            <div class="builder-step-card__heading">
+              <span class="builder-step-number">4</span>
+              <div>
+                <h3 id="builder-step-review-title">Review Legality and Checks</h3>
+                <p id="builder-review-status">Build a squad to check budget, country limits, lineup shape, and risk.</p>
+              </div>
+            </div>
+
+            <div id="builder-warning" class="builder-warning hidden"></div>
+
+            <div id="builder-ready-actions" class="builder-ready-actions hidden" aria-live="polite">
+              <div class="builder-ready-actions__summary">
+                <span>Squad Ready</span>
+                <strong>Save it before matchday</strong>
+                <p id="builder-ready-summary">Full squad built. Save it in this browser, export a backup, or open Decision Tools.</p>
+              </div>
+              <div class="builder-ready-actions__buttons" aria-label="Squad ready actions">
+                <button class="utility-button utility-button--strong" type="button" data-builder-ready-action="save">Save to Browser</button>
+                <button class="utility-button" type="button" data-builder-ready-action="export">Export JSON</button>
+                <a class="utility-button" href="#captain-change-advisor">Open Captain Switch</a>
+              </div>
+            </div>
 
             <div class="team-summary">
               <div class="summary-chip">
@@ -790,7 +830,7 @@
               <div class="portfolio-analytics__heading">
                 <div>
                   <h3>Squad Risk Report</h3>
-                  <p id="portfolio-summary">Build a squad to see portfolio health, bad-week floor, data checks, and fixture stack risk.</p>
+                  <p id="portfolio-summary">Build a squad to see portfolio health, bad-week floor, and fixture stack risk.</p>
                 </div>
                 <span id="portfolio-risk-label">Waiting</span>
               </div>
@@ -798,47 +838,9 @@
               <div id="portfolio-warnings" class="portfolio-warnings"></div>
             </section>
 
-            <!-- JavaScript fills this field with starter cards after players are locked or the button is clicked. -->
-            <div id="team-field" class="soccer-field hidden" aria-live="polite">
-              <div class="field-markings">
-                <div class="goal goal--top"></div>
-                <div class="goal goal--bottom"></div>
-                <div class="penalty-box penalty-box--top"></div>
-                <div class="penalty-box penalty-box--bottom"></div>
-                <div class="center-circle"></div>
-                <div class="center-line"></div>
-                <div class="goal-box goal-box--top"></div>
-                <div class="goal-box goal-box--bottom"></div>
-              </div>
-              <div id="team-players" class="team-players"></div>
-            </div>
+          </section>
 
-            <section id="bench-panel" class="bench-panel hidden" aria-live="polite">
-              <div class="bench-panel__heading">
-                <div>
-                  <h3>Bench</h3>
-                  <p id="bench-description">Bench rules load from fantasyRules.json. Click a starter and a bench player to try a swap.</p>
-                </div>
-                <span id="bench-count">0 / 0</span>
-              </div>
-              <div id="bench-players" class="bench-players"></div>
-            </section>
-
-            <p id="swap-message" class="swap-message">
-              Build a full squad first, then click a starter and a bench player to swap them.
-            </p>
-
-            <p id="team-message" class="team-message">
-              Lock a few players first, then click "Build My Squad" to optimize the squad.
-            </p>
-
-              <div class="builder-review-actions" aria-label="Review actions">
-                <button id="reset-team-btn" class="utility-button" type="button">Reset Team</button>
-                <button id="remove-selected-player-btn" class="utility-button" type="button">Remove Selected Player</button>
-              </div>
-            </section>
-
-            <section class="builder-step-card builder-save-panel" aria-labelledby="builder-step-save-title">
+          <section class="builder-step-card builder-save-panel" aria-labelledby="builder-step-save-title">
               <div class="builder-step-card__heading">
                 <span class="builder-step-number">5</span>
                 <div>
@@ -867,8 +869,7 @@
                 <p>Latest export. The same JSON is downloaded when you click Export JSON.</p>
                 <textarea id="team-export-output" readonly rows="8"></textarea>
               </div>
-            </section>
-          </div>
+          </section>
         </div>
       </section>
 
@@ -1290,7 +1291,7 @@
           <ul class="compact-list">
             <li>Internal source tracking was added for final squads, fantasy player IDs, fantasy positions, prices, rules, scoring, and deadlines.</li>
             <li>Future official fantasy imports now have a schema contract and repeatable source check.</li>
-            <li>Internal data checks supported the current official fantasy-pool launch pass.</li>
+            <li>Internal checks supported the current recommendation launch pass.</li>
           </ul>
         </div>
 
@@ -1300,7 +1301,7 @@
             <li>Public status and data notes added.</li>
             <li>SEO, sharing metadata, and no-JS fallback cleaned up.</li>
             <li>Mobile tables and Team Builder layout improved.</li>
-            <li>Quick Picks and pick-style labels rewritten for fantasy users.</li>
+            <li>Squad Builder Starter cards and pick-style labels rewritten for fantasy users.</li>
             <li>Country display and relative risk wording cleaned up.</li>
             <li>Team Builder controls added: reset, clear locks, remove players, and restore removed players.</li>
           </ul>
@@ -1345,7 +1346,7 @@
 
         <nav class="footer-nav" aria-label="Footer navigation">
           <a href="#top">Home</a>
-          <a href="#picks">Picks</a>
+          <a href="#picks">Squad Builder Starter</a>
           <a href="#team-builder">Team Builder</a>
           <a href="#captain-change-advisor">Decision Tools</a>
           <a href="#fantasy-finance">Fantasy Finance</a>

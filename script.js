@@ -1258,6 +1258,7 @@ const cardStats = {
 const lockedPlayerIds = new Set();
 const excludedPlayerIds = new Set();
 
+const buildTeamButtonTop = document.getElementById("build-team-btn-top");
 const buildTeamButtonBottom = document.getElementById("build-team-btn-bottom");
 const resetTeamButton = document.getElementById("reset-team-btn");
 const clearLockedButton = document.getElementById("clear-locked-btn");
@@ -1339,6 +1340,7 @@ const scoreInfoButton = document.getElementById("score-info-btn");
 const scoreInfo = document.getElementById("score-info");
 const playerSearch = document.getElementById("player-search");
 const positionFilter = document.getElementById("position-filter");
+const countryFilter = document.getElementById("country-filter");
 const minStartFilter = document.getElementById("min-start-filter");
 const minMinutesFilter = document.getElementById("min-minutes-filter");
 const maxQaReviewFilter = document.getElementById("max-qa-review-filter");
@@ -1399,6 +1401,7 @@ const trustModeSelects = [
 ].filter(Boolean);
 
 let selectedPositionFilter = "All";
+let selectedCountryFilter = "All";
 let currentRenderedTeam = [];
 let currentBenchPlayers = [];
 let currentIgnoredLockedPlayers = [];
@@ -2236,7 +2239,7 @@ function profileQaPanel(player, measureKey = measureKeyForTrust(activeMeasure())
       <div class="qa-panel__header">
         <div>
           <strong>${escapeHtml(qaStatusLabel(status))}</strong>
-          <span>${escapeHtml(`${fixtureNote} · ${measureLabel} · ${trustMode.label} confidence mode`)}</span>
+          <span>${escapeHtml(`${fixtureNote} · ${measureLabel} · ${trustMode.label} safety setting`)}</span>
         </div>
         ${qaChipRow(flags, { compact: true, maxVisible: 4 })}
       </div>
@@ -2256,7 +2259,18 @@ function activeAdvicePoolMode() {
 }
 
 function trustModeLabel(mode = activeTrustMode()) {
-  return `${mode.label} confidence`;
+  return `${mode.label} safety`;
+}
+
+function publicTrustModeDescription(mode = activeTrustMode()) {
+  const descriptions = {
+    strict: "Safe prefers steadier roles, starts, minutes, and lower downside.",
+    balanced: "Balanced keeps the broad player pool and avoids leaning too hard on one signal.",
+    aggressive: "Upside gives more room to ceiling and attacking opportunity.",
+    chaos: "Differential gives more room to less obvious high-ceiling players."
+  };
+
+  return descriptions[mode.id] || descriptions.balanced;
 }
 
 function measureKeyForTrust(measure = activeMeasure()) {
@@ -2461,7 +2475,7 @@ function scoreAdjustmentText(breakdown) {
 
   if (Math.abs(breakdown.qa_penalty) >= 0.05) {
     const sign = breakdown.qa_penalty >= 0 ? "-" : "+";
-    parts.push(`Data check ${sign}${displayNumber(Math.abs(breakdown.qa_penalty))}`);
+    parts.push(`Model caution ${sign}${displayNumber(Math.abs(breakdown.qa_penalty))}`);
   }
 
   if (breakdown.strict_failure_penalty >= 0.05) {
@@ -2473,7 +2487,7 @@ function scoreAdjustmentText(breakdown) {
   }
 
   if (parts.length === 1) {
-    parts.push("No data-check adjustment");
+    parts.push("No model caution");
   }
 
   return parts.join(" · ");
@@ -2482,7 +2496,7 @@ function scoreAdjustmentText(breakdown) {
 function scoreBreakdownHtml(player, measure = activeMeasure(), mode = activeTrustMode()) {
   const breakdown = recommendationScoreBreakdown(player, measure, mode);
   const title = [
-    `${breakdown.measure_label} after ${mode.label} confidence mode`,
+    `${breakdown.measure_label} after ${mode.label} safety setting`,
     scoreAdjustmentText(breakdown),
     breakdown.trust_failures.length ? `Safe-pick checks: ${breakdown.trust_failures.join(", ")}` : ""
   ].filter(Boolean).join(". ");
@@ -2506,7 +2520,7 @@ function captainRecommendationScore(player, mode = activeTrustMode()) {
 }
 
 function trustModeSummaryText(mode = activeTrustMode()) {
-  return `${activeQuickPickModelOption().label} model for ${activeQuickPickPositionLabel()} with ${trustModeLabel(mode)}: ${mode.description}`;
+  return `${activeQuickPickModelOption().label} model for ${activeQuickPickPositionLabel()} with ${trustModeLabel(mode)}: ${publicTrustModeDescription(mode)}`;
 }
 
 function renderTrustModeSummary() {
@@ -3413,6 +3427,14 @@ function activeMeasure() {
   return measureFromSelect(measureSelect);
 }
 
+function activeBuilderStrategyOption() {
+  return pickModelOption(measureSelect?.value || "balanced");
+}
+
+function activeBuilderStrategyLabel() {
+  return activeBuilderStrategyOption().label;
+}
+
 function activeAdviceMeasure() {
   return measureFromSelect(adviceMeasureSelect);
 }
@@ -3481,7 +3503,7 @@ function playerCountryKey(player) {
 }
 
 function countryCountLabel(countryKey) {
-  return countryKey === "needs_check" ? "Needs check" : countryKey;
+  return countryKey === "needs_check" ? "Unknown country" : countryKey;
 }
 
 function playerCountryText(player) {
@@ -6278,6 +6300,27 @@ function renderPositionFilterOptions() {
   positionFilter.value = selectedPositionFilter;
 }
 
+function renderCountryFilterOptions() {
+  if (!countryFilter) {
+    return;
+  }
+
+  const previousValue = countryFilter.value || "All";
+  const countryOptions = Array.from(new Set(players.map(playerCountryKey)))
+    .sort((a, b) => countryCountLabel(a).localeCompare(countryCountLabel(b)))
+    .map((countryKey) => `<option value="${escapeHtml(countryKey)}">${escapeHtml(countryCountLabel(countryKey))}</option>`)
+    .join("");
+
+  countryFilter.innerHTML = `
+    <option value="All">All countries</option>
+    ${countryOptions}
+  `;
+
+  const validCountryValues = new Set(["All", ...Array.from(new Set(players.map(playerCountryKey)))]);
+  selectedCountryFilter = validCountryValues.has(previousValue) ? previousValue : "All";
+  countryFilter.value = selectedCountryFilter;
+}
+
 function updateRuleCopy() {
   if (heroSquadTotal) {
     heroSquadTotal.textContent = squadTotalPlayers;
@@ -6288,7 +6331,7 @@ function updateRuleCopy() {
   }
 
   if (squadRuleNote) {
-    squadRuleNote.textContent = `Official fantasy squad target: ${positionRequirementText()}. Rules loaded from fantasyRules.json.`;
+    squadRuleNote.textContent = `Squad target: ${positionRequirementText()}. Rules loaded from fantasyRules.json.`;
   }
 
   if (benchDescription) {
@@ -6447,7 +6490,7 @@ function renderRuleChecks(starters = [], bench = [], tacticName = tacticSelect.v
     : [`Validation complete. Country limit passed: no country has more than ${groupStageCountryLimit} players.`];
 
   if (needsCheckCount) {
-    summaryParts.push("Needs check players have unverified country data, so they are counted together until the country is confirmed.");
+    summaryParts.push("Players without a listed country are counted together for the country limit.");
   }
 
   ruleCheckSummary.textContent = summaryParts.join(" ");
@@ -6527,7 +6570,6 @@ function matchdayFixturePortfolio(starters) {
 
 function portfolioRiskLevel(analytics) {
   if (
-    analytics.qaReviewCount >= 4 ||
     analytics.tailRiskAverage >= 70 ||
     analytics.benchWeakCount >= 3 ||
     analytics.hardestMatchdayHardFixtures >= 5
@@ -6536,7 +6578,6 @@ function portfolioRiskLevel(analytics) {
   }
 
   if (
-    analytics.qaReviewCount >= 2 ||
     analytics.tailRiskAverage >= 55 ||
     analytics.benchWeakCount >= 2 ||
     analytics.hardestMatchdayHardFixtures >= 3
@@ -6560,8 +6601,7 @@ function squadPortfolioAnalytics(starters = [], bench = []) {
   const qaWatchCount = squadQaStatuses.filter((status) => status === "watch").length;
   const benchWeakCount = bench.filter((player) =>
     scoreValue(player, "start_probability_percent") < 35 ||
-    scoreValue(player, "expected_minutes_v0") < 30 ||
-    qaStatusFromFlags(qaFlagsForPlayer(player, measureKeyForTrust(activeMeasure()))) === "review"
+    scoreValue(player, "expected_minutes_v0") < 30
   ).length;
   const premiumPlayers = squad.filter((player) => proxyPrice(player) >= 9.5).length;
   const countryEntries = countryCountEntries(countryCountsFromPlayers(squad));
@@ -6603,14 +6643,6 @@ function portfolioWarningsForAnalytics(analytics) {
   const topCountryLabel = countryCountLabel(analytics.topCountry[0]);
   const topCountryCount = analytics.topCountry[1];
 
-  if (analytics.qaReviewCount > 0) {
-    warnings.push({
-      kind: analytics.qaReviewCount >= 3 ? "review" : "watch",
-      label: "Data Checks",
-      detail: `${analytics.qaReviewCount} squad player${analytics.qaReviewCount === 1 ? "" : "s"} need data review and ${analytics.qaWatchCount} carry watch status.`
-    });
-  }
-
   if (analytics.premiumPlayers >= 3 && analytics.benchWeakCount >= 2) {
     warnings.push({
       kind: "review",
@@ -6621,7 +6653,7 @@ function portfolioWarningsForAnalytics(analytics) {
     warnings.push({
       kind: "watch",
       label: "Bench Fragility",
-      detail: `${analytics.benchWeakCount} bench player${analytics.benchWeakCount === 1 ? "" : "s"} have low start probability, low expected minutes, or data-check review flags.`
+      detail: `${analytics.benchWeakCount} bench player${analytics.benchWeakCount === 1 ? "" : "s"} have low start probability or low expected minutes.`
     });
   }
 
@@ -6840,7 +6872,7 @@ function renderPortfolioAnalytics(starters = [], bench = []) {
   if (!squad.length) {
     portfolioAnalytics.classList.remove("portfolio-analytics--low", "portfolio-analytics--medium", "portfolio-analytics--high");
     portfolioRiskLabel.textContent = "Waiting";
-    portfolioSummary.textContent = "Build a squad to see portfolio health, bad-week floor, data checks, and fixture stack risk.";
+    portfolioSummary.textContent = "Build a squad to see portfolio health, bad-week floor, and fixture stack risk.";
     portfolioMetrics.innerHTML = "";
     portfolioWarnings.innerHTML = "";
     return;
@@ -6856,7 +6888,7 @@ function renderPortfolioAnalytics(starters = [], bench = []) {
   portfolioAnalytics.classList.remove("portfolio-analytics--low", "portfolio-analytics--medium", "portfolio-analytics--high");
   portfolioAnalytics.classList.add(`portfolio-analytics--${riskLevel.id}`);
   portfolioRiskLabel.textContent = riskLevel.label;
-  portfolioSummary.textContent = `${activeMeasure().label}, ${trustModeLabel()}, ${activeMatchdayLabel()}. Top country: ${topCountryLabel} ${analytics.topCountry[1]}/${groupStageCountryLimit}. Fixture spread: ${fixtureSummary}.`;
+  portfolioSummary.textContent = `${activeBuilderStrategyLabel()}, ${trustModeLabel()}, ${activeMatchdayLabel()}. Top country: ${topCountryLabel} ${analytics.topCountry[1]}/${groupStageCountryLimit}. Fixture spread: ${fixtureSummary}.`;
   portfolioMetrics.innerHTML = [
     portfolioMetric("Projected Points", portfolioNumber(analytics.starterExpected), "starting XI"),
     portfolioMetric("Risk-Aware Points", portfolioNumber(analytics.starterRiskAdjusted), "starting XI"),
@@ -6866,7 +6898,6 @@ function renderPortfolioAnalytics(starters = [], bench = []) {
     portfolioMetric("Bad-Week Floor", portfolioNumber(analytics.starterVar10), "starting XI"),
     portfolioMetric("Worst-Case Floor", portfolioNumber(analytics.starterCvar20), "starting XI"),
     portfolioMetric("Squad Risk", portfolioNumber(analytics.tailRiskAverage), "average"),
-    portfolioMetric("Data Checks", String(analytics.qaReviewCount), `${analytics.qaWatchCount} watch`),
     portfolioMetric("Budget Pressure", `${analytics.premiumPlayers} premium`, `${analytics.benchWeakCount} weak bench`)
   ].join("");
   portfolioWarnings.innerHTML = portfolioWarningsForAnalytics(analytics)
@@ -7068,6 +7099,7 @@ function exportModelMetadata() {
 
 function builderSettingsForExport() {
   const measure = activeMeasure();
+  const selectedStrategyOption = activeBuilderStrategyOption();
   const trustMode = activeTrustMode();
   const minPrice = priceFilterValue(minPriceFilter);
   const maxPrice = priceFilterValue(maxPriceFilter);
@@ -7080,8 +7112,9 @@ function builderSettingsForExport() {
       label: activeMatchdayLabel()
     },
     recommendation_style: {
-      key: measure.key,
-      label: measure.label
+      key: selectedStrategyOption.id,
+      label: selectedStrategyOption.label,
+      measure_key: measure.key
     },
     trust_mode: {
       id: trustMode.id,
@@ -7094,6 +7127,7 @@ function builderSettingsForExport() {
     },
     filters: {
       position: selectedPositionFilter,
+      country: selectedCountryFilter,
       min_price: minPrice,
       max_price: maxPrice,
       price_filter_invalid: priceFiltersAreInvalid(),
@@ -7310,7 +7344,7 @@ function exportExplanation(starters, bench) {
     ? "Team Builder uses the current model player layer with official unavailable-player filtering; public pick cards use official fantasy prices."
     : "Current data is the local fallback dataset.";
 
-  return `Generated by Team Builder using ${activeMeasure().label}, ${trustModeLabel()}, and ${activeMatchdayLabel()}. Squad risk scoring is enabled as a small squad-level adjustment. Risk controls: ${builderRiskSettingsSummary()}. The squad costs ${budgetText(totalPrice)} with ${remainingBudgetText(totalPrice)} remaining. Country counts: ${countryCounts || "none"}. ${priceNote}`;
+  return `Generated by Team Builder using ${activeBuilderStrategyLabel()}, ${trustModeLabel()}, and ${activeMatchdayLabel()}. Squad risk scoring is enabled as a small squad-level adjustment. Risk controls: ${builderRiskSettingsSummary()}. The squad costs ${budgetText(totalPrice)} with ${remainingBudgetText(totalPrice)} remaining. Country counts: ${countryCounts || "none"}. ${priceNote}`;
 }
 
 function teamExportPayload() {
@@ -7350,8 +7384,9 @@ function teamExportPayload() {
     vice_captain_player: exportedPlayerReference(viceCaptainPlayer),
     total_price: Number(totalPrice.toFixed(1)),
     remaining_budget: Number((initialBudget - totalPrice).toFixed(1)),
-    strategy: activeMeasure().label,
-    strategy_key: activeMeasure().key,
+    strategy: activeBuilderStrategyLabel(),
+    strategy_key: activeBuilderStrategyOption().id,
+    strategy_measure_key: activeMeasure().key,
     trust_mode: activeTrustMode().id,
     trust_mode_label: activeTrustMode().label,
     risk_score: Number(scoreAverage(squad, "risk_composite_score")),
@@ -7551,8 +7586,11 @@ function setImportedBuilderSettings(payload) {
     setMatchdayDecisionMatchday(activeMatchdayId);
   }
 
-  if (styleKey && measures[styleKey]) {
-    measureSelect.value = primaryStrategyKeys.includes(styleKey) ? styleKey : "balanced";
+  if (styleKey) {
+    const matchingPickKey = pickModelOptionKeys.includes(styleKey)
+      ? styleKey
+      : pickModelOptionKeys.find((key) => pickModelOptions[key]?.measureKey === styleKey);
+    measureSelect.value = matchingPickKey || "balanced";
   }
 
   if (trustModeId && trustModes[trustModeId]) {
@@ -7566,6 +7604,15 @@ function setImportedBuilderSettings(payload) {
   } else {
     selectedPositionFilter = "All";
     positionFilter.value = "All";
+  }
+
+  const countryValues = new Set(["All", ...players.map(playerCountryKey)]);
+  if (countryFilter && countryValues.has(filters.country)) {
+    selectedCountryFilter = filters.country;
+    countryFilter.value = filters.country;
+  } else if (countryFilter) {
+    selectedCountryFilter = "All";
+    countryFilter.value = "All";
   }
 
   if (typeof filters.min_price === "number") {
@@ -7589,11 +7636,11 @@ function setImportedBuilderSettings(payload) {
   }
 
   if (maxQaReviewFilter) {
-    maxQaReviewFilter.value = riskControls.maxQaReviewPlayers ?? "";
+    maxQaReviewFilter.value = "";
   }
 
   if (allowRiskyPicksToggle) {
-    allowRiskyPicksToggle.checked = riskControls.allowRiskyPicks !== false;
+    allowRiskyPicksToggle.checked = true;
   }
 }
 
@@ -7802,13 +7849,12 @@ function renderMeasureOptions() {
       return `<option value="${key}">${measures[key].optionLabel || measures[key].label}</option>`;
     })
     .join("");
-  const measureOptions = renderOptions(primaryStrategyKeys);
   const pickModelOptionsHtml = renderOptions(pickModelOptionKeys);
 
   if (measureSelect) {
     const previousValue = measureSelect.value;
-    measureSelect.innerHTML = measureOptions;
-    measureSelect.value = primaryStrategyKeys.includes(previousValue) ? previousValue : "balanced";
+    measureSelect.innerHTML = pickModelOptionsHtml;
+    measureSelect.value = pickModelOptionKeys.includes(previousValue) ? previousValue : "balanced";
   }
 
   [quickPickModelSelect, adviceMeasureSelect].filter(Boolean).forEach((select) => {
@@ -7874,6 +7920,7 @@ function renderCardStatOptions() {
 
 function renderMeasureInfo() {
   const measure = activeMeasure();
+  const selectedStrategyOption = activeBuilderStrategyOption();
   const trustMode = activeTrustMode();
   const secondaryLabel = measure.secondaryLabel
     ? `<span class="measure-info__secondary">${measure.secondaryLabel}</span>`
@@ -7883,12 +7930,12 @@ function renderMeasureInfo() {
     : `Scores are adjusted for ${activeMatchdayLabel()} fixture opponents.`;
 
   measureInfo.innerHTML = `
-    <strong>${measure.label}</strong>
+    <strong>${selectedStrategyOption.label}</strong>
     ${secondaryLabel}
-    <p>${measure.description}</p>
+    <p>${selectedStrategyOption.cardDescription || measure.description}</p>
     <p><strong>How it is calculated:</strong> ${measure.formula}</p>
     <p><strong>Matchday view:</strong> ${matchdayCopy}</p>
-    <p><strong>Confidence mode:</strong> ${trustMode.formula}</p>
+    <p><strong>Safety preference:</strong> ${publicTrustModeDescription(trustMode)}</p>
   `;
 }
 
@@ -8050,21 +8097,17 @@ function boundedNumberFilterValue(input, minValue = 0, maxValue = Infinity) {
 }
 
 function builderRiskSettings() {
-  const maxQaReviewPlayers = boundedNumberFilterValue(maxQaReviewFilter, 0, squadTotalPlayers);
-
   return {
     minStartProbability: boundedNumberFilterValue(minStartFilter, 0, 100),
     minExpectedMinutes: boundedNumberFilterValue(minMinutesFilter, 0, 120),
-    maxQaReviewPlayers: maxQaReviewPlayers === null ? null : Math.floor(maxQaReviewPlayers),
-    allowRiskyPicks: allowRiskyPicksToggle?.checked !== false
+    maxQaReviewPlayers: null,
+    allowRiskyPicks: true
   };
 }
 
 function builderRiskControlsActive(settings = builderRiskSettings()) {
   return settings.minStartProbability !== null ||
-    settings.minExpectedMinutes !== null ||
-    settings.maxQaReviewPlayers !== null ||
-    !settings.allowRiskyPicks;
+    settings.minExpectedMinutes !== null;
 }
 
 function builderRiskyPlayer(player, measureKey = measureKeyForTrust(activeMeasure())) {
@@ -8097,10 +8140,6 @@ function playerMatchesBuilderRiskControls(player, settings = builderRiskSettings
     return false;
   }
 
-  if (!settings.allowRiskyPicks && builderRiskyPlayer(player, measureKeyForTrust(activeMeasure()))) {
-    return false;
-  }
-
   return true;
 }
 
@@ -8121,13 +8160,7 @@ function builderRiskSettingsSummary(settings = builderRiskSettings()) {
     parts.push(`min minutes ${displayNumber(settings.minExpectedMinutes)}`);
   }
 
-  if (settings.maxQaReviewPlayers !== null) {
-    parts.push(`max data-review ${displayNumber(settings.maxQaReviewPlayers)}`);
-  }
-
-  parts.push(settings.allowRiskyPicks ? "risky fill-ins allowed" : "risky fill-ins blocked");
-
-  return parts.join(", ");
+  return parts.join(", ") || "standard squad filters";
 }
 
 function builderRiskViolationsForSquad(squad, settings = builderRiskSettings(), measureKey = measureKeyForTrust(activeMeasure())) {
@@ -8154,25 +8187,30 @@ function builderRiskViolationsForSquad(squad, settings = builderRiskSettings(), 
     }
   }
 
-  if (!settings.allowRiskyPicks) {
-    const riskyPlayers = squad.filter((player) => builderRiskyPlayer(player, measureKey));
-
-    if (riskyPlayers.length) {
-      violations.push(`${riskyPlayers.length} current squad player${riskyPlayers.length === 1 ? "" : "s"} break the risky-picks control: ${labelPlayers(riskyPlayers)}.`);
-    }
-  }
-
-  if (settings.maxQaReviewPlayers !== null) {
-    const qaReviewPlayers = squad.filter((player) =>
-      qaStatusFromFlags(qaFlagsForPlayer(player, measureKey)) === "review"
-    );
-
-    if (qaReviewPlayers.length > settings.maxQaReviewPlayers) {
-      violations.push(`${qaReviewPlayers.length} data-review squad player${qaReviewPlayers.length === 1 ? "" : "s"} exceed the max of ${displayNumber(settings.maxQaReviewPlayers)}: ${labelPlayers(qaReviewPlayers)}.`);
-    }
-  }
-
   return violations;
+}
+
+function playerMatchesBuilderCountryFilter(player, options = {}) {
+  if (selectedCountryFilter === "All") {
+    return true;
+  }
+
+  if (options.keepLocked && lockedPlayerIds.has(player.id)) {
+    return true;
+  }
+
+  return playerCountryKey(player) === selectedCountryFilter;
+}
+
+function lockedCountryFilterConflicts() {
+  if (selectedCountryFilter === "All") {
+    return [];
+  }
+
+  return Array.from(lockedPlayerIds)
+    .map(playerById)
+    .filter(Boolean)
+    .filter((player) => playerCountryKey(player) !== selectedCountryFilter);
 }
 
 function availableFillCandidates(position, usedIds, countryCounts = null) {
@@ -8182,6 +8220,7 @@ function availableFillCandidates(position, usedIds, countryCounts = null) {
     !usedIds.has(player.id) &&
     !excludedPlayerIds.has(player.id) &&
     priceMatchesFilters(player) &&
+    playerMatchesBuilderCountryFilter(player) &&
     playerMatchesBuilderRiskControls(player) &&
     (!countryCounts || canAddCountry(player, countryCounts))
   );
@@ -8202,6 +8241,7 @@ function renderPlayerPicker() {
   const filteredPlayers = players
     .filter((player) => !excludedPlayerIds.has(player.id))
     .filter((player) => selectedPositionFilter === "All" || player.position === selectedPositionFilter)
+    .filter((player) => playerMatchesBuilderCountryFilter(player, { keepLocked: true }))
     .filter(priceMatchesFilters)
     .filter((player) => playerMatchesBuilderRiskControls(player, builderRiskSettings(), { keepLocked: true }))
     .filter((player) => playerSearchText(player).includes(searchValue));
@@ -8259,6 +8299,11 @@ function renderPlayerPicker() {
 function updatePositionFilter(event) {
   selectedPositionFilter = event.target.value;
   renderPlayerPicker();
+}
+
+function updateCountryFilter(event) {
+  selectedCountryFilter = event.target.value;
+  updateBuilderFilters();
 }
 
 function updateBuilderFilters() {
@@ -8447,6 +8492,7 @@ function optimizerPriceFloorsByPosition() {
         player.position === position &&
         !excludedPlayerIds.has(player.id) &&
         priceMatchesFilters(player) &&
+        playerMatchesBuilderCountryFilter(player) &&
         playerMatchesBuilderRiskControls(player)
       )
       .map((player) => value(player.price))
@@ -8565,6 +8611,7 @@ function optimizerCandidatePools(measure) {
       player.position === position &&
       !excludedPlayerIds.has(player.id) &&
       priceMatchesFilters(player) &&
+      playerMatchesBuilderCountryFilter(player) &&
       playerMatchesBuilderRiskControls(player)
     );
     const trustCandidates = trustFilteredPlayers(candidates, measure, activeTrustMode());
@@ -8903,6 +8950,11 @@ function renderWarning(tacticName, ignoredLockedPlayers, missingStarterSlots, mi
     messages.push(`Some locked players did not fit the ${squadLabel()} position or country limits: ${ignoredLockedPlayers.map((player) => player.name).join(", ")}.`);
   }
 
+  const countryFilterConflicts = lockedCountryFilterConflicts();
+  if (countryFilterConflicts.length) {
+    messages.push(`Country filter is ${countryCountLabel(selectedCountryFilter)}, but locked players stay included: ${countryFilterConflicts.map((player) => player.name).join(", ")}.`);
+  }
+
   if (missingStarterSlots > 0) {
     messages.push(`${missingStarterSlots} starting slot${missingStarterSlots === 1 ? "" : "s"} could not be filled for ${tacticName}. Try widening the price filters.`);
   }
@@ -9190,15 +9242,15 @@ function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built", optio
     teamMessage.textContent = `Showing ${squad.length} locked squad player${squad.length === 1 ? "" : "s"}. Click Build My Squad to fill the full ${squadLabel()}.`;
   } else if (missingStarterSlots > 0 || missingSquadSlots > 0) {
     const riskText = builderRiskControlsActive() ? ` Risk controls: ${builderRiskSettingsSummary()}.` : "";
-    teamMessage.textContent = `Team Builder found ${squad.length} squad player${squad.length === 1 ? "" : "s"} using ${activeMeasure().label}, ${trustModeLabel()}, and ${activeMatchdayLabel()}. Some spots are still open because the current locks, filters, removals, confidence mode, budget, country limit, or risk controls are too tight.${riskText}`;
+    teamMessage.textContent = `Team Builder found ${squad.length} squad player${squad.length === 1 ? "" : "s"} using ${activeBuilderStrategyLabel()}, ${trustModeLabel()}, and ${activeMatchdayLabel()}. Some spots are still open because the current locks, filters, removals, safety preference, budget, country limit, or risk controls are too tight.${riskText}`;
   } else if (isOverBudget) {
-    teamMessage.textContent = `Team Builder built a ${squadLabel()} using ${activeMeasure().label}, ${trustModeLabel()}, and ${activeMatchdayLabel()}, but it is over the ${budgetText(initialBudget)} budget. Try removing expensive locked players or relaxing filters.`;
+    teamMessage.textContent = `Team Builder built a ${squadLabel()} using ${activeBuilderStrategyLabel()}, ${trustModeLabel()}, and ${activeMatchdayLabel()}, but it is over the ${budgetText(initialBudget)} budget. Try removing expensive locked players or relaxing filters.`;
   } else {
     const pathText = options.optimizerEvaluatedPaths
       ? ` after comparing ${compactCount(options.optimizerEvaluatedPaths)} candidate squad path${options.optimizerEvaluatedPaths === 1 ? "" : "s"}`
       : "";
     const riskText = builderRiskControlsActive() ? ` Risk controls: ${builderRiskSettingsSummary()}.` : "";
-    teamMessage.textContent = `Team Builder built a ${squadLabel()} within the ${budgetText(initialBudget)} budget using ${activeMeasure().label}, ${trustModeLabel()}, and ${activeMatchdayLabel()}${pathText}: ${startingLineupTotal} starters on the field and ${benchLabel()} below.${riskText}`;
+    teamMessage.textContent = `Team Builder built a ${squadLabel()} within the ${budgetText(initialBudget)} budget using ${activeBuilderStrategyLabel()}, ${trustModeLabel()}, and ${activeMatchdayLabel()}${pathText}: ${startingLineupTotal} starters on the field and ${benchLabel()} below.${riskText}`;
   }
 
   renderWarning(
@@ -10480,6 +10532,7 @@ function setupBuilder() {
 
   if (!players.length) {
     teamMessage.textContent = "Player data could not be loaded.";
+    if (buildTeamButtonTop) buildTeamButtonTop.disabled = true;
     buildTeamButtonBottom.disabled = true;
     if (saveBrowserSquadButton) saveBrowserSquadButton.disabled = true;
     if (loadBrowserSquadButton) loadBrowserSquadButton.disabled = true;
@@ -10490,6 +10543,7 @@ function setupBuilder() {
 
   renderTacticOptions();
   renderPositionFilterOptions();
+  renderCountryFilterOptions();
   updateRuleCopy();
   renderMeasureOptions();
   renderFinanceLensOptions();
@@ -10525,6 +10579,7 @@ function setupBuilder() {
   playerDetailClose?.addEventListener("click", closePlayerDetail);
   playerDetailModal?.addEventListener("click", handlePlayerDetailCloseClick);
   document.addEventListener("keydown", handlePlayerDetailKeydown);
+  buildTeamButtonTop?.addEventListener("click", buildTeam);
   buildTeamButtonBottom.addEventListener("click", buildTeam);
   saveBrowserSquadButton?.addEventListener("click", saveTeamToBrowser);
   loadBrowserSquadButton?.addEventListener("click", loadTeamFromBrowser);
@@ -10628,6 +10683,7 @@ function setupBuilder() {
   });
   playerSearch.addEventListener("input", renderPlayerPicker);
   positionFilter.addEventListener("change", updatePositionFilter);
+  countryFilter?.addEventListener("change", updateCountryFilter);
   minPriceFilter.addEventListener("input", updateBuilderFilters);
   maxPriceFilter.addEventListener("input", updateBuilderFilters);
   [minStartFilter, minMinutesFilter, maxQaReviewFilter].filter(Boolean).forEach((input) => {
@@ -10643,6 +10699,7 @@ function setupBuilder() {
 
 function showDataLoadError(error) {
   console.error("Website data could not be loaded from playersData.js and fantasyRulesData.js.", error);
+  if (buildTeamButtonTop) buildTeamButtonTop.disabled = true;
   buildTeamButtonBottom.disabled = true;
   resetTeamButton.disabled = true;
   clearLockedButton.disabled = true;
