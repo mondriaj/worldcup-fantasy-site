@@ -12,7 +12,7 @@ Public player-pick labels are **Projected Points**, **Core Picks**, **High-Floor
 
 Team Builder is a planning tool. Users should confirm squad legality, locks, deadlines, boosters, live points, and played/unplayed status inside the official FIFA fantasy game before saving or acting.
 
-The current data/model stack uses browser-ready official fantasy-pool files for recommendations, matchday projections, finance/value metrics, score predictions, and official-data status. PELE-forward score predictions and preserved model versions remain available for model inspection, but the public experience is organized around the fantasy jobs: find picks, build a squad, and make matchday decisions.
+The current data/model stack uses browser-ready official fantasy-pool files for recommendations, matchday projections, finance/value metrics, score predictions, and official-data status. Match Environment now prefers the fantasy-pool score projection bundle and keeps the PELE-forward v2 score bundle as a static fallback. Preserved model versions remain available for model inspection, but the public experience is organized around the fantasy jobs: find picks, build a squad, and make matchday decisions.
 
 Official fantasy browser data lives in separate browser-ready files: `fantasyPoolRecommendationsData.js`, `fantasyPoolMatchdayProjectionsData.js`, `fantasyPoolFinanceMetricsData.js`, `fantasyPoolScorePredictionsData.js`, and `fantasyPoolOfficialDataStatusData.js`. These are generated from fantasy-pool source files and preserve the older fallback files.
 
@@ -44,15 +44,17 @@ The site can be opened from GitHub Pages or a local server. It loads browser-rea
 - `playersData.js` - browser-ready copy of `players.json`
 - `financePlayersData.js` - browser-ready Week 6 World Cup finance-model player data
 - `matchdayProjectionsData.js` - browser-ready Matchday 1, Matchday 2, and Matchday 3 opponent adjustments from PELE-backed score predictions
-- `scorePredictionsData.js` - browser-ready fixture score prediction data for the Match Environment panel
+- `scorePredictionsData.js` - browser-ready legacy fallback fixture score prediction data from `data/scorePredictions_v2.json`
 - `fantasyPoolRecommendationsData.js` - browser-ready Official Fantasy Picks recommendation candidates from `data/matchdayRecommendations_fantasyPool_v3.json`
 - `fantasyPoolMatchdayProjectionsData.js` - browser-ready staged v3 fantasy-pool player projections from `data/playerMatchdayProjections_fantasyPool_v3.json`
 - `fantasyPoolFinanceMetricsData.js` - browser-ready staged fantasy-pool finance/value metrics from `data/playerFinanceMetrics_fantasyPool_v1.json`
-- `fantasyPoolScorePredictionsData.js` - browser-ready staged fantasy-pool score predictions from `data/scorePredictions_fantasyPool_v3.json`
+- `fantasyPoolScorePredictionsData.js` - active browser-ready Match Environment score projection context from `data/scorePredictions_fantasyPool_v3.json`
 - `fantasyPoolOfficialDataStatusData.js` - browser-ready official fantasy status and monitor copy
 - `data/peleRatings_v1.json` - downloaded PELE rating, Tilt, and offense/defense data from Silver Bulletin Datawrapper CSVs
 - `data/teamQuality.json` - active PELE-forward `team_quality_v2` model; `data/teamQuality_v1.json` and `data/teamQuality_v0.json` preserve earlier models
-- `data/scorePredictions_v2.json` - active PELE-forward generated score prediction model for group-stage match environments
+- `data/scorePredictions_fantasyPool_v3.json` - active fantasy-pool score projection source for public Match Environment context
+- `data/scorePredictions_v2.json` - preserved PELE-forward generated score prediction model and static fallback for group-stage match environments
+- `data/scorePredictionDataFlow_v1.md` - plain-language note for the active score prediction browser data flow
 - `data/scorePredictions_v1.json` - preserved first PELE-backed score prediction model
 - `data/scorePredictions_v0.json` - preserved pre-PELE score prediction model
 - `data/scorePredictionModelRoadmap.md` - v1/v2 score model upgrade notes

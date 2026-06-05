@@ -14,7 +14,7 @@ The older root files still exist as fallbacks or supporting browser data:
 - `fantasyRulesData.js`
 - `worldCupData.js`
 
-The main homepage is wired to `financePlayersData.js`, which is generated from `playerFinanceMetrics_v0.json`, `playerRecommendationInputs_v0.json`, and `playerValueModel_v1.json`. It also loads `matchdayProjectionsData.js` and `scorePredictionsData.js` so matchday advice, player profile fixture tables, and fixture-level score environments can be inspected without fetching JSON at runtime. Step 6.5 now uses the PELE-forward v2 score and matchday projection files. Most files in this `data/` folder remain source-of-truth JSON rather than directly loaded browser files.
+The main homepage is wired to `financePlayersData.js`, which is generated from `playerFinanceMetrics_v0.json`, `playerRecommendationInputs_v0.json`, and `playerValueModel_v1.json`. It also loads `matchdayProjectionsData.js`, `fantasyPoolScorePredictionsData.js`, and `scorePredictionsData.js` so matchday advice, player profile fixture tables, and fixture-level score environments can be inspected without fetching JSON at runtime. Match Environment now prefers the fantasy-pool score projection context and keeps the PELE-forward v2 score bundle as the static fallback. Most files in this `data/` folder remain source-of-truth JSON rather than directly loaded browser files.
 
 ## Naming Rule
 
@@ -71,7 +71,9 @@ Use camelCase file names for new data-engine files because the site already uses
 - `fullFeatureTestReport_v0.md` - human-readable report for the Step 10 browser/static validation pass across the main homepage, World Cup page, Team Builder, export, and manual decision tools.
 - `squadPortfolioAnalytics_v0.md` - plain-language model note for Team Builder portfolio analytics, including expected return, risk-adjusted return, VaR/CVaR, QA load, country concentration, fixture concentration, and premium squeeze.
 - `portfolioOptimizerModel_v0.md` - plain-language model note for the small portfolio-aware adjustment used when the Team Builder ranks completed candidate squads.
-- `scorePredictions_v2.json` - active PELE-forward Poisson score model with expected goals, win/draw/loss probabilities, clean-sheet probability, goal environment, and upset risk for each group fixture.
+- `scorePredictions_fantasyPool_v3.json` - active fantasy-pool score projection source for public Match Environment context.
+- `scorePredictions_v2.json` - preserved PELE-forward Poisson score model and static fallback with expected goals, win/draw/loss probabilities, clean-sheet probability, goal environment, and upset risk for each group fixture.
+- `scorePredictionDataFlow_v1.md` - plain-language note for the active score prediction browser data flow.
 - `scorePredictions_v1.json` - preserved first PELE/Elo/team-quality Poisson score model.
 - `scorePredictions_v0.json` - preserved pre-PELE score prediction model.
 - `scorePredictionModelRoadmap.md` - notes for when to upgrade score predictions to v1 and v2.
@@ -130,7 +132,8 @@ After import and validation, generated browser-ready files should be created fro
 
 - `../financePlayersData.js` - homepage player recommendations, Player Profile identity/role/performance fields, and finance scoring.
 - `../matchdayProjectionsData.js` - homepage matchday opponent adjustments, Player Profile fixture tables, and PELE-forward score-prediction xG, clean-sheet, and upset-risk fields.
-- `../scorePredictionsData.js` - homepage Match Environment panel for PELE-forward fixture xG, favorites, clean-sheet watches, goal environment, and upset risk.
+- `../fantasyPoolScorePredictionsData.js` - active homepage Match Environment score projection context for fixture xG, favorites, clean-sheet watches, goal environment, and upset risk.
+- `../scorePredictionsData.js` - preserved homepage Match Environment fallback for PELE-forward fixture xG, favorites, clean-sheet watches, goal environment, and upset risk.
 
 Example future files:
 

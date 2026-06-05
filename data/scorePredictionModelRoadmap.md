@@ -1,11 +1,28 @@
 # Score Prediction Model Roadmap
 
-Status: active Week 6 model notes  
-Current model: `scorePredictions_v2.json`
+Status: active score model notes
+Current public Match Environment flow: `fantasyPoolScorePredictionsData.js` from `scorePredictions_fantasyPool_v3.json`, with `scorePredictionsData.js` from `scorePredictions_v2.json` preserved as the static fallback.
+Preserved base model: `scorePredictions_v2.json`
 
-## Current Model: v2
+## Current Public Data Flow: Phase 3A
 
-Use v2 now.
+The public Match Environment table now prefers the fantasy-pool score projection context:
+
+- Browser file: `../fantasyPoolScorePredictionsData.js`
+- Source file: `scorePredictions_fantasyPool_v3.json`
+- Window rows used by `script.js`: `window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS`
+
+The older PELE-forward v2 browser bundle remains loaded as a safe static fallback:
+
+- Browser file: `../scorePredictionsData.js`
+- Source file: `scorePredictions_v2.json`
+- Window rows used if the fantasy-pool bundle is unavailable: `window.SCORE_FIXTURE_PREDICTIONS_DATA`
+
+See `scorePredictionDataFlow_v1.md` for the plain-language browser data-flow note.
+
+## Preserved Base Model: v2
+
+Use v2 as the preserved PELE-forward base model and fallback score projection context.
 
 Model type: PELE-forward team-quality adjusted Poisson.
 
@@ -94,10 +111,10 @@ Files added or updated:
 
 - `teamQuality_v1.json` preserves the first PELE-backed team-quality blend.
 - `teamQuality.json` now contains active `team_quality_v2`.
-- `scorePredictions_v2.json` is the active PELE-forward score model.
+- `scorePredictions_v2.json` is the preserved PELE-forward score model and Match Environment fallback.
 - `scorePredictionQa_v2.json` and `scorePredictionQaReport_v2.md` record the v2 QA pass.
 - `playerMatchdayProjections_v2.json`, `matchdayRecommendations_v2.json`, `recommendationQa_v2.json`, and `recommendationQaReport_v2.md` regenerate downstream recommendation context.
-- `scorePredictionsData.js` and `matchdayProjectionsData.js` expose the active v2 data to the homepage.
+- `scorePredictionsData.js` preserves the v2 score rows as the homepage fallback, while `fantasyPoolScorePredictionsData.js` now supplies the preferred public Match Environment score projection context.
 
 Main v2 changes:
 

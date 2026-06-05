@@ -30,12 +30,14 @@ function summarizeMessages(messages) {
 async function collectPageState(page) {
   return page.evaluate(() => {
     const bodyText = document.body.innerText;
-    const warningText = "Official Fantasy Pool Preview. These picks use official fantasy prices, positions, and scoring. Final squad status is not yet source-backed, so recommendations may change.";
-    const builderWarningText = "Team Builder is still in prototype mode. Official prices and rules are available, but final squad status is not source-backed yet. Do not treat generated squads as final.";
     const quickPickNames = [...document.querySelectorAll("#dashboard-grid .player-name-button")].map((button) => button.textContent.trim());
     const quickPickLabels = [...document.querySelectorAll("#dashboard-grid .info-card__label")].map((label) => label.textContent.trim());
-    const captainRows = [...document.querySelectorAll("#captain-table-body tr")].map((row) => row.innerText.trim()).filter(Boolean);
-    const adviceRows = [...document.querySelectorAll("#advice-table-body tr")].map((row) => row.innerText.trim()).filter(Boolean);
+    const captainRows = [
+      ...document.querySelectorAll("#captain-card-grid .pick-card, #captain-table-body tr")
+    ].map((row) => row.innerText.trim()).filter(Boolean);
+    const adviceRows = [
+      ...document.querySelectorAll("#advice-card-grid .pick-card, #advice-table-body tr")
+    ].map((row) => row.innerText.trim()).filter(Boolean);
     const environmentRows = [...document.querySelectorAll("#match-environment-table-body tr")].map((row) => row.innerText.trim()).filter(Boolean);
     const overflowingElements = [...document.querySelectorAll("body *")]
       .filter((element) => {
@@ -71,14 +73,9 @@ async function collectPageState(page) {
       adviceRows: adviceRows.slice(0, 8),
       environmentRows: environmentRows.slice(0, 8),
       warnings: {
-        previewWarning: bodyText.includes(warningText),
-        officialPoolLabel: bodyText.includes("Official Fantasy Pool Preview"),
-        pricesPositionsScoring: bodyText.includes("official prices, positions, and scoring") || bodyText.includes("official fantasy prices, positions, and scoring"),
-        finalSquadNotSourceBacked: bodyText.includes("Final squad status is not yet source-backed") || bodyText.includes("final squads are not source-backed"),
-        recommendationsMayChange: bodyText.includes("recommendations may change") || bodyText.includes("Recommendations may change"),
-        rulesWarnings: bodyText.includes("rules still have manual-review warnings") || bodyText.includes("Mystery Booster is unknown"),
-        teamBuilderWarning: bodyText.includes(builderWarningText),
-        teamBuilderPrototype: bodyText.includes("Team Builder remains prototype/blocked") || bodyText.includes("Team Builder is still in prototype mode")
+        manualConfirmation: bodyText.includes("Confirm locks") || bodyText.includes("confirm squad legality, locks, and deadlines"),
+        teamBuilderPlanningHelp: bodyText.includes("Team Builder is planning help") || bodyText.includes("Use the builder as planning help"),
+        teamBuilderOfficialCheck: bodyText.includes("inside the official FIFA fantasy game") || bodyText.includes("inside the fantasy game")
       },
       modalOpen: !document.querySelector("#player-detail-modal")?.classList.contains("hidden"),
       scroll: {
@@ -88,7 +85,7 @@ async function collectPageState(page) {
         overflowingElements
       },
       buttons: {
-        previewPlayerButtons: document.querySelectorAll("#dashboard-grid .player-name-button, #captain-table-body .player-name-button, #advice-table-body .player-name-button").length,
+        previewPlayerButtons: document.querySelectorAll("#dashboard-grid .player-name-button, #captain-card-grid .player-name-button, #captain-table-body .player-name-button, #advice-card-grid .player-name-button, #advice-table-body .player-name-button").length,
         closeProfileButtons: document.querySelectorAll("[data-close-player-detail]").length
       }
     };
@@ -141,7 +138,7 @@ async function testMainPage(browser, viewport, options = {}) {
   page.on("pageerror", (error) => pageErrors.push(String(error)));
 
   if (options.disablePreviewGlobals) {
-    await page.route(/fantasyPool.*Data\.js$/, (route) => route.fulfill({
+    await page.route(/fantasyPool.*Data\.js(\?.*)?$/, (route) => route.fulfill({
       status: 200,
       contentType: "application/javascript",
       body: "// preview globals intentionally disabled for fallback QA\n"
@@ -151,20 +148,24 @@ async function testMainPage(browser, viewport, options = {}) {
   await page.goto(`${baseUrl}/index.html`, { waitUntil: "load", timeout: 120000 });
   await page.waitForSelector("#dashboard-grid .player-name-button", { timeout: 60000 });
   await openDetails(page, "#captain-picks");
-  await page.waitForSelector("#captain-table-body .player-name-button", { timeout: 60000 });
+  await page.waitForSelector("#captain-card-grid .player-name-button, #captain-table-body .player-name-button", { timeout: 60000 });
   await openDetails(page, "#team-advice");
-  await page.waitForSelector("#advice-table-body .player-name-button", { timeout: 60000 });
+  await page.waitForSelector("#advice-card-grid .player-name-button, #advice-table-body .player-name-button", { timeout: 60000 });
 
   const stateBeforeClicks = await collectPageState(page);
   const quickPickProfile = await clickProfileAndClose(page, "#dashboard-grid .player-name-button", "Quick Picks");
-  const captainProfile = await clickProfileAndClose(page, "#captain-table-body .player-name-button", "Captain Picks");
-  const adviceProfile = await clickProfileAndClose(page, "#advice-table-body .player-name-button", "Team Advice");
+  const captainProfile = await clickProfileAndClose(page, "#captain-card-grid .player-name-button, #captain-table-body .player-name-button", "Captain Watchlist");
+  const adviceProfile = await clickProfileAndClose(page, "#advice-card-grid .player-name-button, #advice-table-body .player-name-button", "Pick Explorer");
 
   await page.locator("#advice-position-select").selectOption("Forward");
   await page.waitForTimeout(100);
   const forwardFilterState = await page.evaluate(() => ({
-    rows: [...document.querySelectorAll("#advice-table-body tr")].map((row) => row.innerText.trim()).slice(0, 8),
-    allRowsAreForwards: [...document.querySelectorAll("#advice-table-body tr")].every((row) => row.innerText.includes("Forward") || row.innerText.includes("No Official Fantasy Pool Preview"))
+    rows: [...document.querySelectorAll("#advice-card-grid .pick-card, #advice-table-body tr")].map((row) => row.innerText.trim()).slice(0, 8),
+    allRowsAreForwards: [...document.querySelectorAll("#advice-card-grid .pick-card, #advice-table-body tr")].every((row) =>
+      row.innerText.includes("Forward") ||
+      row.innerText.includes("No Official Fantasy Pool Preview") ||
+      row.innerText.includes("No fantasy candidates match")
+    )
   }));
 
   await page.locator("#advice-matchday-select").selectOption("md1");
@@ -172,7 +173,7 @@ async function testMainPage(browser, viewport, options = {}) {
   const matchdayFilterState = await page.evaluate(() => ({
     selected: document.querySelector("#advice-matchday-select")?.value || null,
     note: document.querySelector("#advice-style-note")?.textContent || "",
-    rows: document.querySelectorAll("#advice-table-body tr").length
+    rows: document.querySelectorAll("#advice-card-grid .pick-card, #advice-table-body tr").length
   }));
 
   const screenshotPath = `${screenshotDir}/index-${viewport.width}${options.disablePreviewGlobals ? "-fallback" : ""}.png`;

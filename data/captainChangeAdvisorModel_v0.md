@@ -18,7 +18,7 @@ The replacement candidate should be in the user's squad and should not have play
 
 - `financePlayersData.js`
 - `matchdayProjectionsData.js`, generated from `data/playerMatchdayProjections_v2.json`
-- `scorePredictionsData.js`, generated from `data/scorePredictions_v2.json`
+- shared score projection context, which now prefers `fantasyPoolScorePredictionsData.js` and keeps `scorePredictionsData.js` as the static fallback
 - manual user-entered current captain raw points
 
 ## Decision Logic

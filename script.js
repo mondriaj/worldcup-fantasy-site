@@ -4,10 +4,66 @@
 // The browser loads script-friendly copies first:
 // financePlayersData.js defines window.FINANCE_PLAYERS_DATA, playersData.js defines
 // window.PLAYERS_DATA, matchdayProjectionsData.js defines matchday projection globals,
-// scorePredictionsData.js defines fixture prediction globals, and fantasyRulesData.js
-// defines window.FANTASY_RULES_DATA. The official fantasy-pool files define
-// separate FANTASY_POOL_* globals for current official fantasy recommendations.
+// scorePredictionsData.js defines legacy fixture prediction globals, and
+// fantasyRulesData.js defines window.FANTASY_RULES_DATA. The official fantasy-pool
+// files define separate FANTASY_POOL_* globals for current official fantasy
+// recommendations and Match Environment score projection context.
 // script.js then uses those datasets together without fetching JSON at runtime.
+function scorePredictionSourceFromWindow() {
+  const fantasyPoolData = window.FANTASY_POOL_SCORE_PREDICTIONS_DATA || null;
+  const fantasyPoolRows = Array.isArray(window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS)
+    ? window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS
+    : Array.isArray(fantasyPoolData?.fixtureScorePredictions)
+      ? fantasyPoolData.fixtureScorePredictions
+      : [];
+  const fantasyPoolTeamRows = Array.isArray(window.FANTASY_POOL_TEAM_FIXTURE_PREDICTIONS)
+    ? window.FANTASY_POOL_TEAM_FIXTURE_PREDICTIONS
+    : Array.isArray(fantasyPoolData?.teamFixturePredictions)
+      ? fantasyPoolData.teamFixturePredictions
+      : [];
+
+  if (fantasyPoolRows.length) {
+    const summary = {
+      ...(window.FANTASY_POOL_SCORE_PREDICTIONS_SUMMARY || fantasyPoolData?.summary || {}),
+      schema_version: fantasyPoolData?.schema_version || null,
+      generated_at: fantasyPoolData?.generated_at || null,
+      source_schema_version: fantasyPoolData?.schema_version || null,
+      source_generated_at: fantasyPoolData?.generated_at || null,
+      source_checked: fantasyPoolData?.source_checked || null,
+      source_files: ["data/scorePredictions_fantasyPool_v3.json"],
+      previous_model_file: fantasyPoolData?.previous_model_file || "data/scorePredictions_v2.json",
+      fixture_prediction_count: fantasyPoolRows.length,
+      team_fixture_prediction_count: fantasyPoolTeamRows.length || null
+    };
+
+    return {
+      key: "fantasy_pool_score_predictions_v3",
+      label: "Fantasy-pool score projection context",
+      browserFile: "fantasyPoolScorePredictionsData.js",
+      sourceFile: "data/scorePredictions_fantasyPool_v3.json",
+      fallbackBrowserFile: "scorePredictionsData.js",
+      fallbackSourceFile: "data/scorePredictions_v2.json",
+      rows: fantasyPoolRows,
+      summary
+    };
+  }
+
+  const legacyRows = Array.isArray(window.SCORE_FIXTURE_PREDICTIONS_DATA)
+    ? window.SCORE_FIXTURE_PREDICTIONS_DATA
+    : [];
+
+  return {
+    key: "legacy_score_predictions_v2",
+    label: "Legacy PELE-forward score projection context",
+    browserFile: "scorePredictionsData.js",
+    sourceFile: "data/scorePredictions_v2.json",
+    fallbackBrowserFile: null,
+    fallbackSourceFile: null,
+    rows: legacyRows,
+    summary: window.SCORE_PREDICTIONS_SUMMARY || null
+  };
+}
+
 const fantasyPoolPreviewStatus = window.FANTASY_POOL_OFFICIAL_DATA_STATUS || null;
 const rawPlayers = window.FINANCE_PLAYERS_DATA || window.PLAYERS_DATA || [];
 const officialUnavailablePlayerRecords = fantasyPoolPreviewStatus?.unavailable_players || [];
@@ -27,8 +83,9 @@ const financeModelSummary = window.FINANCE_MODEL_SUMMARY || null;
 const usingFinanceModel = Boolean(window.FINANCE_PLAYERS_DATA);
 const matchdayProjectionRows = window.PLAYER_MATCHDAY_PROJECTIONS_DATA || [];
 const matchdayModelSummary = window.MATCHDAY_MODEL_SUMMARY || null;
-const scorePredictionRows = window.SCORE_FIXTURE_PREDICTIONS_DATA || [];
-const scorePredictionSummary = window.SCORE_PREDICTIONS_SUMMARY || null;
+const activeScorePredictionSource = scorePredictionSourceFromWindow();
+const scorePredictionRows = activeScorePredictionSource.rows;
+const scorePredictionSummary = activeScorePredictionSource.summary;
 const fantasyPoolRecommendationRows = window.FANTASY_POOL_RECOMMENDATION_CANDIDATES || [];
 const fantasyPoolProjectionRows = window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || [];
 const fantasyPoolFinanceRows = window.FANTASY_POOL_PLAYER_FINANCE_METRICS || [];
@@ -8523,6 +8580,11 @@ function exportModelMetadata() {
         recommendation_source_schema_version: matchdayModelSummary.recommendation_source_schema_version
       } : null,
       score_predictions: scorePredictionSummary ? {
+        active_source: activeScorePredictionSource.key,
+        active_browser_file: activeScorePredictionSource.browserFile,
+        active_source_file: activeScorePredictionSource.sourceFile,
+        fallback_browser_file: activeScorePredictionSource.fallbackBrowserFile,
+        fallback_source_file: activeScorePredictionSource.fallbackSourceFile,
         schema_version: scorePredictionSummary.schema_version,
         generated_at: scorePredictionSummary.generated_at,
         source_schema_version: scorePredictionSummary.source_schema_version,
@@ -8544,11 +8606,14 @@ function exportModelMetadata() {
     source_files: [
       usingFinanceModel ? "financePlayersData.js" : "playersData.js",
       "matchdayProjectionsData.js",
+      activeScorePredictionSource.browserFile,
       "scorePredictionsData.js",
       "fantasyRulesData.js",
       usingFinanceModel ? "data/playerFinanceMetrics_v0.json" : "players.json",
       "data/playerMatchdayProjections_v2.json",
+      activeScorePredictionSource.sourceFile,
       "data/scorePredictions_v2.json",
+      "data/scorePredictionDataFlow_v1.md",
       "data/playerValueModel_v1.json",
       "data/recommendationTrustModel_v0.md",
       "data/teamBuilderStrategyWeights_v1.md",
@@ -8880,9 +8945,12 @@ function teamExportPayload() {
       usingFinanceModel ? "data/playerRecommendationInputs_v0.json" : "playersData.js",
       usingFinanceModel ? "financePlayersData.js" : "playersData.js",
       "matchdayProjectionsData.js",
+      activeScorePredictionSource.browserFile,
       "scorePredictionsData.js",
       "data/playerMatchdayProjections_v2.json",
+      activeScorePredictionSource.sourceFile,
       "data/scorePredictions_v2.json",
+      "data/scorePredictionDataFlow_v1.md",
       "data/teamBuilderStrategyWeights_v1.md",
       "data/teamBuilderStrategyComparison_v1.md",
       "dataSources.md",

@@ -18,7 +18,7 @@ The bench candidate should be in the user's squad and should not have played yet
 
 - `financePlayersData.js`
 - `matchdayProjectionsData.js`, generated from `data/playerMatchdayProjections_v2.json`
-- `scorePredictionsData.js`, generated from `data/scorePredictions_v2.json`
+- shared score projection context, which now prefers `fantasyPoolScorePredictionsData.js` and keeps `scorePredictionsData.js` as the static fallback
 - manual user-entered starter raw points
 
 ## Decision Logic

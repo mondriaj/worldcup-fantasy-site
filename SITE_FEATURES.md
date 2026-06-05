@@ -27,7 +27,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 ## Match Environment
 
 - Fixture-level score prediction panel shows group-stage match environments.
-- Score Predictor v2 uses a PELE-forward team-quality model and preserved previous versions for comparison.
+- Match Environment prefers the fantasy-pool score projection bundle and keeps the PELE-forward v2 bundle as a static fallback.
 - Predictions include expected goals, win/draw/loss probabilities, clean-sheet probability, goal environment, and upset risk.
 - Score prediction checks verify fixture coverage, probability bounds, PELE input coverage, favorite consistency, and player-matchday integration.
 
@@ -81,11 +81,11 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 - Week 6 data engine combines team data, fixtures, roster candidates, player performance matching, national-team usage, and finance-style fantasy metrics.
 - PELE ratings from Silver Bulletin are imported into `data/peleRatings_v1.json` and are central to the active team-quality and score-prediction model.
-- Active score predictions use `data/scorePredictions_v2.json`.
+- Active public Match Environment score projection context uses `data/scorePredictions_fantasyPool_v3.json` through `fantasyPoolScorePredictionsData.js`, with `data/scorePredictions_v2.json` and `scorePredictionsData.js` preserved as the fallback.
 - Active matchday player projections use `data/playerMatchdayProjections_v2.json`.
 - Active recommendation shortlists use `data/matchdayRecommendations_v2.json`.
 - Public recommendation sections load separate official fantasy-pool browser files: `fantasyPoolRecommendationsData.js`, `fantasyPoolMatchdayProjectionsData.js`, `fantasyPoolFinanceMetricsData.js`, `fantasyPoolScorePredictionsData.js`, and `fantasyPoolOfficialDataStatusData.js`.
-- The staged source files are `data/matchdayRecommendations_fantasyPool_v3.json`, `data/playerMatchdayProjections_fantasyPool_v3.json`, `data/playerFinanceMetrics_fantasyPool_v1.json`, and `data/scorePredictions_fantasyPool_v3.json`.
+- The staged source files are `data/matchdayRecommendations_fantasyPool_v3.json`, `data/playerMatchdayProjections_fantasyPool_v3.json`, `data/playerFinanceMetrics_fantasyPool_v1.json`, and `data/scorePredictions_fantasyPool_v3.json`; `data/scorePredictionDataFlow_v1.md` documents the active score projection browser flow.
 - Previous model versions are preserved where material changes were made.
 - Official Data Readiness v0 tracks blockers before rerunning final value, Team Builder, score, and recommendation models.
 
