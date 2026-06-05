@@ -16,11 +16,11 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 - Picks show Official Fantasy Picks using official fantasy prices, positions, selectable status, scoring, projections, and finance metrics.
 - Squad Builder Starter shows an 8-card curated starter pack instead of one card per model: 1 Top Projection, 2 Core Picks, 1 High-Floor Pick, 1 Upside Pick, 2 value-oriented picks with a Budget Enabler when available, and 1 Differential Pick.
-- Player cards are the default surface and include one primary pick-type badge, an optional Captain option badge, a short caution/reason line, fixture context, View Profile, and Add to Builder when the player is available to the builder.
+- Player cards are the default surface and include one primary pick-type badge, a short caution/reason line, fixture context, View Profile, and Add to Builder when the player is available to the builder.
 - Picks include a compact Builder tray that shows locked players, lets users remove them, and links directly to Team Builder.
 - Picks include a Captain Watchlist lane for captain candidates from the official fantasy pool.
 - The deeper Pick Explorer remains available behind the card-first experience for filtered Official Fantasy Picks by strategy, matchday, position, and pick pool.
-- Normal public pick labels are Projected Points, Core Picks, High-Floor Picks, Upside Picks, Value Picks, and Differential Picks. Captain Watchlist is a dedicated captain surface, and Captain option badges identify strong armband candidates without making captain a normal pick model.
+- Normal public pick labels are Projected Points, Core Picks, High-Floor Picks, Upside Picks, Value Picks, and Differential Picks. Captain Watchlist is a dedicated captain surface; captain usefulness lives there, in Player Profile, and in matchday tools rather than as a repeated card badge.
 - Recommendation explanations show projected score context, strategy score context, role risk, data checks, and fixture environment notes.
 - Recommendations use the current official FIFA fantasy pool. The monitor should be rerun when FIFA changes player, price, position, status, rule, or deadline data.
 
@@ -35,6 +35,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 - Builds a fantasy squad plan using selected strategy, official budget, position counts, country limit, locked players, removed players, and filters.
 - Team Builder is planning help and should be checked against the official game before saving.
+- Public Team Builder strategy labels are Balanced Squad, Diversified Squad, Concentrated Upside, Stars and Scrubs, and Value Squad. In Phase 2A these map to existing internal scoring modes without a major optimizer rewrite.
 - The Team Builder surface follows visible step cards: choose strategy, lock or avoid players, build squad, review legality and risk, then save or export.
 - Supports advanced risk controls for minimum start probability, expected minutes, data-review count, and risky fill-ins.
 - Users should confirm locks, deadlines, boosters, and official-game legality inside FIFA's game.

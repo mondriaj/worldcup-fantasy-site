@@ -184,7 +184,6 @@ const publicPickModelCopy = {
   }
 };
 const publicPickModelOptionKeys = ["expected", "balanced", "safe", "upside", "bestValue", "differential"];
-const builderPickModelOptionKeys = publicPickModelOptionKeys;
 const decisionStrategyOptionKeys = ["balanced", "safe", "upside", "differential"];
 
 function fantasyPoolPlayerKey(record) {
@@ -922,6 +921,110 @@ Object.entries(publicPickModelCopy).forEach(([key, copy]) => {
     Object.assign(pickModelOptions[key], copy);
   }
 });
+
+const teamBuilderStrategyOptionKeys = [
+  "balancedSquad",
+  "diversifiedSquad",
+  "concentratedUpside",
+  "starsAndScrubs",
+  "valueSquad"
+];
+
+const teamBuilderStrategyOptions = {
+  balancedSquad: {
+    id: "balancedSquad",
+    label: "Balanced Squad",
+    measureKey: "balanced",
+    description: "Strong all-around squad with a mix of starters, bench depth, budget efficiency, and moderate diversification.",
+    mappingNote: "Phase 2A mapping: uses the existing Core Picks scorer for individual player ranking, then keeps the current budget, country-limit, and portfolio-risk checks."
+  },
+  diversifiedSquad: {
+    id: "diversifiedSquad",
+    label: "Diversified Squad",
+    measureKey: "safe",
+    description: "Reduces dependence on one country, one match, or a small group of stars.",
+    mappingNote: "Phase 2A mapping: uses the existing High-Floor scorer as the safer-player base, then keeps the current squad-level country, fixture, and budget-pressure warnings."
+  },
+  concentratedUpside: {
+    id: "concentratedUpside",
+    label: "Concentrated Upside",
+    measureKey: "upside",
+    description: "Intentionally leans into strong attacking fixtures and higher-ceiling stacks.",
+    mappingNote: "Phase 2A mapping: uses the existing Upside scorer for individual player ranking, with the current portfolio adjustment still warning about fragile stacks."
+  },
+  starsAndScrubs: {
+    id: "starsAndScrubs",
+    label: "Stars and Scrubs",
+    measureKey: "premiumWorthIt",
+    description: "Spends heavily on elite starters and accepts a cheaper bench.",
+    mappingNote: "Phase 2A mapping: uses the existing premium-worth-it scorer to favor expensive players who still justify the spend, while the current optimizer fills the bench under budget."
+  },
+  valueSquad: {
+    id: "valueSquad",
+    label: "Value Squad",
+    measureKey: "bestValue",
+    description: "Builds the deepest squad for the budget.",
+    mappingNote: "Phase 2A mapping: uses the existing Value Picks scorer for individual player ranking, with the current optimizer also considering cheap playable fill-ins."
+  }
+};
+
+const teamBuilderStrategyAliases = {
+  balanced: "balancedSquad",
+  core: "balancedSquad",
+  expected: "balancedSquad",
+  safe: "diversifiedSquad",
+  highFloor: "diversifiedSquad",
+  high_floor: "diversifiedSquad",
+  differential: "diversifiedSquad",
+  upside: "concentratedUpside",
+  bestValue: "valueSquad",
+  value: "valueSquad",
+  cheapEnabler: "valueSquad",
+  premiumWorthIt: "starsAndScrubs",
+  starCore: "starsAndScrubs",
+  star_core: "starsAndScrubs",
+  captain: "balancedSquad",
+  captainFirst: "balancedSquad",
+  captain_first: "balancedSquad",
+  noStarsBalanced: "balancedSquad",
+  no_stars_balanced: "balancedSquad"
+};
+
+function knownTeamBuilderStrategyKey(key) {
+  const normalizedKey = String(key || "").trim();
+  return teamBuilderStrategyOptions[normalizedKey]
+    ? normalizedKey
+    : teamBuilderStrategyAliases[normalizedKey] || "";
+}
+
+function normalizeTeamBuilderStrategyKey(key) {
+  return knownTeamBuilderStrategyKey(key) || "balancedSquad";
+}
+
+function teamBuilderStrategyOption(key) {
+  return teamBuilderStrategyOptions[normalizeTeamBuilderStrategyKey(key)] || teamBuilderStrategyOptions.balancedSquad;
+}
+
+function teamBuilderStrategyKeyFromImport(styleKey, measureKey) {
+  const candidates = [styleKey, measureKey].filter(Boolean);
+
+  for (const candidate of candidates) {
+    const normalizedKey = knownTeamBuilderStrategyKey(candidate);
+    if (normalizedKey) {
+      return normalizedKey;
+    }
+  }
+
+  return "balancedSquad";
+}
+
+function teamBuilderStrategyMeasure(strategyOrKey) {
+  const option = typeof strategyOrKey === "string"
+    ? teamBuilderStrategyOption(strategyOrKey)
+    : strategyOrKey;
+
+  return measures[option?.measureKey] || measures.balanced;
+}
 
 function pickModelOption(key) {
   return pickModelOptions[key] || pickModelOptions.balanced;
@@ -3583,11 +3686,11 @@ function measureFromSelect(selectElement) {
 }
 
 function activeMeasure() {
-  return measureFromSelect(measureSelect);
+  return teamBuilderStrategyMeasure(measureSelect?.value);
 }
 
 function activeBuilderStrategyOption() {
-  return pickModelOption(measureSelect?.value || "balanced");
+  return teamBuilderStrategyOption(measureSelect?.value);
 }
 
 function activeBuilderStrategyLabel() {
@@ -3608,7 +3711,7 @@ function activeCardStat() {
 
 function activeCardStatLabel(stat = activeCardStat()) {
   return stat === cardStats.balanced
-    ? `${activeMeasure().label} Score`
+    ? `${activeBuilderStrategyLabel()} Score`
     : stat.label;
 }
 
@@ -7273,7 +7376,10 @@ function builderSettingsForExport() {
     recommendation_style: {
       key: selectedStrategyOption.id,
       label: selectedStrategyOption.label,
-      measure_key: measure.key
+      description: selectedStrategyOption.description,
+      measure_key: measure.key,
+      mapped_scoring_view: measure.optionLabel || measure.label,
+      phase_2a_mapping_note: selectedStrategyOption.mappingNote
     },
     trust_mode: {
       id: trustMode.id,
@@ -7745,11 +7851,11 @@ function setImportedBuilderSettings(payload) {
     setMatchdayDecisionMatchday(activeMatchdayId);
   }
 
-  if (styleKey) {
-    const matchingPickKey = builderPickModelOptionKeys.includes(styleKey)
-      ? styleKey
-      : builderPickModelOptionKeys.find((key) => pickModelOptions[key]?.measureKey === styleKey);
-    measureSelect.value = matchingPickKey || "balanced";
+  if (styleKey || settings.recommendation_style?.measure_key || payload.strategy_measure_key) {
+    measureSelect.value = teamBuilderStrategyKeyFromImport(
+      styleKey,
+      settings.recommendation_style?.measure_key || payload.strategy_measure_key
+    );
   }
 
   if (trustModeId && trustModes[trustModeId]) {
@@ -7999,7 +8105,7 @@ async function importTeamJson(event) {
 }
 
 function renderMeasureOptions() {
-  const renderOptions = (keys) => keys
+  const renderPickOptions = (keys) => keys
     .map((key) => {
       const option = pickModelOptions[key];
       if (option) {
@@ -8008,13 +8114,19 @@ function renderMeasureOptions() {
       return `<option value="${key}">${measures[key].optionLabel || measures[key].label}</option>`;
     })
     .join("");
-  const builderOptionsHtml = renderOptions(builderPickModelOptionKeys);
-  const publicPickOptionsHtml = renderOptions(publicPickModelOptionKeys);
+  const renderBuilderOptions = (keys) => keys
+    .map((key) => {
+      const option = teamBuilderStrategyOption(key);
+      return `<option value="${key}">${option.label}</option>`;
+    })
+    .join("");
+  const builderOptionsHtml = renderBuilderOptions(teamBuilderStrategyOptionKeys);
+  const publicPickOptionsHtml = renderPickOptions(publicPickModelOptionKeys);
 
   if (measureSelect) {
     const previousValue = measureSelect.value;
     measureSelect.innerHTML = builderOptionsHtml;
-    measureSelect.value = builderPickModelOptionKeys.includes(previousValue) ? previousValue : "balanced";
+    measureSelect.value = normalizeTeamBuilderStrategyKey(previousValue);
   }
 
   [quickPickModelSelect, adviceMeasureSelect].filter(Boolean).forEach((select) => {
@@ -8082,18 +8194,17 @@ function renderMeasureInfo() {
   const measure = activeMeasure();
   const selectedStrategyOption = activeBuilderStrategyOption();
   const trustMode = activeTrustMode();
-  const secondaryLabel = measure.secondaryLabel
-    ? `<span class="measure-info__secondary">${measure.secondaryLabel}</span>`
-    : "";
+  const mappedScoreLabel = measure.optionLabel || measure.label;
   const matchdayCopy = activeMatchdayId === "group_stage_full"
     ? "Scores use the full group-stage view."
     : `Scores are adjusted for ${activeMatchdayLabel()} fixture opponents.`;
 
   measureInfo.innerHTML = `
     <strong>${selectedStrategyOption.label}</strong>
-    ${secondaryLabel}
-    <p>${selectedStrategyOption.cardDescription || measure.description}</p>
-    <p><strong>How it is calculated:</strong> ${measure.formula}</p>
+    <span class="measure-info__secondary">Squad-building strategy</span>
+    <p>${selectedStrategyOption.description}</p>
+    <p><strong>Current model mapping:</strong> ${selectedStrategyOption.mappingNote}</p>
+    <p><strong>Mapped scoring view:</strong> ${mappedScoreLabel}. ${measure.formula}</p>
     <p><strong>Matchday view:</strong> ${matchdayCopy}</p>
     <p><strong>Safety preference:</strong> ${publicTrustModeDescription(trustMode)}</p>
   `;
@@ -8397,6 +8508,7 @@ function toggleScoreInfo() {
 
 function renderPlayerPicker() {
   const measure = activeMeasure();
+  const builderStrategyLabel = activeBuilderStrategyLabel();
   const searchValue = playerSearch.value.trim().toLowerCase();
   const filteredPlayers = players
     .filter((player) => !excludedPlayerIds.has(player.id))
@@ -8449,7 +8561,7 @@ function renderPlayerPicker() {
         </span>
         <span class="player-option__metrics">
           <em><span>Price</span>${playerPriceText(player)}</em>
-          <em title="${escapeHtml(scoreSummaryText(player, measure))}"><span>${measure.label}</span>${displayNumber(measureScore(player, measure))}</em>
+          <em title="${escapeHtml(scoreSummaryText(player, measure))}"><span>${escapeHtml(builderStrategyLabel)}</span>${displayNumber(measureScore(player, measure))}</em>
         </span>
       </label>
     `;
@@ -9949,12 +10061,6 @@ function isCaptainOption(player) {
   return scoreValue(player, "finance_captain_score") >= 70 || captainRecommendationScore(player) >= 75;
 }
 
-function pickCardCaptainBadgeHtml(player) {
-  return isCaptainOption(player)
-    ? `<span class="pick-card__captain-badge" title="Strong captain candidate">Captain option</span>`
-    : "";
-}
-
 function cardCautionPhrase(reason) {
   const normalizedReason = String(reason || "").toLowerCase();
 
@@ -10048,13 +10154,11 @@ function renderPickCard(player, options = {}) {
   const projectionSummary = pickCardProjectionSummary(player);
   const modelDescription = options.modelDescription || pickCardModelDescription(modelKey, measureKey);
   const riskDescription = pickCardRiskDescription(player, measureKey, modelKey);
-  const captainBadge = pickCardCaptainBadgeHtml(player);
 
   return `
     <article class="pick-card pick-card--${pickRiskKind(player)}">
       <div class="pick-card__top">
         <span class="pick-card__label">${escapeHtml(label)}</span>
-        ${captainBadge}
       </div>
       ${playerDetailButton(player, "player-name-button--dashboard", measureKey)}
       <p class="pick-card__meta">${escapeHtml(playerCountryText(player))} · ${escapeHtml(player.position)}</p>
@@ -10614,6 +10718,7 @@ function addBackRemovedPlayer(playerId) {
   excludedPlayerIds.delete(playerId);
   renderPlayerPicker();
   renderRemovedPlayers();
+  updateControlStates();
   teamMessage.textContent = `${player.name} is available again. Click Build My Squad to include him if he fits.`;
 }
 

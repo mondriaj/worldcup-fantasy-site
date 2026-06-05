@@ -14,7 +14,7 @@
     <meta name="twitter:description" content="Compare squad starters, captain choices, team builds, bench decisions, and score predictions in one simple fantasy football hub." />
     <!-- Add canonical and og:url once the final production URL is available. -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="stylesheet" href="style.css?v=20260605-card-badges" />
+    <link rel="stylesheet" href="style.css?v=20260605-builder-strategies" />
   </head>
   <body>
     <header id="top" class="hero">
@@ -566,7 +566,7 @@
                 <span class="builder-step-number">1</span>
                 <div>
                   <h3 id="builder-step-strategy-title">Choose Strategy</h3>
-                  <p>Core Picks is the default. Change strategy, formation, or matchday view before building.</p>
+                  <p>Balanced Squad is the default. Change squad strategy, formation, or matchday view before building.</p>
                 </div>
               </div>
 
@@ -574,7 +574,7 @@
                 <label class="control-group" for="measure-select">
                   <span>Strategy</span>
                   <select id="measure-select"></select>
-                  <small class="control-helper">Choose from the public pick labels used in Squad Builder Starter.</small>
+                  <small class="control-helper">Choose the squad-building approach. Each strategy maps to an existing scoring view in this phase.</small>
                 </label>
 
                 <label class="control-group" for="tactic-select">
@@ -919,7 +919,8 @@
               <p><strong>Expected Minutes:</strong> estimated playing time for the selected matchday view.</p>
               <p><strong>Reliability:</strong> a 0 to 100 role-and-minutes steadiness score. Higher is steadier.</p>
               <p><strong>Risk:</strong> a 0 to 100 downside score using role, minutes, volatility, fixture difficulty, and bad-week exposure. Lower is safer.</p>
-              <p><strong>Strategy Score:</strong> the ranking score for the selected model view: Projected Points, Core Picks, High-Floor Picks, Upside Picks, Value Picks, or Differential Picks.</p>
+              <p><strong>Pick Strategy Score:</strong> the ranking score for the selected player-pick view: Projected Points, Core Picks, High-Floor Picks, Upside Picks, Value Picks, or Differential Picks.</p>
+              <p><strong>Team Builder Strategy:</strong> the squad-building approach: Balanced Squad, Diversified Squad, Concentrated Upside, Stars and Scrubs, or Value Squad.</p>
               <p><strong>Team Builder cards:</strong> show price, the selected card metric, country, club, role notes, and the selected matchday opponent when available.</p>
               <p><strong>Squad Risk Report:</strong> summarizes portfolio health, projected points, start chance, minutes, bad-week floor, squad risk, country stack risk, fixture stack risk, and budget pressure.</p>
               <p><strong>Switch checks:</strong> compare actual points already earned with a possible captain or bench option still to play.</p>
@@ -969,6 +970,19 @@
               <p><strong>Differential Picks:</strong> finds less obvious picks that still project well.</p>
               <p><strong>Advanced variants:</strong> Value Quant and Risk-Control are preserved for model notes and older exports, not shown as normal public pick models.</p>
               <p><strong>Captain Watchlist:</strong> is a separate captain-planning lane, not a normal public pick model.</p>
+            </div>
+          </div>
+
+          <div class="formula-section">
+            <h3>Team Builder Strategies</h3>
+            <p>Team Builder strategies describe the kind of 15-player squad to build. In Phase 2A they map to existing player scoring views, then use the current budget, position, country-limit, lock, avoid, and squad-risk checks.</p>
+
+            <div class="formula-list">
+              <p><strong>Balanced Squad:</strong> strong all-around squad with starters, bench depth, budget efficiency, and moderate diversification.</p>
+              <p><strong>Diversified Squad:</strong> reduces dependence on one country, one match, or a small group of stars.</p>
+              <p><strong>Concentrated Upside:</strong> leans into strong attacking fixtures and higher-ceiling stacks.</p>
+              <p><strong>Stars and Scrubs:</strong> spends heavily on elite starters and accepts a cheaper bench.</p>
+              <p><strong>Value Squad:</strong> builds the deepest squad for the budget.</p>
             </div>
           </div>
 
@@ -1209,7 +1223,7 @@
               <p><strong>Substitution Risk:</strong> a 0 to 100 risk score for limited minutes, bench role, or early substitution. Lower is better.</p>
               <p><strong>Per 90:</strong> modeled fantasy upside if the player played a full 90 minutes.</p>
               <p><strong>Risk:</strong> a composite score from source risk, minutes uncertainty, volatility, downside risk, fixture risk, discipline, and bad-week probability. Lower is better.</p>
-              <p><strong>Strategy Score:</strong> the score for the selected public pick view: Projected Points, Core Picks, High-Floor Picks, Upside Picks, Value Picks, or Differential Picks. Advanced notes may preserve older internal score names for audit history.</p>
+              <p><strong>Pick Strategy Score:</strong> the score for the selected public pick view: Projected Points, Core Picks, High-Floor Picks, Upside Picks, Value Picks, or Differential Picks. Advanced notes may preserve older internal score names for audit history.</p>
               <p><strong>Projected Pts / Matchday:</strong> risk-adjusted expected fantasy points for one matchday. Pick cards highlight Matchday 1 unless you choose a specific matchday view.</p>
               <p><strong>Advanced Bad-Week Floor Fields:</strong> deeper downside floor measures used by Model Notes and exports. They estimate bad-outcome cutoffs and worst-outcome averages.</p>
               <p><strong>Attack Heavy:</strong> tilts toward attacking players and attacking defenders with strong goal, assist, shot, and upside signals.</p>
@@ -1242,8 +1256,8 @@
             </details>
 
             <details class="stat-example">
-              <summary>Example: Strategy Score</summary>
-              <p>If Strategy is High-Floor Picks, the score shown in the lock list favors low downside and useful projected points. If Strategy changes to Upside Picks, the score shifts toward ceiling and attacking value.</p>
+              <summary>Example: Pick Strategy Score</summary>
+              <p>If Pick Explorer is set to High-Floor Picks, the score favors low downside and useful projected points. If it changes to Upside Picks, the score shifts toward ceiling and attacking value.</p>
             </details>
 
             <details class="stat-example">
@@ -1456,6 +1470,6 @@
     <script src="fantasyPoolFinanceMetricsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolScorePredictionsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolOfficialDataStatusData.js?v=20260603-official-final"></script>
-    <script src="script.js?v=20260605-starter-pack"></script>
+    <script src="script.js?v=20260605-builder-strategies"></script>
   </body>
 </html>

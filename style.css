@@ -2167,8 +2167,7 @@ html {
   gap: 8px;
 }
 
-.pick-card__label,
-.pick-card__captain-badge {
+.pick-card__label {
   display: inline-flex;
   align-items: center;
   min-height: 26px;
@@ -2182,11 +2181,6 @@ html {
 .pick-card__label {
   background: rgba(24, 78, 119, 0.09);
   color: var(--accent-cool);
-}
-
-.pick-card__captain-badge {
-  background: rgba(15, 143, 79, 0.12);
-  color: var(--accent-dark);
 }
 
 .pick-card__meta,
