@@ -26,11 +26,10 @@ That bundle is generated from `data/scorePredictions_fantasyPool_v3.json`. It ha
 - Most likely score
 - Match uncertainty
 - Clean-sheet context
-- Upset risk
 
 Projected xG is fixture-specific expected goals for the listed matchup. It uses the same final expected-goal values that feed the scoreline grid: `home_expected_goals` and `away_expected_goals`, now also exposed as `homeProjectedXg`, `awayProjectedXg`, `homeMatchXg`, and `awayMatchXg` aliases for clearer browser display code.
 
-The same rows still carry total goals range, win/draw/loss probabilities, clean-sheet probabilities, goal environment, top scorelines, and upset-risk probability for details and fallback display. Total goals range is supporting context, not the lead public stat.
+The same rows still carry total goals range, win/draw/loss probabilities, clean-sheet probabilities, goal environment, top scorelines, and upset-risk probability for model/internal use and fallback display. Total goals range is supporting context, not the lead public stat. Upset risk is no longer a main public Match Environment field because Win / Draw / Win is the clearer public outcome view.
 
 ## Fallback Source
 
@@ -48,7 +47,7 @@ Team Builder uses the same current official fantasy-pool player layer and player
 
 The active fantasy-pool score source remains PELE-anchored through `data/peleRatings_v1.json` and the PELE-forward team-quality model. On 2026-06-05, the existing PELE Datawrapper source URLs were reachable and matched the local 2026-06-01 CSV files, so no PELE refresh was needed.
 
-PELE remains the core team-strength anchor. The local score model converts PELE plus fixture context into fantasy-facing score projection context: fixture-specific Projected xG, scoreline probabilities, clean-sheet probabilities, uncertainty, and upset risk.
+PELE remains the core team-strength anchor. The local score model converts PELE plus fixture context into fantasy-facing score projection context: fixture-specific Projected xG, scoreline probabilities, clean-sheet probabilities, and uncertainty. Upset-risk fields remain available for internal/model use.
 
 Phase 3B adds these fixture-level uncertainty fields while preserving the expected-goal fields:
 

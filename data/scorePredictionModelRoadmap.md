@@ -11,7 +11,7 @@ The public Match Environment table now prefers the fantasy-pool score projection
 - Browser file: `../fantasyPoolScorePredictionsData.js`
 - Source file: `scorePredictions_fantasyPool_v3.json`
 - Window rows used by `script.js`: `window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS`
-- Phase 3C public display fields: Projected xG, Win / Draw / Win, Most Likely Score, Match Uncertainty, Clean-Sheet Context, and Upset Risk
+- Phase 3C follow-up public display fields: Projected xG, Win / Draw / Win, Most Likely Score, Match Uncertainty, and Clean-Sheet Context
 
 Projected xG is fixture-specific expected goals for each listed team against that opponent. The values match the expected-goal inputs used by the scoreline grid. Total goals range remains supporting detail and the generic match-level attack column is no longer part of the main public table.
 
@@ -31,9 +31,10 @@ This pass keeps the score model unchanged and cleans up the public display:
 
 - `home_expected_goals` and `away_expected_goals` remain the final fixture-adjusted expected-goal values used by the scoreline grid.
 - The fantasy-pool v3 source also exposes clearer aliases: `homeProjectedXg`, `awayProjectedXg`, `homeMatchXg`, and `awayMatchXg`.
-- Match Environment displays Projected xG as matchup-specific expected goals, plus win/draw/win, most likely score, match uncertainty, clean-sheet context, and upset risk.
+- Match Environment displays Projected xG as matchup-specific expected goals, plus win/draw/win, most likely score, match uncertainty, and clean-sheet context.
 - Total goals range is supporting detail under the likely scoreline.
 - The generic match-level attack column was removed from the main table because it could be mistaken for a generic attacking rating.
+- The public Upset Risk column was removed from the main table because Win / Draw / Win gives users a clearer outcome view; the underlying upset-risk fields remain available for internal/model use.
 
 ## Phase 3B PELE-Anchored Uncertainty Layer
 
@@ -61,7 +62,7 @@ New fixture-level fields:
 
 What changed in the public surface during Phase 3B:
 
-- Match Environment added total-goals range, match uncertainty, clean-sheet context, and upset-risk context.
+- Match Environment added total-goals range, match uncertainty, clean-sheet context, and supporting outcome-risk context for model use.
 - Expected goals, win/draw/loss probabilities, clean-sheet probabilities, top scoreline, and favorite probability remain visible in row details.
 - Player Profile fixture reasons can use Match uncertainty and context labels when fixture rows are available.
 

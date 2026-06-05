@@ -69,7 +69,7 @@ The fantasy context layer translates fixture output into simple public labels:
 - `upsetRisk`
 - `matchUncertainty`
 
-These labels are for fantasy planning and model inspection. Phase 3C keeps clean-sheet, goal, uncertainty, and upset-risk context in the main Match Environment table, but removes the generic match-level attack column from that main public display because it could mislead users about what Projected xG means. The fields do not claim official lineups, injuries, deadlines, locks, final squads, or live match state.
+These labels are for fantasy planning and model inspection. Phase 3C keeps clean-sheet, goal, and uncertainty context in the main Match Environment table, but removes the generic match-level attack column from that main public display because it could mislead users about what Projected xG means. A Phase 3C follow-up also removes public Upset Risk from the main table because Win / Draw / Win is the clearer outcome view. The underlying upset-risk fields remain available for internal scoring, model notes, and exports. The fields do not claim official lineups, injuries, deadlines, locks, final squads, or live match state.
 
 ## Current Limits
 

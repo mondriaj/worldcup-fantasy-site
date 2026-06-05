@@ -12,7 +12,7 @@ Public player-pick labels are **Projected Points**, **Core Picks**, **High-Floor
 
 Team Builder is a planning tool. Users should confirm squad legality, locks, deadlines, boosters, live points, and played/unplayed status inside the official FIFA fantasy game before saving or acting.
 
-The current data/model stack uses browser-ready official fantasy-pool files for recommendations, matchday projections, finance/value metrics, score predictions, and official-data status. Match Environment now prefers the fantasy-pool score projection bundle, keeps the PELE-forward v2 score bundle as a static fallback, and shows fixture-specific Projected xG, win/draw/win probabilities, most likely score, match uncertainty, clean-sheet context, and upset risk. Projected xG means expected goals for that exact matchup, not a generic team average. Preserved model versions remain available for model inspection, but the public experience is organized around the fantasy jobs: find picks, build a squad, and make matchday decisions.
+The current data/model stack uses browser-ready official fantasy-pool files for recommendations, matchday projections, finance/value metrics, score predictions, and official-data status. Match Environment now prefers the fantasy-pool score projection bundle, keeps the PELE-forward v2 score bundle as a static fallback, and shows fixture-specific Projected xG, win/draw/win probabilities, most likely score, match uncertainty, and two-line clean-sheet context. Projected xG means expected goals for that exact matchup, not a generic team average. Preserved model versions remain available for model inspection, but the public experience is organized around the fantasy jobs: find picks, build a squad, and make matchday decisions.
 
 Official fantasy browser data lives in separate browser-ready files: `fantasyPoolRecommendationsData.js`, `fantasyPoolMatchdayProjectionsData.js`, `fantasyPoolFinanceMetricsData.js`, `fantasyPoolScorePredictionsData.js`, and `fantasyPoolOfficialDataStatusData.js`. These are generated from fantasy-pool source files and preserve the older fallback files.
 
@@ -126,7 +126,7 @@ When FIFA fantasy data changes, rerun the official data monitor, import only the
 
 Score model upgrade notes:
 
-- Phase 3C: active public Match Environment source is PELE-anchored fantasy-pool v3 with fixture-specific Projected xG, win/draw/win, most likely score, match uncertainty, clean-sheet context, and upset risk. Total goals range is supporting detail, not the lead public stat. Upgrade again after source-backed final squads, injuries, and updated national-team form materially change team context.
+- Phase 3C follow-up: active public Match Environment source is PELE-anchored fantasy-pool v3 with fixture-specific Projected xG, win/draw/win, most likely score, match uncertainty, and clean-sheet context. Total goals range is supporting detail, and upset-risk fields are kept for model/internal context rather than the main public display. Upgrade again after source-backed final squads, injuries, and updated national-team form materially change team context.
 - Future calibration: after the roster-weighted model is stable, backtest or calibrate low-score/draw behavior with a Dixon-Coles-style adjustment.
 
 Stage B adds FIFA-sourced tournament structure and group-stage fixture data while keeping player recommendations separate.

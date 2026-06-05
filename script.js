@@ -2414,7 +2414,7 @@ function matchShapePhrase(row) {
   const upsetRisk = value(row?.upset_risk_probability);
   const homeAwayGap = Math.abs(value(row?.home_win_probability) - value(row?.away_win_probability));
 
-  if (favoriteWin >= 0.64 && upsetRisk >= 0.2) return "Favorite with upset risk";
+  if (favoriteWin >= 0.64 && upsetRisk >= 0.2) return "Favorite, not settled";
   if (favoriteWin >= 0.68) return "Clear favorite";
   if (totalGoals >= 2.85) return "Open match";
   if (totalGoals <= 2.15 && homeAwayGap <= 0.18) return "Tight low-score match";
@@ -2432,13 +2432,19 @@ function cleanSheetContextForSide(row, side) {
 function cleanSheetContextText(row) {
   const homeCode = compactTeamCode(row?.home_team_id, row?.home_team);
   const awayCode = compactTeamCode(row?.away_team_id, row?.away_team);
-  return `${homeCode} ${cleanSheetContextForSide(row, "home")} · ${awayCode} ${cleanSheetContextForSide(row, "away")}`;
+  return `
+    <span>${homeCode} ${cleanSheetContextForSide(row, "home")}</span>
+    <span>${awayCode} ${cleanSheetContextForSide(row, "away")}</span>
+  `;
 }
 
 function cleanSheetProbabilityText(row) {
   const homeCode = compactTeamCode(row?.home_team_id, row?.home_team);
   const awayCode = compactTeamCode(row?.away_team_id, row?.away_team);
-  return `Clean sheet: ${homeCode} ${compactPercentText(row?.home_clean_sheet_probability)} · ${awayCode} ${compactPercentText(row?.away_clean_sheet_probability)}`;
+  return `
+    <span>${homeCode} ${compactPercentText(row?.home_clean_sheet_probability)} clean sheet</span>
+    <span>${awayCode} ${compactPercentText(row?.away_clean_sheet_probability)} clean sheet</span>
+  `;
 }
 
 function goalRangeForRow(row) {
@@ -4156,7 +4162,6 @@ function signalFilterOptions() {
     { value: "all", label: "All Fixtures" },
     { value: "high_goals", label: "High Goal Environment" },
     { value: "clean_sheet", label: "Clean-Sheet Watch" },
-    { value: "upset_risk", label: "Upset Risk" },
     { value: "strong_favorite", label: "Strong Favorites" },
     { value: "btts", label: "Both Teams To Score" }
   ];
@@ -4251,7 +4256,7 @@ function renderMatchEnvironmentTable() {
     matchEnvironmentSummary.textContent = "";
     matchEnvironmentTableBody.innerHTML = `
       <tr>
-        <td colspan="7">Score prediction data is not loaded yet.</td>
+        <td colspan="6">Score prediction data is not loaded yet.</td>
       </tr>
     `;
     return;
@@ -4264,7 +4269,7 @@ function renderMatchEnvironmentTable() {
   if (!visibleRows.length) {
     matchEnvironmentTableBody.innerHTML = `
       <tr>
-        <td colspan="7">No fixtures match this environment filter.</td>
+        <td colspan="6">No fixtures match this environment filter.</td>
       </tr>
     `;
     return;
@@ -4272,8 +4277,6 @@ function renderMatchEnvironmentTable() {
 
   matchEnvironmentTableBody.innerHTML = visibleRows.map((row) => {
     const matchUncertainty = matchUncertaintyLabel(row);
-    const upsetRisk = scoreContextLabel(row, "upsetRisk", "upset_risk_public", publicUpsetRiskFromProbability(row.upset_risk_probability));
-    const favoriteCode = compactTeamCode(row.favorite_team_id, row.favorite_team);
     const scorelineAlternatives = topScorelineAlternativesText(row);
 
     return `
@@ -4299,12 +4302,8 @@ function renderMatchEnvironmentTable() {
           <small>${matchShapePhrase(row)}</small>
         </td>
         <td>
-          <strong>${cleanSheetContextText(row)}</strong>
-          <small>${cleanSheetProbabilityText(row)}</small>
-        </td>
-        <td>
-          <strong>${upsetRisk}</strong>
-          <small>${compactPercentText(row.upset_risk_probability)} · Favorite ${favoriteCode} ${compactPercentText(row.favorite_win_probability)}</small>
+          <strong class="clean-sheet-lines">${cleanSheetContextText(row)}</strong>
+          <small class="clean-sheet-lines clean-sheet-lines--muted">${cleanSheetProbabilityText(row)}</small>
         </td>
       </tr>
     `;

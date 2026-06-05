@@ -2433,6 +2433,20 @@ html {
   white-space: nowrap;
 }
 
+.clean-sheet-lines {
+  display: grid;
+  gap: 3px;
+}
+
+.clean-sheet-lines span {
+  display: block;
+  white-space: nowrap;
+}
+
+.clean-sheet-lines--muted {
+  gap: 2px;
+}
+
 .player-name-button {
   border: 0;
   padding: 0;
@@ -5394,10 +5408,6 @@ input[type="number"] {
 
   #match-environment-table-body td:nth-child(6)::before {
     content: "Clean Sheet";
-  }
-
-  #match-environment-table-body td:nth-child(7)::before {
-    content: "Upset Risk";
   }
 
   #captain-table-body .fallback-table-row,
