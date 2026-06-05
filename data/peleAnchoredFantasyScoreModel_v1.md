@@ -73,6 +73,8 @@ These labels are for fantasy planning and model inspection. Phase 3C keeps clean
 
 Phase 3D uses the cleaned fields beyond the Match Environment table. Player cards and Player Profile fixture notes can use fixture-specific Projected xG, Win / Draw / Win, Most likely score, Clean-sheet context, and Match uncertainty. Team Builder also uses that context in squad-risk scoring: uncertain match stacks can lower Bad-Week Floor and raise Fixture Stack Risk, strong team projected xG can lift Upside Ceiling, and good clean-sheet context can help defender/keeper squad value. This does not change the PELE anchor, expected-goal formulas, Poisson scoreline grid, or static browser data-loading pattern.
 
+Phase 3E keeps those integrations but polishes the public copy. Player cards now use a single short fixture note only when the context is useful, Player Profile keeps the compact fixture context labels, and the Squad Strategy Report keeps the same metrics with shorter fixture-risk and upside explanations. Upset Risk, xG Base, Goal Range, and Attacker Context stay out of the main public fields.
+
 ## Current Limits
 
 Phase 3B intentionally does not add historical backtesting, Dixon-Coles-style low-score calibration, draw tuning, roster-weighted likely XI strength, injury adjustments, or live lineup logic.

@@ -16,12 +16,12 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 - Picks show Official Fantasy Picks using official fantasy prices, positions, selectable status, scoring, projections, and finance metrics.
 - Squad Builder Starter shows an 8-card curated starter pack instead of one card per model: 1 Top Projection, 2 Core Picks, 1 High-Floor Pick, 1 Upside Pick, 2 value-oriented picks with a Budget Enabler when available, and 1 Differential Pick.
-- Player cards are the default surface and include one primary pick-type badge, a short caution/reason line, cleaned Match Environment context when useful, View Profile, and Add to Builder when the player is available to the builder.
+- Player cards are the default surface and include one primary pick-type badge, a short caution/reason line, a one-line fixture note when useful, View Profile, and Add to Builder when the player is available to the builder.
 - Picks include a compact Builder tray that shows locked players, lets users remove them, and links directly to Team Builder.
 - Picks include a Captain Watchlist lane for captain candidates from the official fantasy pool.
 - The deeper Pick Explorer remains available behind the card-first experience for filtered Official Fantasy Picks by strategy, matchday, position, and pick pool.
 - Normal public pick labels are Projected Points, Core Picks, High-Floor Picks, Upside Picks, Value Picks, and Differential Picks. Captain Watchlist is a dedicated captain surface; captain usefulness lives there, in Player Profile, and in matchday tools rather than as a repeated card badge.
-- Recommendation explanations show projected score context, strategy score context, role risk, data checks, and fixture-specific Match Environment notes such as team projected xG, clean-sheet context, match uncertainty, tight matches, and lower-scoring setups.
+- Recommendation explanations show projected score context, strategy score context, role/caution context, data checks, and short fixture-specific Match Environment notes such as strong team projected xG, clean-sheet outlook, or high-variance match setup when useful.
 - Recommendations use the current official FIFA fantasy pool. The monitor should be rerun when FIFA changes player, price, position, status, rule, or deadline data.
 
 ## Match Environment
@@ -31,7 +31,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Public columns emphasize Projected xG, Win / Draw / Win, Most Likely Score, Match Uncertainty, and Clean-Sheet Context.
 - Projected xG is fixture-specific expected goals for each team against the listed opponent. It is not a generic team average or PELE rating label.
 - Clean-sheet context displays each team on its own line so defender and keeper outlooks are easy to scan.
-- The same cleaned Match Environment context supports player-card reasons, Player Profile fixture notes, and Team Builder squad-risk scoring.
+- The same cleaned Match Environment context supports one-line player-card fixture notes, compact Player Profile fixture context, and Team Builder squad-risk scoring.
 - Row details keep total goals range as supporting context and still show team-specific clean-sheet probability, favorite probability, and top scoreline context.
 - Score prediction checks verify fixture coverage, probability bounds, PELE input coverage, favorite consistency, ordered uncertainty bands, expected-goal preservation, fantasy context labels, and player-matchday integration.
 

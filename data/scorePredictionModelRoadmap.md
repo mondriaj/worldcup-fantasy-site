@@ -23,6 +23,17 @@ The older PELE-forward v2 browser bundle remains loaded as a safe static fallbac
 
 See `scorePredictionDataFlow_v1.md` for the plain-language browser data-flow note, and `peleAnchoredFantasyScoreModel_v1.md` for the PELE, Projected xG, and uncertainty note.
 
+## Phase 3E Public Explanation Polish
+
+Status: complete as of June 5, 2026.
+
+This pass keeps the score model and Team Builder optimizer unchanged. It tightens the public wording around the Phase 3D match-context integration:
+
+- Player cards use at most one short fixture note, only when projected team xG, clean-sheet outlook, match variance, or match shape helps explain the pick.
+- Player Profile keeps the compact fixture context labels: Team projected xG, Opponent projected xG, Win / Draw / Win, Most likely score, Clean-sheet context, and Match uncertainty.
+- Team Builder keeps the same Squad Strategy Report metrics, but the fixture-risk and upside explanations are shorter and less technical.
+- Upset Risk, xG Base, Goal Range, and Attacker Context remain out of the main public fields.
+
 ## Phase 3C Match Environment Display Cleanup
 
 Status: complete as of June 5, 2026.

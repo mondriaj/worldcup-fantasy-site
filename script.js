@@ -2697,7 +2697,7 @@ function projectionMatchContext(projection) {
   };
 }
 
-function projectionMatchContextSummary(player, projection) {
+function projectionMatchContextSummary(player, projection, options = {}) {
   if (!projection) {
     return "";
   }
@@ -2705,33 +2705,51 @@ function projectionMatchContextSummary(player, projection) {
   const context = projectionMatchContext(projection);
   const isAttacker = ["Forward", "Midfielder"].includes(player?.position);
   const isDefenderOrKeeper = ["Goalkeeper", "Defender"].includes(player?.position);
+  const measureKey = String(options.measureKey || options.modelKey || player?.preview_candidate?.mode || "").toLowerCase();
+  const isCard = options.surface === "card";
+  const isProfile = options.surface === "profile";
+  const isUpsideLean = ["upside", "differential"].includes(measureKey);
+  const isSafetyLean = ["safe", "highfloor", "high_floor", "bestvalue", "cheapenabler"].includes(measureKey);
   const fragments = [];
+  const addFragment = (fragment) => {
+    if (fragment && !fragments.includes(fragment)) {
+      fragments.push(fragment);
+    }
+  };
 
-  if (isAttacker && Number.isFinite(context.teamProjectedXg) && context.teamProjectedXg >= 1.85) {
-    fragments.push(`Team projects for ${displayMatchNumber(context.teamProjectedXg)} xG.`);
-  } else if (isAttacker && Number.isFinite(context.teamProjectedXg) && context.teamProjectedXg <= 0.9) {
-    fragments.push("Low team xG for this matchup.");
+  if (isCard && ["balanced", "core"].includes(measureKey)) {
+    return "";
+  }
+
+  if (isAttacker && Number.isFinite(context.teamProjectedXg)) {
+    if (context.teamProjectedXg >= (isCard && !isUpsideLean ? 2.1 : 1.9)) {
+      addFragment(`Strong team projected xG (${displayMatchNumber(context.teamProjectedXg)}).`);
+    } else if (!isCard && context.teamProjectedXg <= 0.85) {
+      addFragment("Lower team projected xG in this matchup.");
+    }
   }
 
   if (isDefenderOrKeeper && ["Strong", "Good"].includes(context.cleanSheetContext)) {
-    fragments.push(`${context.cleanSheetContext} clean-sheet context.`);
-  } else if (isDefenderOrKeeper && context.cleanSheetContext === "Difficult") {
-    fragments.push("Difficult clean-sheet context.");
+    if (context.cleanSheetContext === "Strong" || isSafetyLean || isProfile) {
+      addFragment(`${context.cleanSheetContext} clean-sheet outlook.`);
+    }
+  } else if (!isCard && isDefenderOrKeeper && context.cleanSheetContext === "Difficult") {
+    addFragment("Tougher clean-sheet outlook.");
   }
 
-  if (context.matchUncertainty === "High") {
-    fragments.push("High match uncertainty.");
+  if (!fragments.length && context.matchUncertainty === "High" && (isUpsideLean || !isCard)) {
+    addFragment("High-variance match setup.");
   }
 
-  if (!fragments.length && context.isCloseMatch) {
-    fragments.push("Match looks tight.");
+  if (!fragments.length && context.isCloseMatch && (isDefenderOrKeeper || !isCard)) {
+    addFragment(context.isLowerScoring ? "Tight, lower-scoring setup." : "Tight matchup.");
   }
 
-  if (fragments.length < 2 && context.isLowerScoring) {
-    fragments.push("Lower-scoring setup.");
+  if (!isCard && fragments.length < 2 && context.isLowerScoring && !fragments.some((fragment) => /lower-scoring/i.test(fragment))) {
+    addFragment("Lower-scoring setup.");
   }
 
-  return fragments.slice(0, 2).join(" ");
+  return fragments.slice(0, isCard ? 1 : 2).join(" ");
 }
 
 function activeEnvironmentMatchdayIds(matchdayId = activeMatchdayId) {
@@ -4195,12 +4213,13 @@ function publicFantasyPickReasonItems(player) {
   const scopeText = isGroupStageScope
     ? `projected points per matchday across the group stage (${Number.isFinite(fixtureCount) && fixtureCount > 0 ? fixtureCount : 3} matches)`
     : `projected points for ${matchdayLabelFromId(scopeMatchdayId)}`;
-  const fixture = pickFixtureLabel(player);
-  const matchContext = projectionMatchContextSummary(player, projection);
+  const matchContext = projectionMatchContextSummary(player, projection, {
+    measureKey: mode,
+    modelKey: candidate.mode,
+    surface: "profile"
+  });
   const fixtureText = matchContext
-    ? `Match context: ${matchContext}`
-    : fixture && !fixture.toLowerCase().includes("needs check")
-      ? `Score predictions: ${fixture}.`
+    ? `Fixture note: ${matchContext}`
     : "";
   const reasons = [];
 
@@ -4347,15 +4366,49 @@ function profileFixtureContextGrid(player) {
 
   const context = projectionMatchContext(projection);
   const fixtureNote = `${projection.matchday_label || matchdayLabelFromId(projection.matchday_id)} vs ${projection.opponent}`;
+  const opponent = projection.opponent || "listed opponent";
+  const metricHtml = [];
+  const addMetric = (label, valueToDisplay, note, available = true) => {
+    if (!available || valueToDisplay === null || valueToDisplay === undefined || valueToDisplay === "") {
+      return;
+    }
+
+    if (String(valueToDisplay).toLowerCase().includes("needs check")) {
+      return;
+    }
+
+    metricHtml.push(profileMetric(label, valueToDisplay, note));
+  };
+
+  addMetric(
+    "Team projected xG",
+    profileScore(context.teamProjectedXg),
+    `Match-specific expected goals vs ${opponent}.`,
+    Number.isFinite(context.teamProjectedXg)
+  );
+  addMetric(
+    "Opponent projected xG",
+    profileScore(context.opponentProjectedXg),
+    `Opponent match-specific expected goals vs ${playerCountryText(player)}.`,
+    Number.isFinite(context.opponentProjectedXg)
+  );
+  addMetric("Win / Draw / Win", context.winDrawWin, "Fixture outcome shape", Boolean(context.row));
+  addMetric("Most likely score", context.mostLikelyScore, context.fixtureShape || fixtureNote, Boolean(context.row));
+  addMetric(
+    "Clean-sheet context",
+    context.cleanSheetContext,
+    Number.isFinite(context.cleanSheetProbability) ? profilePercent(context.cleanSheetProbability) : fixtureNote,
+    Boolean(context.row) || Number.isFinite(context.cleanSheetProbability)
+  );
+  addMetric("Match uncertainty", context.matchUncertainty, "Higher means the match can swing more", Boolean(context.row || context.sidePrediction));
+
+  if (!metricHtml.length) {
+    return `<p>No compact fixture context is available for ${escapeHtml(fixtureNote)} yet.</p>`;
+  }
 
   return `
     <div class="profile-grid profile-grid--compact">
-      ${profileMetric("Team projected xG", profileScore(context.teamProjectedXg), fixtureNote)}
-      ${profileMetric("Opponent projected xG", profileScore(context.opponentProjectedXg), fixtureNote)}
-      ${profileMetric("Win / Draw / Win", context.winDrawWin, "Fixture outcome shape")}
-      ${profileMetric("Most likely score", context.mostLikelyScore, context.fixtureShape || "Scoreline context")}
-      ${profileMetric("Clean-sheet context", context.cleanSheetContext, profilePercent(context.cleanSheetProbability))}
-      ${profileMetric("Match uncertainty", context.matchUncertainty, "Higher means the match can swing more")}
+      ${metricHtml.join("")}
     </div>
   `;
 }
@@ -8639,12 +8692,12 @@ function squadStrategyReportData(starters = [], bench = []) {
   const topFixture = analytics.topFixture;
   const topFixtureCount = topFixture?.count || 0;
   const topUncertainFixture = analytics.topUncertainFixtureStack;
-  const hardFixtureDetail = analytics.hardestMatchday
-    ? `${analytics.hardestMatchday.label} has ${analytics.hardestMatchdayHardFixtures} starter${analytics.hardestMatchdayHardFixtures === 1 ? "" : "s"} in hard fixtures`
-    : "no hard-fixture cluster is visible";
+  const hardFixtureDetail = analytics.hardestMatchday && analytics.hardestMatchdayHardFixtures
+    ? `${analytics.hardestMatchday.label}: ${analytics.hardestMatchdayHardFixtures} hard-fixture starter${analytics.hardestMatchdayHardFixtures === 1 ? "" : "s"}.`
+    : "";
   const uncertainFixtureDetail = topUncertainFixture
-    ? `${topUncertainFixture.label} has ${topUncertainFixture.count} starter${topUncertainFixture.count === 1 ? "" : "s"} in a ${topUncertainFixture.avgUncertaintyScore >= 0.75 ? "high" : "medium"}-uncertainty match`
-    : "no uncertain fixture stack is visible";
+    ? `Uncertain stack: ${topUncertainFixture.label} (${topUncertainFixture.count} starter${topUncertainFixture.count === 1 ? "" : "s"}).`
+    : "";
   const fixtureLevel = strategyReportRiskLevel(
     Math.max(topFixtureCount, analytics.hardestMatchdayHardFixtures, analytics.uncertainFixtureStackLoad),
     2,
@@ -8685,6 +8738,19 @@ function squadStrategyReportData(starters = [], bench = []) {
   const upsideLevel = strategyReportStrengthLevel(upsideScore, 1.45, 1.22);
   const budgetShape = squadStrategyBudgetShape(analytics);
   const totalPrice = squadCost(squad);
+  const fixtureStackDetail = topFixture
+    ? [
+      `Biggest stack: ${topFixture.label} (${topFixtureCount} starter${topFixtureCount === 1 ? "" : "s"}).`,
+      uncertainFixtureDetail || hardFixtureDetail || "No hard or uncertain fixture cluster."
+    ].filter(Boolean).join(" ")
+    : "No fixture stack is visible in the current matchday view.";
+  const badWeekUncertaintyText = analytics.totalHighUncertaintyStarters
+    ? `${analytics.totalHighUncertaintyStarters} high-uncertainty starter spot${analytics.totalHighUncertaintyStarters === 1 ? "" : "s"}.`
+    : "No high-uncertainty starter cluster.";
+  const upsideFixtureSupport = analytics.strongProjectedXgStarters + analytics.goodCleanSheetDefenders;
+  const upsideFixtureText = upsideFixtureSupport
+    ? `Fixture support: ${upsideFixtureSupport} strong attacking or defensive spot${upsideFixtureSupport === 1 ? "" : "s"}.`
+    : "Fixture support is limited.";
 
   return {
     analytics,
@@ -8715,9 +8781,7 @@ function squadStrategyReportData(starters = [], bench = []) {
       {
         label: "Fixture Stack Risk",
         value: fixtureLevel.label,
-        detail: topFixture
-          ? `Biggest match stack: ${topFixture.label} with ${topFixtureCount} starter${topFixtureCount === 1 ? "" : "s"}; ${hardFixtureDetail}; ${uncertainFixtureDetail}.`
-          : "No fixture stack is visible in the current matchday view.",
+        detail: fixtureStackDetail,
         tone: strategyReportRiskTone(fixtureLevel.id)
       },
       {
@@ -8735,13 +8799,13 @@ function squadStrategyReportData(starters = [], bench = []) {
       {
         label: "Bad-Week Floor",
         value: floorLevel.label,
-        detail: `Bad-week starter floor is ${portfolioNumber(analytics.starterVar10)} (${strategyReportPercent(floorRatio)} of projection), with ${analytics.totalHighUncertaintyStarters} high-uncertainty starter spot${analytics.totalHighUncertaintyStarters === 1 ? "" : "s"}.`,
+        detail: `Modeled poor-week floor: ${portfolioNumber(analytics.starterVar10)} (${strategyReportPercent(floorRatio)} of projection). ${badWeekUncertaintyText}`,
         tone: strategyReportStrengthTone(floorLevel.id)
       },
       {
         label: "Upside Ceiling",
         value: upsideLevel.label,
-        detail: `Starting XI upside signal is ${portfolioNumber(analytics.starterUpside)} with ${analytics.strongProjectedXgStarters} strong team-xG spot${analytics.strongProjectedXgStarters === 1 ? "" : "s"} and ${analytics.goodCleanSheetDefenders} good defensive spot${analytics.goodCleanSheetDefenders === 1 ? "" : "s"}.`,
+        detail: `Starting XI upside signal: ${portfolioNumber(analytics.starterUpside)}. ${upsideFixtureText}`,
         tone: strategyReportStrengthTone(upsideLevel.id)
       },
       {
@@ -12264,24 +12328,36 @@ function cardCautionPhrase(reason) {
 }
 
 function pickCardRiskDescription(player, measureKey = "balanced", modelKey = "") {
-  const cautionPhrases = Array.from(new Set(
+  let cautionPhrases = Array.from(new Set(
     publicFantasyRiskReasons(player, measureKey, modelKey)
       .map(cardCautionPhrase)
       .filter(Boolean)
   ));
 
+  if (measureKey === "captain" || modelKey === "captain" || player?.preview_candidate?.mode === "captain") {
+    cautionPhrases = cautionPhrases.filter((phrase) => !["Higher armband downside", "Watch squad budget"].includes(phrase));
+  }
+
   return cautionPhrases.length ? `Caution: ${listText(cautionPhrases.slice(0, 2))}.` : "";
 }
 
 function pickCardMatchContextDescription(player, measureKey = "balanced", modelKey = "") {
+  if (measureKey === "captain" || modelKey === "captain" || player?.preview_candidate?.mode === "captain") {
+    return "";
+  }
+
   const projection = pickProjectionRow(player) || activeProjection(player);
-  const contextText = projectionMatchContextSummary(player, projection);
+  const contextText = projectionMatchContextSummary(player, projection, {
+    measureKey,
+    modelKey,
+    surface: "card"
+  });
 
   if (!contextText) {
     return "";
   }
 
-  return `Match context: ${contextText}`;
+  return `Fixture note: ${contextText}`;
 }
 
 function builderLockPlayerId(player) {
@@ -12426,7 +12502,7 @@ function handlePicksBuilderTrayClick(event) {
 
 function renderFantasyPoolPreviewCaptainPicks() {
   const captainCandidates = fantasyPoolPreviewCandidatesForMode("captain").slice(0, 8);
-  const captainModelDescription = "Captain watchlist based on projected points, matchup, start chance, and risk.";
+  const captainModelDescription = "Captain watchlist based on projected points, matchup, start chance, and downside.";
 
   if (captainCardGrid) {
     captainCardGrid.innerHTML = captainCandidates.length
@@ -12481,7 +12557,7 @@ function renderCaptainPicks() {
   );
   const captainCandidates = [...captainPool]
     .sort((a, b) => captainRecommendationScore(b) - captainRecommendationScore(a));
-  const captainModelDescription = "Captain watchlist based on projected points, matchup, start chance, and risk.";
+  const captainModelDescription = "Captain watchlist based on projected points, matchup, start chance, and downside.";
 
   if (captainCardGrid) {
     captainCardGrid.innerHTML = captainCandidates.slice(0, 8).map((player, index) => renderPickCard(player, {
