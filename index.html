@@ -14,13 +14,13 @@
     <meta name="twitter:description" content="Compare squad starters, captain choices, team builds, bench decisions, and score predictions in one simple fantasy football hub." />
     <!-- Add canonical and og:url once the final production URL is available. -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="stylesheet" href="style.css?v=20260604-economist-cleanup" />
+    <link rel="stylesheet" href="style.css?v=20260605-pick-labels" />
   </head>
   <body>
     <header id="top" class="hero">
       <nav class="site-nav" aria-label="Primary navigation">
         <a href="#picks">Squad Builder Starter</a>
-        <a href="#captain-picks">Captain Selection</a>
+        <a href="#captain-picks">Captain Watchlist</a>
         <a href="#team-builder">Team Builder</a>
         <a href="#captain-change-advisor">Captain Switch Check</a>
         <a href="#substitution-advisor">Bench Switch Check</a>
@@ -76,7 +76,7 @@
 
         <div id="dashboard-grid" class="dashboard-grid" aria-live="polite">
           <article class="info-card info-card--fallback">
-            <span class="info-card__label">Captain Selection</span>
+            <span class="info-card__label">Captain Watchlist</span>
             <strong>Interactive shortlist</strong>
             <p>Enable JavaScript to see captain options from the current fantasy dataset.</p>
           </article>
@@ -105,14 +105,14 @@
       <details id="captain-picks" class="panel collapsible-panel">
         <summary class="collapsible-summary">
           <span>
-            <h2>Captain Selection</h2>
-            <p>Simple captain picks for comparing strong armband choices.</p>
+            <h2>Captain Watchlist</h2>
+            <p>Simple captain options for comparing strong armband choices.</p>
           </span>
           <span class="collapsible-action" aria-hidden="true"></span>
         </summary>
 
         <div class="collapsible-body">
-          <p class="section-note"><strong>Captain planning.</strong> Use these cards to compare captain choices by projected points, matchup, start chance, and risk.</p>
+          <p class="section-note"><strong>Captain planning.</strong> Use these cards to compare captain options by projected points, matchup, start chance, and risk.</p>
 
           <div id="captain-card-grid" class="pick-card-grid" aria-live="polite"></div>
         </div>
@@ -128,7 +128,7 @@
           <summary>How to use this center</summary>
           <ol>
             <li>Build or load a Team Builder squad, then mark captain, vice captain, and bench order if needed.</li>
-            <li>Choose the matchday and strategy. Balanced is the default for normal play.</li>
+            <li>Choose the matchday and strategy. Core Picks is the default for normal play.</li>
             <li>Enter actual points only after your captain or starter has played.</li>
             <li>Use the fill buttons to send one comparison into the detailed Captain Switch or Bench Switch check.</li>
           </ol>
@@ -143,10 +143,10 @@
           <label class="control-group" for="matchday-decision-risk-select">
             <span>Strategy</span>
             <select id="matchday-decision-risk-select">
-              <option value="balanced">Balanced</option>
-              <option value="safe">Safe</option>
-              <option value="upside">Upside</option>
-              <option value="differential">Differential</option>
+              <option value="balanced">Core Picks</option>
+              <option value="safe">High-Floor Picks</option>
+              <option value="upside">Upside Picks</option>
+              <option value="differential">Differential Picks</option>
             </select>
           </label>
 
@@ -239,14 +239,10 @@
             <label class="control-group" for="captain-change-risk-select">
               <span>Strategy</span>
               <select id="captain-change-risk-select">
-                <option value="balanced">Balanced</option>
-                <option value="safe">Safe</option>
-                <option value="upside">Upside</option>
-                <option value="differential">Differential</option>
-                <option value="bestValue">Value</option>
-                <option value="valueQuant">Value Quant</option>
-                <option value="captain">Captain Selection</option>
-                <option value="riskControl">Risk-Control Pick</option>
+                <option value="balanced">Core Picks</option>
+                <option value="safe">High-Floor Picks</option>
+                <option value="upside">Upside Picks</option>
+                <option value="differential">Differential Picks</option>
               </select>
             </label>
           </div>
@@ -337,14 +333,10 @@
             <label class="control-group" for="substitution-advisor-risk-select">
               <span>Strategy</span>
               <select id="substitution-advisor-risk-select">
-                <option value="balanced">Balanced</option>
-                <option value="safe">Safe</option>
-                <option value="upside">Upside</option>
-                <option value="differential">Differential</option>
-                <option value="bestValue">Value</option>
-                <option value="valueQuant">Value Quant</option>
-                <option value="captain">Captain Selection</option>
-                <option value="riskControl">Risk-Control Pick</option>
+                <option value="balanced">Core Picks</option>
+                <option value="safe">High-Floor Picks</option>
+                <option value="upside">Upside Picks</option>
+                <option value="differential">Differential Picks</option>
               </select>
             </label>
           </div>
@@ -418,7 +410,7 @@
             <label class="control-group" for="advice-measure-select">
               <span>Strategy</span>
               <select id="advice-measure-select"></select>
-              <small class="control-helper">Choose the model view: basic picks, value, captain upside, or risk-control.</small>
+              <small class="control-helper">Choose the model view: projected points, core, high-floor, upside, value, or differential.</small>
             </label>
 
             <label class="control-group" for="advice-position-select">
@@ -574,7 +566,7 @@
                 <span class="builder-step-number">1</span>
                 <div>
                   <h3 id="builder-step-strategy-title">Choose Strategy</h3>
-                  <p>Balanced is the default. Change strategy, formation, or matchday view before building.</p>
+                  <p>Core Picks is the default. Change strategy, formation, or matchday view before building.</p>
                 </div>
               </div>
 
@@ -582,7 +574,7 @@
                 <label class="control-group" for="measure-select">
                   <span>Strategy</span>
                   <select id="measure-select"></select>
-                  <small class="control-helper">Choose from the same strategy set used in Squad Builder Starter.</small>
+                  <small class="control-helper">Choose from the public pick labels used in Squad Builder Starter.</small>
                 </label>
 
                 <label class="control-group" for="tactic-select">
@@ -652,7 +644,7 @@
                   <label class="control-group" for="builder-trust-mode-select">
                     <span>Safety Preference</span>
                     <select id="builder-trust-mode-select"></select>
-                    <small class="control-helper">Balanced is smoothest. Safe prefers steadier fill-ins without blocking the squad builder.</small>
+                    <small class="control-helper">Balanced safety is smoothest. High-floor safety prefers steadier fill-ins without blocking the squad builder.</small>
                   </label>
 
                   <label class="control-group" for="min-start-filter">
@@ -896,7 +888,7 @@
 
         <div class="finance-feature-grid">
           <article><span>Portfolio Health</span><strong>Squad balance</strong></article>
-          <article><span>Captain Selection</span><strong>Armband edge</strong></article>
+          <article><span>Captain Watchlist</span><strong>Armband edge</strong></article>
           <article><span>Market Movers</span><strong>Watchlist shifts</strong></article>
           <article><span>Undervalued Assets</span><strong>Price-aware picks</strong></article>
           <article><span>Country Stack Risk</span><strong>Country concentration</strong></article>
@@ -917,7 +909,7 @@
 
         <div class="collapsible-body">
           <div class="formula-section formula-section--intro">
-            <p>These notes explain the public labels used in Squad Builder Starter, Captain Selection, Team Builder, the switch checks, and Score Prediction.</p>
+            <p>These notes explain the public labels used in Squad Builder Starter, Captain Watchlist, Team Builder, the switch checks, and Score Prediction.</p>
 
             <div class="formula-list">
               <p><strong>Price:</strong> the player cost used by the squad builder and player cards.</p>
@@ -927,7 +919,7 @@
               <p><strong>Expected Minutes:</strong> estimated playing time for the selected matchday view.</p>
               <p><strong>Reliability:</strong> a 0 to 100 role-and-minutes steadiness score. Higher is steadier.</p>
               <p><strong>Risk:</strong> a 0 to 100 downside score using role, minutes, volatility, fixture difficulty, and bad-week exposure. Lower is safer.</p>
-              <p><strong>Strategy Score:</strong> the ranking score for the selected strategy: Balanced, Safe, Upside, Differential, Value, Value Quant, Captain Selection, or Risk-Control Pick.</p>
+              <p><strong>Strategy Score:</strong> the ranking score for the selected model view: Projected Points, Core Picks, High-Floor Picks, Upside Picks, Value Picks, or Differential Picks.</p>
               <p><strong>Team Builder cards:</strong> show price, the selected card metric, country, club, role notes, and the selected matchday opponent when available.</p>
               <p><strong>Squad Risk Report:</strong> summarizes portfolio health, projected points, start chance, minutes, bad-week floor, squad risk, country stack risk, fixture stack risk, and budget pressure.</p>
               <p><strong>Switch checks:</strong> compare actual points already earned with a possible captain or bench option still to play.</p>
@@ -943,7 +935,7 @@
               <p><strong>Player role:</strong> likely starters and high-minute players receive more credit than players with uncertain playing time.</p>
               <p><strong>Matchup:</strong> fixture difficulty changes the projection for attackers, defenders, and clean-sheet candidates.</p>
               <p><strong>Risk adjustment:</strong> downside risk can pull the public projection below a player's pure upside.</p>
-              <p><strong>Captain comparison:</strong> Captain Selection shows projected points for comparison. It does not double the points for captain scoring.</p>
+              <p><strong>Captain comparison:</strong> Captain Watchlist shows projected points for comparison. It does not double the points for captain scoring.</p>
             </div>
           </div>
 
@@ -969,14 +961,14 @@
             <p>Risk-adjusted scores rank players by combining projected output with the kind of risk a strategy is willing to accept.</p>
 
             <div class="formula-list">
-              <p><strong>Balanced:</strong> a general ranking using projection, role, fixture, and risk.</p>
-              <p><strong>Safe:</strong> prefers steadier roles, stronger minutes, and lower downside.</p>
-              <p><strong>Upside:</strong> gives more credit to ceiling and attacking opportunity.</p>
-              <p><strong>Differential:</strong> looks for less obvious players with useful upside.</p>
-              <p><strong>Value:</strong> weighs useful output against price.</p>
-              <p><strong>Value Quant:</strong> blends projected output, price, and value signals.</p>
-              <p><strong>Captain Selection:</strong> focuses on players who can help captain planning.</p>
-              <p><strong>Risk-Control Pick:</strong> looks for useful players after accounting for downside and role risk.</p>
+              <p><strong>Projected Points:</strong> favors the highest expected fantasy return.</p>
+              <p><strong>Core Picks:</strong> balances projected return with reliable starts and minutes.</p>
+              <p><strong>High-Floor Picks:</strong> prioritizes safer minutes and lower downside.</p>
+              <p><strong>Upside Picks:</strong> chases higher ceilings in stronger attacking spots.</p>
+              <p><strong>Value Picks:</strong> looks for strong return for the price.</p>
+              <p><strong>Differential Picks:</strong> finds less obvious picks that still project well.</p>
+              <p><strong>Advanced variants:</strong> Value Quant and Risk-Control are preserved for model notes and older exports, not shown as normal public pick models.</p>
+              <p><strong>Captain Watchlist:</strong> is a separate captain-planning lane, not a normal public pick model.</p>
             </div>
           </div>
 
@@ -1217,7 +1209,7 @@
               <p><strong>Substitution Risk:</strong> a 0 to 100 risk score for limited minutes, bench role, or early substitution. Lower is better.</p>
               <p><strong>Per 90:</strong> modeled fantasy upside if the player played a full 90 minutes.</p>
               <p><strong>Risk:</strong> a composite score from source risk, minutes uncertainty, volatility, downside risk, fixture risk, discipline, and bad-week probability. Lower is better.</p>
-              <p><strong>Strategy Score:</strong> the score for the selected strategy: Balanced, Safe, Upside, or Differential. Advanced notes may preserve older internal score names for audit history.</p>
+              <p><strong>Strategy Score:</strong> the score for the selected public pick view: Projected Points, Core Picks, High-Floor Picks, Upside Picks, Value Picks, or Differential Picks. Advanced notes may preserve older internal score names for audit history.</p>
               <p><strong>Projected Pts / Matchday:</strong> risk-adjusted expected fantasy points for one matchday. Pick cards highlight Matchday 1 unless you choose a specific matchday view.</p>
               <p><strong>Advanced Bad-Week Floor Fields:</strong> deeper downside floor measures used by Model Notes and exports. They estimate bad-outcome cutoffs and worst-outcome averages.</p>
               <p><strong>Attack Heavy:</strong> tilts toward attacking players and attacking defenders with strong goal, assist, shot, and upside signals.</p>
@@ -1251,7 +1243,7 @@
 
             <details class="stat-example">
               <summary>Example: Strategy Score</summary>
-              <p>If Strategy is Safe, the score shown in the lock list favors low downside and useful projected points. If Strategy changes to Upside, the score shifts toward ceiling and attacking value.</p>
+              <p>If Strategy is High-Floor Picks, the score shown in the lock list favors low downside and useful projected points. If Strategy changes to Upside Picks, the score shifts toward ceiling and attacking value.</p>
             </details>
 
             <details class="stat-example">
@@ -1270,8 +1262,8 @@
             </details>
 
             <details class="stat-example">
-              <summary>Example: Upside Pick style</summary>
-              <p>If a player has <code>Per 90: 7.4</code>, Upside Pick likes that player because they produce a lot when they are on the field. The tradeoff is that this style may select players with less certain minutes.</p>
+              <summary>Example: Upside Picks style</summary>
+              <p>If a player has <code>Per 90: 7.4</code>, the Upside Picks view likes that player because he produces a lot when he is on the field. The tradeoff is that this style may select players with less certain minutes.</p>
             </details>
 
             <details class="stat-example">
@@ -1426,7 +1418,7 @@
         <nav class="footer-nav" aria-label="Footer navigation">
           <a href="#top">The Fantasy Economist</a>
           <a href="#picks">Squad Builder Starter</a>
-          <a href="#captain-picks">Captain Selection</a>
+          <a href="#captain-picks">Captain Watchlist</a>
           <a href="#team-builder">Team Builder</a>
           <a href="#captain-change-advisor">Captain Switch Check</a>
           <a href="#substitution-advisor">Bench Switch Check</a>
@@ -1464,6 +1456,6 @@
     <script src="fantasyPoolFinanceMetricsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolScorePredictionsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolOfficialDataStatusData.js?v=20260603-official-final"></script>
-    <script src="script.js?v=20260604-economist-cleanup"></script>
+    <script src="script.js?v=20260605-pick-labels"></script>
   </body>
 </html>

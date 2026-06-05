@@ -50,7 +50,7 @@ let activeMatchdayId = defaultActiveMatchdayId;
 let activeEnvironmentMatchdayId = defaultPickProjectionMatchdayId;
 let activeTrustModeId = "balanced";
 let activeAdvicePoolModeId = "playable";
-let activeQuickPickModelKey = "balanced";
+let activeQuickPickModelKey = "expected";
 let activeQuickPickPosition = "All";
 const browserSquadStorageKey = "worldCupFantasyHelper.teamExport.v1";
 
@@ -121,6 +121,65 @@ const fantasyPoolPreviewPlayers = usingFantasyPoolPreview
   : [];
 const fantasyPoolPreviewPlayerById = new Map(fantasyPoolPreviewPlayers.map((player) => [player.id, player]));
 const primaryStrategyKeys = ["balanced", "safe", "upside", "differential"];
+const publicPickModelCopy = {
+  expected: {
+    label: "Projected Points",
+    cardLabel: "Projected Points",
+    help: "Favors the highest expected fantasy return.",
+    cardDescription: "Projected Points favors the highest expected fantasy return."
+  },
+  balanced: {
+    label: "Core Picks",
+    cardLabel: "Core Pick",
+    help: "Balances projected return with reliable starts and minutes.",
+    cardDescription: "Core Picks balance projected return with reliable starts and minutes."
+  },
+  safe: {
+    label: "High-Floor Picks",
+    cardLabel: "High-Floor Pick",
+    help: "Prioritizes safer minutes and lower downside.",
+    cardDescription: "High-Floor Picks prioritize safer minutes and lower downside."
+  },
+  upside: {
+    label: "Upside Picks",
+    cardLabel: "Upside Pick",
+    help: "Chases higher ceilings in stronger attacking spots.",
+    cardDescription: "Upside Picks chase higher ceilings in stronger attacking spots."
+  },
+  bestValue: {
+    label: "Value Picks",
+    cardLabel: "Value Pick",
+    help: "Looks for strong return for the price.",
+    cardDescription: "Value Picks look for strong return for the price."
+  },
+  differential: {
+    label: "Differential Picks",
+    cardLabel: "Differential Pick",
+    help: "Finds less obvious picks that still project well.",
+    cardDescription: "Differential Picks find less obvious picks that still project well."
+  },
+  captain: {
+    label: "Captain Watchlist",
+    cardLabel: "Captain Option",
+    help: "Dedicated captain lane for armband candidates.",
+    cardDescription: "Captain Watchlist highlights armband candidates without treating captain as a normal pick model."
+  },
+  valueQuant: {
+    label: "Advanced Value Variant",
+    cardLabel: "Advanced Value",
+    help: "Internal value variant used for model notes and compatibility.",
+    cardDescription: "Advanced value variant used for model notes and older exports."
+  },
+  riskControl: {
+    label: "Advanced Safety Variant",
+    cardLabel: "Advanced Safety",
+    help: "Internal safety variant used for model notes and compatibility.",
+    cardDescription: "Advanced safety variant used for model notes and older exports."
+  }
+};
+const publicPickModelOptionKeys = ["expected", "balanced", "safe", "upside", "bestValue", "differential"];
+const builderPickModelOptionKeys = publicPickModelOptionKeys;
+const decisionStrategyOptionKeys = ["balanced", "safe", "upside", "differential"];
 
 function fantasyPoolPlayerKey(record) {
   return String(record?.official_fantasy_player_id || record?.internal_player_id || "").trim();
@@ -557,9 +616,9 @@ const countryDisplayNames = {
 // Each measure has a score function and a beginner explanation for the info panel.
 const measures = {
   balanced: {
-    label: "Balanced",
-    optionLabel: "Balanced",
-    description: "Best all-around option. It balances expected return, reliability, source confidence, and risk.",
+    label: "Core Picks",
+    optionLabel: "Core Picks",
+    description: "Best all-around option. It balances expected return, reliable starts, minutes, and risk.",
     formula: "Uses the Week 6 risk-adjusted strategy score when available. It blends expected fantasy return, reliability, lower composite risk, and lower tail risk.",
     score: (player) => scoreValue(player, "finance_strategy_risk_adjusted", "risk_adjusted_overall_score")
   },
@@ -570,18 +629,18 @@ const measures = {
     score: (player) => scoreValue(player, "finance_expected_return_points", "risk_adjusted_expected_points_estimate")
   },
   safe: {
-    label: "Safe",
-    optionLabel: "Safe",
-    description: "Favors steady players with lower risk before chasing upside.",
+    label: "High-Floor Picks",
+    optionLabel: "High-Floor Picks",
+    description: "Prioritizes players with safer minutes and lower downside before chasing upside.",
     formula: "Uses the Week 6 safe-floor strategy score when available. It rewards expected return, minutes security, lower source risk, and lower downside risk.",
     score: (player) => hasScoreValue(player, "finance_strategy_safe_floor")
       ? scoreValue(player, "finance_strategy_safe_floor")
       : (100 - value(player.risk_composite_score)) + value(player.risk_adjusted_expected_points_estimate) * 8
   },
   upside: {
-    label: "Upside",
-    optionLabel: "Upside",
-    description: "Looks for players who produce a lot when they are on the field.",
+    label: "Upside Picks",
+    optionLabel: "Upside Picks",
+    description: "Chases higher ceilings in stronger attacking spots.",
     formula: "Uses the Week 6 upside strategy score when available. It leans toward high expected return, high per-90 upside, and positive event involvement.",
     score: (player) => scoreValue(player, "finance_strategy_upside", "euro_style_points_per90_estimate")
   },
@@ -618,8 +677,8 @@ const measures = {
     score: (player) => scoreValue(player, "finance_sortino_like_percentile", "risk_adjusted_sortino_like")
   },
   bestValue: {
-    label: "Best Value",
-    optionLabel: "Best Value",
+    label: "Value Picks",
+    optionLabel: "Value Picks",
     secondaryLabel: "Budget-aware value score",
     description: "Ranks players by projected return for their budget, with role and budget pressure included.",
     formula: "Uses the active player price field. Score blends projected points per budget unit, value score, cheap-enabler score, start probability, and lower budget pressure.",
@@ -699,8 +758,8 @@ const measures = {
     score: (player) => scoreValue(player, "finance_strategy_very_risky")
   },
   differential: {
-    label: "Differential",
-    optionLabel: "Differential",
+    label: "Differential Picks",
+    optionLabel: "Differential Picks",
     description: "Looks for lower-obviousness or mispriced players with a defensible projection.",
     formula: "Uses the current Official Fantasy Differential candidate score when available. Legacy fallback uses the very-risky finance strategy with data-check penalties.",
     score: (player) => player.preview_candidate?.mode === "differential"
@@ -708,8 +767,8 @@ const measures = {
       : scoreValue(player, "finance_strategy_very_risky")
   },
   captain: {
-    label: "Captain Selection",
-    optionLabel: "Captain Selection",
+    label: "Captain Watchlist",
+    optionLabel: "Captain Watchlist",
     description: "Ranks armband candidates by captain ceiling, starts, raw points, and fixture context.",
     formula: "Uses the current captain selection score when available. Legacy fallback uses the captain score.",
     score: (player) => player.preview_candidate?.mode === "captain"
@@ -723,6 +782,7 @@ Object.entries(measures).forEach(([key, measure]) => {
 });
 
 const pickModelOptionKeys = [
+  "expected",
   "balanced",
   "safe",
   "upside",
@@ -734,65 +794,75 @@ const pickModelOptionKeys = [
 ];
 
 const pickModelOptions = {
+  expected: {
+    id: "expected",
+    label: "Projected Points",
+    cardLabel: "Projected Points",
+    group: "basic",
+    sourceMode: "balanced",
+    measureKey: "expected",
+    help: "Favors the highest expected fantasy return.",
+    cardDescription: "Projected Points favors the highest expected fantasy return."
+  },
   balanced: {
     id: "balanced",
-    label: "Balanced",
-    cardLabel: "Balanced Pick",
+    label: "Core Picks",
+    cardLabel: "Core Pick",
     group: "basic",
     sourceMode: "balanced",
     measureKey: "balanced",
-    help: "A general recommendation using points, role, fixture, and risk.",
-    cardDescription: "Balanced combines projected points, role, fixture, and risk."
+    help: "Balances projected return with reliable starts and minutes.",
+    cardDescription: "Core Picks balance projected return with reliable starts and minutes."
   },
   safe: {
     id: "safe",
-    label: "Safe",
-    cardLabel: "Safe Pick",
+    label: "High-Floor Picks",
+    cardLabel: "High-Floor Pick",
     group: "basic",
     sourceMode: "safe",
     measureKey: "safe",
-    help: "More weight on minutes, role security, and lower downside.",
-    cardDescription: "Safe favors steadier roles, stronger minutes, and lower downside."
+    help: "Prioritizes safer minutes and lower downside.",
+    cardDescription: "High-Floor Picks prioritize safer minutes and lower downside."
   },
   upside: {
     id: "upside",
-    label: "Upside",
+    label: "Upside Picks",
     cardLabel: "Upside Pick",
     group: "basic",
     sourceMode: "upside",
     measureKey: "upside",
-    help: "More weight on ceiling and attacking opportunity.",
-    cardDescription: "Upside looks for higher ceiling and stronger attacking opportunity."
+    help: "Chases higher ceilings in stronger attacking spots.",
+    cardDescription: "Upside Picks chase higher ceilings in stronger attacking spots."
   },
   differential: {
     id: "differential",
-    label: "Differential",
+    label: "Differential Picks",
     cardLabel: "Differential Pick",
     group: "basic",
     sourceMode: "differential",
     measureKey: "differential",
-    help: "More weight on players who may be less obvious but have useful upside.",
-    cardDescription: "Differential looks for less obvious picks with useful upside."
+    help: "Finds less obvious picks that still project well.",
+    cardDescription: "Differential Picks find less obvious picks that still project well."
   },
   bestValue: {
     id: "bestValue",
-    label: "Value",
+    label: "Value Picks",
     cardLabel: "Value Pick",
     group: "basic",
     sourceMode: "differential",
     measureKey: "bestValue",
-    help: "More weight on price efficiency.",
-    cardDescription: "Value looks for useful players relative to price."
+    help: "Looks for strong return for the price.",
+    cardDescription: "Value Picks look for strong return for the price."
   },
   valueQuant: {
     id: "valueQuant",
-    label: "Value Quant",
-    cardLabel: "Value Quant",
+    label: "Advanced Value Variant",
+    cardLabel: "Advanced Value",
     group: "advanced",
     sourceMode: "balanced",
     measureKey: "bestValue",
-    help: "Advanced value model using price and projected output.",
-    cardDescription: "Value Quant blends projected output, price, and value signals.",
+    help: "Internal value variant used for model notes and compatibility.",
+    cardDescription: "Advanced value variant used for model notes and older exports.",
     score: (player) => {
       const financeAlpha = financeContextScore(player, "finance_alpha_score");
       const valueScore = optionalScoreValue(player, "value_score_v1", "cheap_enabler_score_v1");
@@ -806,24 +876,24 @@ const pickModelOptions = {
   },
   captain: {
     id: "captain",
-    label: "Captain Selection",
-    cardLabel: "Captain Selection",
+    label: "Captain Watchlist",
+    cardLabel: "Captain Option",
     group: "advanced",
     sourceMode: "captain",
     measureKey: "captain",
-    help: "Focuses on captain upside and strong matchday captain candidates.",
-    cardDescription: "Captain Selection focuses on players who can help captain planning.",
+    help: "Dedicated captain lane for armband candidates.",
+    cardDescription: "Captain Watchlist highlights armband candidates without treating captain as a normal pick model.",
     score: (player) => captainRecommendationScore(player)
   },
   riskControl: {
     id: "riskControl",
-    label: "Risk-Control Pick",
-    cardLabel: "Risk-Control Pick",
+    label: "Advanced Safety Variant",
+    cardLabel: "Advanced Safety",
     group: "advanced",
     sourceMode: "safe",
     measureKey: "safe",
-    help: "Looks for useful picks after accounting for downside and reliability.",
-    cardDescription: "Risk-Control Pick looks for useful picks after downside and role risk.",
+    help: "Internal safety variant used for model notes and compatibility.",
+    cardDescription: "Advanced safety variant used for model notes and older exports.",
     score: (player, mode = activeTrustMode()) => trustAdjustedScore(player, measures.safe, mode) +
       Math.max(0, 100 - scoreValue(player, "finance_composite_risk_score", "risk_composite_score")) * 0.22 +
       scoreValue(player, "finance_minutes_security_score", "euro_style_reliability_score") * 0.16 +
@@ -831,8 +901,45 @@ const pickModelOptions = {
   }
 };
 
+Object.entries(publicPickModelCopy).forEach(([key, copy]) => {
+  if (pickModelOptions[key]) {
+    Object.assign(pickModelOptions[key], copy);
+  }
+});
+
 function pickModelOption(key) {
   return pickModelOptions[key] || pickModelOptions.balanced;
+}
+
+function publicPickModelLabel(key, fallback = "Pick") {
+  return pickModelOptions[key]?.label || publicPickModelCopy[key]?.label || fallback;
+}
+
+function publicPickModelCardLabel(key, fallback = "Pick") {
+  return pickModelOptions[key]?.cardLabel || publicPickModelCopy[key]?.cardLabel || fallback;
+}
+
+function publicPickModelKeyFromMode(mode) {
+  const normalizedMode = String(mode || "").trim();
+  const modeToPublicKey = {
+    expected: "expected",
+    projected: "expected",
+    balanced: "balanced",
+    core: "balanced",
+    safe: "safe",
+    high_floor: "safe",
+    upside: "upside",
+    bestValue: "bestValue",
+    value: "bestValue",
+    differential: "differential",
+    captain: "captain"
+  };
+
+  return modeToPublicKey[normalizedMode] || normalizedMode;
+}
+
+function publicPickModelLabelFromMode(mode, fallback = "Pick") {
+  return publicPickModelLabel(publicPickModelKeyFromMode(mode), fallback);
 }
 
 function pickModelMeasure(optionOrKey) {
@@ -862,11 +969,12 @@ function sortByPickModel(playerList, optionOrKey, mode = activeTrustMode()) {
 }
 
 function pickListCardLabel(option, index) {
+  const cardLabel = option.cardLabel || option.label;
   if (index > 0) {
-    return `${option.label} ${index + 1}`;
+    return `${cardLabel} ${index + 1}`;
   }
 
-  return /pick$/i.test(option.label) ? option.label : `${option.label} pick`;
+  return /pick$/i.test(cardLabel) || /points$/i.test(cardLabel) ? cardLabel : `${cardLabel} pick`;
 }
 
 function previewFinanceContext(player) {
@@ -1065,32 +1173,32 @@ const advicePoolModes = {
 };
 
 const safeCaptainChangeRiskMode = {
-  label: "Safe",
-  badge: "Safe check",
+  label: "High-Floor Picks",
+  badge: "High-floor check",
   switchBuffer: 1.5,
   closeMargin: 0.8,
-  projectionLabel: "Safe switch score"
+  projectionLabel: "High-floor switch score"
 };
 
 const captainChangeRiskModes = {
   safe: safeCaptainChangeRiskMode,
   safer: safeCaptainChangeRiskMode,
   balanced: {
-    label: "Balanced",
-    badge: "Balanced check",
+    label: "Core Picks",
+    badge: "Core check",
     switchBuffer: 0.8,
     closeMargin: 0.8,
-    projectionLabel: "Balanced switch score"
+    projectionLabel: "Core switch score"
   },
   upside: {
-    label: "Upside",
+    label: "Upside Picks",
     badge: "Upside check",
     switchBuffer: 0.2,
     closeMargin: 0.6,
     projectionLabel: "Upside switch score"
   },
   differential: {
-    label: "Differential",
+    label: "Differential Picks",
     badge: "Differential check",
     switchBuffer: 0,
     closeMargin: 0.5,
@@ -1099,32 +1207,32 @@ const captainChangeRiskModes = {
 };
 
 const safeSubstitutionAdvisorRiskMode = {
-  label: "Safe",
-  badge: "Safe check",
+  label: "High-Floor Picks",
+  badge: "High-floor check",
   subBuffer: 1.3,
   closeMargin: 0.8,
-  projectionLabel: "Safe sub score"
+  projectionLabel: "High-floor sub score"
 };
 
 const substitutionAdvisorRiskModes = {
   safe: safeSubstitutionAdvisorRiskMode,
   safer: safeSubstitutionAdvisorRiskMode,
   balanced: {
-    label: "Balanced",
-    badge: "Balanced check",
+    label: "Core Picks",
+    badge: "Core check",
     subBuffer: 0.7,
     closeMargin: 0.7,
-    projectionLabel: "Balanced sub score"
+    projectionLabel: "Core sub score"
   },
   upside: {
-    label: "Upside",
+    label: "Upside Picks",
     badge: "Upside check",
     subBuffer: 0.2,
     closeMargin: 0.6,
     projectionLabel: "Upside sub score"
   },
   differential: {
-    label: "Differential",
+    label: "Differential Picks",
     badge: "Differential check",
     subBuffer: 0,
     closeMargin: 0.5,
@@ -1214,7 +1322,7 @@ const cardStats = {
     value: (player) => proxyPrice(player)
   },
   bestValue: {
-    label: "Best Value",
+    label: "Value Score",
     value: (player) => measureScore(player, measures.bestValue)
   },
   cheapEnabler: {
@@ -1832,22 +1940,27 @@ function profileTag(text, kind = "neutral") {
 
 const publicProfileTagDefinitions = [
   {
-    label: "Safe",
+    label: "Projected Points",
+    kind: "neutral",
+    explanation: "A pick with one of the strongest expected fantasy returns."
+  },
+  {
+    label: "High-Floor Picks",
     kind: "safe",
     explanation: "A steadier pick with stronger role or minutes profile."
   },
   {
-    label: "Balanced",
+    label: "Core Picks",
     kind: "neutral",
     explanation: "A general pick with a mix of points, role, fixture, and risk."
   },
   {
-    label: "Upside",
+    label: "Upside Picks",
     kind: "upside",
     explanation: "A pick with higher ceiling, but also more uncertainty."
   },
   {
-    label: "Differential",
+    label: "Differential Picks",
     kind: "differential",
     explanation: "A less obvious pick that may help separate a squad."
   },
@@ -1877,7 +1990,7 @@ const publicProfileTagDefinitions = [
     explanation: "A player with useful upside, but a wider range of outcomes."
   },
   {
-    label: "Value",
+    label: "Value Picks",
     kind: "value",
     explanation: "A player who looks useful relative to price."
   }
@@ -2231,7 +2344,7 @@ function profileQaPanel(player, measureKey = measureKeyForTrust(activeMeasure())
     ? `${fixtureContext.label} vs ${fixtureContext.opponent}`
     : fixtureContext.label;
   const measureLabel = measureKey === "captain"
-    ? "Captain Score"
+    ? "Captain Watchlist"
     : measures[measureKey]?.label || titleFromSnake(measureKey);
 
   return `
@@ -2530,7 +2643,7 @@ function renderTrustModeSummary() {
 }
 
 function updateQuickPickModel(nextModelKey) {
-  activeQuickPickModelKey = pickModelOptions[nextModelKey] ? nextModelKey : "balanced";
+  activeQuickPickModelKey = publicPickModelOptionKeys.includes(nextModelKey) ? nextModelKey : "expected";
   if (quickPickModelSelect) {
     quickPickModelSelect.value = activeQuickPickModelKey;
   }
@@ -2792,14 +2905,15 @@ function playerRecommendationLabels(player, measureKey = measureKeyForTrust(acti
   const fixtureContext = qaFixtureContext(player);
   const candidateMode = player.preview_candidate?.mode || player.value_role || measureKey;
   const primaryTagByMode = {
-    balanced: "Balanced",
-    safe: "Safe",
-    upside: "Upside",
-    differential: "Differential",
-    bestValue: "Value",
-    valueQuant: "Value",
+    expected: "Projected Points",
+    balanced: "Core Picks",
+    safe: "High-Floor Picks",
+    upside: "Upside Picks",
+    differential: "Differential Picks",
+    bestValue: "Value Picks",
+    valueQuant: "Value Picks",
     captain: "Captain Option",
-    riskControl: "Safe"
+    riskControl: "High-Floor Picks"
   };
 
   const addTag = (label) => {
@@ -2809,7 +2923,7 @@ function playerRecommendationLabels(player, measureKey = measureKeyForTrust(acti
     }
   };
 
-  addTag(primaryTagByMode[measureKey] || primaryTagByMode[candidateMode] || "Balanced");
+  addTag(primaryTagByMode[measureKey] || primaryTagByMode[candidateMode] || "Core Picks");
 
   if ((candidateMode === "captain" || captainScore >= 70 || measureKey === "captain") && measureKey !== "captain") {
     addTag("Captain Option");
@@ -2832,11 +2946,11 @@ function playerRecommendationLabels(player, measureKey = measureKeyForTrust(acti
   }
 
   if (Number.isFinite(valueScore) && valueScore >= 65 || ["bestValue", "valueQuant"].includes(measureKey) || candidateMode === "bestValue" || candidateMode === "valueQuant") {
-    addTag("Value");
+    addTag("Value Picks");
   }
 
   if (!labels.length) {
-    addTag("Balanced");
+    addTag("Core Picks");
   }
 
   const seen = new Set();
@@ -2888,9 +3002,9 @@ function profileFinanceGrid(player) {
     profilePointMetric("Points After Risk", riskAdjustedMatchdayPointValue(player), matchdayLabel, "Risk-adjusted fantasy points"),
     profileIndexMetric("Value Index", valueIndexRawMetric(record), valuePool, "Value per price vs player pool."),
     profileIndexMetric("Squad Fit Index", squadFitIndexRawMetric(record), fitPool, "Scarcity-adjusted value vs player pool."),
-    profileIndexMetric("Captain Selection Index", captainAlphaRawMetric(record), captainPool, "Captain score vs player pool."),
+    profileIndexMetric("Captain Option Index", captainAlphaRawMetric(record), captainPool, "Captain score vs player pool."),
     profileIndexMetric("Bad-Week Floor Index", badWeekFloorRawMetric(record), floorPool, "Higher floor is better."),
-    profileIndexMetric("Risk-Control Index", riskControlRawMetric(record), riskPool, "Lower downside, volatility, minutes, and role risk shown as better.", { lowerIsBetter: true }),
+    profileIndexMetric("Advanced Safety Index", riskControlRawMetric(record), riskPool, "Lower downside, volatility, minutes, and role risk shown as better.", { lowerIsBetter: true }),
     profileIndexMetric("Budget Ease Index", budgetEaseRawMetric(record), budgetPool, "Lower opportunity cost shown as better.", { lowerIsBetter: true })
   ].filter(Boolean).join("");
 
@@ -2979,7 +3093,7 @@ function previewListItems(items, fallback) {
 function publicFantasyPickReasonItems(player) {
   const candidate = player.preview_candidate || {};
   const mode = candidate.mode || player.value_role || "balanced";
-  const modeLabel = candidate.mode_label || player.preview_mode_label || titleFromSnake(mode);
+  const modeLabel = publicPickModelLabelFromMode(mode, candidate.mode_label || player.preview_mode_label || titleFromSnake(mode));
   const projected = projectedMatchdayPoints(player);
   const ceiling = fantasyPoolCandidateStat(player, "ceiling_points");
   const floor = fantasyPoolCandidateStat(player, "floor_points");
@@ -3052,15 +3166,17 @@ function profileBestUseGrid(player, measureKey = measureKeyForTrust(activeMeasur
   const expected = projectedMatchdayPointValue(player);
   const captain = scoreValue(player, "finance_captain_score");
   const strategy = measures[measureKey]?.label || titleFromSnake(measureKey);
-  const bestUse = measureKey === "captain" || captain >= 70
-    ? "Captain shortlist"
+  const bestUse = measureKey === "captain" || isCaptainOption(player) || captain >= 70
+    ? "Captain option"
     : measureKey === "safe" || (risk <= 45 && start >= 65)
-      ? "Safe starter"
+      ? "High-floor starter"
       : measureKey === "upside"
         ? "Upside swing"
         : measureKey === "differential"
           ? "Differential watch"
-          : "Balanced pick";
+          : measureKey === "expected"
+            ? "Projected-points pick"
+            : "Core pick";
 
   return `
     <div class="profile-grid profile-grid--compact">
@@ -3539,14 +3655,14 @@ function captainChangeCountryLabel(player) {
 
 function decisionStrategyLabel(strategyKey) {
   if (strategyKey === "captain") {
-    return "Captain Selection";
+    return "Captain Watchlist";
   }
 
   return pickModelOptions[strategyKey]?.label || titleFromSnake(strategyKey || "balanced");
 }
 
 function decisionStrategyOptionsHtml() {
-  return pickModelOptionKeys
+  return decisionStrategyOptionKeys
     .map((strategyKey) => `<option value="${escapeHtml(strategyKey)}">${escapeHtml(decisionStrategyLabel(strategyKey))}</option>`)
     .join("");
 }
@@ -3557,7 +3673,7 @@ function renderDecisionStrategyOptions() {
   [captainChangeRiskSelect, substitutionAdvisorRiskSelect].filter(Boolean).forEach((select) => {
     const previousValue = select.value;
     select.innerHTML = strategyHtml;
-    select.value = pickModelOptionKeys.includes(previousValue) ? previousValue : "balanced";
+    select.value = decisionStrategyOptionKeys.includes(previousValue) ? previousValue : "balanced";
   });
 }
 
@@ -7587,9 +7703,9 @@ function setImportedBuilderSettings(payload) {
   }
 
   if (styleKey) {
-    const matchingPickKey = pickModelOptionKeys.includes(styleKey)
+    const matchingPickKey = builderPickModelOptionKeys.includes(styleKey)
       ? styleKey
-      : pickModelOptionKeys.find((key) => pickModelOptions[key]?.measureKey === styleKey);
+      : builderPickModelOptionKeys.find((key) => pickModelOptions[key]?.measureKey === styleKey);
     measureSelect.value = matchingPickKey || "balanced";
   }
 
@@ -7849,22 +7965,23 @@ function renderMeasureOptions() {
       return `<option value="${key}">${measures[key].optionLabel || measures[key].label}</option>`;
     })
     .join("");
-  const pickModelOptionsHtml = renderOptions(pickModelOptionKeys);
+  const builderOptionsHtml = renderOptions(builderPickModelOptionKeys);
+  const publicPickOptionsHtml = renderOptions(publicPickModelOptionKeys);
 
   if (measureSelect) {
     const previousValue = measureSelect.value;
-    measureSelect.innerHTML = pickModelOptionsHtml;
-    measureSelect.value = pickModelOptionKeys.includes(previousValue) ? previousValue : "balanced";
+    measureSelect.innerHTML = builderOptionsHtml;
+    measureSelect.value = builderPickModelOptionKeys.includes(previousValue) ? previousValue : "balanced";
   }
 
   [quickPickModelSelect, adviceMeasureSelect].filter(Boolean).forEach((select) => {
     const previousValue = select.value;
-    select.innerHTML = pickModelOptionsHtml;
-    select.value = pickModelOptionKeys.includes(previousValue) ? previousValue : "balanced";
+    select.innerHTML = publicPickOptionsHtml;
+    select.value = publicPickModelOptionKeys.includes(previousValue) ? previousValue : "expected";
   });
 
   if (quickModelHelpList) {
-    quickModelHelpList.innerHTML = pickModelOptionKeys
+    quickModelHelpList.innerHTML = publicPickModelOptionKeys
       .map((key) => {
         const option = pickModelOption(key);
         return `<li><strong>${option.label}:</strong> ${option.help}</li>`;
@@ -9497,7 +9614,7 @@ function pickProjectionContextText(player) {
 
 function fantasyPoolCandidateReason(player) {
   const candidate = player.preview_candidate || {};
-  const pickReason = publicFantasyPickReasonItems(player)[0] || `${candidate.mode_label || "Pick"}: current model pick`;
+  const pickReason = publicFantasyPickReasonItems(player)[0] || `${publicPickModelLabelFromMode(candidate.mode, candidate.mode_label || "Pick")}: current model pick`;
   const cleanPickReason = String(pickReason).replace(/\s*[.!?]+$/g, "");
 
   return `${cleanPickReason}.`;
@@ -9789,6 +9906,24 @@ function pickCardModelDescription(modelKey, measureKey = "balanced") {
   return `Model view: ${description}`;
 }
 
+function isCaptainOption(player) {
+  if (!player || player.position === "Goalkeeper") {
+    return false;
+  }
+
+  if (player.preview_candidate?.mode === "captain") {
+    return true;
+  }
+
+  return scoreValue(player, "finance_captain_score") >= 70 || captainRecommendationScore(player) >= 75;
+}
+
+function pickCardCaptainBadgeHtml(player) {
+  return isCaptainOption(player)
+    ? `<span class="pick-card__captain-badge" title="Strong captain candidate">Captain option</span>`
+    : "";
+}
+
 function pickCardRiskDescription(player, measureKey = "balanced", modelKey = "") {
   const reasons = publicFantasyRiskReasons(player, measureKey, modelKey);
 
@@ -9846,11 +9981,13 @@ function renderPickCard(player, options = {}) {
   const projectionSummary = pickCardProjectionSummary(player);
   const modelDescription = options.modelDescription || pickCardModelDescription(modelKey, measureKey);
   const riskDescription = pickCardRiskDescription(player, measureKey, modelKey);
+  const captainBadge = pickCardCaptainBadgeHtml(player);
 
   return `
     <article class="pick-card pick-card--${pickRiskKind(player)}">
       <div class="pick-card__top">
         <span class="pick-card__label">${escapeHtml(label)}</span>
+        ${captainBadge}
         <span class="pick-card__risk" title="${escapeHtml(riskHelpText)}" aria-label="${escapeHtml(riskHelpText)}">${escapeHtml(riskLabel)}</span>
       </div>
       ${playerDetailButton(player, "player-name-button--dashboard", measureKey)}
@@ -9934,16 +10071,16 @@ function handlePicksBuilderTrayClick(event) {
 
 function renderFantasyPoolPreviewCaptainPicks() {
   const captainCandidates = fantasyPoolPreviewCandidatesForMode("captain").slice(0, 8);
-  const captainModelDescription = "Captain advice based on projected points, matchup, start chance, and risk.";
+  const captainModelDescription = "Captain watchlist based on projected points, matchup, start chance, and risk.";
 
   if (captainCardGrid) {
     captainCardGrid.innerHTML = captainCandidates.length
       ? captainCandidates.map((player, index) => renderPickCard(player, {
-        label: index === 0 ? "Best Captain" : `Captain ${index + 1}`,
+        label: index === 0 ? "Top Captain Option" : `Captain Option ${index + 1}`,
         measureKey: "captain",
         modelDescription: captainModelDescription
       })).join("")
-      : renderPickCard(null, { label: "Captain Selection", measureKey: "captain" });
+      : renderPickCard(null, { label: "Captain Watchlist", measureKey: "captain" });
   }
 
   if (!captainTableBody) {
@@ -9969,7 +10106,7 @@ function renderFantasyPoolPreviewCaptainPicks() {
   if (!captainCandidates.length) {
     captainTableBody.innerHTML = `
       <tr class="fallback-table-row">
-        <td colspan="8">Captain candidates did not load. The site will fall back to the older captain table when current fantasy data is unavailable.</td>
+        <td colspan="8">Captain options did not load. The site will fall back to the older captain table when current fantasy data is unavailable.</td>
       </tr>
     `;
   }
@@ -9989,11 +10126,11 @@ function renderCaptainPicks() {
   );
   const captainCandidates = [...captainPool]
     .sort((a, b) => captainRecommendationScore(b) - captainRecommendationScore(a));
-  const captainModelDescription = "Captain advice based on projected points, matchup, start chance, and risk.";
+  const captainModelDescription = "Captain watchlist based on projected points, matchup, start chance, and risk.";
 
   if (captainCardGrid) {
     captainCardGrid.innerHTML = captainCandidates.slice(0, 8).map((player, index) => renderPickCard(player, {
-      label: index === 0 ? "Best Captain" : `Captain ${index + 1}`,
+      label: index === 0 ? "Top Captain Option" : `Captain Option ${index + 1}`,
       measureKey: "captain",
       modelDescription: captainModelDescription
     })).join("");
@@ -10026,9 +10163,10 @@ function activeQuickPickPositionLabel() {
 }
 
 function orderedQuickPickModelKeys() {
+  // TODO Phase 1B: replace one-card-per-model starter cards with a curated starter pack.
   return [
     activeQuickPickModelKey,
-    ...pickModelOptionKeys.filter((key) => key !== activeQuickPickModelKey)
+    ...publicPickModelOptionKeys.filter((key) => key !== activeQuickPickModelKey)
   ].filter((key, index, keys) => pickModelOptions[key] && keys.indexOf(key) === index);
 }
 

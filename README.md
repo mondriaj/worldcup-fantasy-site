@@ -6,9 +6,9 @@ A static fantasy football website for comparing quick picks, captain options, ca
 
 This site treats FIFA's official fantasy player feed as the working authority for public picks. Recommendation sections show **Official Fantasy Picks** using official fantasy players, prices, positions, selectable status, and scoring. Keep running the monitor before major updates because FIFA can still change player status, prices, positions, rules, or deadlines.
 
-The current UX is task-first: Home, Picks, Team Builder, Matchday Desk, Fantasy Finance, World Cup Guide, and Model Notes. The homepage centers the three primary actions - Build My Squad, See Top Picks, and Open Matchday Desk. Picks are card-first, Player Profile leads with practical pick rationale, Team Builder uses a guided step flow, and Matchday Desk groups saved-squad captain, bench, and timeline decisions.
+The current UX is task-first: Home, Picks, Team Builder, Matchday Desk, Fantasy Finance, World Cup Guide, and Model Notes. The homepage centers the three primary actions - Build My Squad, See Top Picks, and Open Matchday Desk. Picks are card-first, Player Profile leads with practical pick rationale and Captain option badges, Team Builder uses a guided step flow, and Matchday Desk groups saved-squad captain, bench, and timeline decisions.
 
-Default strategy labels are **Balanced**, **Safe**, **Upside**, and **Differential**. Finance language is simple by default: Squad Risk Report, Portfolio Health, Bad-Week Floor, Country Stack Risk, Fixture Stack Risk, and Budget Pressure. Advanced finance/model fields remain in Model Notes and export payloads for transparency.
+Public player-pick labels are **Projected Points**, **Core Picks**, **High-Floor Picks**, **Upside Picks**, **Value Picks**, and **Differential Picks**. Captain is handled through the dedicated Captain Watchlist and Captain option badges rather than as a normal public pick model. Value Quant and Risk-Control remain advanced/internal variants for model notes and older exports, not main dropdown choices. Finance language is simple by default: Squad Risk Report, Portfolio Health, Bad-Week Floor, Country Stack Risk, Fixture Stack Risk, and Budget Pressure. Advanced finance/model fields remain in Model Notes and export payloads for transparency.
 
 Team Builder is a planning tool. Users should confirm squad legality, locks, deadlines, boosters, live points, and played/unplayed status inside the official FIFA fantasy game before saving or acting.
 
@@ -60,7 +60,7 @@ The site can be opened from GitHub Pages or a local server. It loads browser-rea
 - `data/scorePredictionQaReport_v2.md` - human-readable score-prediction check summary
 - `data/recommendationQa_v2.json` - generated audit of top recommendation pools by style, matchday, position, country, data quality, role risk, and fixture context
 - `data/recommendationQaReport_v2.md` - human-readable recommendation-check summary and watchlists
-- `data/recommendationTrustModel_v0.md` - legacy recommendation-trust notes; the current public strategy labels are Balanced, Safe, Upside, and Differential
+- `data/recommendationTrustModel_v0.md` - legacy recommendation-trust notes; the current public pick labels are Projected Points, Core Picks, High-Floor Picks, Upside Picks, Value Picks, and Differential Picks
 - `data/captainChangeAdvisorModel_v0.md` - plain-language notes for the manual Quick Captain Switch Check
 - `data/substitutionAdvisorModel_v0.md` - plain-language notes for the manual Quick Substitution Check
 - `data/teamExportModel_v1.md` - plain-language notes for the Team Export JSON v1 payload
