@@ -52,6 +52,12 @@ Use the comparison after changing Team Builder strategy weights, portfolio adjus
 
 The comparison is not meant to choose the final squad for a user. It is a visibility check that helps confirm that public strategy labels correspond to meaningfully different optimizer behavior.
 
+## Phase 2E Tuning Note
+
+Phase 2E used this comparison to separate Stars and Scrubs from Balanced Squad under default settings. Balanced Squad now puts more pressure on bench strength, value efficiency, and avoiding a third premium when the eligible pool allows it. Stars and Scrubs now gives more credit to elite starters, justified premium spend, and top-heavy budget shape, while still applying a penalty when the bench becomes too weak or an expensive player does not project well.
+
+The comparison should normally show Stars and Scrubs with higher Star Dependence or a more top-heavy Budget Shape than Balanced Squad. If locks, removed players, filters, or risk controls force the pool to converge, high overlap can still be a valid warning rather than a bug.
+
 ## Current Limits
 
 - The check uses the current static player and projection data.

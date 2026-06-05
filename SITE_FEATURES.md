@@ -36,6 +36,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Builds a fantasy squad plan using selected strategy, official budget, position counts, country limit, locked players, removed players, and filters.
 - Team Builder is planning help and should be checked against the official game before saving.
 - Public Team Builder strategy labels are Balanced Squad, Diversified Squad, Concentrated Upside, Stars and Scrubs, and Value Squad. The builder applies strategy-aware squad scoring weights after legal candidate squads are formed, without replacing the existing constraints engine.
+- Stars and Scrubs is calibrated to be more top-heavy than Balanced Squad when feasible: stronger premium-starter concentration, weaker bench tolerance, and penalties for expensive players who do not justify the spend.
 - The Team Builder surface follows visible step cards: choose strategy, lock or avoid players, build squad, review legality and risk, then save or export.
 - After a build, the review step shows a compact Squad Strategy Report with Country Stack Risk, Fixture Stack Risk, Star Dependence, Bench Strength, Bad-Week Floor, Upside Ceiling, Budget Shape, and a short note on how the squad fits the selected strategy.
 - An advanced Team Builder comparison check can run all five public strategies under the same current settings, show squad overlap, and flag high-overlap or weak-identity builds for model inspection.

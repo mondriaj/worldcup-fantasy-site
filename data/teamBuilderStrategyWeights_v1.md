@@ -23,7 +23,7 @@ This phase changes how legal candidate squads are ranked after those constraints
 
 ### Balanced Squad
 
-Balanced Squad is the default all-around profile. It rewards starter quality, bench strength, budget efficiency, moderate upside, and moderate diversification. It penalizes very weak bench spots, excessive country or fixture concentration, and high dependence on only a few stars.
+Balanced Squad is the default all-around profile. It rewards starter quality, bench strength, budget efficiency, moderate upside, and moderate diversification. It penalizes very weak bench spots, excessive country or fixture concentration, high dependence on only a few stars, and unnecessary third-premium pressure when playable depth is available.
 
 ### Diversified Squad
 
@@ -35,11 +35,11 @@ Concentrated Upside puts more weight on ceiling, attacking fixture context, favo
 
 ### Stars and Scrubs
 
-Stars and Scrubs puts more weight on elite starter quality, top projected players, captain-style ceiling, and premium players who justify their price. It allows a weaker bench than Balanced Squad when the premiums are strong enough, but still penalizes unusable bench spots and expensive players who do not project as elite starters.
+Stars and Scrubs puts more weight on elite starter quality, top projected players, captain-style ceiling, premium count, and premium players who justify their price. It allows a weaker bench than Balanced Squad when the premiums are strong enough, but still penalizes unusable bench spots and expensive players who do not project as elite starters.
 
 ### Value Squad
 
-Value Squad puts more weight on points per price, value scores, cheap playable options, budget efficiency, and bench strength. It penalizes premium squeeze and weak bench depth more strongly than Stars and Scrubs.
+Value Squad puts more weight on points per price, value scores, cheap playable options, budget efficiency, and bench strength. It now leans more clearly toward depth than Balanced Squad so the advanced comparison does not collapse the two strategies when enough eligible players exist. It penalizes premium squeeze and weak bench depth more strongly than Stars and Scrubs.
 
 ## Inputs Used
 
@@ -54,6 +54,7 @@ The strategy weights reuse existing fields already loaded by the static site:
 - player price
 - value and cheap-enabler scores
 - premium-worth-it scores
+- premium count and premium concentration
 - captain score as a supporting starter-ceiling signal
 - country concentration
 - fixture concentration
