@@ -54,6 +54,7 @@ The site can be opened from GitHub Pages or a local server. It loads static data
 - `data/scorePredictions_v2.json` - preserved PELE-forward generated score prediction model and static fallback for group-stage match environments
 - `data/scorePredictionDataFlow_v1.md` - plain-language note for the active score prediction browser data flow
 - `data/peleAnchoredFantasyScoreModel_v1.md` - plain-language note for the PELE anchor, fixture-specific Projected xG meaning, score uncertainty fields, fantasy context labels, and PELE source freshness check
+- `data/launchOperationsChecklist_v1.md` - post-launch operating checklist for monitor cadence, refresh decisions, rerun triggers, and public-site checks
 - `data/scorePredictions_v1.json` - preserved first PELE-backed score prediction model
 - `data/scorePredictions_v0.json` - preserved pre-PELE score prediction model
 - `data/scorePredictionModelRoadmap.md` - score model upgrade notes
@@ -164,6 +165,13 @@ Official final squad reconciliation pipeline:
 ```bash
 node scripts/importOfficialSquads.mjs
 ```
+
+Launch operations checklist:
+
+- Use `data/launchOperationsChecklist_v1.md` before routine maintenance or public refreshes.
+- Start with `node scripts/checkOfficialFantasyDataUpdates.mjs`.
+- Ownership-only changes do not require model reruns.
+- Price, position, selectable status, scoring, PELE, or role changes may require data refreshes and affected model reruns after review.
 
 ## Deployment
 

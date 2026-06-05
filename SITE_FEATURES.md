@@ -98,6 +98,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Official fantasy rules now include the Clean Sheet Shield booster rule; live deadline and lock semantics still require manual confirmation inside FIFA before acting.
 - Official final squad reconciliation remains available as an audit trail, while the public site uses FIFA's fantasy pool as the working authority.
 - The official data check reviews FIFA fantasy data for player, squad, rules, round, and language changes before deciding whether imports or model reruns are needed.
+- `data/launchOperationsChecklist_v1.md` summarizes the operating checklist for monitor cadence, refresh decisions, rerun triggers, and launch checks.
 - Import templates are provided for future manual reconciliation work.
 - Readiness validation reports whether final model reruns are allowed or still blocked by missing official data.
 
