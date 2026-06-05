@@ -43,7 +43,7 @@ Recent launch checks verified:
 
 - Ownership-only changes do not require model reruns.
 - Rules, price, position, selectable status, scoring, player, PELE, role, or final-squad changes should follow `data/launchOperationsChecklist_v1.md` before any public data promotion.
-- The latest release checkpoint noted an official rules/help-text change that should be handled as a separate rules refresh and review task before changing public rules data.
+- Official fantasy rules wording has been refreshed for the current launch state; future rules or help-text changes should follow the operations checklist before any public data promotion.
 - Deeper model refreshes remain gated by the official-data and source-readiness checks described in the operations checklist.
 
 ## Checks Run For This Release Note
@@ -67,14 +67,13 @@ Recent launch checks verified:
 - Team Builder outputs should be checked inside the official game before users save or act.
 - Support link, custom domain, canonical URL, and social preview image remain pending until real production inputs are available.
 
-## Remaining Launch TODOs
+## Next Recommended Action
 
-- Run a separate official fantasy rules refresh and review task for the latest rules/help-text monitor finding.
-- Confirm final public URL or custom domain.
-- Create a safe original social preview image.
-- Add canonical, `og:url`, `og:image`, and `twitter:image` only after the final URL and image are ready.
-- Add Google Analytics only after a real measurement ID is available.
-- Add a support link only after a real public creator URL is available.
+- The site is launch-ready.
+- Continue normal monitoring using `data/launchOperationsChecklist_v1.md`.
+- Do not rerun models for ownership-only changes.
+- Run official data refresh only if player price, position, selectable status, player pool, scoring, squad, rule, deadline, or PELE data changes.
+- Add Google Analytics, support link, or custom domain only when real values are available.
 
 ## Unrelated Worktree Items Left Untouched
 
