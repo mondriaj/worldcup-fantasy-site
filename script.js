@@ -124,7 +124,7 @@ const primaryStrategyKeys = ["balanced", "safe", "upside", "differential"];
 const publicPickModelCopy = {
   expected: {
     label: "Projected Points",
-    cardLabel: "Projected Points",
+    cardLabel: "Top Projection",
     help: "Favors the highest expected fantasy return.",
     cardDescription: "Projected Points favors the highest expected fantasy return."
   },
@@ -797,7 +797,7 @@ const pickModelOptions = {
   expected: {
     id: "expected",
     label: "Projected Points",
-    cardLabel: "Projected Points",
+    cardLabel: "Top Projection",
     group: "basic",
     sourceMode: "balanced",
     measureKey: "expected",
@@ -942,6 +942,31 @@ function publicPickModelLabelFromMode(mode, fallback = "Pick") {
   return publicPickModelLabel(publicPickModelKeyFromMode(mode), fallback);
 }
 
+function primaryPickTypeBadgeLabel({ label = "", measureKey = "balanced", modelKey = "" } = {}) {
+  const rawLabel = String(label || "").toLowerCase();
+  const key = publicPickModelKeyFromMode(modelKey || measureKey);
+  const labelMap = {
+    expected: "Top Projection",
+    balanced: "Core Pick",
+    safe: "High-Floor Pick",
+    upside: "Upside Pick",
+    bestValue: "Value Pick",
+    differential: "Differential Pick",
+    cheapEnabler: "Budget Enabler",
+    captain: "Top Projection"
+  };
+
+  if (rawLabel.includes("budget enabler") || rawLabel.includes("cheap enabler")) return "Budget Enabler";
+  if (rawLabel.includes("value")) return "Value Pick";
+  if (rawLabel.includes("high-floor") || rawLabel.includes("high floor")) return "High-Floor Pick";
+  if (rawLabel.includes("upside")) return "Upside Pick";
+  if (rawLabel.includes("differential")) return "Differential Pick";
+  if (rawLabel.includes("core")) return "Core Pick";
+  if (rawLabel.includes("projection") || rawLabel.includes("projected points") || rawLabel.includes("captain")) return "Top Projection";
+
+  return labelMap[key] || "Core Pick";
+}
+
 function pickModelMeasure(optionOrKey) {
   const option = typeof optionOrKey === "string" ? pickModelOption(optionOrKey) : optionOrKey;
   return measures[option?.measureKey] || measures.balanced;
@@ -969,12 +994,11 @@ function sortByPickModel(playerList, optionOrKey, mode = activeTrustMode()) {
 }
 
 function pickListCardLabel(option, index) {
-  const cardLabel = option.cardLabel || option.label;
-  if (index > 0) {
-    return `${cardLabel} ${index + 1}`;
-  }
-
-  return /pick$/i.test(cardLabel) || /points$/i.test(cardLabel) ? cardLabel : `${cardLabel} pick`;
+  return primaryPickTypeBadgeLabel({
+    label: option.cardLabel || option.label,
+    measureKey: option.measureKey,
+    modelKey: option.id
+  });
 }
 
 function previewFinanceContext(player) {
@@ -9718,18 +9742,6 @@ function pickRiskLabel(player) {
   return "High Risk";
 }
 
-function pickRiskHelpText(player, riskLabel) {
-  const risk = scoreValue(player, "finance_composite_risk_score", "risk_composite_score");
-  const scoreText = Number.isFinite(risk)
-    ? `${displayNumber(risk)}/100`
-    : "not available";
-  const basis = player?.is_fantasy_pool_preview
-    ? "start chance, expected minutes, role stability, downside floor, volatility, and ceiling/floor spread"
-    : "availability, minutes, discipline, volatility, and bad-week floor";
-
-  return `${riskLabel}: practical pick risk ${scoreText}. Low is 0-38, Medium is 39-62, High is 63+. Based on ${basis}.`;
-}
-
 function pickRiskKind(player) {
   const label = pickRiskLabel(player);
   if (label === "Low Risk") return "safe";
@@ -9924,10 +9936,44 @@ function pickCardCaptainBadgeHtml(player) {
     : "";
 }
 
-function pickCardRiskDescription(player, measureKey = "balanced", modelKey = "") {
-  const reasons = publicFantasyRiskReasons(player, measureKey, modelKey);
+function cardCautionPhrase(reason) {
+  const normalizedReason = String(reason || "").toLowerCase();
 
-  return reasons.length ? `Risk view: ${publicRiskSentence(reasons)}` : "";
+  if (normalizedReason.includes("minutes") || normalizedReason.includes("substitution") || normalizedReason.includes("rotation") || normalizedReason.includes("role")) {
+    return "Check role before deadline";
+  }
+
+  if (normalizedReason.includes("boom-or-bust") || normalizedReason.includes("variance")) {
+    return "Higher variance";
+  }
+
+  if (normalizedReason.includes("floor")) {
+    return "Lower floor";
+  }
+
+  if (normalizedReason.includes("clean-sheet") || normalizedReason.includes("fixture") || normalizedReason.includes("matchup")) {
+    return "Tougher fixture";
+  }
+
+  if (normalizedReason.includes("captain")) {
+    return "Higher armband downside";
+  }
+
+  if (normalizedReason.includes("price")) {
+    return "Watch squad budget";
+  }
+
+  return reason;
+}
+
+function pickCardRiskDescription(player, measureKey = "balanced", modelKey = "") {
+  const cautionPhrases = Array.from(new Set(
+    publicFantasyRiskReasons(player, measureKey, modelKey)
+      .map(cardCautionPhrase)
+      .filter(Boolean)
+  ));
+
+  return cautionPhrases.length ? `Caution: ${listText(cautionPhrases.slice(0, 2))}.` : "";
 }
 
 function builderLockPlayerId(player) {
@@ -9960,10 +10006,12 @@ function pickCardActionHtml(player) {
 
 function renderPickCard(player, options = {}) {
   const measureKey = options.measureKey || "balanced";
-  const label = options.label || measures[measureKey]?.label || "Pick";
-  const riskLabel = pickRiskLabel(player);
-  const riskHelpText = pickRiskHelpText(player, riskLabel);
   const modelKey = options.modelKey || "";
+  const label = primaryPickTypeBadgeLabel({
+    label: options.label || measures[measureKey]?.label || "Pick",
+    measureKey,
+    modelKey
+  });
 
   if (!player) {
     const emptyTitle = options.emptyTitle || "Fantasy data unavailable";
@@ -9988,7 +10036,6 @@ function renderPickCard(player, options = {}) {
       <div class="pick-card__top">
         <span class="pick-card__label">${escapeHtml(label)}</span>
         ${captainBadge}
-        <span class="pick-card__risk" title="${escapeHtml(riskHelpText)}" aria-label="${escapeHtml(riskHelpText)}">${escapeHtml(riskLabel)}</span>
       </div>
       ${playerDetailButton(player, "player-name-button--dashboard", measureKey)}
       <p class="pick-card__meta">${escapeHtml(playerCountryText(player))} · ${escapeHtml(player.position)}</p>

@@ -2168,7 +2168,6 @@ html {
 }
 
 .pick-card__label,
-.pick-card__risk,
 .pick-card__captain-badge {
   display: inline-flex;
   align-items: center;
@@ -2185,24 +2184,9 @@ html {
   color: var(--accent-cool);
 }
 
-.pick-card__risk {
-  background: rgba(15, 143, 79, 0.12);
-  color: var(--accent-dark);
-}
-
 .pick-card__captain-badge {
   background: rgba(15, 143, 79, 0.12);
   color: var(--accent-dark);
-}
-
-.pick-card--watch .pick-card__risk {
-  background: rgba(255, 159, 28, 0.16);
-  color: #7a4a00;
-}
-
-.pick-card--review .pick-card__risk {
-  background: rgba(219, 58, 52, 0.1);
-  color: #9f1d1d;
 }
 
 .pick-card__meta,

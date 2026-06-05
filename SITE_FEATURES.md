@@ -15,7 +15,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 ## Player Recommendations
 
 - Picks show Official Fantasy Picks using official fantasy prices, positions, selectable status, scoring, projections, and finance metrics.
-- Player cards are the default surface and include a short reason, risk label, fixture context, View Profile, and Add to Builder when the player is available to the builder.
+- Player cards are the default surface and include one primary pick-type badge, an optional Captain option badge, a short caution/reason line, fixture context, View Profile, and Add to Builder when the player is available to the builder.
 - Picks include a compact Builder tray that shows locked players, lets users remove them, and links directly to Team Builder.
 - Picks include a Captain Watchlist lane for captain candidates from the official fantasy pool.
 - The deeper Pick Explorer remains available behind the card-first experience for filtered Official Fantasy Picks by strategy, matchday, position, and pick pool.
