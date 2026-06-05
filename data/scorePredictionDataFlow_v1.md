@@ -1,25 +1,20 @@
-# Score Prediction Data Flow v1
+# Score Prediction Data Flow
 
 Date: 2026-06-05
 
 ## Purpose
 
-This note documents which static score projection files the public site uses after the Phase 3A data-flow cleanup, the Phase 3B PELE-anchored uncertainty pass, the Phase 3C Match Environment display cleanup, and the Phase 3D player/squad context pass. Phase 3D uses the cleaned Match Environment fields in explanations and squad risk; it does not replace the expected-goal formulas, probability model, player recommendations, or Team Builder optimizer.
+This note explains which score projection context the public site uses and how it reaches Match Environment, player explanations, Player Profile, and Team Builder. It is a data-flow note only; it does not change expected-goal formulas, scoreline probabilities, player recommendations, or Team Builder behavior.
 
 ## Public Site Loading
 
-`index.html` loads browser-ready data files before `script.js`. For score projection context it loads both:
+The site loads static data before the main app logic runs. Score projection context is included in those static data files, so the public page does not fetch score prediction JSON at runtime.
 
-- `fantasyPoolScorePredictionsData.js`
-- `scorePredictionsData.js`
+## Active Match Environment Context
 
-No runtime JSON fetch is used for score prediction data.
+Match Environment uses the current fantasy score projection context when it is available. A static score projection backup is also loaded so the table can still render if the current context is unavailable.
 
-## Active Match Environment Source
-
-`script.js` now prefers `window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS` from `fantasyPoolScorePredictionsData.js` for the public Match Environment table.
-
-That bundle is generated from `data/scorePredictions_fantasyPool_v3.json`. It has all 72 group-stage fixture rows and carries the Match Environment fields the table displays:
+Every group-stage fixture should have score context for:
 
 - Projected xG
 - Win / Draw / Win
@@ -27,54 +22,22 @@ That bundle is generated from `data/scorePredictions_fantasyPool_v3.json`. It ha
 - Match uncertainty
 - Clean-sheet context
 
-Projected xG is fixture-specific expected goals for the listed matchup. It uses the same final expected-goal values that feed the scoreline grid: `home_expected_goals` and `away_expected_goals`, now also exposed as `homeProjectedXg`, `awayProjectedXg`, `homeMatchXg`, and `awayMatchXg` aliases for clearer browser display code.
+Projected xG means fixture-specific expected goals for the listed team against the listed opponent. It is not a generic team average, a raw PELE rating, or a season-long attacking grade.
 
-The same rows still carry total goals range, win/draw/loss probabilities, clean-sheet probabilities, goal environment, top scorelines, and upset-risk probability for model/internal use and fallback display. Total goals range is supporting context, not the lead public stat. Upset risk is no longer a main public Match Environment field because Win / Draw / Win is the clearer public outcome view.
+The score rows also carry supporting details such as total goals range, clean-sheet probability, top scorelines, and goal environment. Those details support row details, player explanations, and model inspection, but they are not the main public Match Environment columns.
 
-## Fallback Source
+## Player Recommendations And Team Builder
 
-If the fantasy-pool score bundle is missing or empty, `script.js` falls back to `window.SCORE_FIXTURE_PREDICTIONS_DATA` from `scorePredictionsData.js`.
+Player cards and Player Profile use fixture-level context only when it helps explain the pick. Attackers can mention strong team projected xG, defenders and keepers can mention clean-sheet context, and any position can mention match uncertainty when the fixture shape is especially fragile.
 
-That fallback is generated from `data/scorePredictions_v2.json`, the preserved PELE-forward score projection model.
+Team Builder uses the same match context inside existing squad metrics. Repeated exposure to uncertain matches can affect Fixture Stack Risk and Bad-Week Floor. Strong team projected xG can support Upside Ceiling. Clean-sheet context can help explain defender and keeper value.
 
-## Player Recommendations And Team Builder Context
+## PELE Anchor
 
-Player recommendation cards and the Pick Explorer use `fantasyPoolRecommendationsData.js`, `fantasyPoolMatchdayProjectionsData.js`, and `fantasyPoolFinanceMetricsData.js` when those official fantasy-pool browser files are loaded.
-
-Player-card reasons and Player Profile fixture notes now use fixture-level score rows to show fantasy-facing Match Environment context: Team projected xG, Opponent projected xG, Win / Draw / Win, Most likely score, Clean-sheet context, and Match uncertainty. Upset Risk is not used as a public profile field.
-
-Team Builder uses the same current official fantasy-pool player layer and player-level projection/finance context for squad construction. Fixture-level score rows now also support squad-risk scoring: repeated exposure to uncertain fixtures informs Fixture Stack Risk and Bad-Week Floor, strong team projected xG supports Upside Ceiling, and clean-sheet context supports defender/keeper squad value. These rows are not fetched from JSON at runtime.
-
-## Phase 3B/3C PELE, Projected xG, And Uncertainty Notes
-
-The active fantasy-pool score source remains PELE-anchored through `data/peleRatings_v1.json` and the PELE-forward team-quality model. On 2026-06-05, the existing PELE Datawrapper source URLs were reachable and matched the local 2026-06-01 CSV files, so no PELE refresh was needed.
-
-PELE remains the core team-strength anchor. The local score model converts PELE plus fixture context into fantasy-facing score projection context: fixture-specific Projected xG, scoreline probabilities, clean-sheet probabilities, and uncertainty. Upset-risk fields remain available for internal/model use.
-
-Phase 3B adds these fixture-level uncertainty fields while preserving the expected-goal fields:
-
-- `uncertaintyLabel`
-- `lowTotalGoals`, `baseTotalGoals`, `highTotalGoals`
-- `homeXgLow`, `homeXgBase`, `homeXgHigh`
-- `awayXgLow`, `awayXgBase`, `awayXgHigh`
-- `uncertaintyReason`
-
-It also adds fantasy-facing context fields:
-
-- `attackerEnvironment`
-- `defenderEnvironment`
-- `keeperEnvironment`
-- `cleanSheetContext`
-- `goalEnvironment`
-- `upsetRisk`
-- `matchUncertainty`
-
-Phase 3C removes the generic match-level attack column from the main public Match Environment table because it could imply a generic attacking grade. Attack-related fields remain available for model inspection and player-level context where needed.
-
-See `peleAnchoredFantasyScoreModel_v1.md` for the model note and PELE source check.
+PELE remains the main team-quality anchor. The local score model converts PELE plus fixture context into fantasy-facing score projection context: fixture-specific Projected xG, scoreline probabilities, clean-sheet probabilities, and match uncertainty.
 
 ## Current Limits
 
-- This is a static score projection context, not live match data.
+- This is static score projection context, not live match data.
 - It does not know official lineups, injuries, live scores, lock state, deadlines, or final squad confirmations.
 - Users should still confirm squad legality, locks, deadlines, boosters, and played/unplayed status inside the official fantasy game before acting.

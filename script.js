@@ -1,14 +1,6 @@
-// Source data lives in JSON files:
-// data/playerFinanceMetrics_v0.json stores the Week 6 finance model, players.json
-// stores the older fallback, and fantasyRules.json stores the active official rules summary.
-// The browser loads script-friendly copies first:
-// financePlayersData.js defines window.FINANCE_PLAYERS_DATA, playersData.js defines
-// window.PLAYERS_DATA, matchdayProjectionsData.js defines matchday projection globals,
-// scorePredictionsData.js defines legacy fixture prediction globals, and
-// fantasyRulesData.js defines window.FANTASY_RULES_DATA. The official fantasy-pool
-// files define separate FANTASY_POOL_* globals for current official fantasy
-// recommendations and Match Environment score projection context.
-// script.js then uses those datasets together without fetching JSON at runtime.
+// Static data scripts are loaded before this file. They expose player, rules,
+// matchday, score-projection, and official fantasy-pool data on window globals,
+// so the public site can run without fetching JSON at runtime.
 function scorePredictionSourceFromWindow() {
   const fantasyPoolData = window.FANTASY_POOL_SCORE_PREDICTIONS_DATA || null;
   const fantasyPoolRows = Array.isArray(window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS)
@@ -33,15 +25,15 @@ function scorePredictionSourceFromWindow() {
       model_name: fantasyPoolData?.model?.model_name || null,
       formula_version: fantasyPoolData?.model?.formula_version || null,
       uncertainty_layer_version: fantasyPoolData?.model?.uncertainty_layer_version || null,
-      source_files: ["data/scorePredictions_fantasyPool_v3.json"],
-      previous_model_file: fantasyPoolData?.previous_model_file || "data/scorePredictions_v2.json",
+      data_source_label: "Current fantasy score projection context",
+      fallback_context_label: "Static score projection backup",
       fixture_prediction_count: fantasyPoolRows.length,
       team_fixture_prediction_count: fantasyPoolTeamRows.length || null
     };
 
     return {
       key: "fantasy_pool_score_predictions_v3",
-      label: "Fantasy-pool score projection context",
+      label: "Current fantasy score projection context",
       browserFile: "fantasyPoolScorePredictionsData.js",
       sourceFile: "data/scorePredictions_fantasyPool_v3.json",
       fallbackBrowserFile: "scorePredictionsData.js",
@@ -57,7 +49,7 @@ function scorePredictionSourceFromWindow() {
 
   return {
     key: "legacy_score_predictions_v2",
-    label: "Legacy PELE-forward score projection context",
+    label: "Static score projection context",
     browserFile: "scorePredictionsData.js",
     sourceFile: "data/scorePredictions_v2.json",
     fallbackBrowserFile: null,
@@ -579,7 +571,7 @@ function remainingBudgetText(totalPrice) {
 
 function loadFantasyRules() {
   if (!window.FANTASY_RULES_DATA) {
-    throw new Error("Fantasy rules data is missing. Load fantasyRulesData.js before script.js.");
+    throw new Error("Fantasy rules data is missing. Refresh after the static data files finish loading.");
   }
 
   return window.FANTASY_RULES_DATA;
@@ -684,20 +676,20 @@ const measures = {
     label: "Core Picks",
     optionLabel: "Core Picks",
     description: "Best all-around option. It balances expected return, reliable starts, minutes, and risk.",
-    formula: "Uses the Week 6 risk-adjusted strategy score when available. It blends expected fantasy return, reliability, lower composite risk, and lower tail risk.",
+    formula: "Player signal used: blends projected fantasy return, reliability, minutes security, and lower downside.",
     score: (player) => scoreValue(player, "finance_strategy_risk_adjusted", "risk_adjusted_overall_score")
   },
   expected: {
     label: "Projected Points",
     description: "Ranks players by modeled expected fantasy points for one group-stage match.",
-    formula: "Uses expected return points from the Week 6 finance model. The older fallback is risk-adjusted projected points.",
+    formula: "Player signal used: ranks the projected fantasy return for the selected match view.",
     score: (player) => scoreValue(player, "finance_expected_return_points", "risk_adjusted_expected_points_estimate")
   },
   safe: {
     label: "High-Floor Picks",
     optionLabel: "High-Floor Picks",
     description: "Prioritizes players with safer minutes and lower downside before chasing upside.",
-    formula: "Uses the Week 6 safe-floor strategy score when available. It rewards expected return, minutes security, lower source risk, and lower downside risk.",
+    formula: "Player signal used: rewards projected return, minutes security, role confidence, and safer bad-week outcomes.",
     score: (player) => hasScoreValue(player, "finance_strategy_safe_floor")
       ? scoreValue(player, "finance_strategy_safe_floor")
       : (100 - value(player.risk_composite_score)) + value(player.risk_adjusted_expected_points_estimate) * 8
@@ -706,13 +698,13 @@ const measures = {
     label: "Upside Picks",
     optionLabel: "Upside Picks",
     description: "Chases higher ceilings in stronger attacking spots.",
-    formula: "Uses the Week 6 upside strategy score when available. It leans toward high expected return, high per-90 upside, and positive event involvement.",
+    formula: "Player signal used: leans toward projected return, ceiling, attacking involvement, and stronger matchups.",
     score: (player) => scoreValue(player, "finance_strategy_upside", "euro_style_points_per90_estimate")
   },
   minutes: {
     label: "Likely Minutes",
     description: "Looks for players who are more likely to play regularly.",
-    formula: "Uses the Week 6 minutes-floor strategy score when available. It favors club minutes, national-team usage, input coverage, and minutes security.",
+    formula: "Player signal used: favors club minutes, national-team usage, role confidence, and minutes security.",
     score: (player) => scoreValue(player, "finance_strategy_minutes_floor", "euro_style_reliability_score")
   },
   lowTailRisk: {
@@ -746,7 +738,7 @@ const measures = {
     optionLabel: "Value Picks",
     secondaryLabel: "Budget-aware value score",
     description: "Ranks players by projected return for their budget, with role and budget pressure included.",
-    formula: "Uses the active player price field. Score blends projected points per budget unit, value score, cheap-enabler score, start probability, and lower budget pressure.",
+    formula: "Player signal used: blends projected return per budget unit, value score, start chance, and lower budget pressure.",
     score: (player) => {
       const price = proxyPrice(player);
       const riskAdjustedPerPrice = scoreValue(player, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate") / price;
@@ -766,7 +758,7 @@ const measures = {
     optionLabel: "Cheap Enabler",
     secondaryLabel: "Budget-aware value score",
     description: "Finds lower-price players who still have a playable role and useful value score.",
-    formula: "Uses cheap_enabler_score_v1 from the value model, then adds a small matchday lift for projected points per budget unit.",
+    formula: "Player signal used: finds cheaper players with a playable role, useful value, and enough projected return for the spend.",
     score: (player) => scoreValue(player, "cheap_enabler_score_v1", "cheap_enabler_score") + (scoreValue(player, "finance_risk_adjusted_return_points") / proxyPrice(player)) * 14
   },
   premiumWorthIt: {
@@ -774,7 +766,7 @@ const measures = {
     optionLabel: "Premium Worth It",
     secondaryLabel: "Budget-aware value score",
     description: "Checks whether expensive players still justify the spend.",
-    formula: "Uses premium_worth_it_score_v1 from the value model, plus matchday expected return and start probability.",
+    formula: "Player signal used: checks whether premium players justify the price through projection, role, and start chance.",
     score: (player) => scoreValue(player, "premium_worth_it_score_v1", "premium_worth_it_score") + scoreValue(player, "finance_expected_return_points") * 4 + scoreValue(player, "start_probability_percent") * 0.08 - scoreValue(player, "overpay_risk_v1", "overpay_risk") * 0.08
   },
   var10: {
@@ -798,35 +790,35 @@ const measures = {
     optionLabel: "Omega-Style Pick",
     secondaryLabel: "Advanced: upside-to-downside balance",
     description: "Compares useful upside against downside risk.",
-    formula: "Uses an Omega-style ratio from the Week 6 finance model, converted into a 0-100 percentile.",
+    formula: "Player signal used: compares useful upside against downside and ranks that balance.",
     score: (player) => scoreValue(player, "finance_omega_like_percentile")
   },
   attackHeavy: {
     label: "Attack Heavy",
     optionLabel: "Attack Heavy",
     description: "Chases attackers and attacking defenders with stronger goal, assist, shot, and upside signals.",
-    formula: "Uses the Week 6 attack-heavy strategy score. It rewards expected return, upside, attacking position, and attacking event proxies.",
+    formula: "Player signal used: rewards projected return, upside, attacking position, and attacking-event signals.",
     score: (player) => scoreValue(player, "finance_strategy_attack_heavy", "attack_score")
   },
   defensiveHeavy: {
     label: "Defensive Heavy",
     optionLabel: "Defensive Heavy",
     description: "Looks for goalkeepers and defenders with clean-sheet or defensive floor potential.",
-    formula: "Uses the Week 6 defensive-heavy strategy score. It rewards defensive positions, team defensive proxies, clean-sheet signals, and lower downside risk.",
+    formula: "Player signal used: rewards defensive positions, clean-sheet context, defensive floor, and lower downside.",
     score: (player) => scoreValue(player, "finance_strategy_defensive_heavy", "defense_score")
   },
   veryRisky: {
     label: "Very Risky Upside",
     optionLabel: "Very Risky Upside",
     description: "A deliberately aggressive style for boom-or-bust recommendations.",
-    formula: "Uses the Week 6 very-risky strategy score. It rewards upside, volatility, event dependency, and high-risk profiles, so it should be used as an aggressive watchlist.",
+    formula: "Player signal used: rewards upside, volatility, and event dependence for an aggressive watchlist.",
     score: (player) => scoreValue(player, "finance_strategy_very_risky")
   },
   differential: {
     label: "Differential Picks",
     optionLabel: "Differential Picks",
     description: "Looks for lower-obviousness or mispriced players with a defensible projection.",
-    formula: "Uses the current Official Fantasy Differential candidate score when available. Legacy fallback uses the very-risky finance strategy with data-check penalties.",
+    formula: "Player signal used: looks for less obvious players who still have defensible projection, role, and value signals.",
     score: (player) => player.preview_candidate?.mode === "differential"
       ? scoreValue(player, "finance_strategy_risk_adjusted")
       : scoreValue(player, "finance_strategy_very_risky")
@@ -835,7 +827,7 @@ const measures = {
     label: "Captain Watchlist",
     optionLabel: "Captain Watchlist",
     description: "Ranks armband candidates by captain ceiling, starts, raw points, and fixture context.",
-    formula: "Uses the current captain selection score when available. Legacy fallback uses the captain score.",
+    formula: "Player signal used: ranks armband candidates by ceiling, starts, raw points, and fixture context.",
     score: (player) => player.preview_candidate?.mode === "captain"
       ? scoreValue(player, "finance_strategy_risk_adjusted")
       : scoreValue(player, "finance_captain_score")
@@ -936,8 +928,8 @@ const pickModelOptions = {
     group: "advanced",
     sourceMode: "balanced",
     measureKey: "bestValue",
-    help: "Internal value variant used for model notes and compatibility.",
-    cardDescription: "Advanced value variant used for model notes and older exports.",
+    help: "Extra value lens kept outside the normal public pick list.",
+    cardDescription: "Extra value lens kept outside the normal public pick list.",
     score: (player) => {
       const financeAlpha = financeContextScore(player, "finance_alpha_score");
       const valueScore = optionalScoreValue(player, "value_score_v1", "cheap_enabler_score_v1");
@@ -967,8 +959,8 @@ const pickModelOptions = {
     group: "advanced",
     sourceMode: "safe",
     measureKey: "safe",
-    help: "Internal safety variant used for model notes and compatibility.",
-    cardDescription: "Advanced safety variant used for model notes and older exports.",
+    help: "Extra safety lens kept outside the normal public pick list.",
+    cardDescription: "Extra safety lens kept outside the normal public pick list.",
     score: (player, mode = activeTrustMode()) => trustAdjustedScore(player, measures.safe, mode) +
       Math.max(0, 100 - scoreValue(player, "finance_composite_risk_score", "risk_composite_score")) * 0.22 +
       scoreValue(player, "finance_minutes_security_score", "euro_style_reliability_score") * 0.16 +
@@ -996,7 +988,11 @@ const teamBuilderStrategyOptions = {
     label: "Balanced Squad",
     measureKey: "balanced",
     description: "Strong all-around squad with a mix of starters, bench depth, budget efficiency, and moderate diversification.",
-    mappingNote: "Phase 2C mapping: starts from the Core Picks scorer, then applies Balanced Squad weights for starter quality, bench strength, budget efficiency, moderate upside, and moderate diversification.",
+    whatItBuilds: "A strong all-around 15-player squad.",
+    howItChooses: "Balances starter quality, reliable minutes, playable bench depth, budget efficiency, moderate upside, and moderate diversification.",
+    mainTradeoff: "May pass on a sharper stack or extra premium if that weakens the bench or concentrates too much risk.",
+    bestFor: "the default squad plan with no single extreme.",
+    playerSignal: "Uses Core Picks as the main player signal, then checks the full squad shape.",
     optimizationNote: "Balanced Squad is the default all-around optimizer profile."
   },
   diversifiedSquad: {
@@ -1004,7 +1000,11 @@ const teamBuilderStrategyOptions = {
     label: "Diversified Squad",
     measureKey: "safe",
     description: "Reduces dependence on one country, one match, or a small group of stars.",
-    mappingNote: "Phase 2C mapping: starts from the High-Floor scorer, then adds stronger diversification, bench, minutes, and downside-protection weights.",
+    whatItBuilds: "A squad that spreads risk across countries, fixtures, and star players.",
+    howItChooses: "Rewards reliable starts, bench strength, lower country concentration, lower fixture concentration, and downside protection.",
+    mainTradeoff: "Can give up some explosive upside from stacking one strong match environment.",
+    bestFor: "steadier portfolio protection.",
+    playerSignal: "Leans on High-Floor Picks, then adds stronger diversification checks.",
     optimizationNote: "Diversified Squad penalizes country stacks, fixture stacks, top-player dependence, weak bench spots, and fragile minutes more than the default."
   },
   concentratedUpside: {
@@ -1012,7 +1012,11 @@ const teamBuilderStrategyOptions = {
     label: "Concentrated Upside",
     measureKey: "upside",
     description: "Intentionally leans into strong attacking fixtures and higher-ceiling stacks.",
-    mappingNote: "Phase 2C mapping: starts from the Upside scorer, then rewards ceiling, favorable attacking environments, and controlled stacks while keeping role guardrails.",
+    whatItBuilds: "A higher-ceiling squad built around strong attacking spots.",
+    howItChooses: "Rewards ceiling, favorable attacking fixtures, and controlled player stacks while checking roles and minutes.",
+    mainTradeoff: "Can be more fragile if the stacked fixture misses.",
+    bestFor: "chasing upside with some guardrails.",
+    playerSignal: "Leans on Upside Picks: projected return, ceiling, attacking involvement, and matchup strength.",
     optimizationNote: "Concentrated Upside allows more stack exposure when the fixture context is strong."
   },
   starsAndScrubs: {
@@ -1020,7 +1024,11 @@ const teamBuilderStrategyOptions = {
     label: "Stars and Scrubs",
     measureKey: "premiumWorthIt",
     description: "Spends heavily on elite starters and accepts a cheaper bench.",
-    mappingNote: "Phase 2C mapping: starts from the Premium Worth It scorer, then increases starter, premium, captain, and top-player weights while allowing a lighter bench.",
+    whatItBuilds: "A top-heavy squad that spends on elite starters and fills the bench cheaply.",
+    howItChooses: "Rewards premium players who justify price through projection, role, and ceiling while keeping minimum bench playability.",
+    mainTradeoff: "Bench can be weaker and more budget-sensitive.",
+    bestFor: "elite starter firepower with a thinner bench.",
+    playerSignal: "Leans on premium value, starter projection, and ceiling.",
     optimizationNote: "Stars and Scrubs tolerates more star dependence and weaker bench depth when premiums justify the spend."
   },
   valueSquad: {
@@ -1028,7 +1036,11 @@ const teamBuilderStrategyOptions = {
     label: "Value Squad",
     measureKey: "bestValue",
     description: "Builds the deepest squad for the budget.",
-    mappingNote: "Phase 2C mapping: starts from the Value Picks scorer, then rewards value over price, budget efficiency, playable bench depth, and premium-squeeze avoidance.",
+    whatItBuilds: "A deeper squad that squeezes more usable points from the budget.",
+    howItChooses: "Rewards points per price, playable cheaper options, budget efficiency, and bench depth.",
+    mainTradeoff: "May skip some premium ceiling if the price hurts squad depth.",
+    bestFor: "efficient spend and stronger substitutes.",
+    playerSignal: "Leans on Value Picks: return per price, start chance, and lower budget pressure.",
     optimizationNote: "Value Squad prefers efficient spend and a stronger bench over top-heavy premium concentration."
   }
 };
@@ -3123,12 +3135,12 @@ const qaFlagDefinitions = {
   not_safe_to_rank: {
     label: "Rank review",
     kind: "review",
-    detail: "This player is not marked safe_to_rank in the source model."
+    detail: "This player needs an extra source check before ranking confidently."
   },
   rank_caveat: {
     label: "Caveat",
     kind: "watch",
-    detail: "This player is marked safe_to_rank_with_caveat, so the model can rank him but still needs caution."
+    detail: "This player can be ranked, but the available context still needs caution."
   },
   watchlist_only: {
     label: "Watchlist",
@@ -3143,7 +3155,7 @@ const qaFlagDefinitions = {
   do_not_rank_yet: {
     label: "Do not rank",
     kind: "review",
-    detail: "This player is marked do_not_rank_yet in the source model."
+    detail: "This player is held out of confident rankings for now."
   },
   low_data_confidence: {
     label: "Data",
@@ -7662,11 +7674,11 @@ function styleReason(player, measureKey) {
   const riskFixtureText = fixtureModelReason(player, "risk");
 
   if (measureKey === "expected") {
-    return `${context}: strong expected return at ${expected} points, with ${riskAdjusted} after the risk adjustment.${roleSuffix}${overallFixtureText}`;
+    return `${context}: strong projected return around ${expected} points, with ${riskAdjusted} after safety checks.${roleSuffix}${overallFixtureText}`;
   }
 
   if (measureKey === "safe") {
-    return `${context}: reliable profile with risk score ${risk}, reliability ${reliability}, and projected points ${expected}.${roleSuffix}${overallFixtureText}`;
+    return `${context}: reliable minutes profile with projected points around ${expected} and strong role security.${roleSuffix}${overallFixtureText}`;
   }
 
   if (measureKey === "upside") {
@@ -7678,27 +7690,27 @@ function styleReason(player, measureKey) {
   }
 
   if (measureKey === "lowTailRisk") {
-    return `${context}: looks for lower bad-week risk, with a tail-risk score of ${tailRisk}.${riskFixtureText}`;
+    return `${context}: safer bad-week profile with a steadier minutes and floor picture.${riskFixtureText}`;
   }
 
   if (measureKey === "sharpe") {
-    return `${context}: balances reward against overall volatility, with a Sharpe-style score of ${displayNumber(player.risk_adjusted_sharpe_like)}.${overallFixtureText}`;
+    return `${context}: balances useful reward against overall volatility.${overallFixtureText}`;
   }
 
   if (measureKey === "sortino") {
-    return `${context}: focuses on downside volatility, with a Sortino-style score of ${displayNumber(player.risk_adjusted_sortino_like)}.${riskFixtureText}`;
+    return `${context}: focuses on downside protection while keeping enough projected return.${riskFixtureText}`;
   }
 
   if (measureKey === "bestValue") {
-    return `${context}: value score ${displayNumber(scoreValue(player, "value_score_v1", "value_score_v0"))} at ${price} budget units, with overpay risk ${overpayRisk}.${roleSuffix}${overallFixtureText}`;
+    return `${context}: useful projected return at ${price} budget units without too much budget pressure.${roleSuffix}${overallFixtureText}`;
   }
 
   if (measureKey === "cheapEnabler") {
-    return `${context}: cheap-enabler score ${displayNumber(scoreValue(player, "cheap_enabler_score_v1", "cheap_enabler_score"))} at ${price} budget units.${roleSuffix}${overallFixtureText}`;
+    return `${context}: lower-price option at ${price} budget units with a playable role.${roleSuffix}${overallFixtureText}`;
   }
 
   if (measureKey === "premiumWorthIt") {
-    return `${context}: premium-worth-it score ${displayNumber(scoreValue(player, "premium_worth_it_score_v1", "premium_worth_it_score"))} at ${price} budget units, with overpay risk ${overpayRisk}.${roleSuffix}${overallFixtureText}`;
+    return `${context}: premium spend is easier to justify because the projection and role are strong for ${price} budget units.${roleSuffix}${overallFixtureText}`;
   }
 
   if (measureKey === "var10") {
@@ -7710,22 +7722,22 @@ function styleReason(player, measureKey) {
   }
 
   if (measureKey === "omega") {
-    return `${context}: good upside-to-downside balance, with an Omega-style score of ${displayNumber(player.finance_omega_like_percentile)}.${overallFixtureText}`;
+    return `${context}: good upside-to-downside balance for the selected match view.${overallFixtureText}`;
   }
 
   if (measureKey === "attackHeavy") {
-    return `${context}: attack-heavy profile with expected return ${expected}, upside per 90 ${per90}, and attack score ${displayNumber(scoreValue(player, "finance_strategy_attack_heavy"))}.${attackFixtureText}`;
+    return `${context}: attack-first profile with projected return around ${expected} and strong per-90 upside.${attackFixtureText}`;
   }
 
   if (measureKey === "defensiveHeavy") {
-    return `${context}: defensive-heavy profile with clean-sheet/team defense inputs and a defensive score of ${displayNumber(scoreValue(player, "finance_strategy_defensive_heavy"))}.${defenseFixtureText}`;
+    return `${context}: defense-first profile with useful clean-sheet or defensive-floor context.${defenseFixtureText}`;
   }
 
   if (measureKey === "veryRisky") {
-    return `${context}: boom-or-bust profile with upside per 90 ${per90}, volatility ${displayNumber(scoreValue(player, "finance_volatility_points"))}, and tail risk ${tailRisk}.${riskFixtureText}`;
+    return `${context}: boom-or-bust profile with strong upside and a wider range of outcomes.${riskFixtureText}`;
   }
 
-  return `${context}: good mix of projected points (${expected}), reliability (${reliability}), and risk (${risk}).${roleSuffix}${overallFixtureText}`;
+  return `${context}: good mix of projected points (${expected}), reliability, and downside protection.${roleSuffix}${overallFixtureText}`;
 }
 
 function renderTacticOptions() {
@@ -7793,7 +7805,7 @@ function updateRuleCopy() {
   }
 
   if (squadRuleNote) {
-    squadRuleNote.textContent = `Squad target: ${positionRequirementText()}. Rules loaded from fantasyRules.json.`;
+    squadRuleNote.textContent = `Squad target: ${positionRequirementText()}. Rules loaded from the static rules summary.`;
   }
 
   if (benchDescription) {
@@ -9404,7 +9416,7 @@ function exportModelMetadata() {
     generated_at: new Date().toISOString(),
     site_name: "The Fantasy Economist",
     site_status: "current_official_fantasy",
-    data_mode: usingFinanceModel ? "week6_world_cup_finance_model" : "fallback_players",
+    data_mode: usingFinanceModel ? "official_fantasy_player_layer" : "local_player_layer",
     browser_models: {
       finance: financeModelSummary ? {
         schema_version: financeModelSummary.schema_version,
@@ -9426,22 +9438,16 @@ function exportModelMetadata() {
         recommendation_source_schema_version: matchdayModelSummary.recommendation_source_schema_version
       } : null,
       score_predictions: scorePredictionSummary ? {
-        active_source: activeScorePredictionSource.key,
-        active_browser_file: activeScorePredictionSource.browserFile,
-        active_source_file: activeScorePredictionSource.sourceFile,
-        fallback_browser_file: activeScorePredictionSource.fallbackBrowserFile,
-        fallback_source_file: activeScorePredictionSource.fallbackSourceFile,
+        active_context: activeScorePredictionSource.label,
+        has_static_backup: Boolean(activeScorePredictionSource.fallbackBrowserFile),
         schema_version: scorePredictionSummary.schema_version,
         generated_at: scorePredictionSummary.generated_at,
         source_schema_version: scorePredictionSummary.source_schema_version,
         source_generated_at: scorePredictionSummary.source_generated_at,
         source_checked: scorePredictionSummary.source_checked,
         model_name: scorePredictionSummary.model_name,
-        formula_version: scorePredictionSummary.formula_version,
-        uncertainty_layer_version: scorePredictionSummary.uncertainty_layer_version,
         fixture_prediction_count: scorePredictionSummary.fixture_prediction_count,
-        match_uncertainty_counts: scorePredictionSummary.match_uncertainty_counts || null,
-        public_upset_risk_counts: scorePredictionSummary.public_upset_risk_counts || null
+        match_uncertainty_counts: scorePredictionSummary.match_uncertainty_counts || null
       } : null,
       fantasy_rules: {
         rules_version: fantasyRules?.rules_version || null,
@@ -9454,25 +9460,13 @@ function exportModelMetadata() {
         allowed_formations: Object.keys(tactics)
       }
     },
-    source_files: [
-      usingFinanceModel ? "financePlayersData.js" : "playersData.js",
-      "matchdayProjectionsData.js",
-      activeScorePredictionSource.browserFile,
-      "scorePredictionsData.js",
-      "fantasyRulesData.js",
-      usingFinanceModel ? "data/playerFinanceMetrics_v0.json" : "players.json",
-      "data/playerMatchdayProjections_v2.json",
-      activeScorePredictionSource.sourceFile,
-      "data/scorePredictions_v2.json",
-      "data/scorePredictionDataFlow_v1.md",
-      "data/peleAnchoredFantasyScoreModel_v1.md",
-      "data/playerValueModel_v1.json",
-      "data/recommendationTrustModel_v0.md",
-      "data/teamBuilderStrategyWeights_v1.md",
-      "data/teamBuilderStrategyComparison_v1.md",
-      "data/captainChangeAdvisorModel_v0.md",
-      "data/substitutionAdvisorModel_v0.md",
-      "data/savedDecisionExport_v0.md"
+    source_labels: [
+      usingFinanceModel ? "Official fantasy player pool and prices" : "Local player list",
+      "Player matchday projections",
+      activeScorePredictionSource.label,
+      "Fantasy rules summary",
+      "Team Builder strategy notes",
+      "Manual matchday decision-tool notes"
     ]
   };
 }
@@ -9496,10 +9490,12 @@ function builderSettingsForExport() {
       label: selectedStrategyOption.label,
       description: selectedStrategyOption.description,
       measure_key: measure.key,
-      mapped_scoring_view: measure.optionLabel || measure.label,
-      phase_2c_mapping_note: selectedStrategyOption.mappingNote,
-      strategy_weight_version: teamBuilderStrategyScoringProfile(selectedStrategyOption).version,
-      strategy_optimization_note: selectedStrategyOption.optimizationNote
+      player_signal: selectedStrategyOption.playerSignal || measure.formula,
+      what_it_tries_to_build: selectedStrategyOption.whatItBuilds || selectedStrategyOption.description,
+      how_it_chooses_players: selectedStrategyOption.howItChooses || measure.formula,
+      main_tradeoff: selectedStrategyOption.mainTradeoff || selectedStrategyOption.optimizationNote,
+      best_for: selectedStrategyOption.bestFor || null,
+      strategy_note: selectedStrategyOption.optimizationNote
     },
     trust_mode: {
       id: trustMode.id,
@@ -9793,28 +9789,18 @@ function teamExportPayload() {
     },
     explanation,
     data_sources: [
-      usingFinanceModel ? "data/playerFinanceMetrics_v0.json" : "players.json",
-      usingFinanceModel ? "data/playerRecommendationInputs_v0.json" : "playersData.js",
-      usingFinanceModel ? "financePlayersData.js" : "playersData.js",
-      "matchdayProjectionsData.js",
-      activeScorePredictionSource.browserFile,
-      "scorePredictionsData.js",
-      "data/playerMatchdayProjections_v2.json",
-      activeScorePredictionSource.sourceFile,
-      "data/scorePredictions_v2.json",
-      "data/scorePredictionDataFlow_v1.md",
-      "data/peleAnchoredFantasyScoreModel_v1.md",
-      "data/teamBuilderStrategyWeights_v1.md",
-      "data/teamBuilderStrategyComparison_v1.md",
-      "dataSources.md",
+      usingFinanceModel ? "Official fantasy player pool and prices" : "Local player list",
+      "Player matchday projections",
+      activeScorePredictionSource.label,
+      "Fantasy rules summary",
+      "Team Builder strategy notes",
       usingFinanceModel
-        ? "Current Team Builder view uses the Week 6 World Cup finance model with official unavailable-player filtering."
-        : "Current fallback view uses the older local player data."
+        ? "Current Team Builder view uses official fantasy-player filtering."
+        : "Current Team Builder view uses the local player list."
     ],
     rules_sources: [
-      "fantasyRules.json",
-      "fantasyRulesData.js",
-      "rulesSources.md",
+      "Fantasy rules summary",
+      "Rules source notes",
       fantasyRules?.rules_status || "Rules data unavailable; confirm inside the fantasy game."
     ]
   };
@@ -9850,8 +9836,8 @@ function exportTeamJson() {
   teamExportOutput.value = jsonText;
   teamExportPanel.classList.remove("hidden");
   const decisionText = savedDecisionTextForExport();
-  teamMessage.textContent = `Team JSON v1 export ready${decisionText}. A download was created and the export preview is shown in the Team Builder controls.`;
-  downloadJsonFile("world-cup-fantasy-team-v1.json", jsonText);
+  teamMessage.textContent = `Team export ready${decisionText}. A download was created and the export preview is shown in the Team Builder controls.`;
+  downloadJsonFile("world-cup-fantasy-team.json", jsonText);
 }
 
 function saveTeamToBrowser() {
@@ -10144,7 +10130,7 @@ function restoreImportedUserSquadSelections(squadState, starters, bench) {
 
 function restoreTeamFromExportPayload(payload) {
   if (!payload || payload.schema_version !== "team-export-v1") {
-    throw new Error("Import needs a Team JSON v1 file exported from this Team Builder.");
+    throw new Error("Import needs a team file exported from this Team Builder.");
   }
 
   clearSavedDecisionExports();
@@ -10184,7 +10170,7 @@ function restoreTeamFromExportPayload(payload) {
   let importMessage = "";
   if (restoreIsComplete) {
     renderTeam(starterImport.foundPlayers, benchImport.foundPlayers, [], "built");
-    importMessage = `Loaded ${payload.team_name || "saved Team JSON v1"} with ${startingLineupTotal} starters and ${benchLabel()}. Rebuild only if you want Team Builder to change it.`;
+    importMessage = `Loaded ${payload.team_name || "saved Team export"} with ${startingLineupTotal} starters and ${benchLabel()}. Rebuild only if you want Team Builder to change it.`;
   } else {
     renderLockedPreview();
     importMessage = "Loaded the settings and available locked players, but the saved squad could not be fully restored.";
@@ -10320,19 +10306,20 @@ function renderMeasureInfo() {
   const measure = activeMeasure();
   const selectedStrategyOption = activeBuilderStrategyOption();
   const trustMode = activeTrustMode();
-  const mappedScoreLabel = measure.optionLabel || measure.label;
   const matchdayCopy = activeMatchdayId === "group_stage_full"
-    ? "Scores use the full group-stage view."
-    : `Scores are adjusted for ${activeMatchdayLabel()} fixture opponents.`;
+    ? "Uses the full group-stage fixture view."
+    : `Uses ${activeMatchdayLabel()} fixture opponents.`;
 
   measureInfo.innerHTML = `
     <strong>${selectedStrategyOption.label}</strong>
     <span class="measure-info__secondary">Squad-building strategy</span>
-    <p>${selectedStrategyOption.description}</p>
-    <p><strong>Current model mapping:</strong> ${selectedStrategyOption.mappingNote}</p>
-    <p><strong>Mapped scoring view:</strong> ${mappedScoreLabel}. ${measure.formula}</p>
-    <p><strong>Matchday view:</strong> ${matchdayCopy}</p>
-    <p><strong>Safety preference:</strong> ${publicTrustModeDescription(trustMode)}</p>
+    <p><strong>What it tries to build:</strong> ${selectedStrategyOption.whatItBuilds || selectedStrategyOption.description}</p>
+    <p><strong>How it chooses players:</strong> ${selectedStrategyOption.howItChooses || measure.formula}</p>
+    <p><strong>Main tradeoff:</strong> ${selectedStrategyOption.mainTradeoff || selectedStrategyOption.optimizationNote}</p>
+    <p><strong>Best for users who want:</strong> ${selectedStrategyOption.bestFor || "a clear squad-building style."}</p>
+    <p><strong>Player signal:</strong> ${selectedStrategyOption.playerSignal || measure.formula}</p>
+    <p><strong>Match view:</strong> ${matchdayCopy}</p>
+    <p><strong>Safety setting:</strong> ${publicTrustModeDescription(trustMode)}</p>
   `;
 }
 
@@ -12399,7 +12386,7 @@ function renderPickCard(player, options = {}) {
 
   if (!player) {
     const emptyTitle = options.emptyTitle || "Fantasy data unavailable";
-    const emptyCopy = options.emptyCopy || "The site will fall back to the older local dataset if the current fantasy source file is missing.";
+    const emptyCopy = options.emptyCopy || "The site will use the local player list if the current fantasy data is unavailable.";
 
     return `
       <article class="pick-card pick-card--empty">
@@ -13421,7 +13408,7 @@ function showDataLoadError(error) {
     importTeamJsonInput.disabled = true;
   }
   builderWarning.classList.remove("hidden");
-  builderWarning.textContent = "Website data could not load. Make sure playersData.js and fantasyRulesData.js are included before script.js, then refresh.";
+  builderWarning.textContent = "Website data could not load. Refresh after the static data files finish loading.";
   teamMessage.textContent = "Team Builder is waiting for the player and rules data.";
 }
 

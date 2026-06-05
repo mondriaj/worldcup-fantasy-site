@@ -615,7 +615,7 @@
                 <span id="builder-removed-status">No avoided players</span>
               </div>
 
-              <p id="squad-rule-note" class="squad-rule-note">Fantasy squad rules load from fantasyRules.json.</p>
+              <p id="squad-rule-note" class="squad-rule-note">Fantasy squad rules load from the static rules summary.</p>
 
               <label class="control-group player-search" for="player-search">
                 <span>Search players</span>
@@ -729,7 +729,7 @@
                 <div class="bench-panel__heading">
                   <div>
                     <h3>Bench</h3>
-                    <p id="bench-description">Bench rules load from fantasyRules.json. Click a starter and a bench player to try a swap.</p>
+                    <p id="bench-description">Bench rules load from the static rules summary. Click a starter and a bench player to try a swap.</p>
                   </div>
                   <span id="bench-count">0 / 0</span>
                 </div>
@@ -997,14 +997,14 @@
               <p><strong>Upside Picks:</strong> chases higher ceilings in stronger attacking spots.</p>
               <p><strong>Value Picks:</strong> looks for strong return for the price.</p>
               <p><strong>Differential Picks:</strong> finds less obvious picks that still project well.</p>
-              <p><strong>Advanced variants:</strong> Value Quant and Risk-Control are preserved for model notes and older exports, not shown as normal public pick models.</p>
+              <p><strong>Advanced pick views:</strong> extra value and safety lenses stay out of the normal public pick list.</p>
               <p><strong>Captain Watchlist:</strong> is a separate captain-planning lane, not a normal public pick model.</p>
             </div>
           </div>
 
           <div class="formula-section">
             <h3>Team Builder Strategies</h3>
-            <p>Team Builder strategies describe the kind of 15-player squad to build. They start from existing player scoring views, then use strategy-aware squad weights with the current budget, position, country-limit, lock, avoid, and squad-risk checks. The advanced comparison check can run all five strategies under the same current builder settings and flag high overlap or weak strategy identity.</p>
+            <p>Team Builder strategies describe the kind of 15-player squad to build. They combine player projections with the current budget, position, country-limit, lock, avoid, and squad-risk checks. The advanced comparison check can run all five strategies under the same settings and flag squads that look too similar.</p>
 
             <div class="formula-list">
               <p><strong>Balanced Squad:</strong> strong all-around squad with starters, bench depth, budget efficiency, and moderate diversification.</p>
@@ -1044,21 +1044,21 @@
           <div class="method-grid" hidden aria-hidden="true">
             <article class="method-card">
               <h3>1. World Cup Player Base</h3>
-              <p><strong>Source:</strong> <code>data/players.json</code>, <code>data/teams.json</code>, <code>data/fixtures.json</code>, and source notes in <code>data/dataSources.md</code>.</p>
+              <p><strong>Source:</strong> local player, team, fixture, and source-note data.</p>
               <p><strong>Used for:</strong> player name, country, team, group, roster status, position, club, league, team quality, and group-stage fixture context.</p>
               <p><strong>Important:</strong> the public fantasy pool is the working authority for picks; users should still confirm matchday availability inside FIFA before deadlines.</p>
             </article>
 
             <article class="method-card">
               <h3>2. Performance Matching</h3>
-              <p><strong>Source:</strong> <code>data/playerRecommendationInputs_v0.json</code> and the club/national-team sources documented in <code>data/dataSources.md</code>.</p>
+              <p><strong>Source:</strong> club and national-team performance inputs documented in the source notes.</p>
               <p><strong>Used for:</strong> club minutes, starts, goals, assists, clean sheets, cards, selected attacking stats, national-team qualifier usage, caps signals, starter confidence, expected minutes, and data coverage.</p>
               <p><strong>Important:</strong> weak-source and estimated-minute rows stay in the model, but they carry lower confidence and higher source risk.</p>
             </article>
 
             <article class="method-card">
               <h3>3. Finance Risk Model</h3>
-              <p><strong>Source:</strong> <code>data/playerFinanceMetrics_v0.json</code> and <code>data/fantasyFinanceModel_v0.md</code>.</p>
+              <p><strong>Source:</strong> fantasy value and risk inputs documented in the model notes.</p>
               <p><strong>Used for:</strong> portfolio health, bad-week floor, budget pressure, country/fixture concentration, and advanced downside metrics.</p>
               <p><strong>Important:</strong> public picks use official fantasy prices. Some preserved model files still include older estimated-price fields for compatibility and audit history.</p>
             </article>
@@ -1491,7 +1491,6 @@
 
     <script src="financePlayersData.js?v=20260603-official-final"></script>
     <script src="matchdayProjectionsData.js?v=20260603-official-final"></script>
-    <!-- Match Environment prefers fantasyPoolScorePredictionsData.js and keeps scorePredictionsData.js as the static fallback. -->
     <script src="scorePredictionsData.js?v=20260603-official-final"></script>
     <script src="playersData.js?v=20260603-official-final"></script>
     <script src="fantasyRulesData.js?v=20260603-official-final"></script>

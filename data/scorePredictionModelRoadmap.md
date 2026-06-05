@@ -1,273 +1,65 @@
 # Score Prediction Model Roadmap
 
 Status: active score model notes
-Current public Match Environment flow: `fantasyPoolScorePredictionsData.js` from `scorePredictions_fantasyPool_v3.json`, with `scorePredictionsData.js` from `scorePredictions_v2.json` preserved as the static fallback.
-Preserved base model: `scorePredictions_v2.json`
 
-## Current Public Data Flow: Phase 3A Through Phase 3C
+## Current Public Model
 
-The public Match Environment table now prefers the fantasy-pool score projection context:
+Match Environment is PELE-anchored and fantasy-facing. It shows fixture-specific Projected xG, Win / Draw / Win, Most Likely Score, Match Uncertainty, and Clean-Sheet Context.
 
-- Browser file: `../fantasyPoolScorePredictionsData.js`
-- Source file: `scorePredictions_fantasyPool_v3.json`
-- Window rows used by `script.js`: `window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS`
-- Phase 3C follow-up public display fields: Projected xG, Win / Draw / Win, Most Likely Score, Match Uncertainty, and Clean-Sheet Context
+Projected xG means expected goals for the listed team in that exact matchup. It is not a generic team average or a PELE rating label. Total goals range stays as supporting context, and broad attacking labels stay out of the main public table so the meaning of Projected xG stays clear.
 
-Projected xG is fixture-specific expected goals for each listed team against that opponent. The values match the expected-goal inputs used by the scoreline grid. Total goals range remains supporting detail and the generic match-level attack column is no longer part of the main public table.
+The public score context also supports:
 
-The older PELE-forward v2 browser bundle remains loaded as a safe static fallback:
+- short player-card fixture notes when the context is useful
+- compact Player Profile fixture context
+- Team Builder squad metrics such as Fixture Stack Risk, Bad-Week Floor, Upside Ceiling, and Bench Strength
 
-- Browser file: `../scorePredictionsData.js`
-- Source file: `scorePredictions_v2.json`
-- Window rows used if the fantasy-pool bundle is unavailable: `window.SCORE_FIXTURE_PREDICTIONS_DATA`
+## What The Model Uses
 
-See `scorePredictionDataFlow_v1.md` for the plain-language browser data-flow note, and `peleAnchoredFantasyScoreModel_v1.md` for the PELE, Projected xG, and uncertainty note.
+- World Cup group-stage fixtures
+- PELE team-quality signals from Silver Bulletin
+- FIFA ranking and World Football Elo as secondary team-strength inputs
+- Host context where it applies
+- Team attack and defense proxies
+- Fixture-level probability grids for scorelines, clean sheets, and match outcomes
 
-## Phase 3E Public Explanation Polish
+## What The Model Produces
 
-Status: complete as of June 5, 2026.
+- Expected goals for each team
+- Win, draw, and loss probabilities
+- Clean-sheet probability for each team
+- Most likely scorelines
+- Goal environment
+- Match uncertainty
+- Defender and keeper context
+- Supporting context for fantasy player explanations
 
-This pass keeps the score model and Team Builder optimizer unchanged. It tightens the public wording around the Phase 3D match-context integration:
+## What The Model Does Not Claim
 
-- Player cards use at most one short fixture note, only when projected team xG, clean-sheet outlook, match variance, or match shape helps explain the pick.
-- Player Profile keeps the compact fixture context labels: Team projected xG, Opponent projected xG, Win / Draw / Win, Most likely score, Clean-sheet context, and Match uncertainty.
-- Team Builder keeps the same Squad Strategy Report metrics, but the fixture-risk and upside explanations are shorter and less technical.
-- Upset Risk, xG Base, Goal Range, and Attacker Context remain out of the main public fields.
+- It does not know official lineups.
+- It does not know injuries or suspensions.
+- It does not confirm final squads.
+- It does not know live scores, deadlines, locks, or official fantasy-game legality.
+- It does not guarantee exact scores.
 
-## Phase 3C Match Environment Display Cleanup
+## Current Explanation Rules
 
-Status: complete as of June 5, 2026.
+- Player cards use at most one short fixture note.
+- Attackers mention team projected xG only when it helps explain the pick.
+- Defenders and keepers mention clean-sheet context only when it helps.
+- Match uncertainty appears only when it clarifies the risk or opportunity.
+- Player Profile keeps compact fixture labels: Team projected xG, Opponent projected xG, Win / Draw / Win, Most likely score, Clean-sheet context, and Match uncertainty.
 
-This pass keeps the score model unchanged and cleans up the public display:
+The main public fields do not present Upset Risk, xG Base, Goal Range, or Attacker Context as headline stats.
 
-- `home_expected_goals` and `away_expected_goals` remain the final fixture-adjusted expected-goal values used by the scoreline grid.
-- The fantasy-pool v3 source also exposes clearer aliases: `homeProjectedXg`, `awayProjectedXg`, `homeMatchXg`, and `awayMatchXg`.
-- Match Environment displays Projected xG as matchup-specific expected goals, plus win/draw/win, most likely score, match uncertainty, and clean-sheet context.
-- Total goals range is supporting detail under the likely scoreline.
-- The generic match-level attack column was removed from the main table because it could be mistaken for a generic attacking rating.
-- The public Upset Risk column was removed from the main table because Win / Draw / Win gives users a clearer outcome view; the underlying upset-risk fields remain available for internal/model use.
+## Future Upgrade Path
 
-## Phase 3D Player And Squad Context Use
+Useful future upgrades include:
 
-Status: complete as of June 5, 2026.
+- roster-weighted team strength once final squads and expected roles are source-backed
+- better injury and availability inputs when source-backed
+- recent-form inputs after they are audited
+- backtesting and calibration for low-score and draw behavior
+- stronger player-level links between team projected xG, start probability, role confidence, and fantasy scoring
 
-This pass keeps the PELE-anchored expected-goal and scoreline model unchanged. It uses the cleaned Match Environment context in fantasy-facing surfaces:
-
-- Player cards can mention strong team projected xG, clean-sheet context, high match uncertainty, tight matches, or lower-scoring setups when useful.
-- Player Profile fixture context shows Team projected xG, Opponent projected xG, Win / Draw / Win, Most likely score, Clean-sheet context, and Match uncertainty.
-- Team Builder squad scoring and the Squad Strategy Report use match uncertainty, repeated uncertain fixture exposure, strong projected xG, and clean-sheet context inside existing metrics such as Fixture Stack Risk, Bad-Week Floor, Upside Ceiling, and Bench Strength.
-
-This pass does not add a public Upset Risk field, does not rewrite PELE, does not change scoreline probability generation, and does not add historical calibration.
-
-## Phase 3B PELE-Anchored Uncertainty Layer
-
-Status: complete as of June 5, 2026.
-
-This pass keeps PELE as the main team-quality anchor and keeps the expected-goal and Poisson probability outputs intact. It adds an explanatory fantasy-facing layer so the public Match Environment table can show total goals ranges and uncertainty without implying a different score model.
-
-Files updated:
-
-- `scorePredictions_fantasyPool_v3.json`
-- `fantasyPoolScorePredictionsData.js`
-- `scorePredictionQa_fantasyPool_v3.json`
-- `scorePredictionQaReport_fantasyPool_v3.md`
-- `peleAnchoredFantasyScoreModel_v1.md`
-
-New fixture-level fields:
-
-- `uncertaintyLabel`
-- `lowTotalGoals`, `baseTotalGoals`, `highTotalGoals`
-- `homeXgLow`, `homeXgBase`, `homeXgHigh`
-- `awayXgLow`, `awayXgBase`, `awayXgHigh`
-- `uncertaintyReason`
-- `attackerEnvironment`, `defenderEnvironment`, `keeperEnvironment`
-- `cleanSheetContext`, `goalEnvironment`, `upsetRisk`, `matchUncertainty`
-
-What changed in the public surface during Phase 3B:
-
-- Match Environment added total-goals range, match uncertainty, clean-sheet context, and supporting outcome-risk context for model use.
-- Expected goals, win/draw/loss probabilities, clean-sheet probabilities, top scoreline, and favorite probability remain visible in row details.
-- Player Profile fixture reasons can use Match uncertainty and context labels when fixture rows are available.
-
-What did not change:
-
-- No historical calibration pass.
-- No low-score or draw-model rewrite.
-- No roster-weighted likely XI model.
-- No injury, live lineup, final-squad, deadline, lock, or booster claims.
-
-PELE source check:
-
-- On June 5, 2026, the existing PELE Datawrapper CSV URLs used by `scripts/step65PeleIntegration.mjs` were reachable and matched the local 2026-06-01 CSV files.
-- Because the remote files matched, this pass did not refresh `data/peleRatings_v1.json`.
-
-## Preserved Base Model: v2
-
-Use v2 as the preserved PELE-forward base model and fallback score projection context.
-
-Model type: PELE-forward team-quality adjusted Poisson.
-
-What it uses:
-
-- World Cup 2026 group fixtures.
-- Team quality v2.
-- PELE rating, Tilt, and round-robin offense/defense inputs from Silver Bulletin downloadable CSVs as leading current-strength inputs.
-- World Football Elo as a secondary current-strength input and smaller direct score adjustment.
-- FIFA ranking inputs already inside team quality.
-- Attack and defense proxy scores led by PELE offense/defense, with World Cup history and current team strength retained as secondary checks.
-- Host-venue boost only when a host country plays in its own country.
-
-What it produces:
-
-- Expected goals for each team.
-- Win, draw, and loss probabilities.
-- Clean-sheet probability for each team.
-- Over 2.5 goals probability.
-- Both-teams-to-score probability.
-- Most likely scorelines.
-- Goal environment.
-- Upset risk.
-- Attack, defense, and captain environment scores for fantasy use.
-
-What it does not use yet:
-
-- Final 26-player squads.
-- Injuries or suspensions.
-- Official fantasy prices.
-- Official fantasy scoring rules.
-- Recent friendlies or full recent international form.
-- Player-weighted attack and defense strength.
-
-## Step 6.5 PELE Data Integration: v1
-
-Status: complete as of June 1, 2026.
-
-This pass created the first PELE-backed v1 while preserving the pre-PELE v0 files for audit. v1 is now preserved because v2 is active.
-
-Files added or updated:
-
-- `peleRatings_v1.json` stores downloaded PELE, Tilt, and offense/defense data.
-- `teamQuality.json` contained active `team_quality_v1` after this pass; `teamQuality_v1.json` now preserves it.
-- `scorePredictions_v1.json` is the preserved first PELE-backed score model.
-- `scorePredictionQa_v1.json` records machine-readable QA checks.
-- `scorePredictionQaReport_v1.md` summarizes the checks in plain language.
-- `playerMatchdayProjections_v1.json`, `matchdayRecommendations_v1.json`, and `recommendationQa_v1.json` regenerate downstream recommendation context.
-- `scorePredictionsData.js` and `matchdayProjectionsData.js` exposed v1 data to the homepage before the v2 recalibration.
-
-Checks now covered:
-
-- Every group-stage fixture has one prediction row.
-- Every fixture has two team-view rows.
-- Every player-matchday projection has score-prediction context.
-- Elo, FIFA ranking, and PELE rating inputs are present for every team.
-- Expected goals are non-negative and below the v1 guardrail.
-- Probabilities stay between 0 and 1.
-- Home/draw/away probabilities sum to 1 within tolerance.
-- Favorites match the higher home/away win probability.
-- Top scorelines exist and stay within the scoreline guardrail.
-
-Current QA result:
-
-- Overall status: `pass`.
-- Checks run: 11.
-- Passed: 11.
-- Failed: 0.
-- Caveats: 0.
-
-Fallback rules:
-
-- If any hard QA check fails, keep the affected fixture in prototype review before using it for confident advice.
-- If Elo or FIFA ranking is missing, lower fixture confidence and fall back to the available team-quality fields.
-- If PELE is missing in a future update, leave it null and exclude it from that weighted blend.
-- If probability or expected-goals bounds fail, fix and regenerate the source model before using the browser data.
-
-## Step 6.6 PELE-Forward Recalibration: v2
-
-Status: complete as of June 1, 2026.
-
-This pass keeps the PELE import unchanged but makes PELE materially stronger in team quality and score predictions.
-
-Files added or updated:
-
-- `teamQuality_v1.json` preserves the first PELE-backed team-quality blend.
-- `teamQuality.json` now contains active `team_quality_v2`.
-- `scorePredictions_v2.json` is the preserved PELE-forward score model and Match Environment fallback.
-- `scorePredictionQa_v2.json` and `scorePredictionQaReport_v2.md` record the v2 QA pass.
-- `playerMatchdayProjections_v2.json`, `matchdayRecommendations_v2.json`, `recommendationQa_v2.json`, and `recommendationQaReport_v2.md` regenerate downstream recommendation context.
-- `scorePredictionsData.js` preserves the v2 score rows as the homepage fallback, while `fantasyPoolScorePredictionsData.js` now supplies the preferred public Match Environment score projection context.
-
-Main v2 changes:
-
-- Current strength is now 0.62 PELE, 0.23 World Football Elo, and 0.15 FIFA ranking points.
-- Overall team quality now gives 0.82 weight to current strength.
-- Attack and defense proxies now give 0.44 weight to PELE offense/defense.
-- Direct PELE rating gap in expected goals nearly doubles versus v1, while direct Elo gap is reduced.
-- Missing PELE values are still never invented; missing numeric PELE fields remain null and are excluded from weighted blends.
-
-Current QA result:
-
-- Overall status: `pass`.
-- Checks run: 11.
-- Passed: 11.
-- Failed: 0.
-- Caveats: 0.
-
-## Best Time To Upgrade To v3
-
-Upgrade to v3 when the main fantasy inputs become real enough to affect player recommendations beyond team-level PELE strength.
-
-Trigger checklist:
-
-- Final World Cup squads are confirmed.
-- Official fantasy player list is available.
-- Official fantasy prices are available.
-- Official fantasy positions are available.
-- Official scoring rules and squad rules are imported.
-- Recent qualifier, continental tournament, and friendly form has been merged.
-- Injury and availability notes are added.
-- Player minutes model has been reviewed after final squads.
-
-Main v3 change:
-
-Move from a team-only model to a roster-weighted model. Team expected goals and clean-sheet probabilities should depend on likely starters, player quality, role confidence, and price/value context.
-
-Fantasy use:
-
-- Recalibrate Best Value after official prices.
-- Improve captain picks using team expected goals plus player start probability.
-- Improve defender and goalkeeper picks using clean-sheet probability plus role security.
-- Improve risky picks by separating real upside from weak-data noise.
-
-## Best Time To Upgrade To v4
-
-Upgrade to v4 after v3 is stable and we are ready to improve probability calibration.
-
-Ideal timing:
-
-- Before final tournament launch if we have enough time to backtest.
-- Otherwise after Matchday 1 starts producing real tournament signals.
-
-Main v3 change:
-
-Move from plain Poisson to Dixon-Coles-style adjusted Poisson or another low-score football model. This corrects the tendency of plain Poisson to mis-handle 0-0, 1-0, 0-1, and 1-1 scorelines.
-
-Data needed:
-
-- Historical World Cup, qualifier, and continental match scorelines.
-- Team ratings at match time where available.
-- Host/neutral venue flags.
-- Recent-form inputs.
-- Backtest report comparing v0, v1, v2, and v3.
-
-Fantasy use:
-
-- Better clean-sheet probabilities.
-- Better draw and low-scoring match risk.
-- Better defensive-heavy recommendations.
-- Better downside and tail-risk estimates.
-
-## Upgrade Rule
-
-Do not replace the active model only because a more complex model sounds better. Replace it when the new model gives clearer fantasy decisions and passes a backtest or spot-check review.
-
-Keep each model version visible in the data so we can compare recommendations over time.
+Until those upgrades are source-backed, the current score model should stay transparent and conservative in public wording.

@@ -116,7 +116,7 @@ async function clickProfileAndClose(page, selector, label) {
     playerProfileOpened: true,
     showsOfficialPrice: /Official fantasy price|Price/i.test(modalText),
     showsPosition: /Position|Defender|Midfielder|Forward|Goalkeeper|FWD|MID|DEF|GK/i.test(modalText),
-    showsPreviewWarning: /Official Fantasy Pool Preview|Final squad status|not final-squad-backed/i.test(modalText),
+    showsPreviewWarning: /Official Fantasy Picks|current FIFA fantasy|Confirm|Refresh the data/i.test(modalText),
     modalTextSample: modalText.slice(0, 500)
   };
 
@@ -163,7 +163,7 @@ async function testMainPage(browser, viewport, options = {}) {
     rows: [...document.querySelectorAll("#advice-card-grid .pick-card, #advice-table-body tr")].map((row) => row.innerText.trim()).slice(0, 8),
     allRowsAreForwards: [...document.querySelectorAll("#advice-card-grid .pick-card, #advice-table-body tr")].every((row) =>
       row.innerText.includes("Forward") ||
-      row.innerText.includes("No Official Fantasy Pool Preview") ||
+      row.innerText.includes("Fantasy data unavailable") ||
       row.innerText.includes("No fantasy candidates match")
     )
   }));

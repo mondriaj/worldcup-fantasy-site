@@ -1,12 +1,12 @@
-# Team Builder Strategy Weights v1
+# Team Builder Strategy Weights
 
 Date: 2026-06-05
 
 ## Purpose
 
-Team Builder Strategy Weights v1 makes the five public Team Builder strategies affect squad scoring, not only labels and report copy.
+Team Builder strategies make the five public squad styles behave differently after the builder has found legal candidate squads.
 
-The builder still uses the same browser-side constraints:
+The builder still respects the same constraints:
 
 - budget
 - position counts
@@ -15,45 +15,75 @@ The builder still uses the same browser-side constraints:
 - removed or avoided players
 - price filters
 - country and position filters
-- start probability and expected-minutes risk controls
+- start probability and expected-minutes safety controls
 
-This phase changes how legal candidate squads are ranked after those constraints are applied. It does not add official deadline, lock, booster, live-points, final-squad, or lineup claims.
+The strategies change how legal squads are ranked. They do not add official deadline, lock, booster, live-points, final-squad, injury, or lineup claims.
 
 ## Strategy Profiles
 
 ### Balanced Squad
 
-Balanced Squad is the default all-around profile. It rewards starter quality, bench strength, budget efficiency, moderate upside, and moderate diversification. It penalizes very weak bench spots, excessive country or fixture concentration, high dependence on only a few stars, and unnecessary third-premium pressure when playable depth is available.
+What it tries to build: a strong all-around 15-player squad.
+
+How it chooses players: balances starter quality, reliable minutes, playable bench depth, budget efficiency, moderate upside, and moderate diversification.
+
+Main tradeoff: it may pass on a sharper stack or extra premium if that weakens the bench or concentrates too much risk.
+
+Best for users who want: the default squad plan with no single extreme.
 
 ### Diversified Squad
 
-Diversified Squad puts more weight on reliable starts, expected minutes, downside floor, playable bench depth, and lower country or fixture concentration. It penalizes Country Stack Risk, Fixture Stack Risk, top-player dependence, weak bench spots, fragile minutes, and premium squeeze more than Balanced Squad.
+What it tries to build: a squad that spreads risk across countries, fixtures, and star players.
+
+How it chooses players: rewards reliable starts, bench strength, lower country concentration, lower fixture concentration, and downside protection.
+
+Main tradeoff: it can give up some explosive upside from stacking one strong match environment.
+
+Best for users who want: steadier portfolio protection.
 
 ### Concentrated Upside
 
-Concentrated Upside puts more weight on ceiling, attacking fixture context, favorable fixtures, and controlled two- or three-player stacks in stronger attacking environments. It relaxes concentration penalties compared with Balanced Squad, but still penalizes extreme stacks, very weak bench spots, and fragile roles.
+What it tries to build: a higher-ceiling squad built around strong attacking spots.
+
+How it chooses players: rewards ceiling, favorable attacking fixtures, and controlled player stacks while checking roles and minutes.
+
+Main tradeoff: it can be more fragile if the stacked fixture misses.
+
+Best for users who want: to chase upside with some guardrails.
 
 ### Stars and Scrubs
 
-Stars and Scrubs puts more weight on elite starter quality, top projected players, captain-style ceiling, premium count, and premium players who justify their price. It allows a weaker bench than Balanced Squad when the premiums are strong enough, but still penalizes unusable bench spots and expensive players who do not project as elite starters.
+What it tries to build: a top-heavy squad that spends on elite starters and fills the bench cheaply.
+
+How it chooses players: rewards premium players who justify price through projection, role, and ceiling while keeping minimum bench playability.
+
+Main tradeoff: the bench can be weaker and more budget-sensitive.
+
+Best for users who want: elite starter firepower with a thinner bench.
 
 ### Value Squad
 
-Value Squad puts more weight on points per price, value scores, cheap playable options, budget efficiency, and bench strength. It now leans more clearly toward depth than Balanced Squad so the advanced comparison does not collapse the two strategies when enough eligible players exist. It penalizes premium squeeze and weak bench depth more strongly than Stars and Scrubs.
+What it tries to build: a deeper squad that squeezes more usable points from the budget.
+
+How it chooses players: rewards points per price, playable cheaper options, budget efficiency, and bench depth.
+
+Main tradeoff: it may skip some premium ceiling if the price hurts squad depth.
+
+Best for users who want: efficient spend and stronger substitutes.
 
 ## Inputs Used
 
-The strategy weights reuse existing fields already loaded by the static site:
+The strategies reuse existing player and squad context:
 
 - expected fantasy return
 - risk-adjusted return
 - upside points
-- bad-week floor fields
+- bad-week floor
 - start probability
 - expected minutes
 - player price
-- value and cheap-enabler scores
-- premium-worth-it scores
+- value and budget-enabler signals
+- premium-value signals
 - premium count and premium concentration
 - captain score as a supporting starter-ceiling signal
 - fixture-specific Projected xG
@@ -61,26 +91,13 @@ The strategy weights reuse existing fields already loaded by the static site:
 - clean-sheet context for defenders and keepers
 - country concentration
 - fixture concentration
-- favorable and hard fixture counts
+- favorable and difficult fixture counts
 - bench weakness
-- top-three projected share
+- top-player projected share
 
-## Implementation Notes
+## Match Context
 
-The optimizer still searches legal squad paths first. Strategy weights affect:
-
-- candidate pools considered by the search
-- starter ordering inside a completed squad
-- bench contribution to the final score
-- budget-buffer value
-- portfolio adjustment for stack risk, star dependence, bench strength, upside, and budget shape
-- match-context adjustment for strong team projected xG, difficult attacking spots, good or difficult clean-sheet context, high match uncertainty, and repeated exposure to the same uncertain fixture
-
-This remains a hand-calibrated browser-side model. It is meant to make strategy choices visibly different and useful, not to prove an optimal tournament-winning squad.
-
-## Phase 3D Match Context Note
-
-Phase 3D keeps the optimizer structure intact and adds cleaned Match Environment context to existing strategy scoring. Balanced Squad and Diversified Squad apply more caution to high-uncertainty exposure. Concentrated Upside can accept uncertainty when team projected xG is strong. Stars and Scrubs is more cautious about expensive players in weak projected environments. Value Squad gives cheaper playable players a small boost when their projected environment is useful.
+Match Environment context supports existing strategy behavior. Balanced Squad and Diversified Squad are more cautious about repeated high-uncertainty exposure. Concentrated Upside can accept uncertainty when team projected xG is strong. Stars and Scrubs is more cautious about expensive players in weak projected environments. Value Squad gives cheaper playable players a small lift when their projected environment is useful.
 
 ## Current Limits
 

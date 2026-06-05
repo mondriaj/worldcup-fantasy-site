@@ -69,7 +69,7 @@ function browserPreviewRecommendationData(source) {
     safety_labels: [...new Set(browserSafetyLabels)],
     browser_ready_files_updated: true,
     browser_preview_exported: true,
-    browser_preview_note: "Exported for the current official fantasy-pool browser UI. Refresh with the monitor when FIFA changes the fantasy feed.",
+    browser_preview_note: "Exported for the current official fantasy-pool UI. Refresh the data when FIFA changes the fantasy feed.",
     stop_conditions: browserStopConditions,
     summary
   };
@@ -148,7 +148,7 @@ const officialDataStatus = {
     "playersData.js"
   ],
   warning_copy: publicWarningCopy,
-  public_warning_html: "Official Fantasy Picks use current FIFA fantasy prices, positions, selectable status, and scoring. Refresh with the monitor when the game feed changes.",
+  public_warning_html: "Official Fantasy Picks use current FIFA fantasy prices, positions, selectable status, and scoring. Refresh the data when the game feed changes.",
   team_builder_warning_html: "Team Builder is planning help. Confirm squad legality, locks, and deadlines inside the official FIFA fantasy game before saving.",
   unavailable_players: unavailableOfficialFantasyPlayers,
   unavailable_player_names: unavailableOfficialFantasyPlayers.map((player) => player.name),
