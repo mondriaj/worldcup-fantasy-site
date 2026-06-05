@@ -12,7 +12,7 @@ Status: ready for current static launch.
 
 - `index.html` has a clear page title, meta description, Open Graph title and description, Twitter card title and description, mobile viewport, and favicon link.
 - `world-cup.html` has a clear page title, meta description, Open Graph title and description, Twitter card title and description, mobile viewport, and favicon link.
-- No canonical URL or `og:url` is added yet because no final custom domain is configured in the repo.
+- No canonical URL or `og:url` is added yet because the custom domain is not configured in the repo.
 
 ## Social Preview Status
 
@@ -25,19 +25,20 @@ Status: basic metadata ready; image pending.
 TODO:
 
 - Create a safe original social preview image later.
-- Wire `og:image` and `twitter:image` only after that image exists and the final public URL is known.
+- Wire `og:image` and `twitter:image` only after that image exists and the final custom-domain URL is known.
 
 ## Analytics Status
 
-Status: pending measurement ID.
+Status: installed for the current GitHub Pages launch URL.
 
-- No real Google Analytics measurement ID was found in the project.
+- Google Analytics is installed on `index.html` and `world-cup.html` with Measurement ID `G-MSZET05H11`.
+- The current tracked public URL is `https://mondriaj.github.io/worldcup-fantasy-site/`.
 - No placeholder analytics script was added.
+- No player recommendations, Team Builder strategy behavior, score predictions, generated fantasy data, fantasy rules data, or export/import schema changed for analytics.
 
 TODO:
 
-- Add Google Analytics only after a real GA measurement ID is available.
-- Keep the tag easy to remove and document where it was added.
+- Verify the property receives page views after the GitHub Pages deployment updates.
 
 ## Support Link Status
 
@@ -56,11 +57,12 @@ Status: pending final domain.
 
 - No `CNAME` file is present in the repo.
 - No custom domain or DNS setting was changed.
+- Canonical URLs and Open Graph URLs have not been changed to a custom domain.
 
 TODO:
 
 - Add a `CNAME` only after the final custom domain is known.
-- Update launch docs if the deployment URL changes.
+- Update custom-domain metadata, canonical URLs, Open Graph URLs, and launch docs after Cloudflare and GitHub Pages custom domain setup are complete.
 
 ## Public Disclaimer Status
 
@@ -73,10 +75,9 @@ Status: ready.
 
 ## Remaining Launch TODOs
 
-- Confirm final public URL or custom domain.
+- Confirm final custom domain when Cloudflare and GitHub Pages setup are available.
 - Create a safe original social preview image.
-- Add `canonical`, `og:url`, `og:image`, and `twitter:image` after the final URL and preview image are ready.
-- Add Google Analytics only after a real measurement ID is available.
+- Add custom-domain `canonical`, `og:url`, `og:image`, and `twitter:image` after the final custom domain and preview image are ready.
 - Add a support link only after a real public creator URL is available.
 
 ## Checks Run
@@ -84,7 +85,7 @@ Status: ready.
 - Reviewed launch metadata in `index.html` and `world-cup.html`.
 - Confirmed `favicon.svg` exists.
 - Confirmed no `CNAME` file exists.
-- Confirmed no real GA measurement ID or support URL was found.
+- Confirmed Google Analytics Measurement ID `G-MSZET05H11` is installed on the public HTML entry points and the support URL remains pending.
 - Confirmed no runtime data fetch was added.
 - Confirmed static browser data loading remains unchanged.
 - Confirmed `index.html` and `world-cup.html` returned HTTP 200 from a local server.

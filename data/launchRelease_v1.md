@@ -73,7 +73,7 @@ Recent launch checks verified:
 - Continue normal monitoring using `data/launchOperationsChecklist_v1.md`.
 - Do not rerun models for ownership-only changes.
 - Run official data refresh only if player price, position, selectable status, player pool, scoring, squad, rule, deadline, or PELE data changes.
-- Add Google Analytics, support link, or custom domain only when real values are available.
+- Add a support link or custom domain only when real values are available.
 
 ## Unrelated Worktree Items Left Untouched
 

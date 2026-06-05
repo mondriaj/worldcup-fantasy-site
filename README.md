@@ -29,6 +29,8 @@ http://127.0.0.1:8766/index.html
 
 The site can be opened from GitHub Pages or a local server. It loads static data scripts, so it does not need to fetch JSON files at runtime.
 
+Google Analytics is installed on the public HTML entry points with Measurement ID `G-MSZET05H11`. The current tracked public URL is `https://mondriaj.github.io/worldcup-fantasy-site/`; custom-domain setup remains pending and no model outputs changed for analytics.
+
 ## Files Overview
 
 - `SITE_FEATURES.md` - readable product-level summary of the site's current features, data/model engine, official-data pipelines, and limits
@@ -177,3 +179,5 @@ Launch operations checklist:
 ## Deployment
 
 The site is static and can be hosted on GitHub Pages from the `project/` repository.
+
+Current public URL: `https://mondriaj.github.io/worldcup-fantasy-site/`. Custom-domain metadata, canonical URLs, Open Graph URLs, and `CNAME` should be updated later only after Cloudflare and GitHub Pages custom domain setup are complete.
