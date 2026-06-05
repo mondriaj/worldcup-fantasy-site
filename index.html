@@ -14,7 +14,7 @@
     <meta name="twitter:description" content="Compare squad starters, captain choices, team builds, bench decisions, and score predictions in one simple fantasy football hub." />
     <!-- Add canonical and og:url once the final production URL is available. -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="stylesheet" href="style.css?v=20260605-builder-strategies" />
+    <link rel="stylesheet" href="style.css?v=20260605-strategy-report-v2" />
   </head>
   <body>
     <header id="top" class="hero">
@@ -819,6 +819,18 @@
               <div id="portfolio-warnings" class="portfolio-warnings"></div>
             </section>
 
+            <section id="squad-strategy-report" class="squad-strategy-report hidden" aria-live="polite">
+              <div class="squad-strategy-report__heading">
+                <div>
+                  <h3>Squad Strategy Report</h3>
+                  <p id="squad-strategy-report-summary">Build a squad to see how the picks fit the selected strategy.</p>
+                </div>
+                <span id="squad-strategy-report-label">Waiting</span>
+              </div>
+              <div id="squad-strategy-report-metrics" class="squad-strategy-report__metrics"></div>
+              <p id="squad-strategy-report-fit" class="squad-strategy-report__fit"></p>
+            </section>
+
           </section>
 
           <section class="builder-step-card builder-save-panel" aria-labelledby="builder-step-save-title">
@@ -1470,6 +1482,6 @@
     <script src="fantasyPoolFinanceMetricsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolScorePredictionsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolOfficialDataStatusData.js?v=20260603-official-final"></script>
-    <script src="script.js?v=20260605-builder-strategies"></script>
+    <script src="script.js?v=20260605-strategy-report-v2"></script>
   </body>
 </html>

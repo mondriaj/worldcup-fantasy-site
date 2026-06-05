@@ -37,6 +37,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Team Builder is planning help and should be checked against the official game before saving.
 - Public Team Builder strategy labels are Balanced Squad, Diversified Squad, Concentrated Upside, Stars and Scrubs, and Value Squad. In Phase 2A these map to existing internal scoring modes without a major optimizer rewrite.
 - The Team Builder surface follows visible step cards: choose strategy, lock or avoid players, build squad, review legality and risk, then save or export.
+- After a build, the review step shows a compact Squad Strategy Report with Country Stack Risk, Fixture Stack Risk, Star Dependence, Bench Strength, Bad-Week Floor, Upside Ceiling, Budget Shape, and a short note on how the squad fits the selected strategy.
 - Supports advanced risk controls for minimum start probability, expected minutes, data-review count, and risky fill-ins.
 - Users should confirm locks, deadlines, boosters, and official-game legality inside FIFA's game.
 - Provides clear builder warnings when constraints are tight or force weaker/riskier picks.
@@ -48,6 +49,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Fantasy Finance uses simple default labels such as Squad Risk Report, Portfolio Health, Bad-Week Floor, Country Stack Risk, Fixture Stack Risk, and Budget Pressure.
 - Squad Portfolio Analytics explains the built squad as a whole, not only as individual picks.
 - Default metrics include projected points, portfolio health, bad-week floor, data checks, country concentration, fixture concentration, and budget-pressure warnings.
+- Squad Strategy Report summarizes the squad as a portfolio with simple Low, Medium, High, and budget-shape labels tied to the selected Team Builder strategy.
 - Advanced model notes and exported JSON preserve deeper portfolio fields for transparency.
 - Team Builder can use squad-level portfolio context as a small tie-breaker when choosing between completed candidate squads.
 

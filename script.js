@@ -1613,6 +1613,11 @@ const portfolioSummary = document.getElementById("portfolio-summary");
 const portfolioRiskLabel = document.getElementById("portfolio-risk-label");
 const portfolioMetrics = document.getElementById("portfolio-metrics");
 const portfolioWarnings = document.getElementById("portfolio-warnings");
+const squadStrategyReport = document.getElementById("squad-strategy-report");
+const squadStrategyReportSummary = document.getElementById("squad-strategy-report-summary");
+const squadStrategyReportLabel = document.getElementById("squad-strategy-report-label");
+const squadStrategyReportMetrics = document.getElementById("squad-strategy-report-metrics");
+const squadStrategyReportFit = document.getElementById("squad-strategy-report-fit");
 const teamField = document.getElementById("team-field");
 const teamPlayers = document.getElementById("team-players");
 const benchPanel = document.getElementById("bench-panel");
@@ -6606,6 +6611,7 @@ function updateRuleCopy() {
   summaryBudget.textContent = budgetText(initialBudget);
   renderRuleChecks();
   renderPortfolioAnalytics();
+  renderSquadStrategyReport();
   teamExportOutput.value = "";
   teamExportPanel.classList.add("hidden");
   swapMessage.textContent = `Build a full ${squadLabel()} first, then click a starter and a bench player to swap them.`;
@@ -6830,6 +6836,62 @@ function matchdayFixturePortfolio(starters) {
   });
 }
 
+function strategyReportFixtureLabel(projection, matchdayId) {
+  const matchNumber = projection?.match_number
+    ? `Match ${projection.match_number}`
+    : projection?.fixture_id || "fixture";
+
+  return `${projection?.matchday_label || matchdayLabelFromId(matchdayId)} ${matchNumber}`;
+}
+
+function starterFixtureStackEntries(starters) {
+  const matchdayIds = activeMatchdayId === "group_stage_full"
+    ? ["md1", "md2", "md3"]
+    : [activeMatchdayId];
+  const fixtureCounts = new Map();
+
+  starters.forEach((player) => {
+    const projectionMap = matchdayProjectionLookup.get(player.id) || {};
+
+    matchdayIds.forEach((matchdayId) => {
+      const projection = projectionMap[matchdayId];
+
+      if (!projection) {
+        return;
+      }
+
+      const key = projection.fixture_id || `${matchdayId}-${projection.opponent_team_id || projection.opponent || player.id}`;
+      const current = fixtureCounts.get(key) || {
+        key,
+        label: strategyReportFixtureLabel(projection, matchdayId),
+        count: 0,
+        hardFixtures: 0,
+        favorableFixtures: 0
+      };
+      const difficulty = fieldNumber(projection, "fixture_difficulty_score");
+
+      current.count += 1;
+
+      if (difficulty >= 70) {
+        current.hardFixtures += 1;
+      }
+
+      if (difficulty <= 35) {
+        current.favorableFixtures += 1;
+      }
+
+      fixtureCounts.set(key, current);
+    });
+  });
+
+  return Array.from(fixtureCounts.values())
+    .sort((a, b) =>
+      b.count - a.count ||
+      b.hardFixtures - a.hardFixtures ||
+      a.label.localeCompare(b.label)
+    );
+}
+
 function portfolioRiskLevel(analytics) {
   if (
     analytics.tailRiskAverage >= 70 ||
@@ -6870,6 +6932,8 @@ function squadPortfolioAnalytics(starters = [], bench = []) {
   const topCountry = countryEntries[0] || ["none", 0];
   const fixtureRows = matchdayFixturePortfolio(starters);
   const hardestMatchday = [...fixtureRows].sort((a, b) => b.hardFixtures - a.hardFixtures)[0] || null;
+  const fixtureStackEntries = starterFixtureStackEntries(starters);
+  const topFixture = fixtureStackEntries[0] || null;
 
   return {
     squad,
@@ -6893,6 +6957,8 @@ function squadPortfolioAnalytics(starters = [], bench = []) {
     topCountry,
     countryEntries,
     fixtureRows,
+    fixtureStackEntries,
+    topFixture,
     hardestMatchdayHardFixtures: hardestMatchday?.hardFixtures || 0,
     totalHardFixtureStarters: fixtureRows.reduce((sum, row) => sum + row.hardFixtures, 0),
     totalFavorableFixtureStarters: fixtureRows.reduce((sum, row) => sum + row.favorableFixtures, 0),
@@ -7165,6 +7231,313 @@ function renderPortfolioAnalytics(starters = [], bench = []) {
   portfolioWarnings.innerHTML = portfolioWarningsForAnalytics(analytics)
     .map((warning) => portfolioWarningItem(warning.kind, warning.label, warning.detail))
     .join("");
+}
+
+function strategyReportPercent(ratio) {
+  return `${Math.round(Math.max(0, value(ratio)) * 100)}%`;
+}
+
+function strategyReportLevel(id) {
+  const levels = {
+    low: "Low",
+    medium: "Medium",
+    high: "High"
+  };
+
+  return {
+    id,
+    label: levels[id] || "Medium"
+  };
+}
+
+function strategyReportRiskLevel(valueToCheck, mediumAt, highAt) {
+  if (valueToCheck >= highAt) {
+    return strategyReportLevel("high");
+  }
+
+  if (valueToCheck >= mediumAt) {
+    return strategyReportLevel("medium");
+  }
+
+  return strategyReportLevel("low");
+}
+
+function strategyReportStrengthLevel(valueToCheck, highAt, mediumAt) {
+  if (valueToCheck >= highAt) {
+    return strategyReportLevel("high");
+  }
+
+  if (valueToCheck >= mediumAt) {
+    return strategyReportLevel("medium");
+  }
+
+  return strategyReportLevel("low");
+}
+
+function strategyReportRiskTone(levelId) {
+  if (levelId === "low") return "good";
+  if (levelId === "high") return "review";
+  return "watch";
+}
+
+function strategyReportStrengthTone(levelId) {
+  if (levelId === "high") return "good";
+  if (levelId === "low") return "review";
+  return "watch";
+}
+
+function strategyReportMetric(label, valueToDisplay, detail, tone = "neutral") {
+  return `
+    <article class="strategy-report-metric strategy-report-metric--${tone}">
+      <span>${escapeHtml(label)}</span>
+      <strong>${escapeHtml(valueToDisplay)}</strong>
+      <small>${escapeHtml(detail)}</small>
+    </article>
+  `;
+}
+
+function squadStrategyBudgetShape(analytics) {
+  const squad = analytics.squad;
+  const starterAveragePrice = startersAveragePrice(analytics.starters);
+  const benchAveragePrice = startersAveragePrice(analytics.bench);
+  const topHeavySpend = analytics.premiumPlayers >= 3 &&
+    (analytics.benchWeakCount >= 2 || starterAveragePrice - benchAveragePrice >= 2.5);
+
+  if (topHeavySpend) {
+    return {
+      id: "topHeavy",
+      label: "Top-heavy",
+      tone: "watch"
+    };
+  }
+
+  if (
+    squad.length &&
+    analytics.benchWeakCount === 0 &&
+    analytics.premiumPlayers <= 2 &&
+    benchAveragePrice >= 5.2
+  ) {
+    return {
+      id: "depthOriented",
+      label: "Depth-oriented",
+      tone: "good"
+    };
+  }
+
+  return {
+    id: "balanced",
+    label: "Balanced",
+    tone: "good"
+  };
+}
+
+function startersAveragePrice(playerList = []) {
+  return playerList.length
+    ? playerList.reduce((sum, player) => sum + proxyPrice(player), 0) / playerList.length
+    : 0;
+}
+
+function squadStrategyReportData(starters = [], bench = []) {
+  const analytics = squadPortfolioAnalytics(starters, bench);
+  const squad = analytics.squad;
+  const topCountryCount = analytics.topCountry[1] || 0;
+  const topCountryLabel = topCountryCount ? countryCountLabel(analytics.topCountry[0]) : "No country stack";
+  const countryLevel = strategyReportRiskLevel(
+    topCountryCount,
+    Math.max(2, groupStageCountryLimit - 1),
+    Math.max(3, groupStageCountryLimit)
+  );
+  const topFixture = analytics.topFixture;
+  const topFixtureCount = topFixture?.count || 0;
+  const hardFixtureDetail = analytics.hardestMatchday
+    ? `${analytics.hardestMatchday.label} has ${analytics.hardestMatchdayHardFixtures} starter${analytics.hardestMatchdayHardFixtures === 1 ? "" : "s"} in hard fixtures`
+    : "no hard-fixture cluster is visible";
+  const fixtureLevel = strategyReportRiskLevel(
+    Math.max(topFixtureCount, analytics.hardestMatchdayHardFixtures),
+    2,
+    3
+  );
+  const starterProjectedScores = starters
+    .map((player) => Math.max(0, scoreValue(player, "finance_expected_return_points", "risk_adjusted_expected_points_estimate")))
+    .sort((a, b) => b - a);
+  const topThreeProjected = starterProjectedScores.slice(0, 3).reduce((sum, score) => sum + score, 0);
+  const topThreeShare = analytics.starterExpected > 0
+    ? topThreeProjected / analytics.starterExpected
+    : 0;
+  const starLevel = strategyReportRiskLevel(topThreeShare, 0.36, 0.48);
+  const benchExpected = sumPlayerField(bench, "finance_expected_return_points", "risk_adjusted_expected_points_estimate");
+  const benchAverageStart = averagePlayerField(bench, "start_probability_percent");
+  const playableBenchCount = Math.max(0, bench.length - analytics.benchWeakCount);
+  const benchStrengthScore = bench.length
+    ? (playableBenchCount / bench.length) * 0.65 + Math.min(1, benchAverageStart / 70) * 0.35
+    : 0;
+  const benchLevel = strategyReportStrengthLevel(benchStrengthScore, 0.78, 0.55);
+  const floorRatio = analytics.starterExpected > 0
+    ? analytics.starterVar10 / analytics.starterExpected
+    : 0;
+  const floorScore = Math.max(0, floorRatio) -
+    (analytics.benchWeakCount >= 2 ? 0.15 : 0) -
+    (analytics.tailRiskAverage >= 65 ? 0.1 : 0);
+  const floorLevel = strategyReportStrengthLevel(floorScore, 0.52, 0.36);
+  const upsideRatio = analytics.starterExpected > 0
+    ? analytics.starterUpside / analytics.starterExpected
+    : 0;
+  const upsideScore = upsideRatio + Math.min(0.35, analytics.totalFavorableFixtureStarters * 0.04);
+  const upsideLevel = strategyReportStrengthLevel(upsideScore, 1.45, 1.22);
+  const budgetShape = squadStrategyBudgetShape(analytics);
+  const totalPrice = squadCost(squad);
+
+  return {
+    analytics,
+    levels: {
+      country: countryLevel.id,
+      fixture: fixtureLevel.id,
+      star: starLevel.id,
+      bench: benchLevel.id,
+      floor: floorLevel.id,
+      upside: upsideLevel.id,
+      budgetShape: budgetShape.id
+    },
+    summary: {
+      topCountryLabel,
+      topCountryCount,
+      topFixture,
+      topFixtureCount
+    },
+    metrics: [
+      {
+        label: "Country Stack Risk",
+        value: countryLevel.label,
+        detail: topCountryCount
+          ? `Top country: ${topCountryLabel} ${topCountryCount}/${groupStageCountryLimit}.`
+          : "No country is carrying a visible share of the squad.",
+        tone: strategyReportRiskTone(countryLevel.id)
+      },
+      {
+        label: "Fixture Stack Risk",
+        value: fixtureLevel.label,
+        detail: topFixture
+          ? `Biggest match stack: ${topFixture.label} with ${topFixtureCount} starter${topFixtureCount === 1 ? "" : "s"}; ${hardFixtureDetail}.`
+          : "No fixture stack is visible in the current matchday view.",
+        tone: strategyReportRiskTone(fixtureLevel.id)
+      },
+      {
+        label: "Star Dependence",
+        value: starLevel.label,
+        detail: `Top three starters carry ${strategyReportPercent(topThreeShare)} of projected starter value.`,
+        tone: strategyReportRiskTone(starLevel.id)
+      },
+      {
+        label: "Bench Strength",
+        value: benchLevel.label,
+        detail: `${playableBenchCount}/${bench.length || 0} bench players look playable; bench projection ${portfolioNumber(benchExpected)}.`,
+        tone: strategyReportStrengthTone(benchLevel.id)
+      },
+      {
+        label: "Bad-Week Floor",
+        value: floorLevel.label,
+        detail: `Bad-week starter floor is ${portfolioNumber(analytics.starterVar10)} (${strategyReportPercent(floorRatio)} of projection).`,
+        tone: strategyReportStrengthTone(floorLevel.id)
+      },
+      {
+        label: "Upside Ceiling",
+        value: upsideLevel.label,
+        detail: `Starting XI upside signal is ${portfolioNumber(analytics.starterUpside)} with ${analytics.totalFavorableFixtureStarters} favorable fixture spot${analytics.totalFavorableFixtureStarters === 1 ? "" : "s"}.`,
+        tone: strategyReportStrengthTone(upsideLevel.id)
+      },
+      {
+        label: "Budget Shape",
+        value: budgetShape.label,
+        detail: `${analytics.premiumPlayers} premium player${analytics.premiumPlayers === 1 ? "" : "s"}, ${budgetText(totalPrice)} used, ${remainingBudgetText(totalPrice)} remaining.`,
+        tone: budgetShape.tone
+      }
+    ]
+  };
+}
+
+function squadStrategyFitText(reportData, strategyOption = activeBuilderStrategyOption()) {
+  const levels = reportData.levels;
+  const stackText = [
+    levels.country === "high" ? "Country Stack Risk" : "",
+    levels.fixture === "high" ? "Fixture Stack Risk" : ""
+  ].filter(Boolean).join(" and ");
+
+  if (strategyOption.id === "diversifiedSquad") {
+    if (levels.country === "low" && levels.fixture === "low") {
+      return "This fits Diversified Squad well: country and fixture stack risk are both Low. Check Bench Strength and Bad-Week Floor to make sure the spread-out build still has enough protection.";
+    }
+
+    return `Diversified Squad wants lower stack risk, and this build still has ${stackText || "some Medium stack pressure"}. Rebuild or adjust locks if that concentration is not intentional.`;
+  }
+
+  if (strategyOption.id === "concentratedUpside") {
+    if (["high", "medium"].includes(levels.upside)) {
+      return "This fits Concentrated Upside if you are comfortable with the stack tradeoff: the ceiling signal is strong enough to justify a sharper portfolio. Treat Country Stack Risk and Fixture Stack Risk as the main warning lights.";
+    }
+
+    return "Concentrated Upside can accept more stack risk, but this build is not showing a strong ceiling signal yet. Check whether filters or locks are limiting the upside lane.";
+  }
+
+  if (strategyOption.id === "starsAndScrubs") {
+    if (levels.star === "high" || levels.budgetShape === "topHeavy") {
+      return "This fits Stars and Scrubs: more value is concentrated in the top players, and the bench is the tradeoff. Make sure any weaker bench spots are deliberate before saving.";
+    }
+
+    return "This is less top-heavy than a typical Stars and Scrubs build. It may be steadier, but it is not leaning hard into the selected strategy.";
+  }
+
+  if (strategyOption.id === "valueSquad") {
+    if (["high", "medium"].includes(levels.bench) && levels.budgetShape !== "topHeavy") {
+      return "This fits Value Squad: the bench looks playable and the budget shape is efficient. The main check is whether the squad still has enough Upside Ceiling.";
+    }
+
+    return "Value Squad wants playable depth and an efficient budget shape. This build may need a stronger bench or less top-heavy spend to match the strategy.";
+  }
+
+  const balancedSignals = [
+    levels.country !== "high",
+    levels.fixture !== "high",
+    levels.star !== "high",
+    levels.bench !== "low",
+    levels.floor !== "low"
+  ].filter(Boolean).length;
+
+  if (balancedSignals >= 4) {
+    return "This looks aligned with Balanced Squad: most portfolio signals are moderate or better. Review any High risk item before saving.";
+  }
+
+  return "Balanced Squad wants moderate tradeoffs across the report. This build has a few sharper edges, so check the weakest metric before saving.";
+}
+
+function renderSquadStrategyReport(starters = [], bench = []) {
+  if (!squadStrategyReport || !squadStrategyReportSummary || !squadStrategyReportLabel || !squadStrategyReportMetrics || !squadStrategyReportFit) {
+    return;
+  }
+
+  const squad = [...starters, ...bench];
+
+  if (!squad.length) {
+    squadStrategyReport.classList.add("hidden");
+    squadStrategyReportLabel.textContent = "Waiting";
+    squadStrategyReportSummary.textContent = "Build a squad to see how the picks fit the selected strategy.";
+    squadStrategyReportMetrics.innerHTML = "";
+    squadStrategyReportFit.textContent = "";
+    return;
+  }
+
+  const strategyOption = activeBuilderStrategyOption();
+  const reportData = squadStrategyReportData(starters, bench);
+  const topFixtureText = reportData.summary.topFixture
+    ? `${reportData.summary.topFixture.label} (${reportData.summary.topFixtureCount})`
+    : "no visible fixture stack";
+
+  squadStrategyReport.classList.remove("hidden");
+  squadStrategyReportLabel.textContent = strategyOption.label;
+  squadStrategyReportSummary.textContent = `${squad.length}-player squad using ${strategyOption.label}. Top country: ${reportData.summary.topCountryLabel} ${reportData.summary.topCountryCount}/${groupStageCountryLimit}; biggest match stack: ${topFixtureText}.`;
+  squadStrategyReportMetrics.innerHTML = reportData.metrics
+    .map((metric) => strategyReportMetric(metric.label, metric.value, metric.detail, metric.tone))
+    .join("");
+  squadStrategyReportFit.textContent = squadStrategyFitText(reportData, strategyOption);
 }
 
 function exportedPlayer(player) {
@@ -9504,6 +9877,7 @@ function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built", optio
   updateTeamSummary(tacticName, totalPrice, averageRisk, squad.length);
   renderRuleChecks(starters, bench, tacticName);
   renderPortfolioAnalytics(starters, bench);
+  renderSquadStrategyReport(starters, bench);
 
   teamField.classList.remove("hidden");
   renderBench(bench, benchRequirementsForTactic(tacticName));
@@ -9580,6 +9954,7 @@ function renderCurrentSlotState(message) {
   updateTeamSummary(tacticName, totalPrice, averageRisk, squad.length);
   renderRuleChecks(starters, bench, tacticName);
   renderPortfolioAnalytics(starters, bench);
+  renderSquadStrategyReport(starters, bench);
 
   teamField.classList.remove("hidden");
   renderBenchSlots(currentBenchSlotsByPosition);
