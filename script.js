@@ -152,6 +152,12 @@ const publicPickModelCopy = {
     help: "Looks for strong return for the price.",
     cardDescription: "Value Picks look for strong return for the price."
   },
+  cheapEnabler: {
+    label: "Budget Enabler",
+    cardLabel: "Budget Enabler",
+    help: "Highlights lower-price players with a playable role.",
+    cardDescription: "Budget Enabler highlights lower-price players with a playable role."
+  },
   differential: {
     label: "Differential Picks",
     cardLabel: "Differential Pick",
@@ -854,6 +860,16 @@ const pickModelOptions = {
     help: "Looks for strong return for the price.",
     cardDescription: "Value Picks look for strong return for the price."
   },
+  cheapEnabler: {
+    id: "cheapEnabler",
+    label: "Budget Enabler",
+    cardLabel: "Budget Enabler",
+    group: "starter",
+    sourceMode: "differential",
+    measureKey: "cheapEnabler",
+    help: "Highlights lower-price players with a playable role.",
+    cardDescription: "Budget Enabler highlights lower-price players with a playable role."
+  },
   valueQuant: {
     id: "valueQuant",
     label: "Advanced Value Variant",
@@ -931,6 +947,9 @@ function publicPickModelKeyFromMode(mode) {
     upside: "upside",
     bestValue: "bestValue",
     value: "bestValue",
+    cheapEnabler: "cheapEnabler",
+    budget: "cheapEnabler",
+    budget_enabler: "cheapEnabler",
     differential: "differential",
     captain: "captain"
   };
@@ -10209,13 +10228,59 @@ function activeQuickPickPositionLabel() {
   return activeQuickPickPosition === "All" ? "all positions" : activeQuickPickPosition.toLowerCase();
 }
 
-function orderedQuickPickModelKeys() {
-  // TODO Phase 1B: replace one-card-per-model starter cards with a curated starter pack.
-  return [
-    activeQuickPickModelKey,
-    ...publicPickModelOptionKeys.filter((key) => key !== activeQuickPickModelKey)
-  ].filter((key, index, keys) => pickModelOptions[key] && keys.indexOf(key) === index);
-}
+const starterPackTargetCardCount = 8;
+const starterPackLaneConfigs = [
+  {
+    id: "topProjection",
+    modelKey: "expected",
+    count: 1,
+    label: "Top Projection",
+    description: "Starter pack: highest projected return from the filtered pool."
+  },
+  {
+    id: "core",
+    modelKey: "balanced",
+    count: 2,
+    label: "Core Pick",
+    description: "Starter pack: reliable core option balancing projected return, starts, and minutes."
+  },
+  {
+    id: "highFloor",
+    modelKey: "safe",
+    count: 1,
+    label: "High-Floor Pick",
+    description: "Starter pack: safer-minutes option with lower downside."
+  },
+  {
+    id: "upside",
+    modelKey: "upside",
+    count: 1,
+    label: "Upside Pick",
+    description: "Starter pack: ceiling-focused option in a stronger attacking spot."
+  },
+  {
+    id: "budgetEnabler",
+    modelKey: "cheapEnabler",
+    count: 1,
+    label: "Budget Enabler",
+    description: "Starter pack: lower-price player with a playable role."
+  },
+  {
+    id: "value",
+    modelKey: "bestValue",
+    count: 1,
+    label: "Value Pick",
+    description: "Starter pack: strong projected return for the price."
+  },
+  {
+    id: "differential",
+    modelKey: "differential",
+    count: 1,
+    label: "Differential Pick",
+    description: "Starter pack: less obvious pick that still projects well."
+  }
+];
+const starterPackFallbackLaneIds = ["value", "core", "topProjection", "highFloor", "upside", "differential", "budgetEnabler"];
 
 function filterQuickPickPosition(playerList) {
   return activeQuickPickPosition === "All"
@@ -10223,17 +10288,115 @@ function filterQuickPickPosition(playerList) {
     : playerList.filter((player) => player.position === activeQuickPickPosition);
 }
 
+function isBudgetEnablerPick(player) {
+  const cheapEnablerScore = optionalScoreValue(player, "cheap_enabler_score_v1", "cheap_enabler_score");
+  const startProbability = optionalScoreValue(player, "start_probability_percent");
+  const price = proxyPrice(player);
+  const valueRole = String(player?.value_role || player?.preview_finance_context?.value_role || "").toLowerCase();
+
+  return valueRole === "cheap_enabler" ||
+    Number.isFinite(cheapEnablerScore) && cheapEnablerScore >= 50 ||
+    Number.isFinite(price) && price <= 6 && (!Number.isFinite(startProbability) || startProbability >= 45);
+}
+
+function pickPlayerStableKey(player) {
+  return String(
+    player?.preview_player_key ||
+    player?.source_player_id ||
+    player?.internal_player_id ||
+    player?.official_fantasy_player_id ||
+    player?.id ||
+    [player?.name, player?.country, player?.position].filter(Boolean).join("|")
+  ).trim();
+}
+
 function uniquePickPlayer(playerList, usedPlayerKeys) {
   const player = playerList.find((candidate) => {
-    const key = candidate.preview_player_key || candidate.source_player_id || candidate.id;
+    const key = pickPlayerStableKey(candidate);
     return key && !usedPlayerKeys.has(key);
-  }) || playerList[0];
+  });
 
   if (player) {
-    usedPlayerKeys.add(player.preview_player_key || player.source_player_id || player.id);
+    usedPlayerKeys.add(pickPlayerStableKey(player));
   }
 
   return player;
+}
+
+function starterPackOption(lane) {
+  const option = pickModelOption(lane.modelKey);
+
+  return {
+    ...option,
+    id: option.id || lane.modelKey,
+    label: lane.label,
+    cardLabel: lane.label,
+    measureKey: option.measureKey || lane.modelKey
+  };
+}
+
+function starterPackCandidatesForLane(lane, candidateCache) {
+  if (!candidateCache.has(lane.id)) {
+    const candidates = quickPickCandidatesForOption(starterPackOption(lane));
+    candidateCache.set(
+      lane.id,
+      lane.id === "budgetEnabler" ? candidates.filter(isBudgetEnablerPick) : candidates
+    );
+  }
+
+  return candidateCache.get(lane.id);
+}
+
+function renderStarterPackCard(player, lane) {
+  const option = starterPackOption(lane);
+
+  return renderPickCard(player, {
+    label: lane.label,
+    measureKey: option.measureKey,
+    modelKey: option.id,
+    modelDescription: lane.description
+  });
+}
+
+function addStarterPackCardForLane(cards, usedPlayerKeys, lane, candidateCache) {
+  if (cards.length >= starterPackTargetCardCount) {
+    return false;
+  }
+
+  const player = uniquePickPlayer(starterPackCandidatesForLane(lane, candidateCache), usedPlayerKeys);
+  if (!player) {
+    return false;
+  }
+
+  cards.push(renderStarterPackCard(player, lane));
+  return true;
+}
+
+function selectStarterPackCards() {
+  const cards = [];
+  const usedPlayerKeys = new Set();
+  const candidateCache = new Map();
+
+  starterPackLaneConfigs.forEach((lane) => {
+    for (let index = 0; index < lane.count; index += 1) {
+      addStarterPackCardForLane(cards, usedPlayerKeys, lane, candidateCache);
+    }
+  });
+
+  let addedFallbackCard = true;
+  while (cards.length < starterPackTargetCardCount && addedFallbackCard) {
+    addedFallbackCard = false;
+    starterPackFallbackLaneIds
+      .map((laneId) => starterPackLaneConfigs.find((lane) => lane.id === laneId))
+      .filter(Boolean)
+      .forEach((lane) => {
+        if (addStarterPackCardForLane(cards, usedPlayerKeys, lane, candidateCache)) {
+          addedFallbackCard = true;
+        }
+      });
+  }
+
+  return cards;
 }
 
 function quickPickCandidatesForOption(option) {
@@ -10267,21 +10430,15 @@ function quickPickFallbackCard(option) {
 }
 
 function renderDashboardSections() {
-  const usedPlayerKeys = new Set();
-  const cards = orderedQuickPickModelKeys().map((key) => {
-    const option = pickModelOption(key);
-    const player = uniquePickPlayer(quickPickCandidatesForOption(option), usedPlayerKeys);
+  if (!dashboardGrid) {
+    return;
+  }
 
-    return player
-      ? renderPickCard(player, {
-        label: option.label,
-        measureKey: option.measureKey,
-        modelKey: option.id
-      })
-      : quickPickFallbackCard(option);
-  });
+  const cards = selectStarterPackCards();
 
-  dashboardGrid.innerHTML = cards.join("");
+  dashboardGrid.innerHTML = cards.length
+    ? cards.join("")
+    : quickPickFallbackCard(pickModelOption("balanced"));
 }
 
 function renderFantasyPoolPreviewAdviceTable() {

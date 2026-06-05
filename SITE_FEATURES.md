@@ -15,6 +15,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 ## Player Recommendations
 
 - Picks show Official Fantasy Picks using official fantasy prices, positions, selectable status, scoring, projections, and finance metrics.
+- Squad Builder Starter shows an 8-card curated starter pack instead of one card per model: 1 Top Projection, 2 Core Picks, 1 High-Floor Pick, 1 Upside Pick, 2 value-oriented picks with a Budget Enabler when available, and 1 Differential Pick.
 - Player cards are the default surface and include one primary pick-type badge, an optional Captain option badge, a short caution/reason line, fixture context, View Profile, and Add to Builder when the player is available to the builder.
 - Picks include a compact Builder tray that shows locked players, lets users remove them, and links directly to Team Builder.
 - Picks include a Captain Watchlist lane for captain candidates from the official fantasy pool.
