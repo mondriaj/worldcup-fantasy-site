@@ -3,42 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fantasy Quant | Squad Builder Starter, Team Builder, and Decision Tools</title>
-    <meta name="description" content="Current World Cup fantasy recommendations using official fantasy prices, positions, selectable status, and scoring." />
-    <meta property="og:site_name" content="World Cup Fantasy Helper" />
-    <meta property="og:title" content="World Cup Fantasy Helper" />
-    <meta property="og:description" content="Compare captain picks, player rankings, and squad ideas in one simple fantasy football hub." />
+    <title>The Fantasy Economist</title>
+    <meta name="description" content="World Cup fantasy tools for squad starters, team building, captain choices, bench decisions, and score predictions." />
+    <meta property="og:site_name" content="The Fantasy Economist" />
+    <meta property="og:title" content="The Fantasy Economist" />
+    <meta property="og:description" content="Compare squad starters, captain choices, team builds, bench decisions, and score predictions in one simple fantasy football hub." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="World Cup Fantasy Helper" />
-    <meta name="twitter:description" content="Compare captain picks, player rankings, and squad ideas in one simple fantasy football hub." />
+    <meta name="twitter:title" content="The Fantasy Economist" />
+    <meta name="twitter:description" content="Compare squad starters, captain choices, team builds, bench decisions, and score predictions in one simple fantasy football hub." />
     <!-- Add canonical and og:url once the final production URL is available. -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="stylesheet" href="style.css?v=20260604-builder-starter" />
+    <link rel="stylesheet" href="style.css?v=20260604-economist-cleanup" />
   </head>
   <body>
     <header id="top" class="hero">
       <nav class="site-nav" aria-label="Primary navigation">
-        <a href="#top">Home</a>
+        <a href="#top">The Fantasy Economist</a>
         <a href="#picks">Squad Builder Starter</a>
+        <a href="#captain-picks">Captain Selection</a>
         <a href="#team-builder">Team Builder</a>
-        <a href="#captain-change-advisor">Decision Tools</a>
-        <a href="#fantasy-finance">Fantasy Finance</a>
+        <a href="#captain-change-advisor">Captain Switch Check</a>
+        <a href="#substitution-advisor">Bench Switch Check</a>
+        <a href="#match-environment">Score Prediction</a>
         <a href="world-cup.html">World Cup Guide</a>
-        <a href="#model-notes">Model Notes</a>
+        <a href="#stats-notes">Stats Notes</a>
       </nav>
 
       <div class="hero__content">
         <p class="eyebrow">Model-backed fantasy advice</p>
-        <h1>Fantasy Quant</h1>
+        <h1>The Fantasy Economist</h1>
         <p class="hero__text">
-          Fantasy Quant is a World Cup fantasy helper that uses models, data science, and quant methods to help you find good picks, build a squad, and manage captain and bench decisions with risk-aware advice.
+          The Fantasy Economist is a World Cup fantasy helper that uses models, data science, and quant methods to help you find good picks, build a squad, and manage captain and bench decisions with risk-aware advice.
         </p>
 
         <div class="hero__actions" aria-label="Homepage actions">
-          <a class="primary-button primary-button--hero" href="#team-builder">Build My Squad</a>
-          <a class="secondary-link" href="#picks">Open Squad Builder Starter</a>
-          <a class="secondary-link secondary-link--quiet" href="#captain-change-advisor">Check Decisions</a>
+          <a class="primary-button primary-button--hero" href="#team-builder">Team Builder</a>
+          <a class="secondary-link" href="#picks">Squad Builder Starter</a>
+          <a class="secondary-link secondary-link--quiet" href="#captain-change-advisor">Captain Switch Check</a>
         </div>
 
       </div>
@@ -49,7 +51,7 @@
         <section class="panel no-js-panel" aria-label="JavaScript required">
           <h2>Interactive Tools Need JavaScript</h2>
           <p>This page uses JavaScript to load the current dataset, build Squad Builder Starter cards, rank captain options, and power the Team Builder.</p>
-          <p>You can still read the Model Notes below, but player recommendations and squad tools are available only when JavaScript is enabled.</p>
+          <p>You can still read the Stats Notes below, but player recommendations and squad tools are available only when JavaScript is enabled.</p>
         </section>
       </noscript>
 
@@ -190,8 +192,6 @@
           <ol>
             <li>Choose the matchday and enter your current captain's points before the captain double.</li>
             <li>Pick one possible new captain who is in your squad and has not played yet.</li>
-            <li>Use Balanced by default. Safe protects a good current score; Upside is only for chasing.</li>
-            <li>Build or load a Team Builder squad to fill the captain fields from saved-squad buttons.</li>
           </ol>
         </details>
 
@@ -290,8 +290,6 @@
           <ol>
             <li>Choose the matchday and enter the starter's points after that player has played.</li>
             <li>Pick one possible substitute who is in your squad and has not played yet.</li>
-            <li>Check your fantasy formation rules before making a different-position substitution.</li>
-            <li>Build or load a Team Builder squad to fill the starter and bench fields from saved-squad buttons.</li>
           </ol>
         </details>
 
@@ -503,7 +501,7 @@
       <details id="match-environment" class="panel collapsible-panel">
         <summary class="collapsible-summary">
           <span>
-            <h2>Score Predictions</h2>
+            <h2>Score Prediction</h2>
             <p>Fixture-level goal environment, clean-sheet watch, and upset risk from the score model.</p>
           </span>
           <span class="collapsible-action" aria-hidden="true"></span>
@@ -664,12 +662,6 @@
                     <small class="control-helper">Suggested fill-ins must meet this start probability; locked players stay visible.</small>
                   </label>
 
-                  <label class="control-group" for="min-minutes-filter">
-                    <span>Minimum Minutes</span>
-                    <input id="min-minutes-filter" type="number" min="0" max="120" step="5" placeholder="No min" />
-                    <small class="control-helper">Suggested fill-ins must meet this expected-minutes floor.</small>
-                  </label>
-
                   <label class="control-group" for="min-price-filter">
                     <span>Minimum Price</span>
                     <input id="min-price-filter" type="number" min="0" step="0.1" placeholder="No min" />
@@ -680,12 +672,10 @@
                     <input id="max-price-filter" type="number" min="0" step="0.1" placeholder="No max" />
                   </label>
 
-                  <label class="control-group" for="card-stat-select">
-                    <span>Card Detail</span>
-                    <select id="card-stat-select"></select>
-                  </label>
                 </div>
 
+                <input id="min-minutes-filter" type="number" min="0" max="120" step="5" hidden aria-hidden="true" />
+                <select id="card-stat-select" hidden aria-hidden="true"></select>
                 <input id="allow-risky-picks-toggle" type="checkbox" checked hidden aria-hidden="true" />
 
                 <p class="filter-note">
@@ -899,7 +889,7 @@
         </div>
       </section>
 
-      <section id="fantasy-finance" class="panel fantasy-finance-panel">
+      <section id="fantasy-finance" class="panel fantasy-finance-panel" hidden aria-hidden="true">
         <div class="section-heading">
           <h2>Fantasy Finance</h2>
           <p>Simple portfolio-style labels for the current fantasy model. Advanced formulas stay in Model Notes.</p>
@@ -917,17 +907,107 @@
         </div>
       </section>
 
-      <details id="model-notes" class="panel collapsible-panel stats-method-panel">
+      <details id="stats-notes" class="panel collapsible-panel stats-method-panel">
         <summary class="collapsible-summary">
           <span>
-            <h2>Model Notes</h2>
-            <p>Open this to see which fields come from source data and which fields are calculated estimates.</p>
+            <h2>Stats Notes</h2>
+            <p>Simple explanations for the scores and labels shown on the public tools.</p>
           </span>
           <span class="collapsible-action" aria-hidden="true"></span>
         </summary>
 
         <div class="collapsible-body">
-          <div class="method-grid">
+          <div class="formula-section formula-section--intro">
+            <p>These notes explain the public labels used in Squad Builder Starter, Captain Selection, Team Builder, the switch checks, and Score Prediction.</p>
+
+            <div class="formula-list">
+              <p><strong>Price:</strong> the player cost used by the squad builder and player cards.</p>
+              <p><strong>Projected Points / Matchday:</strong> estimated fantasy points for one matchday, adjusted for role, expected minutes, matchup, and risk.</p>
+              <p><strong>Captain Score:</strong> a captain shortlist score using projected points, matchup, start chance, upside, and downside risk.</p>
+              <p><strong>Start %:</strong> estimated chance the player starts in the selected matchday view.</p>
+              <p><strong>Expected Minutes:</strong> estimated playing time for the selected matchday view.</p>
+              <p><strong>Reliability:</strong> a 0 to 100 role-and-minutes steadiness score. Higher is steadier.</p>
+              <p><strong>Risk:</strong> a 0 to 100 downside score using role, minutes, volatility, fixture difficulty, and bad-week exposure. Lower is safer.</p>
+              <p><strong>Strategy Score:</strong> the ranking score for the selected strategy: Balanced, Safe, Upside, Differential, Value, Value Quant, Captain Selection, or Risk-Control Pick.</p>
+              <p><strong>Team Builder cards:</strong> show price, the selected card metric, country, club, role notes, and the selected matchday opponent when available.</p>
+              <p><strong>Squad Risk Report:</strong> summarizes portfolio health, projected points, start chance, minutes, bad-week floor, squad risk, country stack risk, fixture stack risk, and budget pressure.</p>
+              <p><strong>Switch checks:</strong> compare actual points already earned with a possible captain or bench option still to play.</p>
+              <p><strong>Score Prediction:</strong> shows model xG, favorite, clean-sheet outlook, goal environment, and upset risk for fixtures.</p>
+            </div>
+          </div>
+
+          <div class="formula-section">
+            <h3>Projected Points</h3>
+            <p>Projected points estimate how many fantasy points a player is expected to score in one matchday. The number blends role, expected minutes, attacking or defensive opportunity, matchup, and downside risk.</p>
+
+            <div class="formula-list">
+              <p><strong>Player role:</strong> likely starters and high-minute players receive more credit than players with uncertain playing time.</p>
+              <p><strong>Matchup:</strong> fixture difficulty changes the projection for attackers, defenders, and clean-sheet candidates.</p>
+              <p><strong>Risk adjustment:</strong> downside risk can pull the public projection below a player's pure upside.</p>
+              <p><strong>Captain comparison:</strong> Captain Selection shows projected points for comparison. It does not double the points for captain scoring.</p>
+            </div>
+          </div>
+
+          <div class="formula-section">
+            <h3>Risk Measures</h3>
+            <p>Risk measures help show whether a player or squad is steady, fragile, expensive, fixture-heavy, or exposed to a bad matchday.</p>
+
+            <div class="formula-list">
+              <p><strong>Reliability:</strong> role and minutes steadiness. Higher is better.</p>
+              <p><strong>Substitution Risk:</strong> chance of limited minutes, bench role, or early substitution. Lower is better.</p>
+              <p><strong>Squad Risk:</strong> average downside exposure across the squad.</p>
+              <p><strong>Portfolio Health:</strong> a steadiness label for the squad. Higher is steadier.</p>
+              <p><strong>Bad-Week Floor:</strong> what a weaker matchday could look like for the starting XI.</p>
+              <p><strong>Worst-Case Floor:</strong> a deeper downside view for the starting XI.</p>
+              <p><strong>Country Stack Risk:</strong> too many players from one country can make the squad more fragile.</p>
+              <p><strong>Fixture Stack Risk:</strong> too many starters with hard fixtures in the same matchday can lower the squad floor.</p>
+              <p><strong>Budget Pressure:</strong> premium-heavy squads can force weak bench spots or low-minute players.</p>
+            </div>
+          </div>
+
+          <div class="formula-section">
+            <h3>Risk-Adjusted Scores</h3>
+            <p>Risk-adjusted scores rank players by combining projected output with the kind of risk a strategy is willing to accept.</p>
+
+            <div class="formula-list">
+              <p><strong>Balanced:</strong> a general ranking using projection, role, fixture, and risk.</p>
+              <p><strong>Safe:</strong> prefers steadier roles, stronger minutes, and lower downside.</p>
+              <p><strong>Upside:</strong> gives more credit to ceiling and attacking opportunity.</p>
+              <p><strong>Differential:</strong> looks for less obvious players with useful upside.</p>
+              <p><strong>Value:</strong> weighs useful output against price.</p>
+              <p><strong>Value Quant:</strong> blends projected output, price, and value signals.</p>
+              <p><strong>Captain Selection:</strong> focuses on players who can help captain planning.</p>
+              <p><strong>Risk-Control Pick:</strong> looks for useful players after accounting for downside and role risk.</p>
+            </div>
+          </div>
+
+          <div class="formula-section">
+            <h3>Captain And Bench Checks</h3>
+            <p>The switch checks are simple comparison tools. They do not make the final decision for you; they show whether the possible new player has enough projected edge to justify a switch.</p>
+
+            <div class="formula-list">
+              <p><strong>Current points:</strong> the points already earned by your current captain or starter.</p>
+              <p><strong>Possible new player:</strong> the captain or bench option you are comparing against the current score.</p>
+              <p><strong>Switch score:</strong> the selected strategy's comparison score for the possible new player.</p>
+              <p><strong>Projection / floor:</strong> headline projection plus a lower-outcome view for the possible new player.</p>
+              <p><strong>Fixture:</strong> opponent, start chance, and expected minutes for the selected matchday.</p>
+            </div>
+          </div>
+
+          <div class="formula-section">
+            <h3>Score Prediction</h3>
+            <p>Score Prediction gives fixture context for fantasy decisions. It is meant for comparing match environments, not for betting or exact-score certainty.</p>
+
+            <div class="formula-list">
+              <p><strong>Model xG:</strong> estimated goals for each team.</p>
+              <p><strong>Favorite:</strong> the team with the stronger win outlook in the model.</p>
+              <p><strong>Clean Sheet:</strong> the best clean-sheet outlook in the fixture.</p>
+              <p><strong>Goal Env:</strong> whether the match looks low, medium, or high scoring.</p>
+              <p><strong>Upset Risk:</strong> whether the favorite has elevated downside in the matchup.</p>
+            </div>
+          </div>
+
+          <div class="method-grid" hidden aria-hidden="true">
             <article class="method-card">
               <h3>1. World Cup Player Base</h3>
               <p><strong>Source:</strong> <code>data/players.json</code>, <code>data/teams.json</code>, <code>data/fixtures.json</code>, and source notes in <code>data/dataSources.md</code>.</p>
@@ -950,7 +1030,7 @@
             </article>
           </div>
 
-          <div class="formula-section">
+          <div class="formula-section" hidden aria-hidden="true">
             <h3>Official Scoring Context</h3>
             <p>Public picks use official FIFA fantasy positions, prices, selectable status, and scoring categories. The model still estimates player role, minutes, and matchday context because those are not live lineup facts.</p>
 
@@ -967,7 +1047,7 @@
             </details>
           </div>
 
-          <div class="formula-section">
+          <div class="formula-section" hidden aria-hidden="true">
             <h3>Small-Sample Correction: Confidence Adjustment</h3>
             <p>This protects the builder from overrating a player who played very little but had one big moment. Instead of trusting every raw per-90 number equally, we blend the player's raw rate with the average rate for their position.</p>
 
@@ -1021,7 +1101,7 @@
             </details>
           </div>
 
-          <div class="formula-section">
+          <div class="formula-section" hidden aria-hidden="true">
             <h3>Risk Measures</h3>
             <p>Risk fields use weekly fantasy point history, player status, chance of playing, minutes, starts, appearances, cards, and the player's bad-week pattern. Missed penalties are counted in performance scoring, but not in discipline risk.</p>
 
@@ -1089,7 +1169,7 @@
             </details>
           </div>
 
-          <div class="formula-section">
+          <div class="formula-section" hidden aria-hidden="true">
             <h3>Risk-Adjusted Scores Used By The Builder</h3>
             <div class="formula-list">
               <p><strong>Reliability score:</strong> sample confidence score 45%, low availability risk 30%, and low minutes risk 25%.</p>
@@ -1125,7 +1205,7 @@
             </details>
           </div>
 
-          <div class="formula-section">
+          <div class="formula-section" hidden aria-hidden="true">
             <h3>Stats Shown On This Page</h3>
             <p>These labels appear in the dashboard, captain table, team advice table, lock-player list, and team builder cards. They are listed here at the end because they combine the source fields and calculated fields above.</p>
 
@@ -1231,7 +1311,7 @@
             </details>
           </div>
 
-          <div class="method-note method-note--warning">
+          <div class="method-note method-note--warning" hidden aria-hidden="true">
             <strong>Important limits:</strong>
             These are model projections, not official FIFA predictions. Official scoring, prices, positions, and selectable status are imported, while starts, minutes, live locks, deadlines, boosters, and played/unplayed state still need game-rule confirmation before acting.
           </div>
@@ -1240,7 +1320,7 @@
 
       <span id="methodology" class="anchor-offset" aria-hidden="true"></span>
 
-      <section id="data-sources" class="panel trust-panel">
+      <section id="data-sources" class="panel trust-panel" hidden aria-hidden="true">
         <div class="section-heading">
           <h2>Data Sources</h2>
           <p>What the current official fantasy workflow uses.</p>
@@ -1266,7 +1346,7 @@
         </div>
       </section>
 
-      <section id="changelog" class="panel trust-panel">
+      <section id="changelog" class="panel trust-panel" hidden aria-hidden="true">
         <div class="section-heading">
           <h2>Changelog</h2>
           <p>Recent improvements.</p>
@@ -1317,18 +1397,18 @@
         <div class="trust-grid trust-grid--about">
           <article>
             <h3>Purpose</h3>
-            <p>World Cup Fantasy Helper is an independent fantasy football tool built to compare picks, captain options, and squad ideas in one place.</p>
+            <p>The Fantasy Economist is an independent fantasy football tool built to compare squad starters, captain options, and squad ideas in one place.</p>
           </article>
           <article>
             <h3>Current Status</h3>
-            <p>The public recommendation sections now show current official fantasy picks using official fantasy prices, positions, selectable status, and scoring.</p>
+            <p>The public tools currently focus on squad starters, captain selection, team building, switch checks, and score prediction.</p>
           </article>
           <article>
             <h3>Known Limits</h3>
             <ul class="compact-list">
-              <li>FIFA can still update player status, prices, positions, rules, or deadlines.</li>
-              <li>Users should confirm boosters, deadlines, locks, and live status inside the official game.</li>
-              <li>Team Builder output should be verified against game rules before saving.</li>
+              <li>Tournament player status, prices, positions, rules, and deadlines can still change.</li>
+              <li>Users should confirm boosters, deadlines, locks, and live status before acting.</li>
+              <li>Team Builder output should be checked against current fantasy rules before saving.</li>
             </ul>
           </article>
         </div>
@@ -1339,19 +1419,21 @@
     <footer class="site-footer">
       <div class="site-footer__inner">
         <div>
-          <h2>World Cup Fantasy Helper</h2>
-          <p>Independent fantasy football tools for picks, squad building, and matchday decisions using current official fantasy prices, positions, selectable status, and scoring.</p>
-          <p class="site-footer__note">Not official FIFA fantasy advice. No betting or gambling content.</p>
+          <h2>The Fantasy Economist</h2>
+          <p>Independent fantasy football tools for squad starters, team building, captain choices, bench decisions, and score prediction.</p>
+          <p class="site-footer__note">Independent fantasy advice. No betting or gambling content.</p>
         </div>
 
         <nav class="footer-nav" aria-label="Footer navigation">
-          <a href="#top">Home</a>
+          <a href="#top">The Fantasy Economist</a>
           <a href="#picks">Squad Builder Starter</a>
+          <a href="#captain-picks">Captain Selection</a>
           <a href="#team-builder">Team Builder</a>
-          <a href="#captain-change-advisor">Decision Tools</a>
-          <a href="#fantasy-finance">Fantasy Finance</a>
+          <a href="#captain-change-advisor">Captain Switch Check</a>
+          <a href="#substitution-advisor">Bench Switch Check</a>
+          <a href="#match-environment">Score Prediction</a>
           <a href="world-cup.html">World Cup Guide</a>
-          <a href="#model-notes">Model Notes</a>
+          <a href="#stats-notes">Stats Notes</a>
         </nav>
       </div>
     </footer>
@@ -1383,6 +1465,6 @@
     <script src="fantasyPoolFinanceMetricsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolScorePredictionsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolOfficialDataStatusData.js?v=20260603-official-final"></script>
-    <script src="script.js?v=20260604-builder-starter"></script>
+    <script src="script.js?v=20260604-economist-cleanup"></script>
   </body>
 </html>

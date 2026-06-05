@@ -420,6 +420,8 @@ html {
 }
 
 .panel {
+  width: 100%;
+  min-width: 0;
   background: var(--panel);
   border: 1px solid var(--panel-border);
   border-radius: 24px;
@@ -2545,11 +2547,11 @@ th {
 
 .rule-checks {
   display: grid;
-  grid-template-columns: minmax(180px, 0.85fr) minmax(220px, 1.15fr);
-  gap: 12px;
+  grid-template-columns: 1fr;
+  gap: 14px;
   align-items: start;
   margin: 0 0 20px;
-  padding: 14px 16px;
+  padding: 16px;
   border: 1px solid rgba(24, 78, 119, 0.14);
   border-radius: 14px;
   background: #f8fbff;
@@ -2567,6 +2569,7 @@ th {
 
 .rules-validation-list {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: 8px;
   margin-top: 12px;
   list-style: none;
@@ -2802,6 +2805,8 @@ th {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  border-top: 1px solid rgba(24, 78, 119, 0.12);
+  padding-top: 12px;
 }
 
 .country-count-chip {
@@ -3484,11 +3489,11 @@ input[type="number"] {
 }
 
 .builder-field-card .soccer-field {
-  min-height: 720px;
+  min-height: 810px;
 }
 
 .builder-field-card .team-players {
-  min-height: 672px;
+  min-height: 762px;
 }
 
 .field-markings {
@@ -3622,9 +3627,9 @@ input[type="number"] {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: clamp(108px, 8.8vw, 124px);
+  width: clamp(92px, 7.8vw, 116px);
   appearance: none;
-  min-height: 166px;
+  min-height: 154px;
   padding: 8px 7px;
   border-radius: 13px;
   background: rgba(255, 255, 255, 0.98);
