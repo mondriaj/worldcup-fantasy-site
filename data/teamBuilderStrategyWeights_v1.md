@@ -56,6 +56,9 @@ The strategy weights reuse existing fields already loaded by the static site:
 - premium-worth-it scores
 - premium count and premium concentration
 - captain score as a supporting starter-ceiling signal
+- fixture-specific Projected xG
+- match uncertainty
+- clean-sheet context for defenders and keepers
 - country concentration
 - fixture concentration
 - favorable and hard fixture counts
@@ -71,8 +74,13 @@ The optimizer still searches legal squad paths first. Strategy weights affect:
 - bench contribution to the final score
 - budget-buffer value
 - portfolio adjustment for stack risk, star dependence, bench strength, upside, and budget shape
+- match-context adjustment for strong team projected xG, difficult attacking spots, good or difficult clean-sheet context, high match uncertainty, and repeated exposure to the same uncertain fixture
 
 This remains a hand-calibrated browser-side model. It is meant to make strategy choices visibly different and useful, not to prove an optimal tournament-winning squad.
+
+## Phase 3D Match Context Note
+
+Phase 3D keeps the optimizer structure intact and adds cleaned Match Environment context to existing strategy scoring. Balanced Squad and Diversified Squad apply more caution to high-uncertainty exposure. Concentrated Upside can accept uncertainty when team projected xG is strong. Stars and Scrubs is more cautious about expensive players in weak projected environments. Value Squad gives cheaper playable players a small boost when their projected environment is useful.
 
 ## Current Limits
 

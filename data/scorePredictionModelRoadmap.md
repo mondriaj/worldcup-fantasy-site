@@ -36,6 +36,18 @@ This pass keeps the score model unchanged and cleans up the public display:
 - The generic match-level attack column was removed from the main table because it could be mistaken for a generic attacking rating.
 - The public Upset Risk column was removed from the main table because Win / Draw / Win gives users a clearer outcome view; the underlying upset-risk fields remain available for internal/model use.
 
+## Phase 3D Player And Squad Context Use
+
+Status: complete as of June 5, 2026.
+
+This pass keeps the PELE-anchored expected-goal and scoreline model unchanged. It uses the cleaned Match Environment context in fantasy-facing surfaces:
+
+- Player cards can mention strong team projected xG, clean-sheet context, high match uncertainty, tight matches, or lower-scoring setups when useful.
+- Player Profile fixture context shows Team projected xG, Opponent projected xG, Win / Draw / Win, Most likely score, Clean-sheet context, and Match uncertainty.
+- Team Builder squad scoring and the Squad Strategy Report use match uncertainty, repeated uncertain fixture exposure, strong projected xG, and clean-sheet context inside existing metrics such as Fixture Stack Risk, Bad-Week Floor, Upside Ceiling, and Bench Strength.
+
+This pass does not add a public Upset Risk field, does not rewrite PELE, does not change scoreline probability generation, and does not add historical calibration.
+
 ## Phase 3B PELE-Anchored Uncertainty Layer
 
 Status: complete as of June 5, 2026.

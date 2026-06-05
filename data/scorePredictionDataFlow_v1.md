@@ -4,7 +4,7 @@ Date: 2026-06-05
 
 ## Purpose
 
-This note documents which static score projection files the public site uses after the Phase 3A data-flow cleanup, the Phase 3B PELE-anchored uncertainty pass, and the Phase 3C Match Environment display cleanup. Phase 3C clarifies public Projected xG labels; it does not replace the expected-goal formulas, probability model, player recommendations, or Team Builder optimizer.
+This note documents which static score projection files the public site uses after the Phase 3A data-flow cleanup, the Phase 3B PELE-anchored uncertainty pass, the Phase 3C Match Environment display cleanup, and the Phase 3D player/squad context pass. Phase 3D uses the cleaned Match Environment fields in explanations and squad risk; it does not replace the expected-goal formulas, probability model, player recommendations, or Team Builder optimizer.
 
 ## Public Site Loading
 
@@ -41,7 +41,9 @@ That fallback is generated from `data/scorePredictions_v2.json`, the preserved P
 
 Player recommendation cards and the Pick Explorer use `fantasyPoolRecommendationsData.js`, `fantasyPoolMatchdayProjectionsData.js`, and `fantasyPoolFinanceMetricsData.js` when those official fantasy-pool browser files are loaded.
 
-Team Builder uses the same current official fantasy-pool player layer and player-level projection/finance context for squad construction. Fixture-level score rows support Match Environment and player profile fixture context; they are not fetched from JSON at runtime.
+Player-card reasons and Player Profile fixture notes now use fixture-level score rows to show fantasy-facing Match Environment context: Team projected xG, Opponent projected xG, Win / Draw / Win, Most likely score, Clean-sheet context, and Match uncertainty. Upset Risk is not used as a public profile field.
+
+Team Builder uses the same current official fantasy-pool player layer and player-level projection/finance context for squad construction. Fixture-level score rows now also support squad-risk scoring: repeated exposure to uncertain fixtures informs Fixture Stack Risk and Bad-Week Floor, strong team projected xG supports Upside Ceiling, and clean-sheet context supports defender/keeper squad value. These rows are not fetched from JSON at runtime.
 
 ## Phase 3B/3C PELE, Projected xG, And Uncertainty Notes
 

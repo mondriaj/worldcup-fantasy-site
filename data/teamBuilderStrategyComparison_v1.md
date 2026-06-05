@@ -32,6 +32,8 @@ For each strategy, the comparison shows:
 
 It also shows squad overlap between strategies and the shared player core across all five builds.
 
+After Phase 3D, the shared Squad Strategy Report metrics include cleaned Match Environment context. Fixture Stack Risk can reflect repeated exposure to the same uncertain match, Bad-Week Floor can reflect high match uncertainty, and Upside Ceiling can reflect strong team projected xG and useful clean-sheet spots.
+
 ## Warning Checks
 
 The comparison flags two kinds of problems:

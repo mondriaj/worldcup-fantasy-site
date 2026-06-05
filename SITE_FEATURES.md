@@ -16,12 +16,12 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 - Picks show Official Fantasy Picks using official fantasy prices, positions, selectable status, scoring, projections, and finance metrics.
 - Squad Builder Starter shows an 8-card curated starter pack instead of one card per model: 1 Top Projection, 2 Core Picks, 1 High-Floor Pick, 1 Upside Pick, 2 value-oriented picks with a Budget Enabler when available, and 1 Differential Pick.
-- Player cards are the default surface and include one primary pick-type badge, a short caution/reason line, fixture context, View Profile, and Add to Builder when the player is available to the builder.
+- Player cards are the default surface and include one primary pick-type badge, a short caution/reason line, cleaned Match Environment context when useful, View Profile, and Add to Builder when the player is available to the builder.
 - Picks include a compact Builder tray that shows locked players, lets users remove them, and links directly to Team Builder.
 - Picks include a Captain Watchlist lane for captain candidates from the official fantasy pool.
 - The deeper Pick Explorer remains available behind the card-first experience for filtered Official Fantasy Picks by strategy, matchday, position, and pick pool.
 - Normal public pick labels are Projected Points, Core Picks, High-Floor Picks, Upside Picks, Value Picks, and Differential Picks. Captain Watchlist is a dedicated captain surface; captain usefulness lives there, in Player Profile, and in matchday tools rather than as a repeated card badge.
-- Recommendation explanations show projected score context, strategy score context, role risk, data checks, and fixture environment notes.
+- Recommendation explanations show projected score context, strategy score context, role risk, data checks, and fixture-specific Match Environment notes such as team projected xG, clean-sheet context, match uncertainty, tight matches, and lower-scoring setups.
 - Recommendations use the current official FIFA fantasy pool. The monitor should be rerun when FIFA changes player, price, position, status, rule, or deadline data.
 
 ## Match Environment
@@ -31,6 +31,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Public columns emphasize Projected xG, Win / Draw / Win, Most Likely Score, Match Uncertainty, and Clean-Sheet Context.
 - Projected xG is fixture-specific expected goals for each team against the listed opponent. It is not a generic team average or PELE rating label.
 - Clean-sheet context displays each team on its own line so defender and keeper outlooks are easy to scan.
+- The same cleaned Match Environment context supports player-card reasons, Player Profile fixture notes, and Team Builder squad-risk scoring.
 - Row details keep total goals range as supporting context and still show team-specific clean-sheet probability, favorite probability, and top scoreline context.
 - Score prediction checks verify fixture coverage, probability bounds, PELE input coverage, favorite consistency, ordered uncertainty bands, expected-goal preservation, fantasy context labels, and player-matchday integration.
 
@@ -41,7 +42,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Public Team Builder strategy labels are Balanced Squad, Diversified Squad, Concentrated Upside, Stars and Scrubs, and Value Squad. The builder applies strategy-aware squad scoring weights after legal candidate squads are formed, without replacing the existing constraints engine.
 - Stars and Scrubs is calibrated to be more top-heavy than Balanced Squad when feasible: stronger premium-starter concentration, weaker bench tolerance, and penalties for expensive players who do not justify the spend.
 - The Team Builder surface follows visible step cards: choose strategy, lock or avoid players, build squad, review legality and risk, then save or export.
-- After a build, the review step shows a compact Squad Strategy Report with Country Stack Risk, Fixture Stack Risk, Star Dependence, Bench Strength, Bad-Week Floor, Upside Ceiling, Budget Shape, and a short note on how the squad fits the selected strategy.
+- After a build, the review step shows a compact Squad Strategy Report with Country Stack Risk, Fixture Stack Risk, Star Dependence, Bench Strength, Bad-Week Floor, Upside Ceiling, Budget Shape, and a short note on how the squad fits the selected strategy. Fixture Stack Risk and Bad-Week Floor account for repeated exposure to uncertain matches, while Upside Ceiling gets credit from strong team-xG and clean-sheet spots.
 - An advanced Team Builder comparison check can run all five public strategies under the same current settings, show squad overlap, and flag high-overlap or weak-identity builds for model inspection.
 - Supports advanced risk controls for minimum start probability, expected minutes, data-review count, and risky fill-ins.
 - Users should confirm locks, deadlines, boosters, and official-game legality inside FIFA's game.
@@ -58,7 +59,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Squad Strategy Report summarizes the squad as a portfolio with simple Low, Medium, High, and budget-shape labels tied to the selected Team Builder strategy.
 - The advanced strategy comparison uses the same Squad Strategy Report metrics to compare strategy outputs without replacing the normal build flow.
 - Advanced model notes and exported JSON preserve deeper portfolio fields for transparency.
-- Team Builder uses squad-level portfolio context and strategy-specific weights when choosing between completed candidate squads.
+- Team Builder uses squad-level portfolio context, Match Environment context, and strategy-specific weights when choosing between completed candidate squads.
 
 ## Matchday Decision Tools
 
@@ -85,7 +86,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Week 6 data engine combines team data, fixtures, roster candidates, player performance matching, national-team usage, and finance-style fantasy metrics.
 - PELE ratings from Silver Bulletin are imported into `data/peleRatings_v1.json` and are central to the active team-quality and score-prediction model.
 - Active public Match Environment score projection context uses `data/scorePredictions_fantasyPool_v3.json` through `fantasyPoolScorePredictionsData.js`, with `data/scorePredictions_v2.json` and `scorePredictionsData.js` preserved as the fallback.
-- The active score context is PELE-anchored and converts PELE plus fixture context into fantasy-facing Projected xG, scoreline, Match uncertainty, defender/keeper context, clean-sheet context, goal environment, and internal upset-risk labels.
+- The active score context is PELE-anchored and converts PELE plus fixture context into fantasy-facing Projected xG, scoreline, Match uncertainty, defender/keeper context, clean-sheet context, goal environment, and internal upset-risk labels. Public Match Environment, player explanations, Player Profile fixture notes, and Team Builder squad-risk scoring use the cleaned public fields rather than presenting Upset Risk as a main field.
 - Active matchday player projections use `data/playerMatchdayProjections_v2.json`.
 - Active recommendation shortlists use `data/matchdayRecommendations_v2.json`.
 - Public recommendation sections load separate official fantasy-pool browser files: `fantasyPoolRecommendationsData.js`, `fantasyPoolMatchdayProjectionsData.js`, `fantasyPoolFinanceMetricsData.js`, `fantasyPoolScorePredictionsData.js`, and `fantasyPoolOfficialDataStatusData.js`.

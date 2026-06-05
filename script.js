@@ -1115,6 +1115,12 @@ const teamBuilderStrategyScoringProfiles = {
       starDependencePenalty: 5,
       poorPremiumPenalty: 2.2,
       favorableFixtureReward: 0.18,
+      matchUncertaintyPenalty: 0.55,
+      uncertainFixtureStackPenalty: 1.2,
+      strongXgReward: 0.42,
+      cleanSheetContextReward: 0.32,
+      lowXgPenalty: 0.6,
+      difficultCleanSheetPenalty: 0.45,
       excessiveStackPenalty: 0.8
     }
   },
@@ -1169,6 +1175,12 @@ const teamBuilderStrategyScoringProfiles = {
       starDependencePenalty: 2.6,
       poorPremiumPenalty: 1.2,
       favorableFixtureReward: 0.1,
+      matchUncertaintyPenalty: 0.8,
+      uncertainFixtureStackPenalty: 2.2,
+      strongXgReward: 0.22,
+      cleanSheetContextReward: 0.32,
+      lowXgPenalty: 0.75,
+      difficultCleanSheetPenalty: 0.55,
       excessiveStackPenalty: 3.4
     }
   },
@@ -1223,6 +1235,12 @@ const teamBuilderStrategyScoringProfiles = {
       starDependencePenalty: -0.25,
       poorPremiumPenalty: 0.65,
       favorableFixtureReward: 0.42,
+      matchUncertaintyPenalty: 0.18,
+      uncertainFixtureStackPenalty: 0.25,
+      strongXgReward: 0.85,
+      cleanSheetContextReward: 0.2,
+      lowXgPenalty: 0.2,
+      difficultCleanSheetPenalty: 0.25,
       excessiveStackPenalty: 0.45
     }
   },
@@ -1277,6 +1295,12 @@ const teamBuilderStrategyScoringProfiles = {
       starDependencePenalty: -2.25,
       poorPremiumPenalty: 2.6,
       favorableFixtureReward: 0.18,
+      matchUncertaintyPenalty: 0.35,
+      uncertainFixtureStackPenalty: 0.7,
+      strongXgReward: 0.55,
+      cleanSheetContextReward: 0.2,
+      lowXgPenalty: 1.2,
+      difficultCleanSheetPenalty: 0.45,
       excessiveStackPenalty: 0.6
     }
   },
@@ -1331,6 +1355,12 @@ const teamBuilderStrategyScoringProfiles = {
       starDependencePenalty: 1.2,
       poorPremiumPenalty: 1.8,
       favorableFixtureReward: 0.1,
+      matchUncertaintyPenalty: 0.42,
+      uncertainFixtureStackPenalty: 0.75,
+      strongXgReward: 0.48,
+      cleanSheetContextReward: 0.45,
+      lowXgPenalty: 0.35,
+      difficultCleanSheetPenalty: 0.4,
       excessiveStackPenalty: 0.7
     }
   }
@@ -2063,16 +2093,24 @@ function matchdayLabelFromId(matchdayId) {
   return matchdayOptions.find((option) => option.matchday_id === matchdayId)?.label || matchdayId || "Matchday";
 }
 
+function projectionForPlayerMatchday(player, matchdayId) {
+  if (!player || !matchdayId || matchdayId === "group_stage_full") {
+    return null;
+  }
+
+  if (player.is_fantasy_pool_preview) {
+    return player.preview_matchday_projections_by_matchday?.[matchdayId] || null;
+  }
+
+  return matchdayProjectionLookup.get(player.id)?.[matchdayId] || null;
+}
+
 function activeProjection(player) {
   if (activeMatchdayId === "group_stage_full") {
     return null;
   }
 
-  if (player?.is_fantasy_pool_preview) {
-    return player.preview_matchday_projections_by_matchday?.[activeMatchdayId] || null;
-  }
-
-  return matchdayProjectionLookup.get(player.id)?.[activeMatchdayId] || null;
+  return projectionForPlayerMatchday(player, activeMatchdayId);
 }
 
 function projectionFieldName(fieldName) {
@@ -2296,6 +2334,17 @@ function firstFiniteNumber(...numbers) {
   return 0;
 }
 
+function firstFiniteNumberOrNull(...numbers) {
+  for (const number of numbers) {
+    const nextValue = Number(number);
+    if (Number.isFinite(nextValue)) {
+      return nextValue;
+    }
+  }
+
+  return null;
+}
+
 function compactPercentText(number) {
   return `${Math.round(value(number) * 100)}%`;
 }
@@ -2348,7 +2397,7 @@ function matchUncertaintyLabel(row) {
 }
 
 function matchUncertaintyReason(row) {
-  return scoreContextField(row, "uncertaintyReason", "uncertainty_reason") || "Based on total goals range, favorite strength, and upset risk.";
+  return scoreContextField(row, "uncertaintyReason", "uncertainty_reason") || "Based on total goals range, favorite strength, and win/draw/win shape.";
 }
 
 function projectedXgForRow(row) {
@@ -2477,6 +2526,269 @@ function topScorelineText(row) {
   return "needs check";
 }
 
+function mostLikelyScoreText(row) {
+  const homeCode = compactTeamCode(row?.home_team_id, row?.home_team);
+  const awayCode = compactTeamCode(row?.away_team_id, row?.away_team);
+  const topScoreline = Array.isArray(row?.top_scorelines) ? row.top_scorelines[0] : null;
+
+  if (topScoreline?.scoreline) {
+    return `${homeCode} ${topScoreline.scoreline} ${awayCode} (${compactPercentText(topScoreline.probability)})`;
+  }
+
+  if (row?.top_scoreline) {
+    return `${homeCode} ${row.top_scoreline} ${awayCode} (${compactPercentText(row.top_scoreline_probability)})`;
+  }
+
+  return "Needs check";
+}
+
+function projectionSideKey(projection, row) {
+  const side = String(projection?.side || projection?.fixture_context?.side || "").toLowerCase();
+  if (side.includes("home")) {
+    return "home";
+  }
+  if (side.includes("away")) {
+    return "away";
+  }
+
+  const teamKeys = [
+    projection?.team_id,
+    projection?.country,
+    projection?.team,
+    projection?.team_name
+  ].map((text) => normalizeText(String(text || ""))).filter(Boolean);
+  const homeKeys = [row?.home_team_id, row?.home_team]
+    .map((text) => normalizeText(String(text || "")))
+    .filter(Boolean);
+  const awayKeys = [row?.away_team_id, row?.away_team]
+    .map((text) => normalizeText(String(text || "")))
+    .filter(Boolean);
+
+  if (teamKeys.some((key) => homeKeys.includes(key))) {
+    return "home";
+  }
+
+  if (teamKeys.some((key) => awayKeys.includes(key))) {
+    return "away";
+  }
+
+  return null;
+}
+
+function projectionSidePrediction(projection, row) {
+  const sideKey = projectionSideKey(projection, row);
+
+  if (sideKey === "home") {
+    return row?.home_team_prediction || null;
+  }
+
+  if (sideKey === "away") {
+    return row?.away_team_prediction || null;
+  }
+
+  return null;
+}
+
+function publicContextLevelScore(label, type = "cleanSheet") {
+  const normalizedLabel = String(label || "").toLowerCase();
+  const cleanSheetScores = {
+    strong: 1,
+    good: 0.74,
+    neutral: 0.42,
+    difficult: 0.12,
+    weak: 0.12
+  };
+  const uncertaintyScores = {
+    low: 0.2,
+    medium: 0.56,
+    high: 0.9
+  };
+  const scoreMap = type === "uncertainty" ? uncertaintyScores : cleanSheetScores;
+
+  return scoreMap[normalizedLabel] ?? 0.42;
+}
+
+function projectedSideXg(row, sideKey) {
+  const projectedXg = projectedXgForRow(row);
+
+  if (sideKey === "home") {
+    return {
+      team: projectedXg.home,
+      opponent: projectedXg.away
+    };
+  }
+
+  if (sideKey === "away") {
+    return {
+      team: projectedXg.away,
+      opponent: projectedXg.home
+    };
+  }
+
+  return {
+    team: null,
+    opponent: null
+  };
+}
+
+function projectionMatchContext(projection) {
+  const row = scorePredictionForProjection(projection);
+  const sideKey = projectionSideKey(projection, row);
+  const sidePrediction = projectionSidePrediction(projection, row);
+  const sideXg = row ? projectedSideXg(row, sideKey) : { team: null, opponent: null };
+  const teamProjectedXg = firstFiniteNumberOrNull(
+    fieldNumber(projection, "team_expected_goals"),
+    sidePrediction?.expected_goals,
+    sideXg.team
+  );
+  const opponentProjectedXg = firstFiniteNumberOrNull(
+    fieldNumber(projection, "team_expected_goals_against"),
+    sidePrediction?.expected_goals_against,
+    sideXg.opponent
+  );
+  const winProbability = firstFiniteNumberOrNull(
+    fieldNumber(projection, "team_win_probability"),
+    sidePrediction?.win_probability,
+    sideKey === "home" ? row?.home_win_probability : sideKey === "away" ? row?.away_win_probability : null
+  );
+  const cleanSheetProbability = firstFiniteNumberOrNull(
+    fieldNumber(projection, "team_clean_sheet_probability"),
+    sidePrediction?.clean_sheet_probability,
+    sideKey === "home" ? row?.home_clean_sheet_probability : sideKey === "away" ? row?.away_clean_sheet_probability : null
+  );
+  const cleanSheetContext = sidePrediction
+    ? scoreContextLabel(sidePrediction, "cleanSheetContext", "clean_sheet_context", publicCleanSheetContextFromProbability(cleanSheetProbability))
+    : cleanSheetProbability === null
+      ? "Neutral"
+      : publicCleanSheetContextFromProbability(cleanSheetProbability);
+  const matchUncertainty = row
+    ? matchUncertaintyLabel(row)
+    : scoreContextLabel(sidePrediction, "matchUncertainty", "match_uncertainty", "Medium");
+  const fixtureShape = row ? matchShapePhrase(row) : "";
+  const totalProjectedXg = row
+    ? projectedXgForRow(row).total
+    : teamProjectedXg !== null && opponentProjectedXg !== null
+      ? teamProjectedXg + opponentProjectedXg
+      : null;
+
+  return {
+    row,
+    sideKey,
+    sidePrediction,
+    teamProjectedXg,
+    opponentProjectedXg,
+    winProbability,
+    cleanSheetProbability,
+    cleanSheetContext,
+    cleanSheetContextScore: publicContextLevelScore(cleanSheetContext, "cleanSheet"),
+    matchUncertainty,
+    matchUncertaintyScore: publicContextLevelScore(matchUncertainty, "uncertainty"),
+    totalProjectedXg,
+    fixtureShape,
+    winDrawWin: row ? winDrawWinText(row) : "Needs check",
+    mostLikelyScore: row ? mostLikelyScoreText(row) : "Needs check",
+    isCloseMatch: /close|tight/i.test(fixtureShape),
+    isLowerScoring: Number.isFinite(totalProjectedXg) && totalProjectedXg <= 2.15,
+    attackingEnvironmentScore: firstFiniteNumberOrNull(
+      fieldNumber(projection, "team_attacking_environment_score"),
+      sidePrediction?.attacking_environment_score
+    ),
+    fixtureDifficulty: fieldNumber(projection, "fixture_difficulty_score")
+  };
+}
+
+function projectionMatchContextSummary(player, projection) {
+  if (!projection) {
+    return "";
+  }
+
+  const context = projectionMatchContext(projection);
+  const isAttacker = ["Forward", "Midfielder"].includes(player?.position);
+  const isDefenderOrKeeper = ["Goalkeeper", "Defender"].includes(player?.position);
+  const fragments = [];
+
+  if (isAttacker && Number.isFinite(context.teamProjectedXg) && context.teamProjectedXg >= 1.85) {
+    fragments.push(`Team projects for ${displayMatchNumber(context.teamProjectedXg)} xG.`);
+  } else if (isAttacker && Number.isFinite(context.teamProjectedXg) && context.teamProjectedXg <= 0.9) {
+    fragments.push("Low team xG for this matchup.");
+  }
+
+  if (isDefenderOrKeeper && ["Strong", "Good"].includes(context.cleanSheetContext)) {
+    fragments.push(`${context.cleanSheetContext} clean-sheet context.`);
+  } else if (isDefenderOrKeeper && context.cleanSheetContext === "Difficult") {
+    fragments.push("Difficult clean-sheet context.");
+  }
+
+  if (context.matchUncertainty === "High") {
+    fragments.push("High match uncertainty.");
+  }
+
+  if (!fragments.length && context.isCloseMatch) {
+    fragments.push("Match looks tight.");
+  }
+
+  if (fragments.length < 2 && context.isLowerScoring) {
+    fragments.push("Lower-scoring setup.");
+  }
+
+  return fragments.slice(0, 2).join(" ");
+}
+
+function activeEnvironmentMatchdayIds(matchdayId = activeMatchdayId) {
+  return matchdayId === "group_stage_full"
+    ? ["md1", "md2", "md3"]
+    : [matchdayId];
+}
+
+function averageFiniteValues(values) {
+  const finiteValues = values.filter((number) => Number.isFinite(number));
+
+  return finiteValues.length
+    ? finiteValues.reduce((sum, number) => sum + number, 0) / finiteValues.length
+    : null;
+}
+
+function playerMatchEnvironmentSummary(player, matchdayIds = activeEnvironmentMatchdayIds()) {
+  const projections = matchdayIds
+    .map((matchdayId) => projectionForPlayerMatchday(player, matchdayId))
+    .filter(Boolean);
+  const contexts = projections.map(projectionMatchContext);
+
+  if (!contexts.length) {
+    return {
+      projections,
+      contexts,
+      averageTeamXg: null,
+      averageOpponentXg: null,
+      averageCleanSheetProbability: null,
+      averageCleanSheetContextScore: 0.42,
+      averageMatchUncertaintyScore: 0,
+      highUncertaintyCount: 0,
+      uncertainCount: 0,
+      strongProjectedXgCount: 0,
+      lowProjectedXgCount: 0,
+      goodCleanSheetContextCount: 0,
+      difficultCleanSheetContextCount: 0
+    };
+  }
+
+  return {
+    projections,
+    contexts,
+    averageTeamXg: averageFiniteValues(contexts.map((context) => context.teamProjectedXg)),
+    averageOpponentXg: averageFiniteValues(contexts.map((context) => context.opponentProjectedXg)),
+    averageCleanSheetProbability: averageFiniteValues(contexts.map((context) => context.cleanSheetProbability)),
+    averageCleanSheetContextScore: averageFiniteValues(contexts.map((context) => context.cleanSheetContextScore)) ?? 0.42,
+    averageMatchUncertaintyScore: averageFiniteValues(contexts.map((context) => context.matchUncertaintyScore)) ?? 0,
+    highUncertaintyCount: contexts.filter((context) => context.matchUncertainty === "High").length,
+    uncertainCount: contexts.filter((context) => ["High", "Medium"].includes(context.matchUncertainty)).length,
+    strongProjectedXgCount: contexts.filter((context) => Number.isFinite(context.teamProjectedXg) && context.teamProjectedXg >= 1.85).length,
+    lowProjectedXgCount: contexts.filter((context) => Number.isFinite(context.teamProjectedXg) && context.teamProjectedXg <= 0.9).length,
+    goodCleanSheetContextCount: contexts.filter((context) => ["Strong", "Good"].includes(context.cleanSheetContext)).length,
+    difficultCleanSheetContextCount: contexts.filter((context) => context.cleanSheetContext === "Difficult").length
+  };
+}
+
 function scorePredictionQualityLabel() {
   const quality = scorePredictionSummary?.quality_checks;
 
@@ -2583,41 +2895,35 @@ function singleFixtureModelReason(projection, focus = "overall") {
     return "";
   }
 
-  const fixturePrediction = scorePredictionForProjection(projection);
-  const teamXg = fieldDisplay(projection, "team_expected_goals");
-  const xga = fieldDisplay(projection, "team_expected_goals_against");
-  const cleanSheet = fieldPercent(projection, "team_clean_sheet_probability");
-  const winChance = fieldPercent(projection, "team_win_probability");
-  const upsetRisk = fieldPercent(projection, "match_upset_risk_probability");
-  const goalEnvironment = goalEnvironmentLabel(projection.match_goal_environment || fixturePrediction?.goal_environment);
-  const attackerContext = fixturePrediction
-    ? scoreContextLabel(fixturePrediction, "attackerEnvironment", "attacker_environment", publicGoalContextFromTotal(fixturePrediction.total_expected_goals)).toLowerCase()
-    : null;
-  const cleanSheetContext = fixturePrediction
-    ? scoreContextLabel(fixturePrediction, "cleanSheetContext", "clean_sheet_context", publicCleanSheetContextFromProbability(Math.max(value(fixturePrediction.home_clean_sheet_probability), value(fixturePrediction.away_clean_sheet_probability)))).toLowerCase()
-    : null;
-  const matchUncertainty = fixturePrediction ? matchUncertaintyLabel(fixturePrediction).toLowerCase() : null;
+  const context = projectionMatchContext(projection);
+  const teamXg = profileScore(context.teamProjectedXg);
+  const opponentXg = profileScore(context.opponentProjectedXg);
+  const cleanSheet = profilePercent(context.cleanSheetProbability);
+  const winChance = profilePercent(context.winProbability);
+  const goalEnvironment = goalEnvironmentLabel(projection.match_goal_environment || context.row?.goal_environment);
+  const matchUncertainty = context.matchUncertainty.toLowerCase();
   const difficulty = fixtureDifficultyLabel(projection.fixture_difficulty_band);
   const fixturePrefix = `Fixture model vs ${projection.opponent}:`;
   const compactDifficulty = difficulty ? `${difficulty} fixture` : null;
 
   if (focus === "attack") {
-    return ` ${fixturePrefix} Team xG: ${teamXg || "needs check"}; ${attackerContext ? `${attackerContext} attack outlook` : `${goalEnvironment} goal environment`}; ${compactDifficulty || "difficulty needs check"}.`;
+    return ` ${fixturePrefix} Team projected xG ${teamXg}; ${context.mostLikelyScore}; ${compactDifficulty || `${goalEnvironment} goal environment`}.`;
   }
 
   if (focus === "defense") {
-    return ` ${fixturePrefix} Clean-sheet model: ${cleanSheet || "needs check"}; ${cleanSheetContext ? `${cleanSheetContext} clean-sheet context` : `${xga || "needs check"} xGA`}; ${compactDifficulty || "difficulty needs check"}.`;
+    return ` ${fixturePrefix} Clean-sheet context ${context.cleanSheetContext}; clean-sheet model ${cleanSheet}; opponent xG ${opponentXg}.`;
   }
 
   if (focus === "risk") {
-    return ` ${fixturePrefix} Match uncertainty: ${matchUncertainty || "needs check"}; upset risk ${upsetRisk || "needs check"}; win chance ${winChance || "needs check"}.`;
+    return ` ${fixturePrefix} Match uncertainty ${matchUncertainty}; ${context.fixtureShape || "match shape needs check"}; win chance ${winChance}.`;
   }
 
-  return ` ${fixturePrefix} Team xG ${teamXg || "needs check"}; clean sheet ${cleanSheet || "needs check"}; match uncertainty ${matchUncertainty || "needs check"}; upset risk ${upsetRisk || "needs check"}.`;
+  return ` ${fixturePrefix} Team projected xG ${teamXg}; opponent xG ${opponentXg}; clean-sheet context ${context.cleanSheetContext}; match uncertainty ${matchUncertainty}.`;
 }
 
 function groupFixtureModelReason(player, focus = "overall") {
   const projections = playerMatchdayProjections(player);
+  const environment = playerMatchEnvironmentSummary(player, ["md1", "md2", "md3"]);
 
   if (!projections.length) {
     return "";
@@ -2627,7 +2933,9 @@ function groupFixtureModelReason(player, focus = "overall") {
   const avgCleanSheet = averageProjectionField(projections, "team_clean_sheet_probability");
   const bestAttack = bestProjectionByField(projections, "team_expected_goals");
   const bestDefense = bestProjectionByField(projections, "team_clean_sheet_probability");
-  const highestUpset = bestProjectionByField(projections, "match_upset_risk_probability");
+  const highestUncertainty = environment.contexts
+    .map((context, index) => ({ context, projection: projections[index] }))
+    .sort((a, b) => b.context.matchUncertaintyScore - a.context.matchUncertaintyScore)[0] || null;
 
   if (focus === "attack") {
     const bestAttackText = bestAttack
@@ -2644,13 +2952,13 @@ function groupFixtureModelReason(player, focus = "overall") {
   }
 
   if (focus === "risk") {
-    const highestUpsetText = highestUpset
-      ? ` highest Match upset risk vs ${highestUpset.opponent} (${percentText(highestUpset.match_upset_risk_probability)})`
+    const highestUncertaintyText = highestUncertainty
+      ? ` highest match uncertainty vs ${highestUncertainty.projection.opponent} (${highestUncertainty.context.matchUncertainty})`
       : "";
-    return ` Group model:${highestUpsetText || " Match upset risk needs check"}.`;
+    return ` Group model:${highestUncertaintyText || " match uncertainty needs check"}.`;
   }
 
-  return ` Group model: avg Team xG ${avgXg === null ? "needs check" : displayNumber(avgXg)}; avg clean sheet ${avgCleanSheet === null ? "needs check" : percentText(avgCleanSheet)}.`;
+  return ` Group model: avg Team projected xG ${avgXg === null ? "needs check" : displayNumber(avgXg)}; avg clean sheet ${avgCleanSheet === null ? "needs check" : percentText(avgCleanSheet)}; match uncertainty ${displayNumber(environment.averageMatchUncertaintyScore * 100)} index.`;
 }
 
 function fixtureModelReason(player, focus = "overall") {
@@ -3888,8 +4196,11 @@ function publicFantasyPickReasonItems(player) {
     ? `projected points per matchday across the group stage (${Number.isFinite(fixtureCount) && fixtureCount > 0 ? fixtureCount : 3} matches)`
     : `projected points for ${matchdayLabelFromId(scopeMatchdayId)}`;
   const fixture = pickFixtureLabel(player);
-  const fixtureText = fixture && !fixture.toLowerCase().includes("needs check")
-    ? `Score predictions: ${fixture}.`
+  const matchContext = projectionMatchContextSummary(player, projection);
+  const fixtureText = matchContext
+    ? `Match context: ${matchContext}`
+    : fixture && !fixture.toLowerCase().includes("needs check")
+      ? `Score predictions: ${fixture}.`
     : "";
   const reasons = [];
 
@@ -4001,27 +4312,52 @@ function profileFixtureRows(player) {
     `;
   }
 
-  return projections.map((projection) => `
-    <tr class="${projection.matchday_id === activeMatchdayId ? "is-active-fixture" : ""}">
-      <td>
-        <strong>${escapeHtml(projection.matchday_label)}</strong>
-        <small>${escapeHtml(projection.eastern_datetime_label || projection.date || "")}</small>
-      </td>
-      <td>
-        <strong>${escapeHtml(projection.opponent)}</strong>
-        <small>${escapeHtml(projection.city || "")}</small>
-      </td>
-      <td>
-        <strong>${escapeHtml(fixtureDifficultyLabel(projection.fixture_difficulty_band))}</strong>
-        <small>${profileScore(projection.fixture_difficulty_score)}</small>
-      </td>
-      <td>${profileScore(projection.team_expected_goals)}</td>
-      <td>${profileScore(projection.team_expected_goals_against)}</td>
-      <td>${profilePercent(projection.team_clean_sheet_probability)}</td>
-      <td>${profilePercent(projection.match_upset_risk_probability)}</td>
-      <td>${escapeHtml(publicFixtureUseLabel(projection.fixture_use))}</td>
-    </tr>
-  `).join("");
+  return projections.map((projection) => {
+    const context = projectionMatchContext(projection);
+    return `
+      <tr class="${projection.matchday_id === activeMatchdayId ? "is-active-fixture" : ""}">
+        <td>
+          <strong>${escapeHtml(projection.matchday_label)}</strong>
+          <small>${escapeHtml(projection.eastern_datetime_label || projection.date || "")}</small>
+        </td>
+        <td>
+          <strong>${escapeHtml(projection.opponent)}</strong>
+          <small>${escapeHtml(projection.city || publicFixtureUseLabel(projection.fixture_use))}</small>
+        </td>
+        <td>${profileScore(context.teamProjectedXg)}</td>
+        <td>${profileScore(context.opponentProjectedXg)}</td>
+        <td>${escapeHtml(context.winDrawWin)}</td>
+        <td>${escapeHtml(context.mostLikelyScore)}</td>
+        <td>
+          <strong>${escapeHtml(context.cleanSheetContext)}</strong>
+          <small>${escapeHtml(profilePercent(context.cleanSheetProbability))}</small>
+        </td>
+        <td>${escapeHtml(context.matchUncertainty)}</td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function profileFixtureContextGrid(player) {
+  const projection = pickProjectionRow(player) || activeProjection(player) || playerMatchdayProjections(player)[0];
+
+  if (!projection) {
+    return "<p>No fixture context is available for this player yet.</p>";
+  }
+
+  const context = projectionMatchContext(projection);
+  const fixtureNote = `${projection.matchday_label || matchdayLabelFromId(projection.matchday_id)} vs ${projection.opponent}`;
+
+  return `
+    <div class="profile-grid profile-grid--compact">
+      ${profileMetric("Team projected xG", profileScore(context.teamProjectedXg), fixtureNote)}
+      ${profileMetric("Opponent projected xG", profileScore(context.opponentProjectedXg), fixtureNote)}
+      ${profileMetric("Win / Draw / Win", context.winDrawWin, "Fixture outcome shape")}
+      ${profileMetric("Most likely score", context.mostLikelyScore, context.fixtureShape || "Scoreline context")}
+      ${profileMetric("Clean-sheet context", context.cleanSheetContext, profilePercent(context.cleanSheetProbability))}
+      ${profileMetric("Match uncertainty", context.matchUncertainty, "Higher means the match can swing more")}
+    </div>
+  `;
 }
 
 function profileNotesList(player) {
@@ -4089,6 +4425,11 @@ function renderPlayerDetail(player, measureKey = measureKeyForTrust(activeMeasur
       ${profileBestUseGrid(player, measureKey)}
     </section>
 
+    <section class="profile-section">
+      <h3>Fixture Context</h3>
+      ${profileFixtureContextGrid(player)}
+    </section>
+
     <details class="profile-section profile-section--advanced">
       <summary>Score Predictions</summary>
       <div class="profile-advanced-body">
@@ -4098,12 +4439,12 @@ function renderPlayerDetail(player, measureKey = measureKeyForTrust(activeMeasur
               <tr>
                 <th>Matchday</th>
                 <th>Opponent</th>
-                <th>Difficulty</th>
-                <th>Team xG</th>
-                <th>xGA</th>
-                <th>Clean Sheet</th>
-                <th>Upset Risk</th>
-                <th>Use</th>
+                <th>Team projected xG</th>
+                <th>Opponent projected xG</th>
+                <th>Win / Draw / Win</th>
+                <th>Most likely score</th>
+                <th>Clean-sheet context</th>
+                <th>Match uncertainty</th>
               </tr>
             </thead>
             <tbody>${profileFixtureRows(player)}</tbody>
@@ -4263,7 +4604,7 @@ function renderMatchEnvironmentTable() {
   }
 
   const rows = scorePredictionRowsForFilters();
-  const visibleRows = rows.slice(0, 12);
+  const visibleRows = rows;
   matchEnvironmentSummary.textContent = "";
 
   if (!visibleRows.length) {
@@ -4381,16 +4722,18 @@ function playerReliabilityScore(player) {
 }
 
 function playerAttackingContextScore(player) {
-  const projection = activeProjection(player);
+  const summary = playerMatchEnvironmentSummary(player);
+  const contexts = summary.contexts;
 
-  if (!projection) {
+  if (!contexts.length) {
     return 0;
   }
 
-  const teamXg = fieldNumber(projection, "team_expected_goals");
-  const attackEnvironment = fieldNumber(projection, "team_attacking_environment_score");
-  const difficulty = fieldNumber(projection, "fixture_difficulty_score");
-  const favorableFixture = difficulty > 0 ? Math.max(0, 55 - difficulty) : 0;
+  const teamXg = summary.averageTeamXg ?? 0;
+  const attackEnvironment = averageFiniteValues(contexts.map((context) => context.attackingEnvironmentScore)) ?? 0;
+  const favorableFixture = averageFiniteValues(contexts.map((context) =>
+    context.fixtureDifficulty > 0 ? Math.max(0, 55 - context.fixtureDifficulty) : 0
+  )) ?? 0;
 
   return teamXg * 24 + attackEnvironment * 0.32 + favorableFixture * 0.45;
 }
@@ -4413,6 +4756,68 @@ function playerFragilityPenalty(player) {
     Math.max(0, 40 - expectedMinutes) * 0.9 +
     Math.max(0, compositeRisk - 75) * 0.25 +
     Math.max(0, tailRisk - 78) * 0.2;
+}
+
+function playerMatchEnvironmentAdjustment(player, profile = teamBuilderStrategyScoringProfile(), role = "starter") {
+  const summary = playerMatchEnvironmentSummary(player);
+
+  if (!summary.contexts.length) {
+    return 0;
+  }
+
+  const isAttacker = ["Forward", "Midfielder"].includes(player.position);
+  const isDefenderOrKeeper = ["Goalkeeper", "Defender"].includes(player.position);
+  const price = proxyPrice(player);
+  const averageTeamXg = summary.averageTeamXg ?? 1.25;
+  const averageOpponentXg = summary.averageOpponentXg ?? 1.25;
+  const uncertainty = summary.averageMatchUncertaintyScore;
+  const cleanSheetScore = summary.averageCleanSheetContextScore;
+  const roleMultiplier = role === "starter" ? 1 : 0.42;
+  const uncertaintyPenaltyByStrategy = {
+    balancedSquad: 2.1,
+    diversifiedSquad: 3.2,
+    concentratedUpside: averageTeamXg >= 1.7 ? 0.45 : 1.25,
+    starsAndScrubs: 1.5,
+    valueSquad: 1.8
+  };
+  let score = 0;
+
+  if (isAttacker) {
+    score += Math.max(-4, Math.min(6.5, (averageTeamXg - 1.25) * 5.2));
+    score -= summary.lowProjectedXgCount * 0.9;
+  }
+
+  if (isDefenderOrKeeper) {
+    score += (cleanSheetScore - 0.42) * 6.5;
+    score -= Math.max(0, averageOpponentXg - 1.35) * 2.4;
+    score -= summary.difficultCleanSheetContextCount * 0.55;
+  }
+
+  score -= uncertainty * (uncertaintyPenaltyByStrategy[profile.id] ?? 2);
+
+  if (profile.id === "concentratedUpside" && isAttacker && averageTeamXg >= 1.7) {
+    score += uncertainty * 2.2 + summary.strongProjectedXgCount * 0.9;
+  }
+
+  if (profile.id === "starsAndScrubs" && price >= 8.5) {
+    const weakPremiumEnvironment = isAttacker && averageTeamXg < 1.15 ||
+      isDefenderOrKeeper && cleanSheetScore < 0.35;
+    if (weakPremiumEnvironment) {
+      score -= 4.4;
+    }
+  }
+
+  if (profile.id === "valueSquad" && price <= 6.5) {
+    if ((isAttacker && averageTeamXg >= 1.45) || (isDefenderOrKeeper && cleanSheetScore >= 0.62)) {
+      score += 2.6;
+    }
+  }
+
+  if (profile.id === "balancedSquad" && summary.highUncertaintyCount >= 2) {
+    score -= 1.2;
+  }
+
+  return score * roleMultiplier;
 }
 
 function teamBuilderStrategyPlayerScore(player, measure = activeMeasure(), role = "starter", profile = teamBuilderStrategyScoringProfile()) {
@@ -4443,6 +4848,7 @@ function teamBuilderStrategyPlayerScore(player, measure = activeMeasure(), role 
   const reliabilityScore = playerReliabilityScore(player);
   const floorScore = playerFloorScore(player);
   const attackingContext = playerAttackingContextScore(player);
+  const matchEnvironmentAdjustment = playerMatchEnvironmentAdjustment(player, profile, role);
   const priceScore = price * 10;
   const fragilityWeight = weights.fragilityPenalty ?? (
     profile.id === "concentratedUpside" ? 0.28 :
@@ -4462,6 +4868,7 @@ function teamBuilderStrategyPlayerScore(player, measure = activeMeasure(), role 
     cheapScore * (weights.cheap || 0) +
     premiumScore * (weights.premium || 0) +
     attackingContext * (weights.attackingContext || 0) +
+    matchEnvironmentAdjustment +
     captainSignal * (weights.captain || 0) +
     priceScore * (weights.price || 0) -
     playerFragilityPenalty(player) * fragilityWeight;
@@ -7547,18 +7954,21 @@ function portfolioWarningItem(kind, label, detail) {
 }
 
 function matchdayFixturePortfolio(starters) {
-  const matchdayIds = activeMatchdayId === "group_stage_full"
-    ? ["md1", "md2", "md3"]
-    : [activeMatchdayId];
+  const matchdayIds = activeEnvironmentMatchdayIds();
 
   return matchdayIds.map((matchdayId) => {
     const projections = starters
-      .map((player) => matchdayProjectionLookup.get(player.id)?.[matchdayId])
+      .map((player) => projectionForPlayerMatchday(player, matchdayId))
       .filter(Boolean);
+    const contexts = projections.map(projectionMatchContext);
     const hardFixtures = projections.filter((projection) => fieldNumber(projection, "fixture_difficulty_score") >= 70).length;
     const favorableFixtures = projections.filter((projection) => fieldNumber(projection, "fixture_difficulty_score") <= 35).length;
     const avgXg = averageProjectionField(projections, "team_expected_goals");
     const avgCleanSheet = averageProjectionField(projections, "team_clean_sheet_probability");
+    const highUncertaintyStarters = contexts.filter((context) => context.matchUncertainty === "High").length;
+    const uncertainStarters = contexts.filter((context) => ["High", "Medium"].includes(context.matchUncertainty)).length;
+    const strongProjectedXgStarters = contexts.filter((context) => Number.isFinite(context.teamProjectedXg) && context.teamProjectedXg >= 1.85).length;
+    const goodCleanSheetContexts = contexts.filter((context) => ["Strong", "Good"].includes(context.cleanSheetContext)).length;
 
     return {
       matchdayId,
@@ -7566,7 +7976,11 @@ function matchdayFixturePortfolio(starters) {
       hardFixtures,
       favorableFixtures,
       avgXg,
-      avgCleanSheet
+      avgCleanSheet,
+      highUncertaintyStarters,
+      uncertainStarters,
+      strongProjectedXgStarters,
+      goodCleanSheetContexts
     };
   });
 }
@@ -7580,21 +7994,18 @@ function strategyReportFixtureLabel(projection, matchdayId) {
 }
 
 function starterFixtureStackEntries(starters) {
-  const matchdayIds = activeMatchdayId === "group_stage_full"
-    ? ["md1", "md2", "md3"]
-    : [activeMatchdayId];
+  const matchdayIds = activeEnvironmentMatchdayIds();
   const fixtureCounts = new Map();
 
   starters.forEach((player) => {
-    const projectionMap = matchdayProjectionLookup.get(player.id) || {};
-
     matchdayIds.forEach((matchdayId) => {
-      const projection = projectionMap[matchdayId];
+      const projection = projectionForPlayerMatchday(player, matchdayId);
 
       if (!projection) {
         return;
       }
 
+      const context = projectionMatchContext(projection);
       const key = projection.fixture_id || `${matchdayId}-${projection.opponent_team_id || projection.opponent || player.id}`;
       const current = fixtureCounts.get(key) || {
         key,
@@ -7603,13 +8014,30 @@ function starterFixtureStackEntries(starters) {
         hardFixtures: 0,
         favorableFixtures: 0,
         teamXgSum: 0,
-        attackEnvironmentSum: 0
+        attackEnvironmentSum: 0,
+        uncertaintyScoreSum: 0,
+        uncertainStarters: 0,
+        highUncertaintyStarters: 0,
+        goodCleanSheetContexts: 0
       };
       const difficulty = fieldNumber(projection, "fixture_difficulty_score");
 
       current.count += 1;
-      current.teamXgSum += fieldNumber(projection, "team_expected_goals");
-      current.attackEnvironmentSum += fieldNumber(projection, "team_attacking_environment_score");
+      current.teamXgSum += firstFiniteNumberOrNull(context.teamProjectedXg, fieldNumber(projection, "team_expected_goals")) || 0;
+      current.attackEnvironmentSum += firstFiniteNumberOrNull(context.attackingEnvironmentScore, fieldNumber(projection, "team_attacking_environment_score")) || 0;
+      current.uncertaintyScoreSum += context.matchUncertaintyScore;
+
+      if (["High", "Medium"].includes(context.matchUncertainty)) {
+        current.uncertainStarters += 1;
+      }
+
+      if (context.matchUncertainty === "High") {
+        current.highUncertaintyStarters += 1;
+      }
+
+      if (["Strong", "Good"].includes(context.cleanSheetContext)) {
+        current.goodCleanSheetContexts += 1;
+      }
 
       if (difficulty >= 70) {
         current.hardFixtures += 1;
@@ -7627,10 +8055,13 @@ function starterFixtureStackEntries(starters) {
     .map((entry) => ({
       ...entry,
       avgTeamXg: entry.count ? entry.teamXgSum / entry.count : 0,
-      avgAttackEnvironment: entry.count ? entry.attackEnvironmentSum / entry.count : 0
+      avgAttackEnvironment: entry.count ? entry.attackEnvironmentSum / entry.count : 0,
+      avgUncertaintyScore: entry.count ? entry.uncertaintyScoreSum / entry.count : 0,
+      uncertainStackLoad: Math.max(0, entry.count - 1) * (entry.count ? entry.uncertaintyScoreSum / entry.count : 0)
     }))
     .sort((a, b) =>
       b.count - a.count ||
+      b.highUncertaintyStarters - a.highUncertaintyStarters ||
       b.hardFixtures - a.hardFixtures ||
       b.avgTeamXg - a.avgTeamXg ||
       a.label.localeCompare(b.label)
@@ -7641,7 +8072,9 @@ function portfolioRiskLevel(analytics) {
   if (
     analytics.tailRiskAverage >= 70 ||
     analytics.benchWeakCount >= 3 ||
-    analytics.hardestMatchdayHardFixtures >= 5
+    analytics.hardestMatchdayHardFixtures >= 5 ||
+    analytics.totalHighUncertaintyStarters >= 5 ||
+    analytics.uncertainFixtureStackLoad >= 3.2
   ) {
     return { id: "high", label: "High Risk" };
   }
@@ -7649,7 +8082,9 @@ function portfolioRiskLevel(analytics) {
   if (
     analytics.tailRiskAverage >= 55 ||
     analytics.benchWeakCount >= 2 ||
-    analytics.hardestMatchdayHardFixtures >= 3
+    analytics.hardestMatchdayHardFixtures >= 3 ||
+    analytics.totalHighUncertaintyStarters >= 3 ||
+    analytics.uncertainFixtureStackLoad >= 1.8
   ) {
     return { id: "medium", label: "Medium Risk" };
   }
@@ -7679,6 +8114,22 @@ function squadPortfolioAnalytics(starters = [], bench = []) {
   const hardestMatchday = [...fixtureRows].sort((a, b) => b.hardFixtures - a.hardFixtures)[0] || null;
   const fixtureStackEntries = starterFixtureStackEntries(starters);
   const topFixture = fixtureStackEntries[0] || null;
+  const topUncertainFixtureStack = [...fixtureStackEntries]
+    .filter((entry) => entry.count >= 2 && entry.avgUncertaintyScore >= 0.5)
+    .sort((a, b) => b.uncertainStackLoad - a.uncertainStackLoad || b.count - a.count)[0] || null;
+  const starterEnvironmentRows = starters.map((player) => ({
+    player,
+    summary: playerMatchEnvironmentSummary(player)
+  }));
+  const starterContexts = starterEnvironmentRows.flatMap((entry) =>
+    entry.summary.contexts.map((context) => ({ player: entry.player, context }))
+  );
+  const attackingStarterContexts = starterContexts.filter((entry) =>
+    ["Forward", "Midfielder"].includes(entry.player.position)
+  );
+  const defensiveStarterContexts = starterContexts.filter((entry) =>
+    ["Goalkeeper", "Defender"].includes(entry.player.position)
+  );
 
   return {
     squad,
@@ -7704,9 +8155,26 @@ function squadPortfolioAnalytics(starters = [], bench = []) {
     fixtureRows,
     fixtureStackEntries,
     topFixture,
+    topUncertainFixtureStack,
     hardestMatchdayHardFixtures: hardestMatchday?.hardFixtures || 0,
     totalHardFixtureStarters: fixtureRows.reduce((sum, row) => sum + row.hardFixtures, 0),
     totalFavorableFixtureStarters: fixtureRows.reduce((sum, row) => sum + row.favorableFixtures, 0),
+    totalHighUncertaintyStarters: fixtureRows.reduce((sum, row) => sum + row.highUncertaintyStarters, 0),
+    totalUncertainStarters: fixtureRows.reduce((sum, row) => sum + row.uncertainStarters, 0),
+    strongProjectedXgStarters: attackingStarterContexts.filter((entry) =>
+      Number.isFinite(entry.context.teamProjectedXg) && entry.context.teamProjectedXg >= 1.85
+    ).length,
+    lowProjectedXgAttackers: attackingStarterContexts.filter((entry) =>
+      Number.isFinite(entry.context.teamProjectedXg) && entry.context.teamProjectedXg <= 0.9
+    ).length,
+    goodCleanSheetDefenders: defensiveStarterContexts.filter((entry) =>
+      ["Strong", "Good"].includes(entry.context.cleanSheetContext)
+    ).length,
+    difficultCleanSheetDefenders: defensiveStarterContexts.filter((entry) =>
+      entry.context.cleanSheetContext === "Difficult"
+    ).length,
+    averageMatchUncertaintyScore: averageFiniteValues(starterContexts.map((entry) => entry.context.matchUncertaintyScore)) ?? 0,
+    uncertainFixtureStackLoad: fixtureStackEntries.reduce((sum, entry) => sum + entry.uncertainStackLoad, 0),
     hardestMatchday
   };
 }
@@ -7809,7 +8277,13 @@ function portfolioWarningsForAnalytics(analytics) {
     });
   }
 
-  if (analytics.hardestMatchdayHardFixtures >= 3) {
+  if (analytics.topUncertainFixtureStack) {
+    warnings.push({
+      kind: analytics.topUncertainFixtureStack.avgUncertaintyScore >= 0.75 ? "review" : "watch",
+      label: "Fixture Stack Risk",
+      detail: `${analytics.topUncertainFixtureStack.label} combines ${analytics.topUncertainFixtureStack.count} starters with ${analytics.topUncertainFixtureStack.avgUncertaintyScore >= 0.75 ? "high" : "medium"} match uncertainty.`
+    });
+  } else if (analytics.hardestMatchdayHardFixtures >= 3) {
     warnings.push({
       kind: "watch",
       label: "Fixture Stack Risk",
@@ -7817,11 +8291,11 @@ function portfolioWarningsForAnalytics(analytics) {
     });
   }
 
-  if (analytics.tailRiskAverage >= 65) {
+  if (analytics.tailRiskAverage >= 65 || analytics.totalHighUncertaintyStarters >= 4) {
     warnings.push({
       kind: "review",
       label: "Bad-Week Floor",
-      detail: `Average squad tail risk is ${displayNumber(analytics.tailRiskAverage)}, so bad-outcome exposure is high.`
+      detail: `Average squad tail risk is ${displayNumber(analytics.tailRiskAverage)}, with ${analytics.totalHighUncertaintyStarters} high-uncertainty starter spot${analytics.totalHighUncertaintyStarters === 1 ? "" : "s"}.`
     });
   }
 
@@ -7934,6 +8408,12 @@ function portfolioOptimizerAdjustment(starters, bench, measure = activeMeasure()
     shape.controlledStackScore * weights.controlledStackReward +
     shape.attackingStackScore * weights.attackingStackReward +
     analytics.totalFavorableFixtureStarters * weights.favorableFixtureReward -
+    analytics.totalHighUncertaintyStarters * (weights.matchUncertaintyPenalty || 0) -
+    analytics.uncertainFixtureStackLoad * (weights.uncertainFixtureStackPenalty || 0) +
+    analytics.strongProjectedXgStarters * (weights.strongXgReward || 0) +
+    analytics.goodCleanSheetDefenders * (weights.cleanSheetContextReward || 0) -
+    analytics.lowProjectedXgAttackers * (weights.lowXgPenalty || 0) -
+    analytics.difficultCleanSheetDefenders * (weights.difficultCleanSheetPenalty || 0) -
     volatilityLoad * weights.volatilityPenalty -
     tailLoad * weights.tailPenalty -
     compositeLoad * weights.compositePenalty -
@@ -7987,9 +8467,15 @@ function portfolioOptimizerAdjustment(starters, bench, measure = activeMeasure()
       controlled_stack_score: Number(shape.controlledStackScore.toFixed(1)),
       attacking_stack_score: Number(shape.attackingStackScore.toFixed(1)),
       hardest_matchday_hard_fixtures: analytics.hardestMatchdayHardFixtures,
-      total_favorable_fixture_starters: analytics.totalFavorableFixtureStarters
+      total_favorable_fixture_starters: analytics.totalFavorableFixtureStarters,
+      high_uncertainty_starter_spots: analytics.totalHighUncertaintyStarters,
+      uncertain_fixture_stack_load: Number(analytics.uncertainFixtureStackLoad.toFixed(2)),
+      strong_projected_xg_starter_spots: analytics.strongProjectedXgStarters,
+      good_clean_sheet_defender_spots: analytics.goodCleanSheetDefenders,
+      low_projected_xg_attacker_spots: analytics.lowProjectedXgAttackers,
+      difficult_clean_sheet_defender_spots: analytics.difficultCleanSheetDefenders
     },
-    note: "Strategy-aware optimizer adjustment that nudges completed legal squads toward the selected public Team Builder strategy without changing budget, position, country-limit, lock, avoid, or risk-control constraints."
+    note: "Strategy-aware optimizer adjustment that nudges completed legal squads toward the selected public Team Builder strategy, including fixture xG, clean-sheet context, and match uncertainty, without changing budget, position, country-limit, lock, avoid, or risk-control constraints."
   };
 }
 
@@ -8013,7 +8499,7 @@ function renderPortfolioAnalytics(starters = [], bench = []) {
   const riskLevel = portfolioRiskLevel(analytics);
   const topCountryLabel = countryCountLabel(analytics.topCountry[0]);
   const fixtureSummary = analytics.fixtureRows
-    .map((row) => `${row.label}: ${row.hardFixtures} hard, ${row.favorableFixtures} favorable`)
+    .map((row) => `${row.label}: ${row.hardFixtures} hard, ${row.favorableFixtures} favorable, ${row.highUncertaintyStarters} high-uncertainty`)
     .join(" | ");
 
   portfolioAnalytics.classList.remove("portfolio-analytics--low", "portfolio-analytics--medium", "portfolio-analytics--high");
@@ -8152,11 +8638,15 @@ function squadStrategyReportData(starters = [], bench = []) {
   );
   const topFixture = analytics.topFixture;
   const topFixtureCount = topFixture?.count || 0;
+  const topUncertainFixture = analytics.topUncertainFixtureStack;
   const hardFixtureDetail = analytics.hardestMatchday
     ? `${analytics.hardestMatchday.label} has ${analytics.hardestMatchdayHardFixtures} starter${analytics.hardestMatchdayHardFixtures === 1 ? "" : "s"} in hard fixtures`
     : "no hard-fixture cluster is visible";
+  const uncertainFixtureDetail = topUncertainFixture
+    ? `${topUncertainFixture.label} has ${topUncertainFixture.count} starter${topUncertainFixture.count === 1 ? "" : "s"} in a ${topUncertainFixture.avgUncertaintyScore >= 0.75 ? "high" : "medium"}-uncertainty match`
+    : "no uncertain fixture stack is visible";
   const fixtureLevel = strategyReportRiskLevel(
-    Math.max(topFixtureCount, analytics.hardestMatchdayHardFixtures),
+    Math.max(topFixtureCount, analytics.hardestMatchdayHardFixtures, analytics.uncertainFixtureStackLoad),
     2,
     3
   );
@@ -8180,12 +8670,18 @@ function squadStrategyReportData(starters = [], bench = []) {
     : 0;
   const floorScore = Math.max(0, floorRatio) -
     (analytics.benchWeakCount >= 2 ? 0.15 : 0) -
-    (analytics.tailRiskAverage >= 65 ? 0.1 : 0);
+    (analytics.tailRiskAverage >= 65 ? 0.1 : 0) -
+    Math.min(0.18, analytics.averageMatchUncertaintyScore * 0.12 + analytics.uncertainFixtureStackLoad * 0.02);
   const floorLevel = strategyReportStrengthLevel(floorScore, 0.52, 0.36);
   const upsideRatio = analytics.starterExpected > 0
     ? analytics.starterUpside / analytics.starterExpected
     : 0;
-  const upsideScore = upsideRatio + Math.min(0.35, analytics.totalFavorableFixtureStarters * 0.04);
+  const upsideScore = upsideRatio + Math.min(
+    0.42,
+    analytics.totalFavorableFixtureStarters * 0.03 +
+      analytics.strongProjectedXgStarters * 0.035 +
+      analytics.goodCleanSheetDefenders * 0.018
+  );
   const upsideLevel = strategyReportStrengthLevel(upsideScore, 1.45, 1.22);
   const budgetShape = squadStrategyBudgetShape(analytics);
   const totalPrice = squadCost(squad);
@@ -8220,7 +8716,7 @@ function squadStrategyReportData(starters = [], bench = []) {
         label: "Fixture Stack Risk",
         value: fixtureLevel.label,
         detail: topFixture
-          ? `Biggest match stack: ${topFixture.label} with ${topFixtureCount} starter${topFixtureCount === 1 ? "" : "s"}; ${hardFixtureDetail}.`
+          ? `Biggest match stack: ${topFixture.label} with ${topFixtureCount} starter${topFixtureCount === 1 ? "" : "s"}; ${hardFixtureDetail}; ${uncertainFixtureDetail}.`
           : "No fixture stack is visible in the current matchday view.",
         tone: strategyReportRiskTone(fixtureLevel.id)
       },
@@ -8239,13 +8735,13 @@ function squadStrategyReportData(starters = [], bench = []) {
       {
         label: "Bad-Week Floor",
         value: floorLevel.label,
-        detail: `Bad-week starter floor is ${portfolioNumber(analytics.starterVar10)} (${strategyReportPercent(floorRatio)} of projection).`,
+        detail: `Bad-week starter floor is ${portfolioNumber(analytics.starterVar10)} (${strategyReportPercent(floorRatio)} of projection), with ${analytics.totalHighUncertaintyStarters} high-uncertainty starter spot${analytics.totalHighUncertaintyStarters === 1 ? "" : "s"}.`,
         tone: strategyReportStrengthTone(floorLevel.id)
       },
       {
         label: "Upside Ceiling",
         value: upsideLevel.label,
-        detail: `Starting XI upside signal is ${portfolioNumber(analytics.starterUpside)} with ${analytics.totalFavorableFixtureStarters} favorable fixture spot${analytics.totalFavorableFixtureStarters === 1 ? "" : "s"}.`,
+        detail: `Starting XI upside signal is ${portfolioNumber(analytics.starterUpside)} with ${analytics.strongProjectedXgStarters} strong team-xG spot${analytics.strongProjectedXgStarters === 1 ? "" : "s"} and ${analytics.goodCleanSheetDefenders} good defensive spot${analytics.goodCleanSheetDefenders === 1 ? "" : "s"}.`,
         tone: strategyReportStrengthTone(upsideLevel.id)
       },
       {
@@ -8496,12 +8992,14 @@ function strategyComparisonIdentityChecks(results) {
     const upsideImproved = concentrated.reportData.analytics.starterUpside > balanced.reportData.analytics.starterUpside + 0.5;
     const stackImproved = concentrated.shape.controlledStackScore > balanced.shape.controlledStackScore + 1 ||
       (concentrated.reportData.summary.topFixtureCount || 0) > (balanced.reportData.summary.topFixtureCount || 0);
+    const xgImproved = concentrated.reportData.analytics.strongProjectedXgStarters >
+      balanced.reportData.analytics.strongProjectedXgStarters;
     checks.push({
       strategy: concentrated.strategyLabel,
-      passed: upsideImproved || stackImproved,
-      detail: upsideImproved || stackImproved
-        ? "Concentrated Upside raised ceiling or controlled stack exposure versus Balanced."
-        : "Concentrated Upside did not raise ceiling or stack exposure versus Balanced under these settings."
+      passed: upsideImproved || stackImproved || xgImproved,
+      detail: upsideImproved || stackImproved || xgImproved
+        ? "Concentrated Upside raised ceiling, controlled stack exposure, or strong team-xG spots versus Balanced."
+        : "Concentrated Upside did not raise ceiling, stack exposure, or strong team-xG spots versus Balanced under these settings."
     });
   }
 
@@ -8696,6 +9194,8 @@ function exportedPlayer(player) {
   const recommendationBreakdown = recommendationScoreBreakdown(player, activeMeasure(), trustMode);
   const captainBreakdown = recommendationScoreBreakdown(player, captainTrustMeasure, trustMode);
   const qaFlags = recommendationBreakdown.qa_flags;
+  const exportProjection = activeProjection(player) || pickProjectionRow(player);
+  const matchContext = exportProjection ? projectionMatchContext(exportProjection) : null;
 
   return {
     id: player.id,
@@ -8732,7 +9232,17 @@ function exportedPlayer(player) {
     },
     trust_mode: trustMode.id,
     qa_status: recommendationBreakdown.qa_status,
-    qa_flags: qaFlags
+    qa_flags: qaFlags,
+    match_context: matchContext ? {
+      fixture_id: exportProjection.fixture_id || null,
+      matchday_id: exportProjection.matchday_id || exportProjection.matchday || null,
+      team_projected_xg: matchContext.teamProjectedXg,
+      opponent_projected_xg: matchContext.opponentProjectedXg,
+      win_draw_win: matchContext.winDrawWin,
+      most_likely_score: matchContext.mostLikelyScore,
+      clean_sheet_context: matchContext.cleanSheetContext,
+      match_uncertainty: matchContext.matchUncertainty
+    } : null
   };
 }
 
@@ -8782,6 +9292,10 @@ function portfolioAnalyticsForExport(starters, bench) {
       label: row.label,
       hard_fixture_starters: row.hardFixtures,
       favorable_fixture_starters: row.favorableFixtures,
+      high_uncertainty_starters: row.highUncertaintyStarters,
+      uncertain_starters: row.uncertainStarters,
+      strong_projected_xg_starters: row.strongProjectedXgStarters,
+      good_clean_sheet_contexts: row.goodCleanSheetContexts,
       average_team_expected_goals: row.avgXg === null ? null : Number(row.avgXg.toFixed(2)),
       average_clean_sheet_probability: row.avgCleanSheet === null ? null : Number(row.avgCleanSheet.toFixed(4))
     })),
@@ -11372,11 +11886,7 @@ function pickProjectionRow(player) {
     return null;
   }
 
-  if (player.is_fantasy_pool_preview) {
-    return player.preview_matchday_projections_by_matchday?.[matchdayId] || null;
-  }
-
-  return matchdayProjectionLookup.get(player.id)?.[matchdayId] || null;
+  return projectionForPlayerMatchday(player, matchdayId);
 }
 
 function projectedMatchdayPointValue(player) {
@@ -11763,6 +12273,17 @@ function pickCardRiskDescription(player, measureKey = "balanced", modelKey = "")
   return cautionPhrases.length ? `Caution: ${listText(cautionPhrases.slice(0, 2))}.` : "";
 }
 
+function pickCardMatchContextDescription(player, measureKey = "balanced", modelKey = "") {
+  const projection = pickProjectionRow(player) || activeProjection(player);
+  const contextText = projectionMatchContextSummary(player, projection);
+
+  if (!contextText) {
+    return "";
+  }
+
+  return `Match context: ${contextText}`;
+}
+
 function builderLockPlayerId(player) {
   if (!player) return null;
   if (players.some((candidate) => candidate.id === player.id)) return player.id;
@@ -11816,6 +12337,8 @@ function renderPickCard(player, options = {}) {
   const projectionSummary = pickCardProjectionSummary(player);
   const modelDescription = options.modelDescription || pickCardModelDescription(modelKey, measureKey);
   const riskDescription = pickCardRiskDescription(player, measureKey, modelKey);
+  const matchContextDescription = pickCardMatchContextDescription(player, measureKey, modelKey);
+  const cardReason = [matchContextDescription, riskDescription].filter(Boolean).join(" ");
 
   return `
     <article class="pick-card pick-card--${pickRiskKind(player)}">
@@ -11827,7 +12350,7 @@ function renderPickCard(player, options = {}) {
       ${projectionSummary ? `<p class="pick-card__summary">${escapeHtml(projectionSummary)}</p>` : ""}
       <p class="pick-card__fixture">${escapeHtml(pickFixtureLabel(player))}</p>
       <p class="pick-card__model">${escapeHtml(modelDescription)}</p>
-      ${riskDescription ? `<p class="pick-card__reason">${escapeHtml(riskDescription)}</p>` : ""}
+      ${cardReason ? `<p class="pick-card__reason">${escapeHtml(cardReason)}</p>` : ""}
       ${pickCardActionHtml(player)}
     </article>
   `;

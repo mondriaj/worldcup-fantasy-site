@@ -71,8 +71,10 @@ The fantasy context layer translates fixture output into simple public labels:
 
 These labels are for fantasy planning and model inspection. Phase 3C keeps clean-sheet, goal, and uncertainty context in the main Match Environment table, but removes the generic match-level attack column from that main public display because it could mislead users about what Projected xG means. A Phase 3C follow-up also removes public Upset Risk from the main table because Win / Draw / Win is the clearer outcome view. The underlying upset-risk fields remain available for internal scoring, model notes, and exports. The fields do not claim official lineups, injuries, deadlines, locks, final squads, or live match state.
 
+Phase 3D uses the cleaned fields beyond the Match Environment table. Player cards and Player Profile fixture notes can use fixture-specific Projected xG, Win / Draw / Win, Most likely score, Clean-sheet context, and Match uncertainty. Team Builder also uses that context in squad-risk scoring: uncertain match stacks can lower Bad-Week Floor and raise Fixture Stack Risk, strong team projected xG can lift Upside Ceiling, and good clean-sheet context can help defender/keeper squad value. This does not change the PELE anchor, expected-goal formulas, Poisson scoreline grid, or static browser data-loading pattern.
+
 ## Current Limits
 
 Phase 3B intentionally does not add historical backtesting, Dixon-Coles-style low-score calibration, draw tuning, roster-weighted likely XI strength, injury adjustments, or live lineup logic.
 
-Future phases can feed match uncertainty into player recommendations, Team Builder portfolio risk, and squad strategy comparisons after the uncertainty labels have been reviewed in the public Match Environment surface.
+Future phases can improve calibration, roster-weighted team strength, and low-score/draw behavior after the static score model is ready for a deeper model pass.
