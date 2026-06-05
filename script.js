@@ -2216,12 +2216,93 @@ function goalEnvironmentLabel(environment) {
   return labels[environment] || titleFromSnake(environment);
 }
 
+const compactTeamCodeOverrides = {
+  "algeria": "ALG",
+  "argentina": "ARG",
+  "australia": "AUS",
+  "austria": "AUT",
+  "belgium": "BEL",
+  "bosnia-and-herzegovina": "BIH",
+  "brazil": "BRA",
+  "cabo-verde": "CPV",
+  "canada": "CAN",
+  "colombia": "COL",
+  "congo-dr": "COD",
+  "cote-d-ivoire": "CIV",
+  "croatia": "CRO",
+  "curacao": "CUW",
+  "czechia": "CZE",
+  "ecuador": "ECU",
+  "egypt": "EGY",
+  "england": "ENG",
+  "france": "FRA",
+  "germany": "GER",
+  "ghana": "GHA",
+  "haiti": "HAI",
+  "ir-iran": "IRN",
+  "iraq": "IRQ",
+  "japan": "JPN",
+  "jordan": "JOR",
+  "korea-republic": "KOR",
+  "mexico": "MEX",
+  "morocco": "MAR",
+  "netherlands": "NED",
+  "new-zealand": "NZL",
+  "norway": "NOR",
+  "panama": "PAN",
+  "paraguay": "PAR",
+  "portugal": "POR",
+  "qatar": "QAT",
+  "saudi-arabia": "KSA",
+  "scotland": "SCO",
+  "senegal": "SEN",
+  "south-africa": "RSA",
+  "spain": "ESP",
+  "sweden": "SWE",
+  "switzerland": "SUI",
+  "tunisia": "TUN",
+  "turkiye": "TUR",
+  "uruguay": "URU",
+  "usa": "USA",
+  "uzbekistan": "UZB"
+};
+
+function compactTeamCode(teamId, teamName) {
+  const key = String(teamId || "").toLowerCase();
+  if (compactTeamCodeOverrides[key]) {
+    return compactTeamCodeOverrides[key];
+  }
+
+  const name = String(teamName || "").replace(/[^a-zA-Z]/g, "");
+  return name ? name.slice(0, 3).toUpperCase() : "TBD";
+}
+
 function scoreContextField(row, camelField, snakeField) {
   if (!row) {
     return null;
   }
 
   return row[camelField] ?? row[snakeField] ?? null;
+}
+
+function firstFiniteNumber(...numbers) {
+  for (const number of numbers) {
+    const nextValue = Number(number);
+    if (Number.isFinite(nextValue)) {
+      return nextValue;
+    }
+  }
+
+  return 0;
+}
+
+function compactPercentText(number) {
+  return `${Math.round(value(number) * 100)}%`;
+}
+
+function displayMatchNumber(number) {
+  const rounded = Math.round((value(number) + Number.EPSILON) * 10) / 10;
+  return rounded.toFixed(1).replace(".0", "");
 }
 
 function publicGoalContextFromTotal(totalExpectedGoals) {
@@ -2267,13 +2348,104 @@ function matchUncertaintyLabel(row) {
 }
 
 function matchUncertaintyReason(row) {
-  return scoreContextField(row, "uncertaintyReason", "uncertainty_reason") || "Based on goal range, favorite strength, and upset risk.";
+  return scoreContextField(row, "uncertaintyReason", "uncertainty_reason") || "Based on total goals range, favorite strength, and upset risk.";
+}
+
+function projectedXgForRow(row) {
+  const projectedXg = row?.projectedXg || row?.projected_xg || {};
+  const home = firstFiniteNumber(
+    scoreContextField(row, "homeProjectedXg", "home_projected_xg"),
+    scoreContextField(row, "homeMatchXg", "home_match_xg"),
+    projectedXg.home,
+    projectedXg.home_expected_goals,
+    row?.home_expected_goals,
+    scoreContextField(row, "homeXgBase", "home_xg_base")
+  );
+  const away = firstFiniteNumber(
+    scoreContextField(row, "awayProjectedXg", "away_projected_xg"),
+    scoreContextField(row, "awayMatchXg", "away_match_xg"),
+    projectedXg.away,
+    projectedXg.away_expected_goals,
+    row?.away_expected_goals,
+    scoreContextField(row, "awayXgBase", "away_xg_base")
+  );
+
+  return {
+    home,
+    away,
+    total: firstFiniteNumber(row?.total_expected_goals, home + away)
+  };
+}
+
+function projectedXgText(row) {
+  const projectedXg = projectedXgForRow(row);
+  const homeCode = compactTeamCode(row?.home_team_id, row?.home_team);
+  const awayCode = compactTeamCode(row?.away_team_id, row?.away_team);
+  return `${homeCode} ${displayMatchNumber(projectedXg.home)} - ${awayCode} ${displayMatchNumber(projectedXg.away)}`;
+}
+
+function winDrawWinText(row) {
+  const homeCode = compactTeamCode(row?.home_team_id, row?.home_team);
+  const awayCode = compactTeamCode(row?.away_team_id, row?.away_team);
+  return `${homeCode} ${compactPercentText(row?.home_win_probability)} · Draw ${compactPercentText(row?.draw_probability)} · ${awayCode} ${compactPercentText(row?.away_win_probability)}`;
+}
+
+function topScorelineAlternativesText(row) {
+  const alternatives = Array.isArray(row?.top_scorelines)
+    ? row.top_scorelines.slice(1, 3).filter((scoreline) => scoreline?.scoreline)
+    : [];
+
+  if (!alternatives.length) {
+    return "";
+  }
+
+  return `Other likely scores: ${alternatives.map((scoreline) => `${scoreline.scoreline} (${compactPercentText(scoreline.probability)})`).join(" · ")}`;
+}
+
+function totalGoalsRangeText(row) {
+  const goalRange = goalRangeForRow(row);
+  return `Total goals range: ${displayMatchNumber(goalRange.low)}-${displayMatchNumber(goalRange.high)}`;
+}
+
+function matchShapePhrase(row) {
+  const projectedXg = projectedXgForRow(row);
+  const totalGoals = projectedXg.total;
+  const favoriteWin = value(row?.favorite_win_probability);
+  const upsetRisk = value(row?.upset_risk_probability);
+  const homeAwayGap = Math.abs(value(row?.home_win_probability) - value(row?.away_win_probability));
+
+  if (favoriteWin >= 0.64 && upsetRisk >= 0.2) return "Favorite with upset risk";
+  if (favoriteWin >= 0.68) return "Clear favorite";
+  if (totalGoals >= 2.85) return "Open match";
+  if (totalGoals <= 2.15 && homeAwayGap <= 0.18) return "Tight low-score match";
+  if (homeAwayGap <= 0.14 || favoriteWin < 0.55) return "Close match";
+  return totalGoals <= 2.15 ? "Tight low-score match" : "Close match";
+}
+
+function cleanSheetContextForSide(row, side) {
+  const isHome = side === "home";
+  const prediction = isHome ? row?.home_team_prediction : row?.away_team_prediction;
+  const probability = isHome ? row?.home_clean_sheet_probability : row?.away_clean_sheet_probability;
+  return scoreContextLabel(prediction, "cleanSheetContext", "clean_sheet_context", publicCleanSheetContextFromProbability(probability));
+}
+
+function cleanSheetContextText(row) {
+  const homeCode = compactTeamCode(row?.home_team_id, row?.home_team);
+  const awayCode = compactTeamCode(row?.away_team_id, row?.away_team);
+  return `${homeCode} ${cleanSheetContextForSide(row, "home")} · ${awayCode} ${cleanSheetContextForSide(row, "away")}`;
+}
+
+function cleanSheetProbabilityText(row) {
+  const homeCode = compactTeamCode(row?.home_team_id, row?.home_team);
+  const awayCode = compactTeamCode(row?.away_team_id, row?.away_team);
+  return `Clean sheet: ${homeCode} ${compactPercentText(row?.home_clean_sheet_probability)} · ${awayCode} ${compactPercentText(row?.away_clean_sheet_probability)}`;
 }
 
 function goalRangeForRow(row) {
-  const baseTotal = value(scoreContextField(row, "baseTotalGoals", "base_total_goals") ?? row?.total_expected_goals);
-  const homeBase = value(scoreContextField(row, "homeXgBase", "home_xg_base") ?? row?.home_expected_goals);
-  const awayBase = value(scoreContextField(row, "awayXgBase", "away_xg_base") ?? row?.away_expected_goals);
+  const projectedXg = projectedXgForRow(row);
+  const baseTotal = value(scoreContextField(row, "baseTotalGoals", "base_total_goals") ?? projectedXg.total);
+  const homeBase = value(scoreContextField(row, "homeXgBase", "home_xg_base") ?? projectedXg.home);
+  const awayBase = value(scoreContextField(row, "awayXgBase", "away_xg_base") ?? projectedXg.away);
   let low = value(scoreContextField(row, "lowTotalGoals", "low_total_goals"));
   let high = value(scoreContextField(row, "highTotalGoals", "high_total_goals"));
 
@@ -2289,11 +2461,11 @@ function goalRangeForRow(row) {
 function topScorelineText(row) {
   const topScoreline = Array.isArray(row?.top_scorelines) ? row.top_scorelines[0] : null;
   if (topScoreline?.scoreline) {
-    return `${topScoreline.scoreline} (${percentText(topScoreline.probability)})`;
+    return `${topScoreline.scoreline} (${compactPercentText(topScoreline.probability)})`;
   }
 
   if (row?.top_scoreline) {
-    return `${row.top_scoreline} (${percentText(row.top_scoreline_probability)})`;
+    return `${row.top_scoreline} (${compactPercentText(row.top_scoreline_probability)})`;
   }
 
   return "needs check";
@@ -2424,7 +2596,7 @@ function singleFixtureModelReason(projection, focus = "overall") {
   const compactDifficulty = difficulty ? `${difficulty} fixture` : null;
 
   if (focus === "attack") {
-    return ` ${fixturePrefix} Team xG: ${teamXg || "needs check"}; ${attackerContext ? `${attackerContext} attacker context` : `${goalEnvironment} goal environment`}; ${compactDifficulty || "difficulty needs check"}.`;
+    return ` ${fixturePrefix} Team xG: ${teamXg || "needs check"}; ${attackerContext ? `${attackerContext} attack outlook` : `${goalEnvironment} goal environment`}; ${compactDifficulty || "difficulty needs check"}.`;
   }
 
   if (focus === "defense") {
@@ -4079,7 +4251,7 @@ function renderMatchEnvironmentTable() {
     matchEnvironmentSummary.textContent = "";
     matchEnvironmentTableBody.innerHTML = `
       <tr>
-        <td colspan="6">Score prediction data is not loaded yet.</td>
+        <td colspan="7">Score prediction data is not loaded yet.</td>
       </tr>
     `;
     return;
@@ -4092,20 +4264,17 @@ function renderMatchEnvironmentTable() {
   if (!visibleRows.length) {
     matchEnvironmentTableBody.innerHTML = `
       <tr>
-        <td colspan="6">No fixtures match this environment filter.</td>
+        <td colspan="7">No fixtures match this environment filter.</td>
       </tr>
     `;
     return;
   }
 
   matchEnvironmentTableBody.innerHTML = visibleRows.map((row) => {
-    const cleanSheet = strongestCleanSheetTeam(row);
-    const goalRange = goalRangeForRow(row);
     const matchUncertainty = matchUncertaintyLabel(row);
-    const attackerContext = scoreContextLabel(row, "attackerEnvironment", "attacker_environment", publicGoalContextFromTotal(row.total_expected_goals));
-    const cleanSheetContext = scoreContextLabel(row, "cleanSheetContext", "clean_sheet_context", publicCleanSheetContextFromProbability(cleanSheet.probability));
     const upsetRisk = scoreContextLabel(row, "upsetRisk", "upset_risk_public", publicUpsetRiskFromProbability(row.upset_risk_probability));
-    const winDrawLossText = `${row.home_team} ${percentText(row.home_win_probability)} · Draw ${percentText(row.draw_probability)} · ${row.away_team} ${percentText(row.away_win_probability)}`;
+    const favoriteCode = compactTeamCode(row.favorite_team_id, row.favorite_team);
+    const scorelineAlternatives = topScorelineAlternativesText(row);
 
     return `
       <tr>
@@ -4114,25 +4283,28 @@ function renderMatchEnvironmentTable() {
           <small>Group ${row.group} · ${matchdayLabelFromId(row.fantasy_matchday_id)} · ${row.eastern_datetime_label || row.date}</small>
         </td>
         <td>
-          <strong>${displayNumber(goalRange.low)}-${displayNumber(goalRange.high)} goals</strong>
-          <small>Base xG: ${row.home_team} ${displayNumber(goalRange.homeBase)} · ${row.away_team} ${displayNumber(goalRange.awayBase)}</small>
+          <strong class="match-projected-xg" title="Expected goals for this matchup.">${projectedXgText(row)}</strong>
+          <small>Expected goals for this matchup.</small>
+        </td>
+        <td>
+          <strong class="match-compact-line">${winDrawWinText(row)}</strong>
+        </td>
+        <td>
+          <strong>${topScorelineText(row)}</strong>
+          ${scorelineAlternatives ? `<small>${scorelineAlternatives}</small>` : ""}
+          <small>${totalGoalsRangeText(row)}</small>
         </td>
         <td>
           <strong>${matchUncertainty}</strong>
-          <small>${matchUncertaintyReason(row)}</small>
-          <small>${winDrawLossText}</small>
+          <small>${matchShapePhrase(row)}</small>
         </td>
         <td>
-          <strong>${attackerContext}</strong>
-          <small>${goalEnvironmentLabel(row.goal_environment)} goals · Top score ${topScorelineText(row)}</small>
-        </td>
-        <td>
-          <strong>${cleanSheetContext}</strong>
-          <small>${cleanSheet.team} ${percentText(cleanSheet.probability)} clean sheet</small>
+          <strong>${cleanSheetContextText(row)}</strong>
+          <small>${cleanSheetProbabilityText(row)}</small>
         </td>
         <td>
           <strong>${upsetRisk}</strong>
-          <small>${percentText(row.upset_risk_probability)} · Favorite ${row.favorite_team} ${percentText(row.favorite_win_probability)}</small>
+          <small>${compactPercentText(row.upset_risk_probability)} · Favorite ${favoriteCode} ${compactPercentText(row.favorite_win_probability)}</small>
         </td>
       </tr>
     `;

@@ -1,6 +1,6 @@
 # Score Prediction QA Report Fantasy Pool v3
 
-Generated: 2026-06-05T18:09:51.848Z
+Generated: 2026-06-05T18:46:31.503Z
 
 ## Status
 
@@ -22,7 +22,7 @@ This is a staged `fantasy_pool_only` score predictor. It is not final-squad-back
 
 ## Model Purpose
 
-Score Predictor v3 starts from the active PELE-forward v2 team-quality and Poisson score model, then adds a small, transparent fantasy-pool context layer from official fantasy-pool players and the preliminary minutes model. PELE remains the dominant team-strength signal. Phase 3B adds goal-range bands, Match uncertainty, and fantasy-facing context labels without replacing the base xG values.
+Score Predictor v3 starts from the active PELE-forward v2 team-quality and Poisson score model, then adds a small, transparent fantasy-pool context layer from official fantasy-pool players and the preliminary minutes model. PELE remains the dominant team-strength signal. Phase 3C clarifies that public Projected xG is fixture-specific expected goals against the listed opponent, while total goals range and Match uncertainty remain supporting context.
 
 ## Inputs Used
 
@@ -41,9 +41,9 @@ Confirmed final squad rows are still zero, official squads are not source-backed
 
 The active public bundle is `fantasyPoolScorePredictionsData.js`; `scorePredictionsData.js` remains the preserved PELE-forward fallback.
 
-## Phase 3B Uncertainty And Fantasy Context
+## Phase 3C Projected xG And Match Context
 
-Goal ranges are explanatory bands around the existing base xG. They use transparent proxies already in this source: team-quality gap, upset risk, goal environment, team-role uncertainty flags, Brazil role-source review, and host venue context where present.
+Projected xG values match the expected-goal inputs used by the scoreline grid. Total goals ranges are supporting bands around those values. They use transparent proxies already in this source: team-quality gap, upset risk, goal environment, team-role uncertainty flags, Brazil role-source review, and host venue context where present.
 
 ### Match Uncertainty Counts
 
@@ -57,7 +57,7 @@ Goal ranges are explanatory bands around the existing base xG. They use transpar
 
 | Field | Counts |
 | --- | --- |
-| Attacker context | {"Good":29,"Difficult":3,"Neutral":15,"Strong":25} |
+| Attack outlook | {"Good":29,"Difficult":3,"Neutral":15,"Strong":25} |
 | Clean-sheet context | {"Strong":40,"Neutral":7,"Good":25} |
 | Upset risk | {"Medium":28,"High":13,"Low":31} |
 
@@ -185,7 +185,8 @@ Brazil has `brazil_neymar_usage_source_gap` on every Brazil fixture because Neym
 | no_final_squad_backed_claims | pass | error | All rows remain model_stage=fantasy_pool_only and uses_final_rosters=false. |
 | score_uncertainty_fields | pass | error | Every fixture has Low/Medium/High uncertainty labels, xG bands, total-goal bands, and a short reason. |
 | score_uncertainty_bands_ordered | pass | error | Every fixture has low <= base <= high for total, home xG, and away xG. |
-| score_uncertainty_base_preserved | pass | error | homeXgBase, awayXgBase, and baseTotalGoals match the original base expected-goal fields. |
+| score_uncertainty_base_preserved | pass | error | homeXgBase, awayXgBase, and baseTotalGoals match the original expected-goal fields. |
+| projected_xg_aliases_preserved | pass | error | Projected xG and match xG aliases match home_expected_goals and away_expected_goals. |
 | fantasy_context_fields | pass | error | Every fixture has attacker, defender, keeper, clean-sheet, goal, upset-risk, and match-uncertainty public context labels. |
 | extreme_expected_goals | pass | warning | 0 fixtures exceed the staging watch threshold. |
 | extreme_win_probabilities | pass | warning | 0 fixtures exceed the staging watch threshold. |

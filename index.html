@@ -493,7 +493,7 @@
         <summary class="collapsible-summary">
           <span>
             <h2>Score Prediction</h2>
-            <p>Fixture-level goal range, match uncertainty, clean-sheet context, and upset risk from the score model.</p>
+            <p>Fixture-specific projected xG, scoreline, win/draw/win, clean-sheet, uncertainty, and upset-risk context from the score model.</p>
           </span>
           <span class="collapsible-action" aria-hidden="true"></span>
         </summary>
@@ -523,16 +523,17 @@
               <thead>
                 <tr>
                   <th>Fixture</th>
-                  <th>Goal Range</th>
+                  <th>Projected xG</th>
+                  <th>Win / Draw / Win</th>
+                  <th>Most Likely Score</th>
                   <th>Match Uncertainty</th>
-                  <th>Attacker Context</th>
                   <th>Clean-Sheet Context</th>
                   <th>Upset Risk</th>
                 </tr>
               </thead>
               <tbody id="match-environment-table-body">
                 <tr class="fallback-table-row">
-                  <td colspan="6">Enable JavaScript to see score predictions.</td>
+                  <td colspan="7">Enable JavaScript to see score predictions.</td>
                 </tr>
               </tbody>
             </table>
@@ -953,7 +954,7 @@
               <p><strong>Team Builder cards:</strong> show price, the selected card metric, country, club, role notes, and the selected matchday opponent when available.</p>
               <p><strong>Squad Risk Report:</strong> summarizes portfolio health, projected points, start chance, minutes, bad-week floor, squad risk, country stack risk, fixture stack risk, and budget pressure.</p>
               <p><strong>Switch checks:</strong> compare actual points already earned with a possible captain or bench option still to play.</p>
-              <p><strong>Score Prediction:</strong> shows goal range, match uncertainty, attacker context, clean-sheet context, and upset risk for fixtures.</p>
+              <p><strong>Score Prediction:</strong> shows fixture-specific projected xG, win/draw/win, likely scoreline, match uncertainty, clean-sheet context, and upset risk.</p>
             </div>
           </div>
 
@@ -1033,10 +1034,11 @@
             <p>Score Prediction gives fixture context for fantasy decisions. It is meant for comparing match environments, not for exact-score certainty.</p>
 
             <div class="formula-list">
-              <p><strong>Goal Range:</strong> a low-base-high band around the model xG total.</p>
+              <p><strong>Projected xG:</strong> expected goals for each team in this exact matchup.</p>
+              <p><strong>Win / Draw / Win:</strong> compact match result probabilities from the scoreline grid.</p>
+              <p><strong>Most Likely Score:</strong> the highest-probability scoreline, with total goals range kept as supporting detail.</p>
               <p><strong>Match Uncertainty:</strong> whether the fixture has a clearer or more fragile score path.</p>
-              <p><strong>Attacker Context:</strong> how friendly the fixture looks for attacking fantasy picks.</p>
-              <p><strong>Clean-Sheet Context:</strong> how strong the best defensive outlook looks in the fixture.</p>
+              <p><strong>Clean-Sheet Context:</strong> how each team's defensive outlook looks in the fixture.</p>
               <p><strong>Upset Risk:</strong> whether the favorite has elevated downside in the matchup.</p>
             </div>
           </div>
@@ -1498,8 +1500,8 @@
     <script src="fantasyPoolRecommendationsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolMatchdayProjectionsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolFinanceMetricsData.js?v=20260603-official-final"></script>
-    <script src="fantasyPoolScorePredictionsData.js?v=20260603-official-final"></script>
+    <script src="fantasyPoolScorePredictionsData.js?v=20260605-match-xg-display"></script>
     <script src="fantasyPoolOfficialDataStatusData.js?v=20260603-official-final"></script>
-    <script src="script.js?v=20260605-score-data-flow"></script>
+    <script src="script.js?v=20260605-match-xg-display"></script>
   </body>
 </html>

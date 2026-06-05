@@ -28,9 +28,10 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 - Fixture-level score prediction panel shows group-stage match environments.
 - Match Environment prefers the fantasy-pool score projection bundle and keeps the PELE-forward v2 bundle as a static fallback.
-- Public columns emphasize Goal range, Match uncertainty, Attacker context, Clean-sheet context, and Upset risk.
-- Row details still include base xG, win/draw/loss probabilities, clean-sheet probability, favorite probability, goal environment, and top scoreline context.
-- Score prediction checks verify fixture coverage, probability bounds, PELE input coverage, favorite consistency, ordered uncertainty bands, base-xG preservation, fantasy context labels, and player-matchday integration.
+- Public columns emphasize Projected xG, Win / Draw / Win, Most Likely Score, Match Uncertainty, Clean-Sheet Context, and Upset Risk.
+- Projected xG is fixture-specific expected goals for each team against the listed opponent. It is not a generic team average or PELE rating label.
+- Row details keep total goals range as supporting context and still show team-specific clean-sheet probability, favorite probability, and top scoreline context.
+- Score prediction checks verify fixture coverage, probability bounds, PELE input coverage, favorite consistency, ordered uncertainty bands, expected-goal preservation, fantasy context labels, and player-matchday integration.
 
 ## Team Builder
 
@@ -83,7 +84,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Week 6 data engine combines team data, fixtures, roster candidates, player performance matching, national-team usage, and finance-style fantasy metrics.
 - PELE ratings from Silver Bulletin are imported into `data/peleRatings_v1.json` and are central to the active team-quality and score-prediction model.
 - Active public Match Environment score projection context uses `data/scorePredictions_fantasyPool_v3.json` through `fantasyPoolScorePredictionsData.js`, with `data/scorePredictions_v2.json` and `scorePredictionsData.js` preserved as the fallback.
-- The active score context is PELE-anchored and adds fantasy-facing goal ranges, Match uncertainty, attacker/defender/keeper context, clean-sheet context, goal environment, and upset risk labels.
+- The active score context is PELE-anchored and converts PELE plus fixture context into fantasy-facing Projected xG, scoreline, Match uncertainty, defender/keeper context, clean-sheet context, goal environment, and upset risk labels.
 - Active matchday player projections use `data/playerMatchdayProjections_v2.json`.
 - Active recommendation shortlists use `data/matchdayRecommendations_v2.json`.
 - Public recommendation sections load separate official fantasy-pool browser files: `fantasyPoolRecommendationsData.js`, `fantasyPoolMatchdayProjectionsData.js`, `fantasyPoolFinanceMetricsData.js`, `fantasyPoolScorePredictionsData.js`, and `fantasyPoolOfficialDataStatusData.js`.

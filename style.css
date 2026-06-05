@@ -2428,6 +2428,11 @@ html {
   line-height: 1.35;
 }
 
+.match-projected-xg,
+.match-compact-line {
+  white-space: nowrap;
+}
+
 .player-name-button {
   border: 0;
   padding: 0;
@@ -5372,22 +5377,26 @@ input[type="number"] {
   }
 
   #match-environment-table-body td:nth-child(2)::before {
-    content: "Model xG";
+    content: "Projected xG";
   }
 
   #match-environment-table-body td:nth-child(3)::before {
-    content: "Favorite";
+    content: "W/D/W";
   }
 
   #match-environment-table-body td:nth-child(4)::before {
-    content: "Clean Sheet";
+    content: "Score";
   }
 
   #match-environment-table-body td:nth-child(5)::before {
-    content: "Goal Env";
+    content: "Uncertainty";
   }
 
   #match-environment-table-body td:nth-child(6)::before {
+    content: "Clean Sheet";
+  }
+
+  #match-environment-table-body td:nth-child(7)::before {
     content: "Upset Risk";
   }
 

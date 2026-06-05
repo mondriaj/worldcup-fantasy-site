@@ -1,6 +1,6 @@
 {
   "schema_version": "score_prediction_qa_fantasy_pool_v3",
-  "generated_at": "2026-06-05T18:09:51.848Z",
+  "generated_at": "2026-06-05T18:46:31.503Z",
   "source_checked": "2026-06-05",
   "model_stage": "fantasy_pool_only",
   "data_status": "staged_pass_blocked_from_final_promotion",
@@ -26,8 +26,8 @@
     "data/scorePredictions_v2.json"
   ],
   "summary": {
-    "checks_total": 17,
-    "checks_passed": 17,
+    "checks_total": 18,
+    "checks_passed": 18,
     "checks_failed": 0,
     "warning_checks": 2,
     "fixture_prediction_count": 72,
@@ -731,10 +731,17 @@
     },
     {
       "check_id": "score_uncertainty_base_preserved",
-      "label": "Base xG preserved in uncertainty fields",
+      "label": "Uncertainty inputs preserved",
       "status": "pass",
       "severity": "error",
-      "detail": "homeXgBase, awayXgBase, and baseTotalGoals match the original base expected-goal fields."
+      "detail": "homeXgBase, awayXgBase, and baseTotalGoals match the original expected-goal fields."
+    },
+    {
+      "check_id": "projected_xg_aliases_preserved",
+      "label": "Projected xG aliases match score-grid inputs",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Projected xG and match xG aliases match home_expected_goals and away_expected_goals."
     },
     {
       "check_id": "fantasy_context_fields",

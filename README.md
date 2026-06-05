@@ -12,7 +12,7 @@ Public player-pick labels are **Projected Points**, **Core Picks**, **High-Floor
 
 Team Builder is a planning tool. Users should confirm squad legality, locks, deadlines, boosters, live points, and played/unplayed status inside the official FIFA fantasy game before saving or acting.
 
-The current data/model stack uses browser-ready official fantasy-pool files for recommendations, matchday projections, finance/value metrics, score predictions, and official-data status. Match Environment now prefers the fantasy-pool score projection bundle, keeps the PELE-forward v2 score bundle as a static fallback, and shows goal range, match uncertainty, attacker context, clean-sheet context, and upset risk. Preserved model versions remain available for model inspection, but the public experience is organized around the fantasy jobs: find picks, build a squad, and make matchday decisions.
+The current data/model stack uses browser-ready official fantasy-pool files for recommendations, matchday projections, finance/value metrics, score predictions, and official-data status. Match Environment now prefers the fantasy-pool score projection bundle, keeps the PELE-forward v2 score bundle as a static fallback, and shows fixture-specific Projected xG, win/draw/win probabilities, most likely score, match uncertainty, clean-sheet context, and upset risk. Projected xG means expected goals for that exact matchup, not a generic team average. Preserved model versions remain available for model inspection, but the public experience is organized around the fantasy jobs: find picks, build a squad, and make matchday decisions.
 
 Official fantasy browser data lives in separate browser-ready files: `fantasyPoolRecommendationsData.js`, `fantasyPoolMatchdayProjectionsData.js`, `fantasyPoolFinanceMetricsData.js`, `fantasyPoolScorePredictionsData.js`, and `fantasyPoolOfficialDataStatusData.js`. These are generated from fantasy-pool source files and preserve the older fallback files.
 
@@ -55,7 +55,7 @@ The site can be opened from GitHub Pages or a local server. It loads browser-rea
 - `data/scorePredictions_fantasyPool_v3.json` - active fantasy-pool score projection source for public Match Environment context
 - `data/scorePredictions_v2.json` - preserved PELE-forward generated score prediction model and static fallback for group-stage match environments
 - `data/scorePredictionDataFlow_v1.md` - plain-language note for the active score prediction browser data flow
-- `data/peleAnchoredFantasyScoreModel_v1.md` - plain-language note for the PELE anchor, score uncertainty fields, fantasy context labels, and PELE source freshness check
+- `data/peleAnchoredFantasyScoreModel_v1.md` - plain-language note for the PELE anchor, fixture-specific Projected xG meaning, score uncertainty fields, fantasy context labels, and PELE source freshness check
 - `data/scorePredictions_v1.json` - preserved first PELE-backed score prediction model
 - `data/scorePredictions_v0.json` - preserved pre-PELE score prediction model
 - `data/scorePredictionModelRoadmap.md` - v1/v2 score model upgrade notes
@@ -126,7 +126,7 @@ When FIFA fantasy data changes, rerun the official data monitor, import only the
 
 Score model upgrade notes:
 
-- Phase 3B: active public Match Environment source is PELE-anchored fantasy-pool v3 with goal-range and match-uncertainty labels. Upgrade again after source-backed final squads, injuries, and updated national-team form materially change team context.
+- Phase 3C: active public Match Environment source is PELE-anchored fantasy-pool v3 with fixture-specific Projected xG, win/draw/win, most likely score, match uncertainty, clean-sheet context, and upset risk. Total goals range is supporting detail, not the lead public stat. Upgrade again after source-backed final squads, injuries, and updated national-team form materially change team context.
 - Future calibration: after the roster-weighted model is stable, backtest or calibrate low-score/draw behavior with a Dixon-Coles-style adjustment.
 
 Stage B adds FIFA-sourced tournament structure and group-stage fixture data while keeping player recommendations separate.

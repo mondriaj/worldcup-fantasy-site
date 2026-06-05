@@ -4,7 +4,7 @@ Date: 2026-06-05
 
 ## Purpose
 
-This note explains the active fantasy-facing score projection layer used by Match Environment after Phase 3B. It documents the PELE anchor, the local fantasy model layered on top of it, the new uncertainty fields, and the current limits.
+This note explains the active fantasy-facing score projection layer used by Match Environment after the Phase 3B uncertainty pass and Phase 3C display cleanup. It documents the PELE anchor, the local fantasy model layered on top of it, the fixture-specific Projected xG meaning, the uncertainty fields, and the current limits.
 
 ## Active Public Data Flow
 
@@ -45,9 +45,11 @@ Because the remote CSVs matched the local files, Phase 3B did not refresh PELE r
 
 Base team strength stays PELE-forward. `data/teamQuality_fantasyPool_v3.json` starts from the active PELE-forward `team_quality_v2` model, then adds only small fantasy-pool team-position, availability, and data-quality adjustments.
 
-Base fixture xG stays the same score-model output. Phase 3B does not replace `home_expected_goals`, `away_expected_goals`, win/draw/loss probabilities, clean-sheet probabilities, or the Poisson score grid.
+Projected xG in the public Match Environment table means fixture-specific expected goals for the listed team against the listed opponent. It is not a generic team average, a PELE rating, or a raw attack-strength proxy. The values match `home_expected_goals` and `away_expected_goals`, which are the expected-goal inputs used by the Poisson score grid.
 
-The new uncertainty layer adds explanatory bands around the base xG:
+Phase 3C adds clearer aliases for those same values: `homeProjectedXg`, `awayProjectedXg`, `homeMatchXg`, and `awayMatchXg` on fixture rows, plus `projectedXg` on team-fixture rows. Phase 3C does not replace `home_expected_goals`, `away_expected_goals`, win/draw/loss probabilities, clean-sheet probabilities, or the score grid.
+
+The uncertainty layer adds explanatory bands around the projected expected-goal values:
 
 - `uncertaintyLabel`: Low, Medium, or High
 - `lowTotalGoals`, `baseTotalGoals`, `highTotalGoals`
@@ -67,7 +69,7 @@ The fantasy context layer translates fixture output into simple public labels:
 - `upsetRisk`
 - `matchUncertainty`
 
-These labels are for fantasy planning and Match Environment display. They do not claim official lineups, injuries, deadlines, locks, final squads, or live match state.
+These labels are for fantasy planning and model inspection. Phase 3C keeps clean-sheet, goal, uncertainty, and upset-risk context in the main Match Environment table, but removes the generic match-level attack column from that main public display because it could mislead users about what Projected xG means. The fields do not claim official lineups, injuries, deadlines, locks, final squads, or live match state.
 
 ## Current Limits
 

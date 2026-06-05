@@ -888,6 +888,28 @@ function buildScorePredictions(fixturesData, matchdaysData, teamQualityV3, score
       away_team: fixture.away_team,
       home_expected_goals: homeComponents.expected_goals,
       away_expected_goals: awayComponents.expected_goals,
+      homeProjectedXg: homeComponents.expected_goals,
+      awayProjectedXg: awayComponents.expected_goals,
+      home_projected_xg: homeComponents.expected_goals,
+      away_projected_xg: awayComponents.expected_goals,
+      homeMatchXg: homeComponents.expected_goals,
+      awayMatchXg: awayComponents.expected_goals,
+      home_match_xg: homeComponents.expected_goals,
+      away_match_xg: awayComponents.expected_goals,
+      projectedXg: {
+        home: homeComponents.expected_goals,
+        away: awayComponents.expected_goals,
+        home_team: fixture.home_team,
+        away_team: fixture.away_team,
+        meaning: "fixture_specific_expected_goals_against_listed_opponent"
+      },
+      projected_xg: {
+        home: homeComponents.expected_goals,
+        away: awayComponents.expected_goals,
+        home_team: fixture.home_team,
+        away_team: fixture.away_team,
+        meaning: "fixture_specific_expected_goals_against_listed_opponent"
+      },
       total_expected_goals: totalExpected,
       home_win_probability: grid.homeWin,
       draw_probability: grid.draw,
@@ -986,6 +1008,10 @@ function buildScorePredictions(fixturesData, matchdaysData, teamQualityV3, score
       opponent: away.country,
       side: "home_listed",
       expected_goals: homeComponents.expected_goals,
+      projectedXg: homeComponents.expected_goals,
+      projected_xg: homeComponents.expected_goals,
+      matchXg: homeComponents.expected_goals,
+      match_xg: homeComponents.expected_goals,
       expected_goals_against: awayComponents.expected_goals,
       win_probability: grid.homeWin,
       draw_probability: grid.draw,
@@ -1032,6 +1058,10 @@ function buildScorePredictions(fixturesData, matchdaysData, teamQualityV3, score
       opponent: home.country,
       side: "away_listed",
       expected_goals: awayComponents.expected_goals,
+      projectedXg: awayComponents.expected_goals,
+      projected_xg: awayComponents.expected_goals,
+      matchXg: awayComponents.expected_goals,
+      match_xg: awayComponents.expected_goals,
       expected_goals_against: homeComponents.expected_goals,
       win_probability: grid.awayWin,
       draw_probability: grid.draw,
@@ -1089,7 +1119,7 @@ function buildScorePredictions(fixturesData, matchdaysData, teamQualityV3, score
       uses_betting_odds: false,
       uses_final_squads: false,
       uses_official_fantasy_price: "weak_context_only",
-      plain_language_summary: "Start from PELE-forward v2 team quality, add small fantasy-pool-only team-position context from the preliminary minutes model, keep team-context uncertainty visible, convert expected goals into scoreline probabilities with a Poisson grid, and expose public goal-range plus fantasy context labels.",
+      plain_language_summary: "Start from PELE-forward v2 team quality, add small fantasy-pool-only team-position context from the preliminary minutes model, keep team-context uncertainty visible, convert fixture-specific expected goals into scoreline probabilities with a Poisson grid, and expose public Projected xG plus scoreline context labels.",
       current_inputs: [PATHS.fixtures, PATHS.matchdays, PATHS.teamQualityV2, PATHS.peleRatings, PATHS.playerMinutes, PATHS.playerRecommendationInputs, PATHS.officialSquads, PATHS.scoreV2],
       stop_before_promotion: [
         "official final squads are not source-backed",
@@ -1106,8 +1136,9 @@ function buildScorePredictions(fixturesData, matchdaysData, teamQualityV3, score
       "not betting odds",
       "not final public recommendations",
       "PELE ratings remain the dominant current-strength signal.",
-      "Goal ranges and Match uncertainty are explanatory bands around the existing base xG, not replacements for the base expected-goal values.",
-      "Fantasy context labels translate fixture rows into attacker, defender, keeper, clean-sheet, goal, upset-risk, and match-uncertainty signals for public display.",
+      "Projected xG fields are aliases for fixture-specific expected goals against the listed opponent and match the scoreline-grid inputs.",
+      "Total goals ranges and Match uncertainty are explanatory bands around those expected-goal values, not replacements for them.",
+      "Fantasy context labels translate fixture rows into defender, keeper, clean-sheet, goal, upset-risk, and match-uncertainty signals for model inspection.",
       "Official fantasy prices are weak player-context signals only and do not confirm starters or team strength.",
       "Neymar is handled as Brazil uncertainty because source-backed usage remains missing."
     ],
@@ -1355,6 +1386,20 @@ function buildQa(scorePredictions, teamQuality, fixturesData, peleRatings, offic
     row.awayXgBase === row.away_expected_goals &&
     row.baseTotalGoals === row.total_expected_goals
   );
+  const projectedXgAliasesPreserved = scorePredictions.fixtureScorePredictions.every((row) =>
+    row.homeProjectedXg === row.home_expected_goals &&
+    row.awayProjectedXg === row.away_expected_goals &&
+    row.home_projected_xg === row.home_expected_goals &&
+    row.away_projected_xg === row.away_expected_goals &&
+    row.homeMatchXg === row.home_expected_goals &&
+    row.awayMatchXg === row.away_expected_goals &&
+    row.home_match_xg === row.home_expected_goals &&
+    row.away_match_xg === row.away_expected_goals &&
+    row.projectedXg?.home === row.home_expected_goals &&
+    row.projectedXg?.away === row.away_expected_goals &&
+    row.projected_xg?.home === row.home_expected_goals &&
+    row.projected_xg?.away === row.away_expected_goals
+  );
   const fantasyContextFieldsPresent = scorePredictions.fixtureScorePredictions.every((row) =>
     publicContextLabels.has(row.attackerEnvironment) &&
     publicContextLabels.has(row.defenderEnvironment) &&
@@ -1378,7 +1423,8 @@ function buildQa(scorePredictions, teamQuality, fixturesData, peleRatings, offic
   pushCheck("no_final_squad_backed_claims", "No final-squad-backed claims", noFinalSquadClaims, "All rows remain model_stage=fantasy_pool_only and uses_final_rosters=false.");
   pushCheck("score_uncertainty_fields", "Score uncertainty fields present", uncertaintyFieldsPresent, "Every fixture has Low/Medium/High uncertainty labels, xG bands, total-goal bands, and a short reason.");
   pushCheck("score_uncertainty_bands_ordered", "Score uncertainty bands ordered", uncertaintyBandsOrdered, "Every fixture has low <= base <= high for total, home xG, and away xG.");
-  pushCheck("score_uncertainty_base_preserved", "Base xG preserved in uncertainty fields", uncertaintyBasePreserved, "homeXgBase, awayXgBase, and baseTotalGoals match the original base expected-goal fields.");
+  pushCheck("score_uncertainty_base_preserved", "Uncertainty inputs preserved", uncertaintyBasePreserved, "homeXgBase, awayXgBase, and baseTotalGoals match the original expected-goal fields.");
+  pushCheck("projected_xg_aliases_preserved", "Projected xG aliases match score-grid inputs", projectedXgAliasesPreserved, "Projected xG and match xG aliases match home_expected_goals and away_expected_goals.");
   pushCheck("fantasy_context_fields", "Fantasy context fields present", fantasyContextFieldsPresent, "Every fixture has attacker, defender, keeper, clean-sheet, goal, upset-risk, and match-uncertainty public context labels.");
 
   const extremeExpectedGoals = scorePredictions.fixtureScorePredictions.filter((row) => row.total_expected_goals > 4.2 || row.home_expected_goals > 3.35 || row.away_expected_goals > 3.35);
@@ -1563,7 +1609,7 @@ function buildReport(scorePredictions, qa, teamQuality) {
     count
   }));
   const fantasyContextCounts = [
-    { field: "Attacker context", counts: JSON.stringify(scorePredictions.summary.attacker_environment_counts || {}) },
+    { field: "Attack outlook", counts: JSON.stringify(scorePredictions.summary.attacker_environment_counts || {}) },
     { field: "Clean-sheet context", counts: JSON.stringify(scorePredictions.summary.clean_sheet_context_counts || {}) },
     { field: "Upset risk", counts: JSON.stringify(scorePredictions.summary.public_upset_risk_counts || {}) }
   ];
@@ -1600,7 +1646,7 @@ This is a staged \`fantasy_pool_only\` score predictor. It is not final-squad-ba
 
 ## Model Purpose
 
-Score Predictor v3 starts from the active PELE-forward v2 team-quality and Poisson score model, then adds a small, transparent fantasy-pool context layer from official fantasy-pool players and the preliminary minutes model. PELE remains the dominant team-strength signal. Phase 3B adds goal-range bands, Match uncertainty, and fantasy-facing context labels without replacing the base xG values.
+Score Predictor v3 starts from the active PELE-forward v2 team-quality and Poisson score model, then adds a small, transparent fantasy-pool context layer from official fantasy-pool players and the preliminary minutes model. PELE remains the dominant team-strength signal. Phase 3C clarifies that public Projected xG is fixture-specific expected goals against the listed opponent, while total goals range and Match uncertainty remain supporting context.
 
 ## Inputs Used
 
@@ -1619,9 +1665,9 @@ Confirmed final squad rows are still zero, official squads are not source-backed
 
 The active public bundle is \`fantasyPoolScorePredictionsData.js\`; \`scorePredictionsData.js\` remains the preserved PELE-forward fallback.
 
-## Phase 3B Uncertainty And Fantasy Context
+## Phase 3C Projected xG And Match Context
 
-Goal ranges are explanatory bands around the existing base xG. They use transparent proxies already in this source: team-quality gap, upset risk, goal environment, team-role uncertainty flags, Brazil role-source review, and host venue context where present.
+Projected xG values match the expected-goal inputs used by the scoreline grid. Total goals ranges are supporting bands around those values. They use transparent proxies already in this source: team-quality gap, upset risk, goal environment, team-role uncertainty flags, Brazil role-source review, and host venue context where present.
 
 ### Match Uncertainty Counts
 

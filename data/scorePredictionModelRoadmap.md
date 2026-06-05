@@ -4,14 +4,16 @@ Status: active score model notes
 Current public Match Environment flow: `fantasyPoolScorePredictionsData.js` from `scorePredictions_fantasyPool_v3.json`, with `scorePredictionsData.js` from `scorePredictions_v2.json` preserved as the static fallback.
 Preserved base model: `scorePredictions_v2.json`
 
-## Current Public Data Flow: Phase 3A And Phase 3B
+## Current Public Data Flow: Phase 3A Through Phase 3C
 
 The public Match Environment table now prefers the fantasy-pool score projection context:
 
 - Browser file: `../fantasyPoolScorePredictionsData.js`
 - Source file: `scorePredictions_fantasyPool_v3.json`
 - Window rows used by `script.js`: `window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS`
-- Phase 3B public display fields: Goal range, Match uncertainty, Attacker context, Clean-sheet context, and Upset risk
+- Phase 3C public display fields: Projected xG, Win / Draw / Win, Most Likely Score, Match Uncertainty, Clean-Sheet Context, and Upset Risk
+
+Projected xG is fixture-specific expected goals for each listed team against that opponent. The values match the expected-goal inputs used by the scoreline grid. Total goals range remains supporting detail and the generic match-level attack column is no longer part of the main public table.
 
 The older PELE-forward v2 browser bundle remains loaded as a safe static fallback:
 
@@ -19,13 +21,25 @@ The older PELE-forward v2 browser bundle remains loaded as a safe static fallbac
 - Source file: `scorePredictions_v2.json`
 - Window rows used if the fantasy-pool bundle is unavailable: `window.SCORE_FIXTURE_PREDICTIONS_DATA`
 
-See `scorePredictionDataFlow_v1.md` for the plain-language browser data-flow note, and `peleAnchoredFantasyScoreModel_v1.md` for the Phase 3B PELE and uncertainty note.
+See `scorePredictionDataFlow_v1.md` for the plain-language browser data-flow note, and `peleAnchoredFantasyScoreModel_v1.md` for the PELE, Projected xG, and uncertainty note.
+
+## Phase 3C Match Environment Display Cleanup
+
+Status: complete as of June 5, 2026.
+
+This pass keeps the score model unchanged and cleans up the public display:
+
+- `home_expected_goals` and `away_expected_goals` remain the final fixture-adjusted expected-goal values used by the scoreline grid.
+- The fantasy-pool v3 source also exposes clearer aliases: `homeProjectedXg`, `awayProjectedXg`, `homeMatchXg`, and `awayMatchXg`.
+- Match Environment displays Projected xG as matchup-specific expected goals, plus win/draw/win, most likely score, match uncertainty, clean-sheet context, and upset risk.
+- Total goals range is supporting detail under the likely scoreline.
+- The generic match-level attack column was removed from the main table because it could be mistaken for a generic attacking rating.
 
 ## Phase 3B PELE-Anchored Uncertainty Layer
 
 Status: complete as of June 5, 2026.
 
-This pass keeps PELE as the main team-quality anchor and keeps the current base xG and Poisson probability outputs intact. It adds an explanatory fantasy-facing layer so the public Match Environment table can show goal ranges and uncertainty without implying a different score model.
+This pass keeps PELE as the main team-quality anchor and keeps the expected-goal and Poisson probability outputs intact. It adds an explanatory fantasy-facing layer so the public Match Environment table can show total goals ranges and uncertainty without implying a different score model.
 
 Files updated:
 
@@ -45,10 +59,10 @@ New fixture-level fields:
 - `attackerEnvironment`, `defenderEnvironment`, `keeperEnvironment`
 - `cleanSheetContext`, `goalEnvironment`, `upsetRisk`, `matchUncertainty`
 
-What changed in the public surface:
+What changed in the public surface during Phase 3B:
 
-- Match Environment now emphasizes Goal range, Match uncertainty, Attacker context, Clean-sheet context, and Upset risk.
-- Base xG, win/draw/loss probabilities, clean-sheet probabilities, top scoreline, and favorite probability remain visible in row details.
+- Match Environment added total-goals range, match uncertainty, clean-sheet context, and upset-risk context.
+- Expected goals, win/draw/loss probabilities, clean-sheet probabilities, top scoreline, and favorite probability remain visible in row details.
 - Player Profile fixture reasons can use Match uncertainty and context labels when fixture rows are available.
 
 What did not change:
