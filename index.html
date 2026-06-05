@@ -14,7 +14,7 @@
     <meta name="twitter:description" content="Compare squad starters, captain choices, team builds, bench decisions, and score predictions in one simple fantasy football hub." />
     <!-- Add canonical and og:url once the final production URL is available. -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="stylesheet" href="style.css?v=20260605-strategy-weights" />
+    <link rel="stylesheet" href="style.css?v=20260605-strategy-comparison" />
   </head>
   <body>
     <header id="top" class="hero">
@@ -831,6 +831,23 @@
               <p id="squad-strategy-report-fit" class="squad-strategy-report__fit"></p>
             </section>
 
+            <details id="strategy-comparison-panel" class="strategy-comparison-panel">
+              <summary>Advanced: Compare Team Builder Strategies</summary>
+              <div class="strategy-comparison-panel__body">
+                <div class="strategy-comparison-panel__intro">
+                  <div>
+                    <h3>Strategy Comparison Check</h3>
+                    <p>Compare the five Team Builder strategies using the same current builder settings, filters, locks, removed players, tactic, matchday view, and risk controls.</p>
+                  </div>
+                  <button id="run-strategy-comparison-btn" class="utility-button" type="button">Compare Strategies</button>
+                </div>
+                <p id="strategy-comparison-status" class="strategy-comparison-status">Not run yet.</p>
+                <div id="strategy-comparison-alerts" class="strategy-comparison-alerts" aria-live="polite"></div>
+                <div id="strategy-comparison-overlap" class="strategy-comparison-overlap"></div>
+                <div id="strategy-comparison-grid" class="strategy-comparison-grid"></div>
+              </div>
+            </details>
+
           </section>
 
           <section class="builder-step-card builder-save-panel" aria-labelledby="builder-step-save-title">
@@ -987,7 +1004,7 @@
 
           <div class="formula-section">
             <h3>Team Builder Strategies</h3>
-            <p>Team Builder strategies describe the kind of 15-player squad to build. They start from existing player scoring views, then use strategy-aware squad weights with the current budget, position, country-limit, lock, avoid, and squad-risk checks.</p>
+            <p>Team Builder strategies describe the kind of 15-player squad to build. They start from existing player scoring views, then use strategy-aware squad weights with the current budget, position, country-limit, lock, avoid, and squad-risk checks. The advanced comparison check can run all five strategies under the same current builder settings and flag high overlap or weak strategy identity.</p>
 
             <div class="formula-list">
               <p><strong>Balanced Squad:</strong> strong all-around squad with starters, bench depth, budget efficiency, and moderate diversification.</p>
@@ -1482,6 +1499,6 @@
     <script src="fantasyPoolFinanceMetricsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolScorePredictionsData.js?v=20260603-official-final"></script>
     <script src="fantasyPoolOfficialDataStatusData.js?v=20260603-official-final"></script>
-    <script src="script.js?v=20260605-strategy-weights"></script>
+    <script src="script.js?v=20260605-strategy-comparison"></script>
   </body>
 </html>

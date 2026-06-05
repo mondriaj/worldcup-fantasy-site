@@ -38,6 +38,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Public Team Builder strategy labels are Balanced Squad, Diversified Squad, Concentrated Upside, Stars and Scrubs, and Value Squad. The builder applies strategy-aware squad scoring weights after legal candidate squads are formed, without replacing the existing constraints engine.
 - The Team Builder surface follows visible step cards: choose strategy, lock or avoid players, build squad, review legality and risk, then save or export.
 - After a build, the review step shows a compact Squad Strategy Report with Country Stack Risk, Fixture Stack Risk, Star Dependence, Bench Strength, Bad-Week Floor, Upside Ceiling, Budget Shape, and a short note on how the squad fits the selected strategy.
+- An advanced Team Builder comparison check can run all five public strategies under the same current settings, show squad overlap, and flag high-overlap or weak-identity builds for model inspection.
 - Supports advanced risk controls for minimum start probability, expected minutes, data-review count, and risky fill-ins.
 - Users should confirm locks, deadlines, boosters, and official-game legality inside FIFA's game.
 - Provides clear builder warnings when constraints are tight or force weaker/riskier picks.
@@ -51,6 +52,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Squad Portfolio Analytics explains the built squad as a whole, not only as individual picks.
 - Default metrics include projected points, portfolio health, bad-week floor, data checks, country concentration, fixture concentration, and budget-pressure warnings.
 - Squad Strategy Report summarizes the squad as a portfolio with simple Low, Medium, High, and budget-shape labels tied to the selected Team Builder strategy.
+- The advanced strategy comparison uses the same Squad Strategy Report metrics to compare strategy outputs without replacing the normal build flow.
 - Advanced model notes and exported JSON preserve deeper portfolio fields for transparency.
 - Team Builder uses squad-level portfolio context and strategy-specific weights when choosing between completed candidate squads.
 

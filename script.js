@@ -995,6 +995,14 @@ const teamBuilderStrategyAliases = {
   no_stars_balanced: "balancedSquad"
 };
 
+const teamBuilderComparisonStrategyKeys = [
+  "balancedSquad",
+  "diversifiedSquad",
+  "concentratedUpside",
+  "starsAndScrubs",
+  "valueSquad"
+];
+
 const teamBuilderStrategyScoringProfiles = {
   balancedSquad: {
     id: "balancedSquad",
@@ -1004,31 +1012,31 @@ const teamBuilderStrategyScoringProfiles = {
     partialStrategyWeight: 0.52,
     partialReserveWeight: 0.2,
     partialConcentrationPenalty: 1.1,
-    partialPremiumReward: 0.25,
-    partialCheapReward: 0.08,
+    partialPremiumReward: -0.22,
+    partialCheapReward: 0.26,
     starterScoreWeight: 1,
-    benchScoreWeight: 0.42,
+    benchScoreWeight: 0.68,
     captainBonusWeight: 1,
     budgetBufferWeight: 1,
     playerWeights: {
-      starter: { base: 0.8, expected: 0.18, riskAdjusted: 0.2, upside: 0.06, floor: 0.08, reliability: 0.08, value: 0.07, premium: 0.03, price: -0.08, attackingContext: 0.03, captain: 0.02 },
-      bench: { base: 0.5, expected: 0.08, riskAdjusted: 0.16, floor: 0.12, reliability: 0.16, value: 0.18, cheap: 0.08, premium: -0.02, price: -0.18, attackingContext: 0.01, captain: 0 }
+      starter: { base: 0.78, expected: 0.16, riskAdjusted: 0.22, upside: 0.04, floor: 0.11, reliability: 0.11, value: 0.13, premium: -0.1, price: -0.2, attackingContext: 0.02, captain: 0.01 },
+      bench: { base: 0.54, expected: 0.1, riskAdjusted: 0.19, floor: 0.17, reliability: 0.21, value: 0.25, cheap: 0.16, premium: -0.08, price: -0.3, attackingContext: 0, captain: 0 }
     },
     portfolioWeights: {
-      expected: 0.16,
-      riskAdjusted: 0.16,
-      upside: 0.05,
-      var10: 0.12,
-      cvar20: 0.09,
-      start: 0.06,
+      expected: 0.13,
+      riskAdjusted: 0.18,
+      upside: 0.03,
+      var10: 0.15,
+      cvar20: 0.11,
+      start: 0.08,
       minutes: 0.01,
-      benchExpectedReward: 0.16,
-      benchStrengthReward: 0.18,
-      valueEfficiencyReward: 0.05,
+      benchExpectedReward: 0.38,
+      benchStrengthReward: 0.5,
+      valueEfficiencyReward: 0.1,
       budgetUseReward: 0.05,
       budgetRemainingReward: 0.02,
-      topProjectedReward: 0.02,
-      premiumReward: 0.1,
+      topProjectedReward: 0,
+      premiumReward: -0.22,
       controlledStackReward: 0.12,
       attackingStackReward: 0.04,
       volatilityPenalty: 0.08,
@@ -1036,14 +1044,14 @@ const teamBuilderStrategyScoringProfiles = {
       compositePenalty: 0.05,
       qaReviewPenalty: 1.8,
       qaWatchPenalty: 0.35,
-      weakBenchPenalty: 1.5,
-      premiumSqueezePenalty: 1.6,
+      weakBenchPenalty: 3.2,
+      premiumSqueezePenalty: 4.2,
       countryLimitPenalty: 1.1,
       hardFixturePenalty: 1.1,
       countryStackPenalty: 0.9,
       fixtureStackPenalty: 0.9,
-      starDependencePenalty: 0.45,
-      poorPremiumPenalty: 0.8,
+      starDependencePenalty: 2.2,
+      poorPremiumPenalty: 1.25,
       favorableFixtureReward: 0.18,
       excessiveStackPenalty: 0.8
     }
@@ -1158,17 +1166,17 @@ const teamBuilderStrategyScoringProfiles = {
     stateLimit: 390,
     partialBaseWeight: 0.68,
     partialStrategyWeight: 0.74,
-    partialReserveWeight: -0.04,
+    partialReserveWeight: -0.14,
     partialConcentrationPenalty: 0.55,
-    partialPremiumReward: 1.8,
-    partialCheapReward: 0.22,
-    starterScoreWeight: 1.22,
-    benchScoreWeight: 0.18,
+    partialPremiumReward: 2.65,
+    partialCheapReward: 0.36,
+    starterScoreWeight: 1.38,
+    benchScoreWeight: 0.08,
     captainBonusWeight: 1.45,
     budgetBufferWeight: 0.2,
     playerWeights: {
-      starter: { base: 0.58, expected: 0.28, riskAdjusted: 0.06, upside: 0.13, floor: -0.03, reliability: 0.04, value: 0.02, premium: 0.32, cheap: -0.08, price: 0.16, attackingContext: 0.08, captain: 0.18 },
-      bench: { base: 0.22, expected: 0.02, riskAdjusted: 0.06, upside: 0.02, floor: 0.06, reliability: 0.08, value: 0.16, cheap: 0.2, premium: -0.08, price: -0.35, attackingContext: 0, captain: 0 }
+      starter: { base: 0.56, expected: 0.32, riskAdjusted: 0.04, upside: 0.15, floor: -0.04, reliability: 0.03, value: 0, premium: 0.52, cheap: -0.12, price: 0.28, attackingContext: 0.08, captain: 0.22 },
+      bench: { base: 0.16, expected: 0.01, riskAdjusted: 0.04, upside: 0.01, floor: 0.04, reliability: 0.05, value: 0.16, cheap: 0.36, premium: -0.12, price: -0.52, attackingContext: 0, captain: 0 }
     },
     portfolioWeights: {
       expected: 0.24,
@@ -1178,13 +1186,13 @@ const teamBuilderStrategyScoringProfiles = {
       cvar20: 0,
       start: 0.02,
       minutes: 0.003,
-      benchExpectedReward: 0.02,
-      benchStrengthReward: -0.08,
+      benchExpectedReward: 0,
+      benchStrengthReward: -0.16,
       valueEfficiencyReward: 0.02,
-      budgetUseReward: 0.2,
-      budgetRemainingReward: -0.08,
-      topProjectedReward: 0.55,
-      premiumReward: 1.05,
+      budgetUseReward: 0.34,
+      budgetRemainingReward: -0.16,
+      topProjectedReward: 0.85,
+      premiumReward: 1.65,
       controlledStackReward: 0.12,
       attackingStackReward: 0.08,
       volatilityPenalty: 0.01,
@@ -1192,13 +1200,13 @@ const teamBuilderStrategyScoringProfiles = {
       compositePenalty: 0.02,
       qaReviewPenalty: 0.75,
       qaWatchPenalty: 0.15,
-      weakBenchPenalty: 0.35,
-      premiumSqueezePenalty: 0.2,
+      weakBenchPenalty: 0.12,
+      premiumSqueezePenalty: -0.08,
       countryLimitPenalty: 0.45,
       hardFixturePenalty: 0.45,
       countryStackPenalty: 0.3,
       fixtureStackPenalty: 0.25,
-      starDependencePenalty: -0.75,
+      starDependencePenalty: -1.35,
       poorPremiumPenalty: 1.65,
       favorableFixtureReward: 0.18,
       excessiveStackPenalty: 0.6
@@ -1894,6 +1902,11 @@ const squadStrategyReportSummary = document.getElementById("squad-strategy-repor
 const squadStrategyReportLabel = document.getElementById("squad-strategy-report-label");
 const squadStrategyReportMetrics = document.getElementById("squad-strategy-report-metrics");
 const squadStrategyReportFit = document.getElementById("squad-strategy-report-fit");
+const runStrategyComparisonButton = document.getElementById("run-strategy-comparison-btn");
+const strategyComparisonStatus = document.getElementById("strategy-comparison-status");
+const strategyComparisonAlerts = document.getElementById("strategy-comparison-alerts");
+const strategyComparisonOverlap = document.getElementById("strategy-comparison-overlap");
+const strategyComparisonGrid = document.getElementById("strategy-comparison-grid");
 const teamField = document.getElementById("team-field");
 const teamPlayers = document.getElementById("team-players");
 const benchPanel = document.getElementById("bench-panel");
@@ -7989,6 +8002,354 @@ function renderSquadStrategyReport(starters = [], bench = []) {
   squadStrategyReportFit.textContent = squadStrategyFitText(reportData, strategyOption);
 }
 
+function strategyComparisonMetricMap(reportData) {
+  return Object.fromEntries(reportData.metrics.map((metric) => [metric.label, metric]));
+}
+
+function strategyComparisonLevelRank(levelId, type = "risk") {
+  const riskRanks = { low: 1, medium: 2, high: 3 };
+  const strengthRanks = { low: 1, medium: 2, high: 3 };
+  const budgetRanks = { topHeavy: 1, balanced: 2, depthOriented: 3 };
+
+  if (type === "budget") {
+    return budgetRanks[levelId] || 0;
+  }
+
+  if (type === "strength") {
+    return strengthRanks[levelId] || 0;
+  }
+
+  return riskRanks[levelId] || 0;
+}
+
+function strategyComparisonPlayerList(playersToList = []) {
+  if (!playersToList.length) {
+    return "No squad players";
+  }
+
+  return playersToList
+    .map((player) => `${player.name} (${player.position.slice(0, 3).toUpperCase()}, ${playerCountryText(player)})`)
+    .join(", ");
+}
+
+function strategyComparisonSettingsSummary() {
+  return [
+    tacticSelect?.value ? `Tactic ${tacticSelect.value}` : "",
+    activeMatchdayLabel(),
+    trustModeLabel(),
+    builderRiskControlsActive() ? `Risk controls: ${builderRiskSettingsSummary()}` : "Default risk controls",
+    lockedPlayerIds.size ? `${lockedPlayerIds.size} locked` : "No locked players",
+    excludedPlayerIds.size ? `${excludedPlayerIds.size} removed` : "No removed players"
+  ].filter(Boolean).join(" · ");
+}
+
+function strategyComparisonResult(strategyKey) {
+  const strategyOption = teamBuilderStrategyOption(strategyKey);
+  const measure = teamBuilderStrategyMeasure(strategyOption);
+  const profile = teamBuilderStrategyScoringProfile(strategyOption);
+  const result = buildSuggestedSquad();
+  const starters = result.starters || [];
+  const bench = result.bench || [];
+  const squad = [...starters, ...bench];
+  const reportData = squadStrategyReportData(starters, bench);
+  const metricsByLabel = strategyComparisonMetricMap(reportData);
+  const shape = portfolioStrategyShape(reportData.analytics);
+  const optimizer = portfolioOptimizerAdjustment(starters, bench, measure, activeTrustMode(), profile);
+  const topFixtureText = reportData.summary.topFixture
+    ? `${reportData.summary.topFixture.label} (${reportData.summary.topFixtureCount})`
+    : "no visible fixture stack";
+  const fullSquadReady = squad.length === squadTotalPlayers && starters.length === startingLineupTotal;
+
+  return {
+    strategyKey,
+    strategyLabel: strategyOption.label,
+    measureKey: measure.key,
+    starters,
+    bench,
+    squad,
+    ids: squad.map((player) => player.id),
+    starterIds: starters.map((player) => player.id),
+    benchIds: bench.map((player) => player.id),
+    fullSquadReady,
+    totalPrice: squadCost(squad),
+    remainingBudget: initialBudget - squadCost(squad),
+    reportData,
+    metricsByLabel,
+    shape,
+    optimizer,
+    optimizerEvaluatedPaths: result.optimizerEvaluatedPaths || 0,
+    warnings: {
+      budgetCouldNotFit: Boolean(result.budgetCouldNotFit),
+      countryLimitCouldNotFit: Boolean(result.countryLimitCouldNotFit),
+      riskConstraintsCouldNotFit: Boolean(result.riskConstraintsCouldNotFit),
+      optimizerFoundValidSquad: Boolean(result.optimizerFoundValidSquad)
+    },
+    summaryText: `${squad.length}/${squadTotalPlayers} players, ${budgetText(squadCost(squad))} used, ${remainingBudgetText(squadCost(squad))} remaining. Top country: ${reportData.summary.topCountryLabel} ${reportData.summary.topCountryCount}/${groupStageCountryLimit}; biggest match stack: ${topFixtureText}.`
+  };
+}
+
+function strategyComparisonOverlapRows(results) {
+  const rows = [];
+
+  results.forEach((left, leftIndex) => {
+    results.slice(leftIndex + 1).forEach((right) => {
+      const leftIds = new Set(left.ids);
+      const overlapIds = right.ids.filter((id) => leftIds.has(id));
+      const denominator = Math.max(left.ids.length, right.ids.length, squadTotalPlayers || 1);
+      const overlapShare = denominator ? overlapIds.length / denominator : 0;
+
+      rows.push({
+        left,
+        right,
+        overlapIds,
+        overlapCount: overlapIds.length,
+        overlapShare,
+        isNearlySame: overlapIds.length >= Math.min(12, squadTotalPlayers)
+      });
+    });
+  });
+
+  return rows.sort((a, b) => b.overlapCount - a.overlapCount || a.left.strategyLabel.localeCompare(b.left.strategyLabel));
+}
+
+function strategyComparisonSharedCore(results) {
+  if (!results.length) {
+    return [];
+  }
+
+  return results[0].ids.filter((playerId) =>
+    results.every((result) => result.ids.includes(playerId))
+  );
+}
+
+function strategyComparisonIdentityChecks(results) {
+  const byKey = Object.fromEntries(results.map((result) => [result.strategyKey, result]));
+  const balanced = byKey.balancedSquad;
+  const diversified = byKey.diversifiedSquad;
+  const concentrated = byKey.concentratedUpside;
+  const stars = byKey.starsAndScrubs;
+  const valueBuild = byKey.valueSquad;
+  const checks = [];
+
+  if (!balanced) {
+    return checks;
+  }
+
+  if (diversified) {
+    const countryImproved = strategyComparisonLevelRank(diversified.reportData.levels.country) <
+      strategyComparisonLevelRank(balanced.reportData.levels.country) ||
+      diversified.reportData.summary.topCountryCount < balanced.reportData.summary.topCountryCount;
+    const fixtureImproved = strategyComparisonLevelRank(diversified.reportData.levels.fixture) <
+      strategyComparisonLevelRank(balanced.reportData.levels.fixture) ||
+      (diversified.reportData.summary.topFixtureCount || 0) < (balanced.reportData.summary.topFixtureCount || 0);
+    checks.push({
+      strategy: diversified.strategyLabel,
+      passed: countryImproved || fixtureImproved,
+      detail: countryImproved || fixtureImproved
+        ? "Diversified lowered country or fixture concentration versus Balanced."
+        : "Diversified did not lower country or fixture concentration versus Balanced under these settings."
+    });
+  }
+
+  if (concentrated) {
+    const upsideImproved = concentrated.reportData.analytics.starterUpside > balanced.reportData.analytics.starterUpside + 0.5;
+    const stackImproved = concentrated.shape.controlledStackScore > balanced.shape.controlledStackScore + 1 ||
+      (concentrated.reportData.summary.topFixtureCount || 0) > (balanced.reportData.summary.topFixtureCount || 0);
+    checks.push({
+      strategy: concentrated.strategyLabel,
+      passed: upsideImproved || stackImproved,
+      detail: upsideImproved || stackImproved
+        ? "Concentrated Upside raised ceiling or controlled stack exposure versus Balanced."
+        : "Concentrated Upside did not raise ceiling or stack exposure versus Balanced under these settings."
+    });
+  }
+
+  if (stars) {
+    const starDependenceIncreased = stars.shape.topThreeShare > balanced.shape.topThreeShare + 0.02;
+    const budgetMoreTopHeavy = stars.reportData.levels.budgetShape === "topHeavy" &&
+      balanced.reportData.levels.budgetShape !== "topHeavy";
+    const premiumIncreased = stars.reportData.analytics.premiumPlayers > balanced.reportData.analytics.premiumPlayers;
+    checks.push({
+      strategy: stars.strategyLabel,
+      passed: starDependenceIncreased || budgetMoreTopHeavy || premiumIncreased,
+      detail: starDependenceIncreased || budgetMoreTopHeavy || premiumIncreased
+        ? "Stars and Scrubs increased star dependence, premium pressure, or top-heavy budget shape."
+        : "Stars and Scrubs did not look more star-dependent than Balanced under these settings."
+    });
+  }
+
+  if (valueBuild && stars) {
+    const benchImproved = valueBuild.shape.benchStrengthScore > stars.shape.benchStrengthScore + 1 ||
+      valueBuild.reportData.analytics.benchWeakCount < stars.reportData.analytics.benchWeakCount;
+    const budgetImproved = strategyComparisonLevelRank(valueBuild.reportData.levels.budgetShape, "budget") >
+      strategyComparisonLevelRank(stars.reportData.levels.budgetShape, "budget");
+    checks.push({
+      strategy: valueBuild.strategyLabel,
+      passed: benchImproved || budgetImproved,
+      detail: benchImproved || budgetImproved
+        ? "Value Squad improved bench strength or budget shape versus Stars and Scrubs."
+        : "Value Squad did not improve bench strength or budget shape versus Stars and Scrubs under these settings."
+    });
+  }
+
+  return checks;
+}
+
+function strategyComparisonAlertHtml(alert) {
+  const className = alert.passed ? "strategy-comparison-alert--pass" : "strategy-comparison-alert--watch";
+  const label = alert.passed ? "Pass" : "Check";
+
+  return `
+    <article class="strategy-comparison-alert ${className}">
+      <span>${escapeHtml(label)}</span>
+      <strong>${escapeHtml(alert.strategy)}</strong>
+      <p>${escapeHtml(alert.detail)}</p>
+    </article>
+  `;
+}
+
+function strategyComparisonOverlapHtml(rows, sharedCoreIds) {
+  if (!rows.length) {
+    return "";
+  }
+
+  const sharedCoreWarning = sharedCoreIds.length >= 10
+    ? "strategy-comparison-overlap__summary--watch"
+    : "strategy-comparison-overlap__summary--pass";
+  const topRows = rows.slice(0, 6).map((row) => `
+    <li class="${row.isNearlySame ? "is-nearly-same" : ""}">
+      <span>${escapeHtml(row.left.strategyLabel)} / ${escapeHtml(row.right.strategyLabel)}</span>
+      <strong>${row.overlapCount}/${squadTotalPlayers}</strong>
+      <small>${row.isNearlySame ? "High overlap" : "Distinct enough"}</small>
+    </li>
+  `).join("");
+
+  return `
+    <div class="strategy-comparison-overlap__summary ${sharedCoreWarning}">
+      <span>Shared core across all strategies</span>
+      <strong>${sharedCoreIds.length}/${squadTotalPlayers}</strong>
+      <small>${sharedCoreIds.length >= 10 ? "Watch for strategy collapse" : "Strategies are separating"}</small>
+    </div>
+    <ul>${topRows}</ul>
+  `;
+}
+
+function renderStrategyComparisonCard(result) {
+  const metricHtml = result.reportData.metrics.map((metric) =>
+    strategyReportMetric(metric.label, metric.value, metric.detail, metric.tone)
+  ).join("");
+  const statusText = result.fullSquadReady
+    ? `${compactCount(result.optimizerEvaluatedPaths)} paths compared`
+    : "Partial squad";
+  const warningText = !result.fullSquadReady
+    ? `<p class="strategy-comparison-card__warning">Current settings could not fill every squad slot for this strategy.</p>`
+    : "";
+
+  return `
+    <article class="strategy-comparison-card">
+      <div class="strategy-comparison-card__heading">
+        <div>
+          <h4>${escapeHtml(result.strategyLabel)}</h4>
+          <p>${escapeHtml(result.summaryText)}</p>
+        </div>
+        <span>${escapeHtml(statusText)}</span>
+      </div>
+      <div class="strategy-comparison-card__metrics">
+        ${metricHtml}
+      </div>
+      <div class="strategy-comparison-card__signals">
+        <span>Star share <strong>${strategyReportPercent(result.shape.topThreeShare)}</strong></span>
+        <span>Bench score <strong>${displayNumber(result.shape.benchStrengthScore)}</strong></span>
+        <span>Controlled stack <strong>${displayNumber(result.shape.controlledStackScore)}</strong></span>
+      </div>
+      ${warningText}
+      <details class="strategy-comparison-card__players">
+        <summary>Squad players</summary>
+        <p><strong>Starters:</strong> ${escapeHtml(strategyComparisonPlayerList(result.starters))}</p>
+        <p><strong>Bench:</strong> ${escapeHtml(strategyComparisonPlayerList(result.bench))}</p>
+      </details>
+    </article>
+  `;
+}
+
+function renderStrategyComparisonResults(results) {
+  const overlapRows = strategyComparisonOverlapRows(results);
+  const sharedCoreIds = strategyComparisonSharedCore(results);
+  const identityChecks = strategyComparisonIdentityChecks(results);
+  const overlapWarnings = overlapRows
+    .filter((row) => row.isNearlySame)
+    .map((row) => ({
+      strategy: `${row.left.strategyLabel} / ${row.right.strategyLabel}`,
+      passed: false,
+      detail: `These two squads overlap by ${row.overlapCount}/${squadTotalPlayers} players. Tune weights if that is not intentional.`
+    }));
+  const sharedCoreAlert = sharedCoreIds.length >= 10
+    ? [{
+        strategy: "All strategies",
+        passed: false,
+        detail: `All five squads share ${sharedCoreIds.length}/${squadTotalPlayers} players. This may mean the strategies are collapsing under these settings.`
+      }]
+    : [{
+        strategy: "All strategies",
+        passed: true,
+        detail: `The common core is ${sharedCoreIds.length}/${squadTotalPlayers} players, so the strategy outputs are separating.`
+      }];
+  const alerts = [...sharedCoreAlert, ...overlapWarnings, ...identityChecks];
+
+  if (strategyComparisonAlerts) {
+    strategyComparisonAlerts.innerHTML = alerts.map(strategyComparisonAlertHtml).join("");
+  }
+
+  if (strategyComparisonOverlap) {
+    strategyComparisonOverlap.innerHTML = strategyComparisonOverlapHtml(overlapRows, sharedCoreIds);
+  }
+
+  if (strategyComparisonGrid) {
+    strategyComparisonGrid.innerHTML = results.map(renderStrategyComparisonCard).join("");
+  }
+}
+
+function runStrategyComparison() {
+  if (!runStrategyComparisonButton || !strategyComparisonStatus || !strategyComparisonGrid) {
+    return;
+  }
+
+  const originalStrategyKey = measureSelect.value;
+  runStrategyComparisonButton.disabled = true;
+  strategyComparisonStatus.textContent = "Running comparison with current builder settings...";
+
+  window.setTimeout(() => {
+    const startedAt = Date.now();
+
+    try {
+      const results = teamBuilderComparisonStrategyKeys.map((strategyKey) => {
+        measureSelect.value = strategyKey;
+        return strategyComparisonResult(strategyKey);
+      });
+
+      measureSelect.value = originalStrategyKey;
+      resetOptimizerStateRankCache();
+      resetTeamBuilderStrategyPlayerScoreCache();
+      renderStrategyComparisonResults(results);
+      const seconds = Math.max(0.1, (Date.now() - startedAt) / 1000);
+      strategyComparisonStatus.textContent = `Compared ${results.length} strategies in ${seconds.toFixed(1)}s using ${strategyComparisonSettingsSummary()}.`;
+    } catch (error) {
+      measureSelect.value = originalStrategyKey;
+      strategyComparisonStatus.textContent = "Strategy comparison could not finish. Check current locks, filters, and risk controls, then try again.";
+      if (strategyComparisonAlerts) {
+        strategyComparisonAlerts.innerHTML = strategyComparisonAlertHtml({
+          strategy: "Comparison check",
+          passed: false,
+          detail: error.message || "The comparison failed before all strategies could build."
+        });
+      }
+    } finally {
+      measureSelect.value = originalStrategyKey;
+      runStrategyComparisonButton.disabled = false;
+    }
+  }, 0);
+}
+
 function exportedPlayer(player) {
   const trustMode = activeTrustMode();
   const recommendationBreakdown = recommendationScoreBreakdown(player, activeMeasure(), trustMode);
@@ -8175,6 +8536,7 @@ function exportModelMetadata() {
       "data/playerValueModel_v1.json",
       "data/recommendationTrustModel_v0.md",
       "data/teamBuilderStrategyWeights_v1.md",
+      "data/teamBuilderStrategyComparison_v1.md",
       "data/captainChangeAdvisorModel_v0.md",
       "data/substitutionAdvisorModel_v0.md",
       "data/savedDecisionExport_v0.md"
@@ -8506,6 +8868,7 @@ function teamExportPayload() {
       "data/playerMatchdayProjections_v2.json",
       "data/scorePredictions_v2.json",
       "data/teamBuilderStrategyWeights_v1.md",
+      "data/teamBuilderStrategyComparison_v1.md",
       "dataSources.md",
       usingFinanceModel
         ? "Current Team Builder view uses the Week 6 World Cup finance model with official unavailable-player filtering."
@@ -11968,6 +12331,7 @@ function setupBuilder() {
   document.addEventListener("keydown", handlePlayerDetailKeydown);
   buildTeamButtonTop?.addEventListener("click", buildTeam);
   buildTeamButtonBottom.addEventListener("click", buildTeam);
+  runStrategyComparisonButton?.addEventListener("click", runStrategyComparison);
   saveBrowserSquadButton?.addEventListener("click", saveTeamToBrowser);
   loadBrowserSquadButton?.addEventListener("click", loadTeamFromBrowser);
   clearBrowserSquadButton?.addEventListener("click", clearBrowserSavedSquad);
