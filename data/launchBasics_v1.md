@@ -20,7 +20,7 @@ Status: ready.
 
 - The pages use Twitter/X `summary_large_image` cards and Open Graph image fields.
 - `social-preview.png` is a safe original 1200 x 630 image in the repo.
-- The preview image uses site colors and the public action labels: Team Builder, Score Prediction, and World Cup Fixtures.
+- The preview image uses site colors, the preferred site title, and simple action chips.
 - `index.html` and `world-cup.html` reference `https://fantasyeconomist.com/social-preview.png`.
 - No official logos, trophy marks, flag-branding artwork, or copyrighted imagery were added.
 
