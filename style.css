@@ -4295,6 +4295,7 @@ input[type="number"] {
 
 .modal-open {
   overflow: hidden;
+  overflow-x: hidden;
 }
 
 .player-detail-modal {
@@ -5093,6 +5094,34 @@ input[type="number"] {
     padding-top: 28px;
   }
 
+  .page-shell,
+  .hero__content,
+  .panel,
+  .collapsible-body,
+  .builder-workspace,
+  .builder-sidebar,
+  .builder-field-panel,
+  .builder-review-panel,
+  .builder-save-panel,
+  .builder-step-card,
+  .builder-step-card__heading > div,
+  .builder-controls,
+  .control-group,
+  .strategy-comparison-panel,
+  .strategy-comparison-panel__body,
+  .team-export-panel,
+  .player-detail-panel,
+  .player-detail-header > div,
+  .player-detail-body {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .modal-open .page-shell,
+  .modal-open .site-footer {
+    overflow-x: clip;
+  }
+
   .site-nav {
     position: static;
     justify-content: flex-start;
@@ -5103,6 +5132,8 @@ input[type="number"] {
   .site-nav a {
     flex: 1 1 auto;
     justify-content: center;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .table-toolbar,
@@ -5165,6 +5196,33 @@ input[type="number"] {
   .hero__content,
   .panel {
     padding: 20px;
+  }
+
+  select,
+  input[type="text"],
+  input[type="search"],
+  input[type="number"],
+  textarea,
+  .primary-button,
+  .secondary-link,
+  .utility-button,
+  .builder-action-button,
+  .pick-card__action {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  select {
+    text-overflow: ellipsis;
+  }
+
+  .primary-button,
+  .secondary-link,
+  .utility-button,
+  .builder-action-button,
+  .pick-card__action {
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .pick-card-grid,
@@ -5454,6 +5512,11 @@ input[type="number"] {
     grid-template-columns: 1fr;
   }
 
+  .builder-workspace,
+  .builder-sidebar {
+    width: 100%;
+  }
+
   .builder-step-card {
     padding: 14px;
   }
@@ -5489,6 +5552,12 @@ input[type="number"] {
 
   .rule-checks {
     grid-template-columns: 1fr;
+    overflow-wrap: anywhere;
+  }
+
+  .rules-validation-list,
+  .country-counts-list {
+    grid-template-columns: 1fr;
   }
 
   .portfolio-analytics__heading,
@@ -5502,6 +5571,16 @@ input[type="number"] {
 
   .portfolio-metrics {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .portfolio-analytics,
+  .squad-strategy-report,
+  .strategy-comparison-panel,
+  .strategy-comparison-card,
+  .summary-chip,
+  .portfolio-metric,
+  .strategy-report-metric {
+    overflow-wrap: anywhere;
   }
 
   .squad-strategy-report__metrics {
@@ -5533,6 +5612,7 @@ input[type="number"] {
     display: grid;
     gap: 10px;
     min-height: 0;
+    min-width: 0;
   }
 
   .builder-field-card .team-players {
@@ -5562,6 +5642,10 @@ input[type="number"] {
     font-size: 0.72rem;
   }
 
+  .player-card > :not(.player-card__role) {
+    grid-column: 2;
+  }
+
   .player-card strong {
     min-width: 0;
     font-size: 0.92rem;
@@ -5570,6 +5654,25 @@ input[type="number"] {
   .player-card p {
     min-width: 0;
     font-size: 0.76rem;
+  }
+
+  .squad-selection-badge {
+    min-width: 0;
+    max-width: 100%;
+    margin-left: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.1;
+  }
+
+  .player-card__numbers span {
+    overflow: visible;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .player-card__numbers {
+    grid-template-columns: 1fr;
   }
 
   .player-silhouette {
