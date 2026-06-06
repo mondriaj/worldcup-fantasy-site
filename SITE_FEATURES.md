@@ -8,6 +8,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Main fantasy helper page for player recommendations, squad building, matchday decisions, and model inspection.
 - Launch basics are tracked in `data/launchBasics_v1.md`, including metadata, social preview, analytics, support link, domain, and disclaimer readiness.
 - Google Analytics is installed with Measurement ID `G-MSZET05H11` for the current public URL, `https://fantasyeconomist.com`.
+- Search and AI discovery basics are present: crawler access, custom-domain sitemap, short AI-readable site summary, and homepage structured data. Google Search Console and Bing Webmaster Tools submission remains manual.
 - Primary navigation is task-based: Home, Picks, Team Builder, Matchday Desk, Fantasy Finance, World Cup Guide, and Model Notes.
 - The default experience is simple and card-first, with deeper tables, model details, and finance terminology kept in advanced sections.
 - Separate World Cup page for tournament groups, group-stage fixtures, and bracket-path context.

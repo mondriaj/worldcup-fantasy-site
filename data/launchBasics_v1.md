@@ -40,6 +40,22 @@ TODO:
 
 - Verify the property receives page views after the GitHub Pages deployment updates.
 
+## Search and AI Discovery Status
+
+Status: basic files ready; manual submission pending.
+
+- `robots.txt` allows crawling and points to `https://fantasyeconomist.com/sitemap.xml`.
+- `sitemap.xml` lists the homepage and World Cup page on the custom domain.
+- `llms.txt` provides a short public-safe summary for AI tools.
+- `index.html` includes simple JSON-LD structured data for the website.
+- No model outputs changed for discovery metadata.
+
+TODO:
+
+- Add `https://fantasyeconomist.com` to Google Search Console.
+- Submit `https://fantasyeconomist.com/sitemap.xml` to Google Search Console and Bing Webmaster Tools.
+- Use URL Inspection for the homepage and World Cup page after deployment.
+
 ## Support Link Status
 
 Status: pending creator URL.
@@ -73,6 +89,8 @@ Status: ready.
 
 ## Remaining Launch TODOs
 
+- Submit the sitemap in Google Search Console and Bing Webmaster Tools.
+- Check Google Analytics Realtime after visiting the deployed custom-domain site.
 - Create a safe original social preview image.
 - Add `og:image` and `twitter:image` after the preview image is ready.
 - Add a support link only after a real public creator URL is available.
@@ -83,6 +101,7 @@ Status: ready.
 - Confirmed `favicon.svg` exists.
 - Confirmed `CNAME` contains `fantasyeconomist.com`.
 - Confirmed Google Analytics Measurement ID `G-MSZET05H11` is installed on the public HTML entry points and the support URL remains pending.
+- Confirmed search and AI-discovery files are public-safe and use the custom domain.
 - Confirmed no runtime data fetch was added.
 - Confirmed static browser data loading remains unchanged.
 - Confirmed `index.html` and `world-cup.html` returned HTTP 200 from a local server.

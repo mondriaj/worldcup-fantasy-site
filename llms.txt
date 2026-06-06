@@ -1,0 +1,19 @@
+# Fantasy Economist
+
+Public URL: https://fantasyeconomist.com
+
+Fantasy Economist is an independent fantasy football planning tool for the World Cup.
+
+Main pages:
+- https://fantasyeconomist.com/
+- https://fantasyeconomist.com/world-cup.html
+
+Main features:
+- Fantasy player picks
+- Team Builder
+- Score predictions
+- World Cup fixtures
+- Squad risk and portfolio-style strategy tools
+
+Important note:
+Fantasy Economist is independent and not official FIFA fantasy advice. It is for fantasy planning only, not betting or gambling advice. Users should confirm official rules, deadlines, locks, boosters, and live details inside the official game.

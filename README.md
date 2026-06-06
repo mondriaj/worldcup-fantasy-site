@@ -31,6 +31,8 @@ The site can be opened from GitHub Pages or a local server. It loads static data
 
 Google Analytics is installed on the public HTML entry points with Measurement ID `G-MSZET05H11`. The current public URL is `https://fantasyeconomist.com`; no model outputs changed for analytics or custom-domain metadata.
 
+Search and AI discovery basics are installed for the custom domain: `robots.txt`, `sitemap.xml`, `llms.txt`, and homepage JSON-LD structured data. Google Search Console and Bing Webmaster Tools still require manual site and sitemap submission. No model outputs changed for discovery metadata.
+
 ## Files Overview
 
 - `SITE_FEATURES.md` - readable product-level summary of the site's current features, data/model engine, official-data pipelines, and limits
@@ -38,6 +40,9 @@ Google Analytics is installed on the public HTML entry points with Measurement I
 - `index.html` - task-first page structure, primary navigation, hero actions, Picks, Team Builder, Matchday Desk, Fantasy Finance, World Cup Guide, and Model Notes content
 - `style.css` - responsive layout and visual styling
 - `script.js` - uses static player, rules, matchday, score-prediction, and official fantasy-pool data; public recommendation sections prefer official fantasy candidates, and Player Profile can send available players into Team Builder
+- `robots.txt` - public crawler permission file with the custom-domain sitemap location
+- `sitemap.xml` - public sitemap for the homepage and World Cup page
+- `llms.txt` - short public-safe site summary for AI discovery tools
 - `AGENTS.md` - project instructions for Codex, including the player/rules data loading pattern
 - `WEEK6_RECOMMENDATION_ENGINE_PLAN.md` - legacy recommendation-engine roadmap for trust, Team Builder constraints, budget/value calibration, portfolio-aware squad scoring, and future score-predictor upgrades
 - `players.json` - source player dataset
@@ -58,6 +63,7 @@ Google Analytics is installed on the public HTML entry points with Measurement I
 - `data/peleAnchoredFantasyScoreModel_v1.md` - plain-language note for the PELE anchor, fixture-specific Projected xG meaning, score uncertainty fields, fantasy context labels, and PELE source freshness check
 - `data/launchOperationsChecklist_v1.md` - post-launch operating checklist for monitor cadence, refresh decisions, rerun triggers, and public-site checks
 - `data/launchBasics_v1.md` - launch metadata, social preview, analytics, support link, custom-domain, and public disclaimer readiness note
+- `data/searchAndAiDiscovery_v1.md` - search-console and AI-discovery submission checklist
 - `data/scorePredictions_v1.json` - preserved first PELE-backed score prediction model
 - `data/scorePredictions_v0.json` - preserved pre-PELE score prediction model
 - `data/scorePredictionModelRoadmap.md` - score model upgrade notes
@@ -181,3 +187,5 @@ Launch operations checklist:
 The site is static and can be hosted on GitHub Pages from the `project/` repository.
 
 Current public URL: `https://fantasyeconomist.com`. The root `CNAME`, canonical URLs, and Open Graph URLs use the custom domain.
+
+Discovery files are available at `/robots.txt`, `/sitemap.xml`, and `/llms.txt`. Submit the sitemap manually in Google Search Console and Bing Webmaster Tools after deployment.
