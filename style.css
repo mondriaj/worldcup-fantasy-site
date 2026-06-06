@@ -5395,11 +5395,11 @@ input[type="number"] {
   }
 
   #match-environment-table-body td:nth-child(3)::before {
-    content: "W/D/W";
+    content: "Win / Draw / Win";
   }
 
   #match-environment-table-body td:nth-child(4)::before {
-    content: "Score";
+    content: "Most Likely Score";
   }
 
   #match-environment-table-body td:nth-child(5)::before {
@@ -5407,7 +5407,26 @@ input[type="number"] {
   }
 
   #match-environment-table-body td:nth-child(6)::before {
-    content: "Clean Sheet";
+    content: "Clean-Sheet Context";
+  }
+
+  #match-environment-table-body td {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  #match-environment-table-body td > * {
+    min-width: 0;
+  }
+
+  #match-environment-table-body .match-projected-xg,
+  #match-environment-table-body .match-compact-line,
+  #match-environment-table-body .clean-sheet-lines span {
+    white-space: normal;
+  }
+
+  #match-environment-table-body .match-compact-line {
+    overflow-wrap: anywhere;
   }
 
   #captain-table-body .fallback-table-row,
