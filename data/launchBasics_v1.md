@@ -10,22 +10,19 @@ This note records the launch-readiness basics for public sharing. It covers meta
 
 Status: ready for current static launch.
 
-- `index.html` has a clear page title, meta description, Open Graph title and description, Twitter card title and description, mobile viewport, and favicon link.
-- `world-cup.html` has a clear page title, meta description, Open Graph title and description, Twitter card title and description, mobile viewport, and favicon link.
+- `index.html` has a clear page title, meta description, Open Graph title, description, image fields, Twitter card title, description, image fields, mobile viewport, and favicon link.
+- `world-cup.html` has a clear page title, meta description, Open Graph title, description, image fields, Twitter card title, description, image fields, mobile viewport, and favicon link.
 - Canonical URLs and Open Graph URLs use `https://fantasyeconomist.com`.
 
 ## Social Preview Status
 
-Status: basic metadata ready; image pending.
+Status: ready.
 
-- The pages use Twitter summary cards and Open Graph text fields.
-- No safe original social preview image is present in the repo.
+- The pages use Twitter/X `summary_large_image` cards and Open Graph image fields.
+- `social-preview.png` is a safe original 1200 x 630 image in the repo.
+- The preview image uses site colors and the public action labels: Team Builder, Score Prediction, and World Cup Fixtures.
+- `index.html` and `world-cup.html` reference `https://fantasyeconomist.com/social-preview.png`.
 - No official logos, trophy marks, flag-branding artwork, or copyrighted imagery were added.
-
-TODO:
-
-- Create a safe original social preview image later.
-- Wire `og:image` and `twitter:image` only after a safe original preview image exists.
 
 ## Analytics Status
 
@@ -91,8 +88,6 @@ Status: ready.
 
 - Submit the sitemap in Google Search Console and Bing Webmaster Tools.
 - Check Google Analytics Realtime after visiting the deployed custom-domain site.
-- Create a safe original social preview image.
-- Add `og:image` and `twitter:image` after the preview image is ready.
 - Add a support link only after a real public creator URL is available.
 
 ## Checks Run
