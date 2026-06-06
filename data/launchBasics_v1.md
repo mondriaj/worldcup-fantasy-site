@@ -12,7 +12,7 @@ Status: ready for current static launch.
 
 - `index.html` has a clear page title, meta description, Open Graph title and description, Twitter card title and description, mobile viewport, and favicon link.
 - `world-cup.html` has a clear page title, meta description, Open Graph title and description, Twitter card title and description, mobile viewport, and favicon link.
-- No canonical URL or `og:url` is added yet because the custom domain is not configured in the repo.
+- Canonical URLs and Open Graph URLs use `https://fantasyeconomist.com`.
 
 ## Social Preview Status
 
@@ -25,14 +25,14 @@ Status: basic metadata ready; image pending.
 TODO:
 
 - Create a safe original social preview image later.
-- Wire `og:image` and `twitter:image` only after that image exists and the final custom-domain URL is known.
+- Wire `og:image` and `twitter:image` only after a safe original preview image exists.
 
 ## Analytics Status
 
-Status: installed for the current GitHub Pages launch URL.
+Status: installed for the current custom-domain public URL.
 
 - Google Analytics is installed on `index.html` and `world-cup.html` with Measurement ID `G-MSZET05H11`.
-- The current tracked public URL is `https://mondriaj.github.io/worldcup-fantasy-site/`.
+- The current tracked public URL is `https://fantasyeconomist.com`.
 - No placeholder analytics script was added.
 - No player recommendations, Team Builder strategy behavior, score predictions, generated fantasy data, fantasy rules data, or export/import schema changed for analytics.
 
@@ -53,16 +53,14 @@ TODO:
 
 ## Custom Domain Status
 
-Status: pending final domain.
+Status: configured.
 
-- No `CNAME` file is present in the repo.
-- No custom domain or DNS setting was changed.
-- Canonical URLs and Open Graph URLs have not been changed to a custom domain.
+- The root `CNAME` file contains `fantasyeconomist.com`.
+- Canonical URLs and Open Graph URLs use `https://fantasyeconomist.com`.
 
 TODO:
 
-- Add a `CNAME` only after the final custom domain is known.
-- Update custom-domain metadata, canonical URLs, Open Graph URLs, and launch docs after Cloudflare and GitHub Pages custom domain setup are complete.
+- Verify DNS and HTTPS status in GitHub Pages after deployment.
 
 ## Public Disclaimer Status
 
@@ -75,16 +73,15 @@ Status: ready.
 
 ## Remaining Launch TODOs
 
-- Confirm final custom domain when Cloudflare and GitHub Pages setup are available.
 - Create a safe original social preview image.
-- Add custom-domain `canonical`, `og:url`, `og:image`, and `twitter:image` after the final custom domain and preview image are ready.
+- Add `og:image` and `twitter:image` after the preview image is ready.
 - Add a support link only after a real public creator URL is available.
 
 ## Checks Run
 
 - Reviewed launch metadata in `index.html` and `world-cup.html`.
 - Confirmed `favicon.svg` exists.
-- Confirmed no `CNAME` file exists.
+- Confirmed `CNAME` contains `fantasyeconomist.com`.
 - Confirmed Google Analytics Measurement ID `G-MSZET05H11` is installed on the public HTML entry points and the support URL remains pending.
 - Confirmed no runtime data fetch was added.
 - Confirmed static browser data loading remains unchanged.

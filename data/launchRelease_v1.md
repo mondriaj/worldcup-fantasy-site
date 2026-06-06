@@ -65,7 +65,7 @@ Recent launch checks verified:
 - It does not track live scores, lineups, official deadlines, official locks, played/unplayed state, or live fantasy-game legality.
 - Score projections are model estimates, not official projections or live match facts.
 - Team Builder outputs should be checked inside the official game before users save or act.
-- Support link, custom domain, canonical URL, and social preview image remain pending until real production inputs are available.
+- Support link and social preview image remain pending until real production inputs are available.
 
 ## Next Recommended Action
 
@@ -73,7 +73,7 @@ Recent launch checks verified:
 - Continue normal monitoring using `data/launchOperationsChecklist_v1.md`.
 - Do not rerun models for ownership-only changes.
 - Run official data refresh only if player price, position, selectable status, player pool, scoring, squad, rule, deadline, or PELE data changes.
-- Add a support link or custom domain only when real values are available.
+- Add a support link only when a real value is available.
 
 ## Unrelated Worktree Items Left Untouched
 

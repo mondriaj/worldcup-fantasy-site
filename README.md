@@ -29,7 +29,7 @@ http://127.0.0.1:8766/index.html
 
 The site can be opened from GitHub Pages or a local server. It loads static data scripts, so it does not need to fetch JSON files at runtime.
 
-Google Analytics is installed on the public HTML entry points with Measurement ID `G-MSZET05H11`. The current tracked public URL is `https://mondriaj.github.io/worldcup-fantasy-site/`; custom-domain setup remains pending and no model outputs changed for analytics.
+Google Analytics is installed on the public HTML entry points with Measurement ID `G-MSZET05H11`. The current public URL is `https://fantasyeconomist.com`; no model outputs changed for analytics or custom-domain metadata.
 
 ## Files Overview
 
@@ -180,4 +180,4 @@ Launch operations checklist:
 
 The site is static and can be hosted on GitHub Pages from the `project/` repository.
 
-Current public URL: `https://mondriaj.github.io/worldcup-fantasy-site/`. Custom-domain metadata, canonical URLs, Open Graph URLs, and `CNAME` should be updated later only after Cloudflare and GitHub Pages custom domain setup are complete.
+Current public URL: `https://fantasyeconomist.com`. The root `CNAME`, canonical URLs, and Open Graph URLs use the custom domain.
