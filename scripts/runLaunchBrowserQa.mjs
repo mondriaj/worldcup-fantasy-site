@@ -49,8 +49,19 @@ async function qaPage(browser, path, viewport) {
       summary_price: await pageText(page, "#summary-price"),
       summary_budget: await pageText(page, "#summary-budget")
     };
-    await page.locator("#build-team-btn-bottom").click({ timeout: 15000 });
-    await page.waitForTimeout(2500);
+    await page.evaluate(() => {
+      const button = document.querySelector("#build-team-btn-bottom");
+      if (!button) {
+        throw new Error("Build button missing");
+      }
+      button.scrollIntoView({ block: "center", inline: "center" });
+      button.click();
+    });
+    await page.waitForFunction(() => {
+      const squadSize = document.querySelector("#summary-locked")?.textContent?.trim() || "";
+      const message = document.querySelector("#team-message")?.textContent || "";
+      return squadSize === "15 / 15" || /could not|over budget|could not fit/i.test(message);
+    }, null, { timeout: 60000 });
     result.builder_after = {
       message: await pageText(page, "#team-message"),
       squad_size: await pageText(page, "#summary-locked"),

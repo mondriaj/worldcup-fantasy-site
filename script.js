@@ -245,6 +245,19 @@ const officialFantasyPositionLookup = buildOfficialFantasyPositionLookup([
 ]);
 const rawPlayerSource = window.FINANCE_PLAYERS_DATA || window.PLAYERS_DATA || [];
 const rawPlayers = rawPlayerSource.map(normalizePublicPlayerFantasyPosition);
+const rawPlayerById = new Map();
+rawPlayers.forEach((player) => {
+  [
+    player?.id,
+    player?.internal_player_id,
+    player?.source_player_id,
+    player?.official_fantasy_player_id
+  ].filter(Boolean).forEach((id) => {
+    if (!rawPlayerById.has(String(id))) {
+      rawPlayerById.set(String(id), player);
+    }
+  });
+});
 const officialUnavailablePlayerRecords = fantasyPoolPreviewStatus?.unavailable_players || [];
 const officialUnavailablePlayerNames = new Set(
   officialUnavailablePlayerRecords.map((player) => normalizeText(player.name || "")).filter(Boolean)
@@ -255,9 +268,6 @@ const officialUnavailablePlayerIds = new Set(
     .filter(Boolean)
     .map(String)
 );
-const players = officialUnavailablePlayerRecords.length
-  ? rawPlayers.filter((player) => !isUnavailableInOfficialFantasy(player))
-  : rawPlayers;
 const financeModelSummary = window.FINANCE_MODEL_SUMMARY || null;
 const usingFinanceModel = Boolean(window.FINANCE_PLAYERS_DATA);
 const matchdayProjectionRows = window.PLAYER_MATCHDAY_PROJECTIONS_DATA || [];
@@ -337,10 +347,46 @@ const fantasyPoolPreviewProjectionLookup = fantasyPoolProjectionRows.reduce((loo
   lookup.set(key, projectionMap);
   return lookup;
 }, new Map());
+const fantasyPoolRecommendationLookup = fantasyPoolRecommendationRows.reduce((lookup, row) => {
+  const key = fantasyPoolPlayerKey(row);
+  if (!key) {
+    return lookup;
+  }
+
+  const candidates = lookup.get(key) || [];
+  candidates.push(row);
+  lookup.set(key, candidates);
+  return lookup;
+}, new Map());
 const fantasyPoolPreviewPlayers = usingFantasyPoolPreview
   ? fantasyPoolRecommendationRows.map(fantasyPoolCandidateToPlayer)
   : [];
 const fantasyPoolPreviewPlayerById = new Map(fantasyPoolPreviewPlayers.map((player) => [player.id, player]));
+const currentFantasyPoolPlayers = buildCurrentFantasyPoolPlayers();
+const legacyFallbackPlayers = currentFantasyPoolPlayers.length ? [] : rawPlayers
+  .filter((player) => !isUnavailableInOfficialFantasy(player))
+  .map((player) => normalizePublicPlayerFantasyPosition({
+    ...player,
+    is_team_builder_legacy_fallback: true,
+    team_builder_source: "legacy_fallback_player_data",
+    source_review_flags: [
+      ...(Array.isArray(player.source_review_flags) ? player.source_review_flags : []),
+      "team_builder_legacy_fallback"
+    ]
+  }));
+const players = currentFantasyPoolPlayers.length ? currentFantasyPoolPlayers : legacyFallbackPlayers;
+const teamBuilderDataSourceSummary = {
+  source: currentFantasyPoolPlayers.length
+    ? "official_fantasy_pool_with_current_model_fields"
+    : "legacy_fallback_player_data",
+  official_player_rows: fantasyPoolPreviewStatus?.official_position_records?.length || 0,
+  selectable_official_rows: currentFantasyPoolPlayers.length || 0,
+  legacy_fallback_rows: legacyFallbackPlayers.length,
+  finance_metric_rows: fantasyPoolFinanceRows.length,
+  projection_rows: fantasyPoolProjectionRows.length,
+  recommendation_rows: fantasyPoolRecommendationRows.length,
+  score_fixture_rows: scorePredictionRows.length
+};
 const primaryStrategyKeys = ["balanced", "safe", "upside", "differential"];
 const publicPickModelCopy = {
   expected: {
@@ -609,6 +655,262 @@ function fantasyPoolCandidateToPlayer(candidate) {
     recommendation_tier_label: titleFromSnake(candidate.recommendation_tier),
     model_stage: "current_official_fantasy_pool"
   });
+}
+
+function officialFantasySelectableStatus(status) {
+  return String(status || "playing").trim().toLowerCase();
+}
+
+function isOfficialFantasySelectable(record) {
+  return officialFantasySelectableStatus(record?.selectable_status) === "playing";
+}
+
+function firstFiniteNumberOrMissing(...valuesToCheck) {
+  for (const valueToCheck of valuesToCheck) {
+    const number = Number(valueToCheck);
+    if (Number.isFinite(number)) {
+      return number;
+    }
+  }
+
+  return null;
+}
+
+function fantasyPoolProjectionRowsForPlayer(projectionMap = {}) {
+  return ["md1", "md2", "md3"]
+    .map((matchdayId) => projectionMap[matchdayId])
+    .filter(Boolean);
+}
+
+function sumFantasyPoolProjectionField(projectionMap, fieldName) {
+  const valuesToSum = fantasyPoolProjectionRowsForPlayer(projectionMap)
+    .map((projection) => Number(projection[fieldName]))
+    .filter(Number.isFinite);
+
+  return valuesToSum.length
+    ? valuesToSum.reduce((sum, valueToAdd) => sum + valueToAdd, 0)
+    : null;
+}
+
+function averageFantasyPoolProjectionField(projectionMap, fieldName) {
+  const valuesToAverage = fantasyPoolProjectionRowsForPlayer(projectionMap)
+    .map((projection) => Number(projection[fieldName]))
+    .filter(Number.isFinite);
+
+  return valuesToAverage.length
+    ? valuesToAverage.reduce((sum, valueToAdd) => sum + valueToAdd, 0) / valuesToAverage.length
+    : null;
+}
+
+function bestFantasyPoolRecommendationForPlayer(officialFantasyPlayerId) {
+  const recommendations = fantasyPoolRecommendationLookup.get(String(officialFantasyPlayerId || "")) || [];
+  const matchdayPriority = {
+    group_stage_full: 0,
+    md1: 1,
+    md2: 2,
+    md3: 3
+  };
+  const modePriority = {
+    balanced: 0,
+    safe: 1,
+    upside: 2,
+    differential: 3,
+    captain: 4
+  };
+
+  return [...recommendations].sort((a, b) =>
+    (matchdayPriority[a.matchday] ?? 9) - (matchdayPriority[b.matchday] ?? 9) ||
+    (modePriority[a.mode] ?? 9) - (modePriority[b.mode] ?? 9) ||
+    Number(a.rank || 999) - Number(b.rank || 999)
+  )[0] || null;
+}
+
+function currentFantasyPoolPlayerId(record) {
+  return String(
+    record?.internal_player_id ||
+    record?.matched_existing_player_id ||
+    record?.source_player_id ||
+    (record?.official_fantasy_player_id ? `official-fantasy-${record.official_fantasy_player_id}` : "")
+  ).trim();
+}
+
+function currentFantasyPoolPlayerFromOfficialRecord(record) {
+  const officialFantasyPlayerId = String(record?.official_fantasy_player_id || "");
+  const id = currentFantasyPoolPlayerId(record);
+  const financeMetric = fantasyPoolFinanceLookup.get(officialFantasyPlayerId) || {};
+  const projectionMap = fantasyPoolPreviewProjectionLookup.get(officialFantasyPlayerId) || {};
+  const projections = fantasyPoolProjectionRowsForPlayer(projectionMap);
+  const firstProjection = projections[0] || {};
+  const recommendation = bestFantasyPoolRecommendationForPlayer(officialFantasyPlayerId);
+  const legacyPlayer = rawPlayerById.get(id) || rawPlayerById.get(officialFantasyPlayerId) || {};
+  const positionCode = normalizeFantasyPositionCode(
+    record?.official_fantasy_position ||
+    financeMetric.official_fantasy_position ||
+    firstProjection.official_fantasy_position
+  );
+  const price = firstFiniteNumberOrMissing(
+    record?.official_price,
+    financeMetric.official_price,
+    firstProjection.official_price,
+    recommendation?.official_price
+  );
+  const averageStartProbability = firstFiniteNumberOrMissing(
+    financeMetric.average_start_probability,
+    averageFantasyPoolProjectionField(projectionMap, "start_probability")
+  ) || 0;
+  const averageExpectedMinutes = firstFiniteNumberOrMissing(
+    financeMetric.average_expected_minutes,
+    averageFantasyPoolProjectionField(projectionMap, "expected_minutes")
+  ) || 0;
+  const groupStageExpectedPoints = firstFiniteNumberOrMissing(
+    financeMetric.group_stage_expected_points,
+    sumFantasyPoolProjectionField(projectionMap, "finance_expected_return_points"),
+    sumFantasyPoolProjectionField(projectionMap, "raw_expected_points"),
+    recommendation?.raw_expected_points
+  ) || 0;
+  const groupStageRiskAdjustedPoints = firstFiniteNumberOrMissing(
+    financeMetric.group_stage_risk_adjusted_points,
+    sumFantasyPoolProjectionField(projectionMap, "finance_risk_adjusted_return_points"),
+    sumFantasyPoolProjectionField(projectionMap, "risk_adjusted_points"),
+    recommendation?.risk_adjusted_points
+  ) || 0;
+  const groupStageCeilingPoints = firstFiniteNumberOrMissing(
+    financeMetric.group_stage_ceiling_points,
+    sumFantasyPoolProjectionField(projectionMap, "finance_upside_p90_points"),
+    sumFantasyPoolProjectionField(projectionMap, "ceiling_points"),
+    recommendation?.ceiling_points
+  ) || groupStageExpectedPoints;
+  const groupStageFloorPoints = firstFiniteNumberOrMissing(
+    financeMetric.group_stage_floor_points,
+    financeMetric.bad_week_floor,
+    sumFantasyPoolProjectionField(projectionMap, "floor_points"),
+    recommendation?.floor_points
+  ) || 0;
+  const financeContext = recommendation?.finance_context || {};
+  const riskScore = Math.min(100, Math.max(0, firstFiniteNumberOrMissing(
+    financeMetric.downside_risk_proxy,
+    financeMetric.volatility_proxy,
+    financeMetric.data_risk,
+    fantasyPoolRiskScore(recommendation, financeMetric)
+  ) || 0));
+  const confidence = financeMetric.projection_confidence || firstProjection.projection_confidence || recommendation?.projection_confidence || "low";
+  const dataConfidence = confidenceScore(confidence);
+  const recommendationScore = firstFiniteNumberOrMissing(recommendation?.recommendation_score);
+  const baseStrategyScore = Math.max(
+    0,
+    groupStageRiskAdjustedPoints * 3.2 +
+      averageStartProbability * 20 +
+      Math.max(0, 100 - riskScore) * 0.18 +
+      (Number.isFinite(recommendationScore) ? recommendationScore * 0.35 : 0)
+  );
+  const flags = importantPreviewFlags([
+    ...(Array.isArray(record?.data_quality_flags) ? record.data_quality_flags : []),
+    ...(Array.isArray(financeMetric.data_quality_flags) ? financeMetric.data_quality_flags : []),
+    ...(Array.isArray(financeMetric.finance_flags) ? financeMetric.finance_flags : []),
+    ...(Array.isArray(firstProjection.data_quality_flags) ? firstProjection.data_quality_flags : []),
+    ...(Array.isArray(recommendation?.data_quality_flags) ? recommendation.data_quality_flags : [])
+  ]);
+  const missingCriticalFlags = [];
+
+  if (!officialFantasyPlayerId) missingCriticalFlags.push("missing_official_fantasy_player_id");
+  if (!positionCode) missingCriticalFlags.push("missing_official_fantasy_position");
+  if (price === null) missingCriticalFlags.push("missing_official_fantasy_price");
+  if (!projections.length) missingCriticalFlags.push("missing_current_matchday_projection");
+  if (!Object.keys(financeMetric).length) missingCriticalFlags.push("missing_current_finance_metric");
+  if (!Object.keys(firstProjection.fixture_context || {}).length) missingCriticalFlags.push("missing_score_context");
+
+  return normalizePublicPlayerFantasyPosition({
+    id,
+    internal_player_id: id,
+    source_player_id: id,
+    official_fantasy_player_id: officialFantasyPlayerId || null,
+    official_team_id: record?.team_id || firstProjection.official_team_id || null,
+    name: record?.name || financeMetric.name || firstProjection.name || legacyPlayer.name || "Player needs check",
+    display_name: record?.name || financeMetric.display_name || firstProjection.display_name || legacyPlayer.display_name || null,
+    country: record?.country || financeMetric.country || firstProjection.country || legacyPlayer.country || "needs_check",
+    team_id: financeMetric.team_id || firstProjection.team_id || legacyPlayer.team_id || record?.team_id || "",
+    position: fantasyPositionLabelFromCode(positionCode),
+    position_code: positionCode,
+    official_fantasy_position: positionCode,
+    club: firstProjection.minutes_context?.source_club_context?.current_club || legacyPlayer.club || financeMetric.club || "Fantasy pool",
+    league: firstProjection.minutes_context?.source_club_context?.current_league || legacyPlayer.league || "Fantasy pool",
+    price: price ?? 0,
+    official_price: price,
+    price_is_proxy: false,
+    price_note: "Official fantasy price",
+    selectable_status: record?.selectable_status || financeMetric.selectable_status || firstProjection.selectable_status || "playing",
+    roster_status: financeMetric.roster_status || firstProjection.roster_status || "selectable_fantasy_player",
+    recommendation_use: missingCriticalFlags.length ? "safe_to_rank_with_caveat" : "safe_to_rank",
+    finance_label: "current_fantasy_pool",
+    portfolio_use: "fantasy_pool_planning",
+    risk_profile: confidence,
+    value_role: recommendation?.mode || "current_fantasy_pool",
+    data_confidence_score: dataConfidence,
+    data_confidence_band: confidence,
+    country_role: financeMetric.role_label || firstProjection.minutes_context?.role_label || firstProjection.role_label || recommendation?.role_label || "unclear",
+    role_confidence: financeMetric.role_confidence || firstProjection.minutes_context?.role_confidence || firstProjection.role_confidence || recommendation?.role_confidence || confidence,
+    expected_minutes_v0: averageExpectedMinutes,
+    start_probability_percent: averageStartProbability * 100,
+    substitution_risk: Math.max(0, 100 - averageStartProbability * 100),
+    risk_composite_score: riskScore,
+    finance_composite_risk_score: riskScore,
+    risk_tail_score: Math.min(100, riskScore + 8),
+    finance_tail_risk_score: Math.min(100, riskScore + 8),
+    risk_adjusted_expected_points_estimate: groupStageRiskAdjustedPoints,
+    finance_expected_return_points: groupStageExpectedPoints,
+    finance_risk_adjusted_return_points: groupStageRiskAdjustedPoints,
+    finance_upside_p90_points: groupStageCeilingPoints,
+    finance_captain_score: firstFiniteNumberOrMissing(financeMetric.captain_score, recommendation?.captain_score) || 0,
+    finance_var10_points: groupStageFloorPoints,
+    finance_cvar20_points: firstFiniteNumberOrMissing(financeMetric.stress_case_floor, financeMetric.group_stage_floor_points, groupStageFloorPoints) || 0,
+    finance_strategy_risk_adjusted: baseStrategyScore,
+    finance_strategy_safe_floor: Math.max(0, groupStageFloorPoints * 8 + Math.max(0, 100 - riskScore) * 0.35 + averageStartProbability * 25),
+    finance_strategy_upside: Math.max(0, groupStageCeilingPoints * 2 + groupStageExpectedPoints * 2),
+    finance_strategy_attack_heavy: ["MID", "FWD"].includes(positionCode)
+      ? Math.max(0, groupStageCeilingPoints * 2 + groupStageExpectedPoints * 2.5)
+      : Math.max(0, groupStageExpectedPoints * 1.5),
+    finance_strategy_defensive_heavy: ["GK", "DEF"].includes(positionCode)
+      ? Math.max(0, groupStageRiskAdjustedPoints * 3 + Math.max(0, 100 - riskScore) * 0.2)
+      : Math.max(0, groupStageRiskAdjustedPoints),
+    finance_strategy_very_risky: Math.max(0, groupStageCeilingPoints * 2.4 + (financeContext.volatility_score || financeMetric.volatility_proxy || 0) * 0.2),
+    value_score_v1: Math.max(0, firstFiniteNumberOrMissing(financeMetric.risk_adjusted_points_per_price, financeMetric.points_per_price, recommendation?.value_score) || 0) * 10,
+    cheap_enabler_score_v1: Math.max(0, firstFiniteNumberOrMissing(financeMetric.risk_adjusted_points_per_price, financeMetric.points_per_price, recommendation?.value_score) || 0) * 12,
+    premium_worth_it_score_v1: Math.max(0, baseStrategyScore - (financeMetric.price_tier_opportunity_cost || 0)),
+    overpay_risk_v1: financeMetric.price_tier_opportunity_cost ?? 0,
+    proxy_price_percentile_v1: 50,
+    preview_matchday_projections_by_matchday: projectionMap,
+    preview_candidate: recommendation,
+    preview_finance_context: recommendation?.finance_context || {},
+    preview_matchday: recommendation?.matchday || "group_stage_full",
+    preview_opponent: recommendation?.opponent || "Group stage average",
+    recommendation_tier_label: recommendation ? titleFromSnake(recommendation.recommendation_tier) : "Current fantasy pool",
+    source_review_flags: Array.from(new Set([
+      ...flags,
+      ...missingCriticalFlags,
+      "team_builder_current_official_pool_source"
+    ])),
+    short_reason: Array.isArray(recommendation?.why_pick) ? recommendation.why_pick.join(". ") : "",
+    data_note: fantasyPoolPreviewStatus?.public_warning_html || "Official fantasy-pool player with current model fields.",
+    source_note: "Team Builder starts from the official fantasy pool, then joins current projections and finance metrics.",
+    minutes_model_source_note: firstProjection.minutes_context?.evidence_notes || `Role label: ${titleFromSnake(financeMetric.role_label || "unclear")}; confidence: ${titleFromSnake(confidence)}.`,
+    team_builder_source: "official_fantasy_pool_with_current_model_fields",
+    is_current_fantasy_pool_player: true,
+    model_stage: "current_official_fantasy_pool"
+  });
+}
+
+function buildCurrentFantasyPoolPlayers() {
+  const officialRows = Array.isArray(fantasyPoolPreviewStatus?.official_position_records)
+    ? fantasyPoolPreviewStatus.official_position_records
+    : [];
+
+  return officialRows
+    .filter(isOfficialFantasySelectable)
+    .map(currentFantasyPoolPlayerFromOfficialRecord)
+    .filter((player) => player.id && player.official_fantasy_player_id)
+    .filter((player, index, playerList) =>
+      playerList.findIndex((candidate) => candidate.id === player.id) === index
+    );
 }
 
 function fantasyPoolPreviewCandidatesForMode(mode, matchdayId = activeMatchdayId) {
@@ -2279,7 +2581,7 @@ function projectionForPlayerMatchday(player, matchdayId) {
     return null;
   }
 
-  if (player.is_fantasy_pool_preview) {
+  if (player.preview_matchday_projections_by_matchday) {
     return player.preview_matchday_projections_by_matchday?.[matchdayId] || null;
   }
 
@@ -5154,7 +5456,7 @@ function playerCountryText(player) {
 }
 
 function playerSearchText(player) {
-  return `${player.name} ${player.club} ${player.country} ${playerCountryText(player)} ${player.position}`.toLowerCase();
+  return normalizeText(`${player.name} ${player.display_name || ""} ${player.club} ${player.country} ${playerCountryText(player)} ${player.position}`);
 }
 
 function topByPosition(position, measure) {
@@ -9589,7 +9891,8 @@ function exportModelMetadata() {
     generated_at: new Date().toISOString(),
     site_name: "The Fantasy Economist",
     site_status: "current_official_fantasy",
-    data_mode: usingFinanceModel ? "official_fantasy_player_layer" : "local_player_layer",
+    data_mode: teamBuilderDataSourceSummary.source,
+    team_builder_data_source: teamBuilderDataSourceSummary,
     browser_models: {
       finance: financeModelSummary ? {
         schema_version: financeModelSummary.schema_version,
@@ -9898,8 +10201,8 @@ function exportExplanation(starters, bench) {
     .map(([countryKey, count]) => `${countryCountLabel(countryKey)} ${count}/${groupStageCountryLimit}`)
     .join(", ");
 
-  const priceNote = usingFinanceModel
-    ? "Team Builder uses the current player layer with unavailable-player filtering; public pick cards use the current fantasy prices."
+  const priceNote = teamBuilderDataSourceSummary.source === "official_fantasy_pool_with_current_model_fields"
+    ? "Team Builder uses the current official fantasy-pool player layer with official selectable-status filtering, prices, and positions."
     : "Current data is the local fallback dataset.";
 
   return `Generated by Team Builder using ${activeBuilderStrategyLabel()}, ${trustModeLabel()}, and ${activeMatchdayLabel()}. Squad risk scoring is enabled as a small squad-level adjustment. Risk controls: ${builderRiskSettingsSummary()}. The squad costs ${budgetText(totalPrice)} with ${remainingBudgetText(totalPrice)} remaining. Country counts: ${countryCounts || "none"}. ${priceNote}`;
@@ -9966,13 +10269,15 @@ function teamExportPayload() {
     },
     explanation,
     data_sources: [
-      usingFinanceModel ? "Official fantasy player pool and prices" : "Local player list",
-      "Player matchday projections",
+      teamBuilderDataSourceSummary.source === "official_fantasy_pool_with_current_model_fields"
+        ? "Current official fantasy-pool players, prices, positions, and selectable status"
+        : "Local player list",
+      "Current fantasy-pool player matchday projections",
       activeScorePredictionSource.label,
       "Fantasy rules summary",
       "Team Builder strategy notes",
-      usingFinanceModel
-        ? "Current Team Builder view uses official fantasy-player filtering."
+      teamBuilderDataSourceSummary.source === "official_fantasy_pool_with_current_model_fields"
+        ? "Current Team Builder view uses official fantasy-pool players."
         : "Current Team Builder view uses the local player list."
     ],
     rules_sources: [
@@ -10501,7 +10806,12 @@ function renderMeasureInfo() {
 }
 
 function normalizeText(text) {
-  return text.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  return String(text || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
 }
 
 function directChildElements(parent, selector) {
@@ -10799,7 +11109,7 @@ function toggleScoreInfo() {
 function renderPlayerPicker() {
   const measure = activeMeasure();
   const builderStrategyLabel = activeBuilderStrategyLabel();
-  const searchValue = playerSearch.value.trim().toLowerCase();
+  const searchValue = normalizeText(playerSearch.value);
   const filteredPlayers = players
     .filter((player) => !excludedPlayerIds.has(player.id))
     .filter((player) => selectedPositionFilter === "All" || player.position === selectedPositionFilter)
@@ -11644,7 +11954,7 @@ function renderWarning(tacticName, ignoredLockedPlayers, missingStarterSlots, mi
   }
 
   if (countryInfo.countryLimitCouldNotFit) {
-    messages.push(`The builder could not add more players from one country because the Week 5 rule allows only ${groupStageCountryLimit} per country.`);
+    messages.push(`The builder could not add more players from one country because the official fantasy rule allows only ${groupStageCountryLimit} per country.`);
   }
 
   if (optimizerInfo.ran && !optimizerInfo.foundValidSquad) {

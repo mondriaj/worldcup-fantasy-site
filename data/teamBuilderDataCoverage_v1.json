@@ -1,0 +1,244 @@
+{
+  "schema_version": "team_builder_data_coverage_v1",
+  "generated_at": "2026-06-08T13:04:47.177Z",
+  "verdict": "pass",
+  "team_builder_source_before_change": "script.js initialized Team Builder players from window.FINANCE_PLAYERS_DATA || window.PLAYERS_DATA, then filtered unavailable official fantasy rows and patched official positions.",
+  "team_builder_source_after_change": "script.js builds Team Builder players from fantasyPoolOfficialDataStatusData.js official_position_records, filters to official selectable status, then joins current fantasy-pool projections, finance metrics, recommendations, and score context. Legacy players remain a fallback only if the official fantasy-pool layer is absent.",
+  "counts": {
+    "official_fantasy_players_source": 1481,
+    "official_position_records_browser": 1481,
+    "selectable_official_players": 1248,
+    "team_builder_candidate_rows": 1248,
+    "excluded_rows": 233,
+    "excluded_reasons": {
+      "nonselectable_official_status": 233,
+      "duplicate_builder_id": 0,
+      "missing_builder_or_official_id": 0
+    },
+    "recommendation_rows": 500,
+    "recommendation_unique_players": 111,
+    "matchday_projection_rows": 3768,
+    "matchday_projection_unique_players": 1256,
+    "finance_metric_rows": 1256,
+    "score_fixture_rows": 72,
+    "legacy_finance_rows_loaded": 1335,
+    "legacy_player_rows_loaded": 100,
+    "runtime_legacy_fallback_rows": 0,
+    "legacy_display_fallback_rows": 95
+  },
+  "missing_field_counts": {
+    "official_fantasy_id": 0,
+    "player_name": 0,
+    "country_or_team": 0,
+    "official_fantasy_position": 0,
+    "official_fantasy_price": 0,
+    "selectable_status": 0,
+    "projected_points": 0,
+    "matchday_projections": 0,
+    "finance_metrics": 0,
+    "finance_value_fields": 0,
+    "score_context": 0,
+    "role_minutes_start_probability": 0,
+    "risk_downside_fields": 0
+  },
+  "known_examples": [
+    {
+      "internal_player_id": "colombia-luis-diaz",
+      "found_in_team_builder_pool": true,
+      "name": "Luis Díaz",
+      "official_fantasy_position": "MID",
+      "official_price": 8.1,
+      "selectable_status": "playing"
+    },
+    {
+      "internal_player_id": "brazil-vinicius-junior",
+      "found_in_team_builder_pool": true,
+      "name": "Vinícius José Paixão de Oliveira Júnior",
+      "official_fantasy_position": "MID",
+      "official_price": 10,
+      "selectable_status": "playing"
+    }
+  ],
+  "rules": {
+    "rules_version": "fifa_world_cup_2026_official_fantasy_rules_v1",
+    "total_players": 15,
+    "budget": 100,
+    "country_limit": 3,
+    "position_counts": {
+      "GK": 2,
+      "DEF": 5,
+      "MID": 5,
+      "FWD": 3
+    },
+    "allowed_formations": [
+      "4-4-2",
+      "4-3-3",
+      "4-5-1",
+      "3-4-3",
+      "3-5-2",
+      "5-4-1",
+      "5-3-2"
+    ]
+  },
+  "source_sync": [
+    {
+      "source_path": "data/matchdayRecommendations_fantasyPool_v3.json",
+      "source_rows": 500,
+      "browser_rows": 500,
+      "in_sync": true
+    },
+    {
+      "source_path": "data/playerMatchdayProjections_fantasyPool_v3.json",
+      "source_rows": 3768,
+      "browser_rows": 3768,
+      "in_sync": true
+    },
+    {
+      "source_path": "data/playerFinanceMetrics_fantasyPool_v1.json",
+      "source_rows": 1256,
+      "browser_rows": 1256,
+      "in_sync": true
+    },
+    {
+      "source_path": "data/scorePredictions_fantasyPool_v3.json",
+      "source_rows": 72,
+      "browser_rows": 72,
+      "in_sync": true
+    }
+  ],
+  "static_loading": {
+    "browser_files_before_script": true,
+    "files_checked": [
+      "fantasyRulesData.js",
+      "financePlayersData.js",
+      "playersData.js",
+      "fantasyPoolRecommendationsData.js",
+      "fantasyPoolMatchdayProjectionsData.js",
+      "fantasyPoolFinanceMetricsData.js",
+      "fantasyPoolScorePredictionsData.js",
+      "fantasyPoolOfficialDataStatusData.js"
+    ]
+  },
+  "script_checks": {
+    "uses_current_fantasy_pool_builder_source": true,
+    "legacy_fallback_is_explicit": true,
+    "no_runtime_fetch": true
+  },
+  "monitor_result": {
+    "monitor_status": "completed",
+    "official_data_changed": true,
+    "rerun_decision": "official_player_import_rerun_needed",
+    "player_changes": {
+      "new_players": 1,
+      "removed_players": 0,
+      "name_changes": 0,
+      "price_changes": 0,
+      "position_changes": 0,
+      "selectable_status_changes": 8,
+      "country_team_changes": 0,
+      "fifa_player_id_changes": 0,
+      "ownership_percent_changes": 318
+    },
+    "squad_changes": {
+      "new_teams": 0,
+      "removed_teams": 0,
+      "team_name_changes": 0
+    },
+    "rules_changes": {
+      "source_header_changes": 0,
+      "mystery_booster_text_changes": 0,
+      "deadline_round_changes": 0
+    }
+  },
+  "samples": {
+    "missing_critical_fields": [],
+    "nonselectable_excluded": [
+      {
+        "official_fantasy_player_id": "2045",
+        "internal_player_id": "algeria-abdelatif-ramdane",
+        "name": "Abdelatif Ramdane",
+        "country": "Algeria",
+        "missing": []
+      },
+      {
+        "official_fantasy_player_id": "775",
+        "internal_player_id": "thin-29-abdelhamid-ait-boudlal",
+        "name": "Abdelhamid Aït Boudlal",
+        "country": "Morocco",
+        "missing": []
+      },
+      {
+        "official_fantasy_player_id": "1960",
+        "internal_player_id": "saudi-arabia-abdullah-al-salem",
+        "name": "Abdullah bin Ibrahim bin Ahmed Al Salem",
+        "country": "Saudi Arabia",
+        "missing": []
+      },
+      {
+        "official_fantasy_player_id": "1950",
+        "internal_player_id": "thin-37-abdulquddus-bin-atiah-bin-mohammed-atiah-khaoud",
+        "name": "Abdulquddus bin Atiah bin Mohammed Atiah Khaoud",
+        "country": "Saudi Arabia",
+        "missing": []
+      },
+      {
+        "official_fantasy_player_id": "2059",
+        "internal_player_id": "thin-37-abdulrahman-bin-salem-bin-fadhel-al-sanbi",
+        "name": "Abdulrahman bin Salem bin Fadhel Al Sanbi",
+        "country": "Saudi Arabia",
+        "missing": []
+      },
+      {
+        "official_fantasy_player_id": "1690",
+        "internal_player_id": "paraguay-adam-bareiro",
+        "name": "Adam Bareiro",
+        "country": "Paraguay",
+        "missing": []
+      },
+      {
+        "official_fantasy_player_id": "25",
+        "internal_player_id": "thin-1-adil-aouchiche",
+        "name": "Adil Aouchiche",
+        "country": "Algeria",
+        "missing": []
+      },
+      {
+        "official_fantasy_player_id": "1689",
+        "internal_player_id": "paraguay-adrian-alcaraz",
+        "name": "Adrián Alcaraz",
+        "country": "Paraguay",
+        "missing": []
+      },
+      {
+        "official_fantasy_player_id": "1243",
+        "internal_player_id": "thin-46-agustin-alvarez",
+        "name": "Agustín Álvarez",
+        "country": "Uruguay",
+        "missing": []
+      },
+      {
+        "official_fantasy_player_id": "36",
+        "internal_player_id": "thin-2-agustin-giay",
+        "name": "Agustín Giay",
+        "country": "Argentina",
+        "missing": []
+      },
+      {
+        "official_fantasy_player_id": "1500",
+        "internal_player_id": "paraguay-agustin-sandez",
+        "name": "Agustín Sández",
+        "country": "Paraguay",
+        "missing": []
+      },
+      {
+        "official_fantasy_player_id": "697",
+        "internal_player_id": "jordan-ahmad-assaf",
+        "name": "Ahmad Fawzi Abdalateef Assaf",
+        "country": "Jordan",
+        "missing": []
+      }
+    ],
+    "duplicate_builder_ids": []
+  },
+  "failed_checks": []
+}
