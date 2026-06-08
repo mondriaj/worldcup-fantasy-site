@@ -59,8 +59,192 @@ function scorePredictionSourceFromWindow() {
   };
 }
 
+const positionCodeLabels = {
+  GK: "Goalkeeper",
+  DEF: "Defender",
+  MID: "Midfielder",
+  FWD: "Forward"
+};
+
+const positionLabelCodes = Object.entries(positionCodeLabels).reduce((codes, [code, label]) => {
+  codes[label] = code;
+  return codes;
+}, {});
+
+function normalizeFantasyPositionCode(position) {
+  const rawPosition = String(position || "").trim();
+  const upperPosition = rawPosition.toUpperCase();
+  const lowerPosition = rawPosition.toLowerCase();
+
+  if (positionCodeLabels[upperPosition]) {
+    return upperPosition;
+  }
+
+  if (lowerPosition.startsWith("goalkeeper") || lowerPosition === "keeper") {
+    return "GK";
+  }
+
+  if (lowerPosition.startsWith("defender") || lowerPosition === "defence" || lowerPosition === "defense") {
+    return "DEF";
+  }
+
+  if (lowerPosition.startsWith("midfielder") || lowerPosition === "midfield") {
+    return "MID";
+  }
+
+  if (lowerPosition.startsWith("forward") || lowerPosition === "striker" || lowerPosition === "attacker") {
+    return "FWD";
+  }
+
+  return null;
+}
+
+function fantasyPositionLabelFromCode(positionCode) {
+  return positionCodeLabels[positionCode] || positionCode || "Position needs check";
+}
+
+function officialFantasyPositionLookupKeys(record) {
+  const idValues = [
+    ["official", record?.official_fantasy_player_id],
+    ["official", record?.officialFantasyPlayerId],
+    ["internal", record?.internal_player_id],
+    ["internal", record?.matched_existing_player_id],
+    ["internal", record?.source_player_id],
+    ["internal", record?.player_id],
+    ["internal", record?.id],
+    ["internal", record?.preview_player_key]
+  ];
+  const keys = idValues
+    .filter(([, valueToCheck]) => valueToCheck !== null && valueToCheck !== undefined && String(valueToCheck).trim())
+    .map(([type, valueToCheck]) => `${type}:${String(valueToCheck).trim()}`);
+  const nameKey = normalizeText(record?.name || record?.display_name || "");
+  const countryKey = normalizeText(record?.country || "");
+
+  if (nameKey && countryKey) {
+    keys.push(`name-country:${nameKey}|${countryKey}`);
+  }
+
+  return Array.from(new Set(keys));
+}
+
+function buildOfficialFantasyPositionLookup(records) {
+  const lookup = new Map();
+
+  records.forEach((record) => {
+    const positionCode = normalizeFantasyPositionCode(record?.official_fantasy_position || record?.officialFantasyPosition);
+
+    if (!positionCode) {
+      return;
+    }
+
+    const positionInfo = {
+      code: positionCode,
+      label: fantasyPositionLabelFromCode(positionCode),
+      source: record?.position_source || "official_fifa_fantasy_feed",
+      official: true,
+      record
+    };
+
+    officialFantasyPositionLookupKeys(record).forEach((key) => {
+      if (!lookup.has(key) || positionInfo.source === "official_fifa_fantasy_feed") {
+        lookup.set(key, positionInfo);
+      }
+    });
+  });
+
+  return lookup;
+}
+
+function officialFantasyPositionRecordForPlayer(player) {
+  for (const key of officialFantasyPositionLookupKeys(player)) {
+    const positionInfo = officialFantasyPositionLookup.get(key);
+    if (positionInfo) {
+      return positionInfo;
+    }
+  }
+
+  const directOfficialPosition = normalizeFantasyPositionCode(player?.official_fantasy_position || player?.officialFantasyPosition);
+  if (directOfficialPosition) {
+    return {
+      code: directOfficialPosition,
+      label: fantasyPositionLabelFromCode(directOfficialPosition),
+      source: player?.position_source || "official_fantasy_position_field",
+      official: true,
+      record: player
+    };
+  }
+
+  const fantasyPositionAlias = normalizeFantasyPositionCode(player?.fantasyPosition || player?.fantasy_position);
+  if (fantasyPositionAlias) {
+    return {
+      code: fantasyPositionAlias,
+      label: fantasyPositionLabelFromCode(fantasyPositionAlias),
+      source: player?.position_source || "fantasy_position_alias",
+      official: false,
+      record: player
+    };
+  }
+
+  const fallbackPosition = normalizeFantasyPositionCode(player?.position_code || player?.position);
+  return fallbackPosition ? {
+    code: fallbackPosition,
+    label: fantasyPositionLabelFromCode(fallbackPosition),
+    source: "fallback_non_official_position",
+    official: false,
+    caution: true,
+    record: player
+  } : {
+    code: null,
+    label: "Position needs check",
+    source: "missing_position",
+    official: false,
+    caution: true,
+    record: player
+  };
+}
+
+function normalizePublicPlayerFantasyPosition(player) {
+  const positionInfo = officialFantasyPositionRecordForPlayer(player);
+  const fallbackPositionCode = normalizeFantasyPositionCode(player?.position_code || player?.position);
+  const sourceFlags = new Set(Array.isArray(player?.source_review_flags) ? player.source_review_flags : []);
+
+  if (positionInfo.caution || !positionInfo.official) {
+    sourceFlags.add("fantasy_position_fallback_needs_official_review");
+  }
+
+  if (positionInfo.official && fallbackPositionCode && fallbackPositionCode !== positionInfo.code) {
+    sourceFlags.add("position_conflict_audit");
+  }
+
+  return {
+    ...player,
+    position: positionInfo.label,
+    fantasyPosition: positionInfo.label,
+    officialFantasyPosition: positionInfo.official ? positionInfo.code : null,
+    official_fantasy_position: positionInfo.official ? positionInfo.code : player?.official_fantasy_position || null,
+    position_code: positionInfo.code,
+    positionSource: positionInfo.source,
+    position_source: positionInfo.source,
+    external_position: positionInfo.official && fallbackPositionCode && fallbackPositionCode !== positionInfo.code
+      ? player?.position
+      : player?.external_position || null,
+    fantasy_position_caution: Boolean(positionInfo.caution || !positionInfo.official),
+    source_review_flags: Array.from(sourceFlags)
+  };
+}
+
 const fantasyPoolPreviewStatus = window.FANTASY_POOL_OFFICIAL_DATA_STATUS || null;
-const rawPlayers = window.FINANCE_PLAYERS_DATA || window.PLAYERS_DATA || [];
+const fantasyPoolRecommendationRows = window.FANTASY_POOL_RECOMMENDATION_CANDIDATES || [];
+const fantasyPoolProjectionRows = window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || [];
+const fantasyPoolFinanceRows = window.FANTASY_POOL_PLAYER_FINANCE_METRICS || [];
+const officialFantasyPositionLookup = buildOfficialFantasyPositionLookup([
+  ...(fantasyPoolPreviewStatus?.official_position_records || []),
+  ...fantasyPoolRecommendationRows,
+  ...fantasyPoolProjectionRows,
+  ...fantasyPoolFinanceRows
+]);
+const rawPlayerSource = window.FINANCE_PLAYERS_DATA || window.PLAYERS_DATA || [];
+const rawPlayers = rawPlayerSource.map(normalizePublicPlayerFantasyPosition);
 const officialUnavailablePlayerRecords = fantasyPoolPreviewStatus?.unavailable_players || [];
 const officialUnavailablePlayerNames = new Set(
   officialUnavailablePlayerRecords.map((player) => normalizeText(player.name || "")).filter(Boolean)
@@ -81,9 +265,6 @@ const matchdayModelSummary = window.MATCHDAY_MODEL_SUMMARY || null;
 const activeScorePredictionSource = scorePredictionSourceFromWindow();
 const scorePredictionRows = activeScorePredictionSource.rows;
 const scorePredictionSummary = activeScorePredictionSource.summary;
-const fantasyPoolRecommendationRows = window.FANTASY_POOL_RECOMMENDATION_CANDIDATES || [];
-const fantasyPoolProjectionRows = window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || [];
-const fantasyPoolFinanceRows = window.FANTASY_POOL_PLAYER_FINANCE_METRICS || [];
 const usingFantasyPoolPreview = Boolean(fantasyPoolPreviewStatus && fantasyPoolRecommendationRows.length);
 const defaultMatchdayOptions = [
   { matchday_id: "group_stage_full", label: "Full Group Stage" },
@@ -105,18 +286,6 @@ let activeAdvicePoolModeId = "playable";
 let activeQuickPickModelKey = "expected";
 let activeQuickPickPosition = "All";
 const browserSquadStorageKey = "worldCupFantasyHelper.teamExport.v1";
-
-const positionCodeLabels = {
-  GK: "Goalkeeper",
-  DEF: "Defender",
-  MID: "Midfielder",
-  FWD: "Forward"
-};
-
-const positionLabelCodes = Object.entries(positionCodeLabels).reduce((codes, [code, label]) => {
-  codes[label] = code;
-  return codes;
-}, {});
 
 function isUnavailableInOfficialFantasy(player) {
   const candidateIds = [
@@ -368,7 +537,7 @@ function fantasyPoolCandidateToPlayer(candidate) {
   const valueScore = Number(candidate.value_score || financeMetric.risk_adjusted_points_per_price || 0);
   const recommendationScore = Number(candidate.recommendation_score || candidate.risk_adjusted_points || 0);
 
-  return {
+  return normalizePublicPlayerFantasyPosition({
     id: fantasyPoolPreviewPlayerId(candidate),
     preview_player_key: key,
     is_fantasy_pool_preview: true,
@@ -439,7 +608,7 @@ function fantasyPoolCandidateToPlayer(candidate) {
     preview_opponent: candidate.opponent,
     recommendation_tier_label: titleFromSnake(candidate.recommendation_tier),
     model_stage: "current_official_fantasy_pool"
-  };
+  });
 }
 
 function fantasyPoolPreviewCandidatesForMode(mode, matchdayId = activeMatchdayId) {
@@ -4085,7 +4254,7 @@ function profileIdentityGrid(player) {
   return `
     <div class="profile-grid">
       ${profileMetric("Country", playerCountryText(player), `Group ${displayDetailValue(player.group, "?")}`)}
-      ${profileMetric("Position", player.position, player.position_code || "")}
+      ${profileMetric("Official Fantasy Position", player.position, player.position_code || "")}
       ${profileMetric("Club", player.club, player.league || "")}
       ${profileMetric("Roster", titleFromSnake(player.roster_status), recommendationUseForPlayer(player))}
       ${profileMetric("Budget Price", playerPriceDetailText(player), player.price_note || "Official fantasy price")}
@@ -4466,7 +4635,7 @@ function renderPlayerDetail(player, measureKey = measureKeyForTrust(activeMeasur
     .join("");
 
   playerDetailTitle.textContent = player.name;
-  playerDetailSubtitle.textContent = `${playerCountryText(player)} · ${player.position}`;
+  playerDetailSubtitle.textContent = `${playerCountryText(player)} · Official fantasy position: ${player.position}`;
   playerDetailBody.innerHTML = `
     <div class="profile-tags-wrap">
       <div class="profile-tags-header">
@@ -9277,6 +9446,10 @@ function exportedPlayer(player) {
     id: player.id,
     name: player.name,
     position: player.position,
+    fantasy_position: player.fantasyPosition || player.position,
+    official_fantasy_position: player.official_fantasy_position || player.officialFantasyPosition || positionLabelCodes[player.position] || null,
+    position_source: player.position_source || player.positionSource || null,
+    external_position: player.external_position || null,
     country: playerCountryText(player),
     club: player.club,
     price: value(player.price),
@@ -9697,6 +9870,10 @@ function exportedPlayerReference(player) {
     id: player.id,
     name: player.name,
     position: player.position,
+    fantasy_position: player.fantasyPosition || player.position,
+    official_fantasy_position: player.official_fantasy_position || player.officialFantasyPosition || positionLabelCodes[player.position] || null,
+    position_source: player.position_source || player.positionSource || null,
+    external_position: player.external_position || null,
     country: playerCountryText(player),
     club: player.club || null,
     price: value(player.price)
@@ -10670,7 +10847,7 @@ function renderPlayerPicker() {
         <input type="checkbox" value="${player.id}" ${isChecked} />
         <span>
           <strong>${playerDetailButton(player, "player-name-button--picker", measure.key)}</strong>
-          <small>${player.position} · ${player.club} · ${playerCountryText(player)}${fixtureText}${roleDetail}</small>
+          <small>Fantasy position: ${player.position} · ${player.club} · ${playerCountryText(player)}${fixtureText}${roleDetail}</small>
         </span>
         <span class="player-option__metrics">
           <em><span>Price</span>${playerPriceText(player)}</em>
@@ -12406,7 +12583,7 @@ function renderPickCard(player, options = {}) {
         <span class="pick-card__label">${escapeHtml(label)}</span>
       </div>
       ${playerDetailButton(player, "player-name-button--dashboard", measureKey)}
-      <p class="pick-card__meta">${escapeHtml(playerCountryText(player))} · ${escapeHtml(player.position)}</p>
+      <p class="pick-card__meta">${escapeHtml(playerCountryText(player))} · Fantasy position: ${escapeHtml(player.position)}</p>
       ${projectionSummary ? `<p class="pick-card__summary">${escapeHtml(projectionSummary)}</p>` : ""}
       <p class="pick-card__fixture">${escapeHtml(pickFixtureLabel(player))}</p>
       <p class="pick-card__model">${escapeHtml(modelDescription)}</p>

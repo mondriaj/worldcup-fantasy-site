@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 
 const root = process.cwd();
+const statusOnly = process.argv.includes("--status-only");
 
 const sourceFiles = {
   recommendations: "data/matchdayRecommendations_fantasyPool_v3.json",
@@ -10,6 +11,7 @@ const sourceFiles = {
   scorePredictions: "data/scorePredictions_fantasyPool_v3.json",
   readinessQa: "data/publicPreviewPromotionReadinessQa_v1.json",
   officialPlayers: "data/officialFantasyPlayers_v0.json",
+  identityMap: "data/mappings/playerIdentityMap_v1.csv",
   officialRules: "data/officialFantasyRules_v0.json",
   officialSquads: "data/officialSquads_v0.json",
   readiness: "data/officialDataReadiness_v0.json"
@@ -17,6 +19,46 @@ const sourceFiles = {
 
 function readJson(relativePath) {
   return JSON.parse(fs.readFileSync(path.join(root, relativePath), "utf8"));
+}
+
+function parseCsvLine(line) {
+  const values = [];
+  let current = "";
+  let inQuotes = false;
+
+  for (let index = 0; index < line.length; index += 1) {
+    const char = line[index];
+    const next = line[index + 1];
+
+    if (char === "\"" && inQuotes && next === "\"") {
+      current += "\"";
+      index += 1;
+    } else if (char === "\"") {
+      inQuotes = !inQuotes;
+    } else if (char === "," && !inQuotes) {
+      values.push(current);
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+
+  values.push(current);
+  return values;
+}
+
+function readCsv(relativePath) {
+  const text = fs.readFileSync(path.join(root, relativePath), "utf8").trim();
+  if (!text) return [];
+  const [headerLine, ...lines] = text.split(/\r?\n/);
+  const headers = parseCsvLine(headerLine);
+
+  return lines
+    .filter(Boolean)
+    .map((line) => {
+      const values = parseCsvLine(line);
+      return Object.fromEntries(headers.map((header, index) => [header, values[index] || ""]));
+    });
 }
 
 function arrayFromFirstRecord(record, keys) {
@@ -81,6 +123,7 @@ const financeMetrics = readJson(sourceFiles.financeMetrics);
 const scorePredictions = readJson(sourceFiles.scorePredictions);
 const readinessQa = readJson(sourceFiles.readinessQa);
 const officialPlayers = readJson(sourceFiles.officialPlayers);
+const identityRows = readCsv(sourceFiles.identityMap);
 const officialRules = readJson(sourceFiles.officialRules);
 const officialSquads = readJson(sourceFiles.officialSquads);
 const readiness = readJson(sourceFiles.readiness);
@@ -97,6 +140,32 @@ const officialFantasyPlayers = arrayFromFirstRecord(officialPlayers, [
   "officialFantasyPlayers",
   "official_fantasy_players"
 ]);
+const identityByOfficialId = new Map(identityRows
+  .filter((row) => row.official_fantasy_player_id)
+  .map((row) => [String(row.official_fantasy_player_id), row]));
+const officialFantasyPositionRecords = officialFantasyPlayers
+  .map((player) => {
+    const officialId = String(player.official_fantasy_player_id || "");
+    const identity = identityByOfficialId.get(officialId) || {};
+    const officialPosition = player.official_fantasy_position || identity.official_fantasy_position || null;
+    const existingPosition = identity.existing_model_position || null;
+
+    return {
+      official_fantasy_player_id: officialId || null,
+      internal_player_id: identity.internal_player_id || identity.matched_existing_player_id || player.current_player_match?.player_id || player.internal_player_id || null,
+      matched_existing_player_id: identity.matched_existing_player_id || null,
+      name: player.name || identity.official_name || null,
+      country: player.country || identity.country || null,
+      team_id: player.team_id || identity.team_id || null,
+      official_fantasy_position: officialPosition,
+      existing_model_position: existingPosition,
+      official_price: player.official_price ?? null,
+      selectable_status: player.selectable_status || player.availability_status || "playing",
+      position_source: "official_fifa_fantasy_feed",
+      position_conflict: Boolean(officialPosition && existingPosition && officialPosition !== existingPosition)
+    };
+  })
+  .sort((a, b) => String(a.name).localeCompare(String(b.name)));
 const squadRows = arrayFromFirstRecord(officialSquads, ["squads", "officialSquads", "players"]);
 const unavailableOfficialFantasyPlayers = officialFantasyPlayers
   .filter((player) => {
@@ -150,6 +219,9 @@ const officialDataStatus = {
   warning_copy: publicWarningCopy,
   public_warning_html: "Official Fantasy Picks use current FIFA fantasy prices, positions, selectable status, and scoring. Refresh the data when the game feed changes.",
   team_builder_warning_html: "Team Builder is planning help. Confirm squad legality, locks, and deadlines inside the official FIFA fantasy game before saving.",
+  official_position_records: officialFantasyPositionRecords,
+  official_position_record_count: officialFantasyPositionRecords.length,
+  official_position_source: "data/officialFantasyPlayers_v0.json via data/mappings/playerIdentityMap_v1.csv",
   unavailable_players: unavailableOfficialFantasyPlayers,
   unavailable_player_names: unavailableOfficialFantasyPlayers.map((player) => player.name),
   unavailable_player_ids: unavailableOfficialFantasyPlayers
@@ -173,6 +245,8 @@ const officialDataStatus = {
     fixture_score_predictions: fixtureScorePredictions.length,
     team_fixture_predictions: teamFixturePredictions.length,
     official_fantasy_players: officialFantasyPlayers.length || officialPlayers.summary?.total_players || 1481,
+    official_position_records: officialFantasyPositionRecords.length,
+    official_position_conflicts: officialFantasyPositionRecords.filter((player) => player.position_conflict).length,
     official_squad_rows: squadRows.length || officialSquads.summary?.total_rows || 1481,
     confirmed_final_squad_rows: officialSquads.summary?.confirmed_final_squad_rows || officialSquads.summary?.confirmed_final_squad || 0,
     fantasy_pool_only_rows: officialSquads.summary?.fantasy_selectable_only_rows || officialSquads.summary?.selectable_fantasy_player || 1256,
@@ -186,46 +260,48 @@ const officialDataStatus = {
   ]
 };
 
-writeBrowserData(
-  "fantasyPoolRecommendationsData.js",
-  {
-    FANTASY_POOL_RECOMMENDATIONS_DATA: browserRecommendations,
-    FANTASY_POOL_RECOMMENDATION_CANDIDATES: browserRecommendationCandidates,
-    FANTASY_POOL_RECOMMENDATIONS_SUMMARY: browserRecommendations.summary || null
-  },
-  [sourceFiles.recommendations]
-);
+if (!statusOnly) {
+  writeBrowserData(
+    "fantasyPoolRecommendationsData.js",
+    {
+      FANTASY_POOL_RECOMMENDATIONS_DATA: browserRecommendations,
+      FANTASY_POOL_RECOMMENDATION_CANDIDATES: browserRecommendationCandidates,
+      FANTASY_POOL_RECOMMENDATIONS_SUMMARY: browserRecommendations.summary || null
+    },
+    [sourceFiles.recommendations]
+  );
 
-writeBrowserData(
-  "fantasyPoolMatchdayProjectionsData.js",
-  {
-    FANTASY_POOL_MATCHDAY_PROJECTIONS_DATA: projections,
-    FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS: playerMatchdayProjections,
-    FANTASY_POOL_MATCHDAY_PROJECTIONS_SUMMARY: projections.summary || null
-  },
-  [sourceFiles.projections]
-);
+  writeBrowserData(
+    "fantasyPoolMatchdayProjectionsData.js",
+    {
+      FANTASY_POOL_MATCHDAY_PROJECTIONS_DATA: projections,
+      FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS: playerMatchdayProjections,
+      FANTASY_POOL_MATCHDAY_PROJECTIONS_SUMMARY: projections.summary || null
+    },
+    [sourceFiles.projections]
+  );
 
-writeBrowserData(
-  "fantasyPoolFinanceMetricsData.js",
-  {
-    FANTASY_POOL_FINANCE_METRICS_DATA: financeMetrics,
-    FANTASY_POOL_PLAYER_FINANCE_METRICS: playerFinanceMetrics,
-    FANTASY_POOL_FINANCE_METRICS_SUMMARY: financeMetrics.summary || null
-  },
-  [sourceFiles.financeMetrics]
-);
+  writeBrowserData(
+    "fantasyPoolFinanceMetricsData.js",
+    {
+      FANTASY_POOL_FINANCE_METRICS_DATA: financeMetrics,
+      FANTASY_POOL_PLAYER_FINANCE_METRICS: playerFinanceMetrics,
+      FANTASY_POOL_FINANCE_METRICS_SUMMARY: financeMetrics.summary || null
+    },
+    [sourceFiles.financeMetrics]
+  );
 
-writeBrowserData(
-  "fantasyPoolScorePredictionsData.js",
-  {
-    FANTASY_POOL_SCORE_PREDICTIONS_DATA: scorePredictions,
-    FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS: fixtureScorePredictions,
-    FANTASY_POOL_TEAM_FIXTURE_PREDICTIONS: teamFixturePredictions,
-    FANTASY_POOL_SCORE_PREDICTIONS_SUMMARY: scorePredictions.summary || null
-  },
-  [sourceFiles.scorePredictions]
-);
+  writeBrowserData(
+    "fantasyPoolScorePredictionsData.js",
+    {
+      FANTASY_POOL_SCORE_PREDICTIONS_DATA: scorePredictions,
+      FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS: fixtureScorePredictions,
+      FANTASY_POOL_TEAM_FIXTURE_PREDICTIONS: teamFixturePredictions,
+      FANTASY_POOL_SCORE_PREDICTIONS_SUMMARY: scorePredictions.summary || null
+    },
+    [sourceFiles.scorePredictions]
+  );
+}
 
 writeBrowserData(
   "fantasyPoolOfficialDataStatusData.js",
@@ -235,10 +311,13 @@ writeBrowserData(
   [
     sourceFiles.readinessQa,
     sourceFiles.officialPlayers,
+    sourceFiles.identityMap,
     sourceFiles.officialRules,
     sourceFiles.officialSquads,
     sourceFiles.readiness
   ]
 );
 
-console.log("Generated official fantasy-pool browser data files.");
+console.log(statusOnly
+  ? "Generated official fantasy-pool status browser data file."
+  : "Generated official fantasy-pool browser data files.");
