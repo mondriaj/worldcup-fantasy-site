@@ -31,10 +31,10 @@ Team Builder now starts from `fantasyPoolOfficialDataStatusData.js` `official_po
 
 ## Coverage Summary
 
-- Official fantasy players: 1481
-- Official selectable players: 1248
-- Team Builder candidates: 1248
-- Nonselectable official rows excluded: 233
+- Official fantasy players: 1482
+- Official selectable players: 1243
+- Team Builder candidates: 1243
+- Nonselectable official rows excluded: 239
 - Missing projection fields: 0
 - Missing finance/value fields: 0
 - Missing score context: 0

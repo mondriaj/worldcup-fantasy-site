@@ -10,7 +10,7 @@ This MATCH-1 pass prepares official fantasy player identity matching only. It do
 
 - Official player source checked: `data/officialFantasyPlayers_v0.json`
 - Input status: `imported_needs_manual_review`
-- Official fantasy players processed: 1481
+- Official fantasy players processed: 1482
 - Active internal player source: `data/players.json`
 - Supporting identity context inspected: `data/playerRecommendationInputs_v0.json`, `data/playerNationalTeamPerformance.json`, `data/playerPerformance.json`, `data/playerMinutesModel_v0.json`
 
@@ -31,8 +31,8 @@ This MATCH-1 pass prepares official fantasy player identity matching only. It do
 - Exact matches: 1003
 - Strong matches: 234
 - Manual-confirmed matches: 23
-- New thin profiles staged: 221
-- Confirmed thin profiles absent from current internal data: 221
+- New thin profiles staged: 222
+- Confirmed thin profiles absent from current internal data: 222
 - Review cases: 0
 - Position conflicts accepted as identity matches with audit flag: 135
 - Position conflicts still unresolved: 0

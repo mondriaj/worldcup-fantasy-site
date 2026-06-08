@@ -8,16 +8,16 @@ PASS: Team Builder uses the current official fantasy-pool player universe and cu
 
 ## Counts
 
-- Official fantasy player rows: 1481
-- Selectable official players: 1248
-- Team Builder candidates: 1248
-- Excluded official rows: 233
-- Excluded by nonselectable status: 233
-- Matchday projection rows: 3768
-- Finance metric rows: 1256
+- Official fantasy player rows: 1482
+- Selectable official players: 1243
+- Team Builder candidates: 1243
+- Excluded official rows: 239
+- Excluded by nonselectable status: 239
+- Matchday projection rows: 3729
+- Finance metric rows: 1243
 - Score fixtures: 72
 - Runtime legacy fallback rows: 0
-- Display-only legacy fallback rows: 95
+- Display-only legacy fallback rows: 94
 
 ## Missing Field Counts
 
@@ -44,13 +44,13 @@ PASS: Team Builder uses the current official fantasy-pool player universe and cu
 
 ## Monitor Result
 
-- Status: completed; decision: official_player_import_rerun_needed; player changes: {"new_players":1,"removed_players":0,"name_changes":0,"price_changes":0,"position_changes":0,"selectable_status_changes":8,"country_team_changes":0,"fifa_player_id_changes":0,"ownership_percent_changes":318}
+- Status: completed; decision: official_player_import_rerun_needed; player changes: {"new_players":1,"removed_players":0,"name_changes":0,"price_changes":0,"position_changes":0,"selectable_status_changes":8,"country_team_changes":0,"fifa_player_id_changes":0,"ownership_percent_changes":319}
 
 ## Source Sync
 
 - data/matchdayRecommendations_fantasyPool_v3.json: source 500, browser 500, in sync
-- data/playerMatchdayProjections_fantasyPool_v3.json: source 3768, browser 3768, in sync
-- data/playerFinanceMetrics_fantasyPool_v1.json: source 1256, browser 1256, in sync
+- data/playerMatchdayProjections_fantasyPool_v3.json: source 3729, browser 3729, in sync
+- data/playerFinanceMetrics_fantasyPool_v1.json: source 1243, browser 1243, in sync
 - data/scorePredictions_fantasyPool_v3.json: source 72, browser 72, in sync
 
 ## Notes

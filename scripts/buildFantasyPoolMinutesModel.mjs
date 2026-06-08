@@ -1,6 +1,6 @@
 import { access, readFile, writeFile } from "node:fs/promises";
 
-const TODAY = "2026-06-02";
+const TODAY = "2026-06-08";
 
 const INPUTS = {
   playerRecommendationInputs: "data/playerRecommendationInputs_v1.json",

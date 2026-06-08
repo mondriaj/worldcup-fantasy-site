@@ -1,6 +1,6 @@
 import { access, readFile, writeFile } from "node:fs/promises";
 
-const TODAY = "2026-06-02";
+const TODAY = "2026-06-08";
 const NOW = new Date().toISOString();
 
 const PATHS = {
@@ -23,7 +23,7 @@ const PATHS = {
 };
 
 const MODEL_STAGE = "fantasy_pool_only";
-const SOURCE_MODEL_VERSION = "fantasy_pool_matchday_projection_v3_official_scoring_coverage_preliminary_2026-06-02";
+const SOURCE_MODEL_VERSION = "fantasy_pool_matchday_projection_v3_official_scoring_coverage_preliminary_2026-06-08";
 const SAFETY_LABELS = [
   "fantasy_pool_only",
   "not final-squad-backed",

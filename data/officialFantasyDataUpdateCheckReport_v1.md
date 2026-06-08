@@ -1,13 +1,13 @@
 # Official Fantasy Data Update Check v1
 
-Generated: 2026-06-05T20:57:40.007Z
+Generated: 2026-06-08T13:12:32.300Z
 
 ## Summary
 
 | Item | Result |
 | --- | --- |
 | Official data changed | yes |
-| Rerun decision | minor_change_no_model_rerun_needed |
+| Rerun decision | official_player_import_rerun_needed |
 | Model outputs updated | no |
 | Final squad status | still_blocked_no_source_backed_final_squads |
 | Fetch failures | 0 |
@@ -16,45 +16,50 @@ Generated: 2026-06-05T20:57:40.007Z
 
 | Source | HTTP | Parsed | Last-Modified | Bytes |
 | --- | --- | --- | --- | --- |
-| fifaFantasyPlayersJson | 200 | yes | 2026-06-05T20:04:11Z | 1096670 |
+| fifaFantasyPlayersJson | 200 | yes | 2026-06-08T13:04:14Z | 1097464 |
 | fifaFantasySquadsJson | 200 | yes | 2026-05-13T10:08:23Z | 6430 |
 | fifaFantasyHelpPagesJson | 200 | yes | 2026-05-29T09:05:39Z | 179308 |
-| fifaFantasyRoundsJson | 200 | yes | 2026-06-05T19:01:03Z | 74039 |
+| fifaFantasyRoundsJson | 200 | yes | 2026-06-08T12:01:04Z | 74039 |
 | fifaFantasyLanguageJson | 200 | yes | 2026-06-03T13:21:47Z | 27057 |
 
 ## Change Counts
 
 | Check | Count |
 | --- | --- |
-| New fantasy players | 0 |
+| New fantasy players | 1 |
 | Removed fantasy players | 0 |
 | Price changes | 0 |
 | Position changes | 0 |
-| Selectable status changes | 0 |
+| Selectable status changes | 8 |
 | Country/team changes | 0 |
 | Squad metadata changes | 0 |
 | Rules source/header changes | 0 |
 | Deadline/round changes | 0 |
 | Clean Sheet Shield text changes | 0 |
-| Ownership percent changes | 220 |
+| Ownership percent changes | 319 |
 
 ## Recommendation
 
-Decision: `minor_change_no_model_rerun_needed`
+Decision: `official_player_import_rerun_needed`
 
 Reasons:
-- Only non-model source headers or ownership-style values changed.
+- Official fantasy player import fields changed.
 
 This script is reporting-only. It does not import players, import squads, import rules, rerun models, update browser-ready files, or change Team Builder.
 
 ## Player Changes
 
 - Local official fantasy players: 1481
-- Live official fantasy players: 1481
-- Selectable status counts live: {"playing":1248,"transferred":233}
-- Position counts live: {"DEF":482,"FWD":306,"MID":512,"GK":181}
+- Live official fantasy players: 1482
+- Selectable status counts live: {"playing":1243,"transferred":239}
+- Position counts live: {"DEF":482,"FWD":306,"MID":513,"GK":181}
 
-No player import-field changes found.
+- Status: Marcelo Flores (244) playing -> transferred
+- Status: Lennart Karl (518) playing -> transferred
+- Status: Ahmed Hasan Maknzi Al Deeshawee (645) transferred -> playing
+- Status: Ibrahim Mohammad Abdallah Sabra (705) playing -> transferred
+- Status: Leonardo Balerdi (1325) playing -> transferred
+- New player: Assan Ouédraogo (Germany, 2072)
 
 ## Squad Metadata Changes
 

@@ -191,7 +191,7 @@ const publicWarningCopy = [
 const officialDataStatus = {
   schema_version: "fantasy_pool_official_data_status_browser_v1",
   generated_at: new Date().toISOString(),
-  source_checked: recommendations.source_checked || officialPlayers.source_checked || readinessQa.source_checked || "2026-06-02",
+  source_checked: officialPlayers.source_checked || recommendations.source_checked || readinessQa.source_checked || "2026-06-08",
   model_stage: "current_official_fantasy_pool",
   public_label: "Official Fantasy Picks",
   readiness_status: readiness.status || readiness.readiness_status || "blocked_waiting_for_official_fantasy_data",
@@ -249,7 +249,11 @@ const officialDataStatus = {
     official_position_conflicts: officialFantasyPositionRecords.filter((player) => player.position_conflict).length,
     official_squad_rows: squadRows.length || officialSquads.summary?.total_rows || 1481,
     confirmed_final_squad_rows: officialSquads.summary?.confirmed_final_squad_rows || officialSquads.summary?.confirmed_final_squad || 0,
-    fantasy_pool_only_rows: officialSquads.summary?.fantasy_selectable_only_rows || officialSquads.summary?.selectable_fantasy_player || 1256,
+    fantasy_pool_only_rows:
+      officialSquads.summary?.fantasy_selectable_only_rows ||
+      officialSquads.summary?.imported_status_counts?.selectable_fantasy_player ||
+      officialSquads.summary?.selectable_fantasy_player ||
+      1256,
     squad_review_rows: officialSquads.summary?.review_rows || 225
   },
   source_files: sourceFiles,

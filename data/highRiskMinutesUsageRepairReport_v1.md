@@ -1,6 +1,6 @@
 # High-Risk Minutes Usage Repair Report v1
 
-Generated: 2026-06-02
+Generated: 2026-06-08
 
 ## Scope
 
@@ -10,14 +10,14 @@ This is a targeted `fantasy_pool_only` repair pass for high-risk minutes and nat
 
 | Metric | Before | After / current |
 | --- | --- | --- |
-| High-risk players audited |  | 264 |
+| High-risk players audited |  | 265 |
 | Join gaps fixed in this pass |  | 0 |
 | Players still missing source-backed usage in audit |  | 243 |
 | High-price uncertainty fallback players |  | 0 |
 | High-price missing-usage players | 0 | 0 |
-| Low-confidence modeled rows | 496 | 496 |
-| Rows modeled | 1256 | 1256 |
-| Rows blocked | 225 | 225 |
+| Low-confidence modeled rows | 486 | 486 |
+| Rows modeled | 1243 | 1243 |
+| Rows blocked | 239 | 239 |
 
 ## Repair Logic
 
@@ -30,8 +30,8 @@ This is a targeted `fantasy_pool_only` repair pass for high-risk minutes and nat
 
 | Source gap type | Rows |
 | --- | --- |
-| club_context_available_usage_missing | 174 |
-| manual_review_needed | 60 |
+| club_context_available_usage_missing | 172 |
+| manual_review_needed | 63 |
 | position_or_role_conflict | 19 |
 | thin_profile | 8 |
 | true_source_gap | 3 |
@@ -69,6 +69,7 @@ Musiala remains missing source-backed Germany qualifier/national-team starts and
 | 1104 | Rodrigo Hernández Cascante | Spain | MID | 7.5 | impact_sub | medium | true_source_gap | keep_existing_conservative_low_confidence_treatment |
 | 1369 | Neymar da Silva Santos Júnior | Brazil | MID | 7.2 | unclear | missing | position_or_role_conflict | keep_existing_conservative_low_confidence_treatment |
 | 1485 | Santiago Giménez | Mexico | FWD | 6.8 | rotation_starter | low | manual_review_needed | keep_existing_conservative_low_confidence_treatment |
+| 112 | Christoph Baumgartner | Austria | MID | 6.7 | blocked | blocked | manual_review_needed | keep_blocked_until_selectable_status_and_squad_review_are_resolved |
 | 1327 | Emiliano Buendía | Argentina | MID | 6.5 | blocked | blocked | thin_profile | keep_blocked_until_selectable_status_and_squad_review_are_resolved |
 | 815 | Xavi Simons | Netherlands | MID | 6.5 | blocked | blocked | thin_profile | keep_blocked_until_selectable_status_and_squad_review_are_resolved |
 | 1683 | Fredrik Aursnes | Norway | MID | 6.5 | impact_sub | low | manual_review_needed | keep_existing_conservative_low_confidence_treatment |
@@ -87,13 +88,12 @@ Musiala remains missing source-backed Germany qualifier/national-team starts and
 | 2022 | Bilal El Khannouss | Morocco | MID | 6.2 | unclear | low | club_context_available_usage_missing | source_national_team_usage_before_final_minutes_promotion |
 | 814 | Teun Koopmeiners | Netherlands | MID | 6.2 | unclear | low | club_context_available_usage_missing | source_national_team_usage_before_final_minutes_promotion |
 | 1257 | Johnny Cardoso | USA | MID | 6.2 | blocked | blocked | thin_profile | keep_blocked_until_selectable_status_and_squad_review_are_resolved |
-| 1292 | Abbosbek Fayzullaev | Uzbekistan | MID | 6.2 | unclear | low | position_or_role_conflict | source_national_team_usage_before_final_minutes_promotion |
 
 ## Remaining High-Risk Issues
 
 - Source-backed national-team usage remains missing for 243 audited rows.
 - High-price missing-usage count is 0; this count only falls when source-backed usage is imported or joined.
-- Low-confidence modeled rows are 496; this pass improves labels for the most material club-context cases but does not make low confidence disappear.
+- Low-confidence modeled rows are 486; this pass improves labels for the most material club-context cases but does not make low confidence disappear.
 - Thin-profile and blocked players remain conservative or blocked. Famous names such as Xavi Simons, Emiliano Buendía, Matías Soulé, Johnny Cardoso, and Sofiane Boufal still need source-backed identity/enrichment before they can be treated as clean model inputs.
 
 ## Safety Decision

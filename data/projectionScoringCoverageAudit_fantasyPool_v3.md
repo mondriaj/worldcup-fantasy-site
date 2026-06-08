@@ -1,6 +1,6 @@
 # Projection Scoring Coverage Audit Fantasy Pool v3
 
-Generated: 2026-06-02T17:52:11.470Z
+Generated: 2026-06-08T13:25:20.392Z
 
 Model stage: fantasy_pool_only. This audit is not final-squad-backed, not final public recommendations, not Team Builder-ready, and safe only for preliminary recommendation staging.
 
@@ -8,8 +8,8 @@ Model stage: fantasy_pool_only. This audit is not final-squad-backed, not final 
 
 - Official scoring categories audited: 26.
 - Added in this pass: MID tackles, MID chances created, and FWD shots on target.
-- Added-component source-backed projection rows: 1149.
-- Added-component conservative-prior projection rows: 2142.
+- Added-component source-backed projection rows: 1143.
+- Added-component conservative-prior projection rows: 2106.
 - Categories still omitted or partial because current data cannot support them: 6.
 - QA status after coverage pass: pass_with_staging_stop_conditions.
 
@@ -51,21 +51,21 @@ Model stage: fantasy_pool_only. This audit is not final-squad-backed, not final 
 | Tackle component | 0 | 0.056 | 1.1 |
 | Chance-created component | 0 | 0.082 | 1.15 |
 | Shot-on-target component | 0 | 0.04 | 0.95 |
-| Added components total | 0 | 0.178 | 1.71 |
+| Added components total | 0 | 0.179 | 1.71 |
 
 ## Added Component Coverage Flags
 
 | Flag | Rows |
 | --- | --- |
-| mid_every_3_tackles_not_applicable | 2487 |
-| mid_every_2_chances_created_not_applicable | 2487 |
-| fwd_every_2_shots_on_target_not_applicable | 2958 |
+| mid_every_3_tackles_not_applicable | 2466 |
+| mid_every_2_chances_created_not_applicable | 2466 |
+| fwd_every_2_shots_on_target_not_applicable | 2925 |
 | fwd_every_2_shots_on_target_modeled_zero | 72 |
 | fwd_every_2_shots_on_target_modeled_source_backed | 471 |
-| mid_every_3_tackles_modeled_conservative_prior | 1107 |
-| mid_every_2_chances_created_modeled_conservative_prior | 768 |
-| fwd_every_2_shots_on_target_modeled_conservative_prior | 267 |
-| mid_every_2_chances_created_modeled_source_backed | 507 |
+| mid_every_3_tackles_modeled_conservative_prior | 1089 |
+| mid_every_2_chances_created_modeled_conservative_prior | 756 |
+| fwd_every_2_shots_on_target_modeled_conservative_prior | 261 |
+| mid_every_2_chances_created_modeled_source_backed | 501 |
 | mid_every_3_tackles_modeled_source_backed | 171 |
 | mid_every_3_tackles_modeled_zero | 3 |
 | mid_every_2_chances_created_modeled_zero | 6 |

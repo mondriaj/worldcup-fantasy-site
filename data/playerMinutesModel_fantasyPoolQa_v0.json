@@ -1,56 +1,56 @@
 {
   "schema_version": "player_minutes_model_fantasy_pool_qa_v0",
-  "generated_at": "2026-06-02",
+  "generated_at": "2026-06-08",
   "stage": "fantasy_pool_only",
   "data_status": "not_final_squad_ready_not_safe_for_final_public_recommendations",
-  "total_rows": 1481,
-  "rows_modeled": 1256,
-  "rows_blocked": 225,
+  "total_rows": 1482,
+  "rows_modeled": 1243,
+  "rows_blocked": 239,
   "average_start_probability_by_position": {
     "DEF": 0.552,
-    "FWD": 0.491,
-    "GK": 0.368,
-    "MID": 0.557
+    "FWD": 0.494,
+    "GK": 0.372,
+    "MID": 0.561
   },
   "average_expected_minutes_by_position": {
-    "DEF": 49.768,
-    "FWD": 40.197,
-    "GK": 32.34,
-    "MID": 45.744
+    "DEF": 49.736,
+    "FWD": 40.371,
+    "GK": 32.69,
+    "MID": 45.997
   },
   "role_label_counts": {
-    "locked_starter": 359,
-    "blocked": 225,
-    "squad_depth": 12,
-    "likely_starter": 181,
-    "unclear": 321,
-    "rotation_starter": 221,
-    "thin_profile_unclear": 89,
+    "locked_starter": 358,
+    "blocked": 239,
+    "squad_depth": 11,
+    "likely_starter": 179,
+    "unclear": 315,
+    "rotation_starter": 220,
+    "thin_profile_unclear": 87,
     "backup": 11,
     "impact_sub": 61,
     "third_choice": 1
   },
   "role_confidence_counts": {
-    "high": 615,
-    "blocked": 225,
-    "low": 278,
-    "missing": 129,
-    "thin_profile": 89,
+    "high": 612,
+    "blocked": 239,
+    "low": 274,
+    "missing": 125,
+    "thin_profile": 87,
     "medium": 145
   },
   "minutes_model_status_counts": {
-    "modeled_fantasy_pool_only": 1256,
-    "blocked": 225
+    "modeled_fantasy_pool_only": 1243,
+    "blocked": 239
   },
   "thin_profile_counts": {
-    "total": 221,
-    "modeled": 89,
-    "blocked": 132
+    "total": 222,
+    "modeled": 87,
+    "blocked": 135
   },
   "missing_usage_counts": {
-    "total": 608,
-    "modeled": 410,
-    "blocked": 198
+    "total": 609,
+    "modeled": 402,
+    "blocked": 207
   },
   "high_price_missing_usage_players": [],
   "high_price_uncertainty_fallback_players": [],
@@ -923,6 +923,24 @@
       ]
     },
     {
+      "official_fantasy_player_id": "112",
+      "name": "Christoph Baumgartner",
+      "country": "Austria",
+      "position": "MID",
+      "official_price": 6.7,
+      "role_label": "blocked",
+      "role_confidence": "blocked",
+      "start_probability": null,
+      "expected_minutes": null,
+      "minutes_risk_flags": [
+        "blocked_not_selectable",
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "rules_manual_review",
+        "squad_review_status"
+      ]
+    },
+    {
       "official_fantasy_player_id": "1683",
       "name": "Fredrik Aursnes",
       "country": "Norway",
@@ -1328,37 +1346,11 @@
         "minutes_uncertain",
         "rules_manual_review"
       ]
-    },
-    {
-      "official_fantasy_player_id": "1254",
-      "name": "Malik Tillman",
-      "country": "USA",
-      "position": "MID",
-      "official_price": 6.1,
-      "role_label": "rotation_starter",
-      "role_confidence": "low",
-      "start_probability": 0.46,
-      "expected_minutes": 39.9,
-      "minutes_risk_flags": [
-        "fantasy_pool_only_not_final_squad_confirmed",
-        "final_squad_source_missing",
-        "low_usage_confidence",
-        "minutes_uncertain",
-        "rules_manual_review"
-      ]
     }
   ],
   "countries_with_most_low_confidence_players": [
     {
-      "country": "Uzbekistan",
-      "count": 28
-    },
-    {
       "country": "Jordan",
-      "count": 26
-    },
-    {
-      "country": "Canada",
       "count": 25
     },
     {
@@ -1366,11 +1358,19 @@
       "count": 25
     },
     {
+      "country": "Canada",
+      "count": 24
+    },
+    {
       "country": "IR Iran",
       "count": 24
     },
     {
       "country": "USA",
+      "count": 24
+    },
+    {
+      "country": "Uzbekistan",
       "count": 24
     },
     {
@@ -1394,10 +1394,6 @@
       "count": 15
     },
     {
-      "country": "Algeria",
-      "count": 13
-    },
-    {
       "country": "Brazil",
       "count": 13
     },
@@ -1408,35 +1404,39 @@
     {
       "country": "Morocco",
       "count": 13
+    },
+    {
+      "country": "Algeria",
+      "count": 12
     }
   ],
   "positions_with_most_low_confidence_players": [
     {
       "position": "DEF",
-      "count": 157
+      "count": 156
     },
     {
       "position": "MID",
-      "count": 147
+      "count": 142
     },
     {
       "position": "FWD",
-      "count": 107
+      "count": 105
     },
     {
       "position": "GK",
-      "count": 85
+      "count": 83
     }
   ],
   "warnings": [
     {
       "id": "fantasy_pool_only",
-      "count": 1256,
+      "count": 1243,
       "details": "Modeled rows are from the official fantasy pool only, not source-backed final squads."
     },
     {
       "id": "missing_usage_not_averaged",
-      "count": 608,
+      "count": 609,
       "details": "Missing national-team usage rows use conservative unclear/thin-profile assumptions, not average usage."
     },
     {
@@ -1454,7 +1454,7 @@
     {
       "id": "input_final_squads_not_source_backed",
       "status": "stop",
-      "count": 225,
+      "count": 239,
       "details": "Final squad import is not source-backed complete; fantasy pool rows must not be treated as final squads."
     },
     {
@@ -1496,19 +1496,19 @@
     {
       "id": "blocked_player_rows_present",
       "status": "stop",
-      "count": 225,
+      "count": 239,
       "details": "Blocked rows do not receive preliminary minutes."
     },
     {
       "id": "missing_national_team_usage_present",
       "status": "warning",
-      "count": 608,
+      "count": 609,
       "details": "Missing national-team usage is kept missing and not treated as average."
     },
     {
       "id": "thin_profiles_present",
       "status": "warning",
-      "count": 221,
+      "count": 222,
       "details": "Thin profiles use conservative low-confidence priors only."
     },
     {
@@ -1522,7 +1522,7 @@
     {
       "id": "input_final_squads_not_source_backed",
       "status": "stop",
-      "count": 225,
+      "count": 239,
       "details": "Final squad import is not source-backed complete; fantasy pool rows must not be treated as final squads."
     },
     {
@@ -1564,7 +1564,7 @@
     {
       "id": "blocked_player_rows_present",
       "status": "stop",
-      "count": 225,
+      "count": 239,
       "details": "Blocked rows do not receive preliminary minutes."
     },
     {

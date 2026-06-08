@@ -1,30 +1,30 @@
 {
   "schema_version": "team_builder_data_coverage_v1",
-  "generated_at": "2026-06-08T13:04:47.177Z",
+  "generated_at": "2026-06-08T13:25:54.802Z",
   "verdict": "pass",
   "team_builder_source_before_change": "script.js initialized Team Builder players from window.FINANCE_PLAYERS_DATA || window.PLAYERS_DATA, then filtered unavailable official fantasy rows and patched official positions.",
   "team_builder_source_after_change": "script.js builds Team Builder players from fantasyPoolOfficialDataStatusData.js official_position_records, filters to official selectable status, then joins current fantasy-pool projections, finance metrics, recommendations, and score context. Legacy players remain a fallback only if the official fantasy-pool layer is absent.",
   "counts": {
-    "official_fantasy_players_source": 1481,
-    "official_position_records_browser": 1481,
-    "selectable_official_players": 1248,
-    "team_builder_candidate_rows": 1248,
-    "excluded_rows": 233,
+    "official_fantasy_players_source": 1482,
+    "official_position_records_browser": 1482,
+    "selectable_official_players": 1243,
+    "team_builder_candidate_rows": 1243,
+    "excluded_rows": 239,
     "excluded_reasons": {
-      "nonselectable_official_status": 233,
+      "nonselectable_official_status": 239,
       "duplicate_builder_id": 0,
       "missing_builder_or_official_id": 0
     },
     "recommendation_rows": 500,
     "recommendation_unique_players": 111,
-    "matchday_projection_rows": 3768,
-    "matchday_projection_unique_players": 1256,
-    "finance_metric_rows": 1256,
+    "matchday_projection_rows": 3729,
+    "matchday_projection_unique_players": 1243,
+    "finance_metric_rows": 1243,
     "score_fixture_rows": 72,
     "legacy_finance_rows_loaded": 1335,
     "legacy_player_rows_loaded": 100,
     "runtime_legacy_fallback_rows": 0,
-    "legacy_display_fallback_rows": 95
+    "legacy_display_fallback_rows": 94
   },
   "missing_field_counts": {
     "official_fantasy_id": 0,
@@ -89,14 +89,14 @@
     },
     {
       "source_path": "data/playerMatchdayProjections_fantasyPool_v3.json",
-      "source_rows": 3768,
-      "browser_rows": 3768,
+      "source_rows": 3729,
+      "browser_rows": 3729,
       "in_sync": true
     },
     {
       "source_path": "data/playerFinanceMetrics_fantasyPool_v1.json",
-      "source_rows": 1256,
-      "browser_rows": 1256,
+      "source_rows": 1243,
+      "browser_rows": 1243,
       "in_sync": true
     },
     {
@@ -137,7 +137,7 @@
       "selectable_status_changes": 8,
       "country_team_changes": 0,
       "fifa_player_id_changes": 0,
-      "ownership_percent_changes": 318
+      "ownership_percent_changes": 319
     },
     "squad_changes": {
       "new_teams": 0,

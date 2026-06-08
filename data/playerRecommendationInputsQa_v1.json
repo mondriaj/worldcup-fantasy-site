@@ -1,11 +1,11 @@
 {
   "schema_version": "player_recommendation_inputs_qa_v1",
-  "generated_at": "2026-06-02",
+  "generated_at": "2026-06-08",
   "stage": "fantasy_pool_only",
   "counts_by_status": {
-    "usable_fantasy_pool_only": 660,
-    "blocked_not_selectable": 225,
-    "usable_with_warning": 596
+    "usable_fantasy_pool_only": 659,
+    "blocked_not_selectable": 239,
+    "usable_with_warning": 584
   },
   "counts_by_country": {
     "Algeria": 33,
@@ -27,7 +27,7 @@
     "Egypt": 27,
     "England": 26,
     "France": 26,
-    "Germany": 27,
+    "Germany": 28,
     "Ghana": 29,
     "Haiti": 26,
     "IR Iran": 31,
@@ -60,29 +60,27 @@
   "counts_by_position": {
     "DEF": 482,
     "FWD": 306,
-    "MID": 512,
+    "MID": 513,
     "GK": 181
   },
   "counts_by_data_quality_flag": {
-    "deadline_semantics_review": 1481,
-    "fantasy_pool_only_not_final_squad_confirmed": 1481,
-    "final_squad_source_missing": 1481,
-    "mystery_booster_unknown": 1481,
-    "rules_manual_review": 1481,
-    "missing_club_context": 325,
-    "missing_national_team_usage": 630,
-    "missing_role_confidence": 630,
-    "squad_review_status": 225,
-    "thin_profile": 221,
-    "low_usage_confidence": 78,
-    "position_conflict_audit": 135,
-    "high_price_missing_usage": 1
+    "deadline_semantics_review": 1482,
+    "fantasy_pool_only_not_final_squad_confirmed": 1482,
+    "final_squad_source_missing": 1482,
+    "rules_manual_review": 1482,
+    "missing_club_context": 326,
+    "missing_national_team_usage": 627,
+    "missing_role_confidence": 609,
+    "squad_review_status": 239,
+    "thin_profile": 222,
+    "low_usage_confidence": 91,
+    "position_conflict_audit": 135
   },
   "blockers": [
     {
       "id": "final_squads_not_source_backed",
       "status": "stop",
-      "count": 225,
+      "count": 239,
       "details": "Final squad import is not source-backed complete; fantasy pool rows must not be treated as final squads."
     },
     {
@@ -107,17 +105,17 @@
   "warnings": [
     {
       "id": "fantasy_pool_only_stage",
-      "count": 1256,
+      "count": 1243,
       "details": "Rows are staged from the official fantasy pool only, not source-backed final squads."
     },
     {
       "id": "missing_enrichment",
-      "count": 676,
+      "count": 654,
       "details": "Some players are missing club context or national-team usage."
     },
     {
       "id": "squad_review_status",
-      "count": 225,
+      "count": 239,
       "details": "Squad review rows remain blocked from preliminary selectable-player modeling."
     }
   ],
@@ -155,7 +153,7 @@
     {
       "id": "final_squads_not_source_backed",
       "status": "stop",
-      "count": 225,
+      "count": 239,
       "details": "Final squad import is not source-backed complete; fantasy pool rows must not be treated as final squads."
     },
     {

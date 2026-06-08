@@ -6,13 +6,13 @@
   "input_file": "data/imports/officialSquads.csv",
   "current_player_rows_checked": 1339,
   "summary": {
-    "imported_rows": 1481,
+    "imported_rows": 1482,
     "imported_status_counts": {
-      "selectable_fantasy_player": 1256,
-      "review": 225
+      "selectable_fantasy_player": 1243,
+      "review": 239
     },
     "imported_match_status_counts": {
-      "matched": 1481
+      "matched": 1482
     },
     "current_player_reconciliation_counts": {
       "review": 1339
@@ -20,9 +20,9 @@
     "teams_with_import_rows": 48,
     "teams_marked_complete": 0,
     "error_rows": 0,
-    "review_rows": 225,
+    "review_rows": 239,
     "review_reason_counts": {
-      "fantasy_status_transferred_no_final_squad_source": 225,
+      "fantasy_status_transferred_no_final_squad_source": 239,
       "duplicate_name_distinct_official_fantasy_ids": 2
     },
     "duplicate_team_name_rows": 2
@@ -127,7 +127,7 @@
     {
       "team_id": "20",
       "country": "Germany",
-      "imported_rows": 27,
+      "imported_rows": 28,
       "final_or_replacement_rows": 0,
       "explicit_complete_rows": 0,
       "is_complete": false
@@ -830,6 +830,24 @@
       ]
     },
     {
+      "official_squad_row_id": "official-squad-row-109",
+      "name": "Christoph Baumgartner",
+      "country": "Austria",
+      "team_id": "4",
+      "roster_status": "review",
+      "match_status": "matched",
+      "match_method": "existing_official_fantasy_id",
+      "matched_player_id": "austria-christoph-baumgartner",
+      "candidate_player_ids": [],
+      "review_reasons": [
+        "fantasy_status_transferred_no_final_squad_source"
+      ],
+      "validation_errors": [],
+      "validation_warnings": [
+        "Roster status is review or unknown; manual review required."
+      ]
+    },
+    {
       "official_squad_row_id": "official-squad-row-145",
       "name": "Osman Hadzikic",
       "country": "Bosnia and Herzegovina",
@@ -892,6 +910,24 @@
       "match_status": "matched",
       "match_method": "existing_official_fantasy_id",
       "matched_player_id": "thin-9-ralph-priso",
+      "candidate_player_ids": [],
+      "review_reasons": [
+        "fantasy_status_transferred_no_final_squad_source"
+      ],
+      "validation_errors": [],
+      "validation_warnings": [
+        "Roster status is review or unknown; manual review required."
+      ]
+    },
+    {
+      "official_squad_row_id": "official-squad-row-215",
+      "name": "Marcelo Flores",
+      "country": "Canada",
+      "team_id": "9",
+      "roster_status": "review",
+      "match_status": "matched",
+      "match_method": "existing_official_fantasy_id",
+      "matched_player_id": "canada-marcelo-flores",
       "candidate_player_ids": [],
       "review_reasons": [
         "fantasy_status_transferred_no_final_squad_source"
@@ -982,6 +1018,24 @@
       "match_status": "matched",
       "match_method": "existing_official_fantasy_id",
       "matched_player_id": "ecuador-john-mercado",
+      "candidate_player_ids": [],
+      "review_reasons": [
+        "fantasy_status_transferred_no_final_squad_source"
+      ],
+      "validation_errors": [],
+      "validation_warnings": [
+        "Roster status is review or unknown; manual review required."
+      ]
+    },
+    {
+      "official_squad_row_id": "official-squad-row-441",
+      "name": "Lennart Karl",
+      "country": "Germany",
+      "team_id": "20",
+      "roster_status": "review",
+      "match_status": "matched",
+      "match_method": "existing_official_fantasy_id",
+      "matched_player_id": "germany-lennart-karl",
       "candidate_player_ids": [],
       "review_reasons": [
         "fantasy_status_transferred_no_final_squad_source"
@@ -1118,24 +1172,6 @@
       ]
     },
     {
-      "official_squad_row_id": "official-squad-row-527",
-      "name": "Ahmed Hasan Maknzi Al Deeshawee",
-      "country": "Iraq",
-      "team_id": "24",
-      "roster_status": "review",
-      "match_status": "matched",
-      "match_method": "existing_official_fantasy_id",
-      "matched_player_id": "iraq-ahmed-maknzi",
-      "candidate_player_ids": [],
-      "review_reasons": [
-        "fantasy_status_transferred_no_final_squad_source"
-      ],
-      "validation_errors": [],
-      "validation_warnings": [
-        "Roster status is review or unknown; manual review required."
-      ]
-    },
-    {
       "official_squad_row_id": "official-squad-row-534",
       "name": "Karar Nabeel Hussein Al Janat",
       "country": "Iraq",
@@ -1216,6 +1252,24 @@
       "match_status": "matched",
       "match_method": "existing_official_fantasy_id",
       "matched_player_id": "jordan-ahmad-assaf",
+      "candidate_player_ids": [],
+      "review_reasons": [
+        "fantasy_status_transferred_no_final_squad_source"
+      ],
+      "validation_errors": [],
+      "validation_warnings": [
+        "Roster status is review or unknown; manual review required."
+      ]
+    },
+    {
+      "official_squad_row_id": "official-squad-row-579",
+      "name": "Ibrahim Mohammad Abdallah Sabra",
+      "country": "Jordan",
+      "team_id": "26",
+      "roster_status": "review",
+      "match_status": "matched",
+      "match_method": "existing_official_fantasy_id",
+      "matched_player_id": "jordan-ibrahim-sabra",
       "candidate_player_ids": [],
       "review_reasons": [
         "fantasy_status_transferred_no_final_squad_source"
@@ -1696,6 +1750,24 @@
       ]
     },
     {
+      "official_squad_row_id": "official-squad-row-773",
+      "name": "Mário Ricardo da Silva Velho",
+      "country": "Portugal",
+      "team_id": "35",
+      "roster_status": "review",
+      "match_status": "matched",
+      "match_method": "existing_official_fantasy_id",
+      "matched_player_id": "portugal-ricardo-velho",
+      "candidate_player_ids": [],
+      "review_reasons": [
+        "fantasy_status_transferred_no_final_squad_source"
+      ],
+      "validation_errors": [],
+      "validation_warnings": [
+        "Roster status is review or unknown; manual review required."
+      ]
+    },
+    {
       "official_squad_row_id": "official-squad-row-784",
       "name": "Mohammed Waad Abdulwahhab Jadoua Al Bayati",
       "country": "Qatar",
@@ -2128,6 +2200,78 @@
       ]
     },
     {
+      "official_squad_row_id": "official-squad-row-1058",
+      "name": "Jasurbek Jaloliddinov",
+      "country": "Uzbekistan",
+      "team_id": "48",
+      "roster_status": "review",
+      "match_status": "matched",
+      "match_method": "existing_official_fantasy_id",
+      "matched_player_id": "thin-48-jasurbek-jaloliddinov",
+      "candidate_player_ids": [],
+      "review_reasons": [
+        "fantasy_status_transferred_no_final_squad_source"
+      ],
+      "validation_errors": [],
+      "validation_warnings": [
+        "Roster status is review or unknown; manual review required."
+      ]
+    },
+    {
+      "official_squad_row_id": "official-squad-row-1059",
+      "name": "Ruslanbek Jiyanov",
+      "country": "Uzbekistan",
+      "team_id": "48",
+      "roster_status": "review",
+      "match_status": "matched",
+      "match_method": "existing_official_fantasy_id",
+      "matched_player_id": "uzbekistan-ruslanbek-yiyanov",
+      "candidate_player_ids": [],
+      "review_reasons": [
+        "fantasy_status_transferred_no_final_squad_source"
+      ],
+      "validation_errors": [],
+      "validation_warnings": [
+        "Roster status is review or unknown; manual review required."
+      ]
+    },
+    {
+      "official_squad_row_id": "official-squad-row-1062",
+      "name": "Umarali Rakhmonaliev",
+      "country": "Uzbekistan",
+      "team_id": "48",
+      "roster_status": "review",
+      "match_status": "matched",
+      "match_method": "existing_official_fantasy_id",
+      "matched_player_id": "uzbekistan-umaraali-rakhmonaliev",
+      "candidate_player_ids": [],
+      "review_reasons": [
+        "fantasy_status_transferred_no_final_squad_source"
+      ],
+      "validation_errors": [],
+      "validation_warnings": [
+        "Roster status is review or unknown; manual review required."
+      ]
+    },
+    {
+      "official_squad_row_id": "official-squad-row-1081",
+      "name": "Sherzod Temirov",
+      "country": "Uzbekistan",
+      "team_id": "48",
+      "roster_status": "review",
+      "match_status": "matched",
+      "match_method": "existing_official_fantasy_id",
+      "matched_player_id": "uzbekistan-sherzod-temirov",
+      "candidate_player_ids": [],
+      "review_reasons": [
+        "fantasy_status_transferred_no_final_squad_source"
+      ],
+      "validation_errors": [],
+      "validation_warnings": [
+        "Roster status is review or unknown; manual review required."
+      ]
+    },
+    {
       "official_squad_row_id": "official-squad-row-1086",
       "name": "Facundo Cambeses",
       "country": "Argentina",
@@ -2244,6 +2388,24 @@
       "match_status": "matched",
       "match_method": "existing_official_fantasy_id",
       "matched_player_id": "thin-2-kevin-mac-allister",
+      "candidate_player_ids": [],
+      "review_reasons": [
+        "fantasy_status_transferred_no_final_squad_source"
+      ],
+      "validation_errors": [],
+      "validation_warnings": [
+        "Roster status is review or unknown; manual review required."
+      ]
+    },
+    {
+      "official_squad_row_id": "official-squad-row-1096",
+      "name": "Leonardo Balerdi",
+      "country": "Argentina",
+      "team_id": "2",
+      "roster_status": "review",
+      "match_status": "matched",
+      "match_method": "existing_official_fantasy_id",
+      "matched_player_id": "argentina-leonardo-balerdi",
       "candidate_player_ids": [],
       "review_reasons": [
         "fantasy_status_transferred_no_final_squad_source"
@@ -2478,6 +2640,24 @@
       "match_status": "matched",
       "match_method": "existing_official_fantasy_id",
       "matched_player_id": "thin-2-santiago-castro",
+      "candidate_player_ids": [],
+      "review_reasons": [
+        "fantasy_status_transferred_no_final_squad_source"
+      ],
+      "validation_errors": [],
+      "validation_warnings": [
+        "Roster status is review or unknown; manual review required."
+      ]
+    },
+    {
+      "official_squad_row_id": "official-squad-row-1116",
+      "name": "Wesley Vinícius França Lima",
+      "country": "Brazil",
+      "team_id": "7",
+      "roster_status": "review",
+      "match_status": "matched",
+      "match_method": "existing_official_fantasy_id",
+      "matched_player_id": "brazil-wesley",
       "candidate_player_ids": [],
       "review_reasons": [
         "fantasy_status_transferred_no_final_squad_source"
@@ -3146,6 +3326,24 @@
       "match_status": "matched",
       "match_method": "existing_official_fantasy_id",
       "matched_player_id": "ir-iran-kasra-taheri",
+      "candidate_player_ids": [],
+      "review_reasons": [
+        "fantasy_status_transferred_no_final_squad_source"
+      ],
+      "validation_errors": [],
+      "validation_warnings": [
+        "Roster status is review or unknown; manual review required."
+      ]
+    },
+    {
+      "official_squad_row_id": "official-squad-row-1248",
+      "name": "Ahmed Yahya Mahmood Al Hajjaj",
+      "country": "Iraq",
+      "team_id": "24",
+      "roster_status": "review",
+      "match_status": "matched",
+      "match_method": "existing_official_fantasy_id",
+      "matched_player_id": "iraq-ahmed-yahya",
       "candidate_player_ids": [],
       "review_reasons": [
         "fantasy_status_transferred_no_final_squad_source"
@@ -4362,6 +4560,24 @@
       ]
     },
     {
+      "official_squad_row_id": "official-squad-row-1455",
+      "name": "Abdelatif Ramdane",
+      "country": "Algeria",
+      "team_id": "1",
+      "roster_status": "review",
+      "match_status": "matched",
+      "match_method": "existing_official_fantasy_id",
+      "matched_player_id": "algeria-abdelatif-ramdane",
+      "candidate_player_ids": [],
+      "review_reasons": [
+        "fantasy_status_transferred_no_final_squad_source"
+      ],
+      "validation_errors": [],
+      "validation_warnings": [
+        "Roster status is review or unknown; manual review required."
+      ]
+    },
+    {
       "official_squad_row_id": "official-squad-row-1464",
       "name": "Jonas Urbig",
       "country": "Germany",
@@ -4416,6 +4632,24 @@
       ]
     },
     {
+      "official_squad_row_id": "official-squad-row-1467",
+      "name": "José Murillo",
+      "country": "Panama",
+      "team_id": "33",
+      "roster_status": "review",
+      "match_status": "matched",
+      "match_method": "existing_official_fantasy_id",
+      "matched_player_id": "thin-33-jose-murillo",
+      "candidate_player_ids": [],
+      "review_reasons": [
+        "fantasy_status_transferred_no_final_squad_source"
+      ],
+      "validation_errors": [],
+      "validation_warnings": [
+        "Roster status is review or unknown; manual review required."
+      ]
+    },
+    {
       "official_squad_row_id": "official-squad-row-1468",
       "name": "Víctor Griffith",
       "country": "Panama",
@@ -4460,6 +4694,24 @@
       "match_status": "matched",
       "match_method": "existing_official_fantasy_id",
       "matched_player_id": "thin-39-pape-sy",
+      "candidate_player_ids": [],
+      "review_reasons": [
+        "fantasy_status_transferred_no_final_squad_source"
+      ],
+      "validation_errors": [],
+      "validation_warnings": [
+        "Roster status is review or unknown; manual review required."
+      ]
+    },
+    {
+      "official_squad_row_id": "official-squad-row-1481",
+      "name": "Sebastian Nanasi",
+      "country": "Sweden",
+      "team_id": "42",
+      "roster_status": "review",
+      "match_status": "matched",
+      "match_method": "existing_official_fantasy_id",
+      "matched_player_id": "thin-42-sebastian-nanasi",
       "candidate_player_ids": [],
       "review_reasons": [
         "fantasy_status_transferred_no_final_squad_source"

@@ -1,25 +1,25 @@
 {
   "schema_version": "official_fantasy_import_report_v0",
-  "generated_at": "2026-06-03",
-  "source_checked": "2026-06-03",
+  "generated_at": "2026-06-08",
+  "source_checked": "2026-06-08",
   "status": "imported_needs_manual_review",
   "input_file": "data/imports/officialFantasyPlayers.csv",
   "current_player_rows_checked": 1339,
   "summary": {
-    "imported_rows": 1481,
+    "imported_rows": 1482,
     "matched_rows": 996,
     "review_rows": 0,
-    "unmatched_rows": 485,
+    "unmatched_rows": 486,
     "error_rows": 0,
-    "official_price_rows": 1481,
-    "official_position_rows": 1481,
+    "official_price_rows": 1482,
+    "official_position_rows": 1482,
     "selectable_status_counts": {
-      "playing": 1248,
-      "transferred": 233
+      "playing": 1243,
+      "transferred": 239
     },
     "match_method_counts": {
       "country_and_normalized_name": 996,
-      "no_current_player_match": 485
+      "no_current_player_match": 486
     }
   },
   "blocking_issues": [],
@@ -7775,6 +7775,22 @@
       "team_id": "42",
       "official_fantasy_position": "MID",
       "official_price": 5.3,
+      "match_status": "unmatched",
+      "match_method": "no_current_player_match",
+      "matched_player_id": null,
+      "candidate_player_ids": [],
+      "validation_errors": [],
+      "validation_warnings": [
+        "No current-player match found."
+      ]
+    },
+    {
+      "official_fantasy_player_id": "2072",
+      "name": "Assan Ouédraogo",
+      "country": "Germany",
+      "team_id": "20",
+      "official_fantasy_position": "MID",
+      "official_price": 4.5,
       "match_status": "unmatched",
       "match_method": "no_current_player_match",
       "matched_player_id": null,

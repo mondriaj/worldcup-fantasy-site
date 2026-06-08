@@ -1,6 +1,6 @@
 # Player Minutes Model Fantasy Pool v0 Report
 
-Generated: 2026-06-02
+Generated: 2026-06-08
 
 ## Purpose
 
@@ -36,14 +36,14 @@ National-team usage is the strongest role signal. High recent starts, high quali
 
 | Metric | Value |
 | --- | --- |
-| Total rows | 1481 |
-| Rows modeled | 1256 |
-| Rows blocked | 225 |
-| Fantasy-pool-only rows | 1256 |
+| Total rows | 1482 |
+| Rows modeled | 1243 |
+| Rows blocked | 239 |
+| Fantasy-pool-only rows | 1243 |
 | Final-squad-confirmed rows | 0 |
 | High-price missing-usage players | 0 |
 | High-price uncertainty fallback players | 0 |
-| Low-confidence modeled rows | 496 |
+| Low-confidence modeled rows | 486 |
 | Safe for preliminary staging | yes |
 | Safe for final public recommendations | no |
 | Safe for final Team Builder promotion | no |
@@ -52,45 +52,45 @@ National-team usage is the strongest role signal. High recent starts, high quali
 
 | Role label | Rows |
 | --- | --- |
-| locked_starter | 359 |
-| unclear | 321 |
-| blocked | 225 |
-| rotation_starter | 221 |
-| likely_starter | 181 |
-| thin_profile_unclear | 89 |
+| locked_starter | 358 |
+| unclear | 315 |
+| blocked | 239 |
+| rotation_starter | 220 |
+| likely_starter | 179 |
+| thin_profile_unclear | 87 |
 | impact_sub | 61 |
-| squad_depth | 12 |
 | backup | 11 |
+| squad_depth | 11 |
 | third_choice | 1 |
 
 ## Role Confidence Counts
 
 | Role confidence | Rows |
 | --- | --- |
-| high | 615 |
-| low | 278 |
-| blocked | 225 |
+| high | 612 |
+| low | 274 |
+| blocked | 239 |
 | medium | 145 |
-| missing | 129 |
-| thin_profile | 89 |
+| missing | 125 |
+| thin_profile | 87 |
 
 ## Average Start Probability by Position
 
 | Position | Average start probability |
 | --- | --- |
 | DEF | 0.552 |
-| FWD | 0.491 |
-| GK | 0.368 |
-| MID | 0.557 |
+| FWD | 0.494 |
+| GK | 0.372 |
+| MID | 0.561 |
 
 ## Average Expected Minutes by Position
 
 | Position | Average expected minutes |
 | --- | --- |
-| DEF | 49.768 |
-| FWD | 40.197 |
-| GK | 32.34 |
-| MID | 45.744 |
+| DEF | 49.736 |
+| FWD | 40.371 |
+| GK | 32.69 |
+| MID | 45.997 |
 
 ## High-Risk Cases
 
@@ -103,6 +103,7 @@ No high-price missing-usage players were flagged.
 | 1712 | Ivan Toney | England | FWD | 7.5 | impact_sub | low | 0.285 | 35.4 |
 | 1369 | Neymar da Silva Santos Júnior | Brazil | MID | 7.2 | unclear | missing | 0.16 | 20.2 |
 | 1485 | Santiago Giménez | Mexico | FWD | 6.8 | rotation_starter | low | 0.465 | 38.5 |
+| 112 | Christoph Baumgartner | Austria | MID | 6.7 | blocked | blocked |  |  |
 | 1683 | Fredrik Aursnes | Norway | MID | 6.5 | impact_sub | low | 0.325 | 35.1 |
 | 1999 | Pablo Páez Gavira | Spain | MID | 6.5 | unclear | missing | 0.16 | 20.2 |
 | 1327 | Emiliano Buendía | Argentina | MID | 6.5 | blocked | blocked |  |  |
@@ -124,22 +125,21 @@ No high-price missing-usage players were flagged.
 | 1335 | Matías Soulé | Argentina | MID | 6.2 | blocked | blocked |  |  |
 | 1291 | Jaloliddin Masharipov | Uzbekistan | MID | 6.1 | rotation_starter | low | 0.54 | 44.1 |
 | 1255 | Weston McKennie | USA | MID | 6.1 | rotation_starter | low | 0.47 | 40.4 |
-| 1254 | Malik Tillman | USA | MID | 6.1 | rotation_starter | low | 0.46 | 39.9 |
 
 ## Blockers Before Final Minutes Model
 
 | Stop condition | Status | Count | Details |
 | --- | --- | --- | --- |
-| input_final_squads_not_source_backed | stop | 225 | Final squad import is not source-backed complete; fantasy pool rows must not be treated as final squads. |
+| input_final_squads_not_source_backed | stop | 239 | Final squad import is not source-backed complete; fantasy pool rows must not be treated as final squads. |
 | input_official_rules_manual_review | stop | 1 | Official rules import still has manual-review status. |
 | input_no_final_squad_rows_exist | stop | 0 | There are 0 confirmed_final_squad rows in the staged official squad file. |
 | input_browser_ready_files_not_regenerated | stop | 1 | This staging pass intentionally did not regenerate browser-ready files or active recommendation data. |
 | fantasy_pool_only_not_final_squad_ready | stop | 0 | This model has 0 confirmed final-squad rows and must not be treated as final. |
 | readiness_not_ready_for_model_rerun | stop | 1 | Official data readiness is blocked_waiting_for_official_fantasy_data. |
 | official_rules_manual_review | stop | 1 | Official rules still have manual-review warnings, including Mystery Booster/deadline semantics. |
-| blocked_player_rows_present | stop | 225 | Blocked rows do not receive preliminary minutes. |
-| missing_national_team_usage_present | warning | 608 | Missing national-team usage is kept missing and not treated as average. |
-| thin_profiles_present | warning | 221 | Thin profiles use conservative low-confidence priors only. |
+| blocked_player_rows_present | stop | 239 | Blocked rows do not receive preliminary minutes. |
+| missing_national_team_usage_present | warning | 609 | Missing national-team usage is kept missing and not treated as average. |
+| thin_profiles_present | warning | 222 | Thin profiles use conservative low-confidence priors only. |
 | not_safe_for_browser_ready_promotion | stop | 1 | Browser-ready files were intentionally not regenerated in this staging pass. |
 
 ## Safety Decision

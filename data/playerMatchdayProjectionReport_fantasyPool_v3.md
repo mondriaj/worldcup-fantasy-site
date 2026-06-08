@@ -1,6 +1,6 @@
 # Player Matchday Projection Report Fantasy Pool v3
 
-Generated: 2026-06-02T17:52:11.470Z
+Generated: 2026-06-08T13:25:20.392Z
 
 ## Status
 
@@ -9,9 +9,9 @@ This is a staged `fantasy_pool_only` player matchday projection layer. It is not
 | Metric | Value |
 | --- | --- |
 | Overall QA status | pass_with_staging_stop_conditions |
-| Projection rows | 3768 |
-| Players projected | 1256 |
-| Blocked players | 225 |
+| Projection rows | 3729 |
+| Players projected | 1243 |
+| Blocked players | 239 |
 | Safe for preliminary recommendation staging | true |
 | Safe for final public recommendations | false |
 | Safe for Team Builder promotion | false |
@@ -26,26 +26,26 @@ This coverage pass adds separate official-scoring components for midfielder tack
 
 | Matchday | Rows |
 | --- | --- |
-| md1 | 1256 |
-| md2 | 1256 |
-| md3 | 1256 |
+| md1 | 1243 |
+| md2 | 1243 |
+| md3 | 1243 |
 
 ## Projections By Position
 
 | Position | Rows |
 | --- | --- |
-| DEF | 1236 |
-| FWD | 810 |
-| MID | 1281 |
-| GK | 441 |
+| DEF | 1227 |
+| FWD | 804 |
+| MID | 1263 |
+| GK | 435 |
 
 ## Confidence Distribution
 
 | Confidence | Rows |
 | --- | --- |
-| high | 1842 |
-| low | 1221 |
-| thin_profile | 267 |
+| high | 1833 |
+| low | 1197 |
+| thin_profile | 261 |
 | medium | 438 |
 
 ## Added Official Scoring Components
@@ -55,7 +55,7 @@ This coverage pass adds separate official-scoring components for midfielder tack
 | Tackle component | 0 | 0.056 | 1.1 |
 | Chance-created component | 0 | 0.082 | 1.15 |
 | Shot-on-target component | 0 | 0.04 | 0.95 |
-| Added components total | 0 | 0.178 | 1.71 |
+| Added components total | 0 | 0.179 | 1.71 |
 
 ## Top Added-Component Totals
 
@@ -231,9 +231,7 @@ This coverage pass adds separate official-scoring components for midfielder tack
 | Armando González | Mexico | FWD | md1 | South Africa | 2.726 | low |
 | Folarin Balogun | USA | FWD | md2 | Australia | 2.718 | low |
 | Guus Til | Netherlands | MID | md3 | Tunisia | 2.678 | low |
-| Lennart Karl | Germany | MID | md1 | Curaçao | 2.677 | low |
 | Jeremy Arévalo | Ecuador | FWD | md1 | Côte d'Ivoire | 2.632 | low |
-| Lennart Karl | Germany | MID | md2 | Côte d'Ivoire | 2.601 | low |
 | Igor Thiago Nascimento Rodrigues | Brazil | FWD | md2 | Haiti | 2.564 | low |
 | Bamba Dieng | Senegal | FWD | md3 | Iraq | 2.562 | low |
 | Malik Tillman | USA | MID | md2 | Australia | 2.551 | low |
@@ -246,6 +244,8 @@ This coverage pass adds separate official-scoring components for midfielder tack
 | Orbelín Pineda | Mexico | MID | md1 | South Africa | 2.449 | low |
 | Armando González | Mexico | FWD | md3 | Czechia | 2.395 | low |
 | Armando González | Mexico | FWD | md2 | Korea Republic | 2.389 | low |
+| Promise David | Canada | FWD | md2 | Qatar | 2.318 | low |
+| Igor Thiago Nascimento Rodrigues | Brazil | FWD | md3 | Scotland | 2.312 | low |
 
 ## Thin-Profile High Projections
 
@@ -258,6 +258,8 @@ This coverage pass adds separate official-scoring components for midfielder tack
 | Ahmed Benbouali | Algeria | FWD | md2 | Jordan | 0.579 | thin_profile |
 | Endrick Felipe Moreira de Sousa | Brazil | FWD | md1 | Morocco | 0.567 | thin_profile |
 | Fábio Henrique Tavares | Brazil | MID | md2 | Haiti | 0.555 | thin_profile |
+| Assan Ouédraogo | Germany | MID | md1 | Curaçao | 0.555 | thin_profile |
+| Assan Ouédraogo | Germany | MID | md2 | Côte d'Ivoire | 0.547 | thin_profile |
 | Alexandro Maidana | Paraguay | FWD | md1 | USA | 0.541 | thin_profile |
 | Haissem Hassan | Egypt | FWD | md2 | New Zealand | 0.54 | thin_profile |
 | Alexandro Maidana | Paraguay | FWD | md3 | Australia | 0.534 | thin_profile |
@@ -274,8 +276,6 @@ This coverage pass adds separate official-scoring components for midfielder tack
 | Hyeon-Gyu Oh | Korea Republic | FWD | md1 | Czechia | 0.504 | thin_profile |
 | Hyun-Jun Yang | Korea Republic | FWD | md1 | Czechia | 0.504 | thin_profile |
 | Ji-Sung Eom | Korea Republic | FWD | md1 | Czechia | 0.504 | thin_profile |
-| Nestory Irankunda | Australia | FWD | md2 | USA | 0.502 | thin_profile |
-| Mohamed Touré | Australia | FWD | md2 | USA | 0.502 | thin_profile |
 
 ## Neymar / Brazil Treatment
 
@@ -285,9 +285,9 @@ Neymar remains a P0 national-team usage source gap. His rows carry `neymar_p0_us
 
 | Metric | Value |
 | --- | --- |
-| Comparable rows | 3501 |
-| Average raw delta | 0.095 |
-| Average absolute raw delta | 0.914 |
+| Comparable rows | 3468 |
+| Average raw delta | 0.093 |
+| Average absolute raw delta | 0.916 |
 | Average risk-adjusted delta | 0.35 |
 
 ## Largest Differences From v2
@@ -326,8 +326,8 @@ Neymar remains a P0 national-team usage source gap. His rows carry `neymar_p0_us
 
 | Check | Status | Severity | Detail |
 | --- | --- | --- | --- |
-| modeled_player_matchday_coverage | pass | error | 1256/1256 modeled selectable players have three matchday rows. |
-| blocked_players_excluded | pass | error | 225 blocked/not-selectable players are listed separately and excluded from active projection rows. |
+| modeled_player_matchday_coverage | pass | error | 1243/1243 modeled selectable players have three matchday rows. |
+| blocked_players_excluded | pass | error | 239 blocked/not-selectable players are listed separately and excluded from active projection rows. |
 | official_price_position_present | pass | error | Every projection row has official price and official fantasy position. |
 | projection_numeric_fields | pass | error | Projection numeric fields are present where expected. |
 | minutes_bounds | pass | error | Expected minutes stay between 0 and 90. |
@@ -337,13 +337,13 @@ Neymar remains a P0 national-team usage source gap. His rows carry `neymar_p0_us
 | captain_score_present | pass | error | Captain score is present for every projection row. |
 | added_official_components_in_range | pass | error | 0 rows have added tackle/chance/SOT components that dominate raw points. |
 | conservative_prior_components_capped | pass | error | 0 rows exceed conservative prior caps for added scoring categories. |
-| thin_profiles_flagged | pass | error | 89 thin-profile players are flagged on their projection rows. |
-| missing_usage_flagged | pass | error | 410 players with missing usage are flagged on their projection rows. |
+| thin_profiles_flagged | pass | error | 87 thin-profile players are flagged on their projection rows. |
+| missing_usage_flagged | pass | error | 402 players with missing usage are flagged on their projection rows. |
 | neymar_brazil_uncertainty_carried | pass | error | 3 Neymar rows carry source-gap uncertainty flags. |
 | fantasy_pool_only_flags_present | pass | error | Every row carries fantasy_pool_only. |
 | no_final_squad_backed_claims | pass | error | No projection row claims final-squad-backed status. |
-| v3_v2_comparison_available | pass | error | 3501 rows can be compared to v2 by internal player ID and fixture. |
-| top_projection_outliers_flagged | pass | warning | 41 high projection/captain outlier rows are listed for review. |
+| v3_v2_comparison_available | pass | error | 3468 rows can be compared to v2 by internal player ID and fixture. |
+| top_projection_outliers_flagged | pass | warning | 40 high projection/captain outlier rows are listed for review. |
 
 ## Promotion Decision
 

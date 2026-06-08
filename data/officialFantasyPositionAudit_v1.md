@@ -15,8 +15,8 @@ PASS: public fantasy player positions normalize to the official FIFA fantasy pos
 
 ## Summary
 
-- Official feed rows: 1481
-- Official position rows: 1481
+- Official feed rows: 1482
+- Official position rows: 1482
 - Selectable official rows missing official position: 0
 - Legacy browser rows corrected by the official override: 135
 - Public mismatches after normalization: 0
@@ -26,7 +26,7 @@ PASS: public fantasy player positions normalize to the official FIFA fantasy pos
 
 | Check | Status | Detail |
 | --- | --- | --- |
-| official_position_records_exported | PASS | 1481/1481 official position records are in fantasyPoolOfficialDataStatusData.js. |
+| official_position_records_exported | PASS | 1482/1482 official position records are in fantasyPoolOfficialDataStatusData.js. |
 | no_selectable_official_positions_missing | PASS | 0 selectable official feed rows are missing official fantasy position. |
 | fantasy_pool_generated_files_match_official | PASS | 0 generated fantasy-pool position mismatches; 0 rows missing an official match. |
 | legacy_public_positions_normalized | PASS | 0 public browser player rows conflict after script.js normalization. |
