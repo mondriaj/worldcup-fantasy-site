@@ -1,5 +1,6 @@
 # Large local source/intermediate data artifacts.
 # Keep these on disk for audits/regeneration, but do not publish them with the static site.
+.DS_Store
 data/espnDetailedMatchPlayerStats.json
 data/espnSummaryMatchedPlayerStats.json
 data/oneFootballAllRosterMatchPlayerStats.json
