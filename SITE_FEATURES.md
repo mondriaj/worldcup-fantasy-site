@@ -13,6 +13,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - The default experience is simple and card-first, with deeper tables, model details, and finance terminology kept in advanced sections.
 - Separate World Cup page for tournament groups, group-stage fixtures, and bracket-path context.
 - Static data files are loaded directly by the page, so the site does not need runtime API calls.
+- Daily Matchday Live Update v1 imports fixture scores/status, player actual points, and player `matchStatus` into static browser-ready files for display/support use.
 - Player names in the main recommendation views open a Player Profile view focused first on why to pick him, why to be careful, best use, fixture outlook, fantasy finance, and data checks.
 
 ## Player Recommendations
@@ -36,6 +37,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Clean-sheet context displays each team on its own line so defender and keeper outlooks are easy to scan.
 - The same cleaned Match Environment context supports one-line player-card fixture notes, compact Player Profile fixture context, and Team Builder squad-risk scoring.
 - Row details keep total goals range as supporting context and still show team-specific clean-sheet probability, favorite probability, and top scoreline context.
+- If a fixture has started or finished, Match Environment can show actual/live score context beside the model prediction without replacing the predicted score fields.
 - Score prediction checks verify fixture coverage, probability bounds, PELE input coverage, favorite consistency, uncertainty bands, expected-goal preservation, fantasy context labels, and player-matchday integration.
 
 ## Team Builder
@@ -68,6 +70,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 
 - Matchday Desk is the repeat-use hub for saved-squad status, captain switch checks, bench switch checks, and the matchday timeline.
 - Matchday Desk shows an action-first empty state, saved-squad readiness cards, and shortcut buttons into Captain Switch Check, Bench Switch Check, and My Matchday Timeline.
+- When the static live import is available, Matchday Desk shows current round status, saved-squad official points, and player `matchStatus` where FIFA's feed provides them.
 - Captain Change Advisor provides a manual Quick Captain Switch Check.
 - Users enter the current captain's actual fantasy points before the captain double and compare one possible replacement who has not played yet.
 - The advisor is intentionally conservative with strong captain scores; a 12+ captain score should usually lead to keep unless the user is deliberately chasing a risky upside move.
@@ -101,6 +104,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Official fantasy rules now include the Clean Sheet Shield booster rule; live deadline and lock semantics still require manual confirmation inside FIFA before acting.
 - Official final squad reconciliation remains available as an audit trail, while the public site uses FIFA's fantasy pool as the working authority.
 - The official data check reviews FIFA fantasy data for player, squad, rules, round, and language changes before deciding whether imports or model reruns are needed.
+- `scripts/importLiveMatchdayStatus.mjs` imports players, squads, and rounds into lightweight live fixture and player status files without rerunning recommendation or projection models.
 - `data/launchOperationsChecklist_v1.md` summarizes the operating checklist for monitor cadence, refresh decisions, rerun triggers, and launch checks.
 - Import templates are provided for future manual reconciliation work.
 - Readiness validation reports whether final model reruns are allowed or still blocked by missing official data.
@@ -113,8 +117,8 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Official fantasy prices, positions, scoring, and the Clean Sheet Shield booster rule are available.
 - Team Builder is planning help and should be verified in the official game.
 - Score predictions are prototype model outputs, not official projections or live match facts.
-- Captain and substitution tools require manual points and manual played/unplayed checks.
-- The site does not track live scores, official deadlines, official lineup locks, or official fantasy-game legality.
+- Captain and substitution tools can show imported official points/status where available, but still require manual played/unplayed and legality checks.
+- The site can display static imported fixture scores/status, but it does not calculate group tables from actual scores and does not track official deadlines, official lineup locks, or official fantasy-game legality.
 - Team Import restores current player IDs only and may need migration if future model IDs change.
 
 ## Most Important Next Step

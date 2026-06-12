@@ -275,6 +275,11 @@ const matchdayModelSummary = window.MATCHDAY_MODEL_SUMMARY || null;
 const activeScorePredictionSource = scorePredictionSourceFromWindow();
 const scorePredictionRows = activeScorePredictionSource.rows;
 const scorePredictionSummary = activeScorePredictionSource.summary;
+const liveMatchdayStatusData = window.LIVE_MATCHDAY_STATUS_DATA || null;
+const livePlayerStatusData = window.LIVE_PLAYER_STATUS_DATA || null;
+const liveFixtureRows = Array.isArray(liveMatchdayStatusData?.fixtures) ? liveMatchdayStatusData.fixtures : [];
+const liveRoundRows = Array.isArray(liveMatchdayStatusData?.rounds) ? liveMatchdayStatusData.rounds : [];
+const livePlayerRows = Array.isArray(livePlayerStatusData?.players) ? livePlayerStatusData.players : [];
 const usingFantasyPoolPreview = Boolean(fantasyPoolPreviewStatus && fantasyPoolRecommendationRows.length);
 const defaultMatchdayOptions = [
   { matchday_id: "group_stage_full", label: "Full Group Stage" },
@@ -329,6 +334,13 @@ const matchdayProjectionLookup = matchdayProjectionRows.reduce((lookup, projecti
 }, new Map());
 
 const scorePredictionLookup = new Map(scorePredictionRows.map((row) => [row.fixture_id, row]));
+const liveFixtureLookup = buildLiveFixtureLookup(liveFixtureRows);
+const liveRoundLookup = new Map(liveRoundRows
+  .filter((round) => round.round_id)
+  .map((round) => [String(round.round_id), round]));
+const livePlayerByOfficialId = new Map(livePlayerRows
+  .filter((player) => player.official_fantasy_player_id)
+  .map((player) => [String(player.official_fantasy_player_id), player]));
 const fantasyPoolFinanceLookup = fantasyPoolFinanceRows.reduce((lookup, row) => {
   const key = fantasyPoolPlayerKey(row);
   if (key) {
@@ -3009,6 +3021,175 @@ function topScorelineText(row) {
   return "needs check";
 }
 
+function liveFixtureLookupKeys(fixture) {
+  const keys = [
+    fixture?.fixture_id,
+    fixture?.local_fixture_id,
+    fixture?.match_id,
+    fixture?.match_number,
+    fixture?.match_number ? `fwc2026-m${String(fixture.match_number).padStart(3, "0")}` : null
+  ]
+    .filter((valueToCheck) => valueToCheck !== null && valueToCheck !== undefined && String(valueToCheck).trim())
+    .map((valueToCheck) => String(valueToCheck).trim());
+  const homeName = fixture?.home_team || fixture?.homeSquadName || fixture?.team_1;
+  const awayName = fixture?.away_team || fixture?.awaySquadName || fixture?.team_2;
+
+  if (homeName && awayName) {
+    keys.push(`teams:${normalizeText(homeName)}|${normalizeText(awayName)}`);
+  }
+
+  return Array.from(new Set(keys));
+}
+
+function buildLiveFixtureLookup(fixtures) {
+  return fixtures.reduce((lookup, fixture) => {
+    liveFixtureLookupKeys(fixture).forEach((key) => {
+      if (!lookup.has(key)) {
+        lookup.set(key, fixture);
+      }
+    });
+    return lookup;
+  }, new Map());
+}
+
+function liveFixtureForScorePrediction(row) {
+  if (!row || !liveFixtureLookup.size) {
+    return null;
+  }
+
+  const keys = [
+    row.fixture_id,
+    row.match_id,
+    row.match_number,
+    row.match_number ? `fwc2026-m${String(row.match_number).padStart(3, "0")}` : null,
+    row.home_team && row.away_team ? `teams:${normalizeText(row.home_team)}|${normalizeText(row.away_team)}` : null
+  ].filter(Boolean).map(String);
+
+  for (const key of keys) {
+    const liveFixture = liveFixtureLookup.get(key);
+    if (liveFixture) {
+      return liveFixture;
+    }
+  }
+
+  return null;
+}
+
+function liveFixtureStatusLabel(fixture) {
+  const status = String(fixture?.fixture_status || "").toLowerCase();
+  const period = String(fixture?.period || "").toLowerCase();
+  const minute = Number(fixture?.minutes);
+  const extraMinute = Number(fixture?.extra_minutes);
+
+  if (["complete", "completed", "played"].includes(status)) {
+    return "Full time";
+  }
+
+  if (status === "playing") {
+    const clock = Number.isFinite(minute) && minute > 0
+      ? `${displayNumber(minute)}${Number.isFinite(extraMinute) && extraMinute > 0 ? `+${displayNumber(extraMinute)}` : ""}'`
+      : "";
+    return [period ? titleFromSnake(period) : "Live", clock].filter(Boolean).join(" ");
+  }
+
+  if (status === "scheduled") {
+    return "Scheduled";
+  }
+
+  return status ? titleFromSnake(status) : "Status pending";
+}
+
+function liveFixtureScoreText(fixture) {
+  if (fixture?.home_score === null || fixture?.home_score === undefined || fixture?.away_score === null || fixture?.away_score === undefined) {
+    return "";
+  }
+
+  const homeCode = compactTeamCode(fixture.home_squad_id, fixture.home_abbr || fixture.home_team);
+  const awayCode = compactTeamCode(fixture.away_squad_id, fixture.away_abbr || fixture.away_team);
+  return `${homeCode} ${displayNumber(fixture.home_score)} - ${displayNumber(fixture.away_score)} ${awayCode}`;
+}
+
+function liveFixtureContextHtml(fixture) {
+  if (!fixture) {
+    return "";
+  }
+
+  const status = liveFixtureStatusLabel(fixture);
+  const score = liveFixtureScoreText(fixture);
+  const label = ["complete", "completed", "played"].includes(String(fixture.fixture_status || "").toLowerCase())
+    ? "Actual"
+    : String(fixture.fixture_status || "").toLowerCase() === "playing"
+      ? "Live"
+      : "Fixture";
+  const detail = [score, status].filter(Boolean).join(" · ");
+
+  if (!detail || status === "Scheduled") {
+    return "";
+  }
+
+  return `<span>${escapeHtml(label)}</span> ${escapeHtml(detail)}`;
+}
+
+function liveRoundIdFromMatchdayId(matchdayId) {
+  const match = String(matchdayId || "").match(/md(\d+)/i);
+  return match ? match[1] : null;
+}
+
+function liveFixturesForMatchdayId(matchdayId) {
+  const roundId = liveRoundIdFromMatchdayId(matchdayId);
+  return roundId ? liveFixtureRows.filter((fixture) => String(fixture.round_id || "") === roundId) : [];
+}
+
+function livePlayerForPlayer(player) {
+  const ids = [
+    player?.official_fantasy_player_id,
+    player?.officialFantasyPlayerId,
+    player?.preview_player_key,
+    player?.preview_candidate?.official_fantasy_player_id,
+    player?.source_player_id,
+    player?.internal_player_id
+  ]
+    .filter((valueToCheck) => valueToCheck !== null && valueToCheck !== undefined && String(valueToCheck).trim())
+    .map((valueToCheck) => String(valueToCheck).trim());
+
+  for (const id of ids) {
+    const livePlayer = livePlayerByOfficialId.get(id);
+    if (livePlayer) {
+      return livePlayer;
+    }
+  }
+
+  return null;
+}
+
+function liveMatchStatusLabel(status) {
+  const normalizedStatus = String(status || "").toLowerCase();
+  if (normalizedStatus === "start") return "Started";
+  if (normalizedStatus === "sub") return "Sub";
+  if (normalizedStatus === "not_in_squad") return "Not in squad";
+  return "";
+}
+
+function livePlayerSummaryForMatchday(player, matchdayId) {
+  const livePlayer = livePlayerForPlayer(player);
+  const roundId = liveRoundIdFromMatchdayId(matchdayId);
+  const roundPoints = livePlayer?.stats?.roundPoints || {};
+  const hasRoundPoints = Boolean(roundId && Object.prototype.hasOwnProperty.call(roundPoints, roundId));
+  const points = hasRoundPoints ? Number(roundPoints[roundId]) : null;
+  const matchStatus = liveMatchStatusLabel(livePlayer?.matchStatus);
+  const hasUsefulData = Boolean(livePlayer && (hasRoundPoints || matchStatus));
+
+  return {
+    livePlayer,
+    hasRoundPoints,
+    points: Number.isFinite(points) ? points : null,
+    matchStatus,
+    hasUsefulData,
+    valueText: hasRoundPoints && Number.isFinite(points) ? `${displayNumber(points)} pts` : matchStatus || "No live row",
+    detailText: [matchStatus, hasRoundPoints ? "official points" : ""].filter(Boolean).join(" · ")
+  };
+}
+
 function mostLikelyScoreText(row) {
   const homeCode = compactTeamCode(row?.home_team_id, row?.home_team);
   const awayCode = compactTeamCode(row?.away_team_id, row?.away_team);
@@ -5155,12 +5336,15 @@ function renderMatchEnvironmentTable() {
   matchEnvironmentTableBody.innerHTML = visibleRows.map((row) => {
     const matchUncertainty = matchUncertaintyLabel(row);
     const scorelineAlternatives = topScorelineAlternativesText(row);
+    const liveFixture = liveFixtureForScorePrediction(row);
+    const liveFixtureContext = liveFixtureContextHtml(liveFixture);
 
     return `
       <tr>
         <td>
           <strong>${row.home_team} vs ${row.away_team}</strong>
           <small>Group ${row.group} · ${matchdayLabelFromId(row.fantasy_matchday_id)} · ${row.eastern_datetime_label || row.date}</small>
+          ${liveFixtureContext ? `<small class="live-score-context">${liveFixtureContext}</small>` : ""}
         </td>
         <td>
           <strong class="match-projected-xg" title="Expected goals for this matchup.">${projectedXgText(row)}</strong>
@@ -6266,6 +6450,91 @@ function matchdayDecisionEmptyHtml() {
   `;
 }
 
+function matchdayLiveSupportHtml(matchdayId, squad) {
+  if (!liveMatchdayStatusData && !livePlayerStatusData) {
+    return "";
+  }
+
+  const roundId = liveRoundIdFromMatchdayId(matchdayId);
+  const round = roundId ? liveRoundLookup.get(roundId) : null;
+  const fixtures = liveFixturesForMatchdayId(matchdayId);
+  const completedCount = fixtures.filter((fixture) => ["complete", "completed", "played"].includes(String(fixture.fixture_status || "").toLowerCase())).length;
+  const playingCount = fixtures.filter((fixture) => String(fixture.fixture_status || "").toLowerCase() === "playing").length;
+  const scheduledCount = fixtures.filter((fixture) => String(fixture.fixture_status || "").toLowerCase() === "scheduled").length;
+  const updateDecision = liveMatchdayStatusData?.update_decision?.primary_recommendation ||
+    livePlayerStatusData?.update_decision?.primary_recommendation ||
+    "display_only_refresh";
+  const livePlayerSummaries = squad.map((player) => ({
+    player,
+    summary: livePlayerSummaryForMatchday(player, matchdayId)
+  }));
+  const squadPlayersWithRoundPoints = livePlayerSummaries.filter((row) => row.summary.hasRoundPoints);
+  const squadPlayersWithMatchStatus = livePlayerSummaries.filter((row) => row.summary.matchStatus);
+  const liveRowsToShow = livePlayerSummaries
+    .filter((row) => row.summary.hasUsefulData)
+    .slice(0, 6);
+  const fixtureRowsToShow = fixtures
+    .filter((fixture) => String(fixture.fixture_status || "").toLowerCase() !== "scheduled")
+    .slice(0, 4);
+  const fixtureStatusDetail = fixtures.length
+    ? `${completedCount} complete · ${playingCount} live · ${scheduledCount} scheduled`
+    : "No fixtures in this static round";
+
+  return `
+    <section class="matchday-live-support" aria-label="Official live matchday support">
+      <div class="matchday-live-support__heading">
+        <div>
+          <h3>Official Live Support</h3>
+          <p>${escapeHtml(liveMatchdayStatusData?.source_checked || livePlayerStatusData?.source_checked || "Static live file")}</p>
+        </div>
+        <span>${escapeHtml(titleFromSnake(updateDecision))}</span>
+      </div>
+      <div class="matchday-squad-status__grid">
+        ${matchdayDecisionSummaryCard("Round status", round ? titleFromSnake(round.status || "status pending") : "No round row", fixtureStatusDetail)}
+        ${matchdayDecisionSummaryCard("Squad points", `${squadPlayersWithRoundPoints.length}/${squad.length}`, "official round points")}
+        ${matchdayDecisionSummaryCard("matchStatus", `${squadPlayersWithMatchStatus.length}/${squad.length}`, "start/sub/not in squad")}
+        ${matchdayDecisionSummaryCard("Model rerun", liveMatchdayStatusData?.update_decision?.model_rerun_needed_now ? "Review needed" : "Not from live file", "display/support layer")}
+      </div>
+      ${liveRowsToShow.length ? `
+        <div class="matchday-live-player-list">
+          ${liveRowsToShow.map(({ player, summary }) => `
+            <article>
+              <strong>${escapeHtml(player.name)}</strong>
+              <span>${escapeHtml(summary.valueText)}</span>
+              ${summary.detailText ? `<small>${escapeHtml(summary.detailText)}</small>` : ""}
+            </article>
+          `).join("")}
+        </div>
+      ` : `
+        <div class="matchday-live-empty">No saved-squad player points or matchStatus rows yet for ${escapeHtml(matchdayLabelFromId(matchdayId))}.</div>
+      `}
+      ${fixtureRowsToShow.length ? `
+        <div class="matchday-live-fixture-list">
+          ${fixtureRowsToShow.map((fixture) => `
+            <span>${escapeHtml([liveFixtureScoreText(fixture), liveFixtureStatusLabel(fixture)].filter(Boolean).join(" · "))}</span>
+          `).join("")}
+        </div>
+      ` : ""}
+    </section>
+  `;
+}
+
+function matchdayLivePlayerNoteHtml(player, matchdayId) {
+  const summary = livePlayerSummaryForMatchday(player, matchdayId);
+
+  if (!summary.hasUsefulData) {
+    return "";
+  }
+
+  return `
+    <div class="matchday-live-player-note">
+      <span>Official live</span>
+      <strong>${escapeHtml(summary.valueText)}</strong>
+      ${summary.detailText ? `<small>${escapeHtml(summary.detailText)}</small>` : ""}
+    </div>
+  `;
+}
+
 function matchdayDecisionManualChecksHtml() {
   return `
     <div class="matchday-decision-checks">
@@ -6628,7 +6897,7 @@ function matchdayDecisionBenchRows(bench, starter, matchdayId, mode, starterPoin
     });
 }
 
-function renderMatchdayDecisionCaptainCard(row, currentCaptain, captainPoints, mode) {
+function renderMatchdayDecisionCaptainCard(row, currentCaptain, captainPoints, mode, matchdayId = "md1") {
   const startProbability = row.projection
     ? fieldNumber(row.projection, "start_probability_percent") ?? scoreValue(row.player, "start_probability_percent")
     : null;
@@ -6637,6 +6906,7 @@ function renderMatchdayDecisionCaptainCard(row, currentCaptain, captainPoints, m
     : null;
   const edgeText = row.verdict.edge === null ? "Needs points" : `${displayNumber(row.verdict.edge)} edge`;
   const thresholdText = row.verdict.threshold === null ? mode.label : `threshold ${displayNumber(row.verdict.threshold)}`;
+  const livePlayerNote = matchdayLivePlayerNoteHtml(row.player, matchdayId);
 
   return `
     <article class="matchday-decision-card matchday-decision-card--${row.verdict.className}">
@@ -6653,13 +6923,14 @@ function renderMatchdayDecisionCaptainCard(row, currentCaptain, captainPoints, m
         ${matchdayDecisionMetric("Strategy", mode.label, thresholdText)}
         ${matchdayDecisionMetric("Start", startProbability === null ? "N/A" : `${displayNumber(startProbability)}%`, expectedMinutes === null ? "minutes N/A" : `${displayNumber(expectedMinutes)} min`)}
       </div>
+      ${livePlayerNote}
       ${matchdayDecisionWarningHtml(row.verdict.warnings)}
       <button class="matchday-decision-button" type="button" data-decision-center-action="captain-fill" data-player-id="${escapeHtml(row.player.id)}" ${currentCaptain ? "" : "disabled"}>${captainPoints.isValid ? "Fill Captain Check" : "Fill Captain Fields"}</button>
     </article>
   `;
 }
 
-function renderMatchdayDecisionBenchCard(row, starter, starterPoints, mode) {
+function renderMatchdayDecisionBenchCard(row, starter, starterPoints, mode, matchdayId = "md1") {
   const startProbability = row.projection
     ? fieldNumber(row.projection, "start_probability_percent") ?? scoreValue(row.player, "start_probability_percent")
     : null;
@@ -6668,6 +6939,7 @@ function renderMatchdayDecisionBenchCard(row, starter, starterPoints, mode) {
     : null;
   const edgeText = row.verdict.edge === null ? "Needs points" : `${displayNumber(row.verdict.edge)} edge`;
   const thresholdText = row.verdict.threshold === null ? mode.label : `threshold ${displayNumber(row.verdict.threshold)}`;
+  const livePlayerNote = matchdayLivePlayerNoteHtml(row.player, matchdayId);
 
   return `
     <article class="matchday-decision-card matchday-decision-card--${row.verdict.className}">
@@ -6684,6 +6956,7 @@ function renderMatchdayDecisionBenchCard(row, starter, starterPoints, mode) {
         ${matchdayDecisionMetric("Strategy", mode.label, thresholdText)}
         ${matchdayDecisionMetric("Start", startProbability === null ? "N/A" : `${displayNumber(startProbability)}%`, expectedMinutes === null ? "minutes N/A" : `${displayNumber(expectedMinutes)} min`)}
       </div>
+      ${livePlayerNote}
       ${matchdayDecisionWarningHtml(row.verdict.warnings)}
       <button class="matchday-decision-button" type="button" data-decision-center-action="sub-fill" data-player-id="${escapeHtml(row.player.id)}" ${starter ? "" : "disabled"}>${starterPoints.isValid ? "Fill Sub Check" : "Fill Sub Fields"}</button>
     </article>
@@ -6742,6 +7015,7 @@ function renderMatchdayDecisionCenter() {
       playedStarter,
       starterPoints
     })}
+    ${matchdayLiveSupportHtml(matchdayId, squad)}
     ${matchdayDecisionManualChecksHtml()}
     <section class="matchday-decision-block">
       <div class="matchday-decision-block__heading">
@@ -6752,7 +7026,7 @@ function renderMatchdayDecisionCenter() {
         <span>${captainPoints.isValid ? `${displayNumber(captainPoints.value)} captain points` : "points needed"}</span>
       </div>
       <div class="matchday-decision-grid">
-        ${captainRowsToShow.map((row) => renderMatchdayDecisionCaptainCard(row, currentCaptain, captainPoints, captainMode)).join("")}
+        ${captainRowsToShow.map((row) => renderMatchdayDecisionCaptainCard(row, currentCaptain, captainPoints, captainMode, matchdayId)).join("")}
       </div>
     </section>
     <section class="matchday-decision-block">
@@ -6764,7 +7038,7 @@ function renderMatchdayDecisionCenter() {
         <span>${playedStarter ? escapeHtml(playedStarter.name) : "choose starter"}</span>
       </div>
       <div class="matchday-decision-grid matchday-decision-grid--bench">
-        ${benchRowsToShow.map((row) => renderMatchdayDecisionBenchCard(row, playedStarter, starterPoints, substitutionMode)).join("")}
+        ${benchRowsToShow.map((row) => renderMatchdayDecisionBenchCard(row, playedStarter, starterPoints, substitutionMode, matchdayId)).join("")}
       </div>
     </section>
   `;
@@ -6989,6 +7263,7 @@ function renderTimelinePlayerCard(row) {
   const kickoff = projection?.eastern_datetime_label || projection?.date || "Timing needs check";
   const captainSignal = row.captainSignal === null ? "N/A" : displayNumber(row.captainSignal);
   const substitutionSignal = row.substitutionSignal === null ? "N/A" : displayNumber(row.substitutionSignal);
+  const livePlayerNote = matchdayLivePlayerNoteHtml(row.player, projection?.matchday_id || projection?.matchday || "md1");
 
   return `
     <article class="timeline-player-card">
@@ -7006,6 +7281,7 @@ function renderTimelinePlayerCard(row) {
         <span>Start<strong>${displayNumber(row.startProbability)}%</strong></span>
         <span>Minutes<strong>${displayNumber(row.expectedMinutes)}</strong></span>
       </div>
+      ${livePlayerNote}
       ${timelineActionButtons(row)}
     </article>
   `;

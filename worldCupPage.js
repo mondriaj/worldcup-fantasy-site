@@ -1,5 +1,7 @@
 (function () {
   const data = window.WORLD_CUP_DATA || {};
+  const liveData = window.LIVE_MATCHDAY_STATUS_DATA || {};
+  const liveFixtures = Array.isArray(liveData.fixtures) ? liveData.fixtures : [];
 
   function escapeHtml(value) {
     return String(value || "")
@@ -8,6 +10,147 @@
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
+  }
+
+  function normalizeText(value) {
+    return String(value || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim();
+  }
+
+  function titleFromSnake(value) {
+    return String(value || "")
+      .replace(/[_-]+/g, " ")
+      .replace(/\w\S*/g, (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+  }
+
+  function displayNumber(value) {
+    const number = Number(value);
+    return Number.isFinite(number) ? String(number) : "";
+  }
+
+  function liveFixtureLookupKeys(fixture) {
+    const keys = [
+      fixture?.fixture_id,
+      fixture?.local_fixture_id,
+      fixture?.match_number,
+      fixture?.match_number ? `fwc2026-m${String(fixture.match_number).padStart(3, "0")}` : null
+    ]
+      .filter((valueToCheck) => valueToCheck !== null && valueToCheck !== undefined && String(valueToCheck).trim())
+      .map((valueToCheck) => String(valueToCheck).trim());
+    const homeName = fixture?.home_team || fixture?.team_1;
+    const awayName = fixture?.away_team || fixture?.team_2;
+
+    if (homeName && awayName) {
+      keys.push(`teams:${normalizeText(homeName)}|${normalizeText(awayName)}`);
+    }
+
+    return Array.from(new Set(keys));
+  }
+
+  function buildLiveFixtureLookup(fixtures) {
+    return fixtures.reduce((lookup, fixture) => {
+      liveFixtureLookupKeys(fixture).forEach((key) => {
+        if (!lookup.has(key)) {
+          lookup.set(key, fixture);
+        }
+      });
+      return lookup;
+    }, new Map());
+  }
+
+  const liveFixtureLookup = buildLiveFixtureLookup(liveFixtures);
+
+  function liveFixtureForFixture(fixture) {
+    const keys = [
+      fixture?.match_number,
+      fixture?.match_number ? `fwc2026-m${String(fixture.match_number).padStart(3, "0")}` : null,
+      fixture?.team_1 && fixture?.team_2 ? `teams:${normalizeText(fixture.team_1)}|${normalizeText(fixture.team_2)}` : null
+    ].filter(Boolean).map(String);
+
+    for (const key of keys) {
+      const liveFixture = liveFixtureLookup.get(key);
+      if (liveFixture) {
+        return liveFixture;
+      }
+    }
+
+    return null;
+  }
+
+  function liveFixtureStatusLabel(fixture) {
+    const status = String(fixture?.fixture_status || "").toLowerCase();
+    const period = String(fixture?.period || "").toLowerCase();
+    const minute = Number(fixture?.minutes);
+    const extraMinute = Number(fixture?.extra_minutes);
+
+    if (["complete", "completed", "played"].includes(status)) {
+      return "Full time";
+    }
+
+    if (status === "playing") {
+      const clock = Number.isFinite(minute) && minute > 0
+        ? `${displayNumber(minute)}${Number.isFinite(extraMinute) && extraMinute > 0 ? `+${displayNumber(extraMinute)}` : ""}'`
+        : "";
+      return [period ? titleFromSnake(period) : "Live", clock].filter(Boolean).join(" ");
+    }
+
+    if (status === "scheduled") {
+      return "Scheduled";
+    }
+
+    return status ? titleFromSnake(status) : "Status pending";
+  }
+
+  function liveFixtureScoreText(fixture) {
+    if (fixture?.home_score === null || fixture?.home_score === undefined || fixture?.away_score === null || fixture?.away_score === undefined) {
+      return "";
+    }
+
+    const home = fixture.home_abbr || fixture.home_team || "Home";
+    const away = fixture.away_abbr || fixture.away_team || "Away";
+    return `${home} ${displayNumber(fixture.home_score)} - ${displayNumber(fixture.away_score)} ${away}`;
+  }
+
+  function liveFixtureContextHtml(fixture) {
+    if (!fixture) {
+      return "";
+    }
+
+    const status = liveFixtureStatusLabel(fixture);
+    const score = liveFixtureScoreText(fixture);
+
+    if (!score && status === "Scheduled") {
+      return "";
+    }
+
+    const label = ["complete", "completed", "played"].includes(String(fixture.fixture_status || "").toLowerCase())
+      ? "Actual"
+      : String(fixture.fixture_status || "").toLowerCase() === "playing"
+        ? "Live"
+        : "Status";
+
+    return `<span class="fixture-row__live">${escapeHtml(label)}: ${escapeHtml([score, status].filter(Boolean).join(" · "))}</span>`;
+  }
+
+  function liveFixtureNoteHtml() {
+    if (!liveFixtures.length) {
+      return "";
+    }
+
+    const summary = liveData.summary || {};
+    return `
+      <div class="method-note fixture-live-note">
+        <strong>Static live status:</strong>
+        ${escapeHtml(summary.fixtures_with_scores || 0)} scores loaded ·
+        ${escapeHtml(summary.completed_fixture_count || 0)} complete ·
+        ${escapeHtml(summary.playing_fixture_count || 0)} live.
+        Group tables are not recalculated here.
+      </div>
+    `;
   }
 
   function renderGroups() {
@@ -91,7 +234,7 @@
 
     const groups = data.groups || [];
 
-    fixturesContainer.innerHTML = groups.map((group) => {
+    fixturesContainer.innerHTML = `${liveFixtureNoteHtml()}${groups.map((group) => {
       const groupFixtures = fixtures.filter((fixture) => fixture.group === group.id);
 
       return `
@@ -101,20 +244,28 @@
             <span>${groupFixtures.length} fixtures</span>
           </summary>
           <div class="fixture-list">
-            ${groupFixtures.map((fixture) => `
+            ${groupFixtures.map((fixture) => {
+              const liveFixture = liveFixtureForFixture(fixture);
+              const liveContext = liveFixtureContextHtml(liveFixture);
+
+              return `
               <article class="fixture-row">
                 <div class="fixture-row__meta">
                   <span>Match ${escapeHtml(fixture.match_number)}</span>
                   <time datetime="${escapeHtml(fixture.utc_datetime || `${fixture.date}T${fixture.local_time}`)}">${escapeHtml(fixtureDateTimeLabel(fixture))}</time>
                 </div>
                 <strong class="fixture-row__teams">${escapeHtml(fixture.team_1)} v ${escapeHtml(fixture.team_2)}</strong>
-                <span class="fixture-row__venue">${escapeHtml(fixture.stadium)} · ${escapeHtml(fixture.city)}</span>
+                <div class="fixture-row__details">
+                  <span class="fixture-row__venue">${escapeHtml(fixture.stadium)} · ${escapeHtml(fixture.city)}</span>
+                  ${liveContext}
+                </div>
               </article>
-            `).join("")}
+            `;
+            }).join("")}
           </div>
         </details>
       `;
-    }).join("");
+    }).join("")}`;
   }
 
   function renderBracket() {
