@@ -1,14 +1,14 @@
 # Live Matchday Status Report v1
 
-Generated: 2026-06-12T12:56:49.105Z
+Generated: 2026-06-13T16:17:57.122Z
 
 Status: static live/post-match support import. Model predictions, PELE data, recommendations, projections, finance metrics, Team Builder weights, and website formulas were not rerun by this script.
 
 ## Sources
 
-- fifaFantasyPlayersJson: ok, last modified 2026-06-12T12:04:20Z
+- fifaFantasyPlayersJson: ok, last modified 2026-06-13T16:04:21Z
 - fifaFantasySquadsJson: ok, last modified 2026-05-13T10:08:23Z
-- fifaFantasyRoundsJson: ok, last modified 2026-06-12T10:01:03Z
+- fifaFantasyRoundsJson: ok, last modified 2026-06-13T13:01:02Z
 
 Fetch failures: 0
 
@@ -17,10 +17,10 @@ Fetch failures: 0
 Rounds imported: 8
 Fixtures imported: 72
 Group-stage fixtures mapped locally: 72
-Fixtures with score fields populated: 2
-Completed/played fixtures: 2
+Fixtures with score fields populated: 4
+Completed/played fixtures: 4
 Playing fixtures: 0
-Scheduled fixtures: 70
+Scheduled fixtures: 68
 
 Round status counts:
 
@@ -29,28 +29,28 @@ Round status counts:
 
 Fixture status counts:
 
-- complete: 2
-- scheduled: 70
+- complete: 4
+- scheduled: 68
 
 ## Player Live Fields
 
 Players imported: 1487
 Players with total points: 1487
 Players with last-round points: 1487
-Players with round-points maps: 62
-Ownership changes >= 0.1 percentage points: 451
+Players with round-points maps: 125
+Ownership changes >= 0.1 percentage points: 453
 
 Player status counts:
 
-- playing: 1247
-- transferred: 240
+- playing: 1248
+- transferred: 239
 
 matchStatus counts:
 
-- none: 1348
-- not_in_squad: 35
-- start: 44
-- sub: 60
+- none: 1203
+- not_in_squad: 77
+- start: 88
+- sub: 119
 
 ## Material Change Check
 
@@ -66,7 +66,7 @@ Reasons:
 Material change summary:
 
 - New players: 5, first sample Éderson José dos Santos Lourenço da Silva
-- Selectable status changes: 9, first sample Marcos Senesi
+- Selectable status changes: 10, first sample Marcos Senesi
 
 ## Validation
 
