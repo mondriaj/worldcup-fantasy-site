@@ -38,6 +38,7 @@ const LOCAL_FILES = {
 
 const EXPECTED_MATCH_STATUS_VALUES = new Set(["", "start", "sub", "not_in_squad"]);
 const EXPECTED_FIXTURE_STATUS_VALUES = new Set(["scheduled", "playing", "complete", "played", "completed", "postponed", "suspended"]);
+const FINAL_FIXTURE_STATUS_VALUES = new Set(["complete", "played", "completed"]);
 const MATERIAL_STATUS_THRESHOLD = 12;
 
 function hasValue(value) {
@@ -73,6 +74,10 @@ function numericOrNull(value) {
 function integerOrNull(value) {
   const number = numericOrNull(value);
   return Number.isInteger(number) ? number : number === null ? null : Math.trunc(number);
+}
+
+function fixtureIsFinal(status) {
+  return FINAL_FIXTURE_STATUS_VALUES.has(String(status || "").toLowerCase());
 }
 
 function sha256(text) {
@@ -259,7 +264,68 @@ function normalizeScorerAssistRows(rows) {
   })).filter((row) => Object.values(row).some((value) => value !== null && value !== false));
 }
 
-function normalizeLivePlayer(row, teamsById, warnings) {
+function addToSetMap(map, key, value) {
+  if (!hasValue(key) || !hasValue(value)) {
+    return;
+  }
+
+  const stringKey = String(key);
+  const set = map.get(stringKey) || new Set();
+  set.add(String(value));
+  map.set(stringKey, set);
+}
+
+function finalFixturePointContext(rounds) {
+  const finalRoundSquads = new Map();
+  const nonFinalRoundSquads = new Map();
+
+  rounds.forEach((round) => {
+    const roundId = hasValue(round.id) ? String(round.id) : null;
+    rowsFromJson(round.tournaments || [], ["tournaments"]).forEach((fixture) => {
+      const targetMap = fixtureIsFinal(fixture.status) ? finalRoundSquads : nonFinalRoundSquads;
+      addToSetMap(targetMap, roundId, fixture.homeSquadId);
+      addToSetMap(targetMap, roundId, fixture.awaySquadId);
+    });
+  });
+
+  return { finalRoundSquads, nonFinalRoundSquads };
+}
+
+function filteredFinalRoundPoints(roundPoints, teamId, pointContext) {
+  const suppressedRoundIds = [];
+  const finalRoundPoints = {};
+
+  Object.entries(roundPoints || {}).forEach(([roundId, valueToCheck]) => {
+    const nonFinalSquads = pointContext.nonFinalRoundSquads.get(String(roundId));
+    if (nonFinalSquads?.has(String(teamId || ""))) {
+      suppressedRoundIds.push(String(roundId));
+      return;
+    }
+
+    finalRoundPoints[String(roundId)] = valueToCheck;
+  });
+
+  return { finalRoundPoints, suppressedRoundIds };
+}
+
+function finalPointTotal(roundPoints) {
+  const values = Object.values(roundPoints || {}).filter((valueToCheck) => valueToCheck !== null && Number.isFinite(Number(valueToCheck)));
+  if (!values.length) {
+    return null;
+  }
+
+  return Number(values.reduce((sum, valueToCheck) => sum + Number(valueToCheck), 0).toFixed(2));
+}
+
+function latestRoundPoint(roundPoints) {
+  const entries = Object.entries(roundPoints || {})
+    .filter(([, valueToCheck]) => valueToCheck !== null && Number.isFinite(Number(valueToCheck)))
+    .sort(([a], [b]) => Number(b) - Number(a));
+
+  return entries.length ? Number(entries[0][1]) : null;
+}
+
+function normalizeLivePlayer(row, teamsById, warnings, pointContext) {
   const teamId = hasValue(row.squadId) ? String(row.squadId) : "";
   const team = teamsById.get(teamId);
   const firstLastName = [row.firstName, row.lastName].filter(hasValue).join(" ").trim();
@@ -267,7 +333,9 @@ function normalizeLivePlayer(row, teamsById, warnings) {
   const officialId = hasValue(row.id) ? String(row.id) : "";
   const stats = row.stats && typeof row.stats === "object" ? row.stats : {};
   const roundPoints = normalizeRoundMap(stats.roundPoints, warnings, `player ${officialId || "unknown"} stats.roundPoints`);
+  const { finalRoundPoints, suppressedRoundIds } = filteredFinalRoundPoints(roundPoints, teamId, pointContext);
   const roundsSelected = normalizeRoundMap(row.roundsSelected, warnings, `player ${officialId || "unknown"} roundsSelected`);
+  const finalTotalPoints = finalPointTotal(finalRoundPoints);
 
   return {
     official_fantasy_player_id: officialId,
@@ -287,34 +355,49 @@ function normalizeLivePlayer(row, teamsById, warnings) {
     percentSelected: numericOrNull(row.percentSelected),
     roundsSelected,
     stats: {
-      totalPoints: numericOrNull(stats.totalPoints),
-      lastRoundPoints: numericOrNull(stats.lastRoundPoints),
+      totalPoints: finalTotalPoints,
+      lastRoundPoints: latestRoundPoint(finalRoundPoints),
       avgPoints: numericOrNull(stats.avgPoints),
       form: numericOrNull(stats.form),
-      roundPoints,
+      roundPoints: finalRoundPoints,
       nextFixtureFromActiveRound: hasValue(stats.nextFixtureFromActiveRound) ? String(stats.nextFixtureFromActiveRound) : null,
-      nextFixtureFromScheduledRound: hasValue(stats.nextFixtureFromScheduledRound) ? String(stats.nextFixtureFromScheduledRound) : null
-    }
+      nextFixtureFromScheduledRound: hasValue(stats.nextFixtureFromScheduledRound) ? String(stats.nextFixtureFromScheduledRound) : null,
+      pointScope: "completed_fixtures_only"
+    },
+    suppressed_unfinalized_point_rounds: suppressedRoundIds
   };
 }
 
-function normalizeFixture(round, fixture, localByMatchNumber, localByTeamPair) {
+function liveFixtureTeamPairKey(fixture) {
+  return `${normalizeText(fixture.homeSquadName)}|${normalizeText(fixture.awaySquadName)}`;
+}
+
+function normalizeFixture(round, fixture, localByTeamPair, localByReversedTeamPair) {
   const fixtureId = hasValue(fixture.id) ? String(fixture.id) : "";
-  const matchNumber = integerOrNull(fixture.id);
-  const localByNumber = matchNumber ? localByMatchNumber.get(String(matchNumber)) : null;
-  const teamPairKey = `${normalizeText(fixture.homeSquadName)}|${normalizeText(fixture.awaySquadName)}`;
+  const sourceFixtureOrder = integerOrNull(fixture.id);
+  const teamPairKey = liveFixtureTeamPairKey(fixture);
   const localByPair = localByTeamPair.get(teamPairKey) || null;
-  const localFixture = localByNumber || localByPair || null;
+  const localByReversedPair = localByReversedTeamPair.get(teamPairKey) || null;
+  const localFixture = localByPair || localByReversedPair || null;
+  const mappingMethod = localByPair
+    ? "team_pair"
+    : localByReversedPair
+      ? "reversed_team_pair_needs_review"
+      : null;
+  const isFinal = fixtureIsFinal(fixture.status);
 
   return {
     round_id: hasValue(round.id) ? String(round.id) : null,
     round_status: round.status || null,
     round_stage: round.stage || null,
     fixture_id: fixtureId || null,
-    local_fixture_id: localFixture?.match_id || (matchNumber && matchNumber <= 72 ? `fwc2026-m${String(matchNumber).padStart(3, "0")}` : null),
-    match_number: matchNumber,
-    local_fixture_match_status: localFixture ? "mapped_to_group_stage_fixture" : matchNumber && matchNumber > 72 ? "outside_group_stage_local_file" : "not_mapped",
+    source_fixture_order: sourceFixtureOrder,
+    local_fixture_id: localFixture?.match_id || null,
+    match_number: localFixture?.match_number ?? null,
+    local_fixture_mapping_method: mappingMethod,
+    local_fixture_match_status: localFixture ? "mapped_to_group_stage_fixture" : "not_mapped",
     fixture_status: fixture.status || null,
+    score_status: isFinal ? "final" : "not_final_hidden",
     period: fixture.period || null,
     minutes: numericOrNull(fixture.minutes),
     extra_minutes: numericOrNull(fixture.extraMinutes),
@@ -326,34 +409,33 @@ function normalizeFixture(round, fixture, localByMatchNumber, localByTeamPair) {
     away_squad_id: hasValue(fixture.awaySquadId) ? String(fixture.awaySquadId) : null,
     away_team: fixture.awaySquadName || null,
     away_abbr: fixture.awaySquadAbbr || null,
-    home_score: numericOrNull(fixture.homeScore),
-    away_score: numericOrNull(fixture.awayScore),
-    home_penalty_score: numericOrNull(fixture.homePenaltyScore),
-    away_penalty_score: numericOrNull(fixture.awayPenaltyScore),
-    home_goal_scorers_assists: normalizeScorerAssistRows(fixture.homeGoalScorersAssists),
-    away_goal_scorers_assists: normalizeScorerAssistRows(fixture.awayGoalScorersAssists),
+    home_score: isFinal ? numericOrNull(fixture.homeScore) : null,
+    away_score: isFinal ? numericOrNull(fixture.awayScore) : null,
+    home_penalty_score: isFinal ? numericOrNull(fixture.homePenaltyScore) : null,
+    away_penalty_score: isFinal ? numericOrNull(fixture.awayPenaltyScore) : null,
+    home_goal_scorers_assists: isFinal ? normalizeScorerAssistRows(fixture.homeGoalScorersAssists) : [],
+    away_goal_scorers_assists: isFinal ? normalizeScorerAssistRows(fixture.awayGoalScorersAssists) : [],
     venue_id: hasValue(fixture.venueId) ? String(fixture.venueId) : null,
     venue_name: fixture.venueName || null,
     venue_city: fixture.venueCity || null,
-    source_note: "minutes and extra_minutes are fixture match-clock fields, not player minutes"
+    source_note: "minutes and extra_minutes are fixture match-clock fields, not player minutes. Scores are exposed only after FIFA marks the fixture complete."
   };
 }
 
 function localFixtureMaps(fixtures) {
-  const localByMatchNumber = new Map();
   const localByTeamPair = new Map();
+  const localByReversedTeamPair = new Map();
 
   fixtures.forEach((fixture) => {
-    if (hasValue(fixture.match_number)) {
-      localByMatchNumber.set(String(fixture.match_number), fixture);
-    }
-    const teamPairKey = `${normalizeText(fixture.home_team || fixture.team_1)}|${normalizeText(fixture.away_team || fixture.team_2)}`;
-    if (teamPairKey !== "|") {
-      localByTeamPair.set(teamPairKey, fixture);
+    const homeKey = normalizeText(fixture.home_team || fixture.team_1);
+    const awayKey = normalizeText(fixture.away_team || fixture.team_2);
+    if (homeKey && awayKey) {
+      localByTeamPair.set(`${homeKey}|${awayKey}`, fixture);
+      localByReversedTeamPair.set(`${awayKey}|${homeKey}`, fixture);
     }
   });
 
-  return { localByMatchNumber, localByTeamPair };
+  return { localByTeamPair, localByReversedTeamPair };
 }
 
 function normalizeLocalPlayer(row) {
@@ -567,7 +649,7 @@ function decideUpdateRecommendation({ changes, livePlayers, fixtures, fetchFailu
   const materialPlayerChangeCount = Object.values(materialPlayerChangeCounts).reduce((sum, count) => sum + count, 0);
   const liveNotInSquadCount = livePlayers.filter((player) => player.matchStatus === "not_in_squad").length;
   const fixturesWithScores = fixtures.filter((fixture) => fixture.home_score !== null || fixture.away_score !== null).length;
-  const activeFixtures = fixtures.filter((fixture) => ["playing", "played", "completed"].includes(String(fixture.fixture_status || "").toLowerCase())).length;
+  const activeFixtures = fixtures.filter((fixture) => ["playing", "complete", "played", "completed"].includes(String(fixture.fixture_status || "").toLowerCase())).length;
   const pointsCoverage = livePointsCoverage(livePlayers);
   const reasons = [];
 
@@ -606,10 +688,10 @@ function decideUpdateRecommendation({ changes, livePlayers, fixtures, fetchFailu
   }
 
   if (fixturesWithScores || activeFixtures) {
-    reasons.push("fixture score/status changes are display/support data only");
+    reasons.push("final fixture score/status changes are display/support data only");
   }
   if (pointsCoverage.players_with_round_points || pointsCoverage.players_with_last_round_points) {
-    reasons.push("actual fantasy points are display/support data only");
+    reasons.push("final actual fantasy points are display/support data only");
   }
   if (changes.ownership_changes.length) {
     reasons.push("ownership changes do not trigger model reruns");
@@ -715,6 +797,7 @@ Fixtures with score fields populated: ${matchdayData.summary.fixtures_with_score
 Completed/played fixtures: ${matchdayData.summary.completed_fixture_count}
 Playing fixtures: ${matchdayData.summary.playing_fixture_count}
 Scheduled fixtures: ${matchdayData.summary.scheduled_fixture_count}
+In-progress fixture scores hidden until final: ${matchdayData.summary.in_progress_scores_hidden_count}
 
 Round status counts:
 
@@ -730,6 +813,7 @@ Players imported: ${playerData.summary.player_count}
 Players with total points: ${playerData.summary.players_with_total_points}
 Players with last-round points: ${playerData.summary.players_with_last_round_points}
 Players with round-points maps: ${playerData.summary.players_with_round_points}
+Players with unfinished-fixture points suppressed: ${playerData.summary.players_with_suppressed_unfinalized_points}
 Ownership changes >= 0.1 percentage points: ${playerData.summary.ownership_change_count}
 
 Player status counts:
@@ -808,12 +892,10 @@ async function main() {
   const rawRounds = rowsFromJson(roundsSource.json, ["rounds", "data"]);
   const localOfficialPlayers = rowsFromJson(localOfficialPlayersData, ["officialFantasyPlayers", "players", "official_fantasy_players"]);
   const localFixtures = rowsFromJson(localFixturesData, ["fixtures"]);
-  const teamsById = squadMap(rawSquads);
   const parseWarnings = [];
-  const livePlayers = rawPlayers
-    .map((row) => normalizeLivePlayer(row, teamsById, parseWarnings))
-    .filter((player) => player.official_fantasy_player_id);
-  const { localByMatchNumber, localByTeamPair } = localFixtureMaps(localFixtures);
+  const teamsById = squadMap(rawSquads);
+  const pointContext = finalFixturePointContext(rawRounds);
+  const { localByTeamPair, localByReversedTeamPair } = localFixtureMaps(localFixtures);
   const rounds = rawRounds.map((round) => ({
     round_id: hasValue(round.id) ? String(round.id) : null,
     status: round.status || null,
@@ -823,13 +905,16 @@ async function main() {
     fixture_count: Array.isArray(round.tournaments) ? round.tournaments.length : 0
   }));
   const fixtures = rawRounds.flatMap((round) => rowsFromJson(round.tournaments || [], ["tournaments"])
-    .map((fixture) => normalizeFixture(round, fixture, localByMatchNumber, localByTeamPair)));
+    .map((fixture) => normalizeFixture(round, fixture, localByTeamPair, localByReversedTeamPair)));
+  const livePlayers = rawPlayers
+    .map((row) => normalizeLivePlayer(row, teamsById, parseWarnings, pointContext))
+    .filter((player) => player.official_fantasy_player_id);
   const playerChanges = comparePlayers(localOfficialPlayers, livePlayers);
   const validation = validateLiveData({ livePlayers, fixtures, localPlayers: localOfficialPlayers, parseWarnings });
   const pointsCoverage = livePointsCoverage(livePlayers);
   const fixtureStatusCounts = countBy(fixtures, (fixture) => fixture.fixture_status);
   const roundStatusCounts = countBy(rounds, (round) => round.status);
-  const completedStatuses = new Set(["complete", "played", "completed"]);
+  const completedStatuses = FINAL_FIXTURE_STATUS_VALUES;
   const playingStatuses = new Set(["playing"]);
   const scheduledStatuses = new Set(["scheduled"]);
   const matchdaySources = Object.fromEntries(Object.entries(sourceResults).map(([key, source]) => [key, sourceSummary(source)]));
@@ -854,6 +939,7 @@ async function main() {
       completed_fixture_count: fixtures.filter((fixture) => completedStatuses.has(String(fixture.fixture_status || "").toLowerCase())).length,
       playing_fixture_count: fixtures.filter((fixture) => playingStatuses.has(String(fixture.fixture_status || "").toLowerCase())).length,
       scheduled_fixture_count: fixtures.filter((fixture) => scheduledStatuses.has(String(fixture.fixture_status || "").toLowerCase())).length,
+      in_progress_scores_hidden_count: fixtures.filter((fixture) => String(fixture.fixture_status || "").toLowerCase() === "playing" && fixture.score_status === "not_final_hidden").length,
       round_status_counts: roundStatusCounts,
       fixture_status_counts: fixtureStatusCounts,
       has_fixture_match_clock: fixtures.some((fixture) => fixture.minutes !== null || fixture.extra_minutes !== null),
@@ -877,6 +963,7 @@ async function main() {
       players_with_total_points: pointsCoverage.players_with_total_points,
       players_with_last_round_points: pointsCoverage.players_with_last_round_points,
       players_with_round_points: pointsCoverage.players_with_round_points,
+      players_with_suppressed_unfinalized_points: livePlayers.filter((player) => player.suppressed_unfinalized_point_rounds?.length).length,
       ownership_change_count: playerChanges.ownership_changes.length,
       new_player_count: playerChanges.new_players.length,
       removed_player_count: playerChanges.removed_players.length,

@@ -1,6 +1,6 @@
 # Live Matchday Status Report v1
 
-Generated: 2026-06-15T22:25:34.550Z
+Generated: 2026-06-15T22:38:23.742Z
 
 Status: static live/post-match support import. Model predictions, PELE data, recommendations, projections, finance metrics, Team Builder weights, and website formulas were not rerun by this script.
 
@@ -8,7 +8,7 @@ Status: static live/post-match support import. Model predictions, PELE data, rec
 
 - fifaFantasyPlayersJson: ok, last modified 2026-06-15T22:05:04Z
 - fifaFantasySquadsJson: ok, last modified 2026-05-13T10:08:23Z
-- fifaFantasyRoundsJson: ok, last modified 2026-06-15T22:25:03Z
+- fifaFantasyRoundsJson: ok, last modified 2026-06-15T22:38:03Z
 
 Fetch failures: 0
 
@@ -17,10 +17,11 @@ Fetch failures: 0
 Rounds imported: 8
 Fixtures imported: 72
 Group-stage fixtures mapped locally: 72
-Fixtures with score fields populated: 15
+Fixtures with score fields populated: 14
 Completed/played fixtures: 14
 Playing fixtures: 1
 Scheduled fixtures: 57
+In-progress fixture scores hidden until final: 1
 
 Round status counts:
 
@@ -36,9 +37,10 @@ Fixture status counts:
 ## Player Live Fields
 
 Players imported: 1487
-Players with total points: 1487
-Players with last-round points: 1487
-Players with round-points maps: 461
+Players with total points: 439
+Players with last-round points: 439
+Players with round-points maps: 439
+Players with unfinished-fixture points suppressed: 22
 Ownership changes >= 0.1 percentage points: 479
 
 Player status counts:

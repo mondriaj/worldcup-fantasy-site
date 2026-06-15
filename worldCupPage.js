@@ -34,7 +34,6 @@
 
   function liveFixtureLookupKeys(fixture) {
     const keys = [
-      fixture?.fixture_id,
       fixture?.local_fixture_id,
       fixture?.match_number,
       fixture?.match_number ? `fwc2026-m${String(fixture.match_number).padStart(3, "0")}` : null
@@ -120,10 +119,14 @@
       return "";
     }
 
+    if (!["complete", "completed", "played"].includes(String(fixture.fixture_status || "").toLowerCase())) {
+      return "";
+    }
+
     const status = liveFixtureStatusLabel(fixture);
     const score = liveFixtureScoreText(fixture);
 
-    if (!score && status === "Scheduled") {
+    if (!score) {
       return "";
     }
 

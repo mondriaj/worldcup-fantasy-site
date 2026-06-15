@@ -3023,7 +3023,6 @@ function topScorelineText(row) {
 
 function liveFixtureLookupKeys(fixture) {
   const keys = [
-    fixture?.fixture_id,
     fixture?.local_fixture_id,
     fixture?.match_id,
     fixture?.match_number,
@@ -3114,6 +3113,10 @@ function liveFixtureContextHtml(fixture) {
     return "";
   }
 
+  if (!["complete", "completed", "played"].includes(String(fixture.fixture_status || "").toLowerCase())) {
+    return "";
+  }
+
   const status = liveFixtureStatusLabel(fixture);
   const score = liveFixtureScoreText(fixture);
   const label = ["complete", "completed", "played"].includes(String(fixture.fixture_status || "").toLowerCase())
@@ -3123,7 +3126,7 @@ function liveFixtureContextHtml(fixture) {
       : "Fixture";
   const detail = [score, status].filter(Boolean).join(" · ");
 
-  if (!detail || status === "Scheduled") {
+  if (!detail || !score) {
     return "";
   }
 
@@ -6474,7 +6477,7 @@ function matchdayLiveSupportHtml(matchdayId, squad) {
     .filter((row) => row.summary.hasUsefulData)
     .slice(0, 6);
   const fixtureRowsToShow = fixtures
-    .filter((fixture) => String(fixture.fixture_status || "").toLowerCase() !== "scheduled")
+    .filter((fixture) => ["complete", "completed", "played"].includes(String(fixture.fixture_status || "").toLowerCase()))
     .slice(0, 4);
   const fixtureStatusDetail = fixtures.length
     ? `${completedCount} complete · ${playingCount} live · ${scheduledCount} scheduled`

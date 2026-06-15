@@ -13,7 +13,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - The default experience is simple and card-first, with deeper tables, model details, and finance terminology kept in advanced sections.
 - Separate World Cup page for tournament groups, group-stage fixtures, and bracket-path context.
 - Static data files are loaded directly by the page, so the site does not need runtime API calls.
-- Daily Matchday Live Update v1 imports fixture scores/status, player actual points, and player `matchStatus` into static browser-ready files for display/support use.
+- Daily Matchday Live Update v1 imports final fixture scores/status, completed-fixture player actual points, and player `matchStatus` into static browser-ready files for display/support use.
 - Player names in the main recommendation views open a Player Profile view focused first on why to pick him, why to be careful, best use, fixture outlook, fantasy finance, and data checks.
 
 ## Player Recommendations
@@ -37,7 +37,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Clean-sheet context displays each team on its own line so defender and keeper outlooks are easy to scan.
 - The same cleaned Match Environment context supports one-line player-card fixture notes, compact Player Profile fixture context, and Team Builder squad-risk scoring.
 - Row details keep total goals range as supporting context and still show team-specific clean-sheet probability, favorite probability, and top scoreline context.
-- If a fixture has started or finished, Match Environment can show actual/live score context beside the model prediction without replacing the predicted score fields.
+- If a fixture has finished, Match Environment can show final score context beside the model prediction without replacing the predicted score fields.
 - Score prediction checks verify fixture coverage, probability bounds, PELE input coverage, favorite consistency, uncertainty bands, expected-goal preservation, fantasy context labels, and player-matchday integration.
 
 ## Team Builder
@@ -118,7 +118,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Team Builder is planning help and should be verified in the official game.
 - Score predictions are prototype model outputs, not official projections or live match facts.
 - Captain and substitution tools can show imported official points/status where available, but still require manual played/unplayed and legality checks.
-- The site can display static imported fixture scores/status, but it does not calculate group tables from actual scores and does not track official deadlines, official lineup locks, or official fantasy-game legality.
+- The site can display static imported final fixture scores/status, but it does not calculate group tables from actual scores and does not track official deadlines, official lineup locks, or official fantasy-game legality.
 - Team Import restores current player IDs only and may need migration if future model IDs change.
 
 ## Most Important Next Step

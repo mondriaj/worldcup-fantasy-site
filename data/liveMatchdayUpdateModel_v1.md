@@ -15,6 +15,8 @@ The live matchday update imports official FIFA fantasy player and round feeds in
 
 These files are display/support data. They do not replace model projections or modify recommendation ranking logic.
 
+Scores and player points are exposed only for fixtures that FIFA marks final through `complete`, `completed`, or `played` status. In-progress fixture scores and player points are held back until final so the public site does not show provisional match totals.
+
 ## Available Fields
 
 Player feed fields used:
@@ -41,7 +43,7 @@ Round feed fields used:
 - scorer/assist IDs when supplied
 - venue ID, name, and city
 
-Fixture `minutes` and `extra_minutes` are match-clock fields. They are not player minutes.
+Fixture `minutes` and `extra_minutes` are match-clock fields. They are not player minutes. FIFA fantasy fixture IDs are not treated as local match numbers; live fixtures are mapped to local fixtures by team pairing before scores are displayed.
 
 ## Not Available
 
@@ -67,6 +69,6 @@ Ownership-only updates do not require model reruns.
 
 The Matchday Desk may show current round status, actual points, and `matchStatus` where available. Captain switches, substitutions, boosters, official game locks, and legality remain manual confirmations inside FIFA.
 
-The World Cup fixture page may show actual scores and fixture status from the static live file. Group tables are not recalculated from actual scores in this version.
+The World Cup fixture page may show final scores and fixture status from the static live file. Group tables are not recalculated from actual scores in this version.
 
-The Match Environment keeps model predictions visible. If a fixture has started or finished, the live score/status appears as separate actual/live context and does not replace the model prediction.
+The Match Environment keeps model predictions visible. If a fixture has finished, the final score/status appears as separate actual context and does not replace the model prediction.
