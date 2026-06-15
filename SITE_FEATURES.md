@@ -37,7 +37,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Clean-sheet context displays each team on its own line so defender and keeper outlooks are easy to scan.
 - The same cleaned Match Environment context supports one-line player-card fixture notes, compact Player Profile fixture context, and Team Builder squad-risk scoring.
 - Row details keep total goals range as supporting context and still show team-specific clean-sheet probability, favorite probability, and top scoreline context.
-- If a fixture has finished, Match Environment can show final score context beside the model prediction without replacing the predicted score fields.
+- If a fixture has finished and passes live-to-local fixture mapping validation, Match Environment can show final score context beside the model prediction without replacing the predicted score fields.
 - Score prediction checks verify fixture coverage, probability bounds, PELE input coverage, favorite consistency, uncertainty bands, expected-goal preservation, fantasy context labels, and player-matchday integration.
 
 ## Team Builder
@@ -118,7 +118,7 @@ This document summarizes what the World Cup Fantasy Helper site can do today. It
 - Team Builder is planning help and should be verified in the official game.
 - Score predictions are prototype model outputs, not official projections or live match facts.
 - Captain and substitution tools can show imported official points/status where available, but still require manual played/unplayed and legality checks.
-- The site can display static imported final fixture scores/status, but it does not calculate group tables from actual scores and does not track official deadlines, official lineup locks, or official fantasy-game legality.
+- The site can display static imported final fixture scores/status after validating the local fixture/team pair, but it does not calculate group tables from actual scores and does not track official deadlines, official lineup locks, or official fantasy-game legality.
 - Team Import restores current player IDs only and may need migration if future model IDs change.
 
 ## Most Important Next Step

@@ -35,17 +35,12 @@
   function liveFixtureLookupKeys(fixture) {
     const keys = [
       fixture?.local_fixture_id,
+      fixture?.match_id,
       fixture?.match_number,
       fixture?.match_number ? `fwc2026-m${String(fixture.match_number).padStart(3, "0")}` : null
     ]
       .filter((valueToCheck) => valueToCheck !== null && valueToCheck !== undefined && String(valueToCheck).trim())
       .map((valueToCheck) => String(valueToCheck).trim());
-    const homeName = fixture?.home_team || fixture?.team_1;
-    const awayName = fixture?.away_team || fixture?.team_2;
-
-    if (homeName && awayName) {
-      keys.push(`teams:${normalizeText(homeName)}|${normalizeText(awayName)}`);
-    }
 
     return Array.from(new Set(keys));
   }
@@ -66,18 +61,60 @@
   function liveFixtureForFixture(fixture) {
     const keys = [
       fixture?.match_number,
-      fixture?.match_number ? `fwc2026-m${String(fixture.match_number).padStart(3, "0")}` : null,
-      fixture?.team_1 && fixture?.team_2 ? `teams:${normalizeText(fixture.team_1)}|${normalizeText(fixture.team_2)}` : null
+      fixture?.match_number ? `fwc2026-m${String(fixture.match_number).padStart(3, "0")}` : null
     ].filter(Boolean).map(String);
 
     for (const key of keys) {
       const liveFixture = liveFixtureLookup.get(key);
-      if (liveFixture) {
+      if (liveFixtureMatchesLocalFixture(liveFixture, fixture)) {
         return liveFixture;
       }
     }
 
     return null;
+  }
+
+  function localFixtureIdFromMatchNumber(matchNumber) {
+    const number = Number(matchNumber);
+    return Number.isFinite(number) && number > 0 ? `fwc2026-m${String(number).padStart(3, "0")}` : "";
+  }
+
+  function isSafeMappedFinalFixture(fixture) {
+    if (!fixture) {
+      return false;
+    }
+
+    const mappingStatus = String(fixture.mapping_status || "").toLowerCase();
+    const fixtureStatus = String(fixture.fixture_status || "").toLowerCase();
+
+    return ["matched", "matched_reversed"].includes(mappingStatus) &&
+      fixture.safe_to_display_score === true &&
+      ["complete", "completed", "played"].includes(fixtureStatus) &&
+      Boolean(fixture.local_fixture_id || fixture.match_id || fixture.match_number);
+  }
+
+  function liveFixtureMatchesLocalFixture(liveFixture, fixture) {
+    if (!isSafeMappedFinalFixture(liveFixture) || !fixture) {
+      return false;
+    }
+
+    const liveLocalId = String(liveFixture.local_fixture_id || liveFixture.match_id || localFixtureIdFromMatchNumber(liveFixture.match_number) || "");
+    const fixtureLocalId = localFixtureIdFromMatchNumber(fixture.match_number);
+    const liveMatchNumber = Number(liveFixture.match_number);
+    const fixtureMatchNumber = Number(fixture.match_number);
+    const localIdMatches = liveLocalId && fixtureLocalId && liveLocalId === fixtureLocalId;
+    const matchNumberMatches = Number.isFinite(liveMatchNumber) && Number.isFinite(fixtureMatchNumber) && liveMatchNumber === fixtureMatchNumber;
+
+    if (!localIdMatches && !matchNumberMatches) {
+      return false;
+    }
+
+    const liveHome = normalizeText(liveFixture.local_home_team || liveFixture.home_team || "");
+    const liveAway = normalizeText(liveFixture.local_away_team || liveFixture.away_team || "");
+    const localHome = normalizeText(fixture.team_1 || "");
+    const localAway = normalizeText(fixture.team_2 || "");
+
+    return Boolean(liveHome && liveAway && localHome && localAway && liveHome === localHome && liveAway === localAway);
   }
 
   function liveFixtureStatusLabel(fixture) {
@@ -105,6 +142,10 @@
   }
 
   function liveFixtureScoreText(fixture) {
+    if (!isSafeMappedFinalFixture(fixture)) {
+      return "";
+    }
+
     if (fixture?.home_score === null || fixture?.home_score === undefined || fixture?.away_score === null || fixture?.away_score === undefined) {
       return "";
     }
@@ -115,11 +156,7 @@
   }
 
   function liveFixtureContextHtml(fixture) {
-    if (!fixture) {
-      return "";
-    }
-
-    if (!["complete", "completed", "played"].includes(String(fixture.fixture_status || "").toLowerCase())) {
+    if (!isSafeMappedFinalFixture(fixture)) {
       return "";
     }
 

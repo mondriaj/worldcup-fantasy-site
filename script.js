@@ -3030,12 +3030,6 @@ function liveFixtureLookupKeys(fixture) {
   ]
     .filter((valueToCheck) => valueToCheck !== null && valueToCheck !== undefined && String(valueToCheck).trim())
     .map((valueToCheck) => String(valueToCheck).trim());
-  const homeName = fixture?.home_team || fixture?.homeSquadName || fixture?.team_1;
-  const awayName = fixture?.away_team || fixture?.awaySquadName || fixture?.team_2;
-
-  if (homeName && awayName) {
-    keys.push(`teams:${normalizeText(homeName)}|${normalizeText(awayName)}`);
-  }
 
   return Array.from(new Set(keys));
 }
@@ -3060,18 +3054,60 @@ function liveFixtureForScorePrediction(row) {
     row.fixture_id,
     row.match_id,
     row.match_number,
-    row.match_number ? `fwc2026-m${String(row.match_number).padStart(3, "0")}` : null,
-    row.home_team && row.away_team ? `teams:${normalizeText(row.home_team)}|${normalizeText(row.away_team)}` : null
+    row.match_number ? `fwc2026-m${String(row.match_number).padStart(3, "0")}` : null
   ].filter(Boolean).map(String);
 
   for (const key of keys) {
     const liveFixture = liveFixtureLookup.get(key);
-    if (liveFixture) {
+    if (liveFixtureMatchesScorePrediction(liveFixture, row)) {
       return liveFixture;
     }
   }
 
   return null;
+}
+
+function localFixtureIdFromMatchNumber(matchNumber) {
+  const number = Number(matchNumber);
+  return Number.isFinite(number) && number > 0 ? `fwc2026-m${String(number).padStart(3, "0")}` : "";
+}
+
+function isSafeMappedFinalFixture(fixture) {
+  if (!fixture) {
+    return false;
+  }
+
+  const mappingStatus = String(fixture.mapping_status || "").toLowerCase();
+  const fixtureStatus = String(fixture.fixture_status || "").toLowerCase();
+
+  return ["matched", "matched_reversed"].includes(mappingStatus) &&
+    fixture.safe_to_display_score === true &&
+    ["complete", "completed", "played"].includes(fixtureStatus) &&
+    Boolean(fixture.local_fixture_id || fixture.match_id || fixture.match_number);
+}
+
+function liveFixtureMatchesScorePrediction(fixture, row) {
+  if (!isSafeMappedFinalFixture(fixture) || !row) {
+    return false;
+  }
+
+  const liveLocalId = String(fixture.local_fixture_id || fixture.match_id || localFixtureIdFromMatchNumber(fixture.match_number) || "");
+  const rowLocalId = String(row.fixture_id || row.match_id || localFixtureIdFromMatchNumber(row.match_number) || "");
+  const liveMatchNumber = Number(fixture.match_number);
+  const rowMatchNumber = Number(row.match_number);
+  const localIdMatches = liveLocalId && rowLocalId && liveLocalId === rowLocalId;
+  const matchNumberMatches = Number.isFinite(liveMatchNumber) && Number.isFinite(rowMatchNumber) && liveMatchNumber === rowMatchNumber;
+
+  if (!localIdMatches && !matchNumberMatches) {
+    return false;
+  }
+
+  const liveHome = normalizeText(fixture.local_home_team || fixture.home_team || "");
+  const liveAway = normalizeText(fixture.local_away_team || fixture.away_team || "");
+  const rowHome = normalizeText(row.home_team || "");
+  const rowAway = normalizeText(row.away_team || "");
+
+  return Boolean(liveHome && liveAway && rowHome && rowAway && liveHome === rowHome && liveAway === rowAway);
 }
 
 function liveFixtureStatusLabel(fixture) {
@@ -3099,6 +3135,10 @@ function liveFixtureStatusLabel(fixture) {
 }
 
 function liveFixtureScoreText(fixture) {
+  if (!isSafeMappedFinalFixture(fixture)) {
+    return "";
+  }
+
   if (fixture?.home_score === null || fixture?.home_score === undefined || fixture?.away_score === null || fixture?.away_score === undefined) {
     return "";
   }
@@ -3109,11 +3149,7 @@ function liveFixtureScoreText(fixture) {
 }
 
 function liveFixtureContextHtml(fixture) {
-  if (!fixture) {
-    return "";
-  }
-
-  if (!["complete", "completed", "played"].includes(String(fixture.fixture_status || "").toLowerCase())) {
+  if (!isSafeMappedFinalFixture(fixture)) {
     return "";
   }
 
@@ -6477,7 +6513,7 @@ function matchdayLiveSupportHtml(matchdayId, squad) {
     .filter((row) => row.summary.hasUsefulData)
     .slice(0, 6);
   const fixtureRowsToShow = fixtures
-    .filter((fixture) => ["complete", "completed", "played"].includes(String(fixture.fixture_status || "").toLowerCase()))
+    .filter((fixture) => isSafeMappedFinalFixture(fixture))
     .slice(0, 4);
   const fixtureStatusDetail = fixtures.length
     ? `${completedCount} complete · ${playingCount} live · ${scheduledCount} scheduled`

@@ -1,0 +1,100 @@
+{
+  "schema_version": "live_fixture_mapping_qa_v1",
+  "generated_at": "2026-06-15T23:11:08.613Z",
+  "status": "passed",
+  "files": {
+    "localFixtures": "data/fixtures.json",
+    "liveMatchday": "data/liveMatchdayStatus_v1.json",
+    "livePlayers": "data/livePlayerStatus_v1.json",
+    "scorePredictions": "data/scorePredictions_fantasyPool_v3.json",
+    "script": "script.js",
+    "worldCupPage": "worldCupPage.js",
+    "qaJson": "data/liveFixtureMappingQa_v1.json",
+    "qaReport": "data/liveFixtureMappingQaReport_v1.md"
+  },
+  "summary": {
+    "total_local_fixtures": 72,
+    "total_live_fixtures": 72,
+    "total_score_prediction_fixtures": 72,
+    "matched_fixtures": 72,
+    "final_fixtures_shown": 14,
+    "in_progress_fixtures_suppressed": 1,
+    "scheduled_fixtures": 57,
+    "unmatched_fixtures": 0,
+    "ambiguous_fixtures": 0,
+    "reversed_mappings": 0,
+    "mapping_status_counts": {
+      "matched": 72
+    },
+    "mapping_orientation_counts": {
+      "direct": 72
+    },
+    "unsafe_fixture_player_point_leak_count": 0
+  },
+  "browser_lookup_checks": {
+    "script_uses_live_data_global": true,
+    "world_cup_uses_live_data_global": true,
+    "script_has_safe_mapping_guard": true,
+    "world_cup_has_safe_mapping_guard": true,
+    "script_lookup_block_uses_raw_source_id": false,
+    "world_cup_lookup_block_uses_raw_source_id": false,
+    "script_uses_source_fixture_metadata": false,
+    "world_cup_uses_source_fixture_metadata": false,
+    "passed": true
+  },
+  "manual_examples": [
+    {
+      "case_id": "spain_cabo_verde",
+      "expected_local_fixture_id": "fwc2026-m014",
+      "expected_match_number": 14,
+      "passed": true,
+      "observed": {
+        "source_fixture_id": "13",
+        "mapping_status": "matched",
+        "mapping_orientation": "direct",
+        "fixture_status": "complete",
+        "score_status": "final",
+        "score": "0-0",
+        "teams": "Spain vs Cabo Verde"
+      }
+    },
+    {
+      "case_id": "saudi_arabia_uruguay",
+      "expected_local_fixture_id": "fwc2026-m013",
+      "expected_match_number": 13,
+      "passed": true,
+      "observed": {
+        "source_fixture_id": "15",
+        "mapping_status": "matched",
+        "mapping_orientation": "direct",
+        "fixture_status": "playing",
+        "score_status": "not_final_hidden",
+        "score": "none",
+        "teams": "Saudi Arabia vs Uruguay"
+      }
+    },
+    {
+      "case_id": "ir_iran_new_zealand",
+      "expected_local_fixture_id": "fwc2026-m015",
+      "expected_match_number": 15,
+      "passed": true,
+      "observed": {
+        "source_fixture_id": "16",
+        "mapping_status": "matched",
+        "mapping_orientation": "direct",
+        "fixture_status": "scheduled",
+        "score_status": "not_final_hidden",
+        "score": "none",
+        "teams": "IR Iran vs New Zealand"
+      }
+    }
+  ],
+  "manual_spot_checks": [
+    "Early sample: Match 1 Mexico vs South Africa maps to fwc2026-m001 and score-prediction team pair.",
+    "Middle sample: Match 14 Spain vs Cabo Verde maps to fwc2026-m014 and does not attach to Match 13 or Match 15.",
+    "Late sample: Match 72 Congo DR vs Uzbekistan maps by round/team pair rather than source fixture order."
+  ],
+  "unsafe_fixture_player_point_leaks_sample": [],
+  "errors": [],
+  "warnings": []
+}

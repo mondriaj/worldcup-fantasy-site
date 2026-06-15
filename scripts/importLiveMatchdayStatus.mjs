@@ -40,6 +40,75 @@ const EXPECTED_MATCH_STATUS_VALUES = new Set(["", "start", "sub", "not_in_squad"
 const EXPECTED_FIXTURE_STATUS_VALUES = new Set(["scheduled", "playing", "complete", "played", "completed", "postponed", "suspended"]);
 const FINAL_FIXTURE_STATUS_VALUES = new Set(["complete", "played", "completed"]);
 const MATERIAL_STATUS_THRESHOLD = 12;
+const TEAM_NAME_ALIASES = new Map([
+  ["south korea", "korea republic"],
+  ["republic of korea", "korea republic"],
+  ["czech republic", "czechia"],
+  ["turkey", "turkiye"],
+  ["turkiye", "turkiye"],
+  ["ivory coast", "cote d ivoire"],
+  ["cote divoire", "cote d ivoire"],
+  ["cote d ivoire", "cote d ivoire"],
+  ["iran", "ir iran"],
+  ["iran islamic republic of", "ir iran"],
+  ["cape verde", "cabo verde"],
+  ["dr congo", "congo dr"],
+  ["democratic republic of the congo", "congo dr"],
+  ["congo democratic republic", "congo dr"],
+  ["usa", "usa"],
+  ["us", "usa"],
+  ["united states", "usa"],
+  ["united states of america", "usa"]
+]);
+const TEAM_ABBR_ALIASES = new Map([
+  ["ALG", "algeria"],
+  ["ARG", "argentina"],
+  ["AUS", "australia"],
+  ["AUT", "austria"],
+  ["BEL", "belgium"],
+  ["BIH", "bosnia and herzegovina"],
+  ["BRA", "brazil"],
+  ["CAN", "canada"],
+  ["CIV", "cote d ivoire"],
+  ["COD", "congo dr"],
+  ["COL", "colombia"],
+  ["CPV", "cabo verde"],
+  ["CRO", "croatia"],
+  ["CUW", "curacao"],
+  ["CZE", "czechia"],
+  ["ECU", "ecuador"],
+  ["EGY", "egypt"],
+  ["ENG", "england"],
+  ["FRA", "france"],
+  ["GER", "germany"],
+  ["GHA", "ghana"],
+  ["HAI", "haiti"],
+  ["IRN", "ir iran"],
+  ["IRQ", "iraq"],
+  ["JOR", "jordan"],
+  ["JPN", "japan"],
+  ["KOR", "korea republic"],
+  ["KSA", "saudi arabia"],
+  ["MAR", "morocco"],
+  ["MEX", "mexico"],
+  ["NED", "netherlands"],
+  ["NOR", "norway"],
+  ["NZL", "new zealand"],
+  ["PAN", "panama"],
+  ["PAR", "paraguay"],
+  ["POR", "portugal"],
+  ["QAT", "qatar"],
+  ["RSA", "south africa"],
+  ["SCO", "scotland"],
+  ["SEN", "senegal"],
+  ["SUI", "switzerland"],
+  ["SWE", "sweden"],
+  ["TUN", "tunisia"],
+  ["TUR", "turkiye"],
+  ["URU", "uruguay"],
+  ["USA", "usa"],
+  ["UZB", "uzbekistan"]
+]);
 
 function hasValue(value) {
   return value !== null && value !== undefined && String(value).trim() !== "";
@@ -54,6 +123,30 @@ function normalizeText(value) {
     .trim()
     .toLowerCase()
     .replace(/\s+/g, " ");
+}
+
+function canonicalTeamKey(...values) {
+  for (const value of values) {
+    if (!hasValue(value)) {
+      continue;
+    }
+
+    const rawText = String(value).trim();
+    const upperText = rawText.toUpperCase();
+    const abbrAlias = TEAM_ABBR_ALIASES.get(upperText);
+    if (abbrAlias) {
+      return abbrAlias;
+    }
+
+    const normalized = normalizeText(rawText);
+    if (!normalized) {
+      continue;
+    }
+
+    return TEAM_NAME_ALIASES.get(normalized) || normalized;
+  }
+
+  return "";
 }
 
 function normalizePosition(value) {
@@ -275,17 +368,17 @@ function addToSetMap(map, key, value) {
   map.set(stringKey, set);
 }
 
-function finalFixturePointContext(rounds) {
+function finalFixturePointContext(fixtures) {
   const finalRoundSquads = new Map();
   const nonFinalRoundSquads = new Map();
 
-  rounds.forEach((round) => {
-    const roundId = hasValue(round.id) ? String(round.id) : null;
-    rowsFromJson(round.tournaments || [], ["tournaments"]).forEach((fixture) => {
-      const targetMap = fixtureIsFinal(fixture.status) ? finalRoundSquads : nonFinalRoundSquads;
-      addToSetMap(targetMap, roundId, fixture.homeSquadId);
-      addToSetMap(targetMap, roundId, fixture.awaySquadId);
-    });
+  fixtures.forEach((fixture) => {
+    const roundId = hasValue(fixture.round_id) ? String(fixture.round_id) : null;
+    const targetMap = fixture.safe_to_display_score === true && fixtureIsFinal(fixture.fixture_status)
+      ? finalRoundSquads
+      : nonFinalRoundSquads;
+    addToSetMap(targetMap, roundId, fixture.live_home_squad_id);
+    addToSetMap(targetMap, roundId, fixture.live_away_squad_id);
   });
 
   return { finalRoundSquads, nonFinalRoundSquads };
@@ -368,57 +461,188 @@ function normalizeLivePlayer(row, teamsById, warnings, pointContext) {
   };
 }
 
-function liveFixtureTeamPairKey(fixture) {
-  return `${normalizeText(fixture.homeSquadName)}|${normalizeText(fixture.awaySquadName)}`;
+function matchdayRoundId(fixture) {
+  const matchNumber = integerOrNull(fixture.match_number);
+  if (matchNumber && matchNumber >= 1 && matchNumber <= 24) return "1";
+  if (matchNumber && matchNumber >= 25 && matchNumber <= 48) return "2";
+  if (matchNumber && matchNumber >= 49 && matchNumber <= 72) return "3";
+
+  const label = String(fixture.matchday || fixture.fifa_matchday_label || "").toLowerCase();
+  const labelMatch = label.match(/matchday\s*(\d+)/i) || label.match(/md\s*(\d+)/i);
+  if (labelMatch) {
+    return labelMatch[1];
+  }
+
+  return null;
 }
 
-function normalizeFixture(round, fixture, localByTeamPair, localByReversedTeamPair) {
+function liveFixtureTeamKeys(fixture) {
+  return {
+    home: canonicalTeamKey(fixture.homeSquadName, fixture.homeSquadAbbr),
+    away: canonicalTeamKey(fixture.awaySquadName, fixture.awaySquadAbbr)
+  };
+}
+
+function localFixtureTeamKeys(fixture) {
+  return {
+    home: canonicalTeamKey(fixture.home_team, fixture.team_1, fixture.home_team_id),
+    away: canonicalTeamKey(fixture.away_team, fixture.team_2, fixture.away_team_id)
+  };
+}
+
+function fixturePairKey(roundId, homeKey, awayKey) {
+  return [roundId || "", homeKey || "", awayKey || ""].join("|");
+}
+
+function addFixtureMapRow(map, key, fixture) {
+  const rows = map.get(key) || [];
+  rows.push(fixture);
+  map.set(key, rows);
+}
+
+function uniqueFixture(rows) {
+  return rows?.length === 1 ? rows[0] : null;
+}
+
+function liveFixtureMapping(round, fixture, localMaps) {
+  const roundId = hasValue(round.id) ? String(round.id) : null;
+  const liveKeys = liveFixtureTeamKeys(fixture);
+  const directKey = fixturePairKey(roundId, liveKeys.home, liveKeys.away);
+  const directRows = localMaps.localByTeamPair.get(directKey) || [];
+  const reversedRows = localMaps.localByReversedTeamPair.get(directKey) || [];
+  const directFixture = uniqueFixture(directRows);
+  const reversedFixture = uniqueFixture(reversedRows);
+
+  if (!roundId || !liveKeys.home || !liveKeys.away) {
+    return {
+      localFixture: null,
+      status: "unmatched",
+      orientation: "unknown",
+      basis: "team_pair_round",
+      reason: "missing_live_round_or_team_key"
+    };
+  }
+
+  if (directRows.length > 1 || reversedRows.length > 1 || (directRows.length && reversedRows.length)) {
+    return {
+      localFixture: null,
+      status: "ambiguous",
+      orientation: "unknown",
+      basis: "team_pair_round",
+      reason: "multiple_local_fixture_candidates",
+      candidate_match_numbers: [...directRows, ...reversedRows].map((row) => row.match_number).filter(Boolean)
+    };
+  }
+
+  if (directFixture) {
+    return {
+      localFixture: directFixture,
+      status: "matched",
+      orientation: "direct",
+      basis: "team_pair_round",
+      reason: "live_home_away_match_local_home_away"
+    };
+  }
+
+  if (reversedFixture) {
+    return {
+      localFixture: reversedFixture,
+      status: "matched_reversed",
+      orientation: "reversed",
+      basis: "team_pair_round",
+      reason: "live_home_away_match_local_away_home"
+    };
+  }
+
+  return {
+    localFixture: null,
+    status: "unmatched",
+    orientation: "unknown",
+    basis: "team_pair_round",
+    reason: "no_local_fixture_for_live_team_pair_round"
+  };
+}
+
+function normalizeFixture(round, fixture, localMaps) {
   const fixtureId = hasValue(fixture.id) ? String(fixture.id) : "";
   const sourceFixtureOrder = integerOrNull(fixture.id);
-  const teamPairKey = liveFixtureTeamPairKey(fixture);
-  const localByPair = localByTeamPair.get(teamPairKey) || null;
-  const localByReversedPair = localByReversedTeamPair.get(teamPairKey) || null;
-  const localFixture = localByPair || localByReversedPair || null;
-  const mappingMethod = localByPair
-    ? "team_pair"
-    : localByReversedPair
-      ? "reversed_team_pair_needs_review"
-      : null;
+  const mapping = liveFixtureMapping(round, fixture, localMaps);
+  const localFixture = mapping.localFixture;
   const isFinal = fixtureIsFinal(fixture.status);
+  const isSafeMapping = ["matched", "matched_reversed"].includes(mapping.status);
+  const canExposeFinalScore = isFinal && isSafeMapping;
+  const isReversed = mapping.orientation === "reversed";
+  const liveHomeScore = numericOrNull(fixture.homeScore);
+  const liveAwayScore = numericOrNull(fixture.awayScore);
+  const liveHomePenaltyScore = numericOrNull(fixture.homePenaltyScore);
+  const liveAwayPenaltyScore = numericOrNull(fixture.awayPenaltyScore);
+  const liveHomeScorers = normalizeScorerAssistRows(fixture.homeGoalScorersAssists);
+  const liveAwayScorers = normalizeScorerAssistRows(fixture.awayGoalScorersAssists);
+  const localHomeScore = isReversed ? liveAwayScore : liveHomeScore;
+  const localAwayScore = isReversed ? liveHomeScore : liveAwayScore;
+  const localHomePenaltyScore = isReversed ? liveAwayPenaltyScore : liveHomePenaltyScore;
+  const localAwayPenaltyScore = isReversed ? liveHomePenaltyScore : liveAwayPenaltyScore;
+  const localHomeScorers = isReversed ? liveAwayScorers : liveHomeScorers;
+  const localAwayScorers = isReversed ? liveHomeScorers : liveAwayScorers;
+  const localHomeTeam = localFixture?.home_team || localFixture?.team_1 || null;
+  const localAwayTeam = localFixture?.away_team || localFixture?.team_2 || null;
 
   return {
     round_id: hasValue(round.id) ? String(round.id) : null,
     round_status: round.status || null,
     round_stage: round.stage || null,
-    fixture_id: fixtureId || null,
+    source_fixture_id: fixtureId || null,
     source_fixture_order: sourceFixtureOrder,
     local_fixture_id: localFixture?.match_id || null,
+    match_id: localFixture?.match_id || null,
     match_number: localFixture?.match_number ?? null,
-    local_fixture_mapping_method: mappingMethod,
-    local_fixture_match_status: localFixture ? "mapped_to_group_stage_fixture" : "not_mapped",
+    mapping_status: mapping.status,
+    mapping_orientation: mapping.orientation,
+    mapping_basis: mapping.basis,
+    mapping_reason: mapping.reason,
+    mapping_candidate_match_numbers: mapping.candidate_match_numbers || [],
+    safe_to_display_score: canExposeFinalScore,
+    local_fixture_mapping_method: mapping.basis,
+    local_fixture_match_status: localFixture ? "mapped_to_group_stage_fixture" : mapping.status,
     fixture_status: fixture.status || null,
-    score_status: isFinal ? "final" : "not_final_hidden",
+    score_status: canExposeFinalScore ? "final" : isFinal ? "mapping_not_safe_hidden" : "not_final_hidden",
     period: fixture.period || null,
     minutes: numericOrNull(fixture.minutes),
     extra_minutes: numericOrNull(fixture.extraMinutes),
     date: fixture.date || null,
     is_suspended: Boolean(fixture.isSuspended),
-    home_squad_id: hasValue(fixture.homeSquadId) ? String(fixture.homeSquadId) : null,
-    home_team: fixture.homeSquadName || null,
-    home_abbr: fixture.homeSquadAbbr || null,
-    away_squad_id: hasValue(fixture.awaySquadId) ? String(fixture.awaySquadId) : null,
-    away_team: fixture.awaySquadName || null,
-    away_abbr: fixture.awaySquadAbbr || null,
-    home_score: isFinal ? numericOrNull(fixture.homeScore) : null,
-    away_score: isFinal ? numericOrNull(fixture.awayScore) : null,
-    home_penalty_score: isFinal ? numericOrNull(fixture.homePenaltyScore) : null,
-    away_penalty_score: isFinal ? numericOrNull(fixture.awayPenaltyScore) : null,
-    home_goal_scorers_assists: isFinal ? normalizeScorerAssistRows(fixture.homeGoalScorersAssists) : [],
-    away_goal_scorers_assists: isFinal ? normalizeScorerAssistRows(fixture.awayGoalScorersAssists) : [],
+    live_home_squad_id: hasValue(fixture.homeSquadId) ? String(fixture.homeSquadId) : null,
+    live_home_team: fixture.homeSquadName || null,
+    live_home_abbr: fixture.homeSquadAbbr || null,
+    live_away_squad_id: hasValue(fixture.awaySquadId) ? String(fixture.awaySquadId) : null,
+    live_away_team: fixture.awaySquadName || null,
+    live_away_abbr: fixture.awaySquadAbbr || null,
+    local_home_team: localHomeTeam,
+    local_away_team: localAwayTeam,
+    local_home_team_id: localFixture?.home_team_id || null,
+    local_away_team_id: localFixture?.away_team_id || null,
+    home_squad_id: isReversed
+      ? hasValue(fixture.awaySquadId) ? String(fixture.awaySquadId) : null
+      : hasValue(fixture.homeSquadId) ? String(fixture.homeSquadId) : null,
+    home_team: localHomeTeam || (isReversed ? fixture.awaySquadName : fixture.homeSquadName) || null,
+    home_abbr: isReversed ? fixture.awaySquadAbbr || null : fixture.homeSquadAbbr || null,
+    away_squad_id: isReversed
+      ? hasValue(fixture.homeSquadId) ? String(fixture.homeSquadId) : null
+      : hasValue(fixture.awaySquadId) ? String(fixture.awaySquadId) : null,
+    away_team: localAwayTeam || (isReversed ? fixture.homeSquadName : fixture.awaySquadName) || null,
+    away_abbr: isReversed ? fixture.homeSquadAbbr || null : fixture.awaySquadAbbr || null,
+    live_home_score: canExposeFinalScore ? liveHomeScore : null,
+    live_away_score: canExposeFinalScore ? liveAwayScore : null,
+    home_score: canExposeFinalScore ? localHomeScore : null,
+    away_score: canExposeFinalScore ? localAwayScore : null,
+    home_penalty_score: canExposeFinalScore ? localHomePenaltyScore : null,
+    away_penalty_score: canExposeFinalScore ? localAwayPenaltyScore : null,
+    home_goal_scorers_assists: canExposeFinalScore ? localHomeScorers : [],
+    away_goal_scorers_assists: canExposeFinalScore ? localAwayScorers : [],
     venue_id: hasValue(fixture.venueId) ? String(fixture.venueId) : null,
     venue_name: fixture.venueName || null,
     venue_city: fixture.venueCity || null,
-    source_note: "minutes and extra_minutes are fixture match-clock fields, not player minutes. Scores are exposed only after FIFA marks the fixture complete."
+    source_note: "source_fixture_id is the FIFA fantasy source id, not the local match key. Scores are local-orientation fields and are exposed only after a safe local fixture mapping and final fixture status."
   };
 }
 
@@ -427,11 +651,11 @@ function localFixtureMaps(fixtures) {
   const localByReversedTeamPair = new Map();
 
   fixtures.forEach((fixture) => {
-    const homeKey = normalizeText(fixture.home_team || fixture.team_1);
-    const awayKey = normalizeText(fixture.away_team || fixture.team_2);
+    const roundId = matchdayRoundId(fixture);
+    const { home: homeKey, away: awayKey } = localFixtureTeamKeys(fixture);
     if (homeKey && awayKey) {
-      localByTeamPair.set(`${homeKey}|${awayKey}`, fixture);
-      localByReversedTeamPair.set(`${awayKey}|${homeKey}`, fixture);
+      addFixtureMapRow(localByTeamPair, fixturePairKey(roundId, homeKey, awayKey), fixture);
+      addFixtureMapRow(localByReversedTeamPair, fixturePairKey(roundId, awayKey, homeKey), fixture);
     }
   });
 
@@ -557,6 +781,9 @@ function validateLiveData({ livePlayers, fixtures, localPlayers, parseWarnings }
   const unexpectedMatchStatuses = [];
   const unexpectedFixtureStatuses = [];
   const unmappedGroupFixtures = [];
+  const ambiguousFixtures = [];
+  const unsafeFinalScores = [];
+  const nonFinalScores = [];
   const unmappedPlayers = [];
 
   livePlayers.forEach((player) => {
@@ -577,7 +804,7 @@ function validateLiveData({ livePlayers, fixtures, localPlayers, parseWarnings }
     const status = String(fixture.fixture_status || "").toLowerCase();
     if (status && !EXPECTED_FIXTURE_STATUS_VALUES.has(status)) {
       unexpectedFixtureStatuses.push({
-        fixture_id: fixture.fixture_id,
+        source_fixture_id: fixture.source_fixture_id,
         match_number: fixture.match_number,
         fixture_status: fixture.fixture_status
       });
@@ -585,15 +812,43 @@ function validateLiveData({ livePlayers, fixtures, localPlayers, parseWarnings }
     ["home_score", "away_score", "home_penalty_score", "away_penalty_score"].forEach((field) => {
       const value = fixture[field];
       if (value !== null && !Number.isFinite(Number(value))) {
-        errors.push(`Fixture ${fixture.fixture_id || "unknown"} has non-numeric ${field}`);
+        errors.push(`Fixture ${fixture.local_fixture_id || fixture.source_fixture_id || "unknown"} has non-numeric ${field}`);
       }
     });
-    if (fixture.match_number && fixture.match_number <= 72 && fixture.local_fixture_match_status !== "mapped_to_group_stage_fixture") {
+    if (fixture.mapping_status === "unmatched") {
       unmappedGroupFixtures.push({
-        fixture_id: fixture.fixture_id,
+        source_fixture_id: fixture.source_fixture_id,
         match_number: fixture.match_number,
-        home_team: fixture.home_team,
-        away_team: fixture.away_team
+        live_home_team: fixture.live_home_team,
+        live_away_team: fixture.live_away_team
+      });
+    }
+    if (fixture.mapping_status === "ambiguous") {
+      ambiguousFixtures.push({
+        source_fixture_id: fixture.source_fixture_id,
+        candidate_match_numbers: fixture.mapping_candidate_match_numbers,
+        live_home_team: fixture.live_home_team,
+        live_away_team: fixture.live_away_team
+      });
+    }
+    if ((fixture.home_score !== null || fixture.away_score !== null) && fixture.safe_to_display_score !== true) {
+      unsafeFinalScores.push({
+        source_fixture_id: fixture.source_fixture_id,
+        local_fixture_id: fixture.local_fixture_id,
+        mapping_status: fixture.mapping_status,
+        fixture_status: fixture.fixture_status
+      });
+    }
+    if (!fixtureIsFinal(fixture.fixture_status) && (
+      fixture.home_score !== null ||
+      fixture.away_score !== null ||
+      fixture.home_goal_scorers_assists?.length ||
+      fixture.away_goal_scorers_assists?.length
+    )) {
+      nonFinalScores.push({
+        source_fixture_id: fixture.source_fixture_id,
+        local_fixture_id: fixture.local_fixture_id,
+        fixture_status: fixture.fixture_status
       });
     }
   });
@@ -606,6 +861,15 @@ function validateLiveData({ livePlayers, fixtures, localPlayers, parseWarnings }
   }
   if (unmappedGroupFixtures.length) {
     warnings.push(`${unmappedGroupFixtures.length} group-stage live fixtures did not map to local fixtures`);
+  }
+  if (ambiguousFixtures.length) {
+    warnings.push(`${ambiguousFixtures.length} live fixtures have ambiguous local fixture mappings`);
+  }
+  if (unsafeFinalScores.length) {
+    errors.push(`${unsafeFinalScores.length} final scores are exposed without a safe local fixture mapping`);
+  }
+  if (nonFinalScores.length) {
+    errors.push(`${nonFinalScores.length} non-final fixtures expose score or scorer data`);
   }
 
   return {
@@ -620,7 +884,13 @@ function validateLiveData({ livePlayers, fixtures, localPlayers, parseWarnings }
     unmapped_live_player_count: unmappedPlayers.length,
     unmapped_live_players_sample: unmappedPlayers.slice(0, 20),
     unmapped_group_fixture_count: unmappedGroupFixtures.length,
-    unmapped_group_fixtures_sample: unmappedGroupFixtures.slice(0, 20)
+    unmapped_group_fixtures_sample: unmappedGroupFixtures.slice(0, 20),
+    ambiguous_fixture_count: ambiguousFixtures.length,
+    ambiguous_fixtures_sample: ambiguousFixtures.slice(0, 20),
+    unsafe_final_score_count: unsafeFinalScores.length,
+    unsafe_final_scores_sample: unsafeFinalScores.slice(0, 20),
+    non_final_score_exposure_count: nonFinalScores.length,
+    non_final_score_exposure_sample: nonFinalScores.slice(0, 20)
   };
 }
 
@@ -765,6 +1035,12 @@ function reportMarkdown({ matchdayData, playerData, changes, updateDecision, fet
   const fixtureStatusLines = Object.entries(matchdayData.summary.fixture_status_counts)
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([status, count]) => `- ${status}: ${count}`);
+  const mappingStatusLines = Object.entries(matchdayData.summary.mapping_status_counts)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([status, count]) => `- ${status}: ${count}`);
+  const mappingOrientationLines = Object.entries(matchdayData.summary.mapping_orientation_counts)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([status, count]) => `- ${status}: ${count}`);
   const roundStatusLines = Object.entries(matchdayData.summary.round_status_counts)
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([status, count]) => `- ${status}: ${count}`);
@@ -798,6 +1074,18 @@ Completed/played fixtures: ${matchdayData.summary.completed_fixture_count}
 Playing fixtures: ${matchdayData.summary.playing_fixture_count}
 Scheduled fixtures: ${matchdayData.summary.scheduled_fixture_count}
 In-progress fixture scores hidden until final: ${matchdayData.summary.in_progress_scores_hidden_count}
+Safe final scores shown: ${matchdayData.summary.safe_final_scores_shown}
+Unmatched live fixtures: ${matchdayData.summary.unmatched_fixture_count}
+Ambiguous live fixtures: ${matchdayData.summary.ambiguous_fixture_count}
+Reversed mappings handled: ${matchdayData.summary.reversed_mapping_count}
+
+Mapping status counts:
+
+${mdList(mappingStatusLines)}
+
+Mapping orientation counts:
+
+${mdList(mappingOrientationLines)}
 
 Round status counts:
 
@@ -894,8 +1182,7 @@ async function main() {
   const localFixtures = rowsFromJson(localFixturesData, ["fixtures"]);
   const parseWarnings = [];
   const teamsById = squadMap(rawSquads);
-  const pointContext = finalFixturePointContext(rawRounds);
-  const { localByTeamPair, localByReversedTeamPair } = localFixtureMaps(localFixtures);
+  const localMaps = localFixtureMaps(localFixtures);
   const rounds = rawRounds.map((round) => ({
     round_id: hasValue(round.id) ? String(round.id) : null,
     status: round.status || null,
@@ -905,7 +1192,8 @@ async function main() {
     fixture_count: Array.isArray(round.tournaments) ? round.tournaments.length : 0
   }));
   const fixtures = rawRounds.flatMap((round) => rowsFromJson(round.tournaments || [], ["tournaments"])
-    .map((fixture) => normalizeFixture(round, fixture, localByTeamPair, localByReversedTeamPair)));
+    .map((fixture) => normalizeFixture(round, fixture, localMaps)));
+  const pointContext = finalFixturePointContext(fixtures);
   const livePlayers = rawPlayers
     .map((row) => normalizeLivePlayer(row, teamsById, parseWarnings, pointContext))
     .filter((player) => player.official_fantasy_player_id);
@@ -913,6 +1201,8 @@ async function main() {
   const validation = validateLiveData({ livePlayers, fixtures, localPlayers: localOfficialPlayers, parseWarnings });
   const pointsCoverage = livePointsCoverage(livePlayers);
   const fixtureStatusCounts = countBy(fixtures, (fixture) => fixture.fixture_status);
+  const mappingStatusCounts = countBy(fixtures, (fixture) => fixture.mapping_status);
+  const mappingOrientationCounts = countBy(fixtures, (fixture) => fixture.mapping_orientation);
   const roundStatusCounts = countBy(rounds, (round) => round.status);
   const completedStatuses = FINAL_FIXTURE_STATUS_VALUES;
   const playingStatuses = new Set(["playing"]);
@@ -942,6 +1232,12 @@ async function main() {
       in_progress_scores_hidden_count: fixtures.filter((fixture) => String(fixture.fixture_status || "").toLowerCase() === "playing" && fixture.score_status === "not_final_hidden").length,
       round_status_counts: roundStatusCounts,
       fixture_status_counts: fixtureStatusCounts,
+      mapping_status_counts: mappingStatusCounts,
+      mapping_orientation_counts: mappingOrientationCounts,
+      safe_final_scores_shown: fixtures.filter((fixture) => fixture.safe_to_display_score === true && fixture.score_status === "final").length,
+      unmatched_fixture_count: fixtures.filter((fixture) => fixture.mapping_status === "unmatched").length,
+      ambiguous_fixture_count: fixtures.filter((fixture) => fixture.mapping_status === "ambiguous").length,
+      reversed_mapping_count: fixtures.filter((fixture) => fixture.mapping_status === "matched_reversed").length,
       has_fixture_match_clock: fixtures.some((fixture) => fixture.minutes !== null || fixture.extra_minutes !== null),
       has_penalty_scores: fixtures.some((fixture) => fixture.home_penalty_score !== null || fixture.away_penalty_score !== null)
     },
