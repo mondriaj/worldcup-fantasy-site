@@ -769,7 +769,7 @@ ${mdList(matchdayData.validation.errors)}
 
 ## Unavailable Fields
 
-The current live import does not provide source-backed injury, doubtful, risk, suspended, unavailable-reason, chance-of-playing, actual player minutes, official user locks, official substitutions, captain changes, booster state, or user-specific legality.
+The current live import does not provide source-backed injury, doubtful, risk, unavailable-reason, chance-of-playing, actual player minutes, official user locks, official substitutions, captain changes, booster state, or user-specific legality. The player \`status\` field is preserved as selectable-status context when FIFA supplies values such as playing, transferred, or suspended, but the feed does not provide separate suspension reason or return-date detail.
 
 \`matchStatus\` is lineup/status context from the official fantasy player feed. Fixture \`minutes\` and \`extra_minutes\` are match-clock fields and are not player minutes.
 

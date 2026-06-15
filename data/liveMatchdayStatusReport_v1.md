@@ -1,14 +1,14 @@
 # Live Matchday Status Report v1
 
-Generated: 2026-06-13T16:17:57.122Z
+Generated: 2026-06-15T22:25:34.550Z
 
 Status: static live/post-match support import. Model predictions, PELE data, recommendations, projections, finance metrics, Team Builder weights, and website formulas were not rerun by this script.
 
 ## Sources
 
-- fifaFantasyPlayersJson: ok, last modified 2026-06-13T16:04:21Z
+- fifaFantasyPlayersJson: ok, last modified 2026-06-15T22:05:04Z
 - fifaFantasySquadsJson: ok, last modified 2026-05-13T10:08:23Z
-- fifaFantasyRoundsJson: ok, last modified 2026-06-13T13:01:02Z
+- fifaFantasyRoundsJson: ok, last modified 2026-06-15T22:25:03Z
 
 Fetch failures: 0
 
@@ -17,10 +17,10 @@ Fetch failures: 0
 Rounds imported: 8
 Fixtures imported: 72
 Group-stage fixtures mapped locally: 72
-Fixtures with score fields populated: 4
-Completed/played fixtures: 4
-Playing fixtures: 0
-Scheduled fixtures: 68
+Fixtures with score fields populated: 15
+Completed/played fixtures: 14
+Playing fixtures: 1
+Scheduled fixtures: 57
 
 Round status counts:
 
@@ -29,28 +29,30 @@ Round status counts:
 
 Fixture status counts:
 
-- complete: 4
-- scheduled: 68
+- complete: 14
+- playing: 1
+- scheduled: 57
 
 ## Player Live Fields
 
 Players imported: 1487
 Players with total points: 1487
 Players with last-round points: 1487
-Players with round-points maps: 125
-Ownership changes >= 0.1 percentage points: 453
+Players with round-points maps: 461
+Ownership changes >= 0.1 percentage points: 479
 
 Player status counts:
 
-- playing: 1248
+- playing: 1245
+- suspended: 3
 - transferred: 239
 
 matchStatus counts:
 
-- none: 1203
-- not_in_squad: 77
-- start: 88
-- sub: 119
+- none: 540
+- not_in_squad: 172
+- start: 330
+- sub: 445
 
 ## Material Change Check
 
@@ -66,7 +68,7 @@ Reasons:
 Material change summary:
 
 - New players: 5, first sample Éderson José dos Santos Lourenço da Silva
-- Selectable status changes: 10, first sample Marcos Senesi
+- Selectable status changes: 13, first sample Marcos Senesi
 
 ## Validation
 
@@ -82,7 +84,7 @@ None
 
 ## Unavailable Fields
 
-The current live import does not provide source-backed injury, doubtful, risk, suspended, unavailable-reason, chance-of-playing, actual player minutes, official user locks, official substitutions, captain changes, booster state, or user-specific legality.
+The current live import does not provide source-backed injury, doubtful, risk, unavailable-reason, chance-of-playing, actual player minutes, official user locks, official substitutions, captain changes, booster state, or user-specific legality. The player `status` field is preserved as selectable-status context when FIFA supplies values such as playing, transferred, or suspended, but the feed does not provide separate suspension reason or return-date detail.
 
 `matchStatus` is lineup/status context from the official fantasy player feed. Fixture `minutes` and `extra_minutes` are match-clock fields and are not player minutes.
 

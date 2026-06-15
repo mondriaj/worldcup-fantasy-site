@@ -45,7 +45,9 @@ Fixture `minutes` and `extra_minutes` are match-clock fields. They are not playe
 
 ## Not Available
 
-The current feed does not provide source-backed player injury, doubtful, risk, suspended, unavailable-reason, chance-of-playing, actual player minutes, user locks, user substitutions, captain changes, boosters, or user-specific legality.
+The current feed does not provide source-backed player injury, doubtful, risk, unavailable-reason, chance-of-playing, actual player minutes, user locks, user substitutions, captain changes, boosters, or user-specific legality.
+
+The player `status` field is preserved as selectable-status context when FIFA supplies values such as `playing`, `transferred`, or `suspended`. The feed does not provide a separate suspension reason, return date, or chance-of-playing field.
 
 `matchStatus` is useful lineup/status context, but it is not a full minutes model and should not be treated as one.
 
