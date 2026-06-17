@@ -1,6 +1,6 @@
 # Fantasy Pool Recommendation Candidates v3 QA
 
-Generated: 2026-06-03T16:56:58.583Z
+Generated: 2026-06-17T22:53:19.339Z
 
 Model stage: fantasy_pool_only. These outputs are not final-squad-backed, not final public recommendations, not Team Builder-ready, not browser-ready, and safe only for preliminary recommendation QA.
 
@@ -13,7 +13,7 @@ This staged layer converts playerMatchdayProjections_fantasyPool_v3 into prelimi
 - data/playerRecommendationInputs_v1.json
 - data/playerMinutesModel_fantasyPool_v0.json
 - data/playerMatchdayProjections_fantasyPool_v3.json
-- data/playerFinanceMetrics_fantasyPool_v2.json
+- data/playerFinanceMetrics_fantasyPool_v1.json
 - data/scorePredictions_fantasyPool_v3.json
 - data/officialFantasyRules_v0.json
 - data/officialFantasyRulesImportReport_v0.json
@@ -31,13 +31,13 @@ This staged layer converts playerMatchdayProjections_fantasyPool_v3 into prelimi
 
 - Candidate rows generated: 500.
 - Candidate scopes: 4.
-- Projection rows available: 3744.
-- Blocked players excluded: 233.
+- Projection rows available: 3699.
+- Blocked players excluded: 255.
 - Low-confidence rows in top lists: 0.
 - Thin-profile rows in top lists: 0.
 - Missing-usage rows in top lists: 0.
 - Missing finance-context rows in top lists: 0.
-- High finance-alpha rows in top lists: 94.
+- High finance-alpha rows in top lists: 262.
 - High-alpha low-start rows in top lists: 0.
 - High-alpha high-downside rows in top lists: 0.
 - Safe for preliminary recommendation review: true.
@@ -48,8 +48,8 @@ This staged layer converts playerMatchdayProjections_fantasyPool_v3 into prelimi
 
 | Pair | Top-10 overlap | Top-25 overlap |
 | --- | --- | --- |
-| Balanced vs Safe | 2 | 8 |
-| Balanced vs Differential | 0 | 1 |
+| Balanced vs Safe | 4 | 14 |
+| Balanced vs Differential | 0 | 4 |
 | Safe vs Differential | 0 | 0 |
 | Upside vs Captain Alpha | 0 | 0 |
 
@@ -71,26 +71,26 @@ This staged layer converts playerMatchdayProjections_fantasyPool_v3 into prelimi
 
 | Mode | Top candidate | Country | Scope | Opponent | Pos | Score | Tier | Confidence |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Balanced | Lionel Messi | Argentina | md3 | Jordan | FWD | 82.947 | top_pick_candidate | high |
-| Safe | Camilo Vargas | Colombia | md1 | Uzbekistan | GK | 89.896 | top_pick_candidate | high |
-| Upside | Luis Suárez | Colombia | md1 | Uzbekistan | FWD | 77.474 | strong_candidate | high |
-| Differential | Giorgian de Arrascaeta | Uruguay | md1 | Saudi Arabia | MID | 88.724 | top_pick_candidate | high |
-| Captain Alpha | Lionel Messi | Argentina | md3 | Jordan | FWD | 98.178 | top_pick_candidate | high |
+| Balanced | Lionel Messi | Argentina | md3 | Jordan | FWD | 82.411 | top_pick_candidate | high |
+| Safe | Enzo Fernández | Argentina | md3 | Jordan | MID | 83.792 | top_pick_candidate | high |
+| Upside | Luis Suárez | Colombia | md2 | Congo DR | FWD | 79.582 | strong_candidate | high |
+| Differential | Hiroki Ito | Japan | md2 | Tunisia | DEF | 84.686 | top_pick_candidate | high |
+| Captain Alpha | Lionel Messi | Argentina | md3 | Jordan | FWD | 98.623 | top_pick_candidate | high |
 
 ## Country Concentration
 
 | Country | Top-list candidate rows |
 | --- | --- |
-| Argentina | 97 |
-| Portugal | 50 |
-| England | 46 |
-| Colombia | 45 |
-| Spain | 38 |
-| Belgium | 25 |
-| Croatia | 23 |
-| Uruguay | 23 |
-| Japan | 22 |
-| France | 20 |
+| Argentina | 73 |
+| England | 53 |
+| Colombia | 47 |
+| Spain | 37 |
+| Portugal | 36 |
+| France | 28 |
+| Japan | 26 |
+| Brazil | 25 |
+| Germany | 22 |
+| Belgium | 21 |
 
 ## Low-Confidence Top-List Warnings
 
@@ -99,7 +99,7 @@ This staged layer converts playerMatchdayProjections_fantasyPool_v3 into prelimi
 
 ## Neymar And Brazil
 
-Brazil candidate rows carrying Neymar uncertainty: 14.
+Brazil candidate rows carrying Neymar uncertainty: 25.
 
 No Neymar rows appear in top candidate lists.
 
@@ -108,7 +108,7 @@ Neymar remains a P0 usage source gap. Brazil team context keeps uncertainty flag
 ## V3 vs V2 Comparison
 
 - Comparable top lists: 20.
-- Average top-25 overlap rate: 0.316.
+- Average top-25 overlap rate: 0.3.
 - V2 used prototype/player finance recommendation inputs and active browser files; v3 uses official fantasy-pool staged projections. Lower overlap is expected.
 
 ## Stop Conditions Before Public Promotion

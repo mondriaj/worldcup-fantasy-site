@@ -1,20 +1,20 @@
 # Recommendation Finance Value Audit Fantasy Pool v3
 
-Generated: 2026-06-03T16:56:58.583Z
+Generated: 2026-06-17T22:53:19.339Z
 
 Model stage: fantasy_pool_only. This audit does not promote recommendations, does not update active v2 recommendations, does not update browser-ready files, and does not make Team Builder, captain/substitution, or UX changes.
 
 ## Summary
 
 - Recommendation QA status: pass_with_staging_stop_conditions.
-- Finance diagnostic rows: 4992.
-- Efficient-frontier rows: 61.
-- Dominated rows: 4931.
+- Finance diagnostic rows: 4932.
+- Efficient-frontier rows: 55.
+- Dominated rows: 4877.
 - Above-replacement rows: 256.
-- Differential candidates on efficient frontier: 41.
-- Differential candidates dominated: 59.
+- Differential candidates on efficient frontier: 24.
+- Differential candidates dominated: 76.
 - Balanced vs Differential top-10 overlap: 0.
-- Balanced vs Differential top-25 overlap: 1.
+- Balanced vs Differential top-25 overlap: 4.
 - Safe for preliminary review: true.
 - Safe for public recommendations: false.
 
@@ -30,23 +30,23 @@ Model stage: fantasy_pool_only. This audit does not promote recommendations, doe
 
 | Pair | Compared rows | Rank limit | Spearman rank correlation |
 | --- | --- | --- | --- |
-| balanced_vs_safe | 142 | 100 | 0.1915 |
-| balanced_vs_upside | 165 | 100 | -0.316 |
-| balanced_vs_differential | 166 | 100 | -0.3154 |
-| balanced_vs_captain | 143 | 100 | 0.1698 |
-| safe_vs_upside | 182 | 100 | -0.498 |
-| safe_vs_differential | 189 | 100 | -0.5701 |
-| safe_vs_captain | 166 | 100 | -0.196 |
-| upside_vs_differential | 136 | 100 | -0.0085 |
-| upside_vs_captain | 172 | 100 | -0.501 |
-| differential_vs_captain | 166 | 100 | -0.4368 |
+| balanced_vs_safe | 136 | 100 | 0.4101 |
+| balanced_vs_upside | 169 | 100 | -0.3844 |
+| balanced_vs_differential | 162 | 100 | -0.285 |
+| balanced_vs_captain | 135 | 100 | 0.439 |
+| safe_vs_upside | 181 | 100 | -0.491 |
+| safe_vs_differential | 170 | 100 | -0.4883 |
+| safe_vs_captain | 155 | 100 | 0.0764 |
+| upside_vs_differential | 158 | 100 | -0.1162 |
+| upside_vs_captain | 165 | 100 | -0.3304 |
+| differential_vs_captain | 169 | 100 | -0.5478 |
 
 ## Mode Overlap
 
 | Pair | Top-10 overlap | Top-25 overlap |
 | --- | --- | --- |
-| Balanced vs Safe | 2 | 8 |
-| Balanced vs Differential | 0 | 1 |
+| Balanced vs Safe | 4 | 14 |
+| Balanced vs Differential | 0 | 4 |
 | Safe vs Differential | 0 | 0 |
 | Upside vs Captain Alpha | 0 | 0 |
 
@@ -54,21 +54,21 @@ Model stage: fantasy_pool_only. This audit does not promote recommendations, doe
 
 | Mode | Winner | Country | Pos | Scope | Score | Price |
 | --- | --- | --- | --- | --- | --- | --- |
-| Balanced | Lionel Messi | Argentina | FWD | md3 | 82.947 | 10 |
-| Safe | Camilo Vargas | Colombia | GK | md1 | 89.896 | 4.3 |
-| Upside | Luis Suárez | Colombia | FWD | md1 | 77.474 | 5.7 |
-| Differential | Giorgian de Arrascaeta | Uruguay | MID | md1 | 88.724 | 6.5 |
-| Captain Alpha | Lionel Messi | Argentina | FWD | md3 | 98.178 | 10 |
+| Balanced | Lionel Messi | Argentina | FWD | md3 | 82.411 | 10 |
+| Safe | Enzo Fernández | Argentina | MID | md3 | 83.792 | 7.5 |
+| Upside | Luis Suárez | Colombia | FWD | md2 | 79.582 | 5.7 |
+| Differential | Hiroki Ito | Japan | DEF | md2 | 84.686 | 3.9 |
+| Captain Alpha | Lionel Messi | Argentina | FWD | md3 | 98.623 | 10 |
 
 ## Mode Distributions
 
 | Mode | Positions | Price buckets | Confidence | Matchdays | Top countries |
 | --- | --- | --- | --- | --- | --- |
-| Balanced | DEF: 40; MID: 24; FWD: 23; GK: 13 | 8.0+: 37; 4.0-4.9: 33; 5.0-6.4: 17; 6.5-7.9: 9; under_4.0: 4 | high: 100 | group_stage_full: 25; md1: 25; md2: 25; md3: 25 | Argentina: 24; Colombia: 12; England: 10; Spain: 10; Portugal: 9; France: 8; Germany: 5; Japan: 4; Belgium: 3; Brazil: 3 |
-| Safe | DEF: 40; GK: 24; MID: 20; FWD: 16 | 4.0-4.9: 40; 5.0-6.4: 25; 8.0+: 19; 6.5-7.9: 15; under_4.0: 1 | high: 100 | group_stage_full: 25; md1: 25; md2: 25; md3: 25 | Argentina: 23; England: 19; Portugal: 15; Colombia: 12; Spain: 8; Germany: 5; Netherlands: 5; Belgium: 4; Brazil: 2; France: 2 |
-| Upside | FWD: 40; DEF: 31; MID: 29 | 5.0-6.4: 42; 4.0-4.9: 33; 6.5-7.9: 18; 8.0+: 6; under_4.0: 1 | high: 99; medium: 1 | group_stage_full: 25; md1: 25; md2: 25; md3: 25 | Argentina: 18; Croatia: 11; Portugal: 8; Belgium: 7; Colombia: 7; Spain: 6; England: 5; Germany: 5; Japan: 5; Netherlands: 5 |
-| Differential | DEF: 35; FWD: 29; MID: 28; GK: 8 | 5.0-6.4: 39; 4.0-4.9: 28; under_4.0: 14; 6.5-7.9: 12; 8.0+: 7 | high: 100 | group_stage_full: 25; md1: 25; md2: 25; md3: 25 | Argentina: 12; Colombia: 11; Uruguay: 10; Japan: 9; Croatia: 8; Ecuador: 8; Belgium: 7; Portugal: 6; England: 5; Spain: 5 |
-| Captain Alpha | FWD: 48; MID: 40; DEF: 12 | 8.0+: 50; 6.5-7.9: 27; 5.0-6.4: 17; 4.0-4.9: 6 | high: 100 | group_stage_full: 25; md1: 25; md2: 25; md3: 25 | Argentina: 20; Portugal: 12; Spain: 9; France: 8; England: 7; Uruguay: 7; Belgium: 4; Germany: 4; Brazil: 3; Colombia: 3 |
+| Balanced | DEF: 33; FWD: 30; MID: 24; GK: 13 | 8.0+: 39; 5.0-6.4: 22; 4.0-4.9: 20; 6.5-7.9: 14; under_4.0: 5 | high: 100 | group_stage_full: 25; md1: 25; md2: 25; md3: 25 | Argentina: 19; Colombia: 13; England: 12; Portugal: 11; Spain: 9; France: 8; Germany: 6; Belgium: 4; Japan: 4; Brazil: 3 |
+| Safe | DEF: 30; FWD: 26; GK: 22; MID: 22 | 4.0-4.9: 31; 6.5-7.9: 24; 8.0+: 23; 5.0-6.4: 20; under_4.0: 2 | high: 100 | group_stage_full: 25; md1: 25; md2: 25; md3: 25 | Argentina: 22; England: 17; Colombia: 10; Spain: 9; Portugal: 7; Ecuador: 5; Germany: 5; Netherlands: 5; Uruguay: 4; Japan: 3 |
+| Upside | FWD: 40; DEF: 32; MID: 28 | 5.0-6.4: 43; 6.5-7.9: 26; 4.0-4.9: 19; under_4.0: 8; 8.0+: 4 | high: 96; medium: 4 | group_stage_full: 25; md1: 25; md2: 25; md3: 25 | Argentina: 9; Colombia: 9; Croatia: 9; Japan: 9; Belgium: 8; England: 7; Spain: 7; Netherlands: 5; Brazil: 4; Czechia: 4 |
+| Differential | DEF: 36; MID: 29; FWD: 23; GK: 12 | 5.0-6.4: 38; 6.5-7.9: 24; 4.0-4.9: 22; under_4.0: 10; 8.0+: 6 | high: 100 | group_stage_full: 25; md1: 25; md2: 25; md3: 25 | Argentina: 11; Brazil: 11; Colombia: 11; Ecuador: 9; England: 7; Japan: 7; Croatia: 6; Czechia: 5; France: 5; Portugal: 4 |
+| Captain Alpha | FWD: 48; MID: 40; DEF: 12 | 8.0+: 52; 6.5-7.9: 27; 5.0-6.4: 16; 4.0-4.9: 5 | high: 98; medium: 2 | group_stage_full: 25; md1: 25; md2: 25; md3: 25 | Argentina: 12; France: 12; Portugal: 11; England: 10; Spain: 8; Brazil: 6; Germany: 6; Netherlands: 5; Belgium: 4; Colombia: 4 |
 
 ## Distinct Purpose Assessment
 
@@ -84,131 +84,131 @@ Differential has limited overlap where finance value supports it, which is the i
 
 | Name | Country | Pos | Scope | Opponent | Price | Risk | VOR | Scarcity value | Pts/price | Risk/price | Frontier | Dominated | Opp cost | Def score |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Lionel Messi | Argentina | FWD | group_stage_full | Group stage average | 10 | 22.65 | 9.009 | 9.109 | 2.4357 | 2.265 | true | false | 0 | 100 |
-| Lamine Yamal Nasraoui Ebana | Spain | MID | group_stage_full | Group stage average | 10 | 24.011 | 7.559 | 8.132 | 2.5819 | 2.4011 | true | false | 0 | 100 |
-| Harry Kane | England | FWD | group_stage_full | Group stage average | 10.5 | 20.803 | 7.162 | 7.342 | 2.1304 | 1.9812 | false | true | 1.847 | 96.227 |
-| Raphael Dias Belloli | Brazil | MID | group_stage_full | Group stage average | 8.2 | 23.187 | 6.735 | 7.308 | 3.0402 | 2.8277 | true | false | 0.824 | 100 |
-| Kylian Mbappé | France | FWD | group_stage_full | Group stage average | 10.5 | 19.907 | 6.266 | 6.446 | 2.0386 | 1.8959 | false | true | 2.743 | 92.475 |
-| Michael Olise | France | MID | group_stage_full | Group stage average | 9.5 | 22.576 | 6.124 | 6.697 | 2.5553 | 2.3764 | false | true | 1.435 | 89.715 |
-| Nuno Alexandre Tavares Mendes | Portugal | DEF | group_stage_full | Group stage average | 5.8 | 20.164 | 5.046 | 5.69 | 3.7379 | 3.4766 | true | false | 0 | 100 |
-| Luis Díaz | Colombia | MID | group_stage_full | Group stage average | 8.1 | 20.979 | 4.527 | 5.18 | 2.7851 | 2.59 | true | false | 3.032 | 100 |
-| Vinícius José Paixão de Oliveira Júnior | Brazil | MID | group_stage_full | Group stage average | 10 | 20.859 | 4.407 | 4.98 | 2.2429 | 2.0859 | false | true | 3.152 | 85.523 |
-| Enzo Fernández | Argentina | MID | group_stage_full | Group stage average | 7.5 | 20.792 | 4.34 | 4.833 | 2.9811 | 2.7723 | true | false | 0 | 100 |
-| Lautaro Martínez | Argentina | FWD | group_stage_full | Group stage average | 8.8 | 17.914 | 4.273 | 4.373 | 2.1889 | 2.0357 | false | true | 4.736 | 85.052 |
-| Cristiano Ronaldo dos Santos Aveiro | Portugal | FWD | group_stage_full | Group stage average | 10 | 17.589 | 3.948 | 4.128 | 1.8912 | 1.7589 | false | true | 5.061 | 81.997 |
-| Bruno Miguel Borges Fernandes | Portugal | MID | group_stage_full | Group stage average | 8.5 | 20.317 | 3.865 | 4.438 | 2.57 | 2.3902 | false | true | 3.694 | 87.879 |
-| Nicolás Tagliafico | Argentina | DEF | group_stage_full | Group stage average | 4.3 | 18.873 | 3.755 | 4.319 | 4.7195 | 4.3891 | true | false | 0 | 100 |
-| Julián Alvarez | Argentina | FWD | group_stage_full | Group stage average | 8.6 | 16.988 | 3.347 | 3.447 | 2.124 | 1.9753 | false | true | 5.662 | 74.844 |
+| Lionel Messi | Argentina | FWD | group_stage_full | Group stage average | 10 | 22.65 | 9.149 | 9.329 | 2.4357 | 2.265 | true | false | 0 | 100 |
+| Raphael Dias Belloli | Brazil | MID | group_stage_full | Group stage average | 8.2 | 23.237 | 7.926 | 8.106 | 3.047 | 2.8338 | true | false | 0 | 100 |
+| Michael Olise | France | MID | group_stage_full | Group stage average | 9.5 | 22.788 | 7.477 | 7.657 | 2.5793 | 2.3987 | false | true | 0.449 | 92.673 |
+| Harry Kane | England | FWD | group_stage_full | Group stage average | 10.5 | 20.803 | 7.302 | 7.482 | 2.1304 | 1.9812 | false | true | 1.847 | 96.227 |
+| Nuno Alexandre Tavares Mendes | Portugal | DEF | group_stage_full | Group stage average | 5.8 | 20.049 | 6.793 | 7.16 | 3.7171 | 3.4567 | true | false | 0 | 100 |
+| Ousmane Dembélé | France | MID | group_stage_full | Group stage average | 10 | 22.032 | 6.721 | 6.901 | 2.3692 | 2.2032 | false | true | 1.205 | 85.065 |
+| Kylian Mbappé | France | FWD | group_stage_full | Group stage average | 10.5 | 19.973 | 6.472 | 6.652 | 2.0453 | 1.9022 | false | true | 2.677 | 92.673 |
+| Luis Díaz | Colombia | MID | group_stage_full | Group stage average | 8.1 | 21.38 | 6.069 | 6.249 | 2.8381 | 2.6395 | true | false | 1.857 | 100 |
+| Vinícius José Paixão de Oliveira Júnior | Brazil | MID | group_stage_full | Group stage average | 10 | 21.023 | 5.712 | 5.892 | 2.2605 | 2.1023 | false | true | 2.214 | 88.418 |
+| Enzo Fernández | Argentina | MID | group_stage_full | Group stage average | 7.5 | 20.829 | 5.518 | 5.698 | 2.9863 | 2.7772 | true | false | 0 | 100 |
+| Bruno Miguel Borges Fernandes | Portugal | MID | group_stage_full | Group stage average | 8.5 | 20.46 | 5.149 | 5.409 | 2.5884 | 2.4071 | false | true | 2.777 | 93.689 |
+| Ferran Torres | Spain | FWD | group_stage_full | Group stage average | 7.8 | 18.337 | 4.836 | 5.016 | 2.5279 | 2.3509 | false | true | 0 | 96.68 |
+| Emiliano Martínez | Argentina | GK | group_stage_full | Group stage average | 5 | 16.646 | 4.804 | 4.984 | 3.5798 | 3.3292 | true | false | 0 | 100 |
+| Nico O'Reilly | England | DEF | group_stage_full | Group stage average | 4.7 | 17.919 | 4.663 | 4.95 | 4.0998 | 3.8126 | true | false | 0 | 100 |
+| Cristiano Ronaldo dos Santos Aveiro | Portugal | FWD | group_stage_full | Group stage average | 10 | 17.94 | 4.439 | 4.699 | 1.929 | 1.794 | false | true | 4.71 | 85.646 |
 
 ## Scarcity-Adjusted Value Leaders
 
 | Name | Country | Pos | Scope | Opponent | Price | Risk | VOR | Scarcity value | Pts/price | Risk/price | Frontier | Dominated | Opp cost | Def score |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Lionel Messi | Argentina | FWD | group_stage_full | Group stage average | 10 | 22.65 | 9.009 | 9.109 | 2.4357 | 2.265 | true | false | 0 | 100 |
-| Lamine Yamal Nasraoui Ebana | Spain | MID | group_stage_full | Group stage average | 10 | 24.011 | 7.559 | 8.132 | 2.5819 | 2.4011 | true | false | 0 | 100 |
-| Harry Kane | England | FWD | group_stage_full | Group stage average | 10.5 | 20.803 | 7.162 | 7.342 | 2.1304 | 1.9812 | false | true | 1.847 | 96.227 |
-| Raphael Dias Belloli | Brazil | MID | group_stage_full | Group stage average | 8.2 | 23.187 | 6.735 | 7.308 | 3.0402 | 2.8277 | true | false | 0.824 | 100 |
-| Michael Olise | France | MID | group_stage_full | Group stage average | 9.5 | 22.576 | 6.124 | 6.697 | 2.5553 | 2.3764 | false | true | 1.435 | 89.715 |
-| Kylian Mbappé | France | FWD | group_stage_full | Group stage average | 10.5 | 19.907 | 6.266 | 6.446 | 2.0386 | 1.8959 | false | true | 2.743 | 92.475 |
-| Nuno Alexandre Tavares Mendes | Portugal | DEF | group_stage_full | Group stage average | 5.8 | 20.164 | 5.046 | 5.69 | 3.7379 | 3.4766 | true | false | 0 | 100 |
-| Luis Díaz | Colombia | MID | group_stage_full | Group stage average | 8.1 | 20.979 | 4.527 | 5.18 | 2.7851 | 2.59 | true | false | 3.032 | 100 |
-| Vinícius José Paixão de Oliveira Júnior | Brazil | MID | group_stage_full | Group stage average | 10 | 20.859 | 4.407 | 4.98 | 2.2429 | 2.0859 | false | true | 3.152 | 85.523 |
-| Enzo Fernández | Argentina | MID | group_stage_full | Group stage average | 7.5 | 20.792 | 4.34 | 4.833 | 2.9811 | 2.7723 | true | false | 0 | 100 |
-| Bruno Miguel Borges Fernandes | Portugal | MID | group_stage_full | Group stage average | 8.5 | 20.317 | 3.865 | 4.438 | 2.57 | 2.3902 | false | true | 3.694 | 87.879 |
-| Lautaro Martínez | Argentina | FWD | group_stage_full | Group stage average | 8.8 | 17.914 | 4.273 | 4.373 | 2.1889 | 2.0357 | false | true | 4.736 | 85.052 |
-| Nicolás Tagliafico | Argentina | DEF | group_stage_full | Group stage average | 4.3 | 18.873 | 3.755 | 4.319 | 4.7195 | 4.3891 | true | false | 0 | 100 |
-| Cristiano Ronaldo dos Santos Aveiro | Portugal | FWD | group_stage_full | Group stage average | 10 | 17.589 | 3.948 | 4.128 | 1.8912 | 1.7589 | false | true | 5.061 | 81.997 |
-| Nico O'Reilly | England | DEF | group_stage_full | Group stage average | 4.7 | 18.133 | 3.015 | 3.659 | 4.1487 | 3.8581 | false | true | 0.74 | 88.399 |
+| Lionel Messi | Argentina | FWD | group_stage_full | Group stage average | 10 | 22.65 | 9.149 | 9.329 | 2.4357 | 2.265 | true | false | 0 | 100 |
+| Raphael Dias Belloli | Brazil | MID | group_stage_full | Group stage average | 8.2 | 23.237 | 7.926 | 8.106 | 3.047 | 2.8338 | true | false | 0 | 100 |
+| Michael Olise | France | MID | group_stage_full | Group stage average | 9.5 | 22.788 | 7.477 | 7.657 | 2.5793 | 2.3987 | false | true | 0.449 | 92.673 |
+| Harry Kane | England | FWD | group_stage_full | Group stage average | 10.5 | 20.803 | 7.302 | 7.482 | 2.1304 | 1.9812 | false | true | 1.847 | 96.227 |
+| Nuno Alexandre Tavares Mendes | Portugal | DEF | group_stage_full | Group stage average | 5.8 | 20.049 | 6.793 | 7.16 | 3.7171 | 3.4567 | true | false | 0 | 100 |
+| Ousmane Dembélé | France | MID | group_stage_full | Group stage average | 10 | 22.032 | 6.721 | 6.901 | 2.3692 | 2.2032 | false | true | 1.205 | 85.065 |
+| Kylian Mbappé | France | FWD | group_stage_full | Group stage average | 10.5 | 19.973 | 6.472 | 6.652 | 2.0453 | 1.9022 | false | true | 2.677 | 92.673 |
+| Luis Díaz | Colombia | MID | group_stage_full | Group stage average | 8.1 | 21.38 | 6.069 | 6.249 | 2.8381 | 2.6395 | true | false | 1.857 | 100 |
+| Vinícius José Paixão de Oliveira Júnior | Brazil | MID | group_stage_full | Group stage average | 10 | 21.023 | 5.712 | 5.892 | 2.2605 | 2.1023 | false | true | 2.214 | 88.418 |
+| Enzo Fernández | Argentina | MID | group_stage_full | Group stage average | 7.5 | 20.829 | 5.518 | 5.698 | 2.9863 | 2.7772 | true | false | 0 | 100 |
+| Bruno Miguel Borges Fernandes | Portugal | MID | group_stage_full | Group stage average | 8.5 | 20.46 | 5.149 | 5.409 | 2.5884 | 2.4071 | false | true | 2.777 | 93.689 |
+| Ferran Torres | Spain | FWD | group_stage_full | Group stage average | 7.8 | 18.337 | 4.836 | 5.016 | 2.5279 | 2.3509 | false | true | 0 | 96.68 |
+| Emiliano Martínez | Argentina | GK | group_stage_full | Group stage average | 5 | 16.646 | 4.804 | 4.984 | 3.5798 | 3.3292 | true | false | 0 | 100 |
+| Nico O'Reilly | England | DEF | group_stage_full | Group stage average | 4.7 | 17.919 | 4.663 | 4.95 | 4.0998 | 3.8126 | true | false | 0 | 100 |
+| Cristiano Ronaldo dos Santos Aveiro | Portugal | FWD | group_stage_full | Group stage average | 10 | 17.94 | 4.439 | 4.699 | 1.929 | 1.794 | false | true | 4.71 | 85.646 |
 
 ## Risk-Adjusted Points Per Price Leaders
 
 | Name | Country | Pos | Scope | Opponent | Price | Risk | VOR | Scarcity value | Pts/price | Risk/price | Frontier | Dominated | Opp cost | Def score |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Nicolás Tagliafico | Argentina | DEF | group_stage_full | Group stage average | 4.3 | 18.873 | 3.755 | 4.319 | 4.7195 | 4.3891 | true | false | 0 | 100 |
-| Nahuel Molina | Argentina | DEF | group_stage_full | Group stage average | 4.4 | 17.143 | 2.025 | 2.589 | 4.1895 | 3.8961 | false | true | 1.73 | 77.177 |
-| Silvan Widmer | Switzerland | DEF | group_stage_full | Group stage average | 4.2 | 16.21 | 1.092 | 1.886 | 4.1498 | 3.8595 | true | false | 2.663 | 83.164 |
-| Nico O'Reilly | England | DEF | group_stage_full | Group stage average | 4.7 | 18.133 | 3.015 | 3.659 | 4.1487 | 3.8581 | false | true | 0.74 | 88.399 |
-| Jarell Quansah | England | DEF | group_stage_full | Group stage average | 4.4 | 15.874 | 0.756 | 1.4 | 3.8791 | 3.6077 | false | true | 2.999 | 58.736 |
-| Gonzalo Montiel | Argentina | DEF | group_stage_full | Group stage average | 4.3 | 15.489 | 0.371 | 0.935 | 3.8733 | 3.6021 | false | true | 3.384 | 49.115 |
-| Nicolás Otamendi | Argentina | DEF | group_stage_full | Group stage average | 4.4 | 15.768 | 0.65 | 1.214 | 3.8534 | 3.5836 | false | true | 3.105 | 59.662 |
-| Camilo Vargas | Colombia | GK | group_stage_full | Group stage average | 4.3 | 15.394 | 1.78 | 2.12 | 3.8491 | 3.58 | false | true | 0 | 80.38 |
-| Santiago Mele | Uruguay | GK | group_stage_full | Group stage average | 3.5 | 12.254 | -1.36 | -0.78 | 3.7649 | 3.5011 | true | false | 0 | 65.244 |
-| David Raum | Germany | DEF | group_stage_full | Group stage average | 4.9 | 17.04 | 1.922 | 2.646 | 3.7394 | 3.4776 | false | true | 1.833 | 75.378 |
-| Nuno Alexandre Tavares Mendes | Portugal | DEF | group_stage_full | Group stage average | 5.8 | 20.164 | 5.046 | 5.69 | 3.7379 | 3.4766 | true | false | 0 | 100 |
-| Hiroki Ito | Japan | DEF | group_stage_full | Group stage average | 3.9 | 13.482 | -1.636 | -1.012 | 3.7169 | 3.4569 | true | false | 0 | 62.537 |
-| Johan Mojica | Colombia | DEF | group_stage_full | Group stage average | 3.9 | 13.394 | -1.724 | -1.17 | 3.6928 | 3.4344 | true | false | 0.088 | 62.341 |
-| Santiago Arias | Colombia | DEF | group_stage_full | Group stage average | 3.9 | 13.33 | -1.788 | -1.234 | 3.6749 | 3.4179 | true | false | 0.152 | 59.985 |
-| Zeno Debast | Belgium | DEF | group_stage_full | Group stage average | 4.3 | 14.521 | -0.597 | 0.127 | 3.6312 | 3.377 | false | true | 4.352 | 42.567 |
+| Nico O'Reilly | England | DEF | group_stage_full | Group stage average | 4.7 | 17.919 | 4.663 | 4.95 | 4.0998 | 3.8126 | true | false | 0 | 100 |
+| Gonzalo Montiel | Argentina | DEF | group_stage_full | Group stage average | 4.3 | 15.336 | 2.08 | 2.367 | 3.8351 | 3.5665 | true | false | 2.583 | 85.5 |
+| Camilo Vargas | Colombia | GK | group_stage_full | Group stage average | 4.3 | 15.063 | 3.221 | 3.231 | 3.7665 | 3.503 | false | true | 0.037 | 93.359 |
+| Nuno Alexandre Tavares Mendes | Portugal | DEF | group_stage_full | Group stage average | 5.8 | 20.049 | 6.793 | 7.16 | 3.7171 | 3.4567 | true | false | 0 | 100 |
+| Hiroki Ito | Japan | DEF | group_stage_full | Group stage average | 3.9 | 13.466 | 0.21 | 0.407 | 3.7126 | 3.4528 | true | false | 0 | 79.289 |
+| Johan Mojica | Colombia | DEF | group_stage_full | Group stage average | 3.9 | 13.169 | -0.087 | 0.03 | 3.631 | 3.3767 | false | true | 0.297 | 58.336 |
+| Santiago Arias | Colombia | DEF | group_stage_full | Group stage average | 3.9 | 13.118 | -0.138 | -0.021 | 3.6169 | 3.3636 | false | true | 0.348 | 56.149 |
+| Emiliano Martínez | Argentina | GK | group_stage_full | Group stage average | 5 | 16.646 | 4.804 | 4.984 | 3.5798 | 3.3292 | true | false | 0 | 100 |
+| Daniel Muñoz | Colombia | DEF | group_stage_full | Group stage average | 4.6 | 15.148 | 1.892 | 2.179 | 3.5407 | 3.293 | false | true | 2.771 | 71.976 |
+| Brandon Mechele | Belgium | DEF | group_stage_full | Group stage average | 3.9 | 12.732 | -0.524 | -0.407 | 3.51 | 3.2646 | false | true | 0.734 | 45.707 |
+| Joel Ordóñez | Ecuador | DEF | group_stage_full | Group stage average | 3.9 | 12.649 | -0.607 | -0.34 | 3.4872 | 3.2433 | false | true | 0.817 | 52.176 |
+| Charles De Ketelaere | Belgium | MID | group_stage_full | Group stage average | 5.6 | 17.979 | 2.668 | 2.848 | 3.4521 | 3.2105 | true | false | 0 | 94.784 |
+| Cristian Romero | Argentina | DEF | group_stage_full | Group stage average | 4.9 | 15.598 | 2.342 | 2.629 | 3.4231 | 3.1833 | false | true | 2.321 | 77.826 |
+| Marc Cucurella | Spain | DEF | group_stage_full | Group stage average | 5.1 | 16.173 | 2.917 | 3.204 | 3.4098 | 3.1712 | false | true | 3.876 | 77.451 |
+| Alisson Ramsés Becker | Brazil | GK | group_stage_full | Group stage average | 5 | 15.838 | 3.996 | 4.176 | 3.4062 | 3.1676 | false | true | 0.808 | 99.16 |
 
 ## Efficient Frontier Sample
 
 | Name | Country | Pos | Scope | Opponent | Price | Risk | VOR | Scarcity value | Pts/price | Risk/price | Frontier | Dominated | Opp cost | Def score |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Lionel Messi | Argentina | FWD | group_stage_full | Group stage average | 10 | 22.65 | 9.009 | 9.109 | 2.4357 | 2.265 | true | false | 0 | 100 |
-| Lamine Yamal Nasraoui Ebana | Spain | MID | group_stage_full | Group stage average | 10 | 24.011 | 7.559 | 8.132 | 2.5819 | 2.4011 | true | false | 0 | 100 |
-| Raphael Dias Belloli | Brazil | MID | group_stage_full | Group stage average | 8.2 | 23.187 | 6.735 | 7.308 | 3.0402 | 2.8277 | true | false | 0.824 | 100 |
-| Nuno Alexandre Tavares Mendes | Portugal | DEF | group_stage_full | Group stage average | 5.8 | 20.164 | 5.046 | 5.69 | 3.7379 | 3.4766 | true | false | 0 | 100 |
-| Luis Díaz | Colombia | MID | group_stage_full | Group stage average | 8.1 | 20.979 | 4.527 | 5.18 | 2.7851 | 2.59 | true | false | 3.032 | 100 |
-| Enzo Fernández | Argentina | MID | group_stage_full | Group stage average | 7.5 | 20.792 | 4.34 | 4.833 | 2.9811 | 2.7723 | true | false | 0 | 100 |
-| Nicolás Tagliafico | Argentina | DEF | group_stage_full | Group stage average | 4.3 | 18.873 | 3.755 | 4.319 | 4.7195 | 4.3891 | true | false | 0 | 100 |
-| Emiliano Martínez | Argentina | GK | group_stage_full | Group stage average | 5 | 16.878 | 3.264 | 3.614 | 3.6294 | 3.3756 | true | false | 0 | 100 |
-| Lionel Messi | Argentina | FWD | md3 | Jordan | 10 | 7.55 | 2.658 | 3.488 | 0.8119 | 0.755 | true | false | 0 | 100 |
-| Lamine Yamal Nasraoui Ebana | Spain | MID | md1 | Cabo Verde | 10 | 8.076 | 2.69 | 3.487 | 0.8684 | 0.8076 | true | false | 0 | 97.261 |
-| Mikel Oyarzabal | Spain | FWD | group_stage_full | Group stage average | 8.1 | 16.88 | 3.239 | 3.419 | 2.2409 | 2.084 | true | false | 5.77 | 91.036 |
-| Nuno Alexandre Tavares Mendes | Portugal | DEF | md1 | Congo DR | 5.8 | 7.62 | 2.344 | 3.383 | 1.4126 | 1.3138 | true | false | 0 | 100 |
-| Lamine Yamal Nasraoui Ebana | Spain | MID | md3 | Uruguay | 10 | 7.859 | 2.413 | 3.352 | 0.8451 | 0.7859 | true | false | 0 | 95.056 |
-| Lionel Messi | Argentina | FWD | md1 | Algeria | 10 | 7.55 | 2.811 | 3.341 | 0.8119 | 0.755 | true | false | 0 | 100 |
-| Luis Díaz | Colombia | MID | md1 | Uzbekistan | 8.1 | 7.877 | 2.491 | 3.288 | 1.0457 | 0.9725 | true | false | 0.199 | 96.562 |
+| Lionel Messi | Argentina | FWD | group_stage_full | Group stage average | 10 | 22.65 | 9.149 | 9.329 | 2.4357 | 2.265 | true | false | 0 | 100 |
+| Raphael Dias Belloli | Brazil | MID | group_stage_full | Group stage average | 8.2 | 23.237 | 7.926 | 8.106 | 3.047 | 2.8338 | true | false | 0 | 100 |
+| Nuno Alexandre Tavares Mendes | Portugal | DEF | group_stage_full | Group stage average | 5.8 | 20.049 | 6.793 | 7.16 | 3.7171 | 3.4567 | true | false | 0 | 100 |
+| Luis Díaz | Colombia | MID | group_stage_full | Group stage average | 8.1 | 21.38 | 6.069 | 6.249 | 2.8381 | 2.6395 | true | false | 1.857 | 100 |
+| Enzo Fernández | Argentina | MID | group_stage_full | Group stage average | 7.5 | 20.829 | 5.518 | 5.698 | 2.9863 | 2.7772 | true | false | 0 | 100 |
+| Emiliano Martínez | Argentina | GK | group_stage_full | Group stage average | 5 | 16.646 | 4.804 | 4.984 | 3.5798 | 3.3292 | true | false | 0 | 100 |
+| Nico O'Reilly | England | DEF | group_stage_full | Group stage average | 4.7 | 17.919 | 4.663 | 4.95 | 4.0998 | 3.8126 | true | false | 0 | 100 |
+| Nuno Alexandre Tavares Mendes | Portugal | DEF | md1 | Congo DR | 5.8 | 7.618 | 2.527 | 3.587 | 1.4124 | 1.3134 | true | false | 0 | 100 |
+| Lionel Messi | Argentina | FWD | md1 | Algeria | 10 | 7.55 | 3.096 | 3.526 | 0.8119 | 0.755 | true | false | 0 | 100 |
+| Nuno Alexandre Tavares Mendes | Portugal | DEF | md2 | Uzbekistan | 5.8 | 7.565 | 2.398 | 3.458 | 1.4026 | 1.3043 | true | false | 0 | 100 |
+| Lionel Messi | Argentina | FWD | md3 | Jordan | 10 | 7.55 | 3.012 | 3.442 | 0.8119 | 0.755 | true | false | 0 | 100 |
+| Luis Díaz | Colombia | MID | md1 | Uzbekistan | 8.1 | 7.878 | 2.561 | 3.135 | 1.0458 | 0.9726 | true | false | 0 | 96.967 |
+| Raphael Dias Belloli | Brazil | MID | md3 | Scotland | 8.2 | 7.789 | 2.218 | 3.015 | 1.0213 | 0.9499 | true | false | 0 | 94.429 |
+| Raphael Dias Belloli | Brazil | MID | md2 | Haiti | 8.2 | 7.936 | 2.424 | 2.907 | 1.0406 | 0.9678 | true | false | 0.008 | 95.207 |
+| Luis Díaz | Colombia | MID | md2 | Congo DR | 8.1 | 7.899 | 2.387 | 2.87 | 1.0485 | 0.9752 | true | false | 0.045 | 94.726 |
 
 ## Dominated Player Sample
 
 | Name | Country | Pos | Scope | Opponent | Price | Risk | VOR | Scarcity value | Pts/price | Risk/price | Frontier | Dominated | Opp cost | Def score |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Min-Jae Kim | Korea Republic | DEF | group_stage_full | Group stage average | 5 | 0.184 | -14.934 | -14.14 | 0.2456 | 0.0368 | false | true | 19.98 | 0 |
-| Marcos Aoás Corrêa | Brazil | DEF | group_stage_full | Group stage average | 5.2 | 0.234 | -14.884 | -14.24 | 0.254 | 0.045 | false | true | 19.93 | 0 |
-| Neymar da Silva Santos Júnior | Brazil | MID | group_stage_full | Group stage average | 7.2 | 1.789 | -14.663 | -14.09 | 0.4031 | 0.2485 | false | true | 19.003 | 0 |
-| Pablo Páez Gavira | Spain | MID | group_stage_full | Group stage average | 6.5 | 1.849 | -14.603 | -14.03 | 0.4594 | 0.2845 | false | true | 18.943 | 0 |
-| Amir Murillo | Panama | DEF | group_stage_full | Group stage average | 5 | 1.416 | -13.702 | -12.908 | 0.4764 | 0.2832 | false | true | 18.748 | 0 |
-| Jordan Bos | Australia | DEF | group_stage_full | Group stage average | 4 | 0.171 | -14.947 | -14.153 | 0.301 | 0.0428 | false | true | 18.702 | 0 |
-| Jacob Italiano | Australia | DEF | group_stage_full | Group stage average | 4.2 | 0.171 | -14.947 | -14.153 | 0.2867 | 0.0407 | false | true | 18.702 | 0 |
-| José Murillo | Panama | DEF | group_stage_full | Group stage average | 4.3 | 0.178 | -14.94 | -14.146 | 0.2835 | 0.0414 | false | true | 18.695 | 0 |
-| Young-Woo Seol | Korea Republic | DEF | group_stage_full | Group stage average | 4.2 | 0.184 | -14.934 | -14.14 | 0.2924 | 0.0438 | false | true | 18.689 | 0 |
-| Gi-Hyuk Lee | Korea Republic | DEF | group_stage_full | Group stage average | 4.5 | 0.184 | -14.934 | -14.14 | 0.2729 | 0.0409 | false | true | 18.689 | 0 |
-| Omar Alderete | Paraguay | DEF | group_stage_full | Group stage average | 4.1 | 0.195 | -14.923 | -14.129 | 0.3049 | 0.0476 | false | true | 18.678 | 0 |
-| Fabián Balbuena | Paraguay | DEF | group_stage_full | Group stage average | 4 | 0.195 | -14.923 | -14.129 | 0.3125 | 0.0488 | false | true | 18.678 | 0 |
-| Roger Ibañez da Silva | Brazil | DEF | group_stage_full | Group stage average | 4.4 | 0.234 | -14.884 | -14.24 | 0.3002 | 0.0532 | false | true | 18.639 | 0 |
-| Danilo Luiz da Silva | Brazil | DEF | group_stage_full | Group stage average | 4.3 | 0.234 | -14.884 | -14.24 | 0.3072 | 0.0544 | false | true | 18.639 | 0 |
-| Gleison Bremer Silva Nascimento | Brazil | DEF | group_stage_full | Group stage average | 4.3 | 0.234 | -14.884 | -14.24 | 0.3072 | 0.0544 | false | true | 18.639 | 0 |
+| Neymar da Silva Santos Júnior | Brazil | MID | group_stage_full | Group stage average | 7.2 | 0.449 | -14.862 | -14.682 | 0.1444 | 0.0624 | false | true | 20.38 | 0 |
+| Amir Murillo | Panama | DEF | group_stage_full | Group stage average | 5 | 1.408 | -11.848 | -11.411 | 0.4744 | 0.2816 | false | true | 18.641 | 0 |
+| Awer Mabil | Australia | MID | group_stage_full | Group stage average | 5.6 | 0.069 | -15.242 | -14.912 | 0.1816 | 0.0123 | false | true | 17.91 | 0 |
+| Ajdin Hrustic | Australia | MID | group_stage_full | Group stage average | 5.7 | 0.069 | -15.242 | -14.912 | 0.1784 | 0.0121 | false | true | 17.91 | 0 |
+| Jackson Irvine | Australia | MID | group_stage_full | Group stage average | 5.6 | 0.069 | -15.242 | -14.912 | 0.1816 | 0.0123 | false | true | 17.91 | 0 |
+| Cristian Volpato | Australia | MID | group_stage_full | Group stage average | 6 | 0.069 | -15.242 | -14.912 | 0.1695 | 0.0115 | false | true | 17.91 | 0 |
+| Jun-Ho Bae | Korea Republic | MID | group_stage_full | Group stage average | 5.9 | 0.095 | -15.216 | -14.886 | 0.1805 | 0.0161 | false | true | 17.884 | 0 |
+| Fabián Balbuena | Paraguay | DEF | group_stage_full | Group stage average | 4 | 0.047 | -13.209 | -12.772 | 0.244 | 0.0118 | false | true | 17.872 | 0 |
+| Danilo Luiz da Silva | Brazil | DEF | group_stage_full | Group stage average | 4.3 | 0.077 | -13.179 | -12.892 | 0.2395 | 0.0179 | false | true | 17.842 | 0 |
+| Gleison Bremer Silva Nascimento | Brazil | DEF | group_stage_full | Group stage average | 4.3 | 0.077 | -13.179 | -12.892 | 0.2395 | 0.0179 | false | true | 17.842 | 0 |
+| Fábio Henrique Tavares | Brazil | MID | group_stage_full | Group stage average | 5.2 | 0.193 | -15.118 | -14.938 | 0.2392 | 0.0371 | false | true | 17.786 | 0 |
+| Ronald Araujo | Uruguay | DEF | group_stage_full | Group stage average | 5 | 2.31 | -10.946 | -10.509 | 0.725 | 0.462 | false | true | 17.739 | 0 |
+| Samir Chergui | Algeria | DEF | group_stage_full | Group stage average | 4 | 0.354 | -12.902 | -12.465 | 0.2275 | 0.0885 | false | true | 17.565 | 0 |
+| Moïse Bombito | Canada | DEF | group_stage_full | Group stage average | 4.1 | 0.816 | -12.44 | -12.003 | 0.378 | 0.199 | false | true | 17.103 | 0 |
+| Jorge Sánchez | Mexico | DEF | group_stage_full | Group stage average | 4 | 0.83 | -12.426 | -11.989 | 0.3923 | 0.2075 | false | true | 17.089 | 0 |
 
 ## Differential Finance Top 25
 
 | Rank | Name | Country | Pos | Scope | Price | Score | Tier | Risk | Value | VOR | Scarcity | Frontier | Dominated | Opp cost | Def score | Obviousness |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Giorgian de Arrascaeta | Uruguay | MID | md1 | 6.5 | 88.724 | top_pick_candidate | 7.013 | 1.079 | 1.627 | 2.594 | true | false | 0 | 96.265 | 12 |
-| 1 | Giorgian de Arrascaeta | Uruguay | MID | md2 | 6.5 | 86.457 | top_pick_candidate | 7.271 | 1.119 | 1.699 | 2.595 | true | false | 0 | 96.699 | 17 |
-| 2 | Hiroki Ito | Japan | DEF | md2 | 3.9 | 83.942 | top_pick_candidate | 6.107 | 1.566 | 0.589 | 1.479 | true | false | 0 | 85.85 | 4 |
-| 2 | Julian Ryerson | Norway | DEF | md1 | 4.2 | 83.44 | top_pick_candidate | 6.472 | 1.541 | 1.196 | 2.065 | true | false | 0.366 | 91.964 | 5 |
-| 3 | Luis Suárez | Colombia | FWD | md2 | 5.7 | 82.532 | top_pick_candidate | 5.983 | 1.05 | 0.91 | 1.52 | false | true | 0 | 62.28 | 1 |
-| 3 | Luis Suárez | Colombia | FWD | md1 | 5.7 | 82.356 | top_pick_candidate | 6.015 | 1.055 | 1.276 | 1.886 | false | true | 0 | 65.94 | 2 |
-| 1 | Charles De Ketelaere | Belgium | MID | group_stage_full | 5.6 | 80.024 | top_pick_candidate | 17.659 | 3.153 | 1.207 | 1.86 | true | false | 0 | 82.065 | 1 |
-| 2 | Silvan Widmer | Switzerland | DEF | group_stage_full | 4.2 | 78.446 | strong_candidate | 16.21 | 3.86 | 1.092 | 1.886 | true | false | 2.663 | 83.164 | 3 |
-| 4 | Johan Mojica | Colombia | DEF | md1 | 3.9 | 78.061 | strong_candidate | 5.3 | 1.359 | 0.024 | 0.793 | true | false | 0 | 80.942 | 3 |
-| 3 | Luis Suárez | Colombia | FWD | group_stage_full | 5.7 | 78.044 | strong_candidate | 15.99 | 2.805 | 2.349 | 2.609 | false | true | 0 | 75.27 | 1 |
-| 1 | Ismael Saibari | Morocco | MID | md3 | 6.8 | 77.727 | strong_candidate | 6.114 | 0.899 | 0.668 | 1.537 | true | false | 0.843 | 77.895 | 6 |
-| 5 | Santiago Arias | Colombia | DEF | md1 | 3.9 | 76.491 | strong_candidate | 5.244 | 1.345 | -0.032 | 0.737 | true | false | 0.056 | 78.69 | 3 |
-| 2 | Martin Erlic | Croatia | DEF | md3 | 3.9 | 76.252 | strong_candidate | 5.274 | 1.352 | 0.095 | 0.985 | true | false | 0 | 79.746 | 0 |
-| 4 | Raphael Dias Belloli | Brazil | MID | md2 | 8.2 | 75.764 | strong_candidate | 7.957 | 0.97 | 2.385 | 3.011 | true | false | 0.119 | 95.056 | 20 |
-| 3 | Yahia Fofana | Côte d'Ivoire | GK | md3 | 4.2 | 75.714 | strong_candidate | 5.757 | 1.371 | 1.456 | 1.741 | true | false | 0 | 94.604 | 6 |
-| 4 | Giorgian de Arrascaeta | Uruguay | MID | group_stage_full | 6.5 | 75.591 | strong_candidate | 17.667 | 2.718 | 1.215 | 1.938 | true | false | 3.125 | 81.792 | 9 |
-| 5 | Sergio Rochet | Uruguay | GK | md2 | 4.1 | 75.028 | strong_candidate | 5.566 | 1.358 | 0.561 | 1.351 | true | false | 0.289 | 87.123 | 3 |
-| 6 | Junnosuke Suzuki | Japan | DEF | md2 | 3.5 | 74.75 | strong_candidate | 5.163 | 1.475 | -0.355 | 0.535 | true | false | 0.944 | 72.414 | 0 |
-| 6 | Nicolás Tagliafico | Argentina | DEF | md1 | 4.3 | 74.397 | strong_candidate | 6.305 | 1.466 | 1.029 | 1.818 | true | false | 0.533 | 89.705 | 16 |
-| 7 | Hernán Galíndez | Ecuador | GK | md2 | 4.2 | 74.348 | strong_candidate | 5.488 | 1.307 | 0.483 | 1.343 | true | false | 0.367 | 86.389 | 0 |
-| 4 | Donyell Malen | Netherlands | FWD | md3 | 6.1 | 74.316 | strong_candidate | 5.329 | 0.874 | 0.437 | 1.177 | false | true | 0.206 | 58.112 | 1.5 |
-| 8 | Santiago Mele | Uruguay | GK | md2 | 3.5 | 74.275 | strong_candidate | 5.082 | 1.452 | 0.077 | 1.137 | true | false | 0 | 81.534 | 0 |
-| 5 | Raphael Dias Belloli | Brazil | MID | md3 | 8.2 | 73.767 | strong_candidate | 7.714 | 0.941 | 2.268 | 3.137 | true | false | 0.145 | 94.779 | 18 |
-| 5 | Hiroki Ito | Japan | DEF | group_stage_full | 3.9 | 73.54 | strong_candidate | 13.482 | 3.457 | -1.636 | -1.012 | true | false | 0 | 62.537 | 0 |
-| 7 | Santiago Mele | Uruguay | GK | md1 | 3.5 | 73.406 | strong_candidate | 5.082 | 1.452 | 0 | 1.06 | true | false | 0 | 80.764 | 0 |
+| 1 | Hiroki Ito | Japan | DEF | md2 | 3.9 | 84.686 | top_pick_candidate | 6.146 | 1.576 | 0.979 | 2.039 | true | false | 0 | 90.43 | 4 |
+| 1 | Josip Stanisic | Croatia | DEF | md3 | 4.3 | 79.177 | strong_candidate | 5.883 | 1.368 | 1.284 | 2.264 | true | false | 0.45 | 91.874 | 4.5 |
+| 1 | Hiroki Ito | Japan | DEF | group_stage_full | 3.9 | 76.059 | strong_candidate | 13.466 | 3.453 | 0.21 | 0.407 | true | false | 0 | 79.289 | 0 |
+| 2 | Nico O'Reilly | England | DEF | group_stage_full | 4.7 | 75.309 | strong_candidate | 17.919 | 3.813 | 4.663 | 4.95 | true | false | 0 | 100 | 22 |
+| 2 | Bruno Guimarães Rodriguez Moura | Brazil | MID | md2 | 6.8 | 75.049 | strong_candidate | 5.789 | 0.851 | 0.277 | 0.86 | true | false | 1.147 | 78.72 | 4 |
+| 1 | Santiago Arias | Colombia | DEF | md1 | 3.9 | 74.624 | strong_candidate | 5.244 | 1.345 | 0.153 | 0.963 | true | false | 0.056 | 80.706 | 3 |
+| 3 | Nico O'Reilly | England | DEF | md2 | 4.7 | 73.518 | strong_candidate | 6.333 | 1.347 | 1.166 | 1.976 | true | false | 0 | 90.792 | 20 |
+| 3 | Hernán Galíndez | Ecuador | GK | group_stage_full | 4.2 | 73.233 | strong_candidate | 13.259 | 3.157 | 1.417 | 1.577 | true | false | 1.841 | 88.507 | 0 |
+| 4 | Nuno Alexandre Tavares Mendes | Portugal | DEF | group_stage_full | 5.8 | 72.185 | strong_candidate | 20.049 | 3.457 | 6.793 | 7.16 | true | false | 0 | 100 | 31 |
+| 5 | Bruno Guimarães Rodriguez Moura | Brazil | MID | group_stage_full | 6.8 | 72.062 | strong_candidate | 16.441 | 2.418 | 1.13 | 1.31 | true | false | 4.388 | 75.916 | 4 |
+| 2 | Johan Mojica | Colombia | DEF | md1 | 3.9 | 71.475 | strong_candidate | 5.3 | 1.359 | 0.209 | 1.019 | true | false | 0 | 82.958 | 8 |
+| 4 | Enner Valencia | Ecuador | FWD | md2 | 5.9 | 71.307 | strong_candidate | 5.473 | 0.928 | 0.3 | 0.81 | false | true | 0.685 | 60.625 | 2 |
+| 2 | Nico O'Reilly | England | DEF | md3 | 4.7 | 69.248 | strong_candidate | 6.333 | 1.347 | 1.734 | 2.714 | true | false | 0 | 97.152 | 31 |
+| 5 | Patrik Schick | Czechia | FWD | md2 | 7.3 | 69.141 | strong_candidate | 5.837 | 0.8 | 0.664 | 1.174 | false | true | 0.295 | 65.393 | 6 |
+| 6 | Hernán Galíndez | Ecuador | GK | md2 | 4.2 | 68.576 | strong_candidate | 5.373 | 1.279 | 0.902 | 1.662 | true | false | 0.366 | 90.182 | 7 |
+| 7 | Ayase Ueda | Japan | FWD | md2 | 7 | 68.459 | strong_candidate | 5.995 | 0.856 | 0.822 | 1.262 | false | true | 0.137 | 67.423 | 15 |
+| 3 | Ivan Perisic | Croatia | FWD | md3 | 5.4 | 67.187 | strong_candidate | 4.998 | 0.926 | 0.46 | 0.89 | false | true | 1.242 | 59.17 | 0 |
+| 8 | Nuno Alexandre Tavares Mendes | Portugal | DEF | md2 | 5.8 | 66.322 | strong_candidate | 7.565 | 1.304 | 2.398 | 3.458 | true | false | 0 | 100 | 42 |
+| 3 | Nuno Alexandre Tavares Mendes | Portugal | DEF | md1 | 5.8 | 64.888 | watchlist_candidate | 7.618 | 1.313 | 2.527 | 3.587 | true | false | 0 | 100 | 43 |
+| 6 | Enner Valencia | Ecuador | FWD | group_stage_full | 5.9 | 64.68 | watchlist_candidate | 13.501 | 2.288 | 0 | 0.16 | false | true | 2.821 | 49.817 | 0 |
+| 4 | Nico O'Reilly | England | DEF | md1 | 4.7 | 63.753 | watchlist_candidate | 5.253 | 1.118 | 0.162 | 1.122 | false | true | 1.219 | 59.695 | 7 |
+| 4 | Hiroki Ito | Japan | DEF | md3 | 3.9 | 63.349 | watchlist_candidate | 4.599 | 1.179 | 0 | 0.96 | false | true | 0.584 | 60.488 | 0 |
+| 9 | Joel Ordóñez | Ecuador | DEF | md2 | 3.9 | 63.044 | watchlist_candidate | 5.409 | 1.387 | 0.242 | 1.372 | false | true | 0.737 | 64.357 | 0 |
+| 7 | Patrik Schick | Czechia | FWD | group_stage_full | 7.3 | 63.018 | watchlist_candidate | 14.444 | 1.979 | 0.943 | 1.273 | false | true | 3.893 | 56.669 | 4 |
+| 5 | Ayase Ueda | Japan | FWD | md1 | 7 | 62.914 | watchlist_candidate | 4.307 | 0.615 | -0.147 | 0.433 | false | true | 1.825 | 53.229 | 4 |
 
 ## Recommendation Concerns
 

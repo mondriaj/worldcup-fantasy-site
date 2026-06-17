@@ -36,14 +36,14 @@ National-team usage is the strongest role signal. High recent starts, high quali
 
 | Metric | Value |
 | --- | --- |
-| Total rows | 1482 |
-| Rows modeled | 1243 |
-| Rows blocked | 239 |
+| Total rows | 1488 |
+| Rows modeled | 1233 |
+| Rows blocked | 255 |
 | Fantasy-pool-only rows | 1243 |
 | Final-squad-confirmed rows | 0 |
 | High-price missing-usage players | 0 |
 | High-price uncertainty fallback players | 0 |
-| Low-confidence modeled rows | 486 |
+| Low-confidence modeled rows | 483 |
 | Safe for preliminary staging | yes |
 | Safe for final public recommendations | no |
 | Safe for final Team Builder promotion | no |
@@ -52,11 +52,11 @@ National-team usage is the strongest role signal. High recent starts, high quali
 
 | Role label | Rows |
 | --- | --- |
-| locked_starter | 358 |
-| unclear | 315 |
-| blocked | 239 |
-| rotation_starter | 220 |
-| likely_starter | 179 |
+| locked_starter | 353 |
+| unclear | 313 |
+| blocked | 255 |
+| rotation_starter | 218 |
+| likely_starter | 178 |
 | thin_profile_unclear | 87 |
 | impact_sub | 61 |
 | backup | 11 |
@@ -67,30 +67,30 @@ National-team usage is the strongest role signal. High recent starts, high quali
 
 | Role confidence | Rows |
 | --- | --- |
-| high | 612 |
-| low | 274 |
-| blocked | 239 |
-| medium | 145 |
-| missing | 125 |
+| high | 606 |
+| low | 272 |
+| blocked | 255 |
+| medium | 144 |
+| missing | 124 |
 | thin_profile | 87 |
 
 ## Average Start Probability by Position
 
 | Position | Average start probability |
 | --- | --- |
-| DEF | 0.552 |
-| FWD | 0.494 |
+| DEF | 0.551 |
+| FWD | 0.495 |
 | GK | 0.372 |
-| MID | 0.561 |
+| MID | 0.558 |
 
 ## Average Expected Minutes by Position
 
 | Position | Average expected minutes |
 | --- | --- |
-| DEF | 49.736 |
-| FWD | 40.371 |
+| DEF | 49.683 |
+| FWD | 40.429 |
 | GK | 32.69 |
-| MID | 45.997 |
+| MID | 45.823 |
 
 ## High-Risk Cases
 
@@ -113,6 +113,7 @@ No high-price missing-usage players were flagged.
 | 1473 | César Huerta | Mexico | MID | 6.3 | rotation_starter | low | 0.45 | 39.4 |
 | 1477 | Luis Chávez | Mexico | MID | 6.3 | rotation_starter | low | 0.45 | 39.4 |
 | 1396 | Cucho Hernández | Colombia | FWD | 6.3 | unclear | low | 0.21 | 25.3 |
+| 2073 | Éderson José dos Santos Lourenço da Silva | Brazil | MID | 6.3 | blocked | blocked |  |  |
 | 1671 | Sofiane Boufal | Morocco | MID | 6.3 | blocked | blocked |  |  |
 | 762 | Orbelín Pineda | Mexico | MID | 6.2 | rotation_starter | low | 0.45 | 39.4 |
 | 814 | Teun Koopmeiners | Netherlands | MID | 6.2 | unclear | low | 0.23 | 24.7 |
@@ -123,7 +124,6 @@ No high-price missing-usage players were flagged.
 | 227 | Cyle Larin | Canada | FWD | 6.2 | unclear | low | 0.17 | 23.2 |
 | 1257 | Johnny Cardoso | USA | MID | 6.2 | blocked | blocked |  |  |
 | 1335 | Matías Soulé | Argentina | MID | 6.2 | blocked | blocked |  |  |
-| 1291 | Jaloliddin Masharipov | Uzbekistan | MID | 6.1 | rotation_starter | low | 0.54 | 44.1 |
 | 1255 | Weston McKennie | USA | MID | 6.1 | rotation_starter | low | 0.47 | 40.4 |
 
 ## Blockers Before Final Minutes Model
@@ -137,9 +137,9 @@ No high-price missing-usage players were flagged.
 | fantasy_pool_only_not_final_squad_ready | stop | 0 | This model has 0 confirmed final-squad rows and must not be treated as final. |
 | readiness_not_ready_for_model_rerun | stop | 1 | Official data readiness is blocked_waiting_for_official_fantasy_data. |
 | official_rules_manual_review | stop | 1 | Official rules still have manual-review warnings, including Mystery Booster/deadline semantics. |
-| blocked_player_rows_present | stop | 239 | Blocked rows do not receive preliminary minutes. |
-| missing_national_team_usage_present | warning | 609 | Missing national-team usage is kept missing and not treated as average. |
-| thin_profiles_present | warning | 222 | Thin profiles use conservative low-confidence priors only. |
+| blocked_player_rows_present | stop | 255 | Blocked rows do not receive preliminary minutes. |
+| missing_national_team_usage_present | warning | 615 | Missing national-team usage is kept missing and not treated as average. |
+| thin_profiles_present | warning | 228 | Thin profiles use conservative low-confidence priors only. |
 | not_safe_for_browser_ready_promotion | stop | 1 | Browser-ready files were intentionally not regenerated in this staging pass. |
 
 ## Safety Decision

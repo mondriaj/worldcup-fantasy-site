@@ -1,6 +1,6 @@
 # Player Finance Metrics Fantasy Pool v1
 
-Generated: 2026-06-08T13:25:29.539Z
+Generated: 2026-06-17T22:45:37.065Z
 
 Model stage: fantasy_pool_only. This file is fantasy_pool_only, not final-squad-backed, not final public recommendations, not Team Builder-ready, not browser-ready, and safe only for preliminary finance/value QA.
 
@@ -83,12 +83,12 @@ A player is dominated if another player in the same position or same price band 
 
 ## Coverage Summary
 
-- Players with finance metrics: 1243
-- Blocked players excluded: 239
+- Players with finance metrics: 1233
+- Blocked players excluded: 255
 - Efficient-frontier players: 17
-- Dominated players: 1224
-- Above-replacement players: 64
-- Final-squad uncertainty rows: 1243
+- Dominated players: 1214
+- Above-replacement players: 63
+- Final-squad uncertainty rows: 1233
 - Neymar rows: 1
 - Brazil uncertainty rows: 25
 - QA status: pass_with_staging_stop_conditions
@@ -97,19 +97,19 @@ A player is dominated if another player in the same position or same price band 
 
 | Position | Tier | Players |
 | --- | --- | --- |
-| DEF | mid_price | 43 |
-| DEF | budget | 117 |
+| DEF | mid_price | 41 |
+| DEF | budget | 116 |
 | DEF | ultra_budget | 211 |
-| DEF | upper_mid | 37 |
+| DEF | upper_mid | 36 |
 | DEF | premium | 1 |
 | FWD | mid_price | 52 |
-| FWD | budget | 75 |
+| FWD | budget | 74 |
 | FWD | ultra_budget | 121 |
 | FWD | premium | 5 |
 | FWD | upper_mid | 15 |
-| MID | mid_price | 187 |
-| MID | ultra_budget | 30 |
-| MID | budget | 163 |
+| MID | mid_price | 185 |
+| MID | ultra_budget | 28 |
+| MID | budget | 162 |
 | MID | upper_mid | 34 |
 | MID | premium | 7 |
 | GK | ultra_budget | 76 |
@@ -122,9 +122,9 @@ A player is dominated if another player in the same position or same price band 
 | Position | Efficient frontier | Dominated |
 | --- | --- | --- |
 | GK | 3 | 142 |
-| DEF | 6 | 402 |
-| MID | 6 | 414 |
-| FWD | 2 | 266 |
+| DEF | 6 | 398 |
+| MID | 6 | 409 |
+| FWD | 2 | 265 |
 
 ## Top Value Over Replacement Players
 
@@ -175,41 +175,41 @@ A player is dominated if another player in the same position or same price band 
 
 | Rank | Player | Country | Pos | Risk adj return | Conf adj value |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Lamine Yamal Nasraoui Ebana | Spain | MID | 19.298 | 1.9298 |
-| 2 | Raphael Dias Belloli | Brazil | MID | 18.475 | 2.253 |
-| 3 | Lionel Messi | Argentina | FWD | 18.17 | 1.817 |
-| 4 | Michael Olise | France | MID | 17.959 | 1.8904 |
-| 5 | Harry Kane | England | FWD | 16.634 | 1.5842 |
-| 6 | Enzo Fernández | Argentina | MID | 16.482 | 2.1976 |
-| 7 | Luis Díaz | Colombia | MID | 16.346 | 2.018 |
-| 8 | Vinícius José Paixão de Oliveira Júnior | Brazil | MID | 16.303 | 1.6303 |
-| 9 | Bruno Miguel Borges Fernandes | Portugal | MID | 16.029 | 1.8858 |
-| 10 | Nuno Alexandre Tavares Mendes | Portugal | DEF | 15.795 | 2.7233 |
-| 11 | Kylian Mbappé | France | FWD | 15.696 | 1.4949 |
-| 12 | Nicolás Tagliafico | Argentina | DEF | 14.703 | 3.4193 |
-| 13 | Kevin De Bruyne | Belgium | MID | 14.339 | 1.9119 |
-| 14 | Bradley Barcola | France | MID | 14.142 | 1.7678 |
-| 15 | Nico O'Reilly | England | DEF | 14.069 | 2.9934 |
+| 1 | Raphael Dias Belloli | Brazil | MID | 18.52 | 2.2585 |
+| 2 | Lionel Messi | Argentina | FWD | 18.17 | 1.817 |
+| 3 | Michael Olise | France | MID | 18.161 | 1.9117 |
+| 4 | Ousmane Dembélé | France | MID | 17.326 | 1.7326 |
+| 5 | Luis Díaz | Colombia | MID | 16.646 | 2.0551 |
+| 6 | Harry Kane | England | FWD | 16.634 | 1.5842 |
+| 7 | Enzo Fernández | Argentina | MID | 16.521 | 2.2028 |
+| 8 | Vinícius José Paixão de Oliveira Júnior | Brazil | MID | 16.447 | 1.6447 |
+| 9 | Bruno Miguel Borges Fernandes | Portugal | MID | 16.083 | 1.8921 |
+| 10 | Kylian Mbappé | France | FWD | 15.757 | 1.5007 |
+| 11 | Nuno Alexandre Tavares Mendes | Portugal | DEF | 15.6 | 2.6897 |
+| 12 | Désiré Doué | France | MID | 14.806 | 1.9741 |
+| 13 | Kevin De Bruyne | Belgium | MID | 14.702 | 1.9603 |
+| 14 | Ferran Torres | Spain | FWD | 14.149 | 1.814 |
+| 15 | Jude Bellingham | England | MID | 13.926 | 1.6778 |
 
 ## Top Frontier Players
 
 | Rank | Player | Country | Pos | Price | Conf adj value | VOR |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Nicolás Tagliafico | Argentina | DEF | 4.3 | 3.4193 | 3.755 |
-| 2 | Silvan Widmer | Switzerland | DEF | 4.2 | 2.9105 | 1.092 |
-| 3 | Nuno Alexandre Tavares Mendes | Portugal | DEF | 5.8 | 2.7233 | 5.046 |
-| 4 | Emiliano Martínez | Argentina | GK | 5 | 2.5842 | 3.264 |
-| 5 | Hiroki Ito | Japan | DEF | 3.9 | 2.4546 | -1.636 |
-| 6 | Johan Mojica | Colombia | DEF | 3.9 | 2.4526 | -1.724 |
-| 7 | Santiago Arias | Colombia | DEF | 3.9 | 2.4346 | -1.788 |
-| 8 | Santiago Mele | Uruguay | GK | 3.5 | 2.4129 | -1.36 |
-| 9 | Charles De Ketelaere | Belgium | MID | 5.6 | 2.4068 | 1.207 |
-| 10 | Sergio Rochet | Uruguay | GK | 4.1 | 2.3385 | -0.142 |
-| 11 | Raphael Dias Belloli | Brazil | MID | 8.2 | 2.253 | 6.735 |
-| 12 | Enzo Fernández | Argentina | MID | 7.5 | 2.1976 | 4.34 |
-| 13 | Giorgian de Arrascaeta | Uruguay | MID | 6.5 | 2.0538 | 1.215 |
-| 14 | Luis Díaz | Colombia | MID | 8.1 | 2.018 | 4.527 |
-| 15 | Lamine Yamal Nasraoui Ebana | Spain | MID | 10 | 1.9298 | 7.559 |
+| 1 | Nuno Alexandre Tavares Mendes | Portugal | DEF | 5.8 | 2.6897 | 5.046 |
+| 2 | Emiliano Martínez | Argentina | GK | 5 | 2.5392 | 3.264 |
+| 3 | Charles De Ketelaere | Belgium | MID | 5.6 | 2.4577 | 1.207 |
+| 4 | Hiroki Ito | Japan | DEF | 3.9 | 2.45 | -1.636 |
+| 5 | Johan Mojica | Colombia | DEF | 3.9 | 2.3726 | -1.724 |
+| 6 | Santiago Arias | Colombia | DEF | 3.9 | 2.3574 | -1.788 |
+| 7 | Raphael Dias Belloli | Brazil | MID | 8.2 | 2.2585 | 6.735 |
+| 8 | Enzo Fernández | Argentina | MID | 7.5 | 2.2028 | 4.34 |
+| 9 | Luis Díaz | Colombia | MID | 8.1 | 2.0551 | 4.527 |
+| 10 | Lionel Messi | Argentina | FWD | 10 | 1.817 | 9.009 |
+| 11 | Mikel Oyarzabal | Spain | FWD | 8.1 | 1.6284 | 3.239 |
+| 12 | Lamine Yamal Nasraoui Ebana | Spain | MID | 10 | 1.0387 | 7.559 |
+| 13 | Nicolás Tagliafico | Argentina | DEF | 4.3 | 0.8753 | 3.755 |
+| 14 | Silvan Widmer | Switzerland | DEF | 4.2 | 0.7476 | 1.092 |
+| 15 | Santiago Mele | Uruguay | GK | 3.5 | 0.4605 | -1.36 |
 
 ## Differential Dominated-Candidate Discussion
 
@@ -246,8 +246,8 @@ Dominated Differential rows are not automatically bugs because dominance is test
 
 | Check | Status | Count |
 | --- | --- | --- |
-| all_modeled_players_have_finance_metrics | pass | 1243 |
-| blocked_players_excluded_or_flagged | warning | 239 |
+| all_modeled_players_have_finance_metrics | pass | 1233 |
+| blocked_players_excluded_or_flagged | warning | 255 |
 | no_missing_official_prices | pass | 0 |
 | no_missing_official_positions | pass | 0 |
 | valid_position_specific_price_tiers | pass | 0 |

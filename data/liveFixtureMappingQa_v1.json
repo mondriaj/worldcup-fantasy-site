@@ -1,6 +1,6 @@
 {
   "schema_version": "live_fixture_mapping_qa_v1",
-  "generated_at": "2026-06-15T23:11:08.613Z",
+  "generated_at": "2026-06-17T23:02:42.031Z",
   "status": "passed",
   "files": {
     "localFixtures": "data/fixtures.json",
@@ -17,9 +17,9 @@
     "total_live_fixtures": 72,
     "total_score_prediction_fixtures": 72,
     "matched_fixtures": 72,
-    "final_fixtures_shown": 14,
-    "in_progress_fixtures_suppressed": 1,
-    "scheduled_fixtures": 57,
+    "final_fixtures_shown": 22,
+    "in_progress_fixtures_suppressed": 0,
+    "scheduled_fixtures": 50,
     "unmatched_fixtures": 0,
     "ambiguous_fixtures": 0,
     "reversed_mappings": 0,
@@ -36,12 +36,26 @@
     "world_cup_uses_live_data_global": true,
     "script_has_safe_mapping_guard": true,
     "world_cup_has_safe_mapping_guard": true,
+    "script_has_canonical_lookup_key": true,
+    "world_cup_has_canonical_lookup_key": true,
+    "script_live_lookup_uses_resolved_local_key": true,
+    "world_cup_live_lookup_uses_resolved_local_key": true,
     "script_lookup_block_uses_raw_source_id": false,
     "world_cup_lookup_block_uses_raw_source_id": false,
+    "script_lookup_block_uses_direct_numeric_key": false,
+    "world_cup_lookup_block_uses_direct_numeric_key": false,
     "script_uses_source_fixture_metadata": false,
     "world_cup_uses_source_fixture_metadata": false,
     "passed": true
   },
+  "display_lookup_audit": [
+    "Match Environment / Score Prediction rows: score-prediction fixture_id/match_id is normalized to the canonical local fixture key, matched against live resolved_local_fixture_key/local_fixture_id, then rechecked against home/away team names before showing an actual score.",
+    "world-cup.html fixture rows: local match_number is converted to the canonical local fixture key, matched against the same live resolved_local_fixture_key/local_fixture_id, then rechecked against the local fixture home/away team names.",
+    "Matchday Desk fixture list: filters static live fixtures by round_id and shows fixture scores only through isSafeMappedFinalFixture; in-progress and scheduled scores remain hidden.",
+    "Saved squad timeline and decision tools: player points and matchStatus are matched by official fantasy player ID; unfinished fixture round points are suppressed by the live importer.",
+    "Player Profile fixture context and Team Builder fixture risk context: continue to use model projection fixture IDs for prediction context and do not display live actual scores there.",
+    "Raw FIFA fixture IDs: retained only as source_fixture_id/source_fixture_order audit metadata in generated live data and not referenced by public browser lookup helpers."
+  ],
   "manual_examples": [
     {
       "case_id": "spain_cabo_verde",
@@ -67,9 +81,9 @@
         "source_fixture_id": "15",
         "mapping_status": "matched",
         "mapping_orientation": "direct",
-        "fixture_status": "playing",
-        "score_status": "not_final_hidden",
-        "score": "none",
+        "fixture_status": "complete",
+        "score_status": "final",
+        "score": "1-1",
         "teams": "Saudi Arabia vs Uruguay"
       }
     },
@@ -82,9 +96,9 @@
         "source_fixture_id": "16",
         "mapping_status": "matched",
         "mapping_orientation": "direct",
-        "fixture_status": "scheduled",
-        "score_status": "not_final_hidden",
-        "score": "none",
+        "fixture_status": "complete",
+        "score_status": "final",
+        "score": "2-2",
         "teams": "IR Iran vs New Zealand"
       }
     }

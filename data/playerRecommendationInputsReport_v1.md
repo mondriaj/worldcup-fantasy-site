@@ -10,23 +10,23 @@ This is a limited `fantasy_pool_only` staging layer. It combines official fantas
 
 | Metric | Count / status |
 | --- | --- |
-| Total official fantasy players | 1482 |
-| Rows in playerRecommendationInputs_v1.json | 1482 |
-| Selectable players | 1243 |
-| Not selectable players | 239 |
+| Total official fantasy players | 1488 |
+| Rows in playerRecommendationInputs_v1.json | 1488 |
+| Selectable players | 1245 |
+| Not selectable players | 243 |
 | Final-squad-confirmed players | 0 |
 | Fantasy-pool-only players | 1243 |
 | Squad review players | 239 |
-| Rows blocked from future modeling | 239 |
-| Rows usable with warnings | 584 |
-| Rows usable as fantasy-pool-only | 659 |
-| Rows needing review | 0 |
-| Thin profiles | 222 |
-| Missing club context | 326 |
-| Missing national-team usage | 627 |
+| Rows blocked from future modeling | 249 |
+| Rows usable with warnings | 580 |
+| Rows usable as fantasy-pool-only | 653 |
+| Rows needing review | 6 |
+| Thin profiles | 228 |
+| Missing club context | 332 |
+| Missing national-team usage | 633 |
 | High-price players missing usage | 0 |
 | Position-conflict audit rows | 135 |
-| Rules manual-review flagged rows | 1482 |
+| Rules manual-review flagged rows | 1488 |
 | Squad-status manual-review flagged rows | 239 |
 | Official squad import status | imported_needs_manual_review |
 | Official rules import status | imported_needs_manual_review |
@@ -35,23 +35,24 @@ This is a limited `fantasy_pool_only` staging layer. It combines official fantas
 
 | Status | Rows |
 | --- | --- |
-| usable_fantasy_pool_only | 659 |
-| usable_with_warning | 584 |
-| blocked_not_selectable | 239 |
+| usable_fantasy_pool_only | 653 |
+| usable_with_warning | 580 |
+| blocked_not_selectable | 249 |
+| needs_review | 6 |
 
 ## Top Data-Quality Flags
 
 | Flag | Rows |
 | --- | --- |
-| deadline_semantics_review | 1482 |
-| fantasy_pool_only_not_final_squad_confirmed | 1482 |
-| final_squad_source_missing | 1482 |
-| rules_manual_review | 1482 |
-| missing_national_team_usage | 627 |
-| missing_role_confidence | 609 |
-| missing_club_context | 326 |
+| deadline_semantics_review | 1488 |
+| fantasy_pool_only_not_final_squad_confirmed | 1488 |
+| final_squad_source_missing | 1488 |
+| rules_manual_review | 1488 |
+| missing_national_team_usage | 633 |
+| missing_role_confidence | 615 |
+| missing_club_context | 332 |
 | squad_review_status | 239 |
-| thin_profile | 222 |
+| thin_profile | 228 |
 | position_conflict_audit | 135 |
 | low_usage_confidence | 91 |
 
@@ -65,11 +66,11 @@ This is a limited `fantasy_pool_only` staging layer. It combines official fantas
 | Morocco | 46 |
 | Australia | 36 |
 | Ecuador | 36 |
+| Netherlands | 35 |
 | Qatar | 35 |
 | Türkiye | 35 |
 | Uruguay | 35 |
 | Iraq | 34 |
-| Netherlands | 34 |
 | Algeria | 33 |
 
 ## Stop Conditions

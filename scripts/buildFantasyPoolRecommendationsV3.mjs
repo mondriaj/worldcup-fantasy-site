@@ -14,7 +14,7 @@ const PATHS = {
   activeRecommendationsV2: "data/matchdayRecommendations_v2.json",
   activeRecommendationQaV2: "data/recommendationQa_v2.json",
   officialPlayers: "data/officialFantasyPlayers_v0.json",
-  fantasyPoolFinanceMetricsV2: "data/playerFinanceMetrics_fantasyPool_v2.json",
+  fantasyPoolFinanceMetrics: "data/playerFinanceMetrics_fantasyPool_v1.json",
   output: "data/matchdayRecommendations_fantasyPool_v3.json",
   qa: "data/recommendationQa_fantasyPool_v3.json",
   report: "data/recommendationQaReport_fantasyPool_v3.md",
@@ -90,7 +90,7 @@ const CALIBRATION_NOTES = [
   "Added per-scope Differential obviousness penalties based on Balanced/Safe rank, Captain Alpha rank, raw projection rank, price percentile by position, and cross-mode top-list status.",
   "Added finance-style diagnostics for value over replacement, scarcity-adjusted value, opportunity cost, efficient frontier status, and mode rank correlation.",
   "Softened Differential obviousness penalties with value-over-replacement and efficient-frontier credit so good value rows are not excluded merely to force zero overlap.",
-  "Consumed staged playerFinanceMetrics_fantasyPool_v2 finance-alpha, portfolio-fit, downside-risk, volatility, role-stability, premium-squeeze, and bridge-confidence fields.",
+  "Consumed staged playerFinanceMetrics_fantasyPool_v1 finance-alpha, portfolio-fit, downside-risk, volatility, role-stability, premium-squeeze, and bridge-confidence fields.",
   "Reframed the staged Upside scoring around ceiling and attacking paths per official price, with explicit penalties for obvious Captain Alpha rows.",
   "Kept all outputs fantasy_pool_only and staged; active v2 recommendation files and browser-ready files are not written."
 ];
@@ -396,7 +396,26 @@ function valueMetric(row) {
 }
 
 function financeProfile(row) {
-  return row.finance_profile || {};
+  const profile = row.finance_profile || {};
+  if (hasAnyFlag(row, [
+    "md2_lineup_evidence_downgrade",
+    "md2_source_backed_availability_review",
+    "md1_not_in_squad",
+    "md1_lineup_substitute"
+  ])) {
+    return {
+      ...profile,
+      finance_alpha_score: Math.min(num(profile.finance_alpha_score) ?? 0, 62),
+      portfolio_fit_score: Math.min(num(profile.portfolio_fit_score) ?? 0, 58),
+      prototype_priors: {
+        ...(profile.prototype_priors || {}),
+        upside: Math.min(num(profile.prototype_priors?.upside) ?? 0, 0.62),
+        differential: Math.min(num(profile.prototype_priors?.differential) ?? 0, 0.5),
+        captain: Math.min(num(profile.prototype_priors?.captain) ?? 0, 0.45)
+      }
+    };
+  }
+  return profile;
 }
 
 function financeScore(row, field, fallback = 50) {
@@ -1533,35 +1552,98 @@ function aggregateRows(projectionRows) {
 
 function compactFinanceProfile(row) {
   const priors = row.finance_bridge?.prototype_priors || {};
+  const valueOverReplacement = num(row.value_over_replacement);
+  const scarcityAdjustedValue = num(row.scarcity_adjusted_value);
+  const differentialDefensibility = num(row.differential_defensibility_score);
+  const pointsPerPrice = num(row.risk_adjusted_points_per_price);
+  const opportunityCost = num(row.price_tier_opportunity_cost);
+  const downsideProxy = num(row.downside_risk_proxy);
+  const volatilityProxy = num(row.volatility_proxy);
+  const minutesRisk = num(row.minutes_risk);
+  const roleRisk = num(row.role_risk);
+  const dataRisk = num(row.data_risk);
+  const price = num(row.official_price);
+  const derivedAlpha = round(clamp(
+    (Number.isFinite(differentialDefensibility) ? differentialDefensibility * 0.42 : 20)
+      + clamp((Number.isFinite(pointsPerPrice) ? pointsPerPrice : 0) * 24, 0, 26)
+      + clamp((Number.isFinite(valueOverReplacement) ? valueOverReplacement + 2 : 2) * 4, 0, 24)
+      + clamp((Number.isFinite(scarcityAdjustedValue) ? scarcityAdjustedValue + 2 : 2) * 2.5, 0, 20)
+      + (row.efficient_frontier ? 10 : row.dominated_player ? -4 : 0),
+    0,
+    100
+  ), 3);
+  const derivedDownside = round(clamp(
+    (Number.isFinite(downsideProxy) ? downsideProxy * 12 : 14)
+      + (Number.isFinite(minutesRisk) ? minutesRisk * 0.9 : 6)
+      + (Number.isFinite(roleRisk) ? roleRisk * 1.05 : 6)
+      + (Number.isFinite(dataRisk) ? dataRisk * 0.07 : 5),
+    0,
+    100
+  ), 3);
+  const derivedVolatility = round(clamp(
+    (Number.isFinite(volatilityProxy) ? volatilityProxy * 18 : 22)
+      + (Number.isFinite(minutesRisk) ? minutesRisk * 0.9 : 5)
+      + (Number.isFinite(roleRisk) ? roleRisk * 0.9 : 5),
+    0,
+    100
+  ), 3);
+  const derivedRoleStability = round(clamp(
+    100
+      - (Number.isFinite(minutesRisk) ? minutesRisk * 3 : 18)
+      - (Number.isFinite(roleRisk) ? roleRisk * 3.4 : 18),
+    0,
+    100
+  ), 3);
+  const derivedPremiumSqueeze = round(clamp(
+    (Number.isFinite(opportunityCost) ? opportunityCost * 7 : 8)
+      + (Number.isFinite(price) && price >= 8 ? (price - 7.5) * 8 : 0),
+    0,
+    100
+  ), 3);
+  const derivedPortfolioFit = round(clamp(
+    derivedAlpha * 0.42
+      + derivedRoleStability * 0.22
+      + (100 - derivedDownside) * 0.22
+      + (100 - derivedPremiumSqueeze) * 0.14,
+    0,
+    100
+  ), 3);
+  const financeFlags = row.finance_flags || [];
+  const bridgeConfidence = financeFlags.includes("finance_bridge_missing")
+    ? 0.58
+    : financeFlags.includes("finance_bridge_low_confidence")
+      ? 0.64
+      : 0.74;
+
   return {
     source_model_version: row.source_model_version,
-    finance_alpha_score: row.finance_alpha_score,
+    finance_alpha_score: row.finance_alpha_score ?? derivedAlpha,
     finance_alpha_rank: row.finance_alpha_rank,
-    portfolio_fit_score: row.portfolio_fit_score,
+    portfolio_fit_score: row.portfolio_fit_score ?? derivedPortfolioFit,
     portfolio_fit_rank: row.portfolio_fit_rank,
-    downside_risk_score: row.downside_risk_score,
-    volatility_score: row.volatility_score,
-    role_stability_score: row.role_stability_score,
+    downside_risk_score: row.downside_risk_score ?? derivedDownside,
+    volatility_score: row.volatility_score ?? derivedVolatility,
+    role_stability_score: row.role_stability_score ?? derivedRoleStability,
     role_stability_rank: row.role_stability_rank,
-    premium_squeeze_score: row.premium_squeeze_score,
+    premium_squeeze_score: row.premium_squeeze_score ?? derivedPremiumSqueeze,
     captain_opportunity_cost: row.captain_opportunity_cost,
-    bridge_confidence: row.bridge_confidence,
-    bridge_missing_reason: row.bridge_missing_reason,
+    bridge_confidence: row.bridge_confidence ?? bridgeConfidence,
+    bridge_missing_reason: row.bridge_missing_reason || null,
     bridge_prior_coverage_count: row.bridge_prior_coverage_count,
-    finance_flags: row.finance_flags || [],
+    finance_flags: financeFlags,
     prototype_priors: {
-      value: priors.value,
-      risk_adjusted_return: priors.risk_adjusted_return,
-      floor: priors.floor,
-      volatility: priors.volatility,
-      tail_risk: priors.tail_risk,
-      role_stability: priors.role_stability,
-      portfolio_fit: priors.portfolio_fit,
-      premium_squeeze: priors.premium_squeeze,
-      upside: priors.upside,
-      differential: priors.differential,
-      captain: priors.captain,
-      captain_opportunity_cost: priors.captain_opportunity_cost
+      value: priors.value ?? clamp((Number.isFinite(pointsPerPrice) ? pointsPerPrice : 0) / 2.5, 0, 1),
+      risk_adjusted_return: priors.risk_adjusted_return ?? clamp((num(row.risk_adjusted_return) ?? 0) / 10, 0, 1),
+      floor: priors.floor ?? clamp((num(row.group_stage_floor_points) ?? 0) / 8, 0, 1),
+      volatility: priors.volatility ?? clamp(1 - (derivedVolatility / 100), 0, 1),
+      tail_risk: priors.tail_risk ?? clamp(1 - (derivedDownside / 100), 0, 1),
+      role_stability: priors.role_stability ?? clamp(derivedRoleStability / 100, 0, 1),
+      portfolio_fit: priors.portfolio_fit ?? clamp(derivedPortfolioFit / 100, 0, 1),
+      premium_squeeze: priors.premium_squeeze ?? clamp(1 - (derivedPremiumSqueeze / 100), 0, 1),
+      upside: priors.upside ?? clamp((num(row.group_stage_ceiling_points) ?? 0) / 24, 0, 1),
+      differential: priors.differential ?? clamp(derivedAlpha / 100, 0, 1),
+      captain: priors.captain ?? clamp((num(row.captain_score) ?? 0) / 24, 0, 1),
+      captain_opportunity_cost: priors.captain_opportunity_cost ?? clamp(1 - (derivedPremiumSqueeze / 100), 0, 1)
     }
   };
 }
@@ -1999,7 +2081,7 @@ function buildFinanceDiagnostics({ financeContextsByScope, candidates, qa }) {
     safety_labels: SAFETY_LABELS,
     source_files: [
       PATHS.playerMatchdayProjections,
-      PATHS.fantasyPoolFinanceMetricsV2,
+      PATHS.fantasyPoolFinanceMetrics,
       PATHS.output,
       PATHS.qa,
       PATHS.officialRules
@@ -2010,7 +2092,7 @@ function buildFinanceDiagnostics({ financeContextsByScope, candidates, qa }) {
       efficient_frontier: "A row is frontier-eligible when it is not clearly dominated by another row at the same position or same price band with similar or better points, lower or similar price, equal/better confidence, and no worse major risk flags.",
       opportunity_cost: "Difference between a row's risk-adjusted points and the best risk-adjusted points in the same price-tier/position group.",
       ownership_policy: "No ownership data is used; obviousness is approximated only from staged mode ranks, raw/captain rank, and price percentile.",
-      bridge_finance_policy: "Staged playerFinanceMetrics_fantasyPool_v2 supplies finance alpha, portfolio fit, downside risk, volatility, role stability, premium squeeze, and bridge-confidence fields. These are prototype priors inside fantasy_pool_only outputs, not official fantasy data."
+      bridge_finance_policy: "Staged playerFinanceMetrics_fantasyPool_v1 supplies finance alpha, portfolio fit, downside risk, volatility, role stability, premium squeeze, and bridge-confidence fields. These are prototype priors inside fantasy_pool_only outputs, not official fantasy data."
     },
     summary: {
       total_finance_rows: financeRows.length,
@@ -2788,7 +2870,7 @@ This staged layer converts playerMatchdayProjections_fantasyPool_v3 into prelimi
 - data/playerRecommendationInputs_v1.json
 - data/playerMinutesModel_fantasyPool_v0.json
 - data/playerMatchdayProjections_fantasyPool_v3.json
-- data/playerFinanceMetrics_fantasyPool_v2.json
+- data/playerFinanceMetrics_fantasyPool_v1.json
 - data/scorePredictions_fantasyPool_v3.json
 - data/officialFantasyRules_v0.json
 - data/officialFantasyRulesImportReport_v0.json
@@ -3674,7 +3756,7 @@ function buildOutput({ candidates, matchdayRecommendations, qa }) {
       PATHS.playerRecommendationInputs,
       PATHS.minutesModel,
       PATHS.playerMatchdayProjections,
-      PATHS.fantasyPoolFinanceMetricsV2,
+      PATHS.fantasyPoolFinanceMetrics,
       PATHS.scorePredictions,
       PATHS.officialPlayers,
       PATHS.officialRules,
@@ -3696,7 +3778,7 @@ function buildOutput({ candidates, matchdayRecommendations, qa }) {
       position_score_adjustments_by_mode: POSITION_SCORE_ADJUSTMENTS_BY_MODE,
       replacement_rank_by_position: REPLACEMENT_RANK_BY_POSITION,
       calibration_notes: CALIBRATION_NOTES,
-      scoring_note: "Staged mode scores use v3 projections, official prices/positions, fixture context, mode-specific position adjustments, explicit data-quality penalties, per-scope VOR/scarcity/frontier diagnostics, and staged playerFinanceMetrics_fantasyPool_v2 finance alpha, portfolio fit, downside risk, volatility, role stability, premium squeeze, captain opportunity cost, and bridge confidence."
+      scoring_note: "Staged mode scores use v3 projections, official prices/positions, fixture context, mode-specific position adjustments, explicit data-quality penalties, per-scope VOR/scarcity/frontier diagnostics, and staged playerFinanceMetrics_fantasyPool_v1 finance alpha, portfolio fit, downside risk, volatility, role stability, premium squeeze, captain opportunity cost, and bridge confidence."
     },
     summary: qa.summary,
     stop_conditions: qa.stop_conditions,
@@ -3711,7 +3793,7 @@ async function main() {
     playerInputData,
     minutesModel,
     projectionData,
-    fantasyPoolFinanceMetricsV2,
+    fantasyPoolFinanceMetrics,
     scoreData,
     officialPlayersData,
     officialRules,
@@ -3723,7 +3805,7 @@ async function main() {
     readJson(PATHS.playerRecommendationInputs),
     readJson(PATHS.minutesModel),
     readJson(PATHS.playerMatchdayProjections),
-    readJson(PATHS.fantasyPoolFinanceMetricsV2),
+    readJson(PATHS.fantasyPoolFinanceMetrics),
     readJson(PATHS.scorePredictions),
     readJson(PATHS.officialPlayers),
     readJson(PATHS.officialRules),
@@ -3735,7 +3817,7 @@ async function main() {
 
   SOURCE_CHECKED = officialPlayersData.source_checked || SOURCE_CHECKED;
   const projectionRows = projectionData.playerMatchdayProjections || [];
-  const financeMetricRows = fantasyPoolFinanceMetricsV2.playerFinanceMetrics || [];
+  const financeMetricRows = fantasyPoolFinanceMetrics.playerFinanceMetrics || [];
   const officialStatusById = officialPlayerStatusMap(officialPlayersData);
   const projectionRowsWithCurrentOfficialStatus = projectionRows.map((row) => overlayCurrentOfficialStatus(row, officialStatusById));
   const blockedPlayers = overlayBlockedPlayers(projectionRows, officialStatusById, projectionData.blockedPlayers || []);

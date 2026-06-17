@@ -1,6 +1,6 @@
 # Projection Scoring Coverage Audit Fantasy Pool v3
 
-Generated: 2026-06-08T13:25:20.392Z
+Generated: 2026-06-17T22:45:32.257Z
 
 Model stage: fantasy_pool_only. This audit is not final-squad-backed, not final public recommendations, not Team Builder-ready, and safe only for preliminary recommendation staging.
 
@@ -8,8 +8,8 @@ Model stage: fantasy_pool_only. This audit is not final-squad-backed, not final 
 
 - Official scoring categories audited: 26.
 - Added in this pass: MID tackles, MID chances created, and FWD shots on target.
-- Added-component source-backed projection rows: 1143.
-- Added-component conservative-prior projection rows: 2106.
+- Added-component source-backed projection rows: 1134.
+- Added-component conservative-prior projection rows: 2082.
 - Categories still omitted or partial because current data cannot support them: 6.
 - QA status after coverage pass: pass_with_staging_stop_conditions.
 
@@ -48,25 +48,25 @@ Model stage: fantasy_pool_only. This audit is not final-squad-backed, not final 
 
 | Component | Min | Avg | Max |
 | --- | --- | --- | --- |
-| Tackle component | 0 | 0.056 | 1.1 |
-| Chance-created component | 0 | 0.082 | 1.15 |
+| Tackle component | 0 | 0.054 | 1.1 |
+| Chance-created component | 0 | 0.081 | 1.15 |
 | Shot-on-target component | 0 | 0.04 | 0.95 |
-| Added components total | 0 | 0.179 | 1.71 |
+| Added components total | 0 | 0.176 | 1.71 |
 
 ## Added Component Coverage Flags
 
 | Flag | Rows |
 | --- | --- |
-| mid_every_3_tackles_not_applicable | 2466 |
-| mid_every_2_chances_created_not_applicable | 2466 |
-| fwd_every_2_shots_on_target_not_applicable | 2925 |
+| mid_every_3_tackles_not_applicable | 2451 |
+| mid_every_2_chances_created_not_applicable | 2451 |
+| fwd_every_2_shots_on_target_not_applicable | 2898 |
 | fwd_every_2_shots_on_target_modeled_zero | 72 |
-| fwd_every_2_shots_on_target_modeled_source_backed | 471 |
-| mid_every_3_tackles_modeled_conservative_prior | 1089 |
-| mid_every_2_chances_created_modeled_conservative_prior | 756 |
+| fwd_every_2_shots_on_target_modeled_source_backed | 468 |
+| mid_every_3_tackles_modeled_conservative_prior | 1077 |
+| mid_every_2_chances_created_modeled_conservative_prior | 744 |
 | fwd_every_2_shots_on_target_modeled_conservative_prior | 261 |
-| mid_every_2_chances_created_modeled_source_backed | 501 |
-| mid_every_3_tackles_modeled_source_backed | 171 |
+| mid_every_2_chances_created_modeled_source_backed | 498 |
+| mid_every_3_tackles_modeled_source_backed | 168 |
 | mid_every_3_tackles_modeled_zero | 3 |
 | mid_every_2_chances_created_modeled_zero | 6 |
 
@@ -80,6 +80,7 @@ Model stage: fantasy_pool_only. This audit is not final-squad-backed, not final 
 | Bruno Miguel Borges Fernandes | Portugal | MID | md3 | Colombia | 1.566 | 0.416 | 1.15 | 0 | high | mid_every_3_tackles_modeled_source_backed; mid_every_2_chances_created_modeled_source_backed; fwd_every_2_shots_on_target_not_applicable |
 | Ben Gannon-Doak | Scotland | MID | md2 | Morocco | 1.466 | 1.1 | 0.366 | 0 | high | mid_every_3_tackles_modeled_source_backed; mid_every_2_chances_created_modeled_source_backed; fwd_every_2_shots_on_target_not_applicable |
 | Ben Gannon-Doak | Scotland | MID | md3 | Brazil | 1.466 | 1.1 | 0.366 | 0 | high | mid_every_3_tackles_modeled_source_backed; mid_every_2_chances_created_modeled_source_backed; fwd_every_2_shots_on_target_not_applicable |
+| Martin Ødegaard | Norway | MID | md1 | Iraq | 1.461 | 0.314 | 1.147 | 0 | high | mid_every_3_tackles_modeled_source_backed; mid_every_2_chances_created_modeled_source_backed; fwd_every_2_shots_on_target_not_applicable |
 | Jérémy Doku | Belgium | MID | md1 | Egypt | 1.449 | 0.299 | 1.15 | 0 | high | mid_every_3_tackles_modeled_source_backed; mid_every_2_chances_created_modeled_source_backed; fwd_every_2_shots_on_target_not_applicable |
 | Jérémy Doku | Belgium | MID | md2 | IR Iran | 1.449 | 0.299 | 1.15 | 0 | high | mid_every_3_tackles_modeled_source_backed; mid_every_2_chances_created_modeled_source_backed; fwd_every_2_shots_on_target_not_applicable |
 | Jérémy Doku | Belgium | MID | md3 | New Zealand | 1.449 | 0.299 | 1.15 | 0 | high | mid_every_3_tackles_modeled_source_backed; mid_every_2_chances_created_modeled_source_backed; fwd_every_2_shots_on_target_not_applicable |
@@ -88,6 +89,7 @@ Model stage: fantasy_pool_only. This audit is not final-squad-backed, not final 
 | Declan Rice | England | MID | md3 | Panama | 1.436 | 0.505 | 0.931 | 0 | high | mid_every_3_tackles_modeled_source_backed; mid_every_2_chances_created_modeled_source_backed; fwd_every_2_shots_on_target_not_applicable |
 | Florian Wirtz | Germany | MID | md1 | Curaçao | 1.415 | 0.318 | 1.097 | 0 | high | mid_every_3_tackles_modeled_source_backed; mid_every_2_chances_created_modeled_source_backed; fwd_every_2_shots_on_target_not_applicable |
 | Florian Wirtz | Germany | MID | md2 | Côte d'Ivoire | 1.415 | 0.318 | 1.097 | 0 | high | mid_every_3_tackles_modeled_source_backed; mid_every_2_chances_created_modeled_source_backed; fwd_every_2_shots_on_target_not_applicable |
+| Florian Wirtz | Germany | MID | md3 | Ecuador | 1.41 | 0.318 | 1.092 | 0 | high | mid_every_3_tackles_modeled_source_backed; mid_every_2_chances_created_modeled_source_backed; fwd_every_2_shots_on_target_not_applicable |
 | Bruno Guimarães Rodriguez Moura | Brazil | MID | md2 | Haiti | 1.394 | 0.601 | 0.793 | 0 | high | mid_every_3_tackles_modeled_source_backed; mid_every_2_chances_created_modeled_source_backed; fwd_every_2_shots_on_target_not_applicable |
 | Bruno Guimarães Rodriguez Moura | Brazil | MID | md3 | Scotland | 1.394 | 0.601 | 0.793 | 0 | high | mid_every_3_tackles_modeled_source_backed; mid_every_2_chances_created_modeled_source_backed; fwd_every_2_shots_on_target_not_applicable |
 | Carlos Henrique Casimiro | Brazil | MID | md2 | Haiti | 1.384 | 0.807 | 0.577 | 0 | high | mid_every_3_tackles_modeled_source_backed; mid_every_2_chances_created_modeled_source_backed; fwd_every_2_shots_on_target_not_applicable |
@@ -97,8 +99,6 @@ Model stage: fantasy_pool_only. This audit is not final-squad-backed, not final 
 | Raphael Dias Belloli | Brazil | MID | md1 | Morocco | 1.38 | 0.23 | 1.15 | 0 | high | mid_every_3_tackles_modeled_conservative_prior; mid_every_2_chances_created_modeled_source_backed; fwd_every_2_shots_on_target_not_applicable |
 | Raphael Dias Belloli | Brazil | MID | md2 | Haiti | 1.38 | 0.23 | 1.15 | 0 | high | mid_every_3_tackles_modeled_conservative_prior; mid_every_2_chances_created_modeled_source_backed; fwd_every_2_shots_on_target_not_applicable |
 | Raphael Dias Belloli | Brazil | MID | md3 | Scotland | 1.38 | 0.23 | 1.15 | 0 | high | mid_every_3_tackles_modeled_conservative_prior; mid_every_2_chances_created_modeled_source_backed; fwd_every_2_shots_on_target_not_applicable |
-| Arda Güler | Türkiye | MID | md1 | Australia | 1.376 | 0.226 | 1.15 | 0 | high | mid_every_3_tackles_modeled_conservative_prior; mid_every_2_chances_created_modeled_source_backed; fwd_every_2_shots_on_target_not_applicable |
-| Arda Güler | Türkiye | MID | md2 | Paraguay | 1.376 | 0.226 | 1.15 | 0 | high | mid_every_3_tackles_modeled_conservative_prior; mid_every_2_chances_created_modeled_source_backed; fwd_every_2_shots_on_target_not_applicable |
 
 ## QA Notes
 

@@ -1,25 +1,26 @@
 {
   "schema_version": "team_builder_data_coverage_v1",
-  "generated_at": "2026-06-08T13:25:54.802Z",
+  "generated_at": "2026-06-17T23:02:42.722Z",
   "verdict": "pass",
   "team_builder_source_before_change": "script.js initialized Team Builder players from window.FINANCE_PLAYERS_DATA || window.PLAYERS_DATA, then filtered unavailable official fantasy rows and patched official positions.",
   "team_builder_source_after_change": "script.js builds Team Builder players from fantasyPoolOfficialDataStatusData.js official_position_records, filters to official selectable status, then joins current fantasy-pool projections, finance metrics, recommendations, and score context. Legacy players remain a fallback only if the official fantasy-pool layer is absent.",
   "counts": {
-    "official_fantasy_players_source": 1482,
-    "official_position_records_browser": 1482,
-    "selectable_official_players": 1243,
-    "team_builder_candidate_rows": 1243,
-    "excluded_rows": 239,
+    "official_fantasy_players_source": 1488,
+    "official_position_records_browser": 1488,
+    "selectable_official_players": 1245,
+    "team_builder_candidate_rows": 1233,
+    "excluded_rows": 255,
     "excluded_reasons": {
-      "nonselectable_official_status": 239,
+      "nonselectable_official_status": 243,
       "duplicate_builder_id": 0,
-      "missing_builder_or_official_id": 0
+      "missing_builder_or_official_id": 0,
+      "model_not_ready_current_fields": 12
     },
     "recommendation_rows": 500,
-    "recommendation_unique_players": 111,
-    "matchday_projection_rows": 3729,
-    "matchday_projection_unique_players": 1243,
-    "finance_metric_rows": 1243,
+    "recommendation_unique_players": 104,
+    "matchday_projection_rows": 3699,
+    "matchday_projection_unique_players": 1233,
+    "finance_metric_rows": 1233,
     "score_fixture_rows": 72,
     "legacy_finance_rows_loaded": 1335,
     "legacy_player_rows_loaded": 100,
@@ -89,14 +90,14 @@
     },
     {
       "source_path": "data/playerMatchdayProjections_fantasyPool_v3.json",
-      "source_rows": 3729,
-      "browser_rows": 3729,
+      "source_rows": 3699,
+      "browser_rows": 3699,
       "in_sync": true
     },
     {
       "source_path": "data/playerFinanceMetrics_fantasyPool_v1.json",
-      "source_rows": 1243,
-      "browser_rows": 1243,
+      "source_rows": 1233,
+      "browser_rows": 1233,
       "in_sync": true
     },
     {
@@ -122,22 +123,205 @@
   "script_checks": {
     "uses_current_fantasy_pool_builder_source": true,
     "legacy_fallback_is_explicit": true,
-    "no_runtime_fetch": true
+    "no_runtime_fetch": true,
+    "filters_model_not_ready_current_pool": true
   },
+  "model_not_ready_excluded_samples": [
+    {
+      "official_fantasy_player_id": "1713",
+      "internal_player_id": "thin-29-amine-sbai",
+      "name": "Amine Sbaï",
+      "country": "Morocco",
+      "missing": [
+        "projected_points",
+        "matchday_projections",
+        "finance_metrics",
+        "finance_value_fields",
+        "score_context",
+        "role_minutes_start_probability",
+        "risk_downside_fields"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "2075",
+      "internal_player_id": "thin-4-dejan-ljubicic",
+      "name": "Dejan Ljubicic",
+      "country": "Austria",
+      "missing": [
+        "projected_points",
+        "matchday_projections",
+        "finance_metrics",
+        "finance_value_fields",
+        "score_context",
+        "role_minutes_start_probability",
+        "risk_downside_fields"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "2073",
+      "internal_player_id": "thin-7-ederson-jose-dos-santos-lourenco-da-silva",
+      "name": "Éderson José dos Santos Lourenço da Silva",
+      "country": "Brazil",
+      "missing": [
+        "projected_points",
+        "matchday_projections",
+        "finance_metrics",
+        "finance_value_fields",
+        "score_context",
+        "role_minutes_start_probability",
+        "risk_downside_fields"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "2077",
+      "internal_player_id": "thin-22-garven-metusala",
+      "name": "Garven Metusala",
+      "country": "Haiti",
+      "missing": [
+        "projected_points",
+        "matchday_projections",
+        "finance_metrics",
+        "finance_value_fields",
+        "score_context",
+        "role_minutes_start_probability",
+        "risk_downside_fields"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1969",
+      "internal_player_id": "thin-9-jayden-nelson",
+      "name": "Jayden Nelson",
+      "country": "Canada",
+      "missing": [
+        "projected_points",
+        "matchday_projections",
+        "finance_metrics",
+        "finance_value_fields",
+        "score_context",
+        "role_minutes_start_probability",
+        "risk_downside_fields"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "2074",
+      "internal_player_id": "thin-30-lutsharel-geertruida",
+      "name": "Lutsharel Geertruida",
+      "country": "Netherlands",
+      "missing": [
+        "projected_points",
+        "matchday_projections",
+        "finance_metrics",
+        "finance_value_fields",
+        "score_context",
+        "role_minutes_start_probability",
+        "risk_downside_fields"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "29",
+      "internal_player_id": "thin-2-marcos-senesi",
+      "name": "Marcos Senesi",
+      "country": "Argentina",
+      "missing": [
+        "projected_points",
+        "matchday_projections",
+        "finance_metrics",
+        "finance_value_fields",
+        "score_context",
+        "role_minutes_start_probability",
+        "risk_downside_fields"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1675",
+      "internal_player_id": "thin-29-marwane-saadane",
+      "name": "Marwane Saadane",
+      "country": "Morocco",
+      "missing": [
+        "projected_points",
+        "matchday_projections",
+        "finance_metrics",
+        "finance_value_fields",
+        "score_context",
+        "role_minutes_start_probability",
+        "risk_downside_fields"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "696",
+      "internal_player_id": "jordan-mohammad-taha",
+      "name": "Mohammad Ahmed Mohammad Taha",
+      "country": "Jordan",
+      "missing": [
+        "projected_points",
+        "matchday_projections",
+        "finance_metrics",
+        "finance_value_fields",
+        "score_context",
+        "role_minutes_start_probability",
+        "risk_downside_fields"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "1280",
+      "internal_player_id": "uzbekistan-ruslanbek-yiyanov",
+      "name": "Ruslanbek Jiyanov",
+      "country": "Uzbekistan",
+      "missing": [
+        "projected_points",
+        "matchday_projections",
+        "finance_metrics",
+        "finance_value_fields",
+        "score_context",
+        "role_minutes_start_probability",
+        "risk_downside_fields"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "2076",
+      "internal_player_id": "thin-25-shuto-machino",
+      "name": "Shuto Machino",
+      "country": "Japan",
+      "missing": [
+        "projected_points",
+        "matchday_projections",
+        "finance_metrics",
+        "finance_value_fields",
+        "score_context",
+        "role_minutes_start_probability",
+        "risk_downside_fields"
+      ]
+    },
+    {
+      "official_fantasy_player_id": "2078",
+      "internal_player_id": "thin-18-trevoh-chalobah",
+      "name": "Trevoh Chalobah",
+      "country": "England",
+      "missing": [
+        "projected_points",
+        "matchday_projections",
+        "finance_metrics",
+        "finance_value_fields",
+        "score_context",
+        "role_minutes_start_probability",
+        "risk_downside_fields"
+      ]
+    }
+  ],
   "monitor_result": {
     "monitor_status": "completed",
     "official_data_changed": true,
-    "rerun_decision": "official_player_import_rerun_needed",
+    "rerun_decision": "full_model_rerun_recommended",
     "player_changes": {
-      "new_players": 1,
+      "new_players": 6,
       "removed_players": 0,
       "name_changes": 0,
       "price_changes": 0,
       "position_changes": 0,
-      "selectable_status_changes": 8,
+      "selectable_status_changes": 16,
       "country_team_changes": 0,
-      "fifa_player_id_changes": 0,
-      "ownership_percent_changes": 319
+      "fifa_player_id_changes": 1247,
+      "ownership_percent_changes": 421
     },
     "squad_changes": {
       "new_teams": 0,
@@ -147,12 +331,200 @@
     "rules_changes": {
       "source_header_changes": 0,
       "mystery_booster_text_changes": 0,
-      "deadline_round_changes": 0
+      "deadline_round_changes": 1
     }
   },
   "samples": {
-    "missing_critical_fields": [],
+    "missing_critical_fields": [
+      {
+        "official_fantasy_player_id": "1713",
+        "internal_player_id": "thin-29-amine-sbai",
+        "name": "Amine Sbaï",
+        "country": "Morocco",
+        "missing": [
+          "projected_points",
+          "matchday_projections",
+          "finance_metrics",
+          "finance_value_fields",
+          "score_context",
+          "role_minutes_start_probability",
+          "risk_downside_fields"
+        ]
+      },
+      {
+        "official_fantasy_player_id": "2075",
+        "internal_player_id": "thin-4-dejan-ljubicic",
+        "name": "Dejan Ljubicic",
+        "country": "Austria",
+        "missing": [
+          "projected_points",
+          "matchday_projections",
+          "finance_metrics",
+          "finance_value_fields",
+          "score_context",
+          "role_minutes_start_probability",
+          "risk_downside_fields"
+        ]
+      },
+      {
+        "official_fantasy_player_id": "2073",
+        "internal_player_id": "thin-7-ederson-jose-dos-santos-lourenco-da-silva",
+        "name": "Éderson José dos Santos Lourenço da Silva",
+        "country": "Brazil",
+        "missing": [
+          "projected_points",
+          "matchday_projections",
+          "finance_metrics",
+          "finance_value_fields",
+          "score_context",
+          "role_minutes_start_probability",
+          "risk_downside_fields"
+        ]
+      },
+      {
+        "official_fantasy_player_id": "2077",
+        "internal_player_id": "thin-22-garven-metusala",
+        "name": "Garven Metusala",
+        "country": "Haiti",
+        "missing": [
+          "projected_points",
+          "matchday_projections",
+          "finance_metrics",
+          "finance_value_fields",
+          "score_context",
+          "role_minutes_start_probability",
+          "risk_downside_fields"
+        ]
+      },
+      {
+        "official_fantasy_player_id": "1969",
+        "internal_player_id": "thin-9-jayden-nelson",
+        "name": "Jayden Nelson",
+        "country": "Canada",
+        "missing": [
+          "projected_points",
+          "matchday_projections",
+          "finance_metrics",
+          "finance_value_fields",
+          "score_context",
+          "role_minutes_start_probability",
+          "risk_downside_fields"
+        ]
+      },
+      {
+        "official_fantasy_player_id": "2074",
+        "internal_player_id": "thin-30-lutsharel-geertruida",
+        "name": "Lutsharel Geertruida",
+        "country": "Netherlands",
+        "missing": [
+          "projected_points",
+          "matchday_projections",
+          "finance_metrics",
+          "finance_value_fields",
+          "score_context",
+          "role_minutes_start_probability",
+          "risk_downside_fields"
+        ]
+      },
+      {
+        "official_fantasy_player_id": "29",
+        "internal_player_id": "thin-2-marcos-senesi",
+        "name": "Marcos Senesi",
+        "country": "Argentina",
+        "missing": [
+          "projected_points",
+          "matchday_projections",
+          "finance_metrics",
+          "finance_value_fields",
+          "score_context",
+          "role_minutes_start_probability",
+          "risk_downside_fields"
+        ]
+      },
+      {
+        "official_fantasy_player_id": "1675",
+        "internal_player_id": "thin-29-marwane-saadane",
+        "name": "Marwane Saadane",
+        "country": "Morocco",
+        "missing": [
+          "projected_points",
+          "matchday_projections",
+          "finance_metrics",
+          "finance_value_fields",
+          "score_context",
+          "role_minutes_start_probability",
+          "risk_downside_fields"
+        ]
+      },
+      {
+        "official_fantasy_player_id": "696",
+        "internal_player_id": "jordan-mohammad-taha",
+        "name": "Mohammad Ahmed Mohammad Taha",
+        "country": "Jordan",
+        "missing": [
+          "projected_points",
+          "matchday_projections",
+          "finance_metrics",
+          "finance_value_fields",
+          "score_context",
+          "role_minutes_start_probability",
+          "risk_downside_fields"
+        ]
+      },
+      {
+        "official_fantasy_player_id": "1280",
+        "internal_player_id": "uzbekistan-ruslanbek-yiyanov",
+        "name": "Ruslanbek Jiyanov",
+        "country": "Uzbekistan",
+        "missing": [
+          "projected_points",
+          "matchday_projections",
+          "finance_metrics",
+          "finance_value_fields",
+          "score_context",
+          "role_minutes_start_probability",
+          "risk_downside_fields"
+        ]
+      },
+      {
+        "official_fantasy_player_id": "2076",
+        "internal_player_id": "thin-25-shuto-machino",
+        "name": "Shuto Machino",
+        "country": "Japan",
+        "missing": [
+          "projected_points",
+          "matchday_projections",
+          "finance_metrics",
+          "finance_value_fields",
+          "score_context",
+          "role_minutes_start_probability",
+          "risk_downside_fields"
+        ]
+      },
+      {
+        "official_fantasy_player_id": "2078",
+        "internal_player_id": "thin-18-trevoh-chalobah",
+        "name": "Trevoh Chalobah",
+        "country": "England",
+        "missing": [
+          "projected_points",
+          "matchday_projections",
+          "finance_metrics",
+          "finance_value_fields",
+          "score_context",
+          "role_minutes_start_probability",
+          "risk_downside_fields"
+        ]
+      }
+    ],
     "nonselectable_excluded": [
+      {
+        "official_fantasy_player_id": "2024",
+        "internal_player_id": "morocco-abde-ezzalzouli",
+        "name": "Abde Ezzalzouli",
+        "country": "Morocco",
+        "missing": []
+      },
       {
         "official_fantasy_player_id": "2045",
         "internal_player_id": "algeria-abdelatif-ramdane",
@@ -228,13 +600,6 @@
         "internal_player_id": "paraguay-agustin-sandez",
         "name": "Agustín Sández",
         "country": "Paraguay",
-        "missing": []
-      },
-      {
-        "official_fantasy_player_id": "697",
-        "internal_player_id": "jordan-ahmad-assaf",
-        "name": "Ahmad Fawzi Abdalateef Assaf",
-        "country": "Jordan",
         "missing": []
       }
     ],

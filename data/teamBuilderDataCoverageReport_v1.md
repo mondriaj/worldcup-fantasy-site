@@ -1,6 +1,6 @@
 # Team Builder Data Coverage v1
 
-Generated: 2026-06-08
+Generated: 2026-06-17
 
 ## Verdict
 
@@ -8,13 +8,14 @@ PASS: Team Builder uses the current official fantasy-pool player universe and cu
 
 ## Counts
 
-- Official fantasy player rows: 1482
-- Selectable official players: 1243
-- Team Builder candidates: 1243
-- Excluded official rows: 239
-- Excluded by nonselectable status: 239
-- Matchday projection rows: 3729
-- Finance metric rows: 1243
+- Official fantasy player rows: 1488
+- Selectable official players: 1245
+- Team Builder candidates: 1233
+- Excluded official rows: 255
+- Excluded by nonselectable status: 243
+- Excluded by missing current model fields: 12
+- Matchday projection rows: 3699
+- Finance metric rows: 1233
 - Score fixtures: 72
 - Runtime legacy fallback rows: 0
 - Display-only legacy fallback rows: 94
@@ -44,18 +45,18 @@ PASS: Team Builder uses the current official fantasy-pool player universe and cu
 
 ## Monitor Result
 
-- Status: completed; decision: official_player_import_rerun_needed; player changes: {"new_players":1,"removed_players":0,"name_changes":0,"price_changes":0,"position_changes":0,"selectable_status_changes":8,"country_team_changes":0,"fifa_player_id_changes":0,"ownership_percent_changes":319}
+- Status: completed; decision: full_model_rerun_recommended; player changes: {"new_players":6,"removed_players":0,"name_changes":0,"price_changes":0,"position_changes":0,"selectable_status_changes":16,"country_team_changes":0,"fifa_player_id_changes":1247,"ownership_percent_changes":421}
 
 ## Source Sync
 
 - data/matchdayRecommendations_fantasyPool_v3.json: source 500, browser 500, in sync
-- data/playerMatchdayProjections_fantasyPool_v3.json: source 3729, browser 3729, in sync
-- data/playerFinanceMetrics_fantasyPool_v1.json: source 1243, browser 1243, in sync
+- data/playerMatchdayProjections_fantasyPool_v3.json: source 3699, browser 3699, in sync
+- data/playerFinanceMetrics_fantasyPool_v1.json: source 1233, browser 1233, in sync
 - data/scorePredictions_fantasyPool_v3.json: source 72, browser 72, in sync
 
 ## Notes
 
-- Team Builder now starts from official fantasy-pool selectable players, not the legacy finance/player list.
-- Official fantasy position, price, and selectable status are the authority before current model fields are joined.
+- Team Builder now starts from official fantasy-pool selectable players that also have current projections, finance metrics, and score context, not the legacy finance/player list.
+- Official fantasy position, price, and selectable status are the authority before current model fields are joined; rows without current model fields are excluded instead of shown with blanks.
 - Legacy player data remains only as an explicit fallback if the official fantasy-pool layer is absent, plus display-only club fallback where current projection rows lack club context.
 - The monitor result recommends a separate official player import refresh because it found a new player and selectable-status changes; this validation does not perform that import or rerun models.

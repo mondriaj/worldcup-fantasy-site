@@ -1,14 +1,14 @@
 # Live Matchday Status Report v1
 
-Generated: 2026-06-15T23:11:02.079Z
+Generated: 2026-06-17T22:33:16.843Z
 
 Status: static live/post-match support import. Model predictions, PELE data, recommendations, projections, finance metrics, Team Builder weights, and website formulas were not rerun by this script.
 
 ## Sources
 
-- fifaFantasyPlayersJson: ok, last modified 2026-06-15T23:10:04Z
+- fifaFantasyPlayersJson: ok, last modified 2026-06-17T22:04:22Z
 - fifaFantasySquadsJson: ok, last modified 2026-05-13T10:08:23Z
-- fifaFantasyRoundsJson: ok, last modified 2026-06-15T23:10:03Z
+- fifaFantasyRoundsJson: ok, last modified 2026-06-17T22:01:03Z
 
 Fetch failures: 0
 
@@ -17,12 +17,12 @@ Fetch failures: 0
 Rounds imported: 8
 Fixtures imported: 72
 Group-stage fixtures mapped locally: 72
-Fixtures with score fields populated: 14
-Completed/played fixtures: 14
-Playing fixtures: 1
-Scheduled fixtures: 57
-In-progress fixture scores hidden until final: 1
-Safe final scores shown: 14
+Fixtures with score fields populated: 22
+Completed/played fixtures: 22
+Playing fixtures: 0
+Scheduled fixtures: 50
+In-progress fixture scores hidden until final: 0
+Safe final scores shown: 22
 Unmatched live fixtures: 0
 Ambiguous live fixtures: 0
 Reversed mappings handled: 0
@@ -42,31 +42,30 @@ Round status counts:
 
 Fixture status counts:
 
-- complete: 14
-- playing: 1
-- scheduled: 57
+- complete: 22
+- scheduled: 50
 
 ## Player Live Fields
 
-Players imported: 1487
-Players with total points: 439
-Players with last-round points: 439
-Players with round-points maps: 439
-Players with unfinished-fixture points suppressed: 23
-Ownership changes >= 0.1 percentage points: 479
+Players imported: 1488
+Players with total points: 690
+Players with last-round points: 690
+Players with round-points maps: 690
+Players with unfinished-fixture points suppressed: 0
+Ownership changes >= 0.1 percentage points: 507
 
 Player status counts:
 
 - playing: 1245
 - suspended: 3
-- transferred: 239
+- transferred: 240
 
 matchStatus counts:
 
-- none: 540
-- not_in_squad: 172
-- start: 330
-- sub: 445
+- none: 57
+- not_in_squad: 243
+- start: 506
+- sub: 682
 
 ## Material Change Check
 
@@ -81,8 +80,8 @@ Reasons:
 
 Material change summary:
 
-- New players: 5, first sample Éderson José dos Santos Lourenço da Silva
-- Selectable status changes: 13, first sample Marcos Senesi
+- New players: 6, first sample Éderson José dos Santos Lourenço da Silva
+- Selectable status changes: 16, first sample Marcos Senesi
 
 ## Validation
 

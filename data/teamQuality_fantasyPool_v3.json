@@ -1,6 +1,6 @@
 {
   "schema_version": "team_quality_fantasy_pool_v3",
-  "generated_at": "2026-06-05T18:09:51.848Z",
+  "generated_at": "2026-06-17T22:45:11.984Z",
   "source_checked": "2026-06-05",
   "model_stage": "fantasy_pool_only",
   "data_status": "staged_fantasy_pool_only_not_final_squad_backed",
@@ -34,8 +34,8 @@
     "teams_with_neymar_uncertainty": [
       "Brazil"
     ],
-    "average_total_fantasy_pool_adjustment": -1.311,
-    "average_uncertainty_score": 47.08,
+    "average_total_fantasy_pool_adjustment": -1.326,
+    "average_uncertainty_score": 47.18,
     "highest_uncertainty_teams": [
       {
         "country": "Australia",
@@ -46,9 +46,9 @@
       },
       {
         "country": "Canada",
-        "uncertainty_score": 73.75,
+        "uncertainty_score": 73.81,
         "missing_usage_rows": 30,
-        "review_rows": 6,
+        "review_rows": 7,
         "neymar_usage_source_gap": false
       },
       {
@@ -80,17 +80,17 @@
         "neymar_usage_source_gap": false
       },
       {
-        "country": "Jordan",
-        "uncertainty_score": 63.07,
-        "missing_usage_rows": 17,
-        "review_rows": 4,
+        "country": "Argentina",
+        "uncertainty_score": 63.27,
+        "missing_usage_rows": 33,
+        "review_rows": 30,
         "neymar_usage_source_gap": false
       },
       {
-        "country": "Argentina",
-        "uncertainty_score": 62.87,
-        "missing_usage_rows": 33,
-        "review_rows": 29,
+        "country": "Jordan",
+        "uncertainty_score": 63.13,
+        "missing_usage_rows": 17,
+        "review_rows": 5,
         "neymar_usage_source_gap": false
       }
     ]
@@ -103,13 +103,13 @@
     "data/officialSquads_v0.json"
   ],
   "global_fantasy_pool_context_averages": {
-    "attack_index": 65.762,
-    "midfield_index": 68.048,
-    "defense_index": 67.053,
+    "attack_index": 65.71,
+    "midfield_index": 68.029,
+    "defense_index": 66.869,
     "goalkeeper_index": 63.385,
-    "availability_index": 81.686,
-    "data_quality_index": 52.924,
-    "uncertainty_score": 47.076
+    "availability_index": 81.316,
+    "data_quality_index": 52.823,
+    "uncertainty_score": 47.177
   },
   "teams": [
     {
@@ -248,7 +248,7 @@
         "base_attack_proxy_score_v2": 99.21,
         "base_defense_proxy_score_v2": 96.18,
         "attack_xg_context_adjustment": 0.02,
-        "defense_xg_context_adjustment": 0.039,
+        "defense_xg_context_adjustment": 0.04,
         "data_quality_xg_penalty": 0.011,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
@@ -388,12 +388,12 @@
           }
         ],
         "component_adjustments": {
-          "attack_strength_adjustment": 0.26,
-          "midfield_strength_adjustment": 0.28,
-          "defense_strength_adjustment": 0.46,
+          "attack_strength_adjustment": 0.27,
+          "midfield_strength_adjustment": 0.29,
+          "defense_strength_adjustment": 0.47,
           "goalkeeper_strength_adjustment": 0.35,
-          "availability_adjustment": 0.18,
-          "data_quality_adjustment": 0.19,
+          "availability_adjustment": 0.19,
+          "data_quality_adjustment": 0.2,
           "final_squad_uncertainty_penalty": -1.2,
           "total_fantasy_pool_adjustment": -0.89
         }
@@ -581,11 +581,11 @@
         "country": "Argentina",
         "group": "J",
         "rows_total": 55,
-        "modeled_rows": 26,
-        "blocked_rows": 29,
+        "modeled_rows": 25,
+        "blocked_rows": 30,
         "squad_rows": 55,
-        "selectable_fantasy_pool_rows": 26,
-        "review_rows": 29,
+        "selectable_fantasy_pool_rows": 25,
+        "review_rows": 30,
         "confirmed_final_squad_rows": 0,
         "final_squad_source_status": "fantasy_pool_only",
         "final_squad_uncertainty_penalty": -1.38,
@@ -599,9 +599,9 @@
         "midfield_index": 87.84,
         "defense_index": 88.17,
         "goalkeeper_index": 89.17,
-        "availability_index": 77.85,
-        "data_quality_index": 37.13,
-        "uncertainty_score": 62.87,
+        "availability_index": 77.21,
+        "data_quality_index": 36.73,
+        "uncertainty_score": 63.27,
         "missing_usage_rows": 33,
         "missing_club_rows": 29,
         "low_confidence_rows": 4,
@@ -700,11 +700,11 @@
         ],
         "component_adjustments": {
           "attack_strength_adjustment": 0.89,
-          "midfield_strength_adjustment": 0.49,
-          "defense_strength_adjustment": 0.74,
+          "midfield_strength_adjustment": 0.5,
+          "defense_strength_adjustment": 0.75,
           "goalkeeper_strength_adjustment": 0.52,
           "availability_adjustment": -0.08,
-          "data_quality_adjustment": -0.28,
+          "data_quality_adjustment": -0.29,
           "final_squad_uncertainty_penalty": -1.38,
           "total_fantasy_pool_adjustment": -0.82
         }
@@ -866,7 +866,7 @@
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
         "attack_proxy_score": 85.68,
-        "defense_proxy_score": 91.81,
+        "defense_proxy_score": 91.82,
         "base_attack_proxy_score_v2": 85.06,
         "base_defense_proxy_score_v2": 90.89,
         "attack_xg_context_adjustment": 0.031,
@@ -1014,7 +1014,7 @@
           "midfield_strength_adjustment": 0.24,
           "defense_strength_adjustment": 0.63,
           "goalkeeper_strength_adjustment": 0.33,
-          "availability_adjustment": 0.21,
+          "availability_adjustment": 0.22,
           "data_quality_adjustment": 0.28,
           "final_squad_uncertainty_penalty": -1.2,
           "total_fantasy_pool_adjustment": -0.8
@@ -1060,10 +1060,10 @@
         "safe only for preliminary projection staging"
       ],
       "team_quality_fantasyPool_v3": {
-        "overall_score": 82.09,
+        "overall_score": 82.1,
         "quality_tier": "elite",
         "base_team_quality_v2_score": 82.86,
-        "total_fantasy_pool_adjustment": -0.77,
+        "total_fantasy_pool_adjustment": -0.76,
         "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
         "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
@@ -1176,8 +1176,8 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 83.58,
-        "defense_proxy_score": 94.68,
+        "attack_proxy_score": 83.59,
+        "defense_proxy_score": 94.69,
         "base_attack_proxy_score_v2": 82.86,
         "base_defense_proxy_score_v2": 93.73,
         "attack_xg_context_adjustment": 0.038,
@@ -1321,14 +1321,14 @@
           }
         ],
         "component_adjustments": {
-          "attack_strength_adjustment": 0.5,
+          "attack_strength_adjustment": 0.51,
           "midfield_strength_adjustment": 0.25,
-          "defense_strength_adjustment": 0.63,
+          "defense_strength_adjustment": 0.64,
           "goalkeeper_strength_adjustment": 0.35,
-          "availability_adjustment": 0.24,
+          "availability_adjustment": 0.25,
           "data_quality_adjustment": 0.32,
           "final_squad_uncertainty_penalty": -1.2,
-          "total_fantasy_pool_adjustment": -0.77
+          "total_fantasy_pool_adjustment": -0.76
         }
       },
       "model_limitations": [
@@ -1371,10 +1371,10 @@
         "safe only for preliminary projection staging"
       ],
       "team_quality_fantasyPool_v3": {
-        "overall_score": 80.18,
-        "quality_tier": "elite",
+        "overall_score": 79.91,
+        "quality_tier": "contender",
         "base_team_quality_v2_score": 81.25,
-        "total_fantasy_pool_adjustment": -1.07,
+        "total_fantasy_pool_adjustment": -1.34,
         "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
         "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
@@ -1487,13 +1487,13 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 79.71,
-        "defense_proxy_score": 89.95,
+        "attack_proxy_score": 79.67,
+        "defense_proxy_score": 89.67,
         "base_attack_proxy_score_v2": 79.53,
         "base_defense_proxy_score_v2": 89.58,
-        "attack_xg_context_adjustment": 0.001,
-        "defense_xg_context_adjustment": -0.002,
-        "data_quality_xg_penalty": -0.014,
+        "attack_xg_context_adjustment": -0.002,
+        "defense_xg_context_adjustment": -0.028,
+        "data_quality_xg_penalty": -0.015,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
       "goals_clean_sheet_inputs_v2": {
@@ -1514,27 +1514,27 @@
         "country": "Brazil",
         "group": "C",
         "rows_total": 26,
-        "modeled_rows": 26,
-        "blocked_rows": 0,
+        "modeled_rows": 25,
+        "blocked_rows": 1,
         "squad_rows": 26,
-        "selectable_fantasy_pool_rows": 26,
-        "review_rows": 0,
+        "selectable_fantasy_pool_rows": 25,
+        "review_rows": 1,
         "confirmed_final_squad_rows": 0,
         "final_squad_source_status": "fantasy_pool_only",
-        "final_squad_uncertainty_penalty": -1.2,
+        "final_squad_uncertainty_penalty": -1.38,
         "position_signal_indices": {
           "GK": 94.34,
-          "DEF": 53.1,
+          "DEF": 40.4,
           "MID": 86.59,
           "FWD": 49.62
         },
-        "attack_index": 65.97,
+        "attack_index": 64.95,
         "midfield_index": 86.59,
-        "defense_index": 66.3,
+        "defense_index": 57.66,
         "goalkeeper_index": 94.34,
-        "availability_index": 90.82,
-        "data_quality_index": 38.46,
-        "uncertainty_score": 61.54,
+        "availability_index": 89.06,
+        "data_quality_index": 37.62,
+        "uncertainty_score": 62.38,
         "missing_usage_rows": 13,
         "missing_club_rows": 9,
         "low_confidence_rows": 13,
@@ -1632,14 +1632,14 @@
           }
         ],
         "component_adjustments": {
-          "attack_strength_adjustment": 0.01,
+          "attack_strength_adjustment": -0.03,
           "midfield_strength_adjustment": 0.46,
-          "defense_strength_adjustment": -0.03,
+          "defense_strength_adjustment": -0.32,
           "goalkeeper_strength_adjustment": 0.62,
-          "availability_adjustment": 0.18,
-          "data_quality_adjustment": -0.26,
-          "final_squad_uncertainty_penalty": -1.2,
-          "total_fantasy_pool_adjustment": -1.07
+          "availability_adjustment": 0.15,
+          "data_quality_adjustment": -0.27,
+          "final_squad_uncertainty_penalty": -1.38,
+          "total_fantasy_pool_adjustment": -1.34
         }
       },
       "model_limitations": [
@@ -1682,10 +1682,10 @@
         "safe only for preliminary projection staging"
       ],
       "team_quality_fantasyPool_v3": {
-        "overall_score": 72.43,
+        "overall_score": 72.25,
         "quality_tier": "strong",
         "base_team_quality_v2_score": 73.25,
-        "total_fantasy_pool_adjustment": -0.82,
+        "total_fantasy_pool_adjustment": -1,
         "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
         "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
@@ -1825,14 +1825,14 @@
         "country": "Portugal",
         "group": "K",
         "rows_total": 27,
-        "modeled_rows": 27,
-        "blocked_rows": 0,
+        "modeled_rows": 26,
+        "blocked_rows": 1,
         "squad_rows": 27,
-        "selectable_fantasy_pool_rows": 27,
-        "review_rows": 0,
+        "selectable_fantasy_pool_rows": 26,
+        "review_rows": 1,
         "confirmed_final_squad_rows": 0,
         "final_squad_source_status": "fantasy_pool_only",
-        "final_squad_uncertainty_penalty": -1.2,
+        "final_squad_uncertainty_penalty": -1.38,
         "position_signal_indices": {
           "GK": 80.65,
           "DEF": 81.63,
@@ -1843,12 +1843,12 @@
         "midfield_index": 85.85,
         "defense_index": 81.32,
         "goalkeeper_index": 80.65,
-        "availability_index": 93.82,
-        "data_quality_index": 64.15,
-        "uncertainty_score": 35.85,
+        "availability_index": 92.52,
+        "data_quality_index": 64.07,
+        "uncertainty_score": 35.93,
         "missing_usage_rows": 6,
         "missing_club_rows": 0,
-        "low_confidence_rows": 6,
+        "low_confidence_rows": 5,
         "thin_profile_rows": 0,
         "position_conflict_rows": 4,
         "neymar_usage_source_gap": false,
@@ -1945,12 +1945,12 @@
         "component_adjustments": {
           "attack_strength_adjustment": 0.36,
           "midfield_strength_adjustment": 0.45,
-          "defense_strength_adjustment": 0.5,
+          "defense_strength_adjustment": 0.51,
           "goalkeeper_strength_adjustment": 0.35,
-          "availability_adjustment": 0.24,
+          "availability_adjustment": 0.22,
           "data_quality_adjustment": 0.2,
-          "final_squad_uncertainty_penalty": -1.2,
-          "total_fantasy_pool_adjustment": -0.82
+          "final_squad_uncertainty_penalty": -1.38,
+          "total_fantasy_pool_adjustment": -1
         }
       },
       "model_limitations": [
@@ -2109,13 +2109,13 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 78.85,
-        "defense_proxy_score": 79.54,
+        "attack_proxy_score": 78.83,
+        "defense_proxy_score": 79.53,
         "base_attack_proxy_score_v2": 78.2,
         "base_defense_proxy_score_v2": 78.67,
         "attack_xg_context_adjustment": 0.03,
-        "defense_xg_context_adjustment": 0.05,
-        "data_quality_xg_penalty": 0.015,
+        "defense_xg_context_adjustment": 0.051,
+        "data_quality_xg_penalty": 0.013,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
       "goals_clean_sheet_inputs_v2": {
@@ -2135,12 +2135,12 @@
         "team_id": "germany",
         "country": "Germany",
         "group": "E",
-        "rows_total": 27,
+        "rows_total": 28,
         "modeled_rows": 26,
-        "blocked_rows": 1,
-        "squad_rows": 27,
+        "blocked_rows": 2,
+        "squad_rows": 28,
         "selectable_fantasy_pool_rows": 26,
-        "review_rows": 1,
+        "review_rows": 2,
         "confirmed_final_squad_rows": 0,
         "final_squad_source_status": "fantasy_pool_only",
         "final_squad_uncertainty_penalty": -1.38,
@@ -2154,13 +2154,13 @@
         "midfield_index": 82.34,
         "defense_index": 83.76,
         "goalkeeper_index": 79.39,
-        "availability_index": 91.44,
-        "data_quality_index": 68.22,
-        "uncertainty_score": 31.78,
-        "missing_usage_rows": 4,
-        "missing_club_rows": 1,
+        "availability_index": 90.24,
+        "data_quality_index": 66.14,
+        "uncertainty_score": 33.86,
+        "missing_usage_rows": 5,
+        "missing_club_rows": 2,
         "low_confidence_rows": 3,
-        "thin_profile_rows": 1,
+        "thin_profile_rows": 2,
         "position_conflict_rows": 0,
         "neymar_usage_source_gap": false,
         "top_context_players": [
@@ -2254,12 +2254,12 @@
           }
         ],
         "component_adjustments": {
-          "attack_strength_adjustment": 0.39,
+          "attack_strength_adjustment": 0.4,
           "midfield_strength_adjustment": 0.36,
-          "defense_strength_adjustment": 0.58,
+          "defense_strength_adjustment": 0.59,
           "goalkeeper_strength_adjustment": 0.32,
-          "availability_adjustment": 0.2,
-          "data_quality_adjustment": 0.28,
+          "availability_adjustment": 0.18,
+          "data_quality_adjustment": 0.24,
           "final_squad_uncertainty_penalty": -1.38,
           "total_fantasy_pool_adjustment": -0.98
         }
@@ -2304,10 +2304,10 @@
         "safe only for preliminary projection staging"
       ],
       "team_quality_fantasyPool_v3": {
-        "overall_score": 70.89,
+        "overall_score": 70.9,
         "quality_tier": "strong",
         "base_team_quality_v2_score": 71.89,
-        "total_fantasy_pool_adjustment": -1,
+        "total_fantasy_pool_adjustment": -0.99,
         "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
         "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
@@ -2420,8 +2420,8 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 73.91,
-        "defense_proxy_score": 82.63,
+        "attack_proxy_score": 73.92,
+        "defense_proxy_score": 82.64,
         "base_attack_proxy_score_v2": 73.4,
         "base_defense_proxy_score_v2": 81.71,
         "attack_xg_context_adjustment": 0.039,
@@ -2567,12 +2567,12 @@
         "component_adjustments": {
           "attack_strength_adjustment": 0.52,
           "midfield_strength_adjustment": 0.11,
-          "defense_strength_adjustment": 0.67,
+          "defense_strength_adjustment": 0.68,
           "goalkeeper_strength_adjustment": 0.45,
-          "availability_adjustment": 0.06,
+          "availability_adjustment": 0.07,
           "data_quality_adjustment": -0.05,
           "final_squad_uncertainty_penalty": -1.38,
-          "total_fantasy_pool_adjustment": -1
+          "total_fantasy_pool_adjustment": -0.99
         }
       },
       "model_limitations": [
@@ -2731,8 +2731,8 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 67.99,
-        "defense_proxy_score": 83.28,
+        "attack_proxy_score": 68,
+        "defense_proxy_score": 83.29,
         "base_attack_proxy_score_v2": 67.28,
         "base_defense_proxy_score_v2": 82.29,
         "attack_xg_context_adjustment": 0.032,
@@ -2876,11 +2876,11 @@
           }
         ],
         "component_adjustments": {
-          "attack_strength_adjustment": 0.42,
+          "attack_strength_adjustment": 0.43,
           "midfield_strength_adjustment": 0.48,
-          "defense_strength_adjustment": 0.7,
+          "defense_strength_adjustment": 0.71,
           "goalkeeper_strength_adjustment": 0.37,
-          "availability_adjustment": 0.28,
+          "availability_adjustment": 0.29,
           "data_quality_adjustment": 0.17,
           "final_squad_uncertainty_penalty": -1.2,
           "total_fantasy_pool_adjustment": -0.74
@@ -3042,8 +3042,8 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 61.07,
-        "defense_proxy_score": 80.45,
+        "attack_proxy_score": 61.08,
+        "defense_proxy_score": 80.46,
         "base_attack_proxy_score_v2": 60.22,
         "base_defense_proxy_score_v2": 79.32,
         "attack_xg_context_adjustment": 0.05,
@@ -3189,9 +3189,9 @@
         "component_adjustments": {
           "attack_strength_adjustment": 0.67,
           "midfield_strength_adjustment": 0.49,
-          "defense_strength_adjustment": 0.78,
+          "defense_strength_adjustment": 0.79,
           "goalkeeper_strength_adjustment": 0.57,
-          "availability_adjustment": 0.1,
+          "availability_adjustment": 0.11,
           "data_quality_adjustment": 0.03,
           "final_squad_uncertainty_penalty": -1.38,
           "total_fantasy_pool_adjustment": -0.83
@@ -3354,10 +3354,10 @@
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
         "attack_proxy_score": 59.44,
-        "defense_proxy_score": 74.29,
+        "defense_proxy_score": 74.3,
         "base_attack_proxy_score_v2": 58.61,
         "base_defense_proxy_score_v2": 73.41,
-        "attack_xg_context_adjustment": 0.045,
+        "attack_xg_context_adjustment": 0.046,
         "defense_xg_context_adjustment": 0.049,
         "data_quality_xg_penalty": 0.021,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
@@ -3665,10 +3665,10 @@
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
         "attack_proxy_score": 61.56,
-        "defense_proxy_score": 71.42,
+        "defense_proxy_score": 71.43,
         "base_attack_proxy_score_v2": 61.39,
         "base_defense_proxy_score_v2": 70.74,
-        "attack_xg_context_adjustment": -0.011,
+        "attack_xg_context_adjustment": -0.01,
         "defense_xg_context_adjustment": 0.034,
         "data_quality_xg_penalty": 0.014,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
@@ -3811,10 +3811,10 @@
         "component_adjustments": {
           "attack_strength_adjustment": -0.14,
           "midfield_strength_adjustment": 0.39,
-          "defense_strength_adjustment": 0.39,
+          "defense_strength_adjustment": 0.4,
           "goalkeeper_strength_adjustment": 0.31,
           "availability_adjustment": 0.18,
-          "data_quality_adjustment": 0.25,
+          "data_quality_adjustment": 0.26,
           "final_squad_uncertainty_penalty": -1.2,
           "total_fantasy_pool_adjustment": -1.02
         }
@@ -3859,10 +3859,10 @@
         "safe only for preliminary projection staging"
       ],
       "team_quality_fantasyPool_v3": {
-        "overall_score": 59.71,
+        "overall_score": 59.72,
         "quality_tier": "competitive",
         "base_team_quality_v2_score": 60.53,
-        "total_fantasy_pool_adjustment": -0.82,
+        "total_fantasy_pool_adjustment": -0.81,
         "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
         "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
@@ -3976,12 +3976,12 @@
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
         "attack_proxy_score": 59.12,
-        "defense_proxy_score": 80.74,
+        "defense_proxy_score": 80.75,
         "base_attack_proxy_score_v2": 58.18,
         "base_defense_proxy_score_v2": 79.7,
         "attack_xg_context_adjustment": 0.059,
         "defense_xg_context_adjustment": 0.06,
-        "data_quality_xg_penalty": 0.001,
+        "data_quality_xg_penalty": 0.002,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
       "goals_clean_sheet_inputs_v2": {
@@ -4122,12 +4122,12 @@
         "component_adjustments": {
           "attack_strength_adjustment": 0.79,
           "midfield_strength_adjustment": 0.45,
-          "defense_strength_adjustment": 0.76,
+          "defense_strength_adjustment": 0.77,
           "goalkeeper_strength_adjustment": 0.47,
           "availability_adjustment": 0.09,
           "data_quality_adjustment": 0.03,
           "final_squad_uncertainty_penalty": -1.38,
-          "total_fantasy_pool_adjustment": -0.82
+          "total_fantasy_pool_adjustment": -0.81
         }
       },
       "model_limitations": [
@@ -4170,10 +4170,10 @@
         "safe only for preliminary projection staging"
       ],
       "team_quality_fantasyPool_v3": {
-        "overall_score": 58.4,
+        "overall_score": 58.41,
         "quality_tier": "competitive",
         "base_team_quality_v2_score": 59.4,
-        "total_fantasy_pool_adjustment": -1,
+        "total_fantasy_pool_adjustment": -0.99,
         "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
         "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
@@ -4286,12 +4286,12 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 55.05,
+        "attack_proxy_score": 55.06,
         "defense_proxy_score": 72.97,
         "base_attack_proxy_score_v2": 54.23,
         "base_defense_proxy_score_v2": 72.41,
         "attack_xg_context_adjustment": 0.048,
-        "defense_xg_context_adjustment": 0.017,
+        "defense_xg_context_adjustment": 0.018,
         "data_quality_xg_penalty": 0.005,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
@@ -4431,14 +4431,14 @@
           }
         ],
         "component_adjustments": {
-          "attack_strength_adjustment": 0.64,
+          "attack_strength_adjustment": 0.65,
           "midfield_strength_adjustment": 0.4,
-          "defense_strength_adjustment": 0.2,
+          "defense_strength_adjustment": 0.21,
           "goalkeeper_strength_adjustment": 0.46,
-          "availability_adjustment": 0.16,
+          "availability_adjustment": 0.17,
           "data_quality_adjustment": 0.08,
           "final_squad_uncertainty_penalty": -1.38,
-          "total_fantasy_pool_adjustment": -1
+          "total_fantasy_pool_adjustment": -0.99
         }
       },
       "model_limitations": [
@@ -4598,11 +4598,11 @@
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
         "attack_proxy_score": 65.7,
-        "defense_proxy_score": 75.01,
+        "defense_proxy_score": 75.02,
         "base_attack_proxy_score_v2": 65.1,
         "base_defense_proxy_score_v2": 74.44,
-        "attack_xg_context_adjustment": 0.035,
-        "defense_xg_context_adjustment": 0.031,
+        "attack_xg_context_adjustment": 0.036,
+        "defense_xg_context_adjustment": 0.032,
         "data_quality_xg_penalty": 0.015,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
@@ -4744,9 +4744,9 @@
         "component_adjustments": {
           "attack_strength_adjustment": 0.47,
           "midfield_strength_adjustment": 0.1,
-          "defense_strength_adjustment": 0.36,
+          "defense_strength_adjustment": 0.37,
           "goalkeeper_strength_adjustment": 0.18,
-          "availability_adjustment": 0.19,
+          "availability_adjustment": 0.2,
           "data_quality_adjustment": 0.26,
           "final_squad_uncertainty_penalty": -1.2,
           "total_fantasy_pool_adjustment": -0.89
@@ -4792,10 +4792,10 @@
         "safe only for preliminary projection staging"
       ],
       "team_quality_fantasyPool_v3": {
-        "overall_score": 57.51,
+        "overall_score": 57.52,
         "quality_tier": "competitive",
         "base_team_quality_v2_score": 58.35,
-        "total_fantasy_pool_adjustment": -0.84,
+        "total_fantasy_pool_adjustment": -0.83,
         "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
         "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
@@ -4908,8 +4908,8 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 57.86,
-        "defense_proxy_score": 68.81,
+        "attack_proxy_score": 57.87,
+        "defense_proxy_score": 68.82,
         "base_attack_proxy_score_v2": 57.26,
         "base_defense_proxy_score_v2": 68.03,
         "attack_xg_context_adjustment": 0.033,
@@ -5054,13 +5054,13 @@
         ],
         "component_adjustments": {
           "attack_strength_adjustment": 0.44,
-          "midfield_strength_adjustment": 0.22,
-          "defense_strength_adjustment": 0.5,
+          "midfield_strength_adjustment": 0.23,
+          "defense_strength_adjustment": 0.51,
           "goalkeeper_strength_adjustment": 0.33,
-          "availability_adjustment": 0.23,
+          "availability_adjustment": 0.24,
           "data_quality_adjustment": 0.17,
           "final_squad_uncertainty_penalty": -1.2,
-          "total_fantasy_pool_adjustment": -0.84
+          "total_fantasy_pool_adjustment": -0.83
         }
       },
       "model_limitations": [
@@ -5220,7 +5220,7 @@
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
         "attack_proxy_score": 58.31,
-        "defense_proxy_score": 72.97,
+        "defense_proxy_score": 72.98,
         "base_attack_proxy_score_v2": 57.65,
         "base_defense_proxy_score_v2": 71.93,
         "attack_xg_context_adjustment": 0.03,
@@ -5366,9 +5366,9 @@
         "component_adjustments": {
           "attack_strength_adjustment": 0.4,
           "midfield_strength_adjustment": 0.38,
-          "defense_strength_adjustment": 0.7,
+          "defense_strength_adjustment": 0.71,
           "goalkeeper_strength_adjustment": 0.42,
-          "availability_adjustment": 0.23,
+          "availability_adjustment": 0.24,
           "data_quality_adjustment": 0.23,
           "final_squad_uncertainty_penalty": -1.38,
           "total_fantasy_pool_adjustment": -0.94
@@ -5414,10 +5414,10 @@
         "safe only for preliminary projection staging"
       ],
       "team_quality_fantasyPool_v3": {
-        "overall_score": 57.02,
+        "overall_score": 57.03,
         "quality_tier": "competitive",
         "base_team_quality_v2_score": 58.02,
-        "total_fantasy_pool_adjustment": -1,
+        "total_fantasy_pool_adjustment": -0.99,
         "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
         "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
@@ -5531,12 +5531,12 @@
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
         "attack_proxy_score": 62.4,
-        "defense_proxy_score": 71.15,
+        "defense_proxy_score": 71.16,
         "base_attack_proxy_score_v2": 61.77,
         "base_defense_proxy_score_v2": 70.37,
-        "attack_xg_context_adjustment": 0.033,
-        "defense_xg_context_adjustment": 0.047,
-        "data_quality_xg_penalty": 0.01,
+        "attack_xg_context_adjustment": 0.034,
+        "defense_xg_context_adjustment": 0.048,
+        "data_quality_xg_penalty": 0.011,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
       "goals_clean_sheet_inputs_v2": {
@@ -5677,12 +5677,12 @@
         "component_adjustments": {
           "attack_strength_adjustment": 0.45,
           "midfield_strength_adjustment": 0.35,
-          "defense_strength_adjustment": 0.55,
+          "defense_strength_adjustment": 0.56,
           "goalkeeper_strength_adjustment": 0.31,
-          "availability_adjustment": 0.04,
+          "availability_adjustment": 0.05,
           "data_quality_adjustment": 0.19,
           "final_squad_uncertainty_penalty": -1.38,
-          "total_fantasy_pool_adjustment": -1
+          "total_fantasy_pool_adjustment": -0.99
         }
       },
       "model_limitations": [
@@ -5988,9 +5988,9 @@
         "component_adjustments": {
           "attack_strength_adjustment": -1.14,
           "midfield_strength_adjustment": -0.82,
-          "defense_strength_adjustment": -1.79,
+          "defense_strength_adjustment": -1.78,
           "goalkeeper_strength_adjustment": -1,
-          "availability_adjustment": -0.79,
+          "availability_adjustment": -0.78,
           "data_quality_adjustment": -0.4,
           "final_squad_uncertainty_penalty": -1.38,
           "total_fantasy_pool_adjustment": -2.51
@@ -6153,7 +6153,7 @@
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
         "attack_proxy_score": 44.9,
-        "defense_proxy_score": 72.57,
+        "defense_proxy_score": 72.58,
         "base_attack_proxy_score_v2": 45.39,
         "base_defense_proxy_score_v2": 73.8,
         "attack_xg_context_adjustment": -0.034,
@@ -6347,10 +6347,10 @@
         "safe only for preliminary projection staging"
       ],
       "team_quality_fantasyPool_v3": {
-        "overall_score": 49.47,
+        "overall_score": 49.28,
         "quality_tier": "outsider",
         "base_team_quality_v2_score": 50.32,
-        "total_fantasy_pool_adjustment": -0.85,
+        "total_fantasy_pool_adjustment": -1.04,
         "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
         "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
@@ -6463,13 +6463,13 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 50.95,
-        "defense_proxy_score": 60.98,
+        "attack_proxy_score": 50.92,
+        "defense_proxy_score": 60.97,
         "base_attack_proxy_score_v2": 50.39,
         "base_defense_proxy_score_v2": 60.12,
-        "attack_xg_context_adjustment": 0.019,
-        "defense_xg_context_adjustment": 0.039,
-        "data_quality_xg_penalty": 0.012,
+        "attack_xg_context_adjustment": 0.018,
+        "defense_xg_context_adjustment": 0.04,
+        "data_quality_xg_penalty": 0.011,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
       "goals_clean_sheet_inputs_v2": {
@@ -6490,27 +6490,27 @@
         "country": "Austria",
         "group": "J",
         "rows_total": 26,
-        "modeled_rows": 26,
-        "blocked_rows": 0,
+        "modeled_rows": 25,
+        "blocked_rows": 1,
         "squad_rows": 26,
-        "selectable_fantasy_pool_rows": 26,
-        "review_rows": 0,
+        "selectable_fantasy_pool_rows": 25,
+        "review_rows": 1,
         "confirmed_final_squad_rows": 0,
         "final_squad_source_status": "fantasy_pool_only",
-        "final_squad_uncertainty_penalty": -1.2,
+        "final_squad_uncertainty_penalty": -1.38,
         "position_signal_indices": {
           "GK": 87.76,
           "DEF": 76.41,
-          "MID": 86.97,
+          "MID": 86.32,
           "FWD": 58.79
         },
-        "attack_index": 72.09,
-        "midfield_index": 86.97,
+        "attack_index": 71.86,
+        "midfield_index": 86.32,
         "defense_index": 80.04,
         "goalkeeper_index": 87.76,
-        "availability_index": 92.54,
-        "data_quality_index": 64.92,
-        "uncertainty_score": 35.08,
+        "availability_index": 90.07,
+        "data_quality_index": 64.08,
+        "uncertainty_score": 35.92,
         "missing_usage_rows": 6,
         "missing_club_rows": 0,
         "low_confidence_rows": 6,
@@ -6550,17 +6550,6 @@
             "start_probability": 0.906,
             "expected_minutes": 75.2,
             "signal": 87.344
-          },
-          {
-            "official_fantasy_player_id": "112",
-            "name": "Christoph Baumgartner",
-            "position": "MID",
-            "official_price": 6.7,
-            "role_label": "locked_starter",
-            "role_confidence": "high",
-            "start_probability": 0.931,
-            "expected_minutes": 69.6,
-            "signal": 87.295
           },
           {
             "official_fantasy_player_id": "103",
@@ -6605,17 +6594,28 @@
             "start_probability": 0.872,
             "expected_minutes": 72.8,
             "signal": 84.688
+          },
+          {
+            "official_fantasy_player_id": "111",
+            "name": "Xaver Schlager",
+            "position": "MID",
+            "official_price": 5.5,
+            "role_label": "locked_starter",
+            "role_confidence": "high",
+            "start_probability": 0.902,
+            "expected_minutes": 67.7,
+            "signal": 83.905
           }
         ],
         "component_adjustments": {
           "attack_strength_adjustment": 0.25,
-          "midfield_strength_adjustment": 0.47,
-          "defense_strength_adjustment": 0.45,
+          "midfield_strength_adjustment": 0.46,
+          "defense_strength_adjustment": 0.46,
           "goalkeeper_strength_adjustment": 0.49,
-          "availability_adjustment": 0.22,
-          "data_quality_adjustment": 0.22,
-          "final_squad_uncertainty_penalty": -1.2,
-          "total_fantasy_pool_adjustment": -0.85
+          "availability_adjustment": 0.18,
+          "data_quality_adjustment": 0.2,
+          "final_squad_uncertainty_penalty": -1.38,
+          "total_fantasy_pool_adjustment": -1.04
         }
       },
       "model_limitations": [
@@ -6779,7 +6779,7 @@
         "base_attack_proxy_score_v2": 45.09,
         "base_defense_proxy_score_v2": 68.51,
         "attack_xg_context_adjustment": 0.048,
-        "defense_xg_context_adjustment": -0.007,
+        "defense_xg_context_adjustment": -0.006,
         "data_quality_xg_penalty": -0.013,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
@@ -6921,9 +6921,9 @@
         "component_adjustments": {
           "attack_strength_adjustment": 0.64,
           "midfield_strength_adjustment": 0.5,
-          "defense_strength_adjustment": -0.08,
+          "defense_strength_adjustment": -0.07,
           "goalkeeper_strength_adjustment": 0.34,
-          "availability_adjustment": -0.11,
+          "availability_adjustment": -0.1,
           "data_quality_adjustment": -0.23,
           "final_squad_uncertainty_penalty": -1.38,
           "total_fantasy_pool_adjustment": -1.11
@@ -6969,10 +6969,10 @@
         "safe only for preliminary projection staging"
       ],
       "team_quality_fantasyPool_v3": {
-        "overall_score": 46.48,
+        "overall_score": 46.49,
         "quality_tier": "outsider",
         "base_team_quality_v2_score": 48.96,
-        "total_fantasy_pool_adjustment": -2.48,
+        "total_fantasy_pool_adjustment": -2.47,
         "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
         "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
@@ -7085,7 +7085,7 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 41.23,
+        "attack_proxy_score": 41.24,
         "defense_proxy_score": 52.67,
         "base_attack_proxy_score_v2": 42.95,
         "base_defense_proxy_score_v2": 55.08,
@@ -7232,12 +7232,12 @@
         "component_adjustments": {
           "attack_strength_adjustment": -1.36,
           "midfield_strength_adjustment": -0.55,
-          "defense_strength_adjustment": -1.66,
+          "defense_strength_adjustment": -1.65,
           "goalkeeper_strength_adjustment": -1,
-          "availability_adjustment": -0.52,
+          "availability_adjustment": -0.51,
           "data_quality_adjustment": -0.38,
           "final_squad_uncertainty_penalty": -1.38,
-          "total_fantasy_pool_adjustment": -2.48
+          "total_fantasy_pool_adjustment": -2.47
         }
       },
       "model_limitations": [
@@ -7396,7 +7396,7 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 36.28,
+        "attack_proxy_score": 36.27,
         "defense_proxy_score": 52.59,
         "base_attack_proxy_score_v2": 38.59,
         "base_defense_proxy_score_v2": 55.2,
@@ -7423,30 +7423,30 @@
         "country": "Canada",
         "group": "B",
         "rows_total": 32,
-        "modeled_rows": 26,
-        "blocked_rows": 6,
+        "modeled_rows": 25,
+        "blocked_rows": 7,
         "squad_rows": 32,
-        "selectable_fantasy_pool_rows": 26,
-        "review_rows": 6,
+        "selectable_fantasy_pool_rows": 25,
+        "review_rows": 7,
         "confirmed_final_squad_rows": 0,
         "final_squad_source_status": "fantasy_pool_only",
         "final_squad_uncertainty_penalty": -1.38,
         "position_signal_indices": {
           "GK": 8.65,
           "DEF": 18.91,
-          "MID": 17.76,
+          "MID": 17.52,
           "FWD": 36.05
         },
-        "attack_index": 26.36,
-        "midfield_index": 17.76,
+        "attack_index": 26.28,
+        "midfield_index": 17.52,
         "defense_index": 15.63,
         "goalkeeper_index": 8.65,
-        "availability_index": 45.6,
-        "data_quality_index": 26.25,
-        "uncertainty_score": 73.75,
+        "availability_index": 44.45,
+        "data_quality_index": 26.19,
+        "uncertainty_score": 73.81,
         "missing_usage_rows": 30,
         "missing_club_rows": 6,
-        "low_confidence_rows": 25,
+        "low_confidence_rows": 24,
         "thin_profile_rows": 6,
         "position_conflict_rows": 3,
         "neymar_usage_source_gap": false,
@@ -7543,9 +7543,9 @@
         "component_adjustments": {
           "attack_strength_adjustment": -1.58,
           "midfield_strength_adjustment": -1.26,
-          "defense_strength_adjustment": -1.8,
+          "defense_strength_adjustment": -1.79,
           "goalkeeper_strength_adjustment": -1,
-          "availability_adjustment": -0.72,
+          "availability_adjustment": -0.74,
           "data_quality_adjustment": -0.48,
           "final_squad_uncertainty_penalty": -1.38,
           "total_fantasy_pool_adjustment": -2.73
@@ -7712,7 +7712,7 @@
         "base_attack_proxy_score_v2": 42.36,
         "base_defense_proxy_score_v2": 54.82,
         "attack_xg_context_adjustment": 0.029,
-        "defense_xg_context_adjustment": 0.055,
+        "defense_xg_context_adjustment": 0.056,
         "data_quality_xg_penalty": 0.01,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
@@ -7734,11 +7734,11 @@
         "country": "Sweden",
         "group": "F",
         "rows_total": 28,
-        "modeled_rows": 27,
-        "blocked_rows": 1,
+        "modeled_rows": 26,
+        "blocked_rows": 2,
         "squad_rows": 28,
-        "selectable_fantasy_pool_rows": 27,
-        "review_rows": 1,
+        "selectable_fantasy_pool_rows": 26,
+        "review_rows": 2,
         "confirmed_final_squad_rows": 0,
         "final_squad_source_status": "fantasy_pool_only",
         "final_squad_uncertainty_penalty": -1.38,
@@ -7752,12 +7752,12 @@
         "midfield_index": 63.47,
         "defense_index": 85.37,
         "goalkeeper_index": 82.72,
-        "availability_index": 92.13,
-        "data_quality_index": 62.64,
-        "uncertainty_score": 37.36,
+        "availability_index": 90.88,
+        "data_quality_index": 62.57,
+        "uncertainty_score": 37.43,
         "missing_usage_rows": 6,
         "missing_club_rows": 2,
-        "low_confidence_rows": 6,
+        "low_confidence_rows": 5,
         "thin_profile_rows": 2,
         "position_conflict_rows": 4,
         "neymar_usage_source_gap": false,
@@ -7854,10 +7854,10 @@
         "component_adjustments": {
           "attack_strength_adjustment": 0.39,
           "midfield_strength_adjustment": -0.11,
-          "defense_strength_adjustment": 0.64,
+          "defense_strength_adjustment": 0.65,
           "goalkeeper_strength_adjustment": 0.39,
-          "availability_adjustment": 0.21,
-          "data_quality_adjustment": 0.17,
+          "availability_adjustment": 0.19,
+          "data_quality_adjustment": 0.18,
           "final_squad_uncertainty_penalty": -1.38,
           "total_fantasy_pool_adjustment": -1.06
         }
@@ -8018,8 +8018,8 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 35.45,
-        "defense_proxy_score": 54.24,
+        "attack_proxy_score": 35.46,
+        "defense_proxy_score": 54.25,
         "base_attack_proxy_score_v2": 35.74,
         "base_defense_proxy_score_v2": 55.35,
         "attack_xg_context_adjustment": -0.009,
@@ -8163,11 +8163,11 @@
           }
         ],
         "component_adjustments": {
-          "attack_strength_adjustment": -0.12,
-          "midfield_strength_adjustment": -0.01,
+          "attack_strength_adjustment": -0.11,
+          "midfield_strength_adjustment": 0,
           "defense_strength_adjustment": -1.3,
           "goalkeeper_strength_adjustment": 0.34,
-          "availability_adjustment": -0.2,
+          "availability_adjustment": -0.19,
           "data_quality_adjustment": -0.44,
           "final_squad_uncertainty_penalty": -1.38,
           "total_fantasy_pool_adjustment": -1.76
@@ -8330,11 +8330,11 @@
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
         "attack_proxy_score": 42.41,
-        "defense_proxy_score": 57.45,
+        "defense_proxy_score": 57.46,
         "base_attack_proxy_score_v2": 41.9,
         "base_defense_proxy_score_v2": 56.55,
         "attack_xg_context_adjustment": 0.019,
-        "defense_xg_context_adjustment": 0.05,
+        "defense_xg_context_adjustment": 0.051,
         "data_quality_xg_penalty": 0.009,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
@@ -8479,7 +8479,7 @@
           "defense_strength_adjustment": 0.59,
           "goalkeeper_strength_adjustment": 0.4,
           "availability_adjustment": 0.2,
-          "data_quality_adjustment": 0.16,
+          "data_quality_adjustment": 0.17,
           "final_squad_uncertainty_penalty": -1.38,
           "total_fantasy_pool_adjustment": -1.02
         }
@@ -8524,10 +8524,10 @@
         "safe only for preliminary projection staging"
       ],
       "team_quality_fantasyPool_v3": {
-        "overall_score": 39.93,
+        "overall_score": 39.94,
         "quality_tier": "outsider",
         "base_team_quality_v2_score": 42.85,
-        "total_fantasy_pool_adjustment": -2.92,
+        "total_fantasy_pool_adjustment": -2.91,
         "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
         "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
@@ -8640,8 +8640,8 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 34.96,
-        "defense_proxy_score": 54.63,
+        "attack_proxy_score": 34.97,
+        "defense_proxy_score": 54.64,
         "base_attack_proxy_score_v2": 37.73,
         "base_defense_proxy_score_v2": 57.38,
         "attack_xg_context_adjustment": -0.06,
@@ -8787,12 +8787,12 @@
         "component_adjustments": {
           "attack_strength_adjustment": -1.95,
           "midfield_strength_adjustment": -1.36,
-          "defense_strength_adjustment": -1.88,
+          "defense_strength_adjustment": -1.87,
           "goalkeeper_strength_adjustment": -1,
-          "availability_adjustment": -0.85,
+          "availability_adjustment": -0.84,
           "data_quality_adjustment": -0.63,
           "final_squad_uncertainty_penalty": -1.38,
-          "total_fantasy_pool_adjustment": -2.92
+          "total_fantasy_pool_adjustment": -2.91
         }
       },
       "model_limitations": [
@@ -8956,8 +8956,8 @@
         "base_attack_proxy_score_v2": 39.97,
         "base_defense_proxy_score_v2": 53.7,
         "attack_xg_context_adjustment": 0.001,
-        "defense_xg_context_adjustment": -0.024,
-        "data_quality_xg_penalty": -0.007,
+        "defense_xg_context_adjustment": -0.023,
+        "data_quality_xg_penalty": -0.006,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
       "goals_clean_sheet_inputs_v2": {
@@ -8978,11 +8978,11 @@
         "country": "Algeria",
         "group": "J",
         "rows_total": 33,
-        "modeled_rows": 27,
-        "blocked_rows": 6,
+        "modeled_rows": 26,
+        "blocked_rows": 7,
         "squad_rows": 33,
-        "selectable_fantasy_pool_rows": 27,
-        "review_rows": 6,
+        "selectable_fantasy_pool_rows": 26,
+        "review_rows": 7,
         "confirmed_final_squad_rows": 0,
         "final_squad_source_status": "fantasy_pool_only",
         "final_squad_uncertainty_penalty": -1.38,
@@ -8996,12 +8996,12 @@
         "midfield_index": 79.96,
         "defense_index": 59.09,
         "goalkeeper_index": 6.17,
-        "availability_index": 84.91,
-        "data_quality_index": 46.42,
-        "uncertainty_score": 53.58,
+        "availability_index": 83.85,
+        "data_quality_index": 46.36,
+        "uncertainty_score": 53.64,
         "missing_usage_rows": 16,
         "missing_club_rows": 7,
-        "low_confidence_rows": 13,
+        "low_confidence_rows": 12,
         "thin_profile_rows": 7,
         "position_conflict_rows": 3,
         "neymar_usage_source_gap": false,
@@ -9096,11 +9096,11 @@
           }
         ],
         "component_adjustments": {
-          "attack_strength_adjustment": 0.01,
+          "attack_strength_adjustment": 0.02,
           "midfield_strength_adjustment": 0.3,
-          "defense_strength_adjustment": -0.28,
+          "defense_strength_adjustment": -0.27,
           "goalkeeper_strength_adjustment": -1,
-          "availability_adjustment": 0.06,
+          "availability_adjustment": 0.05,
           "data_quality_adjustment": -0.12,
           "final_squad_uncertainty_penalty": -1.38,
           "total_fantasy_pool_adjustment": -1.47
@@ -9262,12 +9262,12 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 37.92,
-        "defense_proxy_score": 55.36,
+        "attack_proxy_score": 37.93,
+        "defense_proxy_score": 55.37,
         "base_attack_proxy_score_v2": 37.43,
         "base_defense_proxy_score_v2": 54.54,
-        "attack_xg_context_adjustment": 0.032,
-        "defense_xg_context_adjustment": 0.046,
+        "attack_xg_context_adjustment": 0.033,
+        "defense_xg_context_adjustment": 0.047,
         "data_quality_xg_penalty": 0.01,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
@@ -9407,11 +9407,11 @@
           }
         ],
         "component_adjustments": {
-          "attack_strength_adjustment": 0.43,
+          "attack_strength_adjustment": 0.44,
           "midfield_strength_adjustment": -0.01,
           "defense_strength_adjustment": 0.54,
           "goalkeeper_strength_adjustment": 0.34,
-          "availability_adjustment": 0.21,
+          "availability_adjustment": 0.22,
           "data_quality_adjustment": 0.18,
           "final_squad_uncertainty_penalty": -1.38,
           "total_fantasy_pool_adjustment": -1.05
@@ -9457,10 +9457,10 @@
         "safe only for preliminary projection staging"
       ],
       "team_quality_fantasyPool_v3": {
-        "overall_score": 35.68,
+        "overall_score": 35.69,
         "quality_tier": "outsider",
         "base_team_quality_v2_score": 37.07,
-        "total_fantasy_pool_adjustment": -1.39,
+        "total_fantasy_pool_adjustment": -1.38,
         "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
         "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
@@ -9574,11 +9574,11 @@
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
         "attack_proxy_score": 34.42,
-        "defense_proxy_score": 55.65,
+        "defense_proxy_score": 55.66,
         "base_attack_proxy_score_v2": 34.61,
         "base_defense_proxy_score_v2": 55.26,
         "attack_xg_context_adjustment": -0.008,
-        "defense_xg_context_adjustment": 0.014,
+        "defense_xg_context_adjustment": 0.015,
         "data_quality_xg_penalty": 0.001,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
@@ -9723,9 +9723,9 @@
           "defense_strength_adjustment": 0.17,
           "goalkeeper_strength_adjustment": 0.34,
           "availability_adjustment": -0.01,
-          "data_quality_adjustment": 0.01,
+          "data_quality_adjustment": 0.02,
           "final_squad_uncertainty_penalty": -1.38,
-          "total_fantasy_pool_adjustment": -1.39
+          "total_fantasy_pool_adjustment": -1.38
         }
       },
       "model_limitations": [
@@ -9885,7 +9885,7 @@
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
         "attack_proxy_score": 32.35,
-        "defense_proxy_score": 52.06,
+        "defense_proxy_score": 52.07,
         "base_attack_proxy_score_v2": 32.95,
         "base_defense_proxy_score_v2": 52.51,
         "attack_xg_context_adjustment": -0.042,
@@ -10031,9 +10031,9 @@
         "component_adjustments": {
           "attack_strength_adjustment": -0.56,
           "midfield_strength_adjustment": -0.12,
-          "defense_strength_adjustment": -0.37,
+          "defense_strength_adjustment": -0.36,
           "goalkeeper_strength_adjustment": -0.11,
-          "availability_adjustment": -0.04,
+          "availability_adjustment": -0.03,
           "data_quality_adjustment": -0.11,
           "final_squad_uncertainty_penalty": -1.38,
           "total_fantasy_pool_adjustment": -1.69
@@ -10195,11 +10195,11 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 27.93,
-        "defense_proxy_score": 47.07,
+        "attack_proxy_score": 27.94,
+        "defense_proxy_score": 47.08,
         "base_attack_proxy_score_v2": 28.78,
         "base_defense_proxy_score_v2": 48.38,
-        "attack_xg_context_adjustment": -0.028,
+        "attack_xg_context_adjustment": -0.027,
         "defense_xg_context_adjustment": -0.06,
         "data_quality_xg_penalty": -0.012,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
@@ -10344,7 +10344,7 @@
           "midfield_strength_adjustment": -0.85,
           "defense_strength_adjustment": -0.95,
           "goalkeeper_strength_adjustment": -0.47,
-          "availability_adjustment": -0.28,
+          "availability_adjustment": -0.27,
           "data_quality_adjustment": -0.22,
           "final_squad_uncertainty_penalty": -1.38,
           "total_fantasy_pool_adjustment": -1.96
@@ -10390,10 +10390,10 @@
         "safe only for preliminary projection staging"
       ],
       "team_quality_fantasyPool_v3": {
-        "overall_score": 32.64,
+        "overall_score": 32.65,
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 33.73,
-        "total_fantasy_pool_adjustment": -1.09,
+        "total_fantasy_pool_adjustment": -1.08,
         "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
         "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
@@ -10507,7 +10507,7 @@
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
         "attack_proxy_score": 34.51,
-        "defense_proxy_score": 42.95,
+        "defense_proxy_score": 42.96,
         "base_attack_proxy_score_v2": 34.04,
         "base_defense_proxy_score_v2": 42.27,
         "attack_xg_context_adjustment": 0.026,
@@ -10533,11 +10533,11 @@
         "country": "Panama",
         "group": "L",
         "rows_total": 32,
-        "modeled_rows": 27,
-        "blocked_rows": 5,
+        "modeled_rows": 26,
+        "blocked_rows": 6,
         "squad_rows": 32,
-        "selectable_fantasy_pool_rows": 27,
-        "review_rows": 5,
+        "selectable_fantasy_pool_rows": 26,
+        "review_rows": 6,
         "confirmed_final_squad_rows": 0,
         "final_squad_source_status": "fantasy_pool_only",
         "final_squad_uncertainty_penalty": -1.38,
@@ -10551,12 +10551,12 @@
         "midfield_index": 78.73,
         "defense_index": 77.62,
         "goalkeeper_index": 85.62,
-        "availability_index": 84.44,
-        "data_quality_index": 58.44,
-        "uncertainty_score": 41.56,
+        "availability_index": 83.35,
+        "data_quality_index": 58.37,
+        "uncertainty_score": 41.63,
         "missing_usage_rows": 9,
         "missing_club_rows": 7,
-        "low_confidence_rows": 4,
+        "low_confidence_rows": 3,
         "thin_profile_rows": 6,
         "position_conflict_rows": 3,
         "neymar_usage_source_gap": false,
@@ -10653,12 +10653,12 @@
         "component_adjustments": {
           "attack_strength_adjustment": 0.34,
           "midfield_strength_adjustment": 0.27,
-          "defense_strength_adjustment": 0.37,
+          "defense_strength_adjustment": 0.38,
           "goalkeeper_strength_adjustment": 0.44,
-          "availability_adjustment": 0.06,
+          "availability_adjustment": 0.04,
           "data_quality_adjustment": 0.1,
           "final_squad_uncertainty_penalty": -1.38,
-          "total_fantasy_pool_adjustment": -1.09
+          "total_fantasy_pool_adjustment": -1.08
         }
       },
       "model_limitations": [
@@ -10701,10 +10701,10 @@
         "safe only for preliminary projection staging"
       ],
       "team_quality_fantasyPool_v3": {
-        "overall_score": 28.29,
+        "overall_score": 28.3,
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 29.11,
-        "total_fantasy_pool_adjustment": -0.82,
+        "total_fantasy_pool_adjustment": -0.81,
         "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
         "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
@@ -10822,7 +10822,7 @@
         "base_attack_proxy_score_v2": 24.21,
         "base_defense_proxy_score_v2": 38.94,
         "attack_xg_context_adjustment": 0.04,
-        "defense_xg_context_adjustment": 0.042,
+        "defense_xg_context_adjustment": 0.043,
         "data_quality_xg_penalty": 0.009,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
@@ -10964,12 +10964,12 @@
         "component_adjustments": {
           "attack_strength_adjustment": 0.53,
           "midfield_strength_adjustment": 0.23,
-          "defense_strength_adjustment": 0.49,
+          "defense_strength_adjustment": 0.5,
           "goalkeeper_strength_adjustment": 0.26,
-          "availability_adjustment": 0.22,
+          "availability_adjustment": 0.23,
           "data_quality_adjustment": 0.16,
           "final_squad_uncertainty_penalty": -1.2,
-          "total_fantasy_pool_adjustment": -0.82
+          "total_fantasy_pool_adjustment": -0.81
         }
       },
       "model_limitations": [
@@ -11012,10 +11012,10 @@
         "safe only for preliminary projection staging"
       ],
       "team_quality_fantasyPool_v3": {
-        "overall_score": 26.73,
+        "overall_score": 26.74,
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 28.17,
-        "total_fantasy_pool_adjustment": -1.44,
+        "total_fantasy_pool_adjustment": -1.43,
         "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
         "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
@@ -11128,7 +11128,7 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 23.01,
+        "attack_proxy_score": 23.02,
         "defense_proxy_score": 45.21,
         "base_attack_proxy_score_v2": 22.95,
         "base_defense_proxy_score_v2": 46.56,
@@ -11277,10 +11277,10 @@
           "midfield_strength_adjustment": 0.14,
           "defense_strength_adjustment": -0.76,
           "goalkeeper_strength_adjustment": -1,
-          "availability_adjustment": 0.1,
+          "availability_adjustment": 0.11,
           "data_quality_adjustment": 0.04,
           "final_squad_uncertainty_penalty": -1.2,
-          "total_fantasy_pool_adjustment": -1.44
+          "total_fantasy_pool_adjustment": -1.43
         }
       },
       "model_limitations": [
@@ -11323,10 +11323,10 @@
         "safe only for preliminary projection staging"
       ],
       "team_quality_fantasyPool_v3": {
-        "overall_score": 23.57,
+        "overall_score": 23.37,
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 25.49,
-        "total_fantasy_pool_adjustment": -1.92,
+        "total_fantasy_pool_adjustment": -2.12,
         "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
         "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
@@ -11439,8 +11439,8 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 23.29,
-        "defense_proxy_score": 40.74,
+        "attack_proxy_score": 23.23,
+        "defense_proxy_score": 40.73,
         "base_attack_proxy_score_v2": 24.58,
         "base_defense_proxy_score_v2": 42,
         "attack_xg_context_adjustment": -0.06,
@@ -11466,30 +11466,30 @@
         "country": "Uzbekistan",
         "group": "K",
         "rows_total": 30,
-        "modeled_rows": 30,
-        "blocked_rows": 0,
+        "modeled_rows": 26,
+        "blocked_rows": 4,
         "squad_rows": 30,
-        "selectable_fantasy_pool_rows": 30,
-        "review_rows": 0,
+        "selectable_fantasy_pool_rows": 26,
+        "review_rows": 4,
         "confirmed_final_squad_rows": 0,
         "final_squad_source_status": "fantasy_pool_only",
-        "final_squad_uncertainty_penalty": -1.2,
+        "final_squad_uncertainty_penalty": -1.38,
         "position_signal_indices": {
           "GK": 38.79,
           "DEF": 43.15,
           "MID": 40.61,
-          "FWD": 43.21
+          "FWD": 40.85
         },
-        "attack_index": 41.99,
+        "attack_index": 40.81,
         "midfield_index": 40.61,
         "defense_index": 41.75,
         "goalkeeper_index": 38.79,
-        "availability_index": 71.05,
-        "data_quality_index": 39.33,
-        "uncertainty_score": 60.67,
+        "availability_index": 66.38,
+        "data_quality_index": 39.07,
+        "uncertainty_score": 60.93,
         "missing_usage_rows": 17,
         "missing_club_rows": 10,
-        "low_confidence_rows": 28,
+        "low_confidence_rows": 24,
         "thin_profile_rows": 1,
         "position_conflict_rows": 6,
         "neymar_usage_source_gap": false,
@@ -11584,14 +11584,14 @@
           }
         ],
         "component_adjustments": {
-          "attack_strength_adjustment": -0.95,
+          "attack_strength_adjustment": -1,
           "midfield_strength_adjustment": -0.69,
-          "defense_strength_adjustment": -0.89,
+          "defense_strength_adjustment": -0.88,
           "goalkeeper_strength_adjustment": -0.49,
-          "availability_adjustment": -0.21,
-          "data_quality_adjustment": -0.24,
-          "final_squad_uncertainty_penalty": -1.2,
-          "total_fantasy_pool_adjustment": -1.92
+          "availability_adjustment": -0.3,
+          "data_quality_adjustment": -0.25,
+          "final_squad_uncertainty_penalty": -1.38,
+          "total_fantasy_pool_adjustment": -2.12
         }
       },
       "model_limitations": [
@@ -11750,12 +11750,12 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 27,
-        "defense_proxy_score": 37.13,
+        "attack_proxy_score": 27.01,
+        "defense_proxy_score": 37.14,
         "base_attack_proxy_score_v2": 26.52,
         "base_defense_proxy_score_v2": 36.42,
         "attack_xg_context_adjustment": 0.033,
-        "defense_xg_context_adjustment": 0.036,
+        "defense_xg_context_adjustment": 0.037,
         "data_quality_xg_penalty": 0.011,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
@@ -11897,9 +11897,9 @@
         "component_adjustments": {
           "attack_strength_adjustment": 0.44,
           "midfield_strength_adjustment": -0.02,
-          "defense_strength_adjustment": 0.42,
+          "defense_strength_adjustment": 0.43,
           "goalkeeper_strength_adjustment": 0.34,
-          "availability_adjustment": 0.16,
+          "availability_adjustment": 0.17,
           "data_quality_adjustment": 0.2,
           "final_squad_uncertainty_penalty": -1.38,
           "total_fantasy_pool_adjustment": -1.08
@@ -12061,12 +12061,12 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 21.12,
-        "defense_proxy_score": 39.58,
+        "attack_proxy_score": 21.13,
+        "defense_proxy_score": 39.59,
         "base_attack_proxy_score_v2": 20.66,
         "base_defense_proxy_score_v2": 38.87,
         "attack_xg_context_adjustment": 0.032,
-        "defense_xg_context_adjustment": 0.042,
+        "defense_xg_context_adjustment": 0.043,
         "data_quality_xg_penalty": -0.002,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
@@ -12208,7 +12208,7 @@
         "component_adjustments": {
           "attack_strength_adjustment": 0.43,
           "midfield_strength_adjustment": 0.16,
-          "defense_strength_adjustment": 0.49,
+          "defense_strength_adjustment": 0.5,
           "goalkeeper_strength_adjustment": 0.37,
           "availability_adjustment": 0.08,
           "data_quality_adjustment": -0.04,
@@ -12373,12 +12373,12 @@
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
         "attack_proxy_score": 19.2,
-        "defense_proxy_score": 35.97,
+        "defense_proxy_score": 35.98,
         "base_attack_proxy_score_v2": 19.54,
         "base_defense_proxy_score_v2": 36.33,
         "attack_xg_context_adjustment": -0.017,
         "defense_xg_context_adjustment": -0.03,
-        "data_quality_xg_penalty": 0.003,
+        "data_quality_xg_penalty": 0.004,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
       "goals_clean_sheet_inputs_v2": {
@@ -12519,9 +12519,9 @@
         "component_adjustments": {
           "attack_strength_adjustment": -0.23,
           "midfield_strength_adjustment": -0.28,
-          "defense_strength_adjustment": -0.35,
+          "defense_strength_adjustment": -0.34,
           "goalkeeper_strength_adjustment": -0.06,
-          "availability_adjustment": -0.11,
+          "availability_adjustment": -0.1,
           "data_quality_adjustment": 0.06,
           "final_squad_uncertainty_penalty": -1.38,
           "total_fantasy_pool_adjustment": -1.6
@@ -12684,7 +12684,7 @@
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
         "attack_proxy_score": 13.83,
-        "defense_proxy_score": 32.61,
+        "defense_proxy_score": 32.62,
         "base_attack_proxy_score_v2": 13.71,
         "base_defense_proxy_score_v2": 31.84,
         "attack_xg_context_adjustment": -0.003,
@@ -12830,9 +12830,9 @@
         "component_adjustments": {
           "attack_strength_adjustment": -0.04,
           "midfield_strength_adjustment": 0.29,
-          "defense_strength_adjustment": 0.45,
+          "defense_strength_adjustment": 0.46,
           "goalkeeper_strength_adjustment": 0.49,
-          "availability_adjustment": 0.06,
+          "availability_adjustment": 0.07,
           "data_quality_adjustment": 0.02,
           "final_squad_uncertainty_penalty": -1.38,
           "total_fantasy_pool_adjustment": -1.18
@@ -13031,13 +13031,13 @@
         "final_squad_uncertainty_penalty": -1.38,
         "position_signal_indices": {
           "GK": 43.89,
-          "DEF": 43.64,
+          "DEF": 43.36,
           "MID": 57.72,
           "FWD": 41.6
         },
-        "attack_index": 47.57,
+        "attack_index": 47.54,
         "midfield_index": 57.72,
-        "defense_index": 43.72,
+        "defense_index": 43.53,
         "goalkeeper_index": 43.89,
         "availability_index": 64.78,
         "data_quality_index": 44.12,
@@ -13143,7 +13143,7 @@
           "midfield_strength_adjustment": -0.26,
           "defense_strength_adjustment": -0.82,
           "goalkeeper_strength_adjustment": -0.39,
-          "availability_adjustment": -0.34,
+          "availability_adjustment": -0.33,
           "data_quality_adjustment": -0.16,
           "final_squad_uncertainty_penalty": -1.38,
           "total_fantasy_pool_adjustment": -1.93
@@ -13332,11 +13332,11 @@
         "country": "Jordan",
         "group": "J",
         "rows_total": 30,
-        "modeled_rows": 26,
-        "blocked_rows": 4,
+        "modeled_rows": 25,
+        "blocked_rows": 5,
         "squad_rows": 30,
-        "selectable_fantasy_pool_rows": 26,
-        "review_rows": 4,
+        "selectable_fantasy_pool_rows": 25,
+        "review_rows": 5,
         "confirmed_final_squad_rows": 0,
         "final_squad_source_status": "fantasy_pool_only",
         "final_squad_uncertainty_penalty": -1.38,
@@ -13350,12 +13350,12 @@
         "midfield_index": 37.37,
         "defense_index": 23.8,
         "goalkeeper_index": 0.96,
-        "availability_index": 56.53,
-        "data_quality_index": 36.93,
-        "uncertainty_score": 63.07,
+        "availability_index": 55.36,
+        "data_quality_index": 36.87,
+        "uncertainty_score": 63.13,
         "missing_usage_rows": 17,
         "missing_club_rows": 28,
-        "low_confidence_rows": 26,
+        "low_confidence_rows": 25,
         "thin_profile_rows": 5,
         "position_conflict_rows": 1,
         "neymar_usage_source_gap": false,
@@ -13454,7 +13454,7 @@
           "midfield_strength_adjustment": -0.77,
           "defense_strength_adjustment": -1.51,
           "goalkeeper_strength_adjustment": -1,
-          "availability_adjustment": -0.5,
+          "availability_adjustment": -0.52,
           "data_quality_adjustment": -0.29,
           "final_squad_uncertainty_penalty": -1.38,
           "total_fantasy_pool_adjustment": -2.58
@@ -13616,12 +13616,12 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 15.56,
-        "defense_proxy_score": 33.3,
+        "attack_proxy_score": 15.57,
+        "defense_proxy_score": 33.31,
         "base_attack_proxy_score_v2": 15.81,
         "base_defense_proxy_score_v2": 33.07,
         "attack_xg_context_adjustment": -0.024,
-        "defense_xg_context_adjustment": 0.02,
+        "defense_xg_context_adjustment": 0.021,
         "data_quality_xg_penalty": 0.008,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
@@ -13765,7 +13765,7 @@
           "midfield_strength_adjustment": -0.04,
           "defense_strength_adjustment": 0.24,
           "goalkeeper_strength_adjustment": -0.06,
-          "availability_adjustment": 0.07,
+          "availability_adjustment": 0.08,
           "data_quality_adjustment": 0.14,
           "final_squad_uncertainty_penalty": -1.2,
           "total_fantasy_pool_adjustment": -1.24
@@ -13928,11 +13928,11 @@
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
         "attack_proxy_score": 21.12,
-        "defense_proxy_score": 20.31,
+        "defense_proxy_score": 20.32,
         "base_attack_proxy_score_v2": 21.04,
         "base_defense_proxy_score_v2": 19.94,
         "attack_xg_context_adjustment": 0.011,
-        "defense_xg_context_adjustment": 0.024,
+        "defense_xg_context_adjustment": 0.025,
         "data_quality_xg_penalty": 0.012,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
@@ -14074,7 +14074,7 @@
         "component_adjustments": {
           "attack_strength_adjustment": 0.14,
           "midfield_strength_adjustment": -0.35,
-          "defense_strength_adjustment": 0.28,
+          "defense_strength_adjustment": 0.29,
           "goalkeeper_strength_adjustment": 0.02,
           "availability_adjustment": 0.17,
           "data_quality_adjustment": 0.22,
@@ -14239,7 +14239,7 @@
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
         "attack_proxy_score": 9.09,
-        "defense_proxy_score": 27.52,
+        "defense_proxy_score": 27.53,
         "base_attack_proxy_score_v2": 9.9,
         "base_defense_proxy_score_v2": 28.93,
         "attack_xg_context_adjustment": -0.03,
@@ -14385,9 +14385,9 @@
         "component_adjustments": {
           "attack_strength_adjustment": -0.4,
           "midfield_strength_adjustment": -0.88,
-          "defense_strength_adjustment": -0.73,
+          "defense_strength_adjustment": -0.72,
           "goalkeeper_strength_adjustment": -1,
-          "availability_adjustment": -0.07,
+          "availability_adjustment": -0.06,
           "data_quality_adjustment": -0.14,
           "final_squad_uncertainty_penalty": -1.2,
           "total_fantasy_pool_adjustment": -1.76
@@ -14433,10 +14433,10 @@
         "safe only for preliminary projection staging"
       ],
       "team_quality_fantasyPool_v3": {
-        "overall_score": 4.76,
+        "overall_score": 4.77,
         "quality_tier": "long_shot",
         "base_team_quality_v2_score": 5.9,
-        "total_fantasy_pool_adjustment": -1.14,
+        "total_fantasy_pool_adjustment": -1.13,
         "formula_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
         "formula_note": "PELE-forward team_quality_v2 remains the baseline. Fantasy-pool minutes context adds only conservative team-position and uncertainty adjustments; official fantasy price is a weak player-context signal and does not confirm starters.",
         "source_model_version": "fantasy_pool_score_prediction_v3_pele_anchored_uncertainty_2026-06-05",
@@ -14550,7 +14550,7 @@
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
         "attack_proxy_score": 6.24,
-        "defense_proxy_score": 8.45,
+        "defense_proxy_score": 8.46,
         "base_attack_proxy_score_v2": 5.9,
         "base_defense_proxy_score_v2": 7.89,
         "attack_xg_context_adjustment": 0.029,
@@ -14696,12 +14696,12 @@
         "component_adjustments": {
           "attack_strength_adjustment": 0.39,
           "midfield_strength_adjustment": 0.02,
-          "defense_strength_adjustment": 0.38,
+          "defense_strength_adjustment": 0.39,
           "goalkeeper_strength_adjustment": 0.35,
           "availability_adjustment": 0.05,
           "data_quality_adjustment": -0.11,
           "final_squad_uncertainty_penalty": -1.38,
-          "total_fantasy_pool_adjustment": -1.14
+          "total_fantasy_pool_adjustment": -1.13
         }
       },
       "model_limitations": [
@@ -14860,12 +14860,12 @@
         "pele_status": "missing_public_numeric_table"
       },
       "goals_clean_sheet_inputs_fantasyPool_v3": {
-        "attack_proxy_score": 9.2,
-        "defense_proxy_score": 19.72,
+        "attack_proxy_score": 9.21,
+        "defense_proxy_score": 19.73,
         "base_attack_proxy_score_v2": 9.59,
         "base_defense_proxy_score_v2": 19.36,
-        "attack_xg_context_adjustment": -0.022,
-        "defense_xg_context_adjustment": 0.03,
+        "attack_xg_context_adjustment": -0.021,
+        "defense_xg_context_adjustment": 0.031,
         "data_quality_xg_penalty": 0.012,
         "note": "Proxy scores remain PELE-forward. Fantasy-pool context is deliberately small and blocked from final promotion until official final squads and rules are complete."
       },
@@ -15007,9 +15007,9 @@
         "component_adjustments": {
           "attack_strength_adjustment": -0.29,
           "midfield_strength_adjustment": -0.51,
-          "defense_strength_adjustment": 0.35,
+          "defense_strength_adjustment": 0.36,
           "goalkeeper_strength_adjustment": -0.08,
-          "availability_adjustment": 0.15,
+          "availability_adjustment": 0.16,
           "data_quality_adjustment": 0.22,
           "final_squad_uncertainty_penalty": -1.2,
           "total_fantasy_pool_adjustment": -1.27

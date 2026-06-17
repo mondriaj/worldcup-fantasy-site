@@ -831,6 +831,10 @@ function currentFantasyPoolPlayerFromOfficialRecord(record) {
   if (!Object.keys(financeMetric).length) missingCriticalFlags.push("missing_current_finance_metric");
   if (!Object.keys(firstProjection.fixture_context || {}).length) missingCriticalFlags.push("missing_score_context");
 
+  if (missingCriticalFlags.length) {
+    return null;
+  }
+
   return normalizePublicPlayerFantasyPosition({
     id,
     internal_player_id: id,
@@ -919,6 +923,7 @@ function buildCurrentFantasyPoolPlayers() {
   return officialRows
     .filter(isOfficialFantasySelectable)
     .map(currentFantasyPoolPlayerFromOfficialRecord)
+    .filter(Boolean)
     .filter((player) => player.id && player.official_fantasy_player_id)
     .filter((player, index, playerList) =>
       playerList.findIndex((candidate) => candidate.id === player.id) === index
@@ -3021,26 +3026,34 @@ function topScorelineText(row) {
   return "needs check";
 }
 
-function liveFixtureLookupKeys(fixture) {
-  const keys = [
-    fixture?.local_fixture_id,
-    fixture?.match_id,
-    fixture?.match_number,
-    fixture?.match_number ? `fwc2026-m${String(fixture.match_number).padStart(3, "0")}` : null
-  ]
-    .filter((valueToCheck) => valueToCheck !== null && valueToCheck !== undefined && String(valueToCheck).trim())
-    .map((valueToCheck) => String(valueToCheck).trim());
+function validLocalFixtureKey(value) {
+  const key = String(value || "").trim();
+  return /^fwc2026-m\d{3}$/i.test(key) ? key.toLowerCase() : "";
+}
 
-  return Array.from(new Set(keys));
+function liveFixtureLookupKey(fixture) {
+  return validLocalFixtureKey(
+    fixture?.resolved_local_fixture_key ||
+    fixture?.local_fixture_id ||
+    fixture?.match_id ||
+    localFixtureIdFromMatchNumber(fixture?.match_number)
+  );
+}
+
+function scorePredictionFixtureKey(row) {
+  return validLocalFixtureKey(
+    row?.fixture_id ||
+    row?.match_id ||
+    localFixtureIdFromMatchNumber(row?.match_number)
+  );
 }
 
 function buildLiveFixtureLookup(fixtures) {
   return fixtures.reduce((lookup, fixture) => {
-    liveFixtureLookupKeys(fixture).forEach((key) => {
-      if (!lookup.has(key)) {
-        lookup.set(key, fixture);
-      }
-    });
+    const key = liveFixtureLookupKey(fixture);
+    if (key && !lookup.has(key)) {
+      lookup.set(key, fixture);
+    }
     return lookup;
   }, new Map());
 }
@@ -3050,18 +3063,10 @@ function liveFixtureForScorePrediction(row) {
     return null;
   }
 
-  const keys = [
-    row.fixture_id,
-    row.match_id,
-    row.match_number,
-    row.match_number ? `fwc2026-m${String(row.match_number).padStart(3, "0")}` : null
-  ].filter(Boolean).map(String);
-
-  for (const key of keys) {
-    const liveFixture = liveFixtureLookup.get(key);
-    if (liveFixtureMatchesScorePrediction(liveFixture, row)) {
-      return liveFixture;
-    }
+  const key = scorePredictionFixtureKey(row);
+  const liveFixture = key ? liveFixtureLookup.get(key) : null;
+  if (liveFixtureMatchesScorePrediction(liveFixture, row)) {
+    return liveFixture;
   }
 
   return null;
@@ -3091,14 +3096,10 @@ function liveFixtureMatchesScorePrediction(fixture, row) {
     return false;
   }
 
-  const liveLocalId = String(fixture.local_fixture_id || fixture.match_id || localFixtureIdFromMatchNumber(fixture.match_number) || "");
-  const rowLocalId = String(row.fixture_id || row.match_id || localFixtureIdFromMatchNumber(row.match_number) || "");
-  const liveMatchNumber = Number(fixture.match_number);
-  const rowMatchNumber = Number(row.match_number);
-  const localIdMatches = liveLocalId && rowLocalId && liveLocalId === rowLocalId;
-  const matchNumberMatches = Number.isFinite(liveMatchNumber) && Number.isFinite(rowMatchNumber) && liveMatchNumber === rowMatchNumber;
+  const liveLocalId = liveFixtureLookupKey(fixture);
+  const rowLocalId = scorePredictionFixtureKey(row);
 
-  if (!localIdMatches && !matchNumberMatches) {
+  if (!liveLocalId || !rowLocalId || liveLocalId !== rowLocalId) {
     return false;
   }
 

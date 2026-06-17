@@ -3,8 +3,8 @@
   "generated_at": "2026-06-08",
   "status": "pass",
   "summary": {
-    "official_rows": 1482,
-    "official_position_rows": 1482,
+    "official_rows": 1488,
+    "official_position_rows": 1488,
     "selectable_official_missing_positions": 0,
     "legacy_conflicts_corrected": 135,
     "public_mismatches": 0,
@@ -17,7 +17,7 @@
       "id": "official_position_records_exported",
       "status": "pass",
       "passed": true,
-      "detail": "1482/1482 official position records are in fantasyPoolOfficialDataStatusData.js."
+      "detail": "1488/1488 official position records are in fantasyPoolOfficialDataStatusData.js."
     },
     {
       "id": "no_selectable_official_positions_missing",

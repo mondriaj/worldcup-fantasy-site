@@ -183,6 +183,7 @@ const unavailableOfficialFantasyPlayers = officialFantasyPlayers
 
 const publicWarningCopy = [
   "Uses official fantasy prices, positions, selectable status, and scoring.",
+  "Emergency MD2 refresh uses completed MD1 scores and official fantasy lineup status through the latest static refresh.",
   "Daily monitor checks FIFA fantasy feed changes.",
   "Confirm locks, deadlines, boosters, and live status inside the official game.",
   "Team Builder is planning help; verify official-game legality before saving."
@@ -217,7 +218,7 @@ const officialDataStatus = {
     "playersData.js"
   ],
   warning_copy: publicWarningCopy,
-  public_warning_html: "Official Fantasy Picks use current FIFA fantasy prices, positions, selectable status, and scoring. Refresh the data when the game feed changes.",
+  public_warning_html: "Official Fantasy Picks use current FIFA fantasy prices, positions, selectable status, scoring, completed MD1 score context, and official fantasy lineup status. Refresh again after the remaining MD1 fixtures finish.",
   team_builder_warning_html: "Team Builder is planning help. Confirm squad legality, locks, and deadlines inside the official FIFA fantasy game before saving.",
   official_position_records: officialFantasyPositionRecords,
   official_position_record_count: officialFantasyPositionRecords.length,

@@ -1,6 +1,6 @@
 # Team Builder Data Source Audit v1
 
-Generated: 2026-06-08
+Generated: 2026-06-17
 
 ## Current Source Before Changes
 
@@ -31,10 +31,11 @@ Team Builder now starts from `fantasyPoolOfficialDataStatusData.js` `official_po
 
 ## Coverage Summary
 
-- Official fantasy players: 1482
-- Official selectable players: 1243
-- Team Builder candidates: 1243
-- Nonselectable official rows excluded: 239
+- Official fantasy players: 1488
+- Official selectable players: 1245
+- Team Builder candidates: 1233
+- Nonselectable official rows excluded: 243
+- Model-not-ready official rows excluded: 12
 - Missing projection fields: 0
 - Missing finance/value fields: 0
 - Missing score context: 0
@@ -42,4 +43,4 @@ Team Builder now starts from `fantasyPoolOfficialDataStatusData.js` `official_po
 
 ## Monitor Note
 
-The latest monitor result was completed with decision `official_player_import_rerun_needed`. Player changes included 1 new players, 8 selectable-status changes, 0 price changes, and 0 position changes. A separate official player import refresh is still recommended before broader model reruns.
+The latest monitor result was completed with decision `full_model_rerun_recommended`. Player changes included 6 new players, 16 selectable-status changes, 0 price changes, and 0 position changes. A separate official player import refresh is still recommended before broader model reruns.

@@ -1,6 +1,6 @@
 # Score Prediction QA Report Fantasy Pool v3
 
-Generated: 2026-06-05T18:46:31.503Z
+Generated: 2026-06-17T22:45:11.984Z
 
 ## Status
 
@@ -14,7 +14,7 @@ This is a staged `fantasy_pool_only` score predictor. It is not final-squad-back
 | Teams covered | 48 |
 | PELE coverage complete | true |
 | Final-squad-confirmed rows | 0 |
-| Squad review rows | 225 |
+| Squad review rows | 239 |
 | Safe for preliminary projection staging | true |
 | Safe for final public recommendations | false |
 | Safe for final Team Builder promotion | false |
@@ -65,14 +65,14 @@ Projected xG values match the expected-goal inputs used by the scoreline grid. T
 
 | Fixture | Uncertainty | Score | Goal range | Reason |
 | --- | --- | --- | --- | --- |
-| USA vs Paraguay | High | 66 | 1.509-3.123 | High uncertainty: close team-quality gap, higher upset risk, team-role context needs review. |
-| Egypt vs IR Iran | High | 63 | 1.22-2.734 | High uncertainty: close team-quality gap, higher upset risk, lower-goal setup can swing on one moment. |
-| Korea Republic vs Czechia | High | 62 | 1.313-2.859 | High uncertainty: close team-quality gap, higher upset risk, team-role context needs review. |
-| Congo DR vs Uzbekistan | High | 62 | 1.341-2.895 | High uncertainty: close team-quality gap, higher upset risk, team-role context needs review. |
+| USA vs Paraguay | High | 66 | 1.508-3.122 | High uncertainty: close team-quality gap, higher upset risk, team-role context needs review. |
+| Egypt vs IR Iran | High | 63 | 1.221-2.735 | High uncertainty: close team-quality gap, higher upset risk, lower-goal setup can swing on one moment. |
+| Korea Republic vs Czechia | High | 62 | 1.313-2.857 | High uncertainty: close team-quality gap, higher upset risk, team-role context needs review. |
+| Congo DR vs Uzbekistan | High | 62 | 1.339-2.895 | High uncertainty: close team-quality gap, higher upset risk, team-role context needs review. |
 | USA vs Australia | High | 58 | 1.508-3.124 | High uncertainty: moderate team-quality gap, higher upset risk, team-role context needs review. |
 | Cabo Verde vs Saudi Arabia | High | 55 | 1.021-2.463 | High uncertainty: moderate team-quality gap, higher upset risk, lower-goal setup can swing on one moment. |
 | Türkiye vs Paraguay | High | 54 | 1.545-3.173 | High uncertainty: moderate team-quality gap, higher upset risk, team-role context needs review. |
-| Paraguay vs Australia | High | 53 | 1.143-2.629 | High uncertainty: moderate team-quality gap, credible upset path, lower-goal setup can swing on one moment. |
+| Paraguay vs Australia | High | 53 | 1.142-2.628 | High uncertainty: moderate team-quality gap, credible upset path, lower-goal setup can swing on one moment. |
 
 ## Main Differences From v2
 
@@ -80,7 +80,7 @@ Projected xG values match the expected-goal inputs used by the scoreline grid. T
 | --- | --- |
 | Fixtures compared with v2 | 72 |
 | Average absolute total xG change | 0.049 |
-| Average max W/D/L probability change | 0.0244 |
+| Average max W/D/L probability change | 0.0245 |
 | Favorite changes | 1 |
 | Average total expected goals v3 | 2.46 |
 
@@ -88,14 +88,14 @@ Projected xG values match the expected-goal inputs used by the scoreline grid. T
 
 | Fixture | Total xG delta | Home xG delta | Away xG delta |
 | --- | --- | --- | --- |
-| Mexico vs South Africa | -0.162 | -0.162 | 0 |
+| Mexico vs South Africa | -0.163 | -0.163 | 0 |
 | Jordan vs Argentina | 0.152 | 0 | 0.152 |
 | Uruguay vs Cabo Verde | 0.144 | 0.144 | 0 |
 | Senegal vs Iraq | 0.142 | 0.142 | 0 |
-| Iraq vs Norway | 0.137 | 0 | 0.137 |
-| Canada vs Qatar | -0.135 | -0.164 | 0.029 |
+| Iraq vs Norway | 0.138 | 0 | 0.138 |
+| Canada vs Qatar | -0.136 | -0.165 | 0.029 |
 | France vs Iraq | 0.134 | 0.134 | 0 |
-| Uzbekistan vs Colombia | 0.131 | 0 | 0.131 |
+| Uzbekistan vs Colombia | 0.133 | 0 | 0.133 |
 | Tunisia vs Japan | 0.13 | 0 | 0.13 |
 | Portugal vs Uzbekistan | 0.127 | 0.127 | 0 |
 
@@ -103,29 +103,29 @@ Projected xG values match the expected-goal inputs used by the scoreline grid. T
 
 | Fixture | Max W/D/L delta | Favorite v2 | Favorite v3 | Favorite changed |
 | --- | --- | --- | --- | --- |
-| Australia vs Türkiye | 0.0886 | Türkiye | Türkiye | false |
+| Australia vs Türkiye | 0.0893 | Türkiye | Türkiye | false |
 | Switzerland vs Canada | 0.0831 | Switzerland | Switzerland | false |
-| Paraguay vs Australia | 0.0803 | Paraguay | Paraguay | false |
-| Canada vs Bosnia and Herzegovina | 0.0797 | Canada | Canada | false |
-| Congo DR vs Uzbekistan | 0.0752 | Congo DR | Congo DR | false |
-| Türkiye vs USA | 0.0743 | Türkiye | Türkiye | false |
-| Austria vs Jordan | 0.067 | Austria | Austria | false |
-| USA vs Paraguay | 0.0633 | Paraguay | Paraguay | false |
-| Scotland vs Morocco | 0.0631 | Morocco | Morocco | false |
-| South Africa vs Korea Republic | 0.0583 | Korea Republic | Korea Republic | false |
+| Paraguay vs Australia | 0.0805 | Paraguay | Paraguay | false |
+| Canada vs Bosnia and Herzegovina | 0.08 | Canada | Canada | false |
+| Congo DR vs Uzbekistan | 0.0765 | Congo DR | Congo DR | false |
+| Türkiye vs USA | 0.075 | Türkiye | Türkiye | false |
+| Austria vs Jordan | 0.0661 | Austria | Austria | false |
+| USA vs Paraguay | 0.0636 | Paraguay | Paraguay | false |
+| Scotland vs Morocco | 0.0635 | Morocco | Morocco | false |
+| South Africa vs Korea Republic | 0.0586 | Korea Republic | Korea Republic | false |
 
 ## Largest Team-Quality Adjustments
 
 | Country | v2 score | v3 score | Adjustment | Uncertainty |
 | --- | --- | --- | --- | --- |
-| Australia | 42.85 | 39.93 | -2.92 | 82 |
-| Canada | 45.48 | 42.75 | -2.73 | 73.75 |
-| Jordan | 19.33 | 16.75 | -2.58 | 63.07 |
+| Australia | 42.85 | 39.94 | -2.91 | 82 |
+| Canada | 45.48 | 42.75 | -2.73 | 73.81 |
+| Jordan | 19.33 | 16.75 | -2.58 | 63.13 |
 | Mexico | 58.77 | 56.26 | -2.51 | 69.37 |
-| USA | 48.96 | 46.48 | -2.48 | 68.45 |
+| USA | 48.96 | 46.49 | -2.47 | 68.45 |
+| Uzbekistan | 25.49 | 23.37 | -2.12 | 60.93 |
 | IR Iran | 35.24 | 33.28 | -1.96 | 59.16 |
 | Iraq | 18.71 | 16.78 | -1.93 | 55.88 |
-| Uzbekistan | 25.49 | 23.57 | -1.92 | 60.67 |
 | Korea Republic | 42.44 | 40.68 | -1.76 | 71.48 |
 | Cabo Verde | 10.59 | 8.83 | -1.76 | 55.08 |
 
@@ -134,15 +134,15 @@ Projected xG values match the expected-goal inputs used by the scoreline grid. T
 | Country | Uncertainty | Missing usage | Low confidence | Review rows | Neymar gap |
 | --- | --- | --- | --- | --- | --- |
 | Australia | 82 | 32 | 23 | 10 | false |
-| Canada | 73.75 | 30 | 25 | 6 | false |
+| Canada | 73.81 | 30 | 24 | 7 | false |
 | Korea Republic | 71.48 | 20 | 19 | 1 | false |
 | Mexico | 69.37 | 44 | 25 | 25 | false |
 | USA | 68.45 | 25 | 24 | 5 | false |
 | Morocco | 66.78 | 33 | 13 | 20 | false |
-| Jordan | 63.07 | 17 | 26 | 4 | false |
-| Argentina | 62.87 | 33 | 4 | 29 | false |
-| Brazil | 61.54 | 13 | 13 | 0 | true |
-| Uzbekistan | 60.67 | 17 | 28 | 0 | false |
+| Argentina | 63.27 | 33 | 4 | 30 | false |
+| Jordan | 63.13 | 17 | 25 | 5 | false |
+| Brazil | 62.38 | 13 | 13 | 1 | true |
+| Uzbekistan | 60.93 | 17 | 24 | 4 | false |
 
 ## Neymar / Brazil Treatment
 
@@ -151,10 +151,10 @@ Brazil has `brazil_neymar_usage_source_gap` on every Brazil fixture because Neym
 | Brazil field | Value |
 | --- | --- |
 | Team quality v2 score | 81.25 |
-| Fantasy-pool v3 score | 80.18 |
-| Total fantasy-pool adjustment | -1.07 |
+| Fantasy-pool v3 score | 79.91 |
+| Total fantasy-pool adjustment | -1.34 |
 | Neymar usage source gap | true |
-| Brazil uncertainty score | 61.54 |
+| Brazil uncertainty score | 62.38 |
 
 ## Stop Conditions Before Promotion
 

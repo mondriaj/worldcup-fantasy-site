@@ -32,26 +32,30 @@
     return Number.isFinite(number) ? String(number) : "";
   }
 
-  function liveFixtureLookupKeys(fixture) {
-    const keys = [
-      fixture?.local_fixture_id,
-      fixture?.match_id,
-      fixture?.match_number,
-      fixture?.match_number ? `fwc2026-m${String(fixture.match_number).padStart(3, "0")}` : null
-    ]
-      .filter((valueToCheck) => valueToCheck !== null && valueToCheck !== undefined && String(valueToCheck).trim())
-      .map((valueToCheck) => String(valueToCheck).trim());
+  function validLocalFixtureKey(value) {
+    const key = String(value || "").trim();
+    return /^fwc2026-m\d{3}$/i.test(key) ? key.toLowerCase() : "";
+  }
 
-    return Array.from(new Set(keys));
+  function liveFixtureLookupKey(fixture) {
+    return validLocalFixtureKey(
+      fixture?.resolved_local_fixture_key ||
+      fixture?.local_fixture_id ||
+      fixture?.match_id ||
+      localFixtureIdFromMatchNumber(fixture?.match_number)
+    );
+  }
+
+  function worldCupFixtureKey(fixture) {
+    return validLocalFixtureKey(localFixtureIdFromMatchNumber(fixture?.match_number));
   }
 
   function buildLiveFixtureLookup(fixtures) {
     return fixtures.reduce((lookup, fixture) => {
-      liveFixtureLookupKeys(fixture).forEach((key) => {
-        if (!lookup.has(key)) {
-          lookup.set(key, fixture);
-        }
-      });
+      const key = liveFixtureLookupKey(fixture);
+      if (key && !lookup.has(key)) {
+        lookup.set(key, fixture);
+      }
       return lookup;
     }, new Map());
   }
@@ -59,16 +63,10 @@
   const liveFixtureLookup = buildLiveFixtureLookup(liveFixtures);
 
   function liveFixtureForFixture(fixture) {
-    const keys = [
-      fixture?.match_number,
-      fixture?.match_number ? `fwc2026-m${String(fixture.match_number).padStart(3, "0")}` : null
-    ].filter(Boolean).map(String);
-
-    for (const key of keys) {
-      const liveFixture = liveFixtureLookup.get(key);
-      if (liveFixtureMatchesLocalFixture(liveFixture, fixture)) {
-        return liveFixture;
-      }
+    const key = worldCupFixtureKey(fixture);
+    const liveFixture = key ? liveFixtureLookup.get(key) : null;
+    if (liveFixtureMatchesLocalFixture(liveFixture, fixture)) {
+      return liveFixture;
     }
 
     return null;
@@ -98,14 +96,10 @@
       return false;
     }
 
-    const liveLocalId = String(liveFixture.local_fixture_id || liveFixture.match_id || localFixtureIdFromMatchNumber(liveFixture.match_number) || "");
-    const fixtureLocalId = localFixtureIdFromMatchNumber(fixture.match_number);
-    const liveMatchNumber = Number(liveFixture.match_number);
-    const fixtureMatchNumber = Number(fixture.match_number);
-    const localIdMatches = liveLocalId && fixtureLocalId && liveLocalId === fixtureLocalId;
-    const matchNumberMatches = Number.isFinite(liveMatchNumber) && Number.isFinite(fixtureMatchNumber) && liveMatchNumber === fixtureMatchNumber;
+    const liveLocalId = liveFixtureLookupKey(liveFixture);
+    const fixtureLocalId = worldCupFixtureKey(fixture);
 
-    if (!localIdMatches && !matchNumberMatches) {
+    if (!liveLocalId || !fixtureLocalId || liveLocalId !== fixtureLocalId) {
       return false;
     }
 

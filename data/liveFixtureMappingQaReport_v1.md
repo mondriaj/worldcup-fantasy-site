@@ -1,6 +1,6 @@
 # Live Fixture Mapping QA v1
 
-Generated: 2026-06-15T23:11:08.613Z
+Generated: 2026-06-17T23:02:42.031Z
 
 Status: passed
 
@@ -10,9 +10,9 @@ Status: passed
 - Total live fixtures: 72
 - Total score-prediction fixtures: 72
 - Matched fixtures: 72
-- Final fixtures shown: 14
-- In-progress fixtures suppressed: 1
-- Scheduled fixtures: 57
+- Final fixtures shown: 22
+- In-progress fixtures suppressed: 0
+- Scheduled fixtures: 50
 - Unmatched fixtures: 0
 - Ambiguous fixtures: 0
 - Reversed mappings: 0
@@ -28,8 +28,8 @@ Mapping orientation counts:
 ## Regression Examples
 
 - spain_cabo_verde: passed (Spain vs Cabo Verde, source 13, complete, final, score 0-0)
-- saudi_arabia_uruguay: passed (Saudi Arabia vs Uruguay, source 15, playing, not_final_hidden, score none)
-- ir_iran_new_zealand: passed (IR Iran vs New Zealand, source 16, scheduled, not_final_hidden, score none)
+- saudi_arabia_uruguay: passed (Saudi Arabia vs Uruguay, source 15, complete, final, score 1-1)
+- ir_iran_new_zealand: passed (IR Iran vs New Zealand, source 16, complete, final, score 2-2)
 
 ## Browser Lookup Checks
 
@@ -37,8 +37,21 @@ Mapping orientation counts:
 - worldCupPage.js uses live data global: yes
 - script.js has safe mapping guard: yes
 - worldCupPage.js has safe mapping guard: yes
+- script.js uses canonical local fixture lookup: yes
+- worldCupPage.js uses canonical local fixture lookup: yes
 - script.js live lookup avoids raw source ids: yes
 - worldCupPage.js live lookup avoids raw source ids: yes
+- script.js live lookup avoids direct numeric keys: yes
+- worldCupPage.js live lookup avoids direct numeric keys: yes
+
+## Display Lookup Audit
+
+- Match Environment / Score Prediction rows: score-prediction fixture_id/match_id is normalized to the canonical local fixture key, matched against live resolved_local_fixture_key/local_fixture_id, then rechecked against home/away team names before showing an actual score.
+- world-cup.html fixture rows: local match_number is converted to the canonical local fixture key, matched against the same live resolved_local_fixture_key/local_fixture_id, then rechecked against the local fixture home/away team names.
+- Matchday Desk fixture list: filters static live fixtures by round_id and shows fixture scores only through isSafeMappedFinalFixture; in-progress and scheduled scores remain hidden.
+- Saved squad timeline and decision tools: player points and matchStatus are matched by official fantasy player ID; unfinished fixture round points are suppressed by the live importer.
+- Player Profile fixture context and Team Builder fixture risk context: continue to use model projection fixture IDs for prediction context and do not display live actual scores there.
+- Raw FIFA fixture IDs: retained only as source_fixture_id/source_fixture_order audit metadata in generated live data and not referenced by public browser lookup helpers.
 
 ## Errors
 

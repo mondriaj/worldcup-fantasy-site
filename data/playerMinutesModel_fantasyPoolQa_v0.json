@@ -3,54 +3,54 @@
   "generated_at": "2026-06-08",
   "stage": "fantasy_pool_only",
   "data_status": "not_final_squad_ready_not_safe_for_final_public_recommendations",
-  "total_rows": 1482,
-  "rows_modeled": 1243,
-  "rows_blocked": 239,
+  "total_rows": 1488,
+  "rows_modeled": 1233,
+  "rows_blocked": 255,
   "average_start_probability_by_position": {
-    "DEF": 0.552,
-    "FWD": 0.494,
+    "DEF": 0.551,
+    "FWD": 0.495,
     "GK": 0.372,
-    "MID": 0.561
+    "MID": 0.558
   },
   "average_expected_minutes_by_position": {
-    "DEF": 49.736,
-    "FWD": 40.371,
+    "DEF": 49.683,
+    "FWD": 40.429,
     "GK": 32.69,
-    "MID": 45.997
+    "MID": 45.823
   },
   "role_label_counts": {
-    "locked_starter": 358,
-    "blocked": 239,
+    "locked_starter": 353,
+    "blocked": 255,
     "squad_depth": 11,
-    "likely_starter": 179,
-    "unclear": 315,
-    "rotation_starter": 220,
+    "likely_starter": 178,
+    "unclear": 313,
+    "rotation_starter": 218,
     "thin_profile_unclear": 87,
     "backup": 11,
     "impact_sub": 61,
     "third_choice": 1
   },
   "role_confidence_counts": {
-    "high": 612,
-    "blocked": 239,
-    "low": 274,
-    "missing": 125,
+    "high": 606,
+    "blocked": 255,
+    "low": 272,
+    "missing": 124,
     "thin_profile": 87,
-    "medium": 145
+    "medium": 144
   },
   "minutes_model_status_counts": {
-    "modeled_fantasy_pool_only": 1243,
-    "blocked": 239
+    "modeled_fantasy_pool_only": 1233,
+    "blocked": 255
   },
   "thin_profile_counts": {
-    "total": 222,
+    "total": 228,
     "modeled": 87,
-    "blocked": 135
+    "blocked": 141
   },
   "missing_usage_counts": {
-    "total": 609,
-    "modeled": 402,
-    "blocked": 207
+    "total": 615,
+    "modeled": 400,
+    "blocked": 215
   },
   "high_price_missing_usage_players": [],
   "high_price_uncertainty_fallback_players": [],
@@ -1115,6 +1115,27 @@
       ]
     },
     {
+      "official_fantasy_player_id": "2073",
+      "name": "Éderson José dos Santos Lourenço da Silva",
+      "country": "Brazil",
+      "position": "MID",
+      "official_price": 6.3,
+      "role_label": "blocked",
+      "role_confidence": "blocked",
+      "start_probability": null,
+      "expected_minutes": null,
+      "minutes_risk_flags": [
+        "blocked_identity_or_model_review",
+        "blocked_not_selectable",
+        "fantasy_pool_only_not_final_squad_confirmed",
+        "final_squad_source_missing",
+        "missing_club_context",
+        "missing_national_team_usage",
+        "rules_manual_review",
+        "thin_profile"
+      ]
+    },
+    {
       "official_fantasy_player_id": "1671",
       "name": "Sofiane Boufal",
       "country": "Morocco",
@@ -1311,25 +1332,6 @@
       ]
     },
     {
-      "official_fantasy_player_id": "1291",
-      "name": "Jaloliddin Masharipov",
-      "country": "Uzbekistan",
-      "position": "MID",
-      "official_price": 6.1,
-      "role_label": "rotation_starter",
-      "role_confidence": "low",
-      "start_probability": 0.54,
-      "expected_minutes": 44.1,
-      "minutes_risk_flags": [
-        "fantasy_pool_only_not_final_squad_confirmed",
-        "final_squad_source_missing",
-        "low_usage_confidence",
-        "minutes_uncertain",
-        "position_conflict_audit",
-        "rules_manual_review"
-      ]
-    },
-    {
       "official_fantasy_player_id": "1255",
       "name": "Weston McKennie",
       "country": "USA",
@@ -1354,10 +1356,6 @@
       "count": 25
     },
     {
-      "country": "Mexico",
-      "count": 25
-    },
-    {
       "country": "Canada",
       "count": 24
     },
@@ -1366,15 +1364,19 @@
       "count": 24
     },
     {
+      "country": "Mexico",
+      "count": 24
+    },
+    {
       "country": "USA",
       "count": 24
     },
     {
-      "country": "Uzbekistan",
-      "count": 24
+      "country": "Australia",
+      "count": 23
     },
     {
-      "country": "Australia",
+      "country": "Uzbekistan",
       "count": 23
     },
     {
@@ -1402,26 +1404,26 @@
       "count": 13
     },
     {
-      "country": "Morocco",
-      "count": 13
+      "country": "Algeria",
+      "count": 12
     },
     {
-      "country": "Algeria",
+      "country": "Ghana",
       "count": 12
     }
   ],
   "positions_with_most_low_confidence_players": [
     {
       "position": "DEF",
-      "count": 156
+      "count": 155
     },
     {
       "position": "MID",
-      "count": 142
+      "count": 141
     },
     {
       "position": "FWD",
-      "count": 105
+      "count": 104
     },
     {
       "position": "GK",
@@ -1431,12 +1433,12 @@
   "warnings": [
     {
       "id": "fantasy_pool_only",
-      "count": 1243,
+      "count": 1233,
       "details": "Modeled rows are from the official fantasy pool only, not source-backed final squads."
     },
     {
       "id": "missing_usage_not_averaged",
-      "count": 609,
+      "count": 615,
       "details": "Missing national-team usage rows use conservative unclear/thin-profile assumptions, not average usage."
     },
     {
@@ -1496,19 +1498,19 @@
     {
       "id": "blocked_player_rows_present",
       "status": "stop",
-      "count": 239,
+      "count": 255,
       "details": "Blocked rows do not receive preliminary minutes."
     },
     {
       "id": "missing_national_team_usage_present",
       "status": "warning",
-      "count": 609,
+      "count": 615,
       "details": "Missing national-team usage is kept missing and not treated as average."
     },
     {
       "id": "thin_profiles_present",
       "status": "warning",
-      "count": 222,
+      "count": 228,
       "details": "Thin profiles use conservative low-confidence priors only."
     },
     {
@@ -1564,7 +1566,7 @@
     {
       "id": "blocked_player_rows_present",
       "status": "stop",
-      "count": 239,
+      "count": 255,
       "details": "Blocked rows do not receive preliminary minutes."
     },
     {

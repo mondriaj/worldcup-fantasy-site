@@ -258,7 +258,10 @@ const coverageRows = builderRows.map((record) => {
   };
 });
 
-const missingCounts = coverageRows.reduce((counts, row) => {
+const modelReadyCoverageRows = coverageRows.filter((row) => row.missing.length === 0);
+const modelNotReadyRows = coverageRows.filter((row) => row.missing.length > 0);
+
+const missingCounts = modelReadyCoverageRows.reduce((counts, row) => {
   row.missing.forEach((field) => {
     counts[field] = (counts[field] || 0) + 1;
   });
@@ -268,11 +271,12 @@ const missingCounts = coverageRows.reduce((counts, row) => {
 const excludedReasons = {
   nonselectable_official_status: nonSelectableOfficialRecords.length,
   duplicate_builder_id: duplicateIds.length,
-  missing_builder_or_official_id: selectableOfficialRecords.length - builderRows.length - duplicateIds.length
+  missing_builder_or_official_id: selectableOfficialRecords.length - builderRows.length - duplicateIds.length,
+  model_not_ready_current_fields: modelNotReadyRows.length
 };
 
 const knownExamples = ["colombia-luis-diaz", "brazil-vinicius-junior"].map((idToFind) => {
-  const row = coverageRows.find((rowToCheck) => rowToCheck.builder_id === idToFind);
+  const row = modelReadyCoverageRows.find((rowToCheck) => rowToCheck.builder_id === idToFind);
   const finance = row ? financeById.get(String(row.official_fantasy_player_id || ""))?.[0] : null;
   return {
     internal_player_id: idToFind,
@@ -308,7 +312,7 @@ const result = {
     official_fantasy_players_source: officialPlayers.length,
     official_position_records_browser: officialRecords.length,
     selectable_official_players: selectableOfficialRecords.length,
-    team_builder_candidate_rows: builderRows.length,
+    team_builder_candidate_rows: modelReadyCoverageRows.length,
     excluded_rows: Object.values(excludedReasons).reduce((sum, count) => sum + count, 0),
     excluded_reasons: excludedReasons,
     recommendation_rows: recommendationRows.length,
@@ -320,7 +324,7 @@ const result = {
     legacy_finance_rows_loaded: legacyFinanceRows.length,
     legacy_player_rows_loaded: legacyPlayerRows.length,
     runtime_legacy_fallback_rows: officialRecords.length ? 0 : legacyFinanceRows.length || legacyPlayerRows.length,
-    legacy_display_fallback_rows: coverageRows.filter((row) => row.uses_legacy_display_fallback).length
+    legacy_display_fallback_rows: modelReadyCoverageRows.filter((row) => row.uses_legacy_display_fallback).length
   },
   missing_field_counts: {
     official_fantasy_id: missingCounts.official_fantasy_player_id || 0,
@@ -358,23 +362,30 @@ const result = {
       scriptText.includes("team_builder_legacy_fallback"),
     no_runtime_fetch: !/\bfetch\s*\(/.test(scriptText)
   },
-  monitor_result: monitor ? {
+  model_not_ready_excluded_samples: sampleRows(modelNotReadyRows)
+};
+
+result.script_checks.filters_model_not_ready_current_pool = scriptText.includes("missing_current_matchday_projection") &&
+  scriptText.includes("missing_current_finance_metric") &&
+  scriptText.includes(".map(currentFantasyPoolPlayerFromOfficialRecord)") &&
+  scriptText.includes(".filter(Boolean)");
+
+result.monitor_result = monitor ? {
     monitor_status: monitor.monitor_status,
     official_data_changed: monitor.official_data_changed ?? monitorSummary.official_data_changed ?? false,
     rerun_decision: monitor.rerun_decision ?? monitorRecommendation.rerun_decision ?? monitorSummary.rerun_decision ?? null,
     player_changes: monitorPlayerChanges,
     squad_changes: monitorSquadChanges,
     rules_changes: monitorRulesChanges
-  } : null,
-  samples: {
-    missing_critical_fields: sampleRows(coverageRows.filter((row) => row.missing.length)),
-    nonselectable_excluded: sampleRows(nonSelectableOfficialRecords),
-    duplicate_builder_ids: sampleRows(duplicateIds)
-  }
+  } : null;
+result.samples = {
+  missing_critical_fields: sampleRows(modelNotReadyRows),
+  nonselectable_excluded: sampleRows(nonSelectableOfficialRecords),
+  duplicate_builder_ids: sampleRows(duplicateIds)
 };
 
 const failedChecks = [];
-if (result.counts.team_builder_candidate_rows !== result.counts.selectable_official_players) {
+if (result.counts.team_builder_candidate_rows + result.counts.excluded_reasons.model_not_ready_current_fields !== result.counts.selectable_official_players) {
   failedChecks.push("team_builder_candidate_count_does_not_match_selectable_official_pool");
 }
 if (Object.values(result.missing_field_counts).some((count) => count > 0)) {
@@ -389,7 +400,7 @@ if (!sourceSync.every((check) => check.in_sync)) {
 if (!result.static_loading.browser_files_before_script) {
   failedChecks.push("browser_ready_data_not_loaded_before_script");
 }
-if (!result.script_checks.uses_current_fantasy_pool_builder_source || !result.script_checks.legacy_fallback_is_explicit) {
+if (!result.script_checks.uses_current_fantasy_pool_builder_source || !result.script_checks.legacy_fallback_is_explicit || !result.script_checks.filters_model_not_ready_current_pool) {
   failedChecks.push("script_source_priority_not_detected");
 }
 if (!result.script_checks.no_runtime_fetch) {
@@ -415,6 +426,7 @@ const reportLines = [
   `- Team Builder candidates: ${result.counts.team_builder_candidate_rows}`,
   `- Excluded official rows: ${result.counts.excluded_rows}`,
   `- Excluded by nonselectable status: ${result.counts.excluded_reasons.nonselectable_official_status}`,
+  `- Excluded by missing current model fields: ${result.counts.excluded_reasons.model_not_ready_current_fields}`,
   `- Matchday projection rows: ${result.counts.matchday_projection_rows}`,
   `- Finance metric rows: ${result.counts.finance_metric_rows}`,
   `- Score fixtures: ${result.counts.score_fixture_rows}`,
@@ -447,8 +459,8 @@ const reportLines = [
   "",
   "## Notes",
   "",
-  "- Team Builder now starts from official fantasy-pool selectable players, not the legacy finance/player list.",
-  "- Official fantasy position, price, and selectable status are the authority before current model fields are joined.",
+  "- Team Builder now starts from official fantasy-pool selectable players that also have current projections, finance metrics, and score context, not the legacy finance/player list.",
+  "- Official fantasy position, price, and selectable status are the authority before current model fields are joined; rows without current model fields are excluded instead of shown with blanks.",
   "- Legacy player data remains only as an explicit fallback if the official fantasy-pool layer is absent, plus display-only club fallback where current projection rows lack club context.",
   "- The monitor result recommends a separate official player import refresh because it found a new player and selectable-status changes; this validation does not perform that import or rerun models."
 ];
@@ -491,6 +503,7 @@ const auditLines = [
   `- Official selectable players: ${result.counts.selectable_official_players}`,
   `- Team Builder candidates: ${result.counts.team_builder_candidate_rows}`,
   `- Nonselectable official rows excluded: ${result.counts.excluded_reasons.nonselectable_official_status}`,
+  `- Model-not-ready official rows excluded: ${result.counts.excluded_reasons.model_not_ready_current_fields}`,
   `- Missing projection fields: ${result.missing_field_counts.projected_points}`,
   `- Missing finance/value fields: ${result.missing_field_counts.finance_value_fields}`,
   `- Missing score context: ${result.missing_field_counts.score_context}`,

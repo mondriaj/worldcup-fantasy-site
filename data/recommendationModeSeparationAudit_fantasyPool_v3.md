@@ -1,13 +1,13 @@
 # Recommendation Mode Separation Audit Fantasy Pool v3
 
-Generated: 2026-06-03T16:56:58.583Z
+Generated: 2026-06-17T22:53:19.339Z
 
 Model stage: fantasy_pool_only. This audit does not promote recommendations, does not update active v2 recommendations, does not update browser-ready files, and does not make Team Builder, captain/substitution, or UX changes.
 
 ## Summary
 
 - Before Differential winner: Nuno Alexandre Tavares Mendes (md2).
-- After Differential winner: Giorgian de Arrascaeta (md1).
+- After Differential winner: Hiroki Ito (md2).
 - After Balanced winner: Lionel Messi (md3).
 - Differential repeats Balanced top row after calibration: false.
 - Differential vs Balanced top-10 overlap after calibration: 0.
@@ -31,11 +31,11 @@ Baseline note: Baseline from the staged fantasyPool_v3 recommendation output at 
 
 | Mode | Winner | Country | Pos | Scope | Score | Price |
 | --- | --- | --- | --- | --- | --- | --- |
-| Balanced | Lionel Messi | Argentina | FWD | md3 | 82.947 | 10 |
-| Safe | Camilo Vargas | Colombia | GK | md1 | 89.896 | 4.3 |
-| Upside | Luis Suárez | Colombia | FWD | md1 | 77.474 | 5.7 |
-| Differential | Giorgian de Arrascaeta | Uruguay | MID | md1 | 88.724 | 6.5 |
-| Captain Alpha | Lionel Messi | Argentina | FWD | md3 | 98.178 | 10 |
+| Balanced | Lionel Messi | Argentina | FWD | md3 | 82.411 | 10 |
+| Safe | Enzo Fernández | Argentina | MID | md3 | 83.792 | 7.5 |
+| Upside | Luis Suárez | Colombia | FWD | md2 | 79.582 | 5.7 |
+| Differential | Hiroki Ito | Japan | DEF | md2 | 84.686 | 3.9 |
+| Captain Alpha | Lionel Messi | Argentina | FWD | md3 | 98.623 | 10 |
 
 ## Before Top-List Overlap
 
@@ -50,8 +50,8 @@ Baseline note: Baseline from the staged fantasyPool_v3 recommendation output at 
 
 | Pair | Top-10 overlap | Top-25 overlap | Top-10 shared examples |
 | --- | --- | --- | --- |
-| Balanced vs Safe | 2 | 8 | Enzo Fernández (md3); Bruno Miguel Borges Fernandes (md2) |
-| Balanced vs Differential | 0 | 1 |  |
+| Balanced vs Safe | 4 | 14 | Enzo Fernández (md3); Lionel Messi (md3); Enzo Fernández (md1); Lionel Messi (md1) |
+| Balanced vs Differential | 0 | 4 |  |
 | Safe vs Differential | 0 | 0 |  |
 | Upside vs Captain Alpha | 0 | 0 |  |
 
@@ -89,11 +89,11 @@ Nuno Mendes ranks well in Balanced and Safe for understandable staged-model reas
 
 | Mode | Rank | Name | Pos | Scope | Opponent | Price | Score | Raw | Risk | Start | Minutes | Confidence | Obviousness penalty | Reasons |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Balanced | 1 | Nuno Alexandre Tavares Mendes | DEF | md2 | Uzbekistan | 5.8 | 82.893 | 8.252 | 7.675 | 0.892 | 74.2 | high |  |  |
-| Safe | 11 | Nuno Alexandre Tavares Mendes | DEF | md2 | Uzbekistan | 5.8 | 87.079 | 8.252 | 7.675 | 0.892 | 74.2 | high |  |  |
-| Upside | 14 | Nuno Alexandre Tavares Mendes | DEF | md2 | Uzbekistan | 5.8 | 58.733 | 8.252 | 7.675 | 0.892 | 74.2 | high |  |  |
-| Differential | 21 | Nuno Alexandre Tavares Mendes | DEF | md2 | Uzbekistan | 5.8 | 66.128 | 8.252 | 7.675 | 0.892 | 74.2 | high | 39 | Balanced rank 1; Safe rank 11; Captain Alpha rank 21; Raw projection rank 5; price percentile 1 by position |
-| Captain Alpha | 21 | Nuno Alexandre Tavares Mendes | DEF | md2 | Uzbekistan | 5.8 | 76.931 | 8.252 | 7.675 | 0.892 | 74.2 | high |  |  |
+| Balanced | 1 | Nuno Alexandre Tavares Mendes | DEF | md1 | Congo DR | 5.8 | 81.415 | 8.192 | 7.618 | 0.892 | 74.2 | high |  |  |
+| Safe | 14 | Nuno Alexandre Tavares Mendes | DEF | md1 | Congo DR | 5.8 | 80.504 | 8.192 | 7.618 | 0.892 | 74.2 | high |  |  |
+| Upside | 9 | Nuno Alexandre Tavares Mendes | DEF | md2 | Uzbekistan | 5.8 | 61.136 | 8.135 | 7.565 | 0.892 | 74.2 | high |  |  |
+| Differential | 4 | Nuno Alexandre Tavares Mendes | DEF | group_stage_full | Group stage average | 5.8 | 72.185 | 21.559 | 20.049 | 0.892 | 74.2 | high | 31 | Balanced rank 4; Safe rank 23; Captain Alpha rank 23; Raw projection rank 12; price percentile 1 by position |
+| Captain Alpha | 18 | Nuno Alexandre Tavares Mendes | DEF | md1 | Congo DR | 5.8 | 75.911 | 8.192 | 7.618 | 0.892 | 74.2 | high |  |  |
 
 ## Differential Definition Applied
 
@@ -113,16 +113,16 @@ Differential defensibility floor:
 
 | Rank | Name | Country | Pos | Scope | Opponent | Price | Score | Raw | Risk | Start | Minutes | Confidence | Obviousness penalty | Reasons |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Giorgian de Arrascaeta | Uruguay | MID | md1 | Saudi Arabia | 6.5 | 88.724 | 7.541 | 7.013 | 0.923 | 69.1 | high | 12 | Captain Alpha rank 10; Raw projection rank 8; price percentile 0.87 by position |
-| 1 | Giorgian de Arrascaeta | Uruguay | MID | md2 | Cabo Verde | 6.5 | 86.457 | 7.818 | 7.271 | 0.923 | 69.1 | high | 17 | Balanced rank 25; Captain Alpha rank 5; Raw projection rank 9; price percentile 0.87 by position |
-| 2 | Hiroki Ito | Japan | DEF | md2 | Tunisia | 3.9 | 83.942 | 6.567 | 6.107 | 0.89 | 74.1 | high | 4 | Balanced rank 11; Raw projection rank 20 |
-| 2 | Julian Ryerson | Norway | DEF | md1 | Iraq | 4.2 | 83.44 | 6.959 | 6.472 | 0.924 | 76.5 | high | 5 | Balanced rank 12; Raw projection rank 14 |
-| 3 | Luis Suárez | Colombia | FWD | md2 | Congo DR | 5.7 | 82.532 | 6.433 | 5.983 | 0.73 | 53.4 | high | 1 |  |
-| 3 | Luis Suárez | Colombia | FWD | md1 | Uzbekistan | 5.7 | 82.356 | 6.468 | 6.015 | 0.73 | 53.4 | high | 2 | Raw projection rank 24 |
-| 1 | Charles De Ketelaere | Belgium | MID | group_stage_full | Group stage average | 5.6 | 80.024 | 18.988 | 17.659 | 0.902 | 67.7 | high | 1 | Raw projection rank 19 |
-| 2 | Silvan Widmer | Switzerland | DEF | group_stage_full | Group stage average | 4.2 | 78.446 | 17.429 | 16.21 | 0.908 | 75.4 | high | 3 | Balanced rank 12 |
-| 4 | Johan Mojica | Colombia | DEF | md1 | Uzbekistan | 3.9 | 78.061 | 5.699 | 5.3 | 0.924 | 76.5 | high | 3 | Balanced rank 16 |
-| 3 | Luis Suárez | Colombia | FWD | group_stage_full | Group stage average | 5.7 | 78.044 | 17.194 | 15.99 | 0.73 | 53.4 | high | 1 |  |
+| 1 | Hiroki Ito | Japan | DEF | md2 | Tunisia | 3.9 | 84.686 | 6.609 | 6.146 | 0.89 | 74.1 | high | 4 | Balanced rank 12; Raw projection rank 21 |
+| 1 | Josip Stanisic | Croatia | DEF | md3 | Ghana | 4.3 | 79.177 | 6.326 | 5.883 | 0.892 | 74.2 | high | 4.5 | Balanced rank 19; price percentile 0.73 by position |
+| 1 | Hiroki Ito | Japan | DEF | group_stage_full | Group stage average | 3.9 | 76.059 | 14.479 | 13.466 | 0.89 | 74.1 | high | 0 |  |
+| 2 | Nico O'Reilly | England | DEF | group_stage_full | Group stage average | 4.7 | 75.309 | 19.269 | 17.919 | 0.876 | 73.1 | high | 22 | Balanced rank 7; Captain Alpha rank 24; Raw projection rank 21; price percentile 0.87 by position; top-10 in 2 modes |
+| 2 | Bruno Guimarães Rodriguez Moura | Brazil | MID | md2 | Haiti | 6.8 | 75.049 | 6.224 | 5.789 | 0.95 | 70.8 | high | 4 | price percentile 0.9 by position |
+| 1 | Santiago Arias | Colombia | DEF | md1 | Uzbekistan | 3.9 | 74.624 | 5.639 | 5.244 | 0.882 | 73.5 | high | 3 | Balanced rank 25 |
+| 3 | Nico O'Reilly | England | DEF | md2 | Ghana | 4.7 | 73.518 | 6.81 | 6.333 | 0.876 | 73.1 | high | 20 | Balanced rank 7; Captain Alpha rank 24; Raw projection rank 16; price percentile 0.87 by position |
+| 3 | Hernán Galíndez | Ecuador | GK | group_stage_full | Group stage average | 4.2 | 73.233 | 14.257 | 13.259 | 0.94 | 82.7 | high | 0 |  |
+| 4 | Nuno Alexandre Tavares Mendes | Portugal | DEF | group_stage_full | Group stage average | 5.8 | 72.185 | 21.559 | 20.049 | 0.892 | 74.2 | high | 31 | Balanced rank 4; Safe rank 23; Captain Alpha rank 23; Raw projection rank 12; price percentile 1 by position |
+| 5 | Bruno Guimarães Rodriguez Moura | Brazil | MID | group_stage_full | Group stage average | 6.8 | 72.062 | 17.677 | 16.441 | 0.95 | 70.8 | high | 4 | price percentile 0.9 by position |
 
 ## Decision
 

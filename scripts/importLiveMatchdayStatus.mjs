@@ -570,10 +570,11 @@ function normalizeFixture(round, fixture, localMaps) {
   const localFixture = mapping.localFixture;
   const isFinal = fixtureIsFinal(fixture.status);
   const isSafeMapping = ["matched", "matched_reversed"].includes(mapping.status);
-  const canExposeFinalScore = isFinal && isSafeMapping;
   const isReversed = mapping.orientation === "reversed";
   const liveHomeScore = numericOrNull(fixture.homeScore);
   const liveAwayScore = numericOrNull(fixture.awayScore);
+  const hasFinalScoreValues = liveHomeScore !== null && liveAwayScore !== null;
+  const canExposeFinalScore = isFinal && isSafeMapping && hasFinalScoreValues;
   const liveHomePenaltyScore = numericOrNull(fixture.homePenaltyScore);
   const liveAwayPenaltyScore = numericOrNull(fixture.awayPenaltyScore);
   const liveHomeScorers = normalizeScorerAssistRows(fixture.homeGoalScorersAssists);
@@ -593,8 +594,10 @@ function normalizeFixture(round, fixture, localMaps) {
     round_stage: round.stage || null,
     source_fixture_id: fixtureId || null,
     source_fixture_order: sourceFixtureOrder,
+    resolved_local_fixture_key: localFixture?.match_id || null,
     local_fixture_id: localFixture?.match_id || null,
     match_id: localFixture?.match_id || null,
+    local_match_number: localFixture?.match_number ?? null,
     match_number: localFixture?.match_number ?? null,
     mapping_status: mapping.status,
     mapping_orientation: mapping.orientation,
@@ -605,7 +608,7 @@ function normalizeFixture(round, fixture, localMaps) {
     local_fixture_mapping_method: mapping.basis,
     local_fixture_match_status: localFixture ? "mapped_to_group_stage_fixture" : mapping.status,
     fixture_status: fixture.status || null,
-    score_status: canExposeFinalScore ? "final" : isFinal ? "mapping_not_safe_hidden" : "not_final_hidden",
+    score_status: canExposeFinalScore ? "final" : isFinal ? hasFinalScoreValues ? "mapping_not_safe_hidden" : "final_score_missing_hidden" : "not_final_hidden",
     period: fixture.period || null,
     minutes: numericOrNull(fixture.minutes),
     extra_minutes: numericOrNull(fixture.extraMinutes),
@@ -642,7 +645,7 @@ function normalizeFixture(round, fixture, localMaps) {
     venue_id: hasValue(fixture.venueId) ? String(fixture.venueId) : null,
     venue_name: fixture.venueName || null,
     venue_city: fixture.venueCity || null,
-    source_note: "source_fixture_id is the FIFA fantasy source id, not the local match key. Scores are local-orientation fields and are exposed only after a safe local fixture mapping and final fixture status."
+    source_note: "source_fixture_id is the FIFA fantasy source id, not the local match key. resolved_local_fixture_key/local_fixture_id is the validated public lookup key. Scores are local-orientation fields and are exposed only after a safe local fixture mapping, final fixture status, and complete score values."
   };
 }
 

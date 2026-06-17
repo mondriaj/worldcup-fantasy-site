@@ -1,0 +1,235 @@
+{
+  "schema_version": "md2_availability_review_input_v1",
+  "generated_at": "2026-06-17T22:45:24.963Z",
+  "review_scope": "High-impact MD1 non-starters and official feed status changes before MD2 recommendation rebuild.",
+  "source_policy": "Official fantasy feed status and MD1 matchStatus are primary. Public-source links are supporting context only. When no reliable current external source is available, the model action remains conservative and explicitly manual-review flagged.",
+  "reviewed_players": [
+    {
+      "official_fantasy_player_id": "1092",
+      "name": "Lamine Yamal Nasraoui Ebana",
+      "country": "Spain",
+      "review_status": "available_managed_minutes",
+      "model_action": "cap_below_safe",
+      "start_probability_cap": 0.58,
+      "expected_minutes_cap": 52,
+      "exclude_from_modes": [
+        "safe",
+        "captain"
+      ],
+      "model_note": "MD1 substitute usage plus public report of recent hamstring recovery means he remains playable only as an upside/watchlist candidate until a source-backed MD2 start signal appears.",
+      "source_links": [
+        {
+          "publisher": "FIFA fantasy feed",
+          "title": "Official fantasy player status and MD1 matchStatus",
+          "url": "https://play.fifa.com/json/fantasy/players.json",
+          "date": "2026-06-17"
+        },
+        {
+          "publisher": "The Sun US",
+          "title": "Lamine Yamal World Cup debut and recent injury context",
+          "url": "https://www.the-sun.com/sport/16522611/lamine-yamal-spain-barcelona-alexander-isak-liverpool-sweden/",
+          "date": "2026-06-17"
+        }
+      ],
+      "official_status": "playing",
+      "md1_match_status": "sub"
+    },
+    {
+      "official_fantasy_player_id": "1961",
+      "name": "Alphonso Davies",
+      "country": "Canada",
+      "review_status": "available_low_start_evidence",
+      "model_action": "maintain_low_role",
+      "start_probability_cap": 0.3,
+      "expected_minutes_cap": 36,
+      "exclude_from_modes": [
+        "safe",
+        "captain"
+      ],
+      "model_note": "Official feed keeps him selectable, but MD1 substitute status and public reporting around persistent injury concerns support keeping the role low until newer source-backed lineup evidence appears.",
+      "source_links": [
+        {
+          "publisher": "FIFA fantasy feed",
+          "title": "Official fantasy player status and MD1 matchStatus",
+          "url": "https://play.fifa.com/json/fantasy/players.json",
+          "date": "2026-06-17"
+        },
+        {
+          "publisher": "The Guardian",
+          "title": "Canada World Cup preview noting injury concerns around the squad",
+          "url": "https://www.theguardian.com/football/2026/jun/11/canada-world-cup-opening-game-jesse-marsch",
+          "date": "2026-06-11"
+        },
+        {
+          "publisher": "Bavarian Football Works",
+          "title": "Alphonso Davies transfer report noting persistent injury issues",
+          "url": "https://www.bavarianfootballworks.com/bayern-munich-transfer-news-rumors/215368/saudis-not-likely-to-overwhelm-bayern-munich-with-offer-for-alphonso-davies",
+          "date": "2026-06-17"
+        }
+      ],
+      "official_status": "playing",
+      "md1_match_status": "sub"
+    },
+    {
+      "official_fantasy_player_id": "469",
+      "name": "Bukayo Saka",
+      "country": "England",
+      "review_status": "available_managed_minutes",
+      "model_action": "cap_below_safe",
+      "start_probability_cap": 0.48,
+      "expected_minutes_cap": 45,
+      "exclude_from_modes": [
+        "safe",
+        "captain"
+      ],
+      "model_note": "MD1 substitute usage is supported by reporting that England managed an Achilles issue; keep him out of safe/captain picks until a newer start signal appears.",
+      "source_links": [
+        {
+          "publisher": "FIFA fantasy feed",
+          "title": "Official fantasy player status and MD1 matchStatus",
+          "url": "https://play.fifa.com/json/fantasy/players.json",
+          "date": "2026-06-17"
+        },
+        {
+          "publisher": "The Sun",
+          "title": "Bukayo Saka not starting against Croatia because of Achilles management",
+          "url": "https://www.thesun.co.uk/sport/39441763/why-bukayo-saka-not-starting-england-croatia-world-cup-2026/",
+          "date": "2026-06-17"
+        }
+      ],
+      "official_status": "playing",
+      "md1_match_status": "sub"
+    },
+    {
+      "official_fantasy_player_id": "459",
+      "name": "Tino Livramento",
+      "country": "England",
+      "review_status": "ruled_out_replaced",
+      "model_action": "block_not_selectable",
+      "start_probability_cap": 0,
+      "expected_minutes_cap": 0,
+      "exclude_from_modes": [
+        "balanced",
+        "safe",
+        "upside",
+        "differential",
+        "captain"
+      ],
+      "model_note": "Official feed status changed away from playing and public reporting says he was ruled out and replaced; block from recommendations.",
+      "source_links": [
+        {
+          "publisher": "FIFA fantasy feed",
+          "title": "Official fantasy player selectable status",
+          "url": "https://play.fifa.com/json/fantasy/players.json",
+          "date": "2026-06-17"
+        },
+        {
+          "publisher": "New York Post",
+          "title": "Tino Livramento out of World Cup; Trevoh Chalobah called up",
+          "url": "https://nypost.com/2026/06/16/sports/englands-tino-livramento-out-of-world-cup-in-injury-blow/",
+          "date": "2026-06-16"
+        }
+      ],
+      "official_status": "transferred",
+      "md1_match_status": "not_in_squad"
+    },
+    {
+      "official_fantasy_player_id": "1247",
+      "name": "Giorgian de Arrascaeta",
+      "country": "Uruguay",
+      "review_status": "no_external_update_found",
+      "model_action": "cap_after_not_in_squad",
+      "start_probability_cap": 0.18,
+      "expected_minutes_cap": 22,
+      "exclude_from_modes": [
+        "safe",
+        "captain"
+      ],
+      "model_note": "Official feed shows MD1 not-in-squad. No reliable current external availability update was found, so apply a conservative not-in-squad cap.",
+      "source_links": [
+        {
+          "publisher": "FIFA fantasy feed",
+          "title": "Official fantasy player status and MD1 matchStatus",
+          "url": "https://play.fifa.com/json/fantasy/players.json",
+          "date": "2026-06-17"
+        }
+      ],
+      "official_status": "playing",
+      "md1_match_status": "not_in_squad"
+    },
+    {
+      "official_fantasy_player_id": "1226",
+      "name": "Ronald Araujo",
+      "country": "Uruguay",
+      "review_status": "no_external_update_found",
+      "model_action": "cap_after_not_in_squad",
+      "start_probability_cap": 0.18,
+      "expected_minutes_cap": 22,
+      "exclude_from_modes": [
+        "safe",
+        "captain"
+      ],
+      "model_note": "Official feed shows MD1 not-in-squad. No reliable current external availability update was found, so apply a conservative not-in-squad cap.",
+      "source_links": [
+        {
+          "publisher": "FIFA fantasy feed",
+          "title": "Official fantasy player status and MD1 matchStatus",
+          "url": "https://play.fifa.com/json/fantasy/players.json",
+          "date": "2026-06-17"
+        }
+      ],
+      "official_status": "playing",
+      "md1_match_status": "not_in_squad"
+    },
+    {
+      "official_fantasy_player_id": "39",
+      "name": "Julian Alvarez",
+      "country": "Argentina",
+      "review_status": "md1_sub_no_external_issue_found",
+      "model_action": "rotation_after_sub",
+      "start_probability_cap": 0.58,
+      "expected_minutes_cap": 52,
+      "exclude_from_modes": [
+        "safe",
+        "captain"
+      ],
+      "model_note": "Official feed shows MD1 substitute use. No reliable current external injury or suspension issue was found, but the MD1 lineup evidence is enough to remove safe/captain treatment.",
+      "source_links": [
+        {
+          "publisher": "FIFA fantasy feed",
+          "title": "Official fantasy player status and MD1 matchStatus",
+          "url": "https://play.fifa.com/json/fantasy/players.json",
+          "date": "2026-06-17"
+        }
+      ],
+      "official_status": "playing",
+      "md1_match_status": "sub"
+    },
+    {
+      "official_fantasy_player_id": "2000",
+      "name": "Nico Williams",
+      "country": "Spain",
+      "review_status": "md1_sub_no_external_issue_found",
+      "model_action": "rotation_after_sub",
+      "start_probability_cap": 0.58,
+      "expected_minutes_cap": 52,
+      "exclude_from_modes": [
+        "safe",
+        "captain"
+      ],
+      "model_note": "Official feed shows MD1 substitute use. No reliable current external issue was found, so model as rotation risk rather than a safe starter.",
+      "source_links": [
+        {
+          "publisher": "FIFA fantasy feed",
+          "title": "Official fantasy player status and MD1 matchStatus",
+          "url": "https://play.fifa.com/json/fantasy/players.json",
+          "date": "2026-06-17"
+        }
+      ],
+      "official_status": "playing",
+      "md1_match_status": "sub"
+    }
+  ],
+  "official_feed_source": "https://play.fifa.com/json/fantasy/players.json",
+  "md1_lineup_source_checked": "2026-06-17T22:33:16.843Z"
+}

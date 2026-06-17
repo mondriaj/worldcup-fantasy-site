@@ -10,14 +10,14 @@ This is a targeted `fantasy_pool_only` repair pass for high-risk minutes and nat
 
 | Metric | Before | After / current |
 | --- | --- | --- |
-| High-risk players audited |  | 265 |
+| High-risk players audited |  | 267 |
 | Join gaps fixed in this pass |  | 0 |
-| Players still missing source-backed usage in audit |  | 243 |
+| Players still missing source-backed usage in audit |  | 244 |
 | High-price uncertainty fallback players |  | 0 |
 | High-price missing-usage players | 0 | 0 |
-| Low-confidence modeled rows | 486 | 486 |
-| Rows modeled | 1243 | 1243 |
-| Rows blocked | 239 | 239 |
+| Low-confidence modeled rows | 486 | 483 |
+| Rows modeled | 1243 | 1233 |
+| Rows blocked | 239 | 255 |
 
 ## Repair Logic
 
@@ -30,10 +30,10 @@ This is a targeted `fantasy_pool_only` repair pass for high-risk minutes and nat
 
 | Source gap type | Rows |
 | --- | --- |
-| club_context_available_usage_missing | 172 |
-| manual_review_needed | 63 |
+| club_context_available_usage_missing | 171 |
+| manual_review_needed | 65 |
 | position_or_role_conflict | 19 |
-| thin_profile | 8 |
+| thin_profile | 9 |
 | true_source_gap | 3 |
 
 ## Jamal Musiala Before And After
@@ -76,6 +76,7 @@ Musiala remains missing source-backed Germany qualifier/national-team starts and
 | 1999 | Pablo Páez Gavira | Spain | MID | 6.5 | unclear | missing | true_source_gap | keep_existing_conservative_low_confidence_treatment |
 | 1990 | Abdul Fatawu | Ghana | FWD | 6.4 | impact_sub | low | true_source_gap | keep_existing_conservative_low_confidence_treatment |
 | 763 | Álvaro Fidalgo | Mexico | MID | 6.4 | squad_depth | low | manual_review_needed | keep_existing_conservative_low_confidence_treatment |
+| 2073 | Éderson José dos Santos Lourenço da Silva | Brazil | MID | 6.3 | blocked | blocked | thin_profile | keep_blocked_until_selectable_status_and_squad_review_are_resolved |
 | 1396 | Cucho Hernández | Colombia | FWD | 6.3 | unclear | low | club_context_available_usage_missing | source_national_team_usage_before_final_minutes_promotion |
 | 1473 | César Huerta | Mexico | MID | 6.3 | rotation_starter | low | manual_review_needed | keep_existing_conservative_low_confidence_treatment |
 | 1477 | Luis Chávez | Mexico | MID | 6.3 | rotation_starter | low | manual_review_needed | keep_existing_conservative_low_confidence_treatment |
@@ -87,13 +88,12 @@ Musiala remains missing source-backed Germany qualifier/national-team starts and
 | 762 | Orbelín Pineda | Mexico | MID | 6.2 | rotation_starter | low | manual_review_needed | keep_existing_conservative_low_confidence_treatment |
 | 2022 | Bilal El Khannouss | Morocco | MID | 6.2 | unclear | low | club_context_available_usage_missing | source_national_team_usage_before_final_minutes_promotion |
 | 814 | Teun Koopmeiners | Netherlands | MID | 6.2 | unclear | low | club_context_available_usage_missing | source_national_team_usage_before_final_minutes_promotion |
-| 1257 | Johnny Cardoso | USA | MID | 6.2 | blocked | blocked | thin_profile | keep_blocked_until_selectable_status_and_squad_review_are_resolved |
 
 ## Remaining High-Risk Issues
 
-- Source-backed national-team usage remains missing for 243 audited rows.
+- Source-backed national-team usage remains missing for 244 audited rows.
 - High-price missing-usage count is 0; this count only falls when source-backed usage is imported or joined.
-- Low-confidence modeled rows are 486; this pass improves labels for the most material club-context cases but does not make low confidence disappear.
+- Low-confidence modeled rows are 483; this pass improves labels for the most material club-context cases but does not make low confidence disappear.
 - Thin-profile and blocked players remain conservative or blocked. Famous names such as Xavi Simons, Emiliano Buendía, Matías Soulé, Johnny Cardoso, and Sofiane Boufal still need source-backed identity/enrichment before they can be treated as clean model inputs.
 
 ## Safety Decision

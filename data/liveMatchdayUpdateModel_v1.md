@@ -47,6 +47,7 @@ Fixture `minutes` and `extra_minutes` are match-clock fields. They are not playe
 
 Each live fixture row stores the resolved local key and safety state:
 
+- `resolved_local_fixture_key`
 - `local_fixture_id` / `match_id`
 - `match_number`
 - `local_home_team` and `local_away_team`
@@ -55,7 +56,7 @@ Each live fixture row stores the resolved local key and safety state:
 - `mapping_orientation`: `direct`, `reversed`, or `unknown`
 - `safe_to_display_score`
 
-If a live fixture is reversed, local-orientation score fields are flipped before display. If a fixture is unmatched, ambiguous, not final, or otherwise unsafe, public score and scorer fields stay empty.
+If a live fixture is reversed, local-orientation score fields are flipped before display. Public browser code looks up live scores by `resolved_local_fixture_key` / `local_fixture_id`, then rechecks the local home/away team pair before rendering. If a fixture is unmatched, ambiguous, not final, missing complete score values, or otherwise unsafe, public score and scorer fields stay empty.
 
 ## Not Available
 

@@ -93,12 +93,27 @@ function safeFinalScoreIsShown(fixture) {
     fixture.safe_to_display_score === true &&
     fixture.score_status === "final" &&
     SAFE_MAPPING_STATUS_VALUES.has(String(fixture.mapping_status || "").toLowerCase()) &&
-    fixtureIsFinal(fixture.fixture_status);
+    fixtureIsFinal(fixture.fixture_status) &&
+    Boolean(resolvedLiveFixtureKey(fixture));
 }
 
 function localFixtureIdFromMatchNumber(matchNumber) {
   const number = Number(matchNumber);
   return Number.isFinite(number) && number > 0 ? `fwc2026-m${String(number).padStart(3, "0")}` : "";
+}
+
+function validLocalFixtureKey(value) {
+  const key = String(value || "").trim();
+  return /^fwc2026-m\d{3}$/i.test(key) ? key.toLowerCase() : "";
+}
+
+function resolvedLiveFixtureKey(fixture) {
+  return validLocalFixtureKey(
+    fixture?.resolved_local_fixture_key ||
+    fixture?.local_fixture_id ||
+    fixture?.match_id ||
+    localFixtureIdFromMatchNumber(fixture?.match_number)
+  );
 }
 
 function countBy(rows, keyFn) {
@@ -158,14 +173,27 @@ function mdList(items, fallback = "None") {
 }
 
 function sourceLookupChecks(scriptText, worldCupPageText) {
-  const rawFixtureIdPattern = /source_fixture_id|source_fixture_order|(^|[^a-zA-Z0-9_])fixture_id([^a-zA-Z0-9_]|$)/;
+  const rawFixtureIdPattern = /source_fixture_id|source_fixture_order|fixture\??\.fixture_id/;
+  const directNumericLookupPattern = /(?:fixture|row)\??\.match_number\s*,/;
+  const scriptLiveLookupBlock = functionBlock(scriptText, "liveFixtureLookupKey");
+  const scriptPredictionKeyBlock = functionBlock(scriptText, "scorePredictionFixtureKey");
+  const scriptPredictionLookupBlock = functionBlock(scriptText, "liveFixtureForScorePrediction");
+  const worldCupLiveLookupBlock = functionBlock(worldCupPageText, "liveFixtureLookupKey");
+  const worldCupFixtureKeyBlock = functionBlock(worldCupPageText, "worldCupFixtureKey");
+  const worldCupFixtureLookupBlock = functionBlock(worldCupPageText, "liveFixtureForFixture");
   const checks = {
     script_uses_live_data_global: scriptText.includes("LIVE_MATCHDAY_STATUS_DATA"),
     world_cup_uses_live_data_global: worldCupPageText.includes("LIVE_MATCHDAY_STATUS_DATA"),
     script_has_safe_mapping_guard: scriptText.includes("isSafeMappedFinalFixture") && scriptText.includes("liveFixtureMatchesScorePrediction"),
     world_cup_has_safe_mapping_guard: worldCupPageText.includes("isSafeMappedFinalFixture") && worldCupPageText.includes("liveFixtureMatchesLocalFixture"),
-    script_lookup_block_uses_raw_source_id: rawFixtureIdPattern.test(functionBlock(scriptText, "liveFixtureLookupKeys")),
-    world_cup_lookup_block_uses_raw_source_id: rawFixtureIdPattern.test(functionBlock(worldCupPageText, "liveFixtureLookupKeys")),
+    script_has_canonical_lookup_key: Boolean(scriptLiveLookupBlock && scriptPredictionKeyBlock && scriptText.includes("validLocalFixtureKey")),
+    world_cup_has_canonical_lookup_key: Boolean(worldCupLiveLookupBlock && worldCupFixtureKeyBlock && worldCupPageText.includes("validLocalFixtureKey")),
+    script_live_lookup_uses_resolved_local_key: /resolved_local_fixture_key/.test(scriptLiveLookupBlock) && /local_fixture_id/.test(scriptLiveLookupBlock),
+    world_cup_live_lookup_uses_resolved_local_key: /resolved_local_fixture_key/.test(worldCupLiveLookupBlock) && /local_fixture_id/.test(worldCupLiveLookupBlock),
+    script_lookup_block_uses_raw_source_id: rawFixtureIdPattern.test(scriptLiveLookupBlock) || rawFixtureIdPattern.test(scriptPredictionKeyBlock) || rawFixtureIdPattern.test(scriptPredictionLookupBlock),
+    world_cup_lookup_block_uses_raw_source_id: rawFixtureIdPattern.test(worldCupLiveLookupBlock) || rawFixtureIdPattern.test(worldCupFixtureKeyBlock) || rawFixtureIdPattern.test(worldCupFixtureLookupBlock),
+    script_lookup_block_uses_direct_numeric_key: directNumericLookupPattern.test(scriptLiveLookupBlock) || directNumericLookupPattern.test(scriptPredictionKeyBlock) || directNumericLookupPattern.test(scriptPredictionLookupBlock),
+    world_cup_lookup_block_uses_direct_numeric_key: directNumericLookupPattern.test(worldCupLiveLookupBlock) || directNumericLookupPattern.test(worldCupFixtureKeyBlock) || directNumericLookupPattern.test(worldCupFixtureLookupBlock),
     script_uses_source_fixture_metadata: /source_fixture_id|source_fixture_order/.test(scriptText),
     world_cup_uses_source_fixture_metadata: /source_fixture_id|source_fixture_order/.test(worldCupPageText)
   };
@@ -173,8 +201,14 @@ function sourceLookupChecks(scriptText, worldCupPageText) {
     checks.world_cup_uses_live_data_global &&
     checks.script_has_safe_mapping_guard &&
     checks.world_cup_has_safe_mapping_guard &&
+    checks.script_has_canonical_lookup_key &&
+    checks.world_cup_has_canonical_lookup_key &&
+    checks.script_live_lookup_uses_resolved_local_key &&
+    checks.world_cup_live_lookup_uses_resolved_local_key &&
     !checks.script_lookup_block_uses_raw_source_id &&
     !checks.world_cup_lookup_block_uses_raw_source_id &&
+    !checks.script_lookup_block_uses_direct_numeric_key &&
+    !checks.world_cup_lookup_block_uses_direct_numeric_key &&
     !checks.script_uses_source_fixture_metadata &&
     !checks.world_cup_uses_source_fixture_metadata;
   return checks;
@@ -300,8 +334,16 @@ ${mdList(examples)}
 - worldCupPage.js uses live data global: ${qa.browser_lookup_checks.world_cup_uses_live_data_global ? "yes" : "no"}
 - script.js has safe mapping guard: ${qa.browser_lookup_checks.script_has_safe_mapping_guard ? "yes" : "no"}
 - worldCupPage.js has safe mapping guard: ${qa.browser_lookup_checks.world_cup_has_safe_mapping_guard ? "yes" : "no"}
+- script.js uses canonical local fixture lookup: ${qa.browser_lookup_checks.script_has_canonical_lookup_key && qa.browser_lookup_checks.script_live_lookup_uses_resolved_local_key ? "yes" : "no"}
+- worldCupPage.js uses canonical local fixture lookup: ${qa.browser_lookup_checks.world_cup_has_canonical_lookup_key && qa.browser_lookup_checks.world_cup_live_lookup_uses_resolved_local_key ? "yes" : "no"}
 - script.js live lookup avoids raw source ids: ${qa.browser_lookup_checks.script_lookup_block_uses_raw_source_id ? "no" : "yes"}
 - worldCupPage.js live lookup avoids raw source ids: ${qa.browser_lookup_checks.world_cup_lookup_block_uses_raw_source_id ? "no" : "yes"}
+- script.js live lookup avoids direct numeric keys: ${qa.browser_lookup_checks.script_lookup_block_uses_direct_numeric_key ? "no" : "yes"}
+- worldCupPage.js live lookup avoids direct numeric keys: ${qa.browser_lookup_checks.world_cup_lookup_block_uses_direct_numeric_key ? "no" : "yes"}
+
+## Display Lookup Audit
+
+${mdList(qa.display_lookup_audit)}
 
 ## Errors
 
@@ -338,9 +380,15 @@ async function main() {
   const liveFixtures = rowsFromJson(liveMatchdayData, ["fixtures"]);
   const livePlayers = rowsFromJson(livePlayerData, ["players"]);
   const scorePredictions = rowsFromJson(scorePredictionData, ["fixtureScorePredictions"]);
-  const localFixturesById = new Map(localFixtures.map((fixture) => [fixture.match_id || localFixtureIdFromMatchNumber(fixture.match_number), fixture]));
-  const liveFixturesByLocalId = new Map(liveFixtures.filter((fixture) => fixture.local_fixture_id).map((fixture) => [fixture.local_fixture_id, fixture]));
-  const scorePredictionsByFixtureId = new Map(scorePredictions.map((row) => [row.fixture_id || row.match_id, row]));
+  const localFixturesById = new Map(localFixtures
+    .map((fixture) => [validLocalFixtureKey(fixture.match_id || localFixtureIdFromMatchNumber(fixture.match_number)), fixture])
+    .filter(([key]) => key));
+  const liveFixturesByLocalId = new Map(liveFixtures
+    .map((fixture) => [resolvedLiveFixtureKey(fixture), fixture])
+    .filter(([key]) => key));
+  const scorePredictionsByFixtureId = new Map(scorePredictions
+    .map((row) => [validLocalFixtureKey(row.fixture_id || row.match_id || localFixtureIdFromMatchNumber(row.match_number)), row])
+    .filter(([key]) => key));
   const errors = [];
   const warnings = [];
   const finalScoreLocalIds = new Map();
@@ -369,40 +417,47 @@ async function main() {
   }
 
   liveFixtures.forEach((fixture) => {
-    const localFixture = fixture.local_fixture_id ? localFixturesById.get(fixture.local_fixture_id) : null;
-    const prediction = fixture.local_fixture_id ? scorePredictionsByFixtureId.get(fixture.local_fixture_id) : null;
+    const resolvedLocalKey = resolvedLiveFixtureKey(fixture);
+    const localFixture = resolvedLocalKey ? localFixturesById.get(resolvedLocalKey) : null;
+    const prediction = resolvedLocalKey ? scorePredictionsByFixtureId.get(resolvedLocalKey) : null;
     const mappingStatus = String(fixture.mapping_status || "").toLowerCase();
     const nonFinal = !fixtureIsFinal(fixture.fixture_status);
 
     if (SAFE_MAPPING_STATUS_VALUES.has(mappingStatus)) {
+      if (!resolvedLocalKey) {
+        errors.push(`Mapped live fixture ${fixture.source_fixture_id || "unknown"} has no canonical resolved local fixture key`);
+      }
+      if (fixture.resolved_local_fixture_key && fixture.local_fixture_id && validLocalFixtureKey(fixture.resolved_local_fixture_key) !== validLocalFixtureKey(fixture.local_fixture_id)) {
+        errors.push(`Mapped live fixture ${fixture.source_fixture_id || "unknown"} has mismatched resolved/local fixture keys`);
+      }
       if (!localFixture) {
-        errors.push(`Mapped live fixture ${fixture.source_fixture_id || "unknown"} has no matching local fixture ${fixture.local_fixture_id || "none"}`);
+        errors.push(`Mapped live fixture ${fixture.source_fixture_id || "unknown"} has no matching local fixture ${resolvedLocalKey || "none"}`);
       } else if (!sameLocalTeamPair(fixture, localFixture)) {
-        errors.push(`Mapped live fixture ${fixture.source_fixture_id || "unknown"} team pair does not match local fixture ${fixture.local_fixture_id}`);
+        errors.push(`Mapped live fixture ${fixture.source_fixture_id || "unknown"} team pair does not match local fixture ${resolvedLocalKey}`);
       }
 
       if (!prediction) {
-        errors.push(`Mapped live fixture ${fixture.local_fixture_id || fixture.source_fixture_id || "unknown"} has no score-prediction row`);
+        errors.push(`Mapped live fixture ${resolvedLocalKey || fixture.source_fixture_id || "unknown"} has no score-prediction row`);
       } else if (!samePredictionTeamPair(fixture, prediction)) {
-        errors.push(`Mapped live fixture ${fixture.local_fixture_id || fixture.source_fixture_id || "unknown"} team pair does not match score prediction`);
+        errors.push(`Mapped live fixture ${resolvedLocalKey || fixture.source_fixture_id || "unknown"} team pair does not match score prediction`);
       }
     }
 
     if (scoreIsShown(fixture)) {
       if (!safeFinalScoreIsShown(fixture)) {
-        errors.push(`Fixture ${fixture.local_fixture_id || fixture.source_fixture_id || "unknown"} exposes a score without safe final mapping`);
+        errors.push(`Fixture ${resolvedLocalKey || fixture.source_fixture_id || "unknown"} exposes a score without safe final mapping`);
       }
 
-      const localId = fixture.local_fixture_id || "none";
+      const localId = resolvedLocalKey || "none";
       finalScoreLocalIds.set(localId, (finalScoreLocalIds.get(localId) || 0) + 1);
     }
 
     if (nonFinal && (scoreIsShown(fixture) || scorerDataIsShown(fixture))) {
-      errors.push(`Non-final fixture ${fixture.local_fixture_id || fixture.source_fixture_id || "unknown"} exposes score or scorer data`);
+      errors.push(`Non-final fixture ${resolvedLocalKey || fixture.source_fixture_id || "unknown"} exposes score or scorer data`);
     }
 
     if (String(fixture.fixture_status || "").toLowerCase() === "playing" && !scoreIsShown(fixture) && !scorerDataIsShown(fixture)) {
-      inProgressSuppressed.push(fixture.local_fixture_id || fixture.source_fixture_id || "unknown");
+      inProgressSuppressed.push(resolvedLocalKey || fixture.source_fixture_id || "unknown");
     }
   });
 
@@ -424,7 +479,7 @@ async function main() {
         .forEach((player) => {
           if (roundId && Object.prototype.hasOwnProperty.call(player.stats?.roundPoints || {}, roundId)) {
             unsafeFixturePointLeaks.push({
-              fixture: fixture.local_fixture_id || fixture.source_fixture_id,
+              fixture: resolvedLiveFixtureKey(fixture) || fixture.source_fixture_id,
               fixture_status: fixture.fixture_status,
               mapping_status: fixture.mapping_status,
               round_id: roundId,
@@ -454,6 +509,14 @@ async function main() {
     "Middle sample: Match 14 Spain vs Cabo Verde maps to fwc2026-m014 and does not attach to Match 13 or Match 15.",
     "Late sample: Match 72 Congo DR vs Uzbekistan maps by round/team pair rather than source fixture order."
   ];
+  const displayLookupAudit = [
+    "Match Environment / Score Prediction rows: score-prediction fixture_id/match_id is normalized to the canonical local fixture key, matched against live resolved_local_fixture_key/local_fixture_id, then rechecked against home/away team names before showing an actual score.",
+    "world-cup.html fixture rows: local match_number is converted to the canonical local fixture key, matched against the same live resolved_local_fixture_key/local_fixture_id, then rechecked against the local fixture home/away team names.",
+    "Matchday Desk fixture list: filters static live fixtures by round_id and shows fixture scores only through isSafeMappedFinalFixture; in-progress and scheduled scores remain hidden.",
+    "Saved squad timeline and decision tools: player points and matchStatus are matched by official fantasy player ID; unfinished fixture round points are suppressed by the live importer.",
+    "Player Profile fixture context and Team Builder fixture risk context: continue to use model projection fixture IDs for prediction context and do not display live actual scores there.",
+    "Raw FIFA fixture IDs: retained only as source_fixture_id/source_fixture_order audit metadata in generated live data and not referenced by public browser lookup helpers."
+  ];
 
   const qa = {
     schema_version: "live_fixture_mapping_qa_v1",
@@ -476,6 +539,7 @@ async function main() {
       unsafe_fixture_player_point_leak_count: unsafeFixturePointLeaks.length
     },
     browser_lookup_checks: browserChecks,
+    display_lookup_audit: displayLookupAudit,
     manual_examples: manualExamples,
     manual_spot_checks: manualSpotChecks,
     unsafe_fixture_player_point_leaks_sample: unsafeFixturePointLeaks.slice(0, 20),
