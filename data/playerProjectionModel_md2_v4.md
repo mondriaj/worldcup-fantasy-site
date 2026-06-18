@@ -1,11 +1,11 @@
 # Component Player Projection Model v4 for MD2
 
-Generated: 2026-06-18T13:52:58.982Z
+Generated: 2026-06-18T17:50:33.200Z
 Model version: `player-projection-v4-md2-score-v4-role-v2`
 
 ## Purpose
 
-This model refreshes the active fantasy-pool player matchday projection layer for MD2. It does not rebuild recommendations, Team Builder weights, finance metrics, score predictions, PELE data, or public UI logic.
+This model refreshes the active fantasy-pool player matchday projection layer for MD2 using refreshed Score Model v4 context. Recommendations are rebuilt downstream from this output; Team Builder weights, finance metrics, and public UI logic are not changed by this projection builder.
 
 ## Inputs
 
@@ -15,6 +15,7 @@ This model refreshes the active fantasy-pool player matchday projection layer fo
 - Canonical identity: `FANTASY_POOL_OFFICIAL_DATA_STATUS.official_position_records`
 - Official fantasy rules: `fantasyRules.json` and `fantasyRulesData.js`
 - MD1 actual points: capped form/role-confidence signal only, from completed-fixture live support data and the MD1 calibration dataset.
+- MD2 live fixture status: display/support caution only; MD2 live player points are not used as model signal.
 
 ## Scoring Categories Used
 

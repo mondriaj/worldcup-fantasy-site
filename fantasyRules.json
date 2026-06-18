@@ -388,7 +388,7 @@
       {
         "matchday": 2,
         "stage": "group_stage",
-        "round_status": "scheduled",
+        "round_status": "playing",
         "round_start_local": "2026-06-18T17:00:00+01:00",
         "round_start_utc": "2026-06-18T16:00:00Z",
         "round_end_local": "2026-06-24T05:00:00+01:00",

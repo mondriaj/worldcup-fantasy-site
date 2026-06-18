@@ -1,6 +1,6 @@
 # Recommendation Model v4 MD2
 
-Generated: 2026-06-18T14:35:33.666Z
+Generated: 2026-06-18T17:53:00.015Z
 Model version: `fantasy-pool-recommendations-v4-md2-projection-v4-role-v2-score-v4`
 
 ## Purpose
@@ -50,7 +50,7 @@ Recommendations v4 refreshes public MD2 Official Fantasy Picks after MD1 using C
 - Total rows: 500
 - MD2 rows: 125
 - Failures: 0
-- Warnings: 1
+- Warnings: 0
 
 ## Public Limits
 

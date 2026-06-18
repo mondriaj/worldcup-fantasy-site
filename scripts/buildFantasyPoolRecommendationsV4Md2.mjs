@@ -6,6 +6,8 @@ import vm from "node:vm";
 const NOW = new Date().toISOString();
 const MODEL_VERSION = "fantasy-pool-recommendations-v4-md2-projection-v4-role-v2-score-v4";
 const SOURCE_CHECKED = "2026-06-18";
+const MD2_ALREADY_STARTED = true;
+const MD2_LIVE_POINTS_USED_AS_RECOMMENDATION_SIGNAL = false;
 const SCOPES = ["group_stage_full", "md1", "md2", "md3"];
 const MATCHDAY_SCOPES = new Set(["md1", "md2", "md3"]);
 const MODES = [
@@ -674,11 +676,13 @@ function createCandidateRow(row, context, mode, rank, score, financeRow, selecte
   const valueScore = mode === "differential"
     ? Math.max(0, context.valuePct / 10)
     : Math.max(0, num(row.valueScore, context.pricePerPoint));
-  const caution = [
+  const primaryCaution = [
     row.caution,
     context.start < 0.75 ? "Check starting lineup before deadline." : "",
     String(fixture.matchUncertainty || fixture.match_uncertainty || "").toLowerCase().includes("high") ? "High fixture uncertainty in Score Model v4." : ""
   ].filter(Boolean)[0] || "Confirm official status, lineup, locks, and deadlines inside FIFA before acting.";
+  const statusCaution = row.fixture_status_context?.status_caution || fixture.live_status_caution || "";
+  const caution = unique([primaryCaution, statusCaution]).filter(Boolean).join(" ");
   const whyPick = [
     mode === "captain"
       ? `captain upside ${round(context.captain, 2)}`
@@ -694,6 +698,7 @@ function createCandidateRow(row, context, mode, rank, score, financeRow, selecte
   ].filter(Boolean).slice(0, 5);
   const whyCareful = unique([
     caution,
+    statusCaution,
     ...(context.start < 0.7 ? ["minutes/start risk"] : []),
     ...(position === "GK" || position === "DEF" ? [`clean-sheet context ${cleanSheet === undefined ? "needs check" : round(cleanSheet, 2)}`] : []),
     "not final-squad-backed",
@@ -747,6 +752,9 @@ function createCandidateRow(row, context, mode, rank, score, financeRow, selecte
     role_confidence: row.roleConfidence || row.role_confidence,
     projection_confidence: row.projection_confidence || row.roleConfidence || "medium",
     fixture_context: fixture,
+    fixture_status: row.fixture_status || fixture.live_fixture_status || null,
+    round_status: row.round_status || fixture.live_round_status || null,
+    fixture_status_context: row.fixture_status_context || null,
     finance_context: {
       finance_alpha_score: financeRow?.finance_alpha_score ?? null,
       portfolio_fit_score: financeRow?.portfolio_fit_score ?? null,
@@ -1080,6 +1088,14 @@ function buildQa({ recommendationRows, sourceRows, roleRows, officialRecords, pr
   addCheck("md2_rows_resolve_role_v2", md2Rows.every((row) => roleIds.has(row.official_fantasy_player_id)), {});
   addCheck("no_duplicate_player_within_surface", duplicateBySurface.length === 0, { duplicates: duplicateBySurface });
   addCheck("no_not_selectable_recommendations", recommendationRows.every((row) => row.selectable_status === "playing"), {});
+  addCheck("md2_live_points_excluded", MD2_LIVE_POINTS_USED_AS_RECOMMENDATION_SIGNAL === false, {
+    md2_live_points_used_as_recommendation_signal: MD2_LIVE_POINTS_USED_AS_RECOMMENDATION_SIGNAL
+  });
+  addCheck("md2_playing_fixture_recommendations_cautioned", recommendationRows
+    .filter((row) => row.matchday === "md2" && row.fixture_status === "playing")
+    .every((row) => String(row.caution || "").includes("currently playing")), {
+    playing_recommendation_rows: recommendationRows.filter((row) => row.matchday === "md2" && row.fixture_status === "playing").length
+  });
   addCheck("top10_md2_projected_represented", topProjectedMissing.length === 0, { missing: topProjectedMissing.map((row) => row.name) });
   addCheck("top20_captain_upside_represented_in_captain", topCaptainMissing.length <= 4, { missing: topCaptainMissing.map((row) => row.name) });
   addCheck("captain_watchlist_has_premium_upside", captainPremiumCount >= 12, { captainPremiumCount });
@@ -1110,6 +1126,10 @@ function buildQa({ recommendationRows, sourceRows, roleRows, officialRecords, pr
       md2_recommendation_rows: md2Rows.length,
       rows_by_matchday: Object.fromEntries(SCOPES.map((scope) => [scope, recommendationRows.filter((row) => row.matchday === scope).length])),
       rows_by_mode: Object.fromEntries(MODES.map(({ id }) => [id, recommendationRows.filter((row) => row.mode === id).length])),
+      md2_already_started: MD2_ALREADY_STARTED,
+      md2_live_points_used_as_recommendation_signal: MD2_LIVE_POINTS_USED_AS_RECOMMENDATION_SIGNAL,
+      md2_playing_fixture_recommendation_rows: recommendationRows.filter((row) => row.matchday === "md2" && row.fixture_status === "playing").length,
+      md2_scheduled_fixture_recommendation_rows: recommendationRows.filter((row) => row.matchday === "md2" && row.fixture_status === "scheduled").length,
       failures: failures.length,
       warnings: warnings.length
     },
@@ -1345,7 +1365,9 @@ function buildOutputData(recommendationRows, qa, projectionData, scoreData) {
     safe_for_public_recommendations: qa.status === "pass",
     browser_ready_files_updated: true,
     browser_preview_exported: true,
-    browser_preview_exported_at: NOW
+    browser_preview_exported_at: NOW,
+    md2_already_started: MD2_ALREADY_STARTED,
+    md2_live_points_used_as_recommendation_signal: MD2_LIVE_POINTS_USED_AS_RECOMMENDATION_SIGNAL
   };
 
   return {
@@ -1362,6 +1384,7 @@ function buildOutputData(recommendationRows, qa, projectionData, scoreData) {
       "role model v2",
       "score model v4",
       "finance secondary only",
+      "MD2 live points excluded from recommendation signal",
       "verify official game locks/deadlines"
     ],
     previous_active_recommendation_file: "fantasyPoolRecommendationsData.js",
@@ -1374,7 +1397,10 @@ function buildOutputData(recommendationRows, qa, projectionData, scoreData) {
       modes: MODES,
       thresholds: THRESHOLDS,
       position_caps_by_mode: POSITION_CAPS,
-      scoring_note: "Projection/start/minutes/role/fixture context drive rankings. Finance is secondary and cannot bypass projection/start thresholds."
+      scoring_note: "Projection/start/minutes/role/fixture context drive rankings. Finance is secondary and cannot bypass projection/start thresholds.",
+      md2_already_started: MD2_ALREADY_STARTED,
+      md2_live_points_used_as_recommendation_signal: MD2_LIVE_POINTS_USED_AS_RECOMMENDATION_SIGNAL,
+      live_fixture_status_policy: "Fixture status may add caution/display context only and does not change recommendation scores."
     },
     summary,
     qa_status: qa.status,

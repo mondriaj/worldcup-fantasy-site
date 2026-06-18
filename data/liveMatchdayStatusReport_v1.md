@@ -1,14 +1,14 @@
 # Live Matchday Status Report v1
 
-Generated: 2026-06-18T12:07:09.537Z
+Generated: 2026-06-18T17:46:00.099Z
 
 Status: static live/post-match support import. Model predictions, PELE data, recommendations, projections, finance metrics, Team Builder weights, and website formulas were not rerun by this script.
 
 ## Sources
 
-- fifaFantasyPlayersJson: ok, last modified 2026-06-18T12:04:22Z
+- fifaFantasyPlayersJson: ok, last modified 2026-06-18T17:45:04Z
 - fifaFantasySquadsJson: ok, last modified 2026-06-18T04:02:03Z
-- fifaFantasyRoundsJson: ok, last modified 2026-06-18T10:01:03Z
+- fifaFantasyRoundsJson: ok, last modified 2026-06-18T17:45:03Z
 
 Fetch failures: 0
 
@@ -19,9 +19,9 @@ Fixtures imported: 72
 Group-stage fixtures mapped locally: 72
 Fixtures with score fields populated: 24
 Completed/played fixtures: 24
-Playing fixtures: 0
-Scheduled fixtures: 48
-In-progress fixture scores hidden until final: 0
+Playing fixtures: 1
+Scheduled fixtures: 47
+In-progress fixture scores hidden until final: 1
 Safe final scores shown: 24
 Unmatched live fixtures: 0
 Ambiguous live fixtures: 0
@@ -38,12 +38,14 @@ Mapping orientation counts:
 Round status counts:
 
 - complete: 1
-- scheduled: 7
+- playing: 1
+- scheduled: 6
 
 Fixture status counts:
 
 - complete: 24
-- scheduled: 48
+- playing: 1
+- scheduled: 47
 
 ## Player Live Fields
 
@@ -51,8 +53,8 @@ Players imported: 1488
 Players with total points: 753
 Players with last-round points: 753
 Players with round-points maps: 753
-Players with unfinished-fixture points suppressed: 0
-Ownership changes >= 0.1 percentage points: 65
+Players with unfinished-fixture points suppressed: 29
+Ownership changes >= 0.1 percentage points: 250
 
 Player status counts:
 
@@ -62,20 +64,21 @@ Player status counts:
 
 matchStatus counts:
 
-- none: 1488
+- none: 1427
+- not_in_squad: 12
+- start: 22
+- sub: 27
 
 ## Material Change Check
 
-Update recommendation: `display_only_refresh`
+Update recommendation: `manual_review_needed`
 Secondary recommendations: none
 Model rerun needed now: no
 Score prediction rerun needed now: no
 
 Reasons:
 
-- final fixture score/status changes are display/support data only
-- final actual fantasy points are display/support data only
-- ownership changes do not trigger model reruns
+- 12 players are marked not_in_squad; review before changing projections
 
 Material change summary:
 

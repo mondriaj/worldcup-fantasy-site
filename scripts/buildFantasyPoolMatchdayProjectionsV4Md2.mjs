@@ -5,6 +5,8 @@ const NOW = new Date().toISOString();
 const SOURCE_CHECKED = "2026-06-18";
 const MODEL_VERSION = "player-projection-v4-md2-score-v4-role-v2";
 const FORMULA_VERSION = "fantasy_pool_player_projection_v4_md2_score_v4_role_v2_2026-06-18";
+const MD2_ALREADY_STARTED = true;
+const MD2_LIVE_PLAYER_POINTS_USED_AS_SIGNAL = false;
 
 const PATHS = {
   priorProjection: "data/playerMatchdayProjections_fantasyPool_v3.json",
@@ -32,7 +34,7 @@ const SAFETY_LABELS = [
   "active_md2_player_projection_support",
   "fantasy_pool_only",
   "not final-squad-backed",
-  "recommendations not rebuilt in this prompt",
+  "recommendations rebuilt downstream from this output",
   "Team Builder weights not rebuilt in this prompt",
   "finance metrics not rebuilt in this prompt"
 ];
@@ -330,6 +332,79 @@ function scoreViewForRow(row, scoreMaps) {
   const byTeam = scoreMaps.byTeamMatchday.get(`${row.team_id}|${row.matchday}`);
   if (byTeam) return byTeam;
   return scoreMaps.byFixtureTeam.get(`${row.fixture_id}|${row.team_id}`) || null;
+}
+
+function buildLiveFixtureMaps(liveMatchdayStatus) {
+  const byFixture = new Map();
+  for (const fixture of liveMatchdayStatus.fixtures || []) {
+    [
+      fixture.local_fixture_id,
+      fixture.resolved_local_fixture_key,
+      fixture.match_id
+    ].filter(Boolean).forEach((id) => {
+      byFixture.set(String(id), fixture);
+    });
+  }
+  return { byFixture };
+}
+
+function liveFixtureStatusContext(row, liveMaps) {
+  const fixture = liveMaps.byFixture.get(String(row.fixture_id || row.match_id || ""));
+  if (!fixture) return null;
+  const status = String(fixture.fixture_status || "").toLowerCase();
+  const roundStatus = String(fixture.round_status || "").toLowerCase();
+  const isPlaying = status === "playing";
+  const isComplete = ["complete", "completed", "played"].includes(status);
+  const isScheduled = status === "scheduled";
+  const statusCaution = row.matchday === "md2" && isPlaying
+    ? "This MD2 fixture is currently playing; verify FIFA locks/deadlines and do not treat in-progress points as model signal."
+    : row.matchday === "md2" && isComplete
+      ? "This MD2 fixture is final in live support; actuals are display/review context only, not projection signal."
+      : row.matchday === "md2" && isScheduled
+        ? "This MD2 fixture is still scheduled in live support; verify FIFA locks/deadlines before acting."
+        : null;
+  return {
+    fixture_status: status || null,
+    round_status: roundStatus || null,
+    score_status: fixture.score_status || null,
+    period: fixture.period || null,
+    minutes: num(fixture.minutes, null),
+    safe_to_display_score: Boolean(fixture.safe_to_display_score),
+    in_progress_score_hidden: isPlaying && !fixture.safe_to_display_score,
+    status_caution: statusCaution,
+    source_note: "Live fixture status is display/support context only. It does not change projection points, start probability, expected minutes, role, or recommendation scores."
+  };
+}
+
+function applyLiveFixtureStatus(row, liveMaps) {
+  const statusContext = liveFixtureStatusContext(row, liveMaps);
+  if (!statusContext) return row;
+  const caution = statusContext.status_caution
+    ? unique([row.caution, statusContext.status_caution]).join(" ")
+    : row.caution;
+  const statusFlags = [
+    statusContext.fixture_status ? `fixture_status_${statusContext.fixture_status}` : null,
+    statusContext.in_progress_score_hidden ? "in_progress_score_hidden_not_model_signal" : null,
+    "live_fixture_status_display_only",
+    "md2_live_player_points_not_used_as_signal"
+  ];
+  return {
+    ...row,
+    caution,
+    fixture_status: statusContext.fixture_status,
+    round_status: statusContext.round_status,
+    fixture_status_context: statusContext,
+    fixture_context: {
+      ...row.fixture_context,
+      live_fixture_status: statusContext.fixture_status,
+      live_round_status: statusContext.round_status,
+      live_score_status: statusContext.score_status,
+      live_status_caution: statusContext.status_caution,
+      live_status_display_only: true
+    },
+    data_quality_flags: unique([...(row.data_quality_flags || []), ...statusFlags]),
+    dataQualityFlags: unique([...(row.dataQualityFlags || []), ...statusFlags])
+  };
 }
 
 function resolveRoleInputs(prior, role) {
@@ -651,7 +726,7 @@ function buildProjectionRow(prior, role, scoreView, scoring, financeById, md1ByI
     },
     model_stage: "active_md2_player_projection_support",
     source_model_version: FORMULA_VERSION,
-    source_note: "Component player projection v4 refreshes MD2 role/start/minutes with Role Model v2 and fixture context with Score Model v4. Recommendations, Team Builder weights, finance metrics, PELE, and score predictions were not rebuilt."
+    source_note: "Component player projection v4 refreshes MD2 role/start/minutes with Role Model v2 and refreshed Score Model v4 fixture context. Recommendations are rebuilt downstream; Team Builder weights and finance metrics are not changed by this projection builder."
   };
 }
 
@@ -877,6 +952,14 @@ function buildQa({
   pass("md2_explanation_fields_present", md2Rows.every((row) => row.projectionReason && row.roleReason && row.fixtureReason && row.caution), {
     md2_rows: md2Rows.length
   });
+  pass("md2_live_player_points_excluded", MD2_LIVE_PLAYER_POINTS_USED_AS_SIGNAL === false, {
+    md2_live_player_points_used_as_signal: MD2_LIVE_PLAYER_POINTS_USED_AS_SIGNAL
+  });
+  pass("md2_playing_fixtures_status_cautioned", md2Rows
+    .filter((row) => row.fixture_status_context?.fixture_status === "playing")
+    .every((row) => String(row.caution || "").includes("currently playing")), {
+    playing_projection_rows: md2Rows.filter((row) => row.fixture_status_context?.fixture_status === "playing").length
+  });
   pass("weak_role_evidence_has_caution", weakRoleWithoutCaution.length === 0, { missing_caution_count: weakRoleWithoutCaution.length });
   pass("top50_premium_world_class_sanity", top50PremiumElite.length >= 28, {
     premium_or_elite_top50_count: top50PremiumElite.length,
@@ -918,6 +1001,10 @@ function buildQa({
       md2_recommendation_projection_missing_count: missingRecommendationProjectionIds.length,
       score_model_version: scoreModel.modelVersion || scoreModel.model_version || scoreModel.model?.formula_version,
       role_model_version: roleQa.modelVersion || roleQa.model_version || "player_role_model_md2_v2",
+      md2_already_started: MD2_ALREADY_STARTED,
+      md2_live_player_points_used_as_signal: MD2_LIVE_PLAYER_POINTS_USED_AS_SIGNAL,
+      md2_playing_fixture_projection_rows: md2Rows.filter((row) => row.fixture_status_context?.fixture_status === "playing").length,
+      md2_scheduled_fixture_projection_rows: md2Rows.filter((row) => row.fixture_status_context?.fixture_status === "scheduled").length,
       md1_final_fixtures_used_by_score_v4: scoreModel.summary?.md1_fixture_count ?? null,
       live_completed_fixtures: liveMatchday.summary?.completed_fixture_count ?? null,
       md2_average_projected_points_by_position: avgByPosition,
@@ -1145,7 +1232,7 @@ function buildModelDoc(scoreModel, roleModel, rules) {
   lines.push("");
   lines.push("## Purpose");
   lines.push("");
-  lines.push("This model refreshes the active fantasy-pool player matchday projection layer for MD2. It does not rebuild recommendations, Team Builder weights, finance metrics, score predictions, PELE data, or public UI logic.");
+  lines.push("This model refreshes the active fantasy-pool player matchday projection layer for MD2 using refreshed Score Model v4 context. Recommendations are rebuilt downstream from this output; Team Builder weights, finance metrics, and public UI logic are not changed by this projection builder.");
   lines.push("");
   lines.push("## Inputs");
   lines.push("");
@@ -1155,6 +1242,7 @@ function buildModelDoc(scoreModel, roleModel, rules) {
   lines.push("- Canonical identity: `FANTASY_POOL_OFFICIAL_DATA_STATUS.official_position_records`");
   lines.push("- Official fantasy rules: `fantasyRules.json` and `fantasyRulesData.js`");
   lines.push("- MD1 actual points: capped form/role-confidence signal only, from completed-fixture live support data and the MD1 calibration dataset.");
+  lines.push("- MD2 live fixture status: display/support caution only; MD2 live player points are not used as model signal.");
   lines.push("");
   lines.push("## Scoring Categories Used");
   lines.push("");
@@ -1225,6 +1313,9 @@ function buildOutput(rows, blockedPlayers, qa, scoreModel, roleModel, roleQa) {
       active_identity_source: "FANTASY_POOL_OFFICIAL_DATA_STATUS.official_position_records",
       primary_join_key: "official_fantasy_player_id",
       md1_actual_points_policy: "capped form/role-confidence adjustment only; actuals remain in live support data",
+      md2_already_started: MD2_ALREADY_STARTED,
+      md2_live_player_points_used_as_signal: MD2_LIVE_PLAYER_POINTS_USED_AS_SIGNAL,
+      live_fixture_status_policy: "MD2 fixture status can add caution/display fields only and does not change projection points, start probability, expected minutes, or role.",
       attack_elasticity_md2: 0.55,
       attack_elasticity_md3: 0.48,
       clean_sheet_policy: "direct Score v4 clean-sheet probability bounded by official position scoring and 60-minute appearance probability",
@@ -1278,10 +1369,11 @@ async function main() {
   const liveById = new Map((livePlayerStatus.players || []).map((row) => [officialFantasyId(row), row]));
   const md1ById = new Map((md1CalibrationDataset.player_rows || []).map((row) => [officialFantasyId(row), row]));
   const scoreMaps = buildScoreMaps(scoreRows);
+  const liveFixtureMaps = buildLiveFixtureMaps(liveMatchdayStatus);
 
   const rows = priorRows.map((prior) => {
     const id = officialFantasyId(prior);
-    return buildProjectionRow(
+    const row = buildProjectionRow(
       prior,
       roleById.get(id),
       scoreViewForRow(prior, scoreMaps),
@@ -1289,6 +1381,7 @@ async function main() {
       financeById,
       md1ById
     );
+    return applyLiveFixtureStatus(row, liveFixtureMaps);
   });
   const projectedIds = new Set(rows.map(officialFantasyId));
   const blockedPlayers = buildBlockedPlayers(officialRecords, projectedIds, roleById, liveById);

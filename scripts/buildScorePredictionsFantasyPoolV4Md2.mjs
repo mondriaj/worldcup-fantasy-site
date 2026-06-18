@@ -27,6 +27,10 @@ const TEAM_XG_CAP = [0.15, 4.5];
 const CLEAN_SHEET_EXTRA_CAP = [0.75, 1.05];
 const WDL_SHRINK_CAP = 0.15;
 const SCORE_GRID_MAX_GOALS = 10;
+const PELE_REFRESHED = true;
+const PELE_REFRESH_SOURCE_CHECKED = "2026-06-18";
+const MD2_ALREADY_STARTED = true;
+const MD2_LIVE_ACTUALS_USED_FOR_CALIBRATION = false;
 
 function round(value, digits = 3) {
   if (!Number.isFinite(value)) return null;
@@ -583,7 +587,11 @@ function buildCalibrationMetadata(md1Dataset) {
     wdlConfidenceShrink: round(wdlConfidenceShrink, 4),
     md1ResultAccuracy: round(resultAccuracy, 4),
     md1FavoriteAccuracy: round(favoriteAccuracy, 4),
-    peleRebuilt: false,
+    peleRebuilt: PELE_REFRESHED,
+    peleRefreshSourceChecked: PELE_REFRESH_SOURCE_CHECKED,
+    md2AlreadyStarted: MD2_ALREADY_STARTED,
+    md2LiveActualsUsedForCalibration: MD2_LIVE_ACTUALS_USED_FOR_CALIBRATION,
+    md2InProgressScoresUsedForCalibration: false,
     finalSquadsSourceBacked: false,
     ownershipUsedAsSignal: false,
     md1ActualsScope: "completed_final_md1_fixtures_only",
@@ -728,7 +736,7 @@ function recalibrateFixture(prior, adjustmentsByTeam, calibrationMetadata) {
   const qaFlags = Array.from(new Set([
     ...(prior.qa_flags || []),
     "md1_final_calibrated_score_v4",
-    "pele_prior_not_rebuilt",
+    "pele_prior_refreshed_2026_06_18",
     "final_squads_not_source_backed",
     "ownership_not_used_as_signal"
   ]));
@@ -800,7 +808,8 @@ function recalibrateFixture(prior, adjustmentsByTeam, calibrationMetadata) {
     data_quality: {
       ...(prior.data_quality || {}),
       uses_final_rosters: false,
-      pele_rebuilt: false,
+    pele_rebuilt: PELE_REFRESHED,
+      pele_refresh_source_checked: PELE_REFRESH_SOURCE_CHECKED,
       ownership_used_as_signal: false,
       md2_md3_actuals_used: false
     },
@@ -918,7 +927,10 @@ function buildSummary(fixtureRows, teamRows, metadata, teamAdjustments) {
     final_squad_source_status: "fantasy_pool_only_not_source_backed",
     final_squad_confirmed_teams: 0,
     uses_betting_odds: false,
-    pele_rebuilt: false,
+    pele_rebuilt: PELE_REFRESHED,
+    md2_already_started: metadata.md2AlreadyStarted,
+    md2_live_actuals_used_for_calibration: metadata.md2LiveActualsUsedForCalibration,
+    md2_in_progress_scores_used_for_calibration: metadata.md2InProgressScoresUsedForCalibration,
     ownership_used_as_signal: false,
     safe_for_preliminary_projection_staging: true,
     safe_for_final_public_recommendations: false,
@@ -1006,7 +1018,8 @@ function buildQa(scoreV4, metadata, teamAdjustments, scoreV3, teamQuality, liveF
   push("teams_without_md1_neutral", neutralMissingTeamIds.length === 0, neutralMissingTeamIds.length ? `Missing MD1 adjustments: ${neutralMissingTeamIds.join(", ")}` : "Every team has MD1 data; no neutral fallback teams needed.");
   push("top_change_lists_present", scoreV4.summary.top_10_largest_xg_changes.length === 10 && scoreV4.summary.top_10_attack_upgrades.length === 10 && scoreV4.summary.top_10_defense_risk_upgrades.length === 10 && scoreV4.summary.top_10_confidence_shrunk_fixtures.length === 10, "Top-10 calibration lists are present.");
   push("browser_globals_same_shape", Boolean(scoreV4.fixtureScorePredictions && scoreV4.teamFixturePredictions && scoreV4.summary), "Output preserves active browser data shape.");
-  push("pele_not_rebuilt", metadata.peleRebuilt === false && scoreV4.model.peleRebuilt === false, "PELE/teamQuality is retained as prior, not rebuilt.");
+  push("pele_refreshed", metadata.peleRebuilt === true && scoreV4.model.peleRebuilt === true, `PELE/teamQuality prior refreshed from source checked ${metadata.peleRefreshSourceChecked}.`);
+  push("md2_live_actuals_excluded", metadata.md2AlreadyStarted === true && metadata.md2LiveActualsUsedForCalibration === false && scoreV4.model.md2LiveActualsUsedForCalibration === false, "MD2 has started, but live/in-progress MD2 actuals are excluded from score calibration.");
   push("final_squads_not_source_backed", metadata.finalSquadsSourceBacked === false && scoreV4.summary.final_squad_confirmed_teams === 0, "Final squads are not claimed source-backed.");
   push("ownership_not_model_signal", metadata.ownershipUsedAsSignal === false, "Ownership changes are not used as signal.");
   push("live_fixture_mapping_source_green", liveFixtureQa.status === "passed" && liveFixtureQa.summary?.final_fixtures_shown === 24, `Live mapping status=${liveFixtureQa.status}; final_fixtures_shown=${liveFixtureQa.summary?.final_fixtures_shown}.`);
@@ -1028,6 +1041,8 @@ function buildQa(scoreV4, metadata, teamAdjustments, scoreV3, teamQuality, liveF
       globalGoalMultiplier: metadata.globalGoalMultiplier,
       cleanSheetCalibrationUsed: metadata.cleanSheetCalibrationUsed,
       wdlConfidenceShrinkUsed: metadata.wdlConfidenceShrinkUsed,
+      md2AlreadyStarted: metadata.md2AlreadyStarted,
+      md2LiveActualsUsedForCalibration: metadata.md2LiveActualsUsedForCalibration,
       top_10_largest_xg_changes: scoreV4.summary.top_10_largest_xg_changes,
       top_10_attack_upgrades: scoreV4.summary.top_10_attack_upgrades,
       top_10_defense_risk_upgrades: scoreV4.summary.top_10_defense_risk_upgrades,
@@ -1094,6 +1109,8 @@ Status: **${qa.status}**
 | Global goal multiplier | ${qa.summary.globalGoalMultiplier} |
 | Clean-sheet calibration used | ${qa.summary.cleanSheetCalibrationUsed} |
 | W/D/L confidence shrink used | ${qa.summary.wdlConfidenceShrinkUsed} |
+| MD2 already started | ${qa.summary.md2AlreadyStarted} |
+| MD2 live actuals used for calibration | ${qa.summary.md2LiveActualsUsedForCalibration} |
 
 ## Largest MD2/MD3 xG Changes
 
@@ -1132,9 +1149,9 @@ Generated: ${metadata.generatedAt}
 
 ## Purpose
 
-Score Model v4 is an emergency MD1-calibrated Match Environment model for MD2/MD3. It keeps PELE/teamQuality as the prior and applies only completed MD1 fixture evidence from \`data/md1CalibrationDataset_v1.json\`.
+Score Model v4 is an emergency MD1-calibrated Match Environment model for MD2/MD3. It uses the refreshed PELE/teamQuality prior and applies only completed MD1 fixture evidence from \`data/md1CalibrationDataset_v1.json\`.
 
-It does not rebuild PELE, teamQuality, player projections, recommendations, finance metrics, or Team Builder weights.
+This run refreshes PELE/teamQuality first, then rebuilds the dependent score layer. It does not change player role, finance, or Team Builder weighting logic.
 
 ## Calibration
 
@@ -1154,17 +1171,21 @@ It does not rebuild PELE, teamQuality, player projections, recommendations, fina
 | W/D/L confidence shrink used | ${metadata.wdlConfidenceShrinkUsed} |
 | W/D/L confidence shrink | ${metadata.wdlConfidenceShrink} |
 | PELE rebuilt | ${metadata.peleRebuilt} |
+| PELE source checked | ${metadata.peleRefreshSourceChecked} |
+| MD2 already started | ${metadata.md2AlreadyStarted} |
+| MD2 live actuals used for calibration | ${metadata.md2LiveActualsUsedForCalibration} |
 | Final squads source-backed | ${metadata.finalSquadsSourceBacked} |
 | Ownership used as signal | ${metadata.ownershipUsedAsSignal} |
 
 ## Method
 
-- Start from \`data/scorePredictions_fantasyPool_v3.json\`.
+- Start from refreshed \`data/scorePredictions_fantasyPool_v3.json\`, rebuilt from the refreshed PELE/teamQuality prior.
 - Retain MD1 prior prediction fields for postmortem/display support.
 - Recompute MD2/MD3 expected goals with a shrunken global goal-environment lift plus team attack and defensive weakness residual multipliers.
 - Recompute scoreline distribution from the new xG using the Poisson grid already used by prior score models.
 - Recompute W/D/L, then blend modestly toward neutral tournament uncertainty because MD1 result calibration was weak.
 - Recompute clean-sheet probabilities from new opponent xG and apply an extra shrunken clean-sheet correction because MD1 clean-sheet calls were too optimistic.
+- Do not use MD2 live or in-progress scores as calibration signal.
 - Keep public language fantasy-facing; this is not betting odds and not official projection language.
 
 ## Largest MD2/MD3 xG Changes
@@ -1173,7 +1194,7 @@ ${markdownTable(["Match", "Fixture", "MD", "Prior xG", "New xG", "Delta"], xgRow
 
 ## Trust Notes
 
-- PELE/teamQuality remains the prior and was not rebuilt.
+- PELE/teamQuality was refreshed before this score rebuild.
 - Final squads remain not source-backed.
 - No ownership-only changes were used as model signal.
 - Completed MD1 final-score support remains separate in the live support layer.
@@ -1236,7 +1257,8 @@ async function main() {
       "not betting odds",
       "not final public recommendations",
       "MD1-calibrated emergency score model for MD2/MD3",
-      "PELE/teamQuality prior not rebuilt"
+      "PELE/teamQuality prior refreshed",
+      "MD2 live actuals excluded from calibration"
     ],
     model: {
       ...(scoreV3.model || {}),
@@ -1245,7 +1267,7 @@ async function main() {
       model_version: MODEL_VERSION,
       formula_version: SOURCE_MODEL_VERSION,
       source_model_version: SOURCE_MODEL_VERSION,
-      team_quality_version: "team_quality_v2_prior_retained",
+      team_quality_version: "team_quality_v2_refreshed_2026_06_18",
       current_inputs: [
         PATHS.scoreV3,
         PATHS.md1Dataset,
@@ -1263,7 +1285,11 @@ async function main() {
         shrinkage: metadata.globalShrink,
         source: PATHS.md1Dataset
       },
-      peleRebuilt: false,
+      peleRebuilt: PELE_REFRESHED,
+      peleRefreshSourceChecked: PELE_REFRESH_SOURCE_CHECKED,
+      md2AlreadyStarted: MD2_ALREADY_STARTED,
+      md2LiveActualsUsedForCalibration: MD2_LIVE_ACTUALS_USED_FOR_CALIBRATION,
+      md2InProgressScoresUsedForCalibration: false,
       finalSquadsSourceBacked: false,
       ownershipUsedAsSignal: false,
       calibration_metadata: metadata,
@@ -1276,7 +1302,8 @@ async function main() {
     model_notes: [
       ...(Array.isArray(scoreV3.model_notes) ? scoreV3.model_notes : []),
       "Score v4 uses completed MD1 calibration evidence for MD2/MD3 only.",
-      "PELE/teamQuality remains the prior and was not rebuilt.",
+      "PELE/teamQuality prior was refreshed from the latest confirmed Datawrapper source before this score rebuild.",
+      "MD2 has started, but live and in-progress MD2 actual scores are not used as score-model calibration signal.",
       "Final squads remain not source-backed.",
       "Ownership-only changes are not used as model signal."
     ],
@@ -1309,6 +1336,8 @@ async function main() {
     cleanSheetMultiplier: metadata.cleanSheetMultiplier,
     wdlConfidenceShrinkUsed: metadata.wdlConfidenceShrinkUsed,
     wdlConfidenceShrink: metadata.wdlConfidenceShrink,
+    md2AlreadyStarted: metadata.md2AlreadyStarted,
+    md2LiveActualsUsedForCalibration: metadata.md2LiveActualsUsedForCalibration,
     md2FixtureCoverage: summary.md2_fixture_count,
     md3FixtureCoverage: summary.md3_fixture_count,
     top10LargestXgChanges: summary.top_10_largest_xg_changes,

@@ -1,6 +1,6 @@
 # Score Prediction QA Report v4 MD2
 
-Generated: 2026-06-18T12:46:53.517Z
+Generated: 2026-06-18T17:50:28.195Z
 
 Status: **pass**
 
@@ -12,21 +12,23 @@ Status: **pass**
 | Global goal multiplier | 1.1404 |
 | Clean-sheet calibration used | true |
 | W/D/L confidence shrink used | true |
+| MD2 already started | true |
+| MD2 live actuals used for calibration | false |
 
 ## Largest MD2/MD3 xG Changes
 
 | Match | Fixture | MD | Prior xG | New xG | Delta |
 | --- | --- | --- | --- | --- | --- |
-| 42 | France vs Iraq | md2 | 3.468 | 5.091 | 1.623 |
-| 61 | Norway vs France | md3 | 2.949 | 4.56 | 1.611 |
-| 41 | Norway vs Senegal | md2 | 2.579 | 3.964 | 1.385 |
-| 62 | Senegal vs Iraq | md3 | 2.614 | 3.971 | 1.357 |
-| 36 | Tunisia vs Japan | md2 | 2.473 | 3.819 | 1.346 |
-| 58 | Tunisia vs Netherlands | md3 | 2.881 | 4.124 | 1.243 |
-| 55 | Curaçao vs Côte d'Ivoire | md3 | 2.46 | 3.697 | 1.237 |
-| 57 | Japan vs Sweden | md3 | 2.721 | 3.929 | 1.208 |
-| 67 | Panama vs England | md3 | 2.977 | 4.115 | 1.138 |
-| 56 | Ecuador vs Germany | md3 | 2.889 | 4.024 | 1.135 |
+| 42 | France vs Iraq | md2 | 3.221 | 4.954 | 1.733 |
+| 61 | Norway vs France | md3 | 2.854 | 4.409 | 1.555 |
+| 41 | Norway vs Senegal | md2 | 2.485 | 3.82 | 1.335 |
+| 55 | Curaçao vs Côte d'Ivoire | md3 | 2.593 | 3.923 | 1.33 |
+| 36 | Tunisia vs Japan | md2 | 2.303 | 3.558 | 1.255 |
+| 62 | Senegal vs Iraq | md3 | 2.334 | 3.546 | 1.212 |
+| 57 | Japan vs Sweden | md3 | 2.635 | 3.802 | 1.167 |
+| 58 | Tunisia vs Netherlands | md3 | 2.679 | 3.834 | 1.155 |
+| 56 | Ecuador vs Germany | md3 | 2.784 | 3.928 | 1.144 |
+| 67 | Panama vs England | md3 | 2.918 | 4.04 | 1.122 |
 
 ## Team Attack Upgrades
 
@@ -67,8 +69,8 @@ Status: **pass**
 | team_fixture_coverage | pass | 144/144 team-fixture rows. |
 | md1_prior_fields_retained | pass | MD1 rows retain prior prediction fields and are marked uncalibrated. |
 | no_nan_or_infinity | pass | No NaN or Infinity. |
-| team_xg_bounds | pass | xG range {"min":0.339,"max":4.5,"average":1.517}. |
-| total_xg_reasonable | pass | total xG range {"min":1.955,"max":5.091,"average":3.033}. |
+| team_xg_bounds | pass | xG range {"min":0.309,"max":4.417,"average":1.484}. |
+| total_xg_reasonable | pass | total xG range {"min":1.917,"max":4.954,"average":2.969}. |
 | wdl_probability_bounds | pass | W/D/L probabilities are between 0 and 1. |
 | wdl_probability_sum | pass | W/D/L probabilities sum to approximately 1. |
 | clean_sheet_probability_bounds | pass | Clean-sheet probabilities are between 0 and 1. |
@@ -78,7 +80,8 @@ Status: **pass**
 | teams_without_md1_neutral | pass | Every team has MD1 data; no neutral fallback teams needed. |
 | top_change_lists_present | pass | Top-10 calibration lists are present. |
 | browser_globals_same_shape | pass | Output preserves active browser data shape. |
-| pele_not_rebuilt | pass | PELE/teamQuality is retained as prior, not rebuilt. |
+| pele_refreshed | pass | PELE/teamQuality prior refreshed from source checked 2026-06-18. |
+| md2_live_actuals_excluded | pass | MD2 has started, but live/in-progress MD2 actuals are excluded from score calibration. |
 | final_squads_not_source_backed | pass | Final squads are not claimed source-backed. |
 | ownership_not_model_signal | pass | Ownership changes are not used as signal. |
 | live_fixture_mapping_source_green | pass | Live mapping status=passed; final_fixtures_shown=24. |

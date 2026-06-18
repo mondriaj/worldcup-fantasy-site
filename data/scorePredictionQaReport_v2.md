@@ -1,8 +1,8 @@
 # Score Prediction QA Report v2
 
-Status: Pass  
-Generated: 2026-06-01T19:09:25.131Z  
-Source checked: 2026-06-01
+Status: Pass
+Generated: 2026-06-18T17:50:16.568Z
+Source checked: 2026-06-18
 
 ## What Was Checked
 
@@ -21,11 +21,11 @@ Source checked: 2026-06-01
 
 Current output ranges:
 
-- Total expected goals: 1.762 to 3.439, average 2.451.
-- Favorite win probability: 0.3727 to 0.901.
-- Upset risk probability: 0.0402 to 0.4017.
-- Home clean-sheet probability: 0.0621 to 0.7047.
-- Away clean-sheet probability: 0.0456 to 0.7047.
+- Total expected goals: 1.872 to 3.55, average 2.559.
+- Favorite win probability: 0.3666 to 0.9092.
+- Upset risk probability: 0.0368 to 0.4097.
+- Home clean-sheet probability: 0.0504 to 0.7047.
+- Away clean-sheet probability: 0.0408 to 0.7047.
 
 ## Important Caveats
 

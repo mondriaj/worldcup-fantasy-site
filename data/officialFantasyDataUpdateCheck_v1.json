@@ -1,6 +1,6 @@
 {
   "schema_version": "official_fantasy_data_update_check_v1",
-  "generated_at": "2026-06-18T15:41:46.083Z",
+  "generated_at": "2026-06-18T17:45:50.786Z",
   "monitor_status": "completed",
   "summary": {
     "official_data_changed": true,
@@ -29,10 +29,10 @@
       "status": 200,
       "ok": true,
       "content_type": "application/json",
-      "last_modified": "2026-06-18T15:04:22Z",
-      "etag": "\"380b36c5b2c88a9445ffed4bdeaacd5e\"",
-      "bytes": 1165236,
-      "sha256": "4c3400dcb5a996f1a0a61019dc2db851c0d3a10f73630cc348b455173a74c822",
+      "last_modified": "2026-06-18T17:45:04Z",
+      "etag": "\"0032e4c4e4ba7fc88d3004d11f05e1e2\"",
+      "bytes": 1194704,
+      "sha256": "2480682b06ba8bd39848e4270fd5179b566bdc00cefbdcf6ab39830bfc643028",
       "parse_error": null
     },
     {
@@ -68,10 +68,10 @@
       "status": 200,
       "ok": true,
       "content_type": "application/json",
-      "last_modified": "2026-06-18T13:01:03Z",
-      "etag": "\"469fa5a1a338f316ca90e964330407e6\"",
-      "bytes": 87297,
-      "sha256": "746eab6ad7ea63da9c05f363ff742cc22ede422596b73e25343ab314b5854fb8",
+      "last_modified": "2026-06-18T17:45:03Z",
+      "etag": "\"e97e9708fe62beec06a2e0420bc2d746\"",
+      "bytes": 87655,
+      "sha256": "086bec6a9e06ad0e6debfc69209cb9abb3709a98eb1936bb470df4e530ac6620",
       "parse_error": null
     },
     {
@@ -90,7 +90,8 @@
   ],
   "local_source_last_modified": {
     "fifaFantasyPlayersJson": "2026-06-18T11:04:22Z",
-    "fifaFantasySquadsJson": "2026-06-18T04:02:03Z"
+    "fifaFantasySquadsJson": "2026-06-18T04:02:03Z",
+    "fifaFantasyRoundsJson": "2026-06-18T17:45:03Z"
   },
   "diffs": {
     "players": {
@@ -121,7 +122,7 @@
           "team_id": "2",
           "field": "ownership_percent",
           "local_value": 6.2,
-          "live_value": 6.4
+          "live_value": 6.6
         },
         {
           "official_fantasy_player_id": "30",
@@ -130,7 +131,16 @@
           "team_id": "2",
           "field": "ownership_percent",
           "local_value": 3,
-          "live_value": 2.9
+          "live_value": 2.8
+        },
+        {
+          "official_fantasy_player_id": "31",
+          "name": "Nicolás Otamendi",
+          "country": "Argentina",
+          "team_id": "2",
+          "field": "ownership_percent",
+          "local_value": 2.3,
+          "live_value": 2.1
         },
         {
           "official_fantasy_player_id": "32",
@@ -148,7 +158,7 @@
           "team_id": "2",
           "field": "ownership_percent",
           "local_value": 22.6,
-          "live_value": 23.7
+          "live_value": 24.2
         },
         {
           "official_fantasy_player_id": "39",
@@ -157,7 +167,7 @@
           "team_id": "2",
           "field": "ownership_percent",
           "local_value": 13.2,
-          "live_value": 12.5
+          "live_value": 12.1
         },
         {
           "official_fantasy_player_id": "43",
@@ -175,7 +185,16 @@
           "team_id": "2",
           "field": "ownership_percent",
           "local_value": 23.2,
-          "live_value": 23.5
+          "live_value": 23.6
+        },
+        {
+          "official_fantasy_player_id": "47",
+          "name": "Juan Musso",
+          "country": "Argentina",
+          "team_id": "2",
+          "field": "ownership_percent",
+          "local_value": 0.2,
+          "live_value": 0.1
         },
         {
           "official_fantasy_player_id": "50",
@@ -184,7 +203,7 @@
           "team_id": "2",
           "field": "ownership_percent",
           "local_value": 1.7,
-          "live_value": 1.8
+          "live_value": 1.9
         },
         {
           "official_fantasy_player_id": "56",
@@ -202,7 +221,7 @@
           "team_id": "3",
           "field": "ownership_percent",
           "local_value": 2.5,
-          "live_value": 2.8
+          "live_value": 2.9
         },
         {
           "official_fantasy_player_id": "85",
@@ -211,7 +230,16 @@
           "team_id": "4",
           "field": "ownership_percent",
           "local_value": 2,
-          "live_value": 1.9
+          "live_value": 1.8
+        },
+        {
+          "official_fantasy_player_id": "86",
+          "name": "Philipp Lienhart",
+          "country": "Austria",
+          "team_id": "4",
+          "field": "ownership_percent",
+          "local_value": 0.2,
+          "live_value": 0.1
         },
         {
           "official_fantasy_player_id": "107",
@@ -220,7 +248,7 @@
           "team_id": "4",
           "field": "ownership_percent",
           "local_value": 3,
-          "live_value": 2.5
+          "live_value": 2.1
         },
         {
           "official_fantasy_player_id": "114",
@@ -229,7 +257,7 @@
           "team_id": "5",
           "field": "ownership_percent",
           "local_value": 2.4,
-          "live_value": 2.2
+          "live_value": 2.1
         },
         {
           "official_fantasy_player_id": "118",
@@ -247,7 +275,7 @@
           "team_id": "5",
           "field": "ownership_percent",
           "local_value": 12.2,
-          "live_value": 11.9
+          "live_value": 11.8
         },
         {
           "official_fantasy_player_id": "132",
@@ -277,13 +305,22 @@
           "live_value": 0.7
         },
         {
+          "official_fantasy_player_id": "164",
+          "name": "Gabriel dos Santos Magalhães",
+          "country": "Brazil",
+          "team_id": "7",
+          "field": "ownership_percent",
+          "local_value": 20,
+          "live_value": 20.1
+        },
+        {
           "official_fantasy_player_id": "165",
           "name": "Marcos Aoás Corrêa",
           "country": "Brazil",
           "team_id": "7",
           "field": "ownership_percent",
           "local_value": 8.2,
-          "live_value": 8.3
+          "live_value": 8.4
         },
         {
           "official_fantasy_player_id": "168",
@@ -292,7 +329,7 @@
           "team_id": "7",
           "field": "ownership_percent",
           "local_value": 1,
-          "live_value": 1.2
+          "live_value": 1.3
         },
         {
           "official_fantasy_player_id": "173",
@@ -301,7 +338,16 @@
           "team_id": "7",
           "field": "ownership_percent",
           "local_value": 15.8,
-          "live_value": 16.9
+          "live_value": 17.6
+        },
+        {
+          "official_fantasy_player_id": "174",
+          "name": "Matheus Santos Carneiro da Cunha",
+          "country": "Brazil",
+          "team_id": "7",
+          "field": "ownership_percent",
+          "local_value": 2.9,
+          "live_value": 2.8
         },
         {
           "official_fantasy_player_id": "182",
@@ -328,7 +374,7 @@
           "team_id": "8",
           "field": "ownership_percent",
           "local_value": 1.2,
-          "live_value": 1.4
+          "live_value": 1.5
         },
         {
           "official_fantasy_player_id": "235",
@@ -340,13 +386,31 @@
           "live_value": 4.7
         },
         {
+          "official_fantasy_player_id": "248",
+          "name": "Daniel Muñoz",
+          "country": "Colombia",
+          "team_id": "10",
+          "field": "ownership_percent",
+          "local_value": 7.5,
+          "live_value": 7.7
+        },
+        {
+          "official_fantasy_player_id": "252",
+          "name": "Johan Mojica",
+          "country": "Colombia",
+          "team_id": "10",
+          "field": "ownership_percent",
+          "local_value": 4.2,
+          "live_value": 4.1
+        },
+        {
           "official_fantasy_player_id": "256",
           "name": "Luis Díaz",
           "country": "Colombia",
           "team_id": "10",
           "field": "ownership_percent",
           "local_value": 18.2,
-          "live_value": 18.5
+          "live_value": 18.6
         },
         {
           "official_fantasy_player_id": "259",
@@ -358,13 +422,31 @@
           "live_value": 2
         },
         {
+          "official_fantasy_player_id": "262",
+          "name": "Camilo Vargas",
+          "country": "Colombia",
+          "team_id": "10",
+          "field": "ownership_percent",
+          "local_value": 4.2,
+          "live_value": 4.1
+        },
+        {
+          "official_fantasy_player_id": "268",
+          "name": "Jaminton Campaz",
+          "country": "Colombia",
+          "team_id": "10",
+          "field": "ownership_percent",
+          "local_value": 0,
+          "live_value": 0.1
+        },
+        {
           "official_fantasy_player_id": "270",
           "name": "James Rodríguez",
           "country": "Colombia",
           "team_id": "10",
           "field": "ownership_percent",
           "local_value": 4.3,
-          "live_value": 4.1
+          "live_value": 4
         },
         {
           "official_fantasy_player_id": "284",
@@ -436,7 +518,16 @@
           "team_id": "13",
           "field": "ownership_percent",
           "local_value": 1.7,
-          "live_value": 1.8
+          "live_value": 1.9
+        },
+        {
+          "official_fantasy_player_id": "348",
+          "name": "Martin Baturina",
+          "country": "Croatia",
+          "team_id": "13",
+          "field": "ownership_percent",
+          "local_value": 0.4,
+          "live_value": 0.6
         },
         {
           "official_fantasy_player_id": "370",
@@ -454,7 +545,7 @@
           "team_id": "15",
           "field": "ownership_percent",
           "local_value": 1.6,
-          "live_value": 1.8
+          "live_value": 2
         },
         {
           "official_fantasy_player_id": "380",
@@ -463,7 +554,7 @@
           "team_id": "15",
           "field": "ownership_percent",
           "local_value": 3.3,
-          "live_value": 3.6
+          "live_value": 3.8
         },
         {
           "official_fantasy_player_id": "382",
@@ -475,13 +566,22 @@
           "live_value": 0.8
         },
         {
+          "official_fantasy_player_id": "400",
+          "name": "Pervis Estupiñán",
+          "country": "Ecuador",
+          "team_id": "16",
+          "field": "ownership_percent",
+          "local_value": 2.3,
+          "live_value": 2.1
+        },
+        {
           "official_fantasy_player_id": "404",
           "name": "Joel Ordóñez",
           "country": "Ecuador",
           "team_id": "16",
           "field": "ownership_percent",
           "local_value": 2.3,
-          "live_value": 2.5
+          "live_value": 2.6
         },
         {
           "official_fantasy_player_id": "412",
@@ -490,7 +590,16 @@
           "team_id": "16",
           "field": "ownership_percent",
           "local_value": 1.5,
-          "live_value": 2
+          "live_value": 2.5
+        },
+        {
+          "official_fantasy_player_id": "413",
+          "name": "Gonzalo Plata",
+          "country": "Ecuador",
+          "team_id": "16",
+          "field": "ownership_percent",
+          "local_value": 0.1,
+          "live_value": 0.2
         },
         {
           "official_fantasy_player_id": "414",
@@ -499,7 +608,16 @@
           "team_id": "16",
           "field": "ownership_percent",
           "local_value": 0.3,
-          "live_value": 0.4
+          "live_value": 0.5
+        },
+        {
+          "official_fantasy_player_id": "423",
+          "name": "Hernán Galíndez",
+          "country": "Ecuador",
+          "team_id": "16",
+          "field": "ownership_percent",
+          "local_value": 5,
+          "live_value": 5.2
         },
         {
           "official_fantasy_player_id": "435",
@@ -508,7 +626,16 @@
           "team_id": "17",
           "field": "ownership_percent",
           "local_value": 1,
-          "live_value": 1.3
+          "live_value": 1.4
+        },
+        {
+          "official_fantasy_player_id": "437",
+          "name": "Mohamed Abdelmonem El Sayed Mohamed Ahmed",
+          "country": "Egypt",
+          "team_id": "17",
+          "field": "ownership_percent",
+          "local_value": 0.4,
+          "live_value": 0.3
         },
         {
           "official_fantasy_player_id": "453",
@@ -517,7 +644,7 @@
           "team_id": "17",
           "field": "ownership_percent",
           "local_value": 2.1,
-          "live_value": 2.3
+          "live_value": 2.4
         },
         {
           "official_fantasy_player_id": "461",
@@ -526,7 +653,7 @@
           "team_id": "18",
           "field": "ownership_percent",
           "local_value": 6.6,
-          "live_value": 6.4
+          "live_value": 6.3
         },
         {
           "official_fantasy_player_id": "468",
@@ -535,7 +662,7 @@
           "team_id": "18",
           "field": "ownership_percent",
           "local_value": 37,
-          "live_value": 37.7
+          "live_value": 38.1
         },
         {
           "official_fantasy_player_id": "471",
@@ -553,7 +680,7 @@
           "team_id": "18",
           "field": "ownership_percent",
           "local_value": 10.4,
-          "live_value": 10.8
+          "live_value": 11.1
         },
         {
           "official_fantasy_player_id": "492",
@@ -562,7 +689,7 @@
           "team_id": "19",
           "field": "ownership_percent",
           "local_value": 4.2,
-          "live_value": 4.4
+          "live_value": 4.5
         },
         {
           "official_fantasy_player_id": "495",
@@ -589,7 +716,7 @@
           "team_id": "19",
           "field": "ownership_percent",
           "local_value": 53.4,
-          "live_value": 54.8
+          "live_value": 55.5
         },
         {
           "official_fantasy_player_id": "501",
@@ -598,7 +725,25 @@
           "team_id": "19",
           "field": "ownership_percent",
           "local_value": 15.9,
-          "live_value": 15.7
+          "live_value": 15.6
+        },
+        {
+          "official_fantasy_player_id": "505",
+          "name": "Désiré Doué",
+          "country": "France",
+          "team_id": "19",
+          "field": "ownership_percent",
+          "local_value": 3.8,
+          "live_value": 3.9
+        },
+        {
+          "official_fantasy_player_id": "509",
+          "name": "N'Golo Kanté",
+          "country": "France",
+          "team_id": "19",
+          "field": "ownership_percent",
+          "local_value": 1.1,
+          "live_value": 1
         },
         {
           "official_fantasy_player_id": "516",
@@ -607,7 +752,7 @@
           "team_id": "19",
           "field": "ownership_percent",
           "local_value": 6.2,
-          "live_value": 6
+          "live_value": 5.9
         },
         {
           "official_fantasy_player_id": "517",
@@ -616,7 +761,7 @@
           "team_id": "19",
           "field": "ownership_percent",
           "local_value": 35.5,
-          "live_value": 36.1
+          "live_value": 36.4
         },
         {
           "official_fantasy_player_id": "520",
@@ -625,7 +770,7 @@
           "team_id": "20",
           "field": "ownership_percent",
           "local_value": 9.3,
-          "live_value": 9
+          "live_value": 8.9
         },
         {
           "official_fantasy_player_id": "521",
@@ -652,7 +797,7 @@
           "team_id": "20",
           "field": "ownership_percent",
           "local_value": 4.6,
-          "live_value": 5.4
+          "live_value": 5.8
         },
         {
           "official_fantasy_player_id": "526",
@@ -661,7 +806,7 @@
           "team_id": "20",
           "field": "ownership_percent",
           "local_value": 5.7,
-          "live_value": 5.9
+          "live_value": 6
         },
         {
           "official_fantasy_player_id": "529",
@@ -670,7 +815,7 @@
           "team_id": "20",
           "field": "ownership_percent",
           "local_value": 2,
-          "live_value": 1.8
+          "live_value": 1.7
         },
         {
           "official_fantasy_player_id": "531",
@@ -688,7 +833,7 @@
           "team_id": "20",
           "field": "ownership_percent",
           "local_value": 33.6,
-          "live_value": 33.5
+          "live_value": 33.3
         },
         {
           "official_fantasy_player_id": "543",
@@ -697,7 +842,7 @@
           "team_id": "20",
           "field": "ownership_percent",
           "local_value": 21.5,
-          "live_value": 21
+          "live_value": 20.5
         },
         {
           "official_fantasy_player_id": "597",
@@ -715,7 +860,7 @@
           "team_id": "25",
           "field": "ownership_percent",
           "local_value": 1.3,
-          "live_value": 1.6
+          "live_value": 1.7
         },
         {
           "official_fantasy_player_id": "682",
@@ -724,7 +869,16 @@
           "team_id": "25",
           "field": "ownership_percent",
           "local_value": 1.5,
-          "live_value": 1.9
+          "live_value": 2
+        },
+        {
+          "official_fantasy_player_id": "684",
+          "name": "Ritsu Doan",
+          "country": "Japan",
+          "team_id": "25",
+          "field": "ownership_percent",
+          "local_value": 1,
+          "live_value": 1.1
         },
         {
           "official_fantasy_player_id": "729",
@@ -751,7 +905,7 @@
           "team_id": "28",
           "field": "ownership_percent",
           "local_value": 3.9,
-          "live_value": 3.8
+          "live_value": 3.7
         },
         {
           "official_fantasy_player_id": "755",
@@ -769,7 +923,7 @@
           "team_id": "29",
           "field": "ownership_percent",
           "local_value": 1.7,
-          "live_value": 2
+          "live_value": 2.3
         },
         {
           "official_fantasy_player_id": "795",
@@ -778,7 +932,7 @@
           "team_id": "30",
           "field": "ownership_percent",
           "local_value": 14.2,
-          "live_value": 13.9
+          "live_value": 13.8
         },
         {
           "official_fantasy_player_id": "796",
@@ -788,6 +942,15 @@
           "field": "ownership_percent",
           "local_value": 21,
           "live_value": 21.1
+        },
+        {
+          "official_fantasy_player_id": "797",
+          "name": "Micky van de Ven",
+          "country": "Netherlands",
+          "team_id": "30",
+          "field": "ownership_percent",
+          "local_value": 4.5,
+          "live_value": 4.3
         },
         {
           "official_fantasy_player_id": "798",
@@ -805,7 +968,7 @@
           "team_id": "30",
           "field": "ownership_percent",
           "local_value": 3.4,
-          "live_value": 3.2
+          "live_value": 3.1
         },
         {
           "official_fantasy_player_id": "809",
@@ -832,7 +995,7 @@
           "team_id": "31",
           "field": "ownership_percent",
           "local_value": 1.3,
-          "live_value": 1.6
+          "live_value": 1.7
         },
         {
           "official_fantasy_player_id": "836",
@@ -842,168 +1005,6 @@
           "field": "ownership_percent",
           "local_value": 1.6,
           "live_value": 1.5
-        },
-        {
-          "official_fantasy_player_id": "847",
-          "name": "Julian Ryerson",
-          "country": "Norway",
-          "team_id": "32",
-          "field": "ownership_percent",
-          "local_value": 6.7,
-          "live_value": 6.5
-        },
-        {
-          "official_fantasy_player_id": "849",
-          "name": "Leo Østigård",
-          "country": "Norway",
-          "team_id": "32",
-          "field": "ownership_percent",
-          "local_value": 0.7,
-          "live_value": 0.9
-        },
-        {
-          "official_fantasy_player_id": "855",
-          "name": "Erling Haaland",
-          "country": "Norway",
-          "team_id": "32",
-          "field": "ownership_percent",
-          "local_value": 32.2,
-          "live_value": 31.5
-        },
-        {
-          "official_fantasy_player_id": "863",
-          "name": "Antonio Nusa",
-          "country": "Norway",
-          "team_id": "32",
-          "field": "ownership_percent",
-          "local_value": 2.9,
-          "live_value": 2.8
-        },
-        {
-          "official_fantasy_player_id": "916",
-          "name": "Nuno Alexandre Tavares Mendes",
-          "country": "Portugal",
-          "team_id": "35",
-          "field": "ownership_percent",
-          "local_value": 40,
-          "live_value": 39.6
-        },
-        {
-          "official_fantasy_player_id": "922",
-          "name": "Tomás Lemos Araújo",
-          "country": "Portugal",
-          "team_id": "35",
-          "field": "ownership_percent",
-          "local_value": 0.1,
-          "live_value": 0.2
-        },
-        {
-          "official_fantasy_player_id": "936",
-          "name": "Vítor Machado Ferreira",
-          "country": "Portugal",
-          "team_id": "35",
-          "field": "ownership_percent",
-          "local_value": 11.4,
-          "live_value": 11.2
-        },
-        {
-          "official_fantasy_player_id": "937",
-          "name": "João Pedro Gonçalves Neves",
-          "country": "Portugal",
-          "team_id": "35",
-          "field": "ownership_percent",
-          "local_value": 5.2,
-          "live_value": 5.5
-        },
-        {
-          "official_fantasy_player_id": "939",
-          "name": "Bruno Miguel Borges Fernandes",
-          "country": "Portugal",
-          "team_id": "35",
-          "field": "ownership_percent",
-          "local_value": 47.8,
-          "live_value": 47
-        },
-        {
-          "official_fantasy_player_id": "971",
-          "name": "Mahmud Ibrahim Abunada",
-          "country": "Qatar",
-          "team_id": "36",
-          "field": "ownership_percent",
-          "local_value": 0.1,
-          "live_value": 0.2
-        },
-        {
-          "official_fantasy_player_id": "1009",
-          "name": "Andy Robertson",
-          "country": "Scotland",
-          "team_id": "38",
-          "field": "ownership_percent",
-          "local_value": 4.7,
-          "live_value": 4.6
-        },
-        {
-          "official_fantasy_player_id": "1027",
-          "name": "Scott McTominay",
-          "country": "Scotland",
-          "team_id": "38",
-          "field": "ownership_percent",
-          "local_value": 8.9,
-          "live_value": 8.4
-        },
-        {
-          "official_fantasy_player_id": "1085",
-          "name": "Pedro Porro",
-          "country": "Spain",
-          "team_id": "41",
-          "field": "ownership_percent",
-          "local_value": 5.3,
-          "live_value": 5.1
-        },
-        {
-          "official_fantasy_player_id": "1086",
-          "name": "Aymeric Laporte",
-          "country": "Spain",
-          "team_id": "41",
-          "field": "ownership_percent",
-          "local_value": 5.3,
-          "live_value": 5.4
-        },
-        {
-          "official_fantasy_player_id": "1088",
-          "name": "Marc Cucurella",
-          "country": "Spain",
-          "team_id": "41",
-          "field": "ownership_percent",
-          "local_value": 25.6,
-          "live_value": 25.8
-        },
-        {
-          "official_fantasy_player_id": "1092",
-          "name": "Lamine Yamal Nasraoui Ebana",
-          "country": "Spain",
-          "team_id": "41",
-          "field": "ownership_percent",
-          "local_value": 37.3,
-          "live_value": 37
-        },
-        {
-          "official_fantasy_player_id": "1093",
-          "name": "Ferran Torres",
-          "country": "Spain",
-          "team_id": "41",
-          "field": "ownership_percent",
-          "local_value": 3.4,
-          "live_value": 3.3
-        },
-        {
-          "official_fantasy_player_id": "1094",
-          "name": "Mikel Oyarzabal",
-          "country": "Spain",
-          "team_id": "41",
-          "field": "ownership_percent",
-          "local_value": 17.3,
-          "live_value": 16.3
         }
       ],
       "counts": {
@@ -1015,7 +1016,7 @@
         "selectable_status_changes": 0,
         "country_team_changes": 0,
         "fifa_player_id_changes": 0,
-        "ownership_percent_changes": 140
+        "ownership_percent_changes": 177
       }
     },
     "squads": {
@@ -1041,7 +1042,7 @@
       "help_pages_hash": "192427fcd9b60cb9f7b8f8d38cf881dc712ff7379371aa3c124ed0a4fe100a58",
       "help_text_hash": "106f86894c5b19e2bd8235677fcfc97dcdc47e7568aac1596ed4226c09197291",
       "language_hash": "18e6b9114fdff3dbd7c28cd20c0f0a597442e9d7dd2372e13abf0e3ca846b9ac",
-      "rounds_hash": "b8cd1ff94ee4c108c9b65c4898474671fb82f66889e4d250f7f8c5856873f575",
+      "rounds_hash": "87ee57e14467fd0fb8b984caf18a3d731ef0a5214ccb5d1dc62706209b4f46ea",
       "source_header_changes": [],
       "mystery_booster": {
         "local": {
@@ -1087,6 +1088,7 @@
         "roundsSelected",
         "roundsSelected.1",
         "roundsSelected.2",
+        "roundsSelected.3",
         "squadId",
         "stats",
         "stats.avgPoints",
@@ -1096,6 +1098,7 @@
         "stats.nextFixtureFromScheduledRound",
         "stats.roundPoints",
         "stats.roundPoints.1",
+        "stats.roundPoints.2",
         "stats.totalPoints",
         "status"
       ],

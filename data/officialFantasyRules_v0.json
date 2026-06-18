@@ -1,7 +1,7 @@
 {
   "schema_version": "official_fantasy_rules_v0",
-  "generated_at": "2026-06-02",
-  "source_checked": "2026-06-02",
+  "generated_at": "2026-06-18",
+  "source_checked": "2026-06-18",
   "data_status": "imported_needs_manual_review",
   "input_file": "data/imports/officialFantasyRules.json",
   "officialFantasyRules": {
@@ -322,7 +322,7 @@
         {
           "matchday": 2,
           "stage": "group_stage",
-          "round_status": "scheduled",
+          "round_status": "playing",
           "round_start_local": "2026-06-18T17:00:00+01:00",
           "round_start_utc": "2026-06-18T16:00:00Z",
           "round_end_local": "2026-06-24T05:00:00+01:00",
@@ -400,6 +400,15 @@
       "deadlineRules": "Transfers use a fixed lockout for each round. Users can make unlimited changes until the first match of the FIFA World Cup 2026 kicks off on Thursday, 11 June 2026. Team changes during live rounds use rolling player lockouts.",
       "lockWindows": "Round-level transfer lock references are sourced from official rounds.json startDate values. Player-level live-round locks are rolling: a locked player is one whose team is currently playing; unlocked players have not yet played; captain changes and manual substitutions cannot use players whose matches are in progress."
     },
-    "notes": "Imported from official FIFA public sources. Active root fantasyRules.json and fantasyRulesData.js should be regenerated through the promotion script after review. Clean Sheet Shield details are imported from FIFA Play language JSON; live deadline and lock details still require manual confirmation inside FIFA."
+    "notes": "Imported from official FIFA public sources. Active root fantasyRules.json and fantasyRulesData.js should be regenerated through the promotion script after review. Clean Sheet Shield details are imported from FIFA Play language JSON; live deadline and lock details still require manual confirmation inside FIFA.",
+    "sourceMetadata": [
+      {
+        "source_id": "fifaFantasyRoundsJson",
+        "url": "https://play.fifa.com/json/fantasy/rounds.json",
+        "last_modified": "Thu, 18 Jun 2026 17:45:03 GMT",
+        "etag": "\"e97e9708fe62beec06a2e0420bc2d746\"",
+        "source_checked": "2026-06-18"
+      }
+    ]
   }
 }

@@ -1,7 +1,7 @@
 {
   "schema_version": "week6-score-prediction-qa-v2",
-  "generated_at": "2026-06-01T19:09:25.131Z",
-  "source_checked": "2026-06-01",
+  "generated_at": "2026-06-18T17:50:16.568Z",
+  "source_checked": "2026-06-18",
   "data_status": "score_prediction_hardening_v2_pele_forward",
   "overall_status": "pass",
   "source_files": [
@@ -23,15 +23,15 @@
     "player_matchday_projection_count": 4017,
     "player_matchday_rows_with_score_context": 4017,
     "goal_environment_counts": {
-      "low_goal_environment": 27,
-      "medium_goal_environment": 28,
-      "high_goal_environment": 7,
-      "medium_high_goal_environment": 10
+      "medium_goal_environment": 27,
+      "low_goal_environment": 20,
+      "medium_high_goal_environment": 16,
+      "high_goal_environment": 9
     },
     "upset_risk_counts": {
-      "low": 28,
-      "high": 17,
-      "medium_high": 12,
+      "low": 31,
+      "high": 19,
+      "medium_high": 7,
       "medium": 15
     }
   },
@@ -65,48 +65,48 @@
   "range_summary": {
     "home_expected_goals": {
       "min": 0.35,
-      "max": 3.089,
-      "average": 1.405
+      "max": 3.2,
+      "average": 1.461
     },
     "away_expected_goals": {
       "min": 0.35,
-      "max": 2.779,
-      "average": 1.046
+      "max": 2.988,
+      "average": 1.098
     },
     "total_expected_goals": {
-      "min": 1.762,
-      "max": 3.439,
-      "average": 2.451
+      "min": 1.872,
+      "max": 3.55,
+      "average": 2.559
     },
     "favorite_win_probability": {
-      "min": 0.3727,
-      "max": 0.901,
-      "average": 0.661
+      "min": 0.3666,
+      "max": 0.9092,
+      "average": 0.67
     },
     "upset_risk_probability": {
-      "min": 0.0402,
-      "max": 0.4017,
-      "average": 0.1807
+      "min": 0.0368,
+      "max": 0.4097,
+      "average": 0.1788
     },
     "home_clean_sheet_probability": {
-      "min": 0.0621,
+      "min": 0.0504,
       "max": 0.7047,
-      "average": 0.423
+      "average": 0.4102
     },
     "away_clean_sheet_probability": {
-      "min": 0.0456,
+      "min": 0.0408,
       "max": 0.7047,
-      "average": 0.3216
+      "average": 0.3088
     },
     "over_2_5_goals_probability": {
-      "min": 0.2592,
-      "max": 0.6676,
-      "average": 0.4402
+      "min": 0.2887,
+      "max": 0.6881,
+      "average": 0.4678
     },
     "both_teams_to_score_probability": {
-      "min": 0.2338,
-      "max": 0.5435,
-      "average": 0.3472
+      "min": 0.2514,
+      "max": 0.5812,
+      "average": 0.3629
     }
   },
   "player_matchday_context_summary": {
@@ -116,27 +116,27 @@
       "attack_environment_multiplier": {
         "min": 0.682,
         "max": 1.344,
-        "average": 0.987
+        "average": 1.002
       },
       "defense_environment_multiplier": {
         "min": 0.603,
         "max": 1.071,
-        "average": 0.821
+        "average": 0.811
       },
       "position_environment_multiplier": {
         "min": 0.603,
         "max": 1.311,
-        "average": 0.898
+        "average": 0.9
       },
       "volatility_environment_multiplier": {
-        "min": 0.99,
-        "max": 1.094,
-        "average": 1.03
+        "min": 0.989,
+        "max": 1.103,
+        "average": 1.032
       },
       "risk_discount_lift": {
         "min": -0.1,
         "max": 0.087,
-        "average": -0.035
+        "average": -0.034
       }
     }
   },

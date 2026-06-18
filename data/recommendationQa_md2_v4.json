@@ -1,6 +1,6 @@
 {
   "schema_version": "recommendation_qa_md2_v4",
-  "generated_at": "2026-06-18T14:35:33.666Z",
+  "generated_at": "2026-06-18T17:53:00.015Z",
   "modelVersion": "fantasy-pool-recommendations-v4-md2-projection-v4-role-v2-score-v4",
   "status": "pass",
   "summary": {
@@ -19,8 +19,12 @@
       "differential": 100,
       "captain": 100
     },
+    "md2_already_started": true,
+    "md2_live_points_used_as_recommendation_signal": false,
+    "md2_playing_fixture_recommendation_rows": 1,
+    "md2_scheduled_fixture_recommendation_rows": 124,
     "failures": 0,
-    "warnings": 1
+    "warnings": 0
   },
   "thresholds": {
     "balanced": {
@@ -87,6 +91,20 @@
       "detail": {}
     },
     {
+      "id": "md2_live_points_excluded",
+      "status": "pass",
+      "detail": {
+        "md2_live_points_used_as_recommendation_signal": false
+      }
+    },
+    {
+      "id": "md2_playing_fixture_recommendations_cautioned",
+      "status": "pass",
+      "detail": {
+        "playing_recommendation_rows": 1
+      }
+    },
+    {
       "id": "top10_md2_projected_represented",
       "status": "pass",
       "detail": {
@@ -97,16 +115,14 @@
       "id": "top20_captain_upside_represented_in_captain",
       "status": "pass",
       "detail": {
-        "missing": [
-          "Lamine Yamal Nasraoui Ebana"
-        ]
+        "missing": []
       }
     },
     {
       "id": "captain_watchlist_has_premium_upside",
       "status": "pass",
       "detail": {
-        "captainPremiumCount": 17
+        "captainPremiumCount": 16
       }
     },
     {
@@ -139,18 +155,7 @@
     }
   ],
   "failures": [],
-  "warnings": [
-    {
-      "id": "captain_top20_omissions_with_reasons",
-      "rows": [
-        {
-          "name": "Lamine Yamal Nasraoui Ebana",
-          "captainUpsideScore": 21.752,
-          "reason": "Outside top 25 Captain Watchlist after role/position-cap scoring; audited but allowed if under omission threshold."
-        }
-      ]
-    }
-  ],
+  "warnings": [],
   "top_25_projected_points": [
     {
       "rank": 1,
@@ -158,11 +163,11 @@
       "country": "Argentina",
       "position": "FWD",
       "price": 10,
-      "projectedPoints": 9.496,
+      "projectedPoints": 9.446,
       "startProb": 0.935,
       "expectedMinutes": 74.4,
-      "captainUpsideScore": 27.792,
-      "score": 99.669
+      "captainUpsideScore": 27.432,
+      "score": 99.213
     },
     {
       "rank": 2,
@@ -170,11 +175,11 @@
       "country": "France",
       "position": "MID",
       "price": 9.5,
-      "projectedPoints": 9.139,
+      "projectedPoints": 9.146,
       "startProb": 0.935,
       "expectedMinutes": 76.4,
-      "captainUpsideScore": 28.124,
-      "score": 98.815
+      "captainUpsideScore": 28.027,
+      "score": 98.783
     },
     {
       "rank": 3,
@@ -182,11 +187,11 @@
       "country": "France",
       "position": "MID",
       "price": 10,
-      "projectedPoints": 8.905,
+      "projectedPoints": 8.907,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
-      "captainUpsideScore": 26.846,
-      "score": 95.697
+      "captainUpsideScore": 26.74,
+      "score": 95.64
     },
     {
       "rank": 4,
@@ -194,47 +199,47 @@
       "country": "Colombia",
       "position": "MID",
       "price": 8.1,
-      "projectedPoints": 8.869,
+      "projectedPoints": 8.773,
       "startProb": 0.935,
       "expectedMinutes": 77.4,
-      "captainUpsideScore": 25.063,
-      "score": 95.981
+      "captainUpsideScore": 24.69,
+      "score": 95.722
     },
     {
       "rank": 5,
-      "name": "Harry Kane",
-      "country": "England",
-      "position": "FWD",
-      "price": 10.5,
-      "projectedPoints": 8.738,
-      "startProb": 0.935,
-      "expectedMinutes": 74.2,
-      "captainUpsideScore": 26.359,
-      "score": 99.403
-    },
-    {
-      "rank": 6,
-      "name": "Jamal Musiala",
-      "country": "Germany",
-      "position": "MID",
-      "price": 8,
-      "projectedPoints": 8.649,
-      "startProb": 0.79,
-      "expectedMinutes": 68.4,
-      "captainUpsideScore": 24.472,
-      "score": 92.875
-    },
-    {
-      "rank": 7,
       "name": "Kylian Mbappé",
       "country": "France",
       "position": "FWD",
       "price": 10.5,
-      "projectedPoints": 8.623,
+      "projectedPoints": 8.614,
       "startProb": 0.935,
       "expectedMinutes": 73.2,
-      "captainUpsideScore": 27.099,
-      "score": 100.145
+      "captainUpsideScore": 26.976,
+      "score": 100.239
+    },
+    {
+      "rank": 6,
+      "name": "Harry Kane",
+      "country": "England",
+      "position": "FWD",
+      "price": 10.5,
+      "projectedPoints": 8.613,
+      "startProb": 0.935,
+      "expectedMinutes": 74.2,
+      "captainUpsideScore": 25.769,
+      "score": 98.874
+    },
+    {
+      "rank": 7,
+      "name": "Jamal Musiala",
+      "country": "Germany",
+      "position": "MID",
+      "price": 8,
+      "projectedPoints": 8.559,
+      "startProb": 0.79,
+      "expectedMinutes": 68.4,
+      "captainUpsideScore": 23.745,
+      "score": 92.172
     },
     {
       "rank": 8,
@@ -242,71 +247,71 @@
       "country": "Croatia",
       "position": "FWD",
       "price": 5.1,
-      "projectedPoints": 8.028,
+      "projectedPoints": 8.014,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
-      "captainUpsideScore": 23.42,
-      "score": 93.779
+      "captainUpsideScore": 23.219,
+      "score": 93.478
     },
     {
       "rank": 9,
-      "name": "Enzo Fernández",
-      "country": "Argentina",
-      "position": "MID",
-      "price": 7.5,
-      "projectedPoints": 7.98,
-      "startProb": 0.895,
-      "expectedMinutes": 77.3,
-      "captainUpsideScore": 24.202,
-      "score": 97.014
-    },
-    {
-      "rank": 10,
       "name": "Désiré Doué",
       "country": "France",
       "position": "MID",
       "price": 7.5,
-      "projectedPoints": 7.976,
+      "projectedPoints": 7.977,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
-      "captainUpsideScore": 24.814,
-      "score": 95.392
+      "captainUpsideScore": 24.708,
+      "score": 95.374
     },
     {
-      "rank": 11,
-      "name": "Bruno Miguel Borges Fernandes",
-      "country": "Portugal",
-      "position": "MID",
-      "price": 8.5,
-      "projectedPoints": 7.891,
-      "startProb": 0.895,
-      "expectedMinutes": 76.2,
-      "captainUpsideScore": 23.054,
-      "score": 95.896
-    },
-    {
-      "rank": 12,
+      "rank": 10,
       "name": "Bradley Barcola",
       "country": "France",
       "position": "MID",
       "price": 8,
-      "projectedPoints": 7.801,
+      "projectedPoints": 7.799,
       "startProb": 0.735,
       "expectedMinutes": 56.2,
-      "captainUpsideScore": 23.745,
-      "score": 90.058
+      "captainUpsideScore": 23.634,
+      "score": 90.118
     },
     {
-      "rank": 13,
+      "rank": 11,
       "name": "Vinícius José Paixão de Oliveira Júnior",
       "country": "Brazil",
       "position": "MID",
       "price": 10,
-      "projectedPoints": 7.801,
+      "projectedPoints": 7.788,
       "startProb": 0.935,
       "expectedMinutes": 77.4,
-      "captainUpsideScore": 22.763,
-      "score": 96.154
+      "captainUpsideScore": 22.674,
+      "score": 96.112
+    },
+    {
+      "rank": 12,
+      "name": "Enzo Fernández",
+      "country": "Argentina",
+      "position": "MID",
+      "price": 7.5,
+      "projectedPoints": 7.781,
+      "startProb": 0.895,
+      "expectedMinutes": 77.3,
+      "captainUpsideScore": 23.47,
+      "score": 96.379
+    },
+    {
+      "rank": 13,
+      "name": "Erling Haaland",
+      "country": "Norway",
+      "position": "FWD",
+      "price": 10.5,
+      "projectedPoints": 7.742,
+      "startProb": 0.935,
+      "expectedMinutes": 74.2,
+      "captainUpsideScore": 22.455,
+      "score": 96.727
     },
     {
       "rank": 14,
@@ -314,47 +319,47 @@
       "country": "Brazil",
       "position": "MID",
       "price": 8.2,
-      "projectedPoints": 7.727,
+      "projectedPoints": 7.711,
       "startProb": 0.895,
       "expectedMinutes": 77.3,
-      "captainUpsideScore": 22.741,
-      "score": 94.894
+      "captainUpsideScore": 22.646,
+      "score": 94.821
     },
     {
       "rank": 15,
-      "name": "Erling Haaland",
-      "country": "Norway",
-      "position": "FWD",
-      "price": 10.5,
-      "projectedPoints": 7.722,
-      "startProb": 0.935,
-      "expectedMinutes": 74.2,
-      "captainUpsideScore": 22.264,
-      "score": 96.404
+      "name": "Bruno Miguel Borges Fernandes",
+      "country": "Portugal",
+      "position": "MID",
+      "price": 8.5,
+      "projectedPoints": 7.703,
+      "startProb": 0.895,
+      "expectedMinutes": 76.2,
+      "captainUpsideScore": 22.277,
+      "score": 95.142
     },
     {
       "rank": 16,
-      "name": "Lamine Yamal Nasraoui Ebana",
-      "country": "Spain",
-      "position": "MID",
-      "price": 10,
-      "projectedPoints": 7.696,
-      "startProb": 0.67,
-      "expectedMinutes": 58.4,
-      "captainUpsideScore": 21.752,
-      "score": 86.805
-    },
-    {
-      "rank": 17,
       "name": "Jude Bellingham",
       "country": "England",
       "position": "MID",
       "price": 8.3,
-      "projectedPoints": 7.64,
+      "projectedPoints": 7.485,
       "startProb": 0.935,
       "expectedMinutes": 76.1,
-      "captainUpsideScore": 23.553,
-      "score": 97.802
+      "captainUpsideScore": 22.883,
+      "score": 97.351
+    },
+    {
+      "rank": 17,
+      "name": "Lamine Yamal Nasraoui Ebana",
+      "country": "Spain",
+      "position": "MID",
+      "price": 10,
+      "projectedPoints": 7.47,
+      "startProb": 0.67,
+      "expectedMinutes": 58.4,
+      "captainUpsideScore": 20.911,
+      "score": 86.196
     },
     {
       "rank": 18,
@@ -362,11 +367,11 @@
       "country": "Mexico",
       "position": "FWD",
       "price": 5.6,
-      "projectedPoints": 7.455,
+      "projectedPoints": 7.461,
       "startProb": 0.775,
       "expectedMinutes": 68.3,
-      "captainUpsideScore": 20.469,
-      "score": 90.493
+      "captainUpsideScore": 20.5,
+      "score": 90.502
     },
     {
       "rank": 19,
@@ -374,11 +379,11 @@
       "country": "Colombia",
       "position": "FWD",
       "price": 5.7,
-      "projectedPoints": 7.102,
+      "projectedPoints": 7.072,
       "startProb": 0.78,
       "expectedMinutes": 65,
-      "captainUpsideScore": 21.076,
-      "score": 91.145
+      "captainUpsideScore": 20.876,
+      "score": 90.93
     },
     {
       "rank": 20,
@@ -386,23 +391,23 @@
       "country": "Japan",
       "position": "FWD",
       "price": 7,
-      "projectedPoints": 7.006,
+      "projectedPoints": 7.002,
       "startProb": 0.895,
       "expectedMinutes": 74.1,
-      "captainUpsideScore": 22.253,
-      "score": 97.62
+      "captainUpsideScore": 21.978,
+      "score": 97.206
     },
     {
       "rank": 21,
-      "name": "Anthony Gordon",
-      "country": "England",
+      "name": "Mohamed Salah Hamed Mahrous Ghaly",
+      "country": "Egypt",
       "position": "MID",
-      "price": 7,
-      "projectedPoints": 6.976,
-      "startProb": 0.79,
-      "expectedMinutes": 68.4,
-      "captainUpsideScore": 21.764,
-      "score": 92.766
+      "price": 10,
+      "projectedPoints": 6.964,
+      "startProb": 0.935,
+      "expectedMinutes": 77.4,
+      "captainUpsideScore": 20.174,
+      "score": 95.369
     },
     {
       "rank": 22,
@@ -410,23 +415,23 @@
       "country": "Japan",
       "position": "MID",
       "price": 5,
-      "projectedPoints": 6.961,
+      "projectedPoints": 6.946,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
-      "captainUpsideScore": 21.259,
-      "score": 92.43
+      "captainUpsideScore": 20.955,
+      "score": 91.988
     },
     {
       "rank": 23,
-      "name": "Cristiano Ronaldo dos Santos Aveiro",
-      "country": "Portugal",
-      "position": "FWD",
-      "price": 10,
-      "projectedPoints": 6.882,
-      "startProb": 0.895,
-      "expectedMinutes": 73.4,
-      "captainUpsideScore": 21.425,
-      "score": 96.513
+      "name": "Anthony Gordon",
+      "country": "England",
+      "position": "MID",
+      "price": 7,
+      "projectedPoints": 6.804,
+      "startProb": 0.79,
+      "expectedMinutes": 68.4,
+      "captainUpsideScore": 21.057,
+      "score": 92.184
     },
     {
       "rank": 24,
@@ -434,23 +439,23 @@
       "country": "Argentina",
       "position": "FWD",
       "price": 8.8,
-      "projectedPoints": 6.82,
+      "projectedPoints": 6.791,
       "startProb": 0.895,
       "expectedMinutes": 74.1,
-      "captainUpsideScore": 22.324,
-      "score": 97.548
+      "captainUpsideScore": 21.984,
+      "score": 97.077
     },
     {
       "rank": 25,
-      "name": "Mohamed Salah Hamed Mahrous Ghaly",
-      "country": "Egypt",
-      "position": "MID",
-      "price": 10,
-      "projectedPoints": 6.808,
-      "startProb": 0.935,
-      "expectedMinutes": 77.4,
-      "captainUpsideScore": 19.678,
-      "score": 94.904
+      "name": "Nuno Alexandre Tavares Mendes",
+      "country": "Portugal",
+      "position": "DEF",
+      "price": 5.8,
+      "projectedPoints": 6.701,
+      "startProb": 0.895,
+      "expectedMinutes": 79.1,
+      "captainUpsideScore": 20.179,
+      "score": 89.54
     }
   ],
   "top_25_core_picks": [
@@ -460,11 +465,11 @@
       "country": "Argentina",
       "position": "FWD",
       "price": 10,
-      "projectedPoints": 9.496,
+      "projectedPoints": 9.446,
       "startProb": 0.935,
       "expectedMinutes": 74.4,
-      "captainUpsideScore": 27.792,
-      "score": 99.669
+      "captainUpsideScore": 27.432,
+      "score": 99.213
     },
     {
       "rank": 2,
@@ -472,11 +477,11 @@
       "country": "France",
       "position": "MID",
       "price": 9.5,
-      "projectedPoints": 9.139,
+      "projectedPoints": 9.146,
       "startProb": 0.935,
       "expectedMinutes": 76.4,
-      "captainUpsideScore": 28.124,
-      "score": 98.815
+      "captainUpsideScore": 28.027,
+      "score": 98.783
     },
     {
       "rank": 3,
@@ -484,11 +489,11 @@
       "country": "France",
       "position": "MID",
       "price": 10,
-      "projectedPoints": 8.905,
+      "projectedPoints": 8.907,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
-      "captainUpsideScore": 26.846,
-      "score": 95.697
+      "captainUpsideScore": 26.74,
+      "score": 95.64
     },
     {
       "rank": 4,
@@ -496,47 +501,47 @@
       "country": "Colombia",
       "position": "MID",
       "price": 8.1,
-      "projectedPoints": 8.869,
+      "projectedPoints": 8.773,
       "startProb": 0.935,
       "expectedMinutes": 77.4,
-      "captainUpsideScore": 25.063,
-      "score": 95.981
+      "captainUpsideScore": 24.69,
+      "score": 95.722
     },
     {
       "rank": 5,
-      "name": "Harry Kane",
-      "country": "England",
-      "position": "FWD",
-      "price": 10.5,
-      "projectedPoints": 8.738,
-      "startProb": 0.935,
-      "expectedMinutes": 74.2,
-      "captainUpsideScore": 26.359,
-      "score": 99.403
-    },
-    {
-      "rank": 6,
-      "name": "Jamal Musiala",
-      "country": "Germany",
-      "position": "MID",
-      "price": 8,
-      "projectedPoints": 8.649,
-      "startProb": 0.79,
-      "expectedMinutes": 68.4,
-      "captainUpsideScore": 24.472,
-      "score": 92.875
-    },
-    {
-      "rank": 7,
       "name": "Kylian Mbappé",
       "country": "France",
       "position": "FWD",
       "price": 10.5,
-      "projectedPoints": 8.623,
+      "projectedPoints": 8.614,
       "startProb": 0.935,
       "expectedMinutes": 73.2,
-      "captainUpsideScore": 27.099,
-      "score": 100.145
+      "captainUpsideScore": 26.976,
+      "score": 100.239
+    },
+    {
+      "rank": 6,
+      "name": "Harry Kane",
+      "country": "England",
+      "position": "FWD",
+      "price": 10.5,
+      "projectedPoints": 8.613,
+      "startProb": 0.935,
+      "expectedMinutes": 74.2,
+      "captainUpsideScore": 25.769,
+      "score": 98.874
+    },
+    {
+      "rank": 7,
+      "name": "Jamal Musiala",
+      "country": "Germany",
+      "position": "MID",
+      "price": 8,
+      "projectedPoints": 8.559,
+      "startProb": 0.79,
+      "expectedMinutes": 68.4,
+      "captainUpsideScore": 23.745,
+      "score": 92.172
     },
     {
       "rank": 8,
@@ -544,71 +549,71 @@
       "country": "Croatia",
       "position": "FWD",
       "price": 5.1,
-      "projectedPoints": 8.028,
+      "projectedPoints": 8.014,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
-      "captainUpsideScore": 23.42,
-      "score": 93.779
+      "captainUpsideScore": 23.219,
+      "score": 93.478
     },
     {
       "rank": 9,
-      "name": "Enzo Fernández",
-      "country": "Argentina",
-      "position": "MID",
-      "price": 7.5,
-      "projectedPoints": 7.98,
-      "startProb": 0.895,
-      "expectedMinutes": 77.3,
-      "captainUpsideScore": 24.202,
-      "score": 97.014
-    },
-    {
-      "rank": 10,
       "name": "Désiré Doué",
       "country": "France",
       "position": "MID",
       "price": 7.5,
-      "projectedPoints": 7.976,
+      "projectedPoints": 7.977,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
-      "captainUpsideScore": 24.814,
-      "score": 95.392
+      "captainUpsideScore": 24.708,
+      "score": 95.374
     },
     {
-      "rank": 11,
-      "name": "Bruno Miguel Borges Fernandes",
-      "country": "Portugal",
-      "position": "MID",
-      "price": 8.5,
-      "projectedPoints": 7.891,
-      "startProb": 0.895,
-      "expectedMinutes": 76.2,
-      "captainUpsideScore": 23.054,
-      "score": 95.896
-    },
-    {
-      "rank": 12,
+      "rank": 10,
       "name": "Bradley Barcola",
       "country": "France",
       "position": "MID",
       "price": 8,
-      "projectedPoints": 7.801,
+      "projectedPoints": 7.799,
       "startProb": 0.735,
       "expectedMinutes": 56.2,
-      "captainUpsideScore": 23.745,
-      "score": 90.058
+      "captainUpsideScore": 23.634,
+      "score": 90.118
     },
     {
-      "rank": 13,
+      "rank": 11,
       "name": "Vinícius José Paixão de Oliveira Júnior",
       "country": "Brazil",
       "position": "MID",
       "price": 10,
-      "projectedPoints": 7.801,
+      "projectedPoints": 7.788,
       "startProb": 0.935,
       "expectedMinutes": 77.4,
-      "captainUpsideScore": 22.763,
-      "score": 96.154
+      "captainUpsideScore": 22.674,
+      "score": 96.112
+    },
+    {
+      "rank": 12,
+      "name": "Enzo Fernández",
+      "country": "Argentina",
+      "position": "MID",
+      "price": 7.5,
+      "projectedPoints": 7.781,
+      "startProb": 0.895,
+      "expectedMinutes": 77.3,
+      "captainUpsideScore": 23.47,
+      "score": 96.379
+    },
+    {
+      "rank": 13,
+      "name": "Erling Haaland",
+      "country": "Norway",
+      "position": "FWD",
+      "price": 10.5,
+      "projectedPoints": 7.742,
+      "startProb": 0.935,
+      "expectedMinutes": 74.2,
+      "captainUpsideScore": 22.455,
+      "score": 96.727
     },
     {
       "rank": 14,
@@ -616,47 +621,47 @@
       "country": "Brazil",
       "position": "MID",
       "price": 8.2,
-      "projectedPoints": 7.727,
+      "projectedPoints": 7.711,
       "startProb": 0.895,
       "expectedMinutes": 77.3,
-      "captainUpsideScore": 22.741,
-      "score": 94.894
+      "captainUpsideScore": 22.646,
+      "score": 94.821
     },
     {
       "rank": 15,
-      "name": "Erling Haaland",
-      "country": "Norway",
-      "position": "FWD",
-      "price": 10.5,
-      "projectedPoints": 7.722,
-      "startProb": 0.935,
-      "expectedMinutes": 74.2,
-      "captainUpsideScore": 22.264,
-      "score": 96.404
+      "name": "Bruno Miguel Borges Fernandes",
+      "country": "Portugal",
+      "position": "MID",
+      "price": 8.5,
+      "projectedPoints": 7.703,
+      "startProb": 0.895,
+      "expectedMinutes": 76.2,
+      "captainUpsideScore": 22.277,
+      "score": 95.142
     },
     {
       "rank": 16,
-      "name": "Lamine Yamal Nasraoui Ebana",
-      "country": "Spain",
-      "position": "MID",
-      "price": 10,
-      "projectedPoints": 7.696,
-      "startProb": 0.67,
-      "expectedMinutes": 58.4,
-      "captainUpsideScore": 21.752,
-      "score": 86.805
-    },
-    {
-      "rank": 17,
       "name": "Jude Bellingham",
       "country": "England",
       "position": "MID",
       "price": 8.3,
-      "projectedPoints": 7.64,
+      "projectedPoints": 7.485,
       "startProb": 0.935,
       "expectedMinutes": 76.1,
-      "captainUpsideScore": 23.553,
-      "score": 97.802
+      "captainUpsideScore": 22.883,
+      "score": 97.351
+    },
+    {
+      "rank": 17,
+      "name": "Lamine Yamal Nasraoui Ebana",
+      "country": "Spain",
+      "position": "MID",
+      "price": 10,
+      "projectedPoints": 7.47,
+      "startProb": 0.67,
+      "expectedMinutes": 58.4,
+      "captainUpsideScore": 20.911,
+      "score": 86.196
     },
     {
       "rank": 18,
@@ -664,11 +669,11 @@
       "country": "Mexico",
       "position": "FWD",
       "price": 5.6,
-      "projectedPoints": 7.455,
+      "projectedPoints": 7.461,
       "startProb": 0.775,
       "expectedMinutes": 68.3,
-      "captainUpsideScore": 20.469,
-      "score": 90.493
+      "captainUpsideScore": 20.5,
+      "score": 90.502
     },
     {
       "rank": 19,
@@ -676,11 +681,11 @@
       "country": "Colombia",
       "position": "FWD",
       "price": 5.7,
-      "projectedPoints": 7.102,
+      "projectedPoints": 7.072,
       "startProb": 0.78,
       "expectedMinutes": 65,
-      "captainUpsideScore": 21.076,
-      "score": 91.145
+      "captainUpsideScore": 20.876,
+      "score": 90.93
     },
     {
       "rank": 20,
@@ -688,23 +693,23 @@
       "country": "Japan",
       "position": "FWD",
       "price": 7,
-      "projectedPoints": 7.006,
+      "projectedPoints": 7.002,
       "startProb": 0.895,
       "expectedMinutes": 74.1,
-      "captainUpsideScore": 22.253,
-      "score": 97.62
+      "captainUpsideScore": 21.978,
+      "score": 97.206
     },
     {
       "rank": 21,
-      "name": "Anthony Gordon",
-      "country": "England",
+      "name": "Mohamed Salah Hamed Mahrous Ghaly",
+      "country": "Egypt",
       "position": "MID",
-      "price": 7,
-      "projectedPoints": 6.976,
-      "startProb": 0.79,
-      "expectedMinutes": 68.4,
-      "captainUpsideScore": 21.764,
-      "score": 92.766
+      "price": 10,
+      "projectedPoints": 6.964,
+      "startProb": 0.935,
+      "expectedMinutes": 77.4,
+      "captainUpsideScore": 20.174,
+      "score": 95.369
     },
     {
       "rank": 22,
@@ -712,23 +717,23 @@
       "country": "Japan",
       "position": "MID",
       "price": 5,
-      "projectedPoints": 6.961,
+      "projectedPoints": 6.946,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
-      "captainUpsideScore": 21.259,
-      "score": 92.43
+      "captainUpsideScore": 20.955,
+      "score": 91.988
     },
     {
       "rank": 23,
-      "name": "Cristiano Ronaldo dos Santos Aveiro",
-      "country": "Portugal",
-      "position": "FWD",
-      "price": 10,
-      "projectedPoints": 6.882,
-      "startProb": 0.895,
-      "expectedMinutes": 73.4,
-      "captainUpsideScore": 21.425,
-      "score": 96.513
+      "name": "Anthony Gordon",
+      "country": "England",
+      "position": "MID",
+      "price": 7,
+      "projectedPoints": 6.804,
+      "startProb": 0.79,
+      "expectedMinutes": 68.4,
+      "captainUpsideScore": 21.057,
+      "score": 92.184
     },
     {
       "rank": 24,
@@ -736,23 +741,23 @@
       "country": "Argentina",
       "position": "FWD",
       "price": 8.8,
-      "projectedPoints": 6.82,
+      "projectedPoints": 6.791,
       "startProb": 0.895,
       "expectedMinutes": 74.1,
-      "captainUpsideScore": 22.324,
-      "score": 97.548
+      "captainUpsideScore": 21.984,
+      "score": 97.077
     },
     {
       "rank": 25,
-      "name": "Mohamed Salah Hamed Mahrous Ghaly",
-      "country": "Egypt",
-      "position": "MID",
-      "price": 10,
-      "projectedPoints": 6.808,
-      "startProb": 0.935,
-      "expectedMinutes": 77.4,
-      "captainUpsideScore": 19.678,
-      "score": 94.904
+      "name": "Nuno Alexandre Tavares Mendes",
+      "country": "Portugal",
+      "position": "DEF",
+      "price": 5.8,
+      "projectedPoints": 6.701,
+      "startProb": 0.895,
+      "expectedMinutes": 79.1,
+      "captainUpsideScore": 20.179,
+      "score": 89.54
     }
   ],
   "top_20_high_floor": [
@@ -762,11 +767,11 @@
       "country": "Spain",
       "position": "GK",
       "price": 5,
-      "projectedPoints": 5.084,
+      "projectedPoints": 5.127,
       "startProb": 0.935,
       "expectedMinutes": 84,
-      "captainUpsideScore": 16.362,
-      "score": 93.611
+      "captainUpsideScore": 16.139,
+      "score": 93.748
     },
     {
       "rank": 2,
@@ -774,227 +779,227 @@
       "country": "Spain",
       "position": "DEF",
       "price": 5.5,
-      "projectedPoints": 5.101,
+      "projectedPoints": 5.169,
       "startProb": 0.935,
       "expectedMinutes": 79.4,
-      "captainUpsideScore": 16.837,
-      "score": 92.265
+      "captainUpsideScore": 16.636,
+      "score": 92.611
     },
     {
       "rank": 3,
-      "name": "Harry Kane",
-      "country": "England",
-      "position": "FWD",
-      "price": 10.5,
-      "projectedPoints": 8.738,
-      "startProb": 0.935,
-      "expectedMinutes": 74.2,
-      "captainUpsideScore": 26.359,
-      "score": 91.33
-    },
-    {
-      "rank": 4,
-      "name": "Florian Wirtz",
-      "country": "Germany",
-      "position": "MID",
-      "price": 7.5,
-      "projectedPoints": 6.66,
-      "startProb": 0.935,
-      "expectedMinutes": 76.5,
-      "captainUpsideScore": 20.592,
-      "score": 91.287
-    },
-    {
-      "rank": 5,
-      "name": "Emiliano Martínez",
-      "country": "Argentina",
-      "position": "GK",
-      "price": 5,
-      "projectedPoints": 5.155,
-      "startProb": 0.935,
-      "expectedMinutes": 85.5,
-      "captainUpsideScore": 17.152,
-      "score": 91.14
-    },
-    {
-      "rank": 6,
-      "name": "Declan Rice",
-      "country": "England",
-      "position": "MID",
-      "price": 7,
-      "projectedPoints": 5.747,
-      "startProb": 0.935,
-      "expectedMinutes": 76.7,
-      "captainUpsideScore": 18.942,
-      "score": 90.95
-    },
-    {
-      "rank": 7,
-      "name": "Jude Bellingham",
-      "country": "England",
-      "position": "MID",
-      "price": 8.3,
-      "projectedPoints": 7.64,
-      "startProb": 0.935,
-      "expectedMinutes": 76.1,
-      "captainUpsideScore": 23.553,
-      "score": 90.946
-    },
-    {
-      "rank": 8,
-      "name": "Willian Pacho",
-      "country": "Ecuador",
-      "position": "DEF",
-      "price": 4.4,
-      "projectedPoints": 3.609,
-      "startProb": 0.895,
-      "expectedMinutes": 81.1,
-      "captainUpsideScore": 14.024,
-      "score": 90.664
-    },
-    {
-      "rank": 9,
-      "name": "Ricardo Rodríguez",
-      "country": "Switzerland",
-      "position": "DEF",
-      "price": 4.5,
-      "projectedPoints": 3.883,
-      "startProb": 0.92,
-      "expectedMinutes": 79.5,
-      "captainUpsideScore": 13.159,
-      "score": 90.574
-    },
-    {
-      "rank": 10,
-      "name": "Ezri Konsa",
-      "country": "England",
-      "position": "DEF",
-      "price": 4.8,
-      "projectedPoints": 3.984,
-      "startProb": 0.895,
-      "expectedMinutes": 79.8,
-      "captainUpsideScore": 15.302,
-      "score": 90.574
-    },
-    {
-      "rank": 11,
-      "name": "Marc Cucurella",
-      "country": "Spain",
-      "position": "DEF",
-      "price": 5.1,
-      "projectedPoints": 5.281,
-      "startProb": 0.935,
-      "expectedMinutes": 79.6,
-      "captainUpsideScore": 17.418,
-      "score": 90.56
-    },
-    {
-      "rank": 12,
-      "name": "Hiroki Ito",
-      "country": "Japan",
-      "position": "DEF",
-      "price": 3.9,
-      "projectedPoints": 6.038,
-      "startProb": 0.895,
-      "expectedMinutes": 79.1,
-      "captainUpsideScore": 19.505,
-      "score": 90.329
-    },
-    {
-      "rank": 13,
-      "name": "Nico O'Reilly",
-      "country": "England",
-      "position": "DEF",
-      "price": 4.7,
-      "projectedPoints": 5.694,
-      "startProb": 0.895,
-      "expectedMinutes": 78.5,
-      "captainUpsideScore": 19.383,
-      "score": 90.265
-    },
-    {
-      "rank": 14,
-      "name": "Hernán Galíndez",
-      "country": "Ecuador",
-      "position": "GK",
-      "price": 4.2,
-      "projectedPoints": 4.401,
-      "startProb": 0.895,
-      "expectedMinutes": 85.5,
-      "captainUpsideScore": 15.337,
-      "score": 90.189
-    },
-    {
-      "rank": 15,
-      "name": "Ivan Perisic",
-      "country": "Croatia",
-      "position": "FWD",
-      "price": 5.4,
-      "projectedPoints": 6.556,
-      "startProb": 0.935,
-      "expectedMinutes": 73.1,
-      "captainUpsideScore": 20.666,
-      "score": 90.102
-    },
-    {
-      "rank": 16,
       "name": "Mathías Olivera",
       "country": "Uruguay",
       "position": "DEF",
       "price": 4.3,
-      "projectedPoints": 4.796,
-      "startProb": 0.895,
-      "expectedMinutes": 80.7,
-      "captainUpsideScore": 15.666,
-      "score": 89.977
-    },
-    {
-      "rank": 17,
-      "name": "Breel Embolo",
-      "country": "Switzerland",
-      "position": "FWD",
-      "price": 7.5,
-      "projectedPoints": 5.526,
-      "startProb": 0.92,
-      "expectedMinutes": 73.5,
-      "captainUpsideScore": 17.348,
-      "score": 89.952
-    },
-    {
-      "rank": 18,
-      "name": "Camilo Vargas",
-      "country": "Colombia",
-      "position": "GK",
-      "price": 4.3,
       "projectedPoints": 4.805,
       "startProb": 0.895,
-      "expectedMinutes": 85.5,
-      "captainUpsideScore": 15.24,
-      "score": 89.914
+      "expectedMinutes": 80.7,
+      "captainUpsideScore": 15.443,
+      "score": 91.487
     },
     {
-      "rank": 19,
-      "name": "Luis Díaz",
-      "country": "Colombia",
-      "position": "MID",
-      "price": 8.1,
-      "projectedPoints": 8.869,
+      "rank": 4,
+      "name": "Willian Pacho",
+      "country": "Ecuador",
+      "position": "DEF",
+      "price": 4.4,
+      "projectedPoints": 3.734,
+      "startProb": 0.895,
+      "expectedMinutes": 81.1,
+      "captainUpsideScore": 14.252,
+      "score": 91.377
+    },
+    {
+      "rank": 5,
+      "name": "Harry Kane",
+      "country": "England",
+      "position": "FWD",
+      "price": 10.5,
+      "projectedPoints": 8.613,
       "startProb": 0.935,
-      "expectedMinutes": 77.4,
-      "captainUpsideScore": 25.063,
-      "score": 89.75
+      "expectedMinutes": 74.2,
+      "captainUpsideScore": 25.769,
+      "score": 91.294
     },
     {
-      "rank": 20,
+      "rank": 6,
+      "name": "Emiliano Martínez",
+      "country": "Argentina",
+      "position": "GK",
+      "price": 5,
+      "projectedPoints": 5.151,
+      "startProb": 0.935,
+      "expectedMinutes": 85.5,
+      "captainUpsideScore": 16.865,
+      "score": 91.141
+    },
+    {
+      "rank": 7,
+      "name": "Declan Rice",
+      "country": "England",
+      "position": "MID",
+      "price": 7,
+      "projectedPoints": 5.679,
+      "startProb": 0.935,
+      "expectedMinutes": 76.7,
+      "captainUpsideScore": 18.484,
+      "score": 90.958
+    },
+    {
+      "rank": 8,
+      "name": "Ezri Konsa",
+      "country": "England",
+      "position": "DEF",
+      "price": 4.8,
+      "projectedPoints": 4.081,
+      "startProb": 0.895,
+      "expectedMinutes": 79.8,
+      "captainUpsideScore": 15.188,
+      "score": 90.943
+    },
+    {
+      "rank": 9,
+      "name": "Jude Bellingham",
+      "country": "England",
+      "position": "MID",
+      "price": 8.3,
+      "projectedPoints": 7.485,
+      "startProb": 0.935,
+      "expectedMinutes": 76.1,
+      "captainUpsideScore": 22.883,
+      "score": 90.927
+    },
+    {
+      "rank": 10,
+      "name": "Marc Cucurella",
+      "country": "Spain",
+      "position": "DEF",
+      "price": 5.1,
+      "projectedPoints": 5.332,
+      "startProb": 0.935,
+      "expectedMinutes": 79.6,
+      "captainUpsideScore": 17.178,
+      "score": 90.796
+    },
+    {
+      "rank": 11,
+      "name": "Hernán Galíndez",
+      "country": "Ecuador",
+      "position": "GK",
+      "price": 4.2,
+      "projectedPoints": 4.451,
+      "startProb": 0.895,
+      "expectedMinutes": 85.5,
+      "captainUpsideScore": 15.433,
+      "score": 90.698
+    },
+    {
+      "rank": 12,
+      "name": "Nico O'Reilly",
+      "country": "England",
+      "position": "DEF",
+      "price": 4.7,
+      "projectedPoints": 5.719,
+      "startProb": 0.895,
+      "expectedMinutes": 78.5,
+      "captainUpsideScore": 19.099,
+      "score": 90.665
+    },
+    {
+      "rank": 13,
+      "name": "Hiroki Ito",
+      "country": "Japan",
+      "position": "DEF",
+      "price": 3.9,
+      "projectedPoints": 6.057,
+      "startProb": 0.895,
+      "expectedMinutes": 79.1,
+      "captainUpsideScore": 19.242,
+      "score": 90.615
+    },
+    {
+      "rank": 14,
+      "name": "Guillermo Varela",
+      "country": "Uruguay",
+      "position": "DEF",
+      "price": 4.2,
+      "projectedPoints": 4.611,
+      "startProb": 0.895,
+      "expectedMinutes": 79.4,
+      "captainUpsideScore": 14.831,
+      "score": 90.558
+    },
+    {
+      "rank": 15,
       "name": "Darwin Núñez",
       "country": "Uruguay",
       "position": "FWD",
       "price": 7.5,
-      "projectedPoints": 5.984,
+      "projectedPoints": 5.684,
       "startProb": 0.895,
       "expectedMinutes": 74.1,
-      "captainUpsideScore": 18.687,
-      "score": 89.695
+      "captainUpsideScore": 17.803,
+      "score": 90.552
+    },
+    {
+      "rank": 16,
+      "name": "Camilo Vargas",
+      "country": "Colombia",
+      "position": "GK",
+      "price": 4.3,
+      "projectedPoints": 4.822,
+      "startProb": 0.895,
+      "expectedMinutes": 85.5,
+      "captainUpsideScore": 15.159,
+      "score": 90.208
+    },
+    {
+      "rank": 17,
+      "name": "Ivan Perisic",
+      "country": "Croatia",
+      "position": "FWD",
+      "price": 5.4,
+      "projectedPoints": 6.442,
+      "startProb": 0.935,
+      "expectedMinutes": 73.1,
+      "captainUpsideScore": 20.234,
+      "score": 90.177
+    },
+    {
+      "rank": 18,
+      "name": "Piero Hincapié",
+      "country": "Ecuador",
+      "position": "DEF",
+      "price": 4.7,
+      "projectedPoints": 4.051,
+      "startProb": 0.895,
+      "expectedMinutes": 80.7,
+      "captainUpsideScore": 14.994,
+      "score": 89.969
+    },
+    {
+      "rank": 19,
+      "name": "Breel Embolo",
+      "country": "Switzerland",
+      "position": "FWD",
+      "price": 7.5,
+      "projectedPoints": 5.351,
+      "startProb": 0.92,
+      "expectedMinutes": 73.5,
+      "captainUpsideScore": 16.676,
+      "score": 89.884
+    },
+    {
+      "rank": 20,
+      "name": "Florian Wirtz",
+      "country": "Germany",
+      "position": "MID",
+      "price": 7.5,
+      "projectedPoints": 6.561,
+      "startProb": 0.935,
+      "expectedMinutes": 76.5,
+      "captainUpsideScore": 19.86,
+      "score": 89.834
     }
   ],
   "top_20_upside": [
@@ -1004,11 +1009,11 @@
       "country": "France",
       "position": "FWD",
       "price": 10.5,
-      "projectedPoints": 8.623,
+      "projectedPoints": 8.614,
       "startProb": 0.935,
       "expectedMinutes": 73.2,
-      "captainUpsideScore": 27.099,
-      "score": 102.674
+      "captainUpsideScore": 26.976,
+      "score": 102.703
     },
     {
       "rank": 2,
@@ -1016,10 +1021,10 @@
       "country": "France",
       "position": "MID",
       "price": 9.5,
-      "projectedPoints": 9.139,
+      "projectedPoints": 9.146,
       "startProb": 0.935,
       "expectedMinutes": 76.4,
-      "captainUpsideScore": 28.124,
+      "captainUpsideScore": 28.027,
       "score": 100.838
     },
     {
@@ -1028,47 +1033,47 @@
       "country": "France",
       "position": "MID",
       "price": 10,
-      "projectedPoints": 8.905,
+      "projectedPoints": 8.907,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
-      "captainUpsideScore": 26.846,
+      "captainUpsideScore": 26.74,
       "score": 100.742
     },
     {
       "rank": 4,
-      "name": "Lionel Messi",
-      "country": "Argentina",
-      "position": "FWD",
-      "price": 10,
-      "projectedPoints": 9.496,
-      "startProb": 0.935,
-      "expectedMinutes": 74.4,
-      "captainUpsideScore": 27.792,
-      "score": 100.74
-    },
-    {
-      "rank": 5,
       "name": "Désiré Doué",
       "country": "France",
       "position": "MID",
       "price": 7.5,
-      "projectedPoints": 7.976,
+      "projectedPoints": 7.977,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
-      "captainUpsideScore": 24.814,
-      "score": 100.448
+      "captainUpsideScore": 24.708,
+      "score": 100.481
     },
     {
-      "rank": 6,
+      "rank": 5,
       "name": "Bradley Barcola",
       "country": "France",
       "position": "MID",
       "price": 8,
-      "projectedPoints": 7.801,
+      "projectedPoints": 7.799,
       "startProb": 0.735,
       "expectedMinutes": 56.2,
-      "captainUpsideScore": 23.745,
-      "score": 100.283
+      "captainUpsideScore": 23.634,
+      "score": 100.357
+    },
+    {
+      "rank": 6,
+      "name": "Lionel Messi",
+      "country": "Argentina",
+      "position": "FWD",
+      "price": 10,
+      "projectedPoints": 9.446,
+      "startProb": 0.935,
+      "expectedMinutes": 74.4,
+      "captainUpsideScore": 27.432,
+      "score": 99.987
     },
     {
       "rank": 7,
@@ -1076,11 +1081,11 @@
       "country": "Argentina",
       "position": "FWD",
       "price": 8.8,
-      "projectedPoints": 6.82,
+      "projectedPoints": 6.791,
       "startProb": 0.895,
       "expectedMinutes": 74.1,
-      "captainUpsideScore": 22.324,
-      "score": 99.712
+      "captainUpsideScore": 21.984,
+      "score": 98.914
     },
     {
       "rank": 8,
@@ -1088,11 +1093,11 @@
       "country": "England",
       "position": "FWD",
       "price": 10.5,
-      "projectedPoints": 8.738,
+      "projectedPoints": 8.613,
       "startProb": 0.935,
       "expectedMinutes": 74.2,
-      "captainUpsideScore": 26.359,
-      "score": 99.414
+      "captainUpsideScore": 25.769,
+      "score": 98.59
     },
     {
       "rank": 9,
@@ -1100,11 +1105,11 @@
       "country": "Japan",
       "position": "FWD",
       "price": 7,
-      "projectedPoints": 7.006,
+      "projectedPoints": 7.002,
       "startProb": 0.895,
       "expectedMinutes": 74.1,
-      "captainUpsideScore": 22.253,
-      "score": 98.916
+      "captainUpsideScore": 21.978,
+      "score": 98.194
     },
     {
       "rank": 10,
@@ -1112,11 +1117,11 @@
       "country": "Argentina",
       "position": "MID",
       "price": 7.5,
-      "projectedPoints": 7.98,
+      "projectedPoints": 7.781,
       "startProb": 0.895,
       "expectedMinutes": 77.3,
-      "captainUpsideScore": 24.202,
-      "score": 98.249
+      "captainUpsideScore": 23.47,
+      "score": 97.38
     },
     {
       "rank": 11,
@@ -1124,11 +1129,11 @@
       "country": "Argentina",
       "position": "FWD",
       "price": 8.6,
-      "projectedPoints": 5.844,
+      "projectedPoints": 5.673,
       "startProb": 0.67,
       "expectedMinutes": 57.8,
-      "captainUpsideScore": 18.529,
-      "score": 97.879
+      "captainUpsideScore": 17.864,
+      "score": 96.964
     },
     {
       "rank": 12,
@@ -1136,107 +1141,107 @@
       "country": "Croatia",
       "position": "FWD",
       "price": 5.1,
-      "projectedPoints": 8.028,
+      "projectedPoints": 8.014,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
-      "captainUpsideScore": 23.42,
-      "score": 97.321
+      "captainUpsideScore": 23.219,
+      "score": 96.875
     },
     {
       "rank": 13,
+      "name": "Enner Valencia",
+      "country": "Ecuador",
+      "position": "FWD",
+      "price": 5.9,
+      "projectedPoints": 6.318,
+      "startProb": 0.895,
+      "expectedMinutes": 74,
+      "captainUpsideScore": 20.743,
+      "score": 96.827
+    },
+    {
+      "rank": 14,
       "name": "Koki Ogawa",
       "country": "Japan",
       "position": "FWD",
       "price": 4.9,
-      "projectedPoints": 5.977,
+      "projectedPoints": 5.792,
       "startProb": 0.601,
       "expectedMinutes": 51.3,
-      "captainUpsideScore": 18.222,
-      "score": 97.208
+      "captainUpsideScore": 17.535,
+      "score": 96.278
     },
     {
-      "rank": 14,
+      "rank": 15,
       "name": "Cristiano Ronaldo dos Santos Aveiro",
       "country": "Portugal",
       "position": "FWD",
       "price": 10,
-      "projectedPoints": 6.882,
+      "projectedPoints": 6.652,
       "startProb": 0.895,
       "expectedMinutes": 73.4,
-      "captainUpsideScore": 21.425,
-      "score": 97.158
-    },
-    {
-      "rank": 15,
-      "name": "Donyell Malen",
-      "country": "Netherlands",
-      "position": "FWD",
-      "price": 6.1,
-      "projectedPoints": 6.465,
-      "startProb": 0.8,
-      "expectedMinutes": 68.5,
-      "captainUpsideScore": 20.038,
-      "score": 96.882
+      "captainUpsideScore": 20.554,
+      "score": 96.118
     },
     {
       "rank": 16,
-      "name": "Thiago Almada",
-      "country": "Argentina",
-      "position": "MID",
-      "price": 6.5,
-      "projectedPoints": 6.432,
-      "startProb": 0.895,
-      "expectedMinutes": 75.9,
-      "captainUpsideScore": 20.742,
-      "score": 96.819
-    },
-    {
-      "rank": 17,
       "name": "Daizen Maeda",
       "country": "Japan",
       "position": "MID",
       "price": 5,
-      "projectedPoints": 6.961,
+      "projectedPoints": 6.946,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
-      "captainUpsideScore": 21.259,
-      "score": 96.705
+      "captainUpsideScore": 20.955,
+      "score": 96.074
+    },
+    {
+      "rank": 17,
+      "name": "Adrien Rabiot",
+      "country": "France",
+      "position": "MID",
+      "price": 6.4,
+      "projectedPoints": 4.939,
+      "startProb": 0.775,
+      "expectedMinutes": 68.3,
+      "captainUpsideScore": 17.622,
+      "score": 95.977
     },
     {
       "rank": 18,
+      "name": "Thiago Almada",
+      "country": "Argentina",
+      "position": "MID",
+      "price": 6.5,
+      "projectedPoints": 6.281,
+      "startProb": 0.895,
+      "expectedMinutes": 75.9,
+      "captainUpsideScore": 20.124,
+      "score": 95.935
+    },
+    {
+      "rank": 19,
       "name": "Jude Bellingham",
       "country": "England",
       "position": "MID",
       "price": 8.3,
-      "projectedPoints": 7.64,
+      "projectedPoints": 7.485,
       "startProb": 0.935,
       "expectedMinutes": 76.1,
-      "captainUpsideScore": 23.553,
-      "score": 96.69
+      "captainUpsideScore": 22.883,
+      "score": 95.877
     },
     {
-      "rank": 19,
+      "rank": 20,
       "name": "Anthony Gordon",
       "country": "England",
       "position": "MID",
       "price": 7,
-      "projectedPoints": 6.976,
+      "projectedPoints": 6.804,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
-      "captainUpsideScore": 21.764,
-      "score": 96.434
-    },
-    {
-      "rank": 20,
-      "name": "Rodrigo De Paul",
-      "country": "Argentina",
-      "position": "MID",
-      "price": 5.9,
-      "projectedPoints": 6.219,
-      "startProb": 0.935,
-      "expectedMinutes": 77.4,
-      "captainUpsideScore": 20.13,
-      "score": 96.137
+      "captainUpsideScore": 21.057,
+      "score": 95.567
     }
   ],
   "top_20_value": [
@@ -1246,7 +1251,7 @@
       "country": "Japan",
       "position": "DEF",
       "price": 3.9,
-      "projectedPoints": 6.038,
+      "projectedPoints": 6.057,
       "startProb": 0.895,
       "valueScore": 10
     },
@@ -1256,7 +1261,7 @@
       "country": "Croatia",
       "position": "MID",
       "price": 4.2,
-      "projectedPoints": 5.35,
+      "projectedPoints": 5.279,
       "startProb": 0.935,
       "valueScore": 9.976
     },
@@ -1266,39 +1271,39 @@
       "country": "Colombia",
       "position": "FWD",
       "price": 5.7,
-      "projectedPoints": 7.102,
+      "projectedPoints": 7.072,
       "startProb": 0.78,
       "valueScore": 9.968
     },
     {
       "rank": 4,
-      "name": "Ivan Perisic",
-      "country": "Croatia",
-      "position": "FWD",
-      "price": 5.4,
-      "projectedPoints": 6.556,
-      "startProb": 0.935,
-      "valueScore": 9.951
-    },
-    {
-      "rank": 5,
       "name": "Nico O'Reilly",
       "country": "England",
       "position": "DEF",
       "price": 4.7,
-      "projectedPoints": 5.694,
+      "projectedPoints": 5.719,
       "startProb": 0.895,
-      "valueScore": 9.951
+      "valueScore": 9.959
     },
     {
-      "rank": 6,
+      "rank": 5,
       "name": "Daniel Muñoz",
       "country": "Colombia",
       "position": "DEF",
       "price": 4.6,
-      "projectedPoints": 5.422,
+      "projectedPoints": 5.514,
       "startProb": 0.935,
-      "valueScore": 9.943
+      "valueScore": 9.951
+    },
+    {
+      "rank": 6,
+      "name": "Ivan Perisic",
+      "country": "Croatia",
+      "position": "FWD",
+      "price": 5.4,
+      "projectedPoints": 6.442,
+      "startProb": 0.935,
+      "valueScore": 9.951
     },
     {
       "rank": 7,
@@ -1306,29 +1311,29 @@
       "country": "Portugal",
       "position": "DEF",
       "price": 5.8,
-      "projectedPoints": 6.73,
+      "projectedPoints": 6.701,
       "startProb": 0.895,
-      "valueScore": 9.919
+      "valueScore": 9.911
     },
     {
       "rank": 8,
-      "name": "Charles De Ketelaere",
-      "country": "Belgium",
-      "position": "MID",
-      "price": 5.6,
-      "projectedPoints": 6.499,
-      "startProb": 0.895,
-      "valueScore": 9.919
-    },
-    {
-      "rank": 9,
       "name": "Camilo Vargas",
       "country": "Colombia",
       "position": "GK",
       "price": 4.3,
-      "projectedPoints": 4.805,
+      "projectedPoints": 4.822,
       "startProb": 0.895,
-      "valueScore": 9.903
+      "valueScore": 9.911
+    },
+    {
+      "rank": 9,
+      "name": "Charles De Ketelaere",
+      "country": "Belgium",
+      "position": "MID",
+      "price": 5.6,
+      "projectedPoints": 6.297,
+      "startProb": 0.895,
+      "valueScore": 9.911
     },
     {
       "rank": 10,
@@ -1336,29 +1341,29 @@
       "country": "Ecuador",
       "position": "FWD",
       "price": 5.9,
-      "projectedPoints": 6.332,
+      "projectedPoints": 6.318,
       "startProb": 0.895,
-      "valueScore": 9.862
-    },
-    {
-      "rank": 11,
-      "name": "Rodrigo De Paul",
-      "country": "Argentina",
-      "position": "MID",
-      "price": 5.9,
-      "projectedPoints": 6.219,
-      "startProb": 0.935,
       "valueScore": 9.854
     },
     {
-      "rank": 12,
+      "rank": 11,
       "name": "Marc Cucurella",
       "country": "Spain",
       "position": "DEF",
       "price": 5.1,
-      "projectedPoints": 5.281,
+      "projectedPoints": 5.332,
       "startProb": 0.935,
       "valueScore": 9.821
+    },
+    {
+      "rank": 12,
+      "name": "Donyell Malen",
+      "country": "Netherlands",
+      "position": "FWD",
+      "price": 6.1,
+      "projectedPoints": 6.428,
+      "startProb": 0.8,
+      "valueScore": 9.838
     },
     {
       "rank": 13,
@@ -1366,39 +1371,39 @@
       "country": "Argentina",
       "position": "DEF",
       "price": 4.9,
-      "projectedPoints": 5.165,
+      "projectedPoints": 5.106,
       "startProb": 0.935,
-      "valueScore": 9.854
+      "valueScore": 9.821
     },
     {
       "rank": 14,
-      "name": "Donyell Malen",
-      "country": "Netherlands",
-      "position": "FWD",
-      "price": 6.1,
-      "projectedPoints": 6.465,
-      "startProb": 0.8,
-      "valueScore": 9.854
+      "name": "Rodrigo De Paul",
+      "country": "Argentina",
+      "position": "MID",
+      "price": 5.9,
+      "projectedPoints": 6.101,
+      "startProb": 0.935,
+      "valueScore": 9.821
     },
     {
       "rank": 15,
-      "name": "Joshua Kimmich",
-      "country": "Germany",
-      "position": "DEF",
-      "price": 5.5,
-      "projectedPoints": 5.441,
-      "startProb": 0.935,
-      "valueScore": 9.724
-    },
-    {
-      "rank": 16,
       "name": "Ayase Ueda",
       "country": "Japan",
       "position": "FWD",
       "price": 7,
-      "projectedPoints": 7.006,
+      "projectedPoints": 7.002,
       "startProb": 0.895,
-      "valueScore": 9.732
+      "valueScore": 9.765
+    },
+    {
+      "rank": 16,
+      "name": "Joshua Kimmich",
+      "country": "Germany",
+      "position": "DEF",
+      "price": 5.5,
+      "projectedPoints": 5.31,
+      "startProb": 0.935,
+      "valueScore": 9.667
     },
     {
       "rank": 17,
@@ -1406,22 +1411,12 @@
       "country": "Argentina",
       "position": "MID",
       "price": 6.5,
-      "projectedPoints": 6.432,
+      "projectedPoints": 6.281,
       "startProb": 0.895,
-      "valueScore": 9.724
+      "valueScore": 9.667
     },
     {
       "rank": 18,
-      "name": "Richard Ríos",
-      "country": "Colombia",
-      "position": "MID",
-      "price": 4.7,
-      "projectedPoints": 4.519,
-      "startProb": 0.895,
-      "valueScore": 9.659
-    },
-    {
-      "rank": 19,
       "name": "Bruno Guimarães Rodriguez Moura",
       "country": "Brazil",
       "position": "MID",
@@ -1431,14 +1426,24 @@
       "valueScore": 9.594
     },
     {
-      "rank": 20,
+      "rank": 19,
       "name": "Patrik Schick",
       "country": "Czechia",
       "position": "FWD",
       "price": 7.3,
-      "projectedPoints": 6.759,
+      "projectedPoints": 6.646,
       "startProb": 0.88,
-      "valueScore": 9.61
+      "valueScore": 9.529
+    },
+    {
+      "rank": 20,
+      "name": "Bruno Miguel Borges Fernandes",
+      "country": "Portugal",
+      "position": "MID",
+      "price": 8.5,
+      "projectedPoints": 7.703,
+      "startProb": 0.895,
+      "valueScore": 9.505
     }
   ],
   "top_20_differential": [
@@ -1448,11 +1453,11 @@
       "country": "Belgium",
       "position": "MID",
       "price": 5.6,
-      "projectedPoints": 6.499,
+      "projectedPoints": 6.297,
       "startProb": 0.895,
       "expectedMinutes": 75.6,
-      "captainUpsideScore": 19.397,
-      "score": 94.495
+      "captainUpsideScore": 18.612,
+      "score": 94.38
     },
     {
       "rank": 2,
@@ -1460,59 +1465,59 @@
       "country": "Spain",
       "position": "FWD",
       "price": 8.1,
-      "projectedPoints": 5.978,
+      "projectedPoints": 5.782,
       "startProb": 0.895,
       "expectedMinutes": 73.6,
-      "captainUpsideScore": 19.576,
-      "score": 92.909
+      "captainUpsideScore": 18.799,
+      "score": 92.543
     },
     {
       "rank": 3,
-      "name": "Nuno Alexandre Tavares Mendes",
-      "country": "Portugal",
-      "position": "DEF",
-      "price": 5.8,
-      "projectedPoints": 6.73,
-      "startProb": 0.895,
-      "expectedMinutes": 79.1,
-      "captainUpsideScore": 20.619,
-      "score": 92.245
-    },
-    {
-      "rank": 4,
       "name": "Donyell Malen",
       "country": "Netherlands",
       "position": "FWD",
       "price": 6.1,
-      "projectedPoints": 6.465,
+      "projectedPoints": 6.428,
       "startProb": 0.8,
       "expectedMinutes": 68.5,
-      "captainUpsideScore": 20.038,
-      "score": 91.939
+      "captainUpsideScore": 19.572,
+      "score": 91.906
+    },
+    {
+      "rank": 4,
+      "name": "Cristiano Ronaldo dos Santos Aveiro",
+      "country": "Portugal",
+      "position": "FWD",
+      "price": 10,
+      "projectedPoints": 6.652,
+      "startProb": 0.895,
+      "expectedMinutes": 73.4,
+      "captainUpsideScore": 20.554,
+      "score": 91.57
     },
     {
       "rank": 5,
-      "name": "Kevin De Bruyne",
-      "country": "Belgium",
-      "position": "MID",
-      "price": 7.5,
-      "projectedPoints": 6.744,
-      "startProb": 0.895,
-      "expectedMinutes": 75.9,
-      "captainUpsideScore": 20.03,
-      "score": 91.67
-    },
-    {
-      "rank": 6,
       "name": "Nico O'Reilly",
       "country": "England",
       "position": "DEF",
       "price": 4.7,
-      "projectedPoints": 5.694,
+      "projectedPoints": 5.719,
       "startProb": 0.895,
       "expectedMinutes": 78.5,
-      "captainUpsideScore": 19.383,
-      "score": 91.202
+      "captainUpsideScore": 19.099,
+      "score": 91.377
+    },
+    {
+      "rank": 6,
+      "name": "Kevin De Bruyne",
+      "country": "Belgium",
+      "position": "MID",
+      "price": 7.5,
+      "projectedPoints": 6.516,
+      "startProb": 0.895,
+      "expectedMinutes": 75.9,
+      "captainUpsideScore": 19.181,
+      "score": 91.34
     },
     {
       "rank": 7,
@@ -1520,11 +1525,11 @@
       "country": "Japan",
       "position": "FWD",
       "price": 7,
-      "projectedPoints": 7.006,
+      "projectedPoints": 7.002,
       "startProb": 0.895,
       "expectedMinutes": 74.1,
-      "captainUpsideScore": 22.253,
-      "score": 91.183
+      "captainUpsideScore": 21.978,
+      "score": 91.248
     },
     {
       "rank": 8,
@@ -1532,11 +1537,11 @@
       "country": "Ecuador",
       "position": "FWD",
       "price": 5.9,
-      "projectedPoints": 6.332,
+      "projectedPoints": 6.318,
       "startProb": 0.895,
       "expectedMinutes": 74,
-      "captainUpsideScore": 20.793,
-      "score": 90.737
+      "captainUpsideScore": 20.743,
+      "score": 90.827
     },
     {
       "rank": 9,
@@ -1544,11 +1549,11 @@
       "country": "Czechia",
       "position": "FWD",
       "price": 7.3,
-      "projectedPoints": 6.759,
+      "projectedPoints": 6.646,
       "startProb": 0.88,
       "expectedMinutes": 73.9,
-      "captainUpsideScore": 19.786,
-      "score": 90.588
+      "captainUpsideScore": 19.755,
+      "score": 90.403
     },
     {
       "rank": 10,
@@ -1556,23 +1561,23 @@
       "country": "Japan",
       "position": "DEF",
       "price": 3.9,
-      "projectedPoints": 6.038,
+      "projectedPoints": 6.057,
       "startProb": 0.895,
       "expectedMinutes": 79.1,
-      "captainUpsideScore": 19.505,
-      "score": 90.172
+      "captainUpsideScore": 19.242,
+      "score": 90.233
     },
     {
       "rank": 11,
-      "name": "Darwin Núñez",
-      "country": "Uruguay",
-      "position": "FWD",
-      "price": 7.5,
-      "projectedPoints": 5.984,
+      "name": "Bruno Miguel Borges Fernandes",
+      "country": "Portugal",
+      "position": "MID",
+      "price": 8.5,
+      "projectedPoints": 7.703,
       "startProb": 0.895,
-      "expectedMinutes": 74.1,
-      "captainUpsideScore": 18.687,
-      "score": 89.91
+      "expectedMinutes": 76.2,
+      "captainUpsideScore": 22.277,
+      "score": 90.094
     },
     {
       "rank": 12,
@@ -1580,11 +1585,11 @@
       "country": "Colombia",
       "position": "FWD",
       "price": 5.7,
-      "projectedPoints": 7.102,
+      "projectedPoints": 7.072,
       "startProb": 0.78,
       "expectedMinutes": 65,
-      "captainUpsideScore": 21.076,
-      "score": 89.743
+      "captainUpsideScore": 20.876,
+      "score": 89.774
     },
     {
       "rank": 13,
@@ -1592,11 +1597,11 @@
       "country": "Croatia",
       "position": "MID",
       "price": 4.2,
-      "projectedPoints": 5.35,
+      "projectedPoints": 5.279,
       "startProb": 0.935,
       "expectedMinutes": 75.6,
-      "captainUpsideScore": 17.511,
-      "score": 89.633
+      "captainUpsideScore": 17.185,
+      "score": 89.603
     },
     {
       "rank": 14,
@@ -1604,11 +1609,11 @@
       "country": "Croatia",
       "position": "FWD",
       "price": 5.4,
-      "projectedPoints": 6.556,
+      "projectedPoints": 6.442,
       "startProb": 0.935,
       "expectedMinutes": 73.1,
-      "captainUpsideScore": 20.666,
-      "score": 89.566
+      "captainUpsideScore": 20.234,
+      "score": 89.512
     },
     {
       "rank": 15,
@@ -1616,11 +1621,11 @@
       "country": "Germany",
       "position": "MID",
       "price": 7.5,
-      "projectedPoints": 6.66,
+      "projectedPoints": 6.561,
       "startProb": 0.935,
       "expectedMinutes": 76.5,
-      "captainUpsideScore": 20.592,
-      "score": 89.363
+      "captainUpsideScore": 19.86,
+      "score": 89.298
     },
     {
       "rank": 16,
@@ -1628,26 +1633,14 @@
       "country": "Argentina",
       "position": "MID",
       "price": 5.9,
-      "projectedPoints": 6.219,
+      "projectedPoints": 6.101,
       "startProb": 0.935,
       "expectedMinutes": 77.4,
-      "captainUpsideScore": 20.13,
-      "score": 88.726
+      "captainUpsideScore": 19.585,
+      "score": 88.661
     },
     {
       "rank": 17,
-      "name": "Thiago Almada",
-      "country": "Argentina",
-      "position": "MID",
-      "price": 6.5,
-      "projectedPoints": 6.432,
-      "startProb": 0.895,
-      "expectedMinutes": 75.9,
-      "captainUpsideScore": 20.742,
-      "score": 88.38
-    },
-    {
-      "rank": 18,
       "name": "Bruno Guimarães Rodriguez Moura",
       "country": "Brazil",
       "position": "MID",
@@ -1655,32 +1648,44 @@
       "projectedPoints": 6.273,
       "startProb": 0.935,
       "expectedMinutes": 77.4,
-      "captainUpsideScore": 18.994,
-      "score": 88.354
+      "captainUpsideScore": 18.936,
+      "score": 88.445
+    },
+    {
+      "rank": 18,
+      "name": "Nuno Alexandre Tavares Mendes",
+      "country": "Portugal",
+      "position": "DEF",
+      "price": 5.8,
+      "projectedPoints": 6.701,
+      "startProb": 0.895,
+      "expectedMinutes": 79.1,
+      "captainUpsideScore": 20.179,
+      "score": 88.328
     },
     {
       "rank": 19,
-      "name": "Lamine Yamal Nasraoui Ebana",
-      "country": "Spain",
+      "name": "Thiago Almada",
+      "country": "Argentina",
       "position": "MID",
-      "price": 10,
-      "projectedPoints": 7.696,
-      "startProb": 0.67,
-      "expectedMinutes": 58.4,
-      "captainUpsideScore": 21.752,
-      "score": 86.979
+      "price": 6.5,
+      "projectedPoints": 6.281,
+      "startProb": 0.895,
+      "expectedMinutes": 75.9,
+      "captainUpsideScore": 20.124,
+      "score": 88.228
     },
     {
       "rank": 20,
-      "name": "Joshua Kimmich",
-      "country": "Germany",
+      "name": "Daniel Muñoz",
+      "country": "Colombia",
       "position": "DEF",
-      "price": 5.5,
-      "projectedPoints": 5.441,
+      "price": 4.6,
+      "projectedPoints": 5.514,
       "startProb": 0.935,
-      "expectedMinutes": 80,
-      "captainUpsideScore": 18.066,
-      "score": 86.737
+      "expectedMinutes": 81.2,
+      "captainUpsideScore": 17.331,
+      "score": 86.987
     }
   ],
   "top_20_captain_watchlist": [
@@ -1690,10 +1695,10 @@
       "country": "France",
       "position": "MID",
       "price": 9.5,
-      "projectedPoints": 9.139,
+      "projectedPoints": 9.146,
       "startProb": 0.935,
       "expectedMinutes": 76.4,
-      "captainUpsideScore": 28.124,
+      "captainUpsideScore": 28.027,
       "score": 108.512
     },
     {
@@ -1702,11 +1707,11 @@
       "country": "Argentina",
       "position": "FWD",
       "price": 10,
-      "projectedPoints": 9.496,
+      "projectedPoints": 9.446,
       "startProb": 0.935,
       "expectedMinutes": 74.4,
-      "captainUpsideScore": 27.792,
-      "score": 110.143
+      "captainUpsideScore": 27.432,
+      "score": 109.783
     },
     {
       "rank": 3,
@@ -1714,11 +1719,11 @@
       "country": "France",
       "position": "FWD",
       "price": 10.5,
-      "projectedPoints": 8.623,
+      "projectedPoints": 8.614,
       "startProb": 0.935,
       "expectedMinutes": 73.2,
-      "captainUpsideScore": 27.099,
-      "score": 111.219
+      "captainUpsideScore": 26.976,
+      "score": 111.259
     },
     {
       "rank": 4,
@@ -1726,10 +1731,10 @@
       "country": "France",
       "position": "MID",
       "price": 10,
-      "projectedPoints": 8.905,
+      "projectedPoints": 8.907,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
-      "captainUpsideScore": 26.846,
+      "captainUpsideScore": 26.74,
       "score": 106.475
     },
     {
@@ -1738,35 +1743,35 @@
       "country": "England",
       "position": "FWD",
       "price": 10.5,
-      "projectedPoints": 8.738,
+      "projectedPoints": 8.613,
       "startProb": 0.935,
       "expectedMinutes": 74.2,
-      "captainUpsideScore": 26.359,
-      "score": 109.731
+      "captainUpsideScore": 25.769,
+      "score": 109.322
     },
     {
       "rank": 6,
-      "name": "Luis Díaz",
-      "country": "Colombia",
-      "position": "MID",
-      "price": 8.1,
-      "projectedPoints": 8.869,
-      "startProb": 0.935,
-      "expectedMinutes": 77.4,
-      "captainUpsideScore": 25.063,
-      "score": 104.787
-    },
-    {
-      "rank": 7,
       "name": "Désiré Doué",
       "country": "France",
       "position": "MID",
       "price": 7.5,
-      "projectedPoints": 7.976,
+      "projectedPoints": 7.977,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
-      "captainUpsideScore": 24.814,
-      "score": 106.177
+      "captainUpsideScore": 24.708,
+      "score": 106.225
+    },
+    {
+      "rank": 7,
+      "name": "Luis Díaz",
+      "country": "Colombia",
+      "position": "MID",
+      "price": 8.1,
+      "projectedPoints": 8.773,
+      "startProb": 0.935,
+      "expectedMinutes": 77.4,
+      "captainUpsideScore": 24.69,
+      "score": 104.418
     },
     {
       "rank": 8,
@@ -1774,119 +1779,119 @@
       "country": "Germany",
       "position": "MID",
       "price": 8,
-      "projectedPoints": 8.649,
+      "projectedPoints": 8.559,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
-      "captainUpsideScore": 24.472,
-      "score": 103.79
+      "captainUpsideScore": 23.745,
+      "score": 103.447
     },
     {
       "rank": 9,
-      "name": "Enzo Fernández",
-      "country": "Argentina",
-      "position": "MID",
-      "price": 7.5,
-      "projectedPoints": 7.98,
-      "startProb": 0.895,
-      "expectedMinutes": 77.3,
-      "captainUpsideScore": 24.202,
-      "score": 106.407
-    },
-    {
-      "rank": 10,
       "name": "Bradley Barcola",
       "country": "France",
       "position": "MID",
       "price": 8,
-      "projectedPoints": 7.801,
+      "projectedPoints": 7.799,
       "startProb": 0.735,
       "expectedMinutes": 56.2,
-      "captainUpsideScore": 23.745,
-      "score": 104.506
+      "captainUpsideScore": 23.634,
+      "score": 104.589
+    },
+    {
+      "rank": 10,
+      "name": "Enzo Fernández",
+      "country": "Argentina",
+      "position": "MID",
+      "price": 7.5,
+      "projectedPoints": 7.781,
+      "startProb": 0.895,
+      "expectedMinutes": 77.3,
+      "captainUpsideScore": 23.47,
+      "score": 105.928
     },
     {
       "rank": 11,
-      "name": "Jude Bellingham",
-      "country": "England",
-      "position": "MID",
-      "price": 8.3,
-      "projectedPoints": 7.64,
-      "startProb": 0.935,
-      "expectedMinutes": 76.1,
-      "captainUpsideScore": 23.553,
-      "score": 106.152
-    },
-    {
-      "rank": 12,
       "name": "Petar Musa",
       "country": "Croatia",
       "position": "FWD",
       "price": 5.1,
-      "projectedPoints": 8.028,
+      "projectedPoints": 8.014,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
-      "captainUpsideScore": 23.42,
-      "score": 106.703
+      "captainUpsideScore": 23.219,
+      "score": 106.509
+    },
+    {
+      "rank": 12,
+      "name": "Jude Bellingham",
+      "country": "England",
+      "position": "MID",
+      "price": 8.3,
+      "projectedPoints": 7.485,
+      "startProb": 0.935,
+      "expectedMinutes": 76.1,
+      "captainUpsideScore": 22.883,
+      "score": 105.756
     },
     {
       "rank": 13,
-      "name": "Bruno Miguel Borges Fernandes",
-      "country": "Portugal",
-      "position": "MID",
-      "price": 8.5,
-      "projectedPoints": 7.891,
-      "startProb": 0.895,
-      "expectedMinutes": 76.2,
-      "captainUpsideScore": 23.054,
-      "score": 105.038
-    },
-    {
-      "rank": 14,
       "name": "Vinícius José Paixão de Oliveira Júnior",
       "country": "Brazil",
       "position": "MID",
       "price": 10,
-      "projectedPoints": 7.801,
+      "projectedPoints": 7.788,
       "startProb": 0.935,
       "expectedMinutes": 77.4,
-      "captainUpsideScore": 22.763,
-      "score": 105.158
+      "captainUpsideScore": 22.674,
+      "score": 105.172
     },
     {
-      "rank": 15,
+      "rank": 14,
       "name": "Raphael Dias Belloli",
       "country": "Brazil",
       "position": "MID",
       "price": 8.2,
-      "projectedPoints": 7.727,
+      "projectedPoints": 7.711,
       "startProb": 0.895,
       "expectedMinutes": 77.3,
-      "captainUpsideScore": 22.741,
-      "score": 104.798
+      "captainUpsideScore": 22.646,
+      "score": 104.792
     },
     {
-      "rank": 16,
-      "name": "Lautaro Martínez",
-      "country": "Argentina",
-      "position": "FWD",
-      "price": 8.8,
-      "projectedPoints": 6.82,
-      "startProb": 0.895,
-      "expectedMinutes": 74.1,
-      "captainUpsideScore": 22.324,
-      "score": 108.699
-    },
-    {
-      "rank": 17,
+      "rank": 15,
       "name": "Erling Haaland",
       "country": "Norway",
       "position": "FWD",
       "price": 10.5,
-      "projectedPoints": 7.722,
+      "projectedPoints": 7.742,
       "startProb": 0.935,
       "expectedMinutes": 74.2,
-      "captainUpsideScore": 22.264,
-      "score": 105.999
+      "captainUpsideScore": 22.455,
+      "score": 106.596
+    },
+    {
+      "rank": 16,
+      "name": "Bruno Miguel Borges Fernandes",
+      "country": "Portugal",
+      "position": "MID",
+      "price": 8.5,
+      "projectedPoints": 7.703,
+      "startProb": 0.895,
+      "expectedMinutes": 76.2,
+      "captainUpsideScore": 22.277,
+      "score": 104.351
+    },
+    {
+      "rank": 17,
+      "name": "Lautaro Martínez",
+      "country": "Argentina",
+      "position": "FWD",
+      "price": 8.8,
+      "projectedPoints": 6.791,
+      "startProb": 0.895,
+      "expectedMinutes": 74.1,
+      "captainUpsideScore": 21.984,
+      "score": 108.296
     },
     {
       "rank": 18,
@@ -1894,11 +1899,11 @@
       "country": "Japan",
       "position": "FWD",
       "price": 7,
-      "projectedPoints": 7.006,
+      "projectedPoints": 7.002,
       "startProb": 0.895,
       "expectedMinutes": 74.1,
-      "captainUpsideScore": 22.253,
-      "score": 108.329
+      "captainUpsideScore": 21.978,
+      "score": 107.983
     },
     {
       "rank": 19,
@@ -1906,23 +1911,23 @@
       "country": "England",
       "position": "MID",
       "price": 7,
-      "projectedPoints": 6.976,
+      "projectedPoints": 6.804,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
-      "captainUpsideScore": 21.764,
-      "score": 103.911
+      "captainUpsideScore": 21.057,
+      "score": 103.468
     },
     {
       "rank": 20,
-      "name": "Cristiano Ronaldo dos Santos Aveiro",
-      "country": "Portugal",
-      "position": "FWD",
-      "price": 10,
-      "projectedPoints": 6.882,
-      "startProb": 0.895,
-      "expectedMinutes": 73.4,
-      "captainUpsideScore": 21.425,
-      "score": 107.363
+      "name": "Daizen Maeda",
+      "country": "Japan",
+      "position": "MID",
+      "price": 5,
+      "projectedPoints": 6.946,
+      "startProb": 0.79,
+      "expectedMinutes": 68.4,
+      "captainUpsideScore": 20.955,
+      "score": 103.363
     }
   ],
   "star_audit": [
@@ -1930,14 +1935,13 @@
       "audit_name": "Messi",
       "official_fantasy_player_id": "38",
       "name": "Lionel Messi",
-      "projectedPoints": 9.496,
-      "captainUpsideScore": 27.792,
+      "projectedPoints": 9.446,
+      "captainUpsideScore": 27.432,
       "startProb": 0.935,
       "expectedMinutes": 74.4,
       "roleTier": "locked_starter",
       "surfaces": [
         "Core Picks",
-        "High-Floor Picks",
         "Upside Picks",
         "Captain Watchlist"
       ],
@@ -1947,8 +1951,8 @@
       "audit_name": "Olise",
       "official_fantasy_player_id": "517",
       "name": "Michael Olise",
-      "projectedPoints": 9.139,
-      "captainUpsideScore": 28.124,
+      "projectedPoints": 9.146,
+      "captainUpsideScore": 28.027,
       "startProb": 0.935,
       "expectedMinutes": 76.4,
       "roleTier": "locked_starter",
@@ -1963,8 +1967,8 @@
       "audit_name": "Dembele",
       "official_fantasy_player_id": "501",
       "name": "Ousmane Dembélé",
-      "projectedPoints": 8.905,
-      "captainUpsideScore": 26.846,
+      "projectedPoints": 8.907,
+      "captainUpsideScore": 26.74,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
       "roleTier": "likely_starter",
@@ -1979,8 +1983,8 @@
       "audit_name": "Luis Diaz",
       "official_fantasy_player_id": "256",
       "name": "Luis Díaz",
-      "projectedPoints": 8.869,
-      "captainUpsideScore": 25.063,
+      "projectedPoints": 8.773,
+      "captainUpsideScore": 24.69,
       "startProb": 0.935,
       "expectedMinutes": 77.4,
       "roleTier": "locked_starter",
@@ -1995,8 +1999,8 @@
       "audit_name": "Kane",
       "official_fantasy_player_id": "468",
       "name": "Harry Kane",
-      "projectedPoints": 8.738,
-      "captainUpsideScore": 26.359,
+      "projectedPoints": 8.613,
+      "captainUpsideScore": 25.769,
       "startProb": 0.935,
       "expectedMinutes": 74.2,
       "roleTier": "locked_starter",
@@ -2012,13 +2016,14 @@
       "audit_name": "Musiala",
       "official_fantasy_player_id": "1600",
       "name": "Jamal Musiala",
-      "projectedPoints": 8.649,
-      "captainUpsideScore": 24.472,
+      "projectedPoints": 8.559,
+      "captainUpsideScore": 23.745,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
       "roleTier": "likely_starter",
       "surfaces": [
         "Core Picks",
+        "Upside Picks",
         "Captain Watchlist"
       ],
       "omissionReason": null
@@ -2027,8 +2032,8 @@
       "audit_name": "Mbappe",
       "official_fantasy_player_id": "500",
       "name": "Kylian Mbappé",
-      "projectedPoints": 8.623,
-      "captainUpsideScore": 27.099,
+      "projectedPoints": 8.614,
+      "captainUpsideScore": 26.976,
       "startProb": 0.935,
       "expectedMinutes": 73.2,
       "roleTier": "locked_starter",
@@ -2043,8 +2048,8 @@
       "audit_name": "Petar Musa",
       "official_fantasy_player_id": "336",
       "name": "Petar Musa",
-      "projectedPoints": 8.028,
-      "captainUpsideScore": 23.42,
+      "projectedPoints": 8.014,
+      "captainUpsideScore": 23.219,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
       "roleTier": "likely_starter",
@@ -2059,8 +2064,8 @@
       "audit_name": "Enzo",
       "official_fantasy_player_id": "57",
       "name": "Enzo Fernández",
-      "projectedPoints": 7.98,
-      "captainUpsideScore": 24.202,
+      "projectedPoints": 7.781,
+      "captainUpsideScore": 23.47,
       "startProb": 0.895,
       "expectedMinutes": 77.3,
       "roleTier": "locked_starter",
@@ -2075,8 +2080,8 @@
       "audit_name": "Desire Doue",
       "official_fantasy_player_id": "505",
       "name": "Désiré Doué",
-      "projectedPoints": 7.976,
-      "captainUpsideScore": 24.814,
+      "projectedPoints": 7.977,
+      "captainUpsideScore": 24.708,
       "startProb": 0.79,
       "expectedMinutes": 68.4,
       "roleTier": "likely_starter",
@@ -2091,13 +2096,14 @@
       "audit_name": "Bruno Fernandes",
       "official_fantasy_player_id": "939",
       "name": "Bruno Miguel Borges Fernandes",
-      "projectedPoints": 7.891,
-      "captainUpsideScore": 23.054,
+      "projectedPoints": 7.703,
+      "captainUpsideScore": 22.277,
       "startProb": 0.895,
       "expectedMinutes": 76.2,
       "roleTier": "locked_starter",
       "surfaces": [
         "Core Picks",
+        "Differential Picks / Value Picks",
         "Captain Watchlist"
       ],
       "omissionReason": null
@@ -2106,8 +2112,8 @@
       "audit_name": "Vinicius Junior",
       "official_fantasy_player_id": "173",
       "name": "Vinícius José Paixão de Oliveira Júnior",
-      "projectedPoints": 7.801,
-      "captainUpsideScore": 22.763,
+      "projectedPoints": 7.788,
+      "captainUpsideScore": 22.674,
       "startProb": 0.935,
       "expectedMinutes": 77.4,
       "roleTier": "locked_starter",
@@ -2121,8 +2127,8 @@
       "audit_name": "Barcola",
       "official_fantasy_player_id": "1431",
       "name": "Bradley Barcola",
-      "projectedPoints": 7.801,
-      "captainUpsideScore": 23.745,
+      "projectedPoints": 7.799,
+      "captainUpsideScore": 23.634,
       "startProb": 0.735,
       "expectedMinutes": 56.2,
       "roleTier": "possible_starter",
@@ -2137,8 +2143,8 @@
       "audit_name": "Raphinha",
       "official_fantasy_player_id": "1366",
       "name": "Raphael Dias Belloli",
-      "projectedPoints": 7.727,
-      "captainUpsideScore": 22.741,
+      "projectedPoints": 7.711,
+      "captainUpsideScore": 22.646,
       "startProb": 0.895,
       "expectedMinutes": 77.3,
       "roleTier": "locked_starter",
@@ -2152,8 +2158,8 @@
       "audit_name": "Haaland",
       "official_fantasy_player_id": "855",
       "name": "Erling Haaland",
-      "projectedPoints": 7.722,
-      "captainUpsideScore": 22.264,
+      "projectedPoints": 7.742,
+      "captainUpsideScore": 22.455,
       "startProb": 0.935,
       "expectedMinutes": 74.2,
       "roleTier": "locked_starter",
@@ -2168,8 +2174,8 @@
       "audit_name": "Bellingham",
       "official_fantasy_player_id": "491",
       "name": "Jude Bellingham",
-      "projectedPoints": 7.64,
-      "captainUpsideScore": 23.553,
+      "projectedPoints": 7.485,
+      "captainUpsideScore": 22.883,
       "startProb": 0.935,
       "expectedMinutes": 76.1,
       "roleTier": "locked_starter",
@@ -2189,73 +2195,73 @@
         "official_fantasy_player_id": "2012",
         "name": "Achraf Hakimi",
         "position": "DEF",
-        "projectedPoints": 4.197,
-        "captainUpsideScore": 13.002,
+        "projectedPoints": 4.264,
+        "captainUpsideScore": 13.093,
         "startProb": 0.88,
         "expectedMinutes": 79.7,
         "roleTier": "locked_starter",
         "elite_flags": [],
         "surfaces": [],
-        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 157, captain rank 200, ceiling rank 165)."
+        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 149, captain rank 184, ceiling rank 151)."
       },
       {
         "official_fantasy_player_id": "1520",
         "name": "Alexander Isak",
         "position": "FWD",
-        "projectedPoints": 3.358,
-        "captainUpsideScore": 10.067,
+        "projectedPoints": 3.457,
+        "captainUpsideScore": 10.46,
         "startProb": 0.775,
         "expectedMinutes": 68.3,
         "roleTier": "likely_starter",
         "elite_flags": [],
         "surfaces": [],
-        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 257, captain rank 337, ceiling rank 296)."
+        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 243, captain rank 316, ceiling rank 263)."
       },
       {
         "official_fantasy_player_id": "183",
         "name": "Alisson Ramsés Becker",
         "position": "GK",
-        "projectedPoints": 4.423,
-        "captainUpsideScore": 14.744,
+        "projectedPoints": 4.474,
+        "captainUpsideScore": 14.808,
         "startProb": 0.895,
         "expectedMinutes": 85.2,
         "roleTier": "locked_starter",
         "elite_flags": [],
         "surfaces": [],
-        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 139, captain rank 135, ceiling rank 185)."
+        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 127, captain rank 127, ceiling rank 178)."
       },
       {
         "official_fantasy_player_id": "520",
         "name": "Antonio Rüdiger",
         "position": "DEF",
-        "projectedPoints": 2.49,
-        "captainUpsideScore": 10.092,
+        "projectedPoints": 2.435,
+        "captainUpsideScore": 9.526,
         "startProb": 0.616,
         "expectedMinutes": 55.5,
         "roleTier": "possible_starter",
         "elite_flags": [],
         "surfaces": [],
-        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 418, captain rank 336, ceiling rank 367)."
+        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 431, captain rank 358, ceiling rank 375)."
       },
       {
         "official_fantasy_player_id": "469",
         "name": "Bukayo Saka",
         "position": "MID",
-        "projectedPoints": 5.725,
-        "captainUpsideScore": 17.596,
+        "projectedPoints": 5.601,
+        "captainUpsideScore": 17.014,
         "startProb": 0.57,
         "expectedMinutes": 52.5,
         "roleTier": "possible_starter",
         "elite_flags": [],
         "surfaces": [],
-        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 62, captain rank 70, ceiling rank 63)."
+        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 62, captain rank 73, ceiling rank 66)."
       },
       {
         "official_fantasy_player_id": "1098",
         "name": "David Raya",
         "position": "GK",
-        "projectedPoints": 0.469,
-        "captainUpsideScore": 4.469,
+        "projectedPoints": 0.464,
+        "captainUpsideScore": 4.174,
         "startProb": 0.175,
         "expectedMinutes": 12.9,
         "roleTier": "bench_depth",
@@ -2267,112 +2273,112 @@
         "official_fantasy_player_id": "795",
         "name": "Denzel Dumfries",
         "position": "DEF",
-        "projectedPoints": 4.799,
-        "captainUpsideScore": 16.754,
+        "projectedPoints": 4.413,
+        "captainUpsideScore": 15.563,
         "startProb": 0.895,
         "expectedMinutes": 79.8,
         "roleTier": "locked_starter",
         "elite_flags": [],
         "surfaces": [],
-        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 106, captain rank 86, ceiling rank 84)."
+        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 133, captain rank 107, ceiling rank 98)."
       },
       {
         "official_fantasy_player_id": "1569",
         "name": "Diogo Meireles da Costa",
         "position": "GK",
-        "projectedPoints": 4.048,
-        "captainUpsideScore": 14.105,
+        "projectedPoints": 4.114,
+        "captainUpsideScore": 13.915,
         "startProb": 0.895,
         "expectedMinutes": 84,
         "roleTier": "locked_starter",
         "elite_flags": [],
         "surfaces": [],
-        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 169, captain rank 147, ceiling rank 212)."
+        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 161, captain rank 151, ceiling rank 207)."
       },
       {
         "official_fantasy_player_id": "182",
         "name": "Ederson Santana de Moraes",
         "position": "GK",
-        "projectedPoints": 2.665,
-        "captainUpsideScore": 9.437,
+        "projectedPoints": 2.677,
+        "captainUpsideScore": 9.42,
         "startProb": 0.565,
         "expectedMinutes": 58.1,
         "roleTier": "possible_starter",
         "elite_flags": [],
         "surfaces": [],
-        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 380, captain rank 377, ceiling rank 419)."
+        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 378, captain rank 365, ceiling rank 409)."
       },
       {
         "official_fantasy_player_id": "164",
         "name": "Gabriel dos Santos Magalhães",
         "position": "DEF",
-        "projectedPoints": 3.564,
-        "captainUpsideScore": 12.563,
+        "projectedPoints": 3.646,
+        "captainUpsideScore": 12.674,
         "startProb": 0.79,
         "expectedMinutes": 68.4,
         "roleTier": "likely_starter",
         "elite_flags": [],
         "surfaces": [],
-        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 230, captain rank 217, ceiling rank 224)."
+        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 222, captain rank 203, ceiling rank 221)."
       },
       {
         "official_fantasy_player_id": "477",
         "name": "Jordan Pickford",
         "position": "GK",
-        "projectedPoints": 4.487,
-        "captainUpsideScore": 15.929,
+        "projectedPoints": 4.528,
+        "captainUpsideScore": 15.728,
         "startProb": 0.895,
         "expectedMinutes": 84.4,
         "roleTier": "locked_starter",
         "elite_flags": [],
         "surfaces": [],
-        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 129, captain rank 105, ceiling rank 177)."
+        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 122, captain rank 102, ceiling rank 172)."
       },
       {
         "official_fantasy_player_id": "1598",
         "name": "Manuel Neuer",
         "position": "GK",
-        "projectedPoints": 2.855,
-        "captainUpsideScore": 11.293,
+        "projectedPoints": 2.817,
+        "captainUpsideScore": 10.762,
         "startProb": 0.79,
         "expectedMinutes": 68.4,
         "roleTier": "likely_starter",
         "elite_flags": [],
         "surfaces": [],
-        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 337, captain rank 268, ceiling rank 377)."
+        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 344, captain rank 297, ceiling rank 381)."
       },
       {
         "official_fantasy_player_id": "1102",
         "name": "Marcos Llorente",
         "position": "DEF",
-        "projectedPoints": 4.997,
-        "captainUpsideScore": 15.929,
+        "projectedPoints": 5.028,
+        "captainUpsideScore": 15.65,
         "startProb": 0.79,
         "expectedMinutes": 68.4,
         "roleTier": "likely_starter",
         "elite_flags": [],
         "surfaces": [],
-        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 94, captain rank 104, ceiling rank 114)."
+        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 94, captain rank 105, ceiling rank 109)."
       },
       {
         "official_fantasy_player_id": "506",
         "name": "Mike Maignan",
         "position": "GK",
-        "projectedPoints": 3.347,
-        "captainUpsideScore": 14.938,
+        "projectedPoints": 3.471,
+        "captainUpsideScore": 15.079,
         "startProb": 0.895,
         "expectedMinutes": 83.6,
         "roleTier": "locked_starter",
         "elite_flags": [],
         "surfaces": [],
-        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 259, captain rank 129, ceiling rank 232)."
+        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 241, captain rank 121, ceiling rank 219)."
       },
       {
         "official_fantasy_player_id": "1711",
         "name": "Ollie Watkins",
         "position": "FWD",
-        "projectedPoints": 1.786,
-        "captainUpsideScore": 8.102,
+        "projectedPoints": 1.738,
+        "captainUpsideScore": 7.695,
         "startProb": 0.18,
         "expectedMinutes": 19.5,
         "roleTier": "bench_depth",
@@ -2384,40 +2390,40 @@
         "official_fantasy_player_id": "1085",
         "name": "Pedro Porro",
         "position": "DEF",
-        "projectedPoints": 2.764,
-        "captainUpsideScore": 10.206,
+        "projectedPoints": 2.792,
+        "captainUpsideScore": 9.932,
         "startProb": 0.565,
         "expectedMinutes": 58.1,
         "roleTier": "possible_starter",
         "elite_flags": [],
         "surfaces": [],
-        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 357, captain rank 330, ceiling rank 355)."
+        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 350, captain rank 341, ceiling rank 358)."
       },
       {
         "official_fantasy_player_id": "1522",
         "name": "Thibaut Courtois",
         "position": "GK",
-        "projectedPoints": 4.106,
-        "captainUpsideScore": 13.748,
+        "projectedPoints": 3.997,
+        "captainUpsideScore": 13.176,
         "startProb": 0.895,
         "expectedMinutes": 83.2,
         "roleTier": "locked_starter",
         "elite_flags": [],
         "surfaces": [],
-        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 165, captain rank 171, ceiling rank 216)."
+        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 173, captain rank 176, ceiling rank 230)."
       },
       {
         "official_fantasy_player_id": "796",
         "name": "Virgil van Dijk",
         "position": "DEF",
-        "projectedPoints": 4.272,
-        "captainUpsideScore": 15.241,
+        "projectedPoints": 3.954,
+        "captainUpsideScore": 14.212,
         "startProb": 0.935,
         "expectedMinutes": 80.9,
         "roleTier": "locked_starter",
         "elite_flags": [],
         "surfaces": [],
-        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 149, captain rank 121, ceiling rank 142)."
+        "eliteOmissionReason": "Premium price audit only: outside projected/captain/ceiling surface cutoffs after v4 scoring (projected rank 183, captain rank 140, ceiling rank 164)."
       }
     ]
   },
@@ -2426,1285 +2432,571 @@
     "finance_secondary_policy": "Finance/value metrics affect Value Picks and the shared differential/value pool only after projection/start/minutes thresholds.",
     "weak_value_rows": [],
     "cheap_low_ceiling_core_rows": [],
-    "captain_premium_count_top20": 17
+    "captain_premium_count_top20": 16
   },
   "movement_audit": {
     "new_entries": [
       {
         "mode": "balanced",
-        "rank": 3,
-        "name": "Ousmane Dembélé",
-        "projectedPoints": 8.905,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "balanced",
-        "rank": 6,
-        "name": "Jamal Musiala",
-        "projectedPoints": 8.649,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "balanced",
-        "rank": 8,
-        "name": "Petar Musa",
-        "projectedPoints": 8.028,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "balanced",
-        "rank": 10,
-        "name": "Désiré Doué",
-        "projectedPoints": 7.976,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "balanced",
-        "rank": 12,
-        "name": "Bradley Barcola",
-        "projectedPoints": 7.801,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "balanced",
-        "rank": 13,
-        "name": "Vinícius José Paixão de Oliveira Júnior",
-        "projectedPoints": 7.801,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "balanced",
-        "rank": 15,
-        "name": "Erling Haaland",
-        "projectedPoints": 7.722,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "balanced",
-        "rank": 16,
-        "name": "Lamine Yamal Nasraoui Ebana",
-        "projectedPoints": 7.696,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "balanced",
-        "rank": 17,
-        "name": "Jude Bellingham",
-        "projectedPoints": 7.64,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "balanced",
-        "rank": 18,
-        "name": "Julián Quiñones",
-        "projectedPoints": 7.455,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "balanced",
-        "rank": 19,
-        "name": "Luis Suárez",
-        "projectedPoints": 7.102,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "balanced",
-        "rank": 21,
-        "name": "Anthony Gordon",
-        "projectedPoints": 6.976,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "balanced",
-        "rank": 22,
-        "name": "Daizen Maeda",
-        "projectedPoints": 6.961,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "balanced",
         "rank": 25,
-        "name": "Mohamed Salah Hamed Mahrous Ghaly",
-        "projectedPoints": 6.808,
+        "name": "Nuno Alexandre Tavares Mendes",
+        "projectedPoints": 6.701,
         "reason": "projection_v4_role_v2_score_v4_selection"
       },
       {
         "mode": "safe",
-        "rank": 2,
-        "name": "Aymeric Laporte",
-        "projectedPoints": 5.101,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "safe",
-        "rank": 7,
-        "name": "Jude Bellingham",
-        "projectedPoints": 7.64,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "safe",
-        "rank": 9,
-        "name": "Ricardo Rodríguez",
-        "projectedPoints": 3.883,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "safe",
-        "rank": 11,
-        "name": "Marc Cucurella",
-        "projectedPoints": 5.281,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "safe",
-        "rank": 12,
-        "name": "Hiroki Ito",
-        "projectedPoints": 6.038,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "safe",
-        "rank": 13,
-        "name": "Nico O'Reilly",
-        "projectedPoints": 5.694,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "safe",
-        "rank": 15,
-        "name": "Ivan Perisic",
-        "projectedPoints": 6.556,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "safe",
-        "rank": 17,
-        "name": "Breel Embolo",
-        "projectedPoints": 5.526,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "safe",
-        "rank": 19,
-        "name": "Luis Díaz",
-        "projectedPoints": 8.869,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "safe",
-        "rank": 21,
-        "name": "Mohamed Salah Hamed Mahrous Ghaly",
-        "projectedPoints": 6.808,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "safe",
-        "rank": 22,
-        "name": "João Pedro Gonçalves Neves",
-        "projectedPoints": 6.188,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "safe",
-        "rank": 25,
-        "name": "Erling Haaland",
-        "projectedPoints": 7.722,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "upside",
-        "rank": 1,
-        "name": "Kylian Mbappé",
-        "projectedPoints": 8.623,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "upside",
-        "rank": 2,
-        "name": "Michael Olise",
-        "projectedPoints": 9.139,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "upside",
-        "rank": 3,
-        "name": "Ousmane Dembélé",
-        "projectedPoints": 8.905,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "upside",
-        "rank": 4,
-        "name": "Lionel Messi",
-        "projectedPoints": 9.496,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "upside",
-        "rank": 5,
-        "name": "Désiré Doué",
-        "projectedPoints": 7.976,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "upside",
-        "rank": 6,
-        "name": "Bradley Barcola",
-        "projectedPoints": 7.801,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "upside",
-        "rank": 7,
-        "name": "Lautaro Martínez",
-        "projectedPoints": 6.82,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "upside",
-        "rank": 8,
-        "name": "Harry Kane",
-        "projectedPoints": 8.738,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "upside",
-        "rank": 11,
-        "name": "Julián Alvarez",
-        "projectedPoints": 5.844,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "upside",
-        "rank": 13,
-        "name": "Koki Ogawa",
-        "projectedPoints": 5.977,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "upside",
         "rank": 14,
-        "name": "Cristiano Ronaldo dos Santos Aveiro",
-        "projectedPoints": 6.882,
+        "name": "Guillermo Varela",
+        "projectedPoints": 4.611,
+        "reason": "projection_v4_role_v2_score_v4_selection"
+      },
+      {
+        "mode": "safe",
+        "rank": 22,
+        "name": "Reece James",
+        "projectedPoints": 4.656,
         "reason": "projection_v4_role_v2_score_v4_selection"
       },
       {
         "mode": "upside",
-        "rank": 16,
-        "name": "Thiago Almada",
-        "projectedPoints": 6.432,
+        "rank": 13,
+        "name": "Enner Valencia",
+        "projectedPoints": 6.318,
         "reason": "projection_v4_role_v2_score_v4_selection"
       },
       {
         "mode": "upside",
-        "rank": 18,
-        "name": "Jude Bellingham",
-        "projectedPoints": 7.64,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "upside",
-        "rank": 20,
-        "name": "Rodrigo De Paul",
-        "projectedPoints": 6.219,
+        "rank": 17,
+        "name": "Adrien Rabiot",
+        "projectedPoints": 4.939,
         "reason": "projection_v4_role_v2_score_v4_selection"
       },
       {
         "mode": "upside",
         "rank": 21,
-        "name": "Takefusa Kubo",
-        "projectedPoints": 6.677,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "upside",
-        "rank": 23,
-        "name": "Jules Koundé",
-        "projectedPoints": 5.274,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "differential",
-        "rank": 1,
-        "name": "Charles De Ketelaere",
-        "projectedPoints": 6.499,
+        "name": "Jamal Musiala",
+        "projectedPoints": 8.559,
         "reason": "projection_v4_role_v2_score_v4_selection"
       },
       {
         "mode": "differential",
         "rank": 4,
-        "name": "Donyell Malen",
-        "projectedPoints": 6.465,
+        "name": "Cristiano Ronaldo dos Santos Aveiro",
+        "projectedPoints": 6.652,
         "reason": "projection_v4_role_v2_score_v4_selection"
       },
       {
         "mode": "differential",
-        "rank": 12,
-        "name": "Luis Suárez",
-        "projectedPoints": 7.102,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "differential",
-        "rank": 13,
-        "name": "Petar Sucic",
-        "projectedPoints": 5.35,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "differential",
-        "rank": 15,
-        "name": "Florian Wirtz",
-        "projectedPoints": 6.66,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "differential",
-        "rank": 17,
-        "name": "Thiago Almada",
-        "projectedPoints": 6.432,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "differential",
-        "rank": 19,
-        "name": "Lamine Yamal Nasraoui Ebana",
-        "projectedPoints": 7.696,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "differential",
-        "rank": 21,
-        "name": "Daniel Muñoz",
-        "projectedPoints": 5.422,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "differential",
-        "rank": 23,
-        "name": "Cristian Romero",
-        "projectedPoints": 5.165,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "differential",
-        "rank": 24,
-        "name": "Marc Cucurella",
-        "projectedPoints": 5.281,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "differential",
-        "rank": 25,
-        "name": "Camilo Vargas",
-        "projectedPoints": 4.805,
+        "rank": 11,
+        "name": "Bruno Miguel Borges Fernandes",
+        "projectedPoints": 7.703,
         "reason": "projection_v4_role_v2_score_v4_selection"
       },
       {
         "mode": "captain",
-        "rank": 7,
-        "name": "Désiré Doué",
-        "projectedPoints": 7.976,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "captain",
-        "rank": 8,
-        "name": "Jamal Musiala",
-        "projectedPoints": 8.649,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "captain",
-        "rank": 10,
-        "name": "Bradley Barcola",
-        "projectedPoints": 7.801,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "captain",
-        "rank": 17,
-        "name": "Erling Haaland",
-        "projectedPoints": 7.722,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "captain",
-        "rank": 19,
-        "name": "Anthony Gordon",
-        "projectedPoints": 6.976,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "captain",
-        "rank": 21,
-        "name": "Ivan Perisic",
-        "projectedPoints": 6.556,
-        "reason": "projection_v4_role_v2_score_v4_selection"
-      },
-      {
-        "mode": "captain",
-        "rank": 24,
-        "name": "Donyell Malen",
-        "projectedPoints": 6.465,
+        "rank": 20,
+        "name": "Daizen Maeda",
+        "projectedPoints": 6.946,
         "reason": "projection_v4_role_v2_score_v4_selection"
       }
     ],
     "removed_entries": [
       {
         "mode": "balanced",
-        "previous_rank": 1,
-        "name": "Nuno Alexandre Tavares Mendes",
-        "projectedPoints": 8.135,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "balanced",
-        "previous_rank": 7,
-        "name": "Nico O'Reilly",
-        "projectedPoints": 6.81,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "balanced",
-        "previous_rank": 9,
-        "name": "Camilo Vargas",
-        "projectedPoints": 6.171,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "balanced",
-        "previous_rank": 10,
-        "name": "Daniel Muñoz",
-        "projectedPoints": 6.465,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "balanced",
-        "previous_rank": 11,
-        "name": "Mikel Oyarzabal",
-        "projectedPoints": 6.326,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "balanced",
-        "previous_rank": 12,
-        "name": "Hiroki Ito",
-        "projectedPoints": 6.609,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "balanced",
-        "previous_rank": 16,
-        "name": "Emiliano Martínez",
-        "projectedPoints": 5.925,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "balanced",
-        "previous_rank": 18,
-        "name": "Johan Mojica",
-        "projectedPoints": 5.603,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "balanced",
-        "previous_rank": 19,
-        "name": "Darwin Núñez",
-        "projectedPoints": 6.448,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "balanced",
-        "previous_rank": 21,
-        "name": "Florian Wirtz",
-        "projectedPoints": 6.459,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "balanced",
-        "previous_rank": 22,
-        "name": "Joshua Kimmich",
-        "projectedPoints": 6.339,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "balanced",
         "previous_rank": 23,
-        "name": "Theo Hernández",
-        "projectedPoints": 6.43,
+        "name": "Cristiano Ronaldo dos Santos Aveiro",
+        "projectedPoints": 6.882,
         "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
       },
       {
-        "mode": "balanced",
+        "mode": "safe",
+        "previous_rank": 9,
+        "name": "Ricardo Rodríguez",
+        "projectedPoints": 3.883,
+        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
+      },
+      {
+        "mode": "safe",
         "previous_rank": 24,
-        "name": "Santiago Arias",
-        "projectedPoints": 5.548,
+        "name": "Lionel Messi",
+        "projectedPoints": 9.496,
         "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
       },
       {
-        "mode": "balanced",
-        "previous_rank": 25,
-        "name": "Marc Cucurella",
-        "projectedPoints": 6.089,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "safe",
-        "previous_rank": 2,
-        "name": "Enzo Fernández",
-        "projectedPoints": 7.458,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "safe",
-        "previous_rank": 6,
-        "name": "Daniel Muñoz",
+        "mode": "upside",
+        "previous_rank": 15,
+        "name": "Donyell Malen",
         "projectedPoints": 6.465,
         "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
       },
       {
-        "mode": "safe",
-        "previous_rank": 7,
-        "name": "Jhon Lucumí",
-        "projectedPoints": 5.584,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "safe",
-        "previous_rank": 8,
-        "name": "Bruno Miguel Borges Fernandes",
-        "projectedPoints": 8.101,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "safe",
-        "previous_rank": 10,
-        "name": "Johan Mojica",
-        "projectedPoints": 5.603,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "safe",
-        "previous_rank": 11,
-        "name": "Dávinson Sánchez",
-        "projectedPoints": 5.191,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "safe",
-        "previous_rank": 15,
-        "name": "Ayase Ueda",
-        "projectedPoints": 6.446,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "safe",
-        "previous_rank": 17,
-        "name": "Nuno Alexandre Tavares Mendes",
-        "projectedPoints": 8.135,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "safe",
-        "previous_rank": 18,
-        "name": "Lautaro Martínez",
-        "projectedPoints": 6.428,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "safe",
-        "previous_rank": 19,
-        "name": "Alexis Mac Allister",
-        "projectedPoints": 4.671,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "safe",
+        "mode": "upside",
         "previous_rank": 20,
-        "name": "Jordan Pickford",
-        "projectedPoints": 5.676,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "safe",
-        "previous_rank": 22,
-        "name": "Mikel Oyarzabal",
-        "projectedPoints": 6.326,
+        "name": "Rodrigo De Paul",
+        "projectedPoints": 6.219,
         "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
       },
       {
         "mode": "upside",
-        "previous_rank": 1,
-        "name": "Luis Suárez",
-        "projectedPoints": 6.487,
+        "previous_rank": 21,
+        "name": "Takefusa Kubo",
+        "projectedPoints": 6.677,
         "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
       },
       {
-        "mode": "upside",
-        "previous_rank": 4,
-        "name": "Enner Valencia",
-        "projectedPoints": 5.885,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "upside",
-        "previous_rank": 7,
-        "name": "Ivan Perisic",
-        "projectedPoints": 5.074,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "upside",
-        "previous_rank": 8,
-        "name": "Amine Gouiri",
-        "projectedPoints": 5.563,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "upside",
-        "previous_rank": 9,
-        "name": "Nuno Alexandre Tavares Mendes",
-        "projectedPoints": 8.135,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "upside",
-        "previous_rank": 10,
+        "mode": "differential",
+        "previous_rank": 11,
         "name": "Darwin Núñez",
-        "projectedPoints": 6.448,
+        "projectedPoints": 5.984,
         "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
       },
       {
-        "mode": "upside",
-        "previous_rank": 11,
-        "name": "Patrik Schick",
-        "projectedPoints": 6.276,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "upside",
-        "previous_rank": 12,
-        "name": "Ferran Torres",
-        "projectedPoints": 6.594,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "upside",
-        "previous_rank": 13,
-        "name": "Charles De Ketelaere",
-        "projectedPoints": 6.507,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "upside",
-        "previous_rank": 16,
-        "name": "Nico O'Reilly",
-        "projectedPoints": 6.81,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "upside",
-        "previous_rank": 19,
-        "name": "Johan Mojica",
-        "projectedPoints": 5.603,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "upside",
-        "previous_rank": 20,
-        "name": "Joel Ordóñez",
-        "projectedPoints": 5.816,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "upside",
-        "previous_rank": 21,
-        "name": "Mathías Olivera",
-        "projectedPoints": 6.277,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "upside",
+        "mode": "differential",
         "previous_rank": 22,
-        "name": "Pavel Sulc",
-        "projectedPoints": 5.991,
+        "name": "Richard Ríos",
+        "projectedPoints": 4.519,
         "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
       },
       {
-        "mode": "upside",
-        "previous_rank": 24,
-        "name": "Raphael Dias Belloli",
-        "projectedPoints": 8.533,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "upside",
+        "mode": "captain",
         "previous_rank": 25,
-        "name": "Bruno Guimarães Rodriguez Moura",
-        "projectedPoints": 6.224,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "differential",
-        "previous_rank": 6,
-        "name": "Hernán Galíndez",
-        "projectedPoints": 5.777,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "differential",
-        "previous_rank": 9,
-        "name": "Joel Ordóñez",
-        "projectedPoints": 5.816,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "differential",
-        "previous_rank": 10,
-        "name": "Denzel Dumfries",
-        "projectedPoints": 6.081,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "differential",
-        "previous_rank": 11,
-        "name": "Santiago Arias",
-        "projectedPoints": 5.548,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "differential",
-        "previous_rank": 12,
-        "name": "Matej Kovár",
-        "projectedPoints": 4.868,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "differential",
-        "previous_rank": 13,
-        "name": "Theo Hernández",
-        "projectedPoints": 6.43,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "differential",
-        "previous_rank": 16,
-        "name": "Jules Koundé",
-        "projectedPoints": 6.365,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "differential",
-        "previous_rank": 20,
-        "name": "Alisson Ramsés Becker",
-        "projectedPoints": 5.686,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "differential",
-        "previous_rank": 21,
-        "name": "Carlos Henrique Casimiro",
-        "projectedPoints": 5.555,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "differential",
-        "previous_rank": 24,
-        "name": "Enzo Fernández",
-        "projectedPoints": 7.458,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "differential",
-        "previous_rank": 25,
-        "name": "Jude Bellingham",
-        "projectedPoints": 6.778,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "captain",
-        "previous_rank": 12,
-        "name": "Darwin Núñez",
-        "projectedPoints": 6.448,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "captain",
-        "previous_rank": 13,
-        "name": "Ferran Torres",
-        "projectedPoints": 6.594,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "captain",
-        "previous_rank": 14,
-        "name": "Patrik Schick",
-        "projectedPoints": 6.276,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "captain",
-        "previous_rank": 20,
-        "name": "Florian Wirtz",
-        "projectedPoints": 6.459,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "captain",
-        "previous_rank": 21,
-        "name": "Kevin De Bruyne",
-        "projectedPoints": 6.789,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "captain",
-        "previous_rank": 22,
-        "name": "Nuno Alexandre Tavares Mendes",
-        "projectedPoints": 8.135,
-        "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
-      },
-      {
-        "mode": "captain",
-        "previous_rank": 24,
-        "name": "Nico O'Reilly",
-        "projectedPoints": 6.81,
+        "name": "Ritsu Doan",
+        "projectedPoints": 6.61,
         "reason": "fell_below_v4_projection_role_threshold_or_position_cap"
       }
     ],
     "biggest_ranking_changes": [
       {
         "mode": "safe",
-        "name": "Unai Simón",
-        "previous_rank": 21,
-        "current_rank": 1,
-        "rank_delta": 20,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "safe",
-        "name": "Lionel Messi",
+        "name": "Florian Wirtz",
         "previous_rank": 4,
-        "current_rank": 24,
-        "rank_delta": -20,
-        "explanation": "projection-driven"
-      },
-      {
-        "mode": "upside",
-        "name": "Hiroki Ito",
-        "previous_rank": 5,
-        "current_rank": 25,
-        "rank_delta": -20,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "safe",
-        "name": "Camilo Vargas",
-        "previous_rank": 1,
-        "current_rank": 18,
-        "rank_delta": -17,
-        "explanation": "projection-driven"
-      },
-      {
-        "mode": "differential",
-        "name": "Mikel Oyarzabal",
-        "previous_rank": 19,
-        "current_rank": 2,
-        "rank_delta": 17,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "differential",
-        "name": "Kevin De Bruyne",
-        "previous_rank": 22,
-        "current_rank": 5,
-        "rank_delta": 17,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "differential",
-        "name": "Bruno Guimarães Rodriguez Moura",
-        "previous_rank": 2,
-        "current_rank": 18,
+        "current_rank": 20,
         "rank_delta": -16,
         "explanation": "score-v4-driven"
       },
       {
-        "mode": "balanced",
-        "name": "Michael Olise",
-        "previous_rank": 17,
-        "current_rank": 2,
-        "rank_delta": 15,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "captain",
-        "name": "Ousmane Dembélé",
-        "previous_rank": 19,
-        "current_rank": 4,
-        "rank_delta": 15,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "safe",
-        "name": "Ezri Konsa",
-        "previous_rank": 24,
-        "current_rank": 10,
-        "rank_delta": 14,
-        "explanation": "projection-driven"
-      },
-      {
-        "mode": "upside",
-        "name": "Donyell Malen",
-        "previous_rank": 2,
-        "current_rank": 15,
-        "rank_delta": -13,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "captain",
-        "name": "Mikel Oyarzabal",
-        "previous_rank": 10,
-        "current_rank": 23,
-        "rank_delta": -13,
-        "explanation": "score-v4-driven"
-      },
-      {
         "mode": "differential",
-        "name": "Darwin Núñez",
-        "previous_rank": 23,
-        "current_rank": 11,
-        "rank_delta": 12,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "captain",
-        "name": "Cristiano Ronaldo dos Santos Aveiro",
-        "previous_rank": 9,
-        "current_rank": 20,
-        "rank_delta": -11,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "balanced",
-        "name": "Lautaro Martínez",
-        "previous_rank": 14,
-        "current_rank": 24,
-        "rank_delta": -10,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "safe",
-        "name": "Florian Wirtz",
-        "previous_rank": 14,
-        "current_rank": 4,
-        "rank_delta": 10,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "safe",
-        "name": "Declan Rice",
-        "previous_rank": 16,
-        "current_rank": 6,
-        "rank_delta": 10,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "captain",
-        "name": "Bruno Miguel Borges Fernandes",
+        "name": "Nuno Alexandre Tavares Mendes",
         "previous_rank": 3,
-        "current_rank": 13,
-        "rank_delta": -10,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "balanced",
-        "name": "Bruno Miguel Borges Fernandes",
-        "previous_rank": 2,
-        "current_rank": 11,
-        "rank_delta": -9,
+        "current_rank": 18,
+        "rank_delta": -15,
         "explanation": "score-v4-driven"
       },
       {
         "mode": "safe",
         "name": "Mathías Olivera",
-        "previous_rank": 25,
-        "current_rank": 16,
-        "rank_delta": 9,
-        "explanation": "projection-driven"
-      },
-      {
-        "mode": "upside",
-        "name": "Petar Musa",
-        "previous_rank": 3,
-        "current_rank": 12,
-        "rank_delta": -9,
-        "explanation": "projection-driven"
-      },
-      {
-        "mode": "differential",
-        "name": "Hiroki Ito",
-        "previous_rank": 1,
-        "current_rank": 10,
-        "rank_delta": -9,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "captain",
-        "name": "Vinícius José Paixão de Oliveira Júnior",
-        "previous_rank": 23,
-        "current_rank": 14,
-        "rank_delta": 9,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "balanced",
-        "name": "Cristiano Ronaldo dos Santos Aveiro",
-        "previous_rank": 15,
-        "current_rank": 23,
-        "rank_delta": -8,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "captain",
-        "name": "Lautaro Martínez",
-        "previous_rank": 8,
-        "current_rank": 16,
-        "rank_delta": -8,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "balanced",
-        "name": "Ayase Ueda",
-        "previous_rank": 13,
-        "current_rank": 20,
-        "rank_delta": -7,
+        "previous_rank": 16,
+        "current_rank": 3,
+        "rank_delta": 13,
         "explanation": "score-v4-driven"
       },
       {
         "mode": "safe",
         "name": "Darwin Núñez",
-        "previous_rank": 13,
-        "current_rank": 20,
-        "rank_delta": -7,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "upside",
-        "name": "Enzo Fernández",
-        "previous_rank": 17,
-        "current_rank": 10,
-        "rank_delta": 7,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "captain",
-        "name": "Jude Bellingham",
-        "previous_rank": 18,
-        "current_rank": 11,
-        "rank_delta": 7,
-        "explanation": "projection-driven"
-      },
-      {
-        "mode": "captain",
-        "name": "Ayase Ueda",
-        "previous_rank": 11,
-        "current_rank": 18,
-        "rank_delta": -7,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "balanced",
-        "name": "Raphael Dias Belloli",
         "previous_rank": 20,
-        "current_rank": 14,
-        "rank_delta": 6,
-        "explanation": "projection-driven"
-      },
-      {
-        "mode": "captain",
-        "name": "Michael Olise",
-        "previous_rank": 7,
-        "current_rank": 1,
-        "rank_delta": 6,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "captain",
-        "name": "Enner Valencia",
-        "previous_rank": 16,
-        "current_rank": 22,
-        "rank_delta": -6,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "balanced",
-        "name": "Enzo Fernández",
-        "previous_rank": 4,
-        "current_rank": 9,
-        "rank_delta": -5,
+        "current_rank": 15,
+        "rank_delta": 5,
         "explanation": "score-v4-driven"
       },
       {
         "mode": "safe",
-        "name": "Hernán Galíndez",
-        "previous_rank": 9,
-        "current_rank": 14,
-        "rank_delta": -5,
-        "explanation": "projection-driven"
-      },
-      {
-        "mode": "differential",
-        "name": "Nuno Alexandre Tavares Mendes",
-        "previous_rank": 8,
-        "current_rank": 3,
+        "name": "Piero Hincapié",
+        "previous_rank": 23,
+        "current_rank": 18,
         "rank_delta": 5,
-        "explanation": "projection-driven"
-      },
-      {
-        "mode": "differential",
-        "name": "Joshua Kimmich",
-        "previous_rank": 15,
-        "current_rank": 20,
-        "rank_delta": -5,
-        "explanation": "projection-driven"
-      },
-      {
-        "mode": "differential",
-        "name": "Richard Ríos",
-        "previous_rank": 17,
-        "current_rank": 22,
-        "rank_delta": -5,
         "explanation": "score-v4-driven"
       },
       {
         "mode": "balanced",
-        "name": "Luis Díaz",
-        "previous_rank": 8,
-        "current_rank": 4,
+        "name": "Bruno Miguel Borges Fernandes",
+        "previous_rank": 11,
+        "current_rank": 15,
+        "rank_delta": -4,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "balanced",
+        "name": "Mohamed Salah Hamed Mahrous Ghaly",
+        "previous_rank": 25,
+        "current_rank": 21,
         "rank_delta": 4,
         "explanation": "score-v4-driven"
       },
       {
         "mode": "safe",
         "name": "Willian Pacho",
-        "previous_rank": 12,
-        "current_rank": 8,
+        "previous_rank": 8,
+        "current_rank": 4,
         "rank_delta": 4,
-        "explanation": "projection-driven"
+        "explanation": "score-v4-driven"
       },
       {
-        "mode": "upside",
-        "name": "Anthony Gordon",
-        "previous_rank": 15,
-        "current_rank": 19,
+        "mode": "safe",
+        "name": "Luis Díaz",
+        "previous_rank": 19,
+        "current_rank": 23,
         "rank_delta": -4,
         "explanation": "score-v4-driven"
       },
       {
-        "mode": "upside",
-        "name": "Theo Hernández",
-        "previous_rank": 18,
-        "current_rank": 22,
-        "rank_delta": -4,
-        "explanation": "projection-driven"
-      },
-      {
-        "mode": "differential",
-        "name": "Enner Valencia",
-        "previous_rank": 4,
-        "current_rank": 8,
-        "rank_delta": -4,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "differential",
-        "name": "Patrik Schick",
-        "previous_rank": 5,
-        "current_rank": 9,
-        "rank_delta": -4,
-        "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "upside",
-        "name": "Ayase Ueda",
-        "previous_rank": 6,
-        "current_rank": 9,
+        "mode": "balanced",
+        "name": "Enzo Fernández",
+        "previous_rank": 9,
+        "current_rank": 12,
         "rank_delta": -3,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "safe",
+        "name": "Hernán Galíndez",
+        "previous_rank": 14,
+        "current_rank": 11,
+        "rank_delta": 3,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "captain",
+        "name": "Bruno Miguel Borges Fernandes",
+        "previous_rank": 13,
+        "current_rank": 16,
+        "rank_delta": -3,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "captain",
+        "name": "Cristiano Ronaldo dos Santos Aveiro",
+        "previous_rank": 20,
+        "current_rank": 23,
+        "rank_delta": -3,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "balanced",
+        "name": "Kylian Mbappé",
+        "previous_rank": 7,
+        "current_rank": 5,
+        "rank_delta": 2,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "balanced",
+        "name": "Bradley Barcola",
+        "previous_rank": 12,
+        "current_rank": 10,
+        "rank_delta": 2,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "balanced",
+        "name": "Vinícius José Paixão de Oliveira Júnior",
+        "previous_rank": 13,
+        "current_rank": 11,
+        "rank_delta": 2,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "balanced",
+        "name": "Erling Haaland",
+        "previous_rank": 15,
+        "current_rank": 13,
+        "rank_delta": 2,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "balanced",
+        "name": "Anthony Gordon",
+        "previous_rank": 21,
+        "current_rank": 23,
+        "rank_delta": -2,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "safe",
+        "name": "Harry Kane",
+        "previous_rank": 3,
+        "current_rank": 5,
+        "rank_delta": -2,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "safe",
+        "name": "Ezri Konsa",
+        "previous_rank": 10,
+        "current_rank": 8,
+        "rank_delta": 2,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "safe",
+        "name": "Jude Bellingham",
+        "previous_rank": 7,
+        "current_rank": 9,
+        "rank_delta": -2,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "safe",
+        "name": "Camilo Vargas",
+        "previous_rank": 18,
+        "current_rank": 16,
+        "rank_delta": 2,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "safe",
+        "name": "Ivan Perisic",
+        "previous_rank": 15,
+        "current_rank": 17,
+        "rank_delta": -2,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "safe",
+        "name": "Breel Embolo",
+        "previous_rank": 17,
+        "current_rank": 19,
+        "rank_delta": -2,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "safe",
+        "name": "João Pedro Gonçalves Neves",
+        "previous_rank": 22,
+        "current_rank": 24,
+        "rank_delta": -2,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "upside",
+        "name": "Lionel Messi",
+        "previous_rank": 4,
+        "current_rank": 6,
+        "rank_delta": -2,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "upside",
+        "name": "Thiago Almada",
+        "previous_rank": 16,
+        "current_rank": 18,
+        "rank_delta": -2,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "differential",
+        "name": "Thiago Almada",
+        "previous_rank": 17,
+        "current_rank": 19,
+        "rank_delta": -2,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "differential",
+        "name": "Lamine Yamal Nasraoui Ebana",
+        "previous_rank": 19,
+        "current_rank": 21,
+        "rank_delta": -2,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "differential",
+        "name": "Joshua Kimmich",
+        "previous_rank": 20,
+        "current_rank": 22,
+        "rank_delta": -2,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "captain",
+        "name": "Erling Haaland",
+        "previous_rank": 17,
+        "current_rank": 15,
+        "rank_delta": 2,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "balanced",
+        "name": "Harry Kane",
+        "previous_rank": 5,
+        "current_rank": 6,
+        "rank_delta": -1,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "balanced",
+        "name": "Jamal Musiala",
+        "previous_rank": 6,
+        "current_rank": 7,
+        "rank_delta": -1,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "balanced",
+        "name": "Désiré Doué",
+        "previous_rank": 10,
+        "current_rank": 9,
+        "rank_delta": 1,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "balanced",
+        "name": "Jude Bellingham",
+        "previous_rank": 17,
+        "current_rank": 16,
+        "rank_delta": 1,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "balanced",
+        "name": "Lamine Yamal Nasraoui Ebana",
+        "previous_rank": 16,
+        "current_rank": 17,
+        "rank_delta": -1,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "safe",
+        "name": "Emiliano Martínez",
+        "previous_rank": 5,
+        "current_rank": 6,
+        "rank_delta": -1,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "safe",
+        "name": "Declan Rice",
+        "previous_rank": 6,
+        "current_rank": 7,
+        "rank_delta": -1,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "safe",
+        "name": "Marc Cucurella",
+        "previous_rank": 11,
+        "current_rank": 10,
+        "rank_delta": 1,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "safe",
+        "name": "Nico O'Reilly",
+        "previous_rank": 13,
+        "current_rank": 12,
+        "rank_delta": 1,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "safe",
+        "name": "Hiroki Ito",
+        "previous_rank": 12,
+        "current_rank": 13,
+        "rank_delta": -1,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "upside",
+        "name": "Désiré Doué",
+        "previous_rank": 5,
+        "current_rank": 4,
+        "rank_delta": 1,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "upside",
+        "name": "Bradley Barcola",
+        "previous_rank": 6,
+        "current_rank": 5,
+        "rank_delta": 1,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "upside",
+        "name": "Koki Ogawa",
+        "previous_rank": 13,
+        "current_rank": 14,
+        "rank_delta": -1,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "upside",
+        "name": "Cristiano Ronaldo dos Santos Aveiro",
+        "previous_rank": 14,
+        "current_rank": 15,
+        "rank_delta": -1,
         "explanation": "score-v4-driven"
       },
       {
         "mode": "upside",
         "name": "Daizen Maeda",
-        "previous_rank": 14,
-        "current_rank": 17,
-        "rank_delta": -3,
-        "explanation": "projection-driven"
+        "previous_rank": 17,
+        "current_rank": 16,
+        "rank_delta": 1,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "upside",
+        "name": "Jude Bellingham",
+        "previous_rank": 18,
+        "current_rank": 19,
+        "rank_delta": -1,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "upside",
+        "name": "Anthony Gordon",
+        "previous_rank": 19,
+        "current_rank": 20,
+        "rank_delta": -1,
+        "explanation": "score-v4-driven"
+      },
+      {
+        "mode": "differential",
+        "name": "Donyell Malen",
+        "previous_rank": 4,
+        "current_rank": 3,
+        "rank_delta": 1,
+        "explanation": "score-v4-driven"
       },
       {
         "mode": "differential",
         "name": "Nico O'Reilly",
-        "previous_rank": 3,
-        "current_rank": 6,
-        "rank_delta": -3,
-        "explanation": "projection-driven"
-      },
-      {
-        "mode": "captain",
-        "name": "Harry Kane",
-        "previous_rank": 2,
-        "current_rank": 5,
-        "rank_delta": -3,
-        "explanation": "projection-driven"
-      },
-      {
-        "mode": "captain",
-        "name": "Enzo Fernández",
         "previous_rank": 6,
-        "current_rank": 9,
-        "rank_delta": -3,
+        "current_rank": 5,
+        "rank_delta": 1,
         "explanation": "score-v4-driven"
-      },
-      {
-        "mode": "captain",
-        "name": "Petar Musa",
-        "previous_rank": 15,
-        "current_rank": 12,
-        "rank_delta": 3,
-        "explanation": "projection-driven"
       }
     ],
     "surfaces_changed_most": [
       {
-        "mode": "upside",
-        "new_entries": 16,
-        "removed_entries": 16,
-        "avg_abs_rank_delta": 7.88
-      },
-      {
-        "mode": "balanced",
-        "new_entries": 14,
-        "removed_entries": 14,
-        "avg_abs_rank_delta": 8
+        "mode": "differential",
+        "new_entries": 2,
+        "removed_entries": 2,
+        "avg_abs_rank_delta": 3.83
       },
       {
         "mode": "safe",
-        "new_entries": 12,
-        "removed_entries": 12,
-        "avg_abs_rank_delta": 11.6
+        "new_entries": 2,
+        "removed_entries": 2,
+        "avg_abs_rank_delta": 3.63
       },
       {
-        "mode": "differential",
-        "new_entries": 11,
-        "removed_entries": 11,
-        "avg_abs_rank_delta": 8.82
+        "mode": "upside",
+        "new_entries": 3,
+        "removed_entries": 3,
+        "avg_abs_rank_delta": 1.22
       },
       {
         "mode": "captain",
-        "new_entries": 7,
-        "removed_entries": 7,
-        "avg_abs_rank_delta": 7.77
+        "new_entries": 1,
+        "removed_entries": 1,
+        "avg_abs_rank_delta": 2.67
+      },
+      {
+        "mode": "balanced",
+        "new_entries": 1,
+        "removed_entries": 1,
+        "avg_abs_rank_delta": 2
       }
     ],
     "movement_summary": "Changes are primarily projection-driven and role-driven because v4 rankings use Projection Model v4 plus Role Model v2 first; Score Model v4 fixture context affects team xG/clean-sheet/captain environment; finance is secondary and mostly affects Value Picks."

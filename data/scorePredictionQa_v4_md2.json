@@ -1,6 +1,6 @@
 {
   "schema_version": "score_prediction_qa_v4_md2",
-  "generated_at": "2026-06-18T12:46:53.517Z",
+  "generated_at": "2026-06-18T17:50:28.195Z",
   "status": "pass",
   "modelVersion": "score-v4-md2-pele-md1-calibrated",
   "summary": {
@@ -12,116 +12,118 @@
     "globalGoalMultiplier": 1.1404,
     "cleanSheetCalibrationUsed": true,
     "wdlConfidenceShrinkUsed": true,
+    "md2AlreadyStarted": true,
+    "md2LiveActualsUsedForCalibration": false,
     "top_10_largest_xg_changes": [
       {
         "fixture_id": "fwc2026-m042",
         "match_number": 42,
         "fixture": "France vs Iraq",
         "matchday": "md2",
-        "prior_total_xg": 3.468,
-        "new_total_xg": 5.091,
-        "total_xg_delta": 1.623,
-        "home_xg_delta": 1.417,
-        "away_xg_delta": 0.206
+        "prior_total_xg": 3.221,
+        "new_total_xg": 4.954,
+        "total_xg_delta": 1.733,
+        "home_xg_delta": 1.546,
+        "away_xg_delta": 0.187
       },
       {
         "fixture_id": "fwc2026-m061",
         "match_number": 61,
         "fixture": "Norway vs France",
         "matchday": "md3",
-        "prior_total_xg": 2.949,
-        "new_total_xg": 4.56,
-        "total_xg_delta": 1.611,
-        "home_xg_delta": 0.485,
-        "away_xg_delta": 1.126
+        "prior_total_xg": 2.854,
+        "new_total_xg": 4.409,
+        "total_xg_delta": 1.555,
+        "home_xg_delta": 0.506,
+        "away_xg_delta": 1.049
       },
       {
         "fixture_id": "fwc2026-m041",
         "match_number": 41,
         "fixture": "Norway vs Senegal",
         "matchday": "md2",
-        "prior_total_xg": 2.579,
-        "new_total_xg": 3.964,
-        "total_xg_delta": 1.385,
-        "home_xg_delta": 0.771,
-        "away_xg_delta": 0.614
-      },
-      {
-        "fixture_id": "fwc2026-m062",
-        "match_number": 62,
-        "fixture": "Senegal vs Iraq",
-        "matchday": "md3",
-        "prior_total_xg": 2.614,
-        "new_total_xg": 3.971,
-        "total_xg_delta": 1.357,
-        "home_xg_delta": 1.141,
-        "away_xg_delta": 0.216
-      },
-      {
-        "fixture_id": "fwc2026-m036",
-        "match_number": 36,
-        "fixture": "Tunisia vs Japan",
-        "matchday": "md2",
-        "prior_total_xg": 2.473,
-        "new_total_xg": 3.819,
-        "total_xg_delta": 1.346,
-        "home_xg_delta": 0.118,
-        "away_xg_delta": 1.228
-      },
-      {
-        "fixture_id": "fwc2026-m058",
-        "match_number": 58,
-        "fixture": "Tunisia vs Netherlands",
-        "matchday": "md3",
-        "prior_total_xg": 2.881,
-        "new_total_xg": 4.124,
-        "total_xg_delta": 1.243,
-        "home_xg_delta": 0.174,
-        "away_xg_delta": 1.069
+        "prior_total_xg": 2.485,
+        "new_total_xg": 3.82,
+        "total_xg_delta": 1.335,
+        "home_xg_delta": 0.812,
+        "away_xg_delta": 0.523
       },
       {
         "fixture_id": "fwc2026-m055",
         "match_number": 55,
         "fixture": "Curaçao vs Côte d'Ivoire",
         "matchday": "md3",
-        "prior_total_xg": 2.46,
-        "new_total_xg": 3.697,
-        "total_xg_delta": 1.237,
-        "home_xg_delta": 0.062,
-        "away_xg_delta": 1.175
+        "prior_total_xg": 2.593,
+        "new_total_xg": 3.923,
+        "total_xg_delta": 1.33,
+        "home_xg_delta": 0.055,
+        "away_xg_delta": 1.275
+      },
+      {
+        "fixture_id": "fwc2026-m036",
+        "match_number": 36,
+        "fixture": "Tunisia vs Japan",
+        "matchday": "md2",
+        "prior_total_xg": 2.303,
+        "new_total_xg": 3.558,
+        "total_xg_delta": 1.255,
+        "home_xg_delta": 0.107,
+        "away_xg_delta": 1.148
+      },
+      {
+        "fixture_id": "fwc2026-m062",
+        "match_number": 62,
+        "fixture": "Senegal vs Iraq",
+        "matchday": "md3",
+        "prior_total_xg": 2.334,
+        "new_total_xg": 3.546,
+        "total_xg_delta": 1.212,
+        "home_xg_delta": 1.015,
+        "away_xg_delta": 0.197
       },
       {
         "fixture_id": "fwc2026-m057",
         "match_number": 57,
         "fixture": "Japan vs Sweden",
         "matchday": "md3",
-        "prior_total_xg": 2.721,
-        "new_total_xg": 3.929,
-        "total_xg_delta": 1.208,
-        "home_xg_delta": 0.822,
-        "away_xg_delta": 0.386
+        "prior_total_xg": 2.635,
+        "new_total_xg": 3.802,
+        "total_xg_delta": 1.167,
+        "home_xg_delta": 0.729,
+        "away_xg_delta": 0.438
       },
       {
-        "fixture_id": "fwc2026-m067",
-        "match_number": 67,
-        "fixture": "Panama vs England",
+        "fixture_id": "fwc2026-m058",
+        "match_number": 58,
+        "fixture": "Tunisia vs Netherlands",
         "matchday": "md3",
-        "prior_total_xg": 2.977,
-        "new_total_xg": 4.115,
-        "total_xg_delta": 1.138,
-        "home_xg_delta": 0.061,
-        "away_xg_delta": 1.077
+        "prior_total_xg": 2.679,
+        "new_total_xg": 3.834,
+        "total_xg_delta": 1.155,
+        "home_xg_delta": 0.158,
+        "away_xg_delta": 0.997
       },
       {
         "fixture_id": "fwc2026-m056",
         "match_number": 56,
         "fixture": "Ecuador vs Germany",
         "matchday": "md3",
-        "prior_total_xg": 2.889,
-        "new_total_xg": 4.024,
-        "total_xg_delta": 1.135,
-        "home_xg_delta": 0.194,
-        "away_xg_delta": 0.941
+        "prior_total_xg": 2.784,
+        "new_total_xg": 3.928,
+        "total_xg_delta": 1.144,
+        "home_xg_delta": 0.168,
+        "away_xg_delta": 0.976
+      },
+      {
+        "fixture_id": "fwc2026-m067",
+        "match_number": 67,
+        "fixture": "Panama vs England",
+        "matchday": "md3",
+        "prior_total_xg": 2.918,
+        "new_total_xg": 4.04,
+        "total_xg_delta": 1.122,
+        "home_xg_delta": 0.055,
+        "away_xg_delta": 1.067
       }
     ],
     "top_10_attack_upgrades": [
@@ -490,24 +492,24 @@
     ],
     "top_10_confidence_shrunk_fixtures": [
       {
-        "fixture_id": "fwc2026-m070",
-        "match_number": 70,
-        "fixture": "Jordan vs Argentina",
-        "matchday": "md3",
-        "wdl_confidence_shrink": 0.1133,
-        "max_probability_shift": 0.0702,
-        "favorite": "Argentina",
-        "favorite_win_probability": 0.883
-      },
-      {
         "fixture_id": "fwc2026-m042",
         "match_number": 42,
         "fixture": "France vs Iraq",
         "matchday": "md2",
         "wdl_confidence_shrink": 0.1133,
-        "max_probability_shift": 0.0697,
+        "max_probability_shift": 0.0698,
         "favorite": "France",
-        "favorite_win_probability": 0.8787
+        "favorite_win_probability": 0.8802
+      },
+      {
+        "fixture_id": "fwc2026-m070",
+        "match_number": 70,
+        "fixture": "Jordan vs Argentina",
+        "matchday": "md3",
+        "wdl_confidence_shrink": 0.1133,
+        "max_probability_shift": 0.0697,
+        "favorite": "Argentina",
+        "favorite_win_probability": 0.879
       },
       {
         "fixture_id": "fwc2026-m067",
@@ -515,39 +517,9 @@
         "fixture": "Panama vs England",
         "matchday": "md3",
         "wdl_confidence_shrink": 0.1133,
-        "max_probability_shift": 0.0671,
+        "max_probability_shift": 0.0674,
         "favorite": "England",
-        "favorite_win_probability": 0.8584
-      },
-      {
-        "fixture_id": "fwc2026-m043",
-        "match_number": 43,
-        "fixture": "Argentina vs Austria",
-        "matchday": "md2",
-        "wdl_confidence_shrink": 0.1133,
-        "max_probability_shift": 0.0666,
-        "favorite": "Argentina",
-        "favorite_win_probability": 0.8542
-      },
-      {
-        "fixture_id": "fwc2026-m058",
-        "match_number": 58,
-        "fixture": "Tunisia vs Netherlands",
-        "matchday": "md3",
-        "wdl_confidence_shrink": 0.1133,
-        "max_probability_shift": 0.0647,
-        "favorite": "Netherlands",
-        "favorite_win_probability": 0.8395
-      },
-      {
-        "fixture_id": "fwc2026-m045",
-        "match_number": 45,
-        "fixture": "England vs Ghana",
-        "matchday": "md2",
-        "wdl_confidence_shrink": 0.1133,
-        "max_probability_shift": 0.0637,
-        "favorite": "England",
-        "favorite_win_probability": 0.8322
+        "favorite_win_probability": 0.8613
       },
       {
         "fixture_id": "fwc2026-m055",
@@ -555,9 +527,29 @@
         "fixture": "Curaçao vs Côte d'Ivoire",
         "matchday": "md3",
         "wdl_confidence_shrink": 0.1133,
-        "max_probability_shift": 0.0637,
+        "max_probability_shift": 0.0667,
         "favorite": "Côte d'Ivoire",
-        "favorite_win_probability": 0.8321
+        "favorite_win_probability": 0.8553
+      },
+      {
+        "fixture_id": "fwc2026-m043",
+        "match_number": 43,
+        "fixture": "Argentina vs Austria",
+        "matchday": "md2",
+        "wdl_confidence_shrink": 0.1133,
+        "max_probability_shift": 0.0648,
+        "favorite": "Argentina",
+        "favorite_win_probability": 0.8406
+      },
+      {
+        "fixture_id": "fwc2026-m058",
+        "match_number": 58,
+        "fixture": "Tunisia vs Netherlands",
+        "matchday": "md3",
+        "wdl_confidence_shrink": 0.1133,
+        "max_probability_shift": 0.0636,
+        "favorite": "Netherlands",
+        "favorite_win_probability": 0.8307
       },
       {
         "fixture_id": "fwc2026-m036",
@@ -565,19 +557,19 @@
         "fixture": "Tunisia vs Japan",
         "matchday": "md2",
         "wdl_confidence_shrink": 0.1133,
-        "max_probability_shift": 0.0636,
+        "max_probability_shift": 0.0624,
         "favorite": "Japan",
-        "favorite_win_probability": 0.8307
+        "favorite_win_probability": 0.8218
       },
       {
-        "fixture_id": "fwc2026-m062",
-        "match_number": 62,
-        "fixture": "Senegal vs Iraq",
-        "matchday": "md3",
+        "fixture_id": "fwc2026-m045",
+        "match_number": 45,
+        "fixture": "England vs Ghana",
+        "matchday": "md2",
         "wdl_confidence_shrink": 0.1133,
-        "max_probability_shift": 0.0623,
-        "favorite": "Senegal",
-        "favorite_win_probability": 0.8212
+        "max_probability_shift": 0.0624,
+        "favorite": "England",
+        "favorite_win_probability": 0.8222
       },
       {
         "fixture_id": "fwc2026-m034",
@@ -585,37 +577,47 @@
         "fixture": "Ecuador vs Curaçao",
         "matchday": "md2",
         "wdl_confidence_shrink": 0.1133,
-        "max_probability_shift": 0.0593,
+        "max_probability_shift": 0.0602,
         "favorite": "Ecuador",
-        "favorite_win_probability": 0.7975
+        "favorite_win_probability": 0.8047
+      },
+      {
+        "fixture_id": "fwc2026-m062",
+        "match_number": 62,
+        "fixture": "Senegal vs Iraq",
+        "matchday": "md3",
+        "wdl_confidence_shrink": 0.1133,
+        "max_probability_shift": 0.0596,
+        "favorite": "Senegal",
+        "favorite_win_probability": 0.7996
       }
     ]
   },
   "numeric_ranges": {
     "home_expected_goals": {
       "min": 0.35,
-      "max": 4.5,
-      "average": 1.666
+      "max": 4.417,
+      "average": 1.621
     },
     "away_expected_goals": {
-      "min": 0.339,
-      "max": 4.289,
-      "average": 1.367
+      "min": 0.309,
+      "max": 4.069,
+      "average": 1.348
     },
     "total_expected_goals": {
-      "min": 1.955,
-      "max": 5.091,
-      "average": 3.033
+      "min": 1.917,
+      "max": 4.954,
+      "average": 2.969
     },
     "home_clean_sheet_probability": {
-      "min": 0.0103,
+      "min": 0.0129,
       "max": 0.7047,
-      "average": 0.301
+      "average": 0.305
     },
     "away_clean_sheet_probability": {
-      "min": 0.0084,
+      "min": 0.0091,
       "max": 0.7047,
-      "average": 0.2365
+      "average": 0.2369
     }
   },
   "checks": [
@@ -653,13 +655,13 @@
       "id": "team_xg_bounds",
       "status": "pass",
       "severity": "error",
-      "detail": "xG range {\"min\":0.339,\"max\":4.5,\"average\":1.517}."
+      "detail": "xG range {\"min\":0.309,\"max\":4.417,\"average\":1.484}."
     },
     {
       "id": "total_xg_reasonable",
       "status": "pass",
       "severity": "error",
-      "detail": "total xG range {\"min\":1.955,\"max\":5.091,\"average\":3.033}."
+      "detail": "total xG range {\"min\":1.917,\"max\":4.954,\"average\":2.969}."
     },
     {
       "id": "wdl_probability_bounds",
@@ -716,10 +718,16 @@
       "detail": "Output preserves active browser data shape."
     },
     {
-      "id": "pele_not_rebuilt",
+      "id": "pele_refreshed",
       "status": "pass",
       "severity": "error",
-      "detail": "PELE/teamQuality is retained as prior, not rebuilt."
+      "detail": "PELE/teamQuality prior refreshed from source checked 2026-06-18."
+    },
+    {
+      "id": "md2_live_actuals_excluded",
+      "status": "pass",
+      "severity": "error",
+      "detail": "MD2 has started, but live/in-progress MD2 actuals are excluded from score calibration."
     },
     {
       "id": "final_squads_not_source_backed",

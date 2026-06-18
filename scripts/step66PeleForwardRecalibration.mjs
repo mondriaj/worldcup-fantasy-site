@@ -1,6 +1,6 @@
 import { access, copyFile, readFile, writeFile } from "node:fs/promises";
 
-const TODAY = "2026-06-01";
+const TODAY = "2026-06-18";
 const NOW = new Date().toISOString();
 
 const PATHS = {
@@ -31,10 +31,10 @@ const PATHS = {
 const PELE_SOURCES = {
   article: "https://www.natesilver.net/p/pele-international-football-rankings-soccer-ratings-projections",
   methodology: "https://www.natesilver.net/p/pele-methodology",
-  ratingsCsv: "https://datawrapper.dwcdn.net/4oVop/19/dataset.csv",
+  ratingsCsv: "https://datawrapper.dwcdn.net/4oVop/87/dataset.csv",
   fifaComparisonCsv: "https://datawrapper.dwcdn.net/4bcIB/1/dataset.csv",
-  tiltCsv: "https://datawrapper.dwcdn.net/dxUJw/15/dataset.csv",
-  offenseDefenseCsv: "https://datawrapper.dwcdn.net/DcqkH/13/dataset.csv"
+  tiltCsv: "https://datawrapper.dwcdn.net/dxUJw/44/dataset.csv",
+  offenseDefenseCsv: "https://datawrapper.dwcdn.net/DcqkH/46/dataset.csv"
 };
 
 const VALID_POSITIONS = new Set(["GK", "DEF", "MID", "FWD"]);
@@ -1654,7 +1654,7 @@ async function buildRecommendationQa(matchdayProjectionData) {
 }
 
 async function main() {
-  const peleData = await readJson(PATHS.peleJson);
+  const peleData = await downloadPeleData();
   const teamQuality = await buildTeamQuality(peleData);
   const scorePredictions = await buildScorePredictions(teamQuality);
   const matchdayProjectionData = await buildMatchdayProjections(scorePredictions, teamQuality);
