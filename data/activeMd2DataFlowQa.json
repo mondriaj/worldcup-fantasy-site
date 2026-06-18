@@ -1,0 +1,431 @@
+{
+  "schema_version": "active_md2_data_flow_qa_v1",
+  "generated_at": "2026-06-18T11:42:24.728Z",
+  "active_version": "20260618-md2-active-path",
+  "status": "pass",
+  "checks": [
+    {
+      "id": "public_stale_path_block",
+      "status": "pass",
+      "detail": {
+        "expected": [
+          "playersData.js",
+          "fantasyRulesData.js",
+          "fantasyPoolRecommendationsData.js",
+          "fantasyPoolMatchdayProjectionsData.js",
+          "fantasyPoolFinanceMetricsData.js",
+          "fantasyPoolScorePredictionsData.js",
+          "fantasyPoolOfficialDataStatusData.js",
+          "liveMatchdayStatusData.js",
+          "livePlayerStatusData.js",
+          "script.js"
+        ],
+        "actual_relevant_order": [
+          "playersData.js",
+          "fantasyRulesData.js",
+          "fantasyPoolRecommendationsData.js",
+          "fantasyPoolMatchdayProjectionsData.js",
+          "fantasyPoolFinanceMetricsData.js",
+          "fantasyPoolScorePredictionsData.js",
+          "fantasyPoolOfficialDataStatusData.js",
+          "liveMatchdayStatusData.js",
+          "livePlayerStatusData.js",
+          "script.js"
+        ],
+        "loaded_legacy_files": [],
+        "stale_public_version_strings": [],
+        "old_global_reads": [],
+        "old_public_fallback_references": [],
+        "passed": true
+      }
+    },
+    {
+      "id": "players_json_players_data_sync",
+      "status": "pass",
+      "detail": {
+        "source_count": 100,
+        "browser_count": 100,
+        "count_in_sync": true,
+        "id_comparison": {
+          "source_id_count": 100,
+          "browser_id_count": 100,
+          "missing_in_browser": [],
+          "missing_in_source": [],
+          "in_sync": true,
+          "missing_in_browser_count": 0,
+          "missing_in_source_count": 0
+        }
+      }
+    },
+    {
+      "id": "fantasy_rules_json_browser_sync",
+      "status": "pass",
+      "detail": {
+        "source_top_level_keys": [
+          "boosters",
+          "budget",
+          "captain",
+          "country_limits",
+          "deadlines",
+          "public_status",
+          "rules_status",
+          "rules_version",
+          "scoring",
+          "source_checked",
+          "source_ids",
+          "squad",
+          "starting_lineup",
+          "substitutions",
+          "transfers",
+          "validation_checks"
+        ],
+        "browser_top_level_keys": [
+          "boosters",
+          "budget",
+          "captain",
+          "country_limits",
+          "deadlines",
+          "public_status",
+          "rules_status",
+          "rules_version",
+          "scoring",
+          "source_checked",
+          "source_ids",
+          "squad",
+          "starting_lineup",
+          "substitutions",
+          "transfers",
+          "validation_checks"
+        ],
+        "missing_keys_in_browser": [],
+        "extra_keys_in_browser": [],
+        "metadata_mismatches": [],
+        "in_sync": true
+      }
+    },
+    {
+      "id": "active_browser_globals_loaded",
+      "status": "pass",
+      "detail": {
+        "recommendation_rows": 500,
+        "projection_rows": 3699,
+        "finance_rows": 1233,
+        "score_fixture_rows": 72,
+        "score_team_fixture_rows": 144,
+        "official_position_records": 1488,
+        "live_fixture_rows": 72,
+        "live_player_rows": 1488
+      }
+    },
+    {
+      "id": "active_official_fantasy_identity_universe",
+      "status": "pass",
+      "detail": {
+        "active_official_universe_field": "official_position_records",
+        "active_official_fantasy_players": 1488,
+        "missing_official_fantasy_player_id_count": 0,
+        "duplicate_official_fantasy_player_id_count": 0,
+        "selectable_position_counts": {
+          "GK": 145,
+          "DEF": 410,
+          "MID": 421,
+          "FWD": 269
+        }
+      }
+    },
+    {
+      "id": "fantasy_pool_recommendation_identity_coverage",
+      "status": "pass",
+      "detail": {
+        "resolved": 500,
+        "total": 500,
+        "missing": 0
+      }
+    },
+    {
+      "id": "fantasy_pool_projection_identity_coverage",
+      "status": "pass",
+      "detail": {
+        "resolved": 3699,
+        "total": 3699,
+        "missing": 0,
+        "unique_active_official_players": 1233
+      }
+    },
+    {
+      "id": "fantasy_pool_finance_identity_coverage",
+      "status": "pass",
+      "detail": {
+        "resolved": 1233,
+        "total": 1233,
+        "missing": 0,
+        "unique_active_official_players": 1233
+      }
+    },
+    {
+      "id": "projection_finance_id_system_alignment",
+      "status": "pass",
+      "detail": {
+        "projection_unique_player_count": 1233,
+        "finance_unique_player_count": 1233,
+        "projections_without_finance_count": 0,
+        "finance_without_projections_count": 0
+      }
+    },
+    {
+      "id": "players_data_enrichment_coverage",
+      "status": "pass",
+      "detail": {
+        "identity_role": "supplemental_enrichment_only",
+        "active_official_fantasy_players": 1488,
+        "players_data_rows": 100,
+        "active_players_resolving_to_players_data": 120,
+        "active_players_not_resolving_to_players_data": 1368,
+        "coverage_percent": 8.06
+      }
+    },
+    {
+      "id": "md2_recommendation_identity_and_projection_coverage",
+      "status": "pass",
+      "detail": {
+        "md2_recommendation_rows": 125,
+        "md2_projection_rows": 1233,
+        "md2_score_fixture_rows": 24,
+        "md2_recommendations_resolving_active_identity_count": 125,
+        "md2_recommendations_missing_active_identity_count": 0,
+        "md2_projections_missing_active_identity_count": 0,
+        "finance_missing_active_identity_count": 0,
+        "recommendation_projection_missing_count": 0,
+        "md2_recommendations_missing_players_data_enrichment_count": 99,
+        "md2_projections_missing_players_data_enrichment_count": 1122,
+        "finance_missing_players_data_enrichment_count": 1122,
+        "players_data_role": "supplemental_enrichment_only",
+        "duplicate_score_fixture_key_count": 0,
+        "invalid_numeric_value_count": 0
+      }
+    },
+    {
+      "id": "md2_score_fixture_coverage",
+      "status": "pass",
+      "detail": {
+        "md2_score_fixture_rows": 24,
+        "duplicate_score_fixture_key_count": 0
+      }
+    },
+    {
+      "id": "active_numeric_fields_finite",
+      "status": "pass",
+      "detail": {
+        "invalid_numeric_value_count": 0
+      }
+    },
+    {
+      "id": "team_builder_minimum_data",
+      "status": "pass",
+      "detail": {
+        "selectable_official_records": 1245,
+        "selectable_position_counts": {
+          "GK": 145,
+          "DEF": 410,
+          "MID": 421,
+          "FWD": 269
+        },
+        "required_positions": {
+          "GK": 2,
+          "DEF": 5,
+          "MID": 5,
+          "FWD": 3
+        },
+        "legal_squad_counts_checked": true,
+        "enough_by_position": true,
+        "missing_required_field_count": 0
+      }
+    }
+  ],
+  "failures": [],
+  "warnings": [],
+  "public_stale_path_block": {
+    "expected": [
+      "playersData.js",
+      "fantasyRulesData.js",
+      "fantasyPoolRecommendationsData.js",
+      "fantasyPoolMatchdayProjectionsData.js",
+      "fantasyPoolFinanceMetricsData.js",
+      "fantasyPoolScorePredictionsData.js",
+      "fantasyPoolOfficialDataStatusData.js",
+      "liveMatchdayStatusData.js",
+      "livePlayerStatusData.js",
+      "script.js"
+    ],
+    "actual_relevant_order": [
+      "playersData.js",
+      "fantasyRulesData.js",
+      "fantasyPoolRecommendationsData.js",
+      "fantasyPoolMatchdayProjectionsData.js",
+      "fantasyPoolFinanceMetricsData.js",
+      "fantasyPoolScorePredictionsData.js",
+      "fantasyPoolOfficialDataStatusData.js",
+      "liveMatchdayStatusData.js",
+      "livePlayerStatusData.js",
+      "script.js"
+    ],
+    "loaded_legacy_files": [],
+    "stale_public_version_strings": [],
+    "old_global_reads": [],
+    "old_public_fallback_references": [],
+    "passed": true
+  },
+  "active_counts": {
+    "recommendation_rows": 500,
+    "projection_rows": 3699,
+    "finance_rows": 1233,
+    "score_fixture_rows": 72,
+    "score_team_fixture_rows": 144,
+    "official_position_records": 1488,
+    "live_fixture_rows": 72,
+    "live_player_rows": 1488
+  },
+  "players_sync": {
+    "source_count": 100,
+    "browser_count": 100,
+    "count_in_sync": true,
+    "id_comparison": {
+      "source_id_count": 100,
+      "browser_id_count": 100,
+      "missing_in_browser": [],
+      "missing_in_source": [],
+      "in_sync": true,
+      "missing_in_browser_count": 0,
+      "missing_in_source_count": 0
+    }
+  },
+  "rules_sync": {
+    "source_top_level_keys": [
+      "boosters",
+      "budget",
+      "captain",
+      "country_limits",
+      "deadlines",
+      "public_status",
+      "rules_status",
+      "rules_version",
+      "scoring",
+      "source_checked",
+      "source_ids",
+      "squad",
+      "starting_lineup",
+      "substitutions",
+      "transfers",
+      "validation_checks"
+    ],
+    "browser_top_level_keys": [
+      "boosters",
+      "budget",
+      "captain",
+      "country_limits",
+      "deadlines",
+      "public_status",
+      "rules_status",
+      "rules_version",
+      "scoring",
+      "source_checked",
+      "source_ids",
+      "squad",
+      "starting_lineup",
+      "substitutions",
+      "transfers",
+      "validation_checks"
+    ],
+    "missing_keys_in_browser": [],
+    "extra_keys_in_browser": [],
+    "metadata_mismatches": [],
+    "in_sync": true
+  },
+  "active_identity": {
+    "active_official_universe_field": "official_position_records",
+    "active_official_fantasy_players": 1488,
+    "missing_official_fantasy_player_id_count": 0,
+    "duplicate_official_fantasy_player_id_count": 0,
+    "duplicate_official_fantasy_player_ids": [],
+    "selectable_official_records": 1245,
+    "selectable_position_counts": {
+      "GK": 145,
+      "DEF": 410,
+      "MID": 421,
+      "FWD": 269
+    },
+    "recommendation_identity_coverage": {
+      "resolved": 500,
+      "total": 500,
+      "missing": 0
+    },
+    "projection_identity_coverage": {
+      "resolved": 3699,
+      "total": 3699,
+      "missing": 0,
+      "unique_active_official_players": 1233
+    },
+    "finance_identity_coverage": {
+      "resolved": 1233,
+      "total": 1233,
+      "missing": 0,
+      "unique_active_official_players": 1233
+    },
+    "projection_finance_id_alignment": {
+      "projection_unique_player_count": 1233,
+      "finance_unique_player_count": 1233,
+      "projections_without_finance_count": 0,
+      "finance_without_projections_count": 0
+    },
+    "players_data_enrichment": {
+      "identity_role": "supplemental_enrichment_only",
+      "active_official_fantasy_players": 1488,
+      "players_data_rows": 100,
+      "active_players_resolving_to_players_data": 120,
+      "active_players_not_resolving_to_players_data": 1368,
+      "coverage_percent": 8.06
+    }
+  },
+  "enrichment_coverage": {
+    "identity_role": "supplemental_enrichment_only",
+    "active_official_fantasy_players": 1488,
+    "players_data_rows": 100,
+    "active_players_resolving_to_players_data": 120,
+    "active_players_not_resolving_to_players_data": 1368,
+    "coverage_percent": 8.06
+  },
+  "md2_consistency": {
+    "md2_recommendation_rows": 125,
+    "md2_projection_rows": 1233,
+    "md2_score_fixture_rows": 24,
+    "md2_recommendations_resolving_active_identity_count": 125,
+    "md2_recommendations_missing_active_identity_count": 0,
+    "md2_projections_missing_active_identity_count": 0,
+    "finance_missing_active_identity_count": 0,
+    "recommendation_projection_missing_count": 0,
+    "md2_recommendations_missing_players_data_enrichment_count": 99,
+    "md2_projections_missing_players_data_enrichment_count": 1122,
+    "finance_missing_players_data_enrichment_count": 1122,
+    "players_data_role": "supplemental_enrichment_only",
+    "duplicate_score_fixture_key_count": 0,
+    "invalid_numeric_value_count": 0
+  },
+  "team_builder_minimum_data": {
+    "selectable_official_records": 1245,
+    "selectable_position_counts": {
+      "GK": 145,
+      "DEF": 410,
+      "MID": 421,
+      "FWD": 269
+    },
+    "required_positions": {
+      "GK": 2,
+      "DEF": 5,
+      "MID": 5,
+      "FWD": 3
+    },
+    "legal_squad_counts_checked": true,
+    "enough_by_position": true,
+    "missing_required_field_count": 0
+  }
+}

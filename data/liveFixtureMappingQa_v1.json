@@ -1,6 +1,6 @@
 {
   "schema_version": "live_fixture_mapping_qa_v1",
-  "generated_at": "2026-06-17T23:02:42.031Z",
+  "generated_at": "2026-06-18T11:41:57.610Z",
   "status": "passed",
   "files": {
     "localFixtures": "data/fixtures.json",
@@ -17,9 +17,9 @@
     "total_live_fixtures": 72,
     "total_score_prediction_fixtures": 72,
     "matched_fixtures": 72,
-    "final_fixtures_shown": 22,
+    "final_fixtures_shown": 24,
     "in_progress_fixtures_suppressed": 0,
-    "scheduled_fixtures": 50,
+    "scheduled_fixtures": 48,
     "unmatched_fixtures": 0,
     "ambiguous_fixtures": 0,
     "reversed_mappings": 0,
