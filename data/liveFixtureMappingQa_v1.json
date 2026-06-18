@@ -1,6 +1,6 @@
 {
   "schema_version": "live_fixture_mapping_qa_v1",
-  "generated_at": "2026-06-18T13:28:20.895Z",
+  "generated_at": "2026-06-18T14:36:01.235Z",
   "status": "passed",
   "files": {
     "localFixtures": "data/fixtures.json",

@@ -1,6 +1,6 @@
 {
   "schema_version": "active_md2_data_flow_qa_v1",
-  "generated_at": "2026-06-18T13:53:10.964Z",
+  "generated_at": "2026-06-18T14:36:01.222Z",
   "active_version": "20260618-md2-active-path",
   "status": "pass",
   "checks": [
@@ -196,7 +196,7 @@
         "md2_projections_missing_active_identity_count": 0,
         "finance_missing_active_identity_count": 0,
         "recommendation_projection_missing_count": 0,
-        "md2_recommendations_missing_players_data_enrichment_count": 99,
+        "md2_recommendations_missing_players_data_enrichment_count": 105,
         "md2_projections_missing_players_data_enrichment_count": 1122,
         "finance_missing_players_data_enrichment_count": 1122,
         "players_data_role": "supplemental_enrichment_only",
@@ -403,7 +403,7 @@
     "md2_projections_missing_active_identity_count": 0,
     "finance_missing_active_identity_count": 0,
     "recommendation_projection_missing_count": 0,
-    "md2_recommendations_missing_players_data_enrichment_count": 99,
+    "md2_recommendations_missing_players_data_enrichment_count": 105,
     "md2_projections_missing_players_data_enrichment_count": 1122,
     "finance_missing_players_data_enrichment_count": 1122,
     "players_data_role": "supplemental_enrichment_only",

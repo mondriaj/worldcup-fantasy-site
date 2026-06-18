@@ -1,6 +1,6 @@
 # Active MD2 Data Flow QA Report
 
-Generated: 2026-06-18T13:53:10.964Z
+Generated: 2026-06-18T14:36:01.222Z
 Status: **PASS**
 Active version: `20260618-md2-active-path`
 
@@ -51,7 +51,7 @@ Active version: `20260618-md2-active-path`
 - MD2 recommendation projection misses: 0
 - MD2 projections: 1233
 - MD2 score fixtures: 24
-- playersData.js MD2 recommendation enrichment misses: 99
+- playersData.js MD2 recommendation enrichment misses: 105
 - playersData.js MD2 projection enrichment misses: 1122
 - playersData.js finance enrichment misses: 1122
 
