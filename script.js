@@ -353,8 +353,8 @@ const defaultMatchdayOptions = [
   { matchday_id: "md3", label: "Matchday 3" }
 ];
 const matchdayOptions = defaultMatchdayOptions;
-const defaultActiveMatchdayId = matchdayOptions.some((option) => option.matchday_id === "group_stage_full")
-  ? "group_stage_full"
+const defaultActiveMatchdayId = matchdayOptions.some((option) => option.matchday_id === "md2")
+  ? "md2"
   : matchdayOptions[0]?.matchday_id || "group_stage_full";
 const defaultPickProjectionMatchdayId = matchdayOptions.some((option) => option.matchday_id === "md1")
   ? "md1"
@@ -1735,104 +1735,106 @@ const teamBuilderComparisonStrategyKeys = [
   "valueSquad"
 ];
 
+const teamBuilderOptimizerVersion = "team_builder_optimizer_md2_v4";
+
 const teamBuilderStrategyScoringProfiles = {
   balancedSquad: {
     id: "balancedSquad",
-    version: "team_builder_strategy_weights_v1",
-    stateLimit: 520,
-    partialBaseWeight: 0.58,
-    partialStrategyWeight: 0.72,
-    partialReserveWeight: 0.28,
-    partialConcentrationPenalty: 1.1,
-    partialPremiumReward: -2.2,
-    partialCheapReward: 0.58,
-    starterScoreWeight: 0.82,
-    benchScoreWeight: 1.05,
-    captainBonusWeight: 0.55,
-    budgetBufferWeight: 1.2,
+    version: teamBuilderOptimizerVersion,
+    stateLimit: 780,
+    partialBaseWeight: 0.36,
+    partialStrategyWeight: 1.18,
+    partialReserveWeight: 0.02,
+    partialConcentrationPenalty: 0.85,
+    partialPremiumReward: 1.25,
+    partialCheapReward: -0.05,
+    starterScoreWeight: 1.34,
+    benchScoreWeight: 0.4,
+    captainBonusWeight: 2.05,
+    budgetBufferWeight: 0.08,
     playerWeights: {
-      starter: { base: 0.68, expected: 0.08, riskAdjusted: 0.24, upside: 0.02, floor: 0.17, reliability: 0.18, value: 0.25, premium: -0.38, price: -0.42, attackingContext: 0.01, captain: 0 },
-      bench: { base: 0.5, expected: 0.1, riskAdjusted: 0.22, floor: 0.2, reliability: 0.24, value: 0.36, cheap: 0.24, premium: -0.14, price: -0.42, attackingContext: 0, captain: 0 }
+      starter: { base: 0.1, expected: 0.7, riskAdjusted: 0.34, upside: 0.08, floor: 0.1, reliability: 0.23, value: 0.03, cheap: -0.02, premium: 0.1, price: -0.03, attackingContext: 0.05, captain: 0.28, fragilityPenalty: 0.42 },
+      bench: { base: 0.08, expected: 0.3, riskAdjusted: 0.25, upside: 0.04, floor: 0.13, reliability: 0.24, value: 0.1, cheap: 0.04, premium: -0.02, price: -0.12, attackingContext: 0.02, captain: 0.04, fragilityPenalty: 0.55 }
     },
     portfolioWeights: {
-      expected: 0.07,
-      riskAdjusted: 0.22,
-      upside: 0.02,
-      var10: 0.18,
-      cvar20: 0.14,
-      start: 0.1,
-      minutes: 0.014,
-      benchExpectedReward: 0.75,
-      benchStrengthReward: 0.95,
-      valueEfficiencyReward: 0.25,
-      budgetUseReward: 0.02,
-      budgetRemainingReward: 0.08,
-      topProjectedReward: -0.08,
-      premiumReward: -1.2,
-      premiumCountReward: -4,
-      premiumConcentrationPenalty: 24,
-      controlledStackReward: 0.12,
-      attackingStackReward: 0.04,
-      volatilityPenalty: 0.08,
-      tailPenalty: 0.08,
-      compositePenalty: 0.05,
-      qaReviewPenalty: 1.8,
-      qaWatchPenalty: 0.35,
-      weakBenchPenalty: 6,
-      premiumSqueezePenalty: 8.5,
-      countryLimitPenalty: 1.1,
-      hardFixturePenalty: 1.1,
-      countryStackPenalty: 0.9,
-      fixtureStackPenalty: 0.9,
-      starDependencePenalty: 5,
-      poorPremiumPenalty: 2.2,
+      expected: 0.52,
+      riskAdjusted: 0.24,
+      upside: 0.06,
+      var10: 0.06,
+      cvar20: 0.04,
+      start: 0.2,
+      minutes: 0.02,
+      benchExpectedReward: 0.16,
+      benchStrengthReward: 0.18,
+      valueEfficiencyReward: 0.03,
+      budgetUseReward: 0.08,
+      budgetRemainingReward: 0,
+      topProjectedReward: 0.78,
+      premiumReward: 0.95,
+      premiumCountReward: 0.2,
+      premiumConcentrationPenalty: 1.5,
+      controlledStackReward: 0.16,
+      attackingStackReward: 0.08,
+      volatilityPenalty: 0.05,
+      tailPenalty: 0.04,
+      compositePenalty: 0.035,
+      qaReviewPenalty: 1.6,
+      qaWatchPenalty: 0.25,
+      weakBenchPenalty: 1.9,
+      premiumSqueezePenalty: 1.5,
+      countryLimitPenalty: 1.05,
+      hardFixturePenalty: 0.75,
+      countryStackPenalty: 0.75,
+      fixtureStackPenalty: 0.65,
+      starDependencePenalty: 0.45,
+      poorPremiumPenalty: 1.9,
       favorableFixtureReward: 0.18,
-      matchUncertaintyPenalty: 0.55,
-      uncertainFixtureStackPenalty: 1.2,
-      strongXgReward: 0.42,
-      cleanSheetContextReward: 0.32,
-      lowXgPenalty: 0.6,
-      difficultCleanSheetPenalty: 0.45,
-      excessiveStackPenalty: 0.8
+      matchUncertaintyPenalty: 0.5,
+      uncertainFixtureStackPenalty: 1,
+      strongXgReward: 0.46,
+      cleanSheetContextReward: 0.34,
+      lowXgPenalty: 0.55,
+      difficultCleanSheetPenalty: 0.4,
+      excessiveStackPenalty: 0.75
     }
   },
   diversifiedSquad: {
     id: "diversifiedSquad",
-    version: "team_builder_strategy_weights_v1",
-    stateLimit: 420,
-    partialBaseWeight: 0.62,
-    partialStrategyWeight: 0.72,
-    partialReserveWeight: 0.3,
-    partialConcentrationPenalty: 5.6,
-    partialPremiumReward: -0.05,
-    partialCheapReward: 0.12,
-    starterScoreWeight: 0.9,
-    benchScoreWeight: 0.58,
-    captainBonusWeight: 0.65,
-    budgetBufferWeight: 1.25,
+    version: teamBuilderOptimizerVersion,
+    stateLimit: 620,
+    partialBaseWeight: 0.42,
+    partialStrategyWeight: 0.98,
+    partialReserveWeight: 0.08,
+    partialConcentrationPenalty: 4.8,
+    partialPremiumReward: 0.35,
+    partialCheapReward: 0.02,
+    starterScoreWeight: 1.12,
+    benchScoreWeight: 0.48,
+    captainBonusWeight: 1.3,
+    budgetBufferWeight: 0.15,
     playerWeights: {
-      starter: { base: 0.62, expected: 0.08, riskAdjusted: 0.2, upside: 0.01, floor: 0.18, reliability: 0.22, value: 0.06, premium: -0.04, cheap: 0.03, price: -0.12, attackingContext: -0.01, captain: 0 },
-      bench: { base: 0.42, expected: 0.06, riskAdjusted: 0.16, floor: 0.2, reliability: 0.24, value: 0.14, cheap: 0.1, premium: -0.06, price: -0.2, attackingContext: 0, captain: 0 }
+      starter: { base: 0.16, expected: 0.46, riskAdjusted: 0.42, upside: 0.03, floor: 0.18, reliability: 0.3, value: 0.05, premium: 0.02, cheap: 0.02, price: -0.07, attackingContext: 0.01, captain: 0.14, fragilityPenalty: 0.62 },
+      bench: { base: 0.12, expected: 0.24, riskAdjusted: 0.3, upside: 0.02, floor: 0.2, reliability: 0.3, value: 0.12, cheap: 0.06, premium: -0.04, price: -0.14, attackingContext: 0, captain: 0.02, fragilityPenalty: 0.7 }
     },
     portfolioWeights: {
-      expected: 0.08,
-      riskAdjusted: 0.22,
-      upside: 0.01,
-      var10: 0.22,
-      cvar20: 0.17,
-      start: 0.14,
-      minutes: 0.022,
-      benchExpectedReward: 0.26,
-      benchStrengthReward: 0.35,
-      valueEfficiencyReward: 0.05,
-      budgetUseReward: 0.02,
-      budgetRemainingReward: 0.06,
-      topProjectedReward: -0.02,
-      premiumReward: -0.04,
-      premiumCountReward: -1.4,
-      premiumConcentrationPenalty: 10,
-      controlledStackReward: -0.04,
-      attackingStackReward: -0.02,
+      expected: 0.32,
+      riskAdjusted: 0.34,
+      upside: 0.03,
+      var10: 0.16,
+      cvar20: 0.12,
+      start: 0.24,
+      minutes: 0.028,
+      benchExpectedReward: 0.18,
+      benchStrengthReward: 0.34,
+      valueEfficiencyReward: 0.04,
+      budgetUseReward: 0.04,
+      budgetRemainingReward: 0.01,
+      topProjectedReward: 0.38,
+      premiumReward: 0.22,
+      premiumCountReward: -0.15,
+      premiumConcentrationPenalty: 2.6,
+      controlledStackReward: -0.02,
+      attackingStackReward: -0.01,
       volatilityPenalty: 0.15,
       tailPenalty: 0.14,
       compositePenalty: 0.09,
@@ -1858,38 +1860,38 @@ const teamBuilderStrategyScoringProfiles = {
   },
   concentratedUpside: {
     id: "concentratedUpside",
-    version: "team_builder_strategy_weights_v1",
-    stateLimit: 380,
-    partialBaseWeight: 0.72,
-    partialStrategyWeight: 0.72,
-    partialReserveWeight: 0.12,
-    partialConcentrationPenalty: 0.35,
-    partialPremiumReward: 0.22,
-    partialCheapReward: -0.02,
-    starterScoreWeight: 1.08,
-    benchScoreWeight: 0.3,
-    captainBonusWeight: 1.1,
-    budgetBufferWeight: 0.55,
+    version: teamBuilderOptimizerVersion,
+    stateLimit: 580,
+    partialBaseWeight: 0.38,
+    partialStrategyWeight: 1.12,
+    partialReserveWeight: -0.04,
+    partialConcentrationPenalty: 0.3,
+    partialPremiumReward: 1.35,
+    partialCheapReward: -0.12,
+    starterScoreWeight: 1.46,
+    benchScoreWeight: 0.24,
+    captainBonusWeight: 2.25,
+    budgetBufferWeight: -0.04,
     playerWeights: {
-      starter: { base: 0.62, expected: 0.2, riskAdjusted: 0.06, upside: 0.28, floor: -0.02, reliability: 0.05, value: 0.03, premium: 0.04, cheap: -0.02, price: -0.02, attackingContext: 0.22, captain: 0.08 },
-      bench: { base: 0.38, expected: 0.08, riskAdjusted: 0.08, upside: 0.14, floor: 0.04, reliability: 0.1, value: 0.12, cheap: 0.08, price: -0.12, attackingContext: 0.08, captain: 0.01 }
+      starter: { base: 0.08, expected: 0.58, riskAdjusted: 0.16, upside: 0.34, floor: -0.02, reliability: 0.1, value: 0.02, premium: 0.08, cheap: -0.04, price: -0.01, attackingContext: 0.28, captain: 0.32, fragilityPenalty: 0.32 },
+      bench: { base: 0.06, expected: 0.2, riskAdjusted: 0.13, upside: 0.16, floor: 0.03, reliability: 0.13, value: 0.1, cheap: 0.05, premium: -0.03, price: -0.1, attackingContext: 0.08, captain: 0.03, fragilityPenalty: 0.52 }
     },
     portfolioWeights: {
-      expected: 0.2,
-      riskAdjusted: 0.07,
-      upside: 0.18,
-      var10: 0.03,
-      cvar20: 0.02,
-      start: 0.03,
-      minutes: 0.004,
-      benchExpectedReward: 0.08,
+      expected: 0.5,
+      riskAdjusted: 0.1,
+      upside: 0.24,
+      var10: 0.02,
+      cvar20: 0.01,
+      start: 0.08,
+      minutes: 0.008,
+      benchExpectedReward: 0.07,
       benchStrengthReward: 0.05,
       valueEfficiencyReward: 0.01,
-      budgetUseReward: 0.08,
-      budgetRemainingReward: -0.03,
-      topProjectedReward: 0.12,
-      premiumReward: 0.16,
-      premiumCountReward: 0.35,
+      budgetUseReward: 0.14,
+      budgetRemainingReward: -0.04,
+      topProjectedReward: 0.95,
+      premiumReward: 0.5,
+      premiumCountReward: 0.45,
       premiumConcentrationPenalty: 0,
       controlledStackReward: 1.3,
       attackingStackReward: 0.85,
@@ -1918,30 +1920,30 @@ const teamBuilderStrategyScoringProfiles = {
   },
   starsAndScrubs: {
     id: "starsAndScrubs",
-    version: "team_builder_strategy_weights_v1",
-    stateLimit: 480,
-    partialBaseWeight: 0.58,
-    partialStrategyWeight: 0.92,
-    partialReserveWeight: -0.26,
+    version: teamBuilderOptimizerVersion,
+    stateLimit: 700,
+    partialBaseWeight: 0.32,
+    partialStrategyWeight: 1.22,
+    partialReserveWeight: -0.3,
     partialConcentrationPenalty: 0.55,
-    partialPremiumReward: 4.2,
-    partialCheapReward: 0.52,
-    starterScoreWeight: 1.62,
-    benchScoreWeight: 0.12,
-    captainBonusWeight: 1.3,
-    budgetBufferWeight: 0.2,
+    partialPremiumReward: 4.6,
+    partialCheapReward: 0.28,
+    starterScoreWeight: 1.72,
+    benchScoreWeight: 0.14,
+    captainBonusWeight: 2.55,
+    budgetBufferWeight: -0.04,
     playerWeights: {
-      starter: { base: 0.46, expected: 0.42, riskAdjusted: 0.03, upside: 0.18, floor: -0.05, reliability: 0.02, value: -0.02, premium: 0.86, cheap: -0.2, price: 0.42, attackingContext: 0.08, captain: 0.16 },
-      bench: { base: 0.12, expected: 0.02, riskAdjusted: 0.05, upside: 0, floor: 0.05, reliability: 0.07, value: 0.18, cheap: 0.44, premium: -0.14, price: -0.62, attackingContext: 0, captain: 0 }
+      starter: { base: 0.06, expected: 0.72, riskAdjusted: 0.12, upside: 0.2, floor: -0.04, reliability: 0.08, value: -0.02, premium: 0.72, cheap: -0.18, price: 0.18, attackingContext: 0.08, captain: 0.36, fragilityPenalty: 0.26 },
+      bench: { base: 0.08, expected: 0.13, riskAdjusted: 0.12, upside: 0.02, floor: 0.06, reliability: 0.11, value: 0.18, cheap: 0.28, premium: -0.12, price: -0.42, attackingContext: 0, captain: 0.01, fragilityPenalty: 0.66 }
     },
     portfolioWeights: {
-      expected: 0.24,
-      riskAdjusted: 0.05,
-      upside: 0.1,
+      expected: 0.6,
+      riskAdjusted: 0.08,
+      upside: 0.12,
       var10: 0.01,
       cvar20: 0,
-      start: 0.02,
-      minutes: 0.003,
+      start: 0.06,
+      minutes: 0.006,
       benchExpectedReward: 0.03,
       benchStrengthReward: 0.04,
       valueEfficiencyReward: -0.02,
@@ -1978,39 +1980,39 @@ const teamBuilderStrategyScoringProfiles = {
   },
   valueSquad: {
     id: "valueSquad",
-    version: "team_builder_strategy_weights_v1",
-    stateLimit: 460,
-    partialBaseWeight: 0.58,
-    partialStrategyWeight: 0.86,
-    partialReserveWeight: 0.52,
-    partialConcentrationPenalty: 1,
-    partialPremiumReward: -1.4,
-    partialCheapReward: 0.7,
-    starterScoreWeight: 0.72,
-    benchScoreWeight: 0.95,
-    captainBonusWeight: 0.35,
-    budgetBufferWeight: 1.8,
+    version: teamBuilderOptimizerVersion,
+    stateLimit: 640,
+    partialBaseWeight: 0.38,
+    partialStrategyWeight: 1,
+    partialReserveWeight: 0.16,
+    partialConcentrationPenalty: 0.9,
+    partialPremiumReward: -0.25,
+    partialCheapReward: 0.18,
+    starterScoreWeight: 1.02,
+    benchScoreWeight: 0.62,
+    captainBonusWeight: 1,
+    budgetBufferWeight: 0.35,
     playerWeights: {
-      starter: { base: 0.56, expected: 0.05, riskAdjusted: 0.12, upside: 0.02, floor: 0.08, reliability: 0.11, value: 0.46, cheap: 0.22, premium: -0.18, price: -0.38, attackingContext: 0, captain: 0 },
-      bench: { base: 0.44, expected: 0.07, riskAdjusted: 0.15, upside: 0.01, floor: 0.14, reliability: 0.2, value: 0.45, cheap: 0.35, premium: -0.16, price: -0.55, attackingContext: 0, captain: 0 }
+      starter: { base: 0.1, expected: 0.36, riskAdjusted: 0.28, upside: 0.05, floor: 0.1, reliability: 0.2, value: 0.34, cheap: 0.1, premium: -0.08, price: -0.2, attackingContext: 0.02, captain: 0.08, fragilityPenalty: 0.48 },
+      bench: { base: 0.08, expected: 0.22, riskAdjusted: 0.24, upside: 0.02, floor: 0.14, reliability: 0.24, value: 0.4, cheap: 0.18, premium: -0.1, price: -0.28, attackingContext: 0, captain: 0.02, fragilityPenalty: 0.62 }
     },
     portfolioWeights: {
-      expected: 0.05,
-      riskAdjusted: 0.14,
-      upside: 0.02,
+      expected: 0.28,
+      riskAdjusted: 0.24,
+      upside: 0.03,
       var10: 0.08,
       cvar20: 0.06,
-      start: 0.08,
-      minutes: 0.012,
-      benchExpectedReward: 0.55,
-      benchStrengthReward: 0.72,
-      valueEfficiencyReward: 0.9,
-      budgetUseReward: -0.05,
-      budgetRemainingReward: 0.22,
-      topProjectedReward: -0.08,
-      premiumReward: -0.4,
-      premiumCountReward: -3,
-      premiumConcentrationPenalty: 28,
+      start: 0.16,
+      minutes: 0.018,
+      benchExpectedReward: 0.36,
+      benchStrengthReward: 0.48,
+      valueEfficiencyReward: 0.7,
+      budgetUseReward: 0.01,
+      budgetRemainingReward: 0.1,
+      topProjectedReward: 0.22,
+      premiumReward: -0.1,
+      premiumCountReward: -0.8,
+      premiumConcentrationPenalty: 7,
       controlledStackReward: 0.02,
       attackingStackReward: 0.02,
       volatilityPenalty: 0.07,
@@ -5750,6 +5752,66 @@ function playerFloorScore(player) {
   return var10 * 9 + cvar20 * 5 + tailSafety * 0.32 + playerReliabilityScore(player) * 0.18;
 }
 
+function playerProjectedPoints(player) {
+  return scoreValue(player, "finance_expected_return_points", "risk_adjusted_expected_points_estimate");
+}
+
+function playerRiskAdjustedPoints(player) {
+  return scoreValue(player, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate");
+}
+
+function playerCeilingPoints(player) {
+  return scoreValue(player, "finance_upside_p90_points", "euro_style_points_per90_estimate");
+}
+
+function teamBuilderMd2V4ProjectionAdjustment(player, profile, role = "starter") {
+  const projectedPoints = playerProjectedPoints(player);
+  const riskAdjustedPoints = playerRiskAdjustedPoints(player);
+  const ceilingPoints = playerCeilingPoints(player);
+  const startProbability = scoreValue(player, "start_probability_percent");
+  const expectedMinutes = scoreValue(player, "expected_minutes_v0");
+  const price = proxyPrice(player);
+  const captainSignal = captainRecommendationScore(player);
+  const isStarter = role === "starter";
+  const lowStartPenalty = Math.max(0, (isStarter ? 68 : 45) - startProbability) * (isStarter ? 0.34 : 0.14);
+  const lowMinutesPenalty = Math.max(0, (isStarter ? 62 : 35) - expectedMinutes) * (isStarter ? 0.22 : 0.1);
+  const cheapLowCeilingPenalty = price <= 6.5 && projectedPoints < (isStarter ? 4.8 : 3.4)
+    ? (isStarter ? 9 : 3.5)
+    : 0;
+  const activeProjectionPenalty = activeMatchdayId !== "group_stage_full" && projectionIsMissing(activeProjection(player))
+    ? 18
+    : 0;
+  const playableStarterBonus = startProbability >= 72 && expectedMinutes >= 62 ? 5 : 0;
+  const captainBonus = isStarter ? Math.max(0, captainSignal - 70) * 0.12 : Math.max(0, captainSignal - 78) * 0.03;
+
+  const strategyMultipliers = {
+    balancedSquad: { projection: 8.2, risk: 3.2, ceiling: 0.6, premium: 1.1, value: 0.5 },
+    diversifiedSquad: { projection: 5.7, risk: 4.2, ceiling: 0.25, premium: 0.35, value: 0.6 },
+    concentratedUpside: { projection: 7.1, risk: 1.5, ceiling: 2.3, premium: 1.1, value: 0.2 },
+    starsAndScrubs: { projection: 8.8, risk: 1.2, ceiling: 1.4, premium: 3.2, value: -0.2 },
+    valueSquad: { projection: 4.6, risk: 3.1, ceiling: 0.35, premium: -0.25, value: 2.2 }
+  };
+  const multipliers = strategyMultipliers[profile.id] || strategyMultipliers.balancedSquad;
+  const premiumTierBonus = price >= 9
+    ? Math.max(0, projectedPoints - 5.8) * multipliers.premium
+    : 0;
+  const efficientValueBonus = price > 0
+    ? Math.max(0, (riskAdjustedPoints / price) - 0.45) * 12 * multipliers.value
+    : 0;
+
+  return projectedPoints * multipliers.projection +
+    riskAdjustedPoints * multipliers.risk +
+    ceilingPoints * multipliers.ceiling +
+    premiumTierBonus +
+    efficientValueBonus +
+    playableStarterBonus +
+    captainBonus -
+    lowStartPenalty -
+    lowMinutesPenalty -
+    cheapLowCeilingPenalty -
+    activeProjectionPenalty;
+}
+
 function playerFragilityPenalty(player) {
   const startProbability = scoreValue(player, "start_probability_percent");
   const expectedMinutes = scoreValue(player, "expected_minutes_v0");
@@ -5845,6 +5907,7 @@ function teamBuilderStrategyPlayerScore(player, measure = activeMeasure(), role 
   const expectedScore = scoreValue(player, "finance_expected_return_points", "risk_adjusted_expected_points_estimate") * 12;
   const riskAdjustedScore = scoreValue(player, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate") * 12;
   const upsideScore = scoreValue(player, "finance_upside_p90_points", "euro_style_points_per90_estimate") * 8;
+  const md2V4ProjectionAdjustment = teamBuilderMd2V4ProjectionAdjustment(player, profile, role);
   const valueScore = measureScore(player, measures.bestValue);
   const cheapScore = measureScore(player, measures.cheapEnabler);
   const premiumScore = measureScore(player, measures.premiumWorthIt);
@@ -5873,6 +5936,7 @@ function teamBuilderStrategyPlayerScore(player, measure = activeMeasure(), role 
     premiumScore * (weights.premium || 0) +
     attackingContext * (weights.attackingContext || 0) +
     matchEnvironmentAdjustment +
+    md2V4ProjectionAdjustment +
     captainSignal * (weights.captain || 0) +
     priceScore * (weights.price || 0) -
     playerFragilityPenalty(player) * fragilityWeight;
@@ -9534,7 +9598,7 @@ function portfolioOptimizerAdjustment(starters, bench, measure = activeMeasure()
     shape.excessiveStackLoad * weights.excessiveStackPenalty;
 
   return {
-    version: "team_builder_strategy_weights_v1",
+    version: profile.version || teamBuilderOptimizerVersion,
     mode: mode.id,
     mode_label: mode.label,
     strategy_id: profile.id,
@@ -12109,9 +12173,12 @@ function optimizerCandidatePools(measure) {
       player,
       starterScore: teamBuilderStrategyPlayerScore(player, measure, "starter", profile),
       benchScore: teamBuilderStrategyPlayerScore(player, measure, "bench", profile),
-      expectedReturn: scoreValue(player, "finance_expected_return_points", "risk_adjusted_expected_points_estimate"),
-      riskAdjustedReturn: scoreValue(player, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate"),
-      upsideReturn: scoreValue(player, "finance_upside_p90_points", "euro_style_points_per90_estimate"),
+      expectedReturn: playerProjectedPoints(player),
+      riskAdjustedReturn: playerRiskAdjustedPoints(player),
+      upsideReturn: playerCeilingPoints(player),
+      captainSignal: captainRecommendationScore(player),
+      startProbability: scoreValue(player, "start_probability_percent"),
+      expectedMinutes: scoreValue(player, "expected_minutes_v0"),
       reliabilityScore: playerReliabilityScore(player),
       floorScore: playerFloorScore(player),
       valueScore: measureScore(player, measures.bestValue),
@@ -12141,6 +12208,21 @@ function optimizerCandidatePools(measure) {
       .map((entry) => entry.player);
     const byStrategyBench = [...strategyScoredCandidates]
       .sort((a, b) => b.benchScore - a.benchScore || a.price - b.price)
+      .map((entry) => entry.player);
+    const byTopProjected = [...strategyScoredCandidates]
+      .sort((a, b) => b.expectedReturn - a.expectedReturn || b.captainSignal - a.captainSignal)
+      .map((entry) => entry.player);
+    const byCaptainPriority = [...strategyScoredCandidates]
+      .filter((entry) => entry.player.position !== "Goalkeeper")
+      .sort((a, b) => b.captainSignal - a.captainSignal || b.expectedReturn - a.expectedReturn)
+      .map((entry) => entry.player);
+    const byPlayableProjection = [...strategyScoredCandidates]
+      .filter((entry) =>
+        entry.startProbability >= 55 &&
+        entry.expectedMinutes >= 45 &&
+        entry.expectedReturn >= (["Forward", "Midfielder"].includes(position) ? 4.2 : 3.5)
+      )
+      .sort((a, b) => b.expectedReturn + b.riskAdjustedReturn * 0.6 - (a.expectedReturn + a.riskAdjustedReturn * 0.6))
       .map((entry) => entry.player);
     const byReliableFloor = [...strategyScoredCandidates]
       .sort((a, b) => b.reliabilityScore + b.floorScore * 0.35 - (a.reliabilityScore + a.floorScore * 0.35))
@@ -12172,24 +12254,33 @@ function optimizerCandidatePools(measure) {
       .map((entry) => entry.player);
     const strategyExtraLists = {
       balancedSquad: [
+        byTopProjected.slice(0, 95),
+        byCaptainPriority.slice(0, 55),
+        byPlayableProjection.slice(0, 75),
         byStrategyStarter.slice(0, 110),
-        byStrategyBench.slice(0, 70),
+        byStrategyBench.slice(0, 65),
         byReliableFloor.slice(0, 45),
-        byValueDepth.slice(0, 45)
+        byValueDepth.slice(0, 30)
       ],
       diversifiedSquad: [
+        byTopProjected.slice(0, 75),
+        byPlayableProjection.slice(0, 105),
         byStrategyStarter.slice(0, 115),
         byStrategyBench.slice(0, 100),
         byReliableFloor.slice(0, 115),
         byValueDepth.slice(0, 60)
       ],
       concentratedUpside: [
+        byTopProjected.slice(0, 120),
+        byCaptainPriority.slice(0, 90),
         byStrategyStarter.slice(0, 125),
         byUpsideContext.slice(0, 125),
         byPremiumStarter.slice(0, 55),
         byStrategyBench.slice(0, 55)
       ],
       starsAndScrubs: [
+        byTopProjected.slice(0, 130),
+        byCaptainPriority.slice(0, 115),
         byStrategyStarter.slice(0, 130),
         byPremiumStarter.slice(0, 125),
         byMeasure.slice(0, 90),
@@ -12197,6 +12288,8 @@ function optimizerCandidatePools(measure) {
         byCheapEnabler.slice(0, 80)
       ],
       valueSquad: [
+        byTopProjected.slice(0, 70),
+        byPlayableProjection.slice(0, 90),
         byStrategyStarter.slice(0, 115),
         byStrategyBench.slice(0, 120),
         byValueDepth.slice(0, 135),
@@ -12207,6 +12300,9 @@ function optimizerCandidatePools(measure) {
 
     pools[position] = uniqueOptimizerCandidates([
       ...(strategyExtraLists[profile.id] || strategyExtraLists.balancedSquad),
+      byTopProjected.slice(0, 80),
+      byCaptainPriority.slice(0, 45),
+      byPlayableProjection.slice(0, 70),
       byMeasure.slice(0, 90),
       byCheapPlayable.slice(0, 90),
       byCheapEnabler.slice(0, 60),
