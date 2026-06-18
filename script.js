@@ -353,14 +353,13 @@ const defaultMatchdayOptions = [
   { matchday_id: "md3", label: "Matchday 3" }
 ];
 const matchdayOptions = defaultMatchdayOptions;
-const defaultActiveMatchdayId = matchdayOptions.some((option) => option.matchday_id === "md2")
-  ? "md2"
+const defaultPublicMatchdayId = "md2";
+const defaultActiveMatchdayId = matchdayOptions.some((option) => option.matchday_id === defaultPublicMatchdayId)
+  ? defaultPublicMatchdayId
   : matchdayOptions[0]?.matchday_id || "group_stage_full";
-const defaultPickProjectionMatchdayId = matchdayOptions.some((option) => option.matchday_id === "md1")
-  ? "md1"
-  : defaultActiveMatchdayId;
+const defaultPickProjectionMatchdayId = defaultActiveMatchdayId;
 let activeMatchdayId = defaultActiveMatchdayId;
-let activeEnvironmentMatchdayId = defaultPickProjectionMatchdayId;
+let activeEnvironmentMatchdayId = defaultActiveMatchdayId;
 let activeTrustModeId = "balanced";
 let activeAdvicePoolModeId = "playable";
 let activeQuickPickModelKey = "expected";
@@ -890,8 +889,8 @@ function bestFantasyPoolRecommendationForPlayer(officialFantasyPlayerId) {
   const recommendations = recommendationByPlayerId.get(String(officialFantasyPlayerId || "")) || [];
   const matchdayPriority = {
     group_stage_full: 0,
-    md1: 1,
-    md2: 2,
+    [defaultPublicMatchdayId]: 1,
+    md1: 2,
     md3: 3
   };
   const modePriority = {
@@ -2761,6 +2760,28 @@ function activeMatchdayOption() {
 
 function activeMatchdayLabel() {
   return activeMatchdayOption()?.label || "Full Group Stage";
+}
+
+function shortMatchdayLabel(matchdayId = activeMatchdayId) {
+  const label = matchdayLabelFromId(matchdayId);
+  if (label === "Full Group Stage") {
+    return "Group Stage";
+  }
+  return label.replace(/^Matchday\s+/i, "MD");
+}
+
+function builderActionLabel() {
+  return `Build ${shortMatchdayLabel(activeMatchdayId)} Squad`;
+}
+
+function renderBuilderActionCopy() {
+  const label = builderActionLabel();
+  [buildTeamButtonTop, buildTeamButtonBottom].filter(Boolean).forEach((button) => {
+    button.textContent = label;
+  });
+  if (builderBuildGuidance) {
+    builderBuildGuidance.textContent = `Click ${label} to fill 15 players from your strategy, locks, budget, and rules.`;
+  }
 }
 
 function matchdayLabelFromId(matchdayId) {
@@ -6005,6 +6026,13 @@ function captainChangeMatchdayIds() {
     .filter((matchdayId) => ["md1", "md2", "md3"].includes(matchdayId));
 }
 
+function defaultSingleMatchdayId() {
+  const matchdayIds = captainChangeMatchdayIds();
+  return matchdayIds.includes(defaultPublicMatchdayId)
+    ? defaultPublicMatchdayId
+    : matchdayIds[0] || defaultPublicMatchdayId;
+}
+
 function captainChangePlayerLabel(player) {
   return `${player.name} · ${player.position} · ${captainChangeCountryLabel(player)}`;
 }
@@ -6207,7 +6235,7 @@ function renderCaptainChangeOptions() {
   matchdaySelects.forEach((select) => {
     const previousValue = select.value;
     select.innerHTML = matchdayHtml;
-    select.value = matchdayIds.includes(previousValue) ? previousValue : matchdayIds[0] || "md1";
+    select.value = matchdayIds.includes(previousValue) ? previousValue : defaultSingleMatchdayId();
   });
 
   renderDecisionStrategyOptions();
@@ -6380,7 +6408,7 @@ function clearMatchdayDecisionInputs() {
   if (matchdayDecisionStarterPointsInput) matchdayDecisionStarterPointsInput.value = "";
   if (matchdayDecisionStarterSelect) matchdayDecisionStarterSelect.value = "";
   if (matchdayDecisionRiskSelect) matchdayDecisionRiskSelect.value = "balanced";
-  if (matchdayDecisionMatchdaySelect) matchdayDecisionMatchdaySelect.value = captainChangeMatchdayIds()[0] || "md1";
+  if (matchdayDecisionMatchdaySelect) matchdayDecisionMatchdaySelect.value = defaultSingleMatchdayId();
 }
 
 function normalizeUserSquadSelections(starters = currentRenderedTeam, bench = currentBenchPlayers) {
@@ -6637,7 +6665,7 @@ function renderCaptainSavedSquadPanel() {
     return;
   }
 
-  const matchdayId = captainChangeMatchdaySelect?.value || "md1";
+  const matchdayId = captainChangeMatchdaySelect?.value || defaultSingleMatchdayId();
   const mode = captainChangeMode();
   const rows = squad
     .map((player) => {
@@ -6683,7 +6711,7 @@ function renderSubstitutionSavedSquadPanel() {
     return;
   }
 
-  const matchdayId = substitutionAdvisorMatchdaySelect?.value || "md1";
+  const matchdayId = substitutionAdvisorMatchdaySelect?.value || defaultSingleMatchdayId();
   const mode = substitutionAdvisorMode();
   const starterCards = starters.map((player) => {
     const summary = decisionProjectionSummary(
@@ -6791,7 +6819,7 @@ function matchdayDecisionEmptyHtml() {
         <p>The desk will then use your captain, vice captain, bench order, and matchday view to organize decisions.</p>
       </div>
       <div class="matchday-desk-actions">
-        <a class="matchday-desk-button matchday-desk-button--primary" href="#team-builder">Build My Squad</a>
+        <a class="matchday-desk-button matchday-desk-button--primary" href="#team-builder">${escapeHtml(builderActionLabel())}</a>
         <button class="matchday-desk-button" type="button" data-matchday-desk-action="load-saved-squad" ${hasSavedSquad ? "" : "disabled"}>Load Saved Squad</button>
       </div>
     </div>
@@ -7245,7 +7273,7 @@ function matchdayDecisionBenchRows(bench, starter, matchdayId, mode, starterPoin
     });
 }
 
-function renderMatchdayDecisionCaptainCard(row, currentCaptain, captainPoints, mode, matchdayId = "md1") {
+function renderMatchdayDecisionCaptainCard(row, currentCaptain, captainPoints, mode, matchdayId = defaultSingleMatchdayId()) {
   const hasProjection = projectionIsAvailable(row.projection);
   const startProbability = hasProjection
     ? fieldNumber(row.projection, "start_probability_percent") ?? scoreValue(row.player, "start_probability_percent")
@@ -7279,7 +7307,7 @@ function renderMatchdayDecisionCaptainCard(row, currentCaptain, captainPoints, m
   `;
 }
 
-function renderMatchdayDecisionBenchCard(row, starter, starterPoints, mode, matchdayId = "md1") {
+function renderMatchdayDecisionBenchCard(row, starter, starterPoints, mode, matchdayId = defaultSingleMatchdayId()) {
   const hasProjection = projectionIsAvailable(row.projection);
   const startProbability = hasProjection
     ? fieldNumber(row.projection, "start_probability_percent") ?? scoreValue(row.player, "start_probability_percent")
@@ -7319,7 +7347,7 @@ function renderMatchdayDecisionCenter() {
   }
 
   const { starters, bench, squad, isFull } = savedDecisionSquad();
-  const matchdayId = matchdayDecisionMatchdaySelect?.value || captainChangeMatchdayIds()[0] || "md1";
+  const matchdayId = matchdayDecisionMatchdaySelect?.value || defaultSingleMatchdayId();
   const warningHtml = modelDataWarningHtml(activeDataWarningsForSection("matchday_desk", { matchdayId }), {
     title: "Matchday Desk"
   });
@@ -7498,7 +7526,7 @@ function renderSavedSquadTimelineOptions() {
     .join("");
   savedSquadTimelineMatchdaySelect.value = matchdayIds.includes(previousValue)
     ? previousValue
-    : matchdayIds[0] || "md1";
+    : defaultSingleMatchdayId();
 }
 
 function savedSquadTimelineEmptyHtml() {
@@ -7647,7 +7675,7 @@ function renderSavedSquadTimeline() {
     return;
   }
 
-  const matchdayId = savedSquadTimelineMatchdaySelect?.value || captainChangeMatchdayIds()[0] || "md1";
+  const matchdayId = savedSquadTimelineMatchdaySelect?.value || defaultSingleMatchdayId();
   const rows = savedSquadTimelineRows(matchdayId);
 
   if (!rows.length) {
@@ -7698,7 +7726,7 @@ function setMatchdayDecisionMatchday(matchdayId) {
   const matchdayIds = captainChangeMatchdayIds();
   matchdayDecisionMatchdaySelect.value = matchdayIds.includes(matchdayId)
     ? matchdayId
-    : matchdayIds[0] || "md1";
+    : defaultSingleMatchdayId();
 }
 
 function handleSavedSquadTimelineClick(event) {
@@ -7709,7 +7737,7 @@ function handleSavedSquadTimelineClick(event) {
   }
 
   const player = playerById(button.dataset.playerId);
-  const matchdayId = button.dataset.matchdayId || savedSquadTimelineMatchdaySelect?.value || "md1";
+  const matchdayId = button.dataset.matchdayId || savedSquadTimelineMatchdaySelect?.value || defaultSingleMatchdayId();
 
   if (!player) {
     return;
@@ -7762,7 +7790,7 @@ function openCollapsiblePanel(panelId) {
 }
 
 function handleMatchdayDeskAction(action) {
-  const matchdayId = matchdayDecisionMatchdaySelect?.value || "md1";
+  const matchdayId = matchdayDecisionMatchdaySelect?.value || defaultSingleMatchdayId();
   const riskStyle = matchdayDecisionRiskStyle();
 
   if (action === "load-saved-squad") {
@@ -7822,7 +7850,7 @@ function handleMatchdayDecisionCenterClick(event) {
   }
 
   const player = playerById(button.dataset.playerId);
-  const matchdayId = matchdayDecisionMatchdaySelect?.value || "md1";
+  const matchdayId = matchdayDecisionMatchdaySelect?.value || defaultSingleMatchdayId();
   const riskStyle = matchdayDecisionRiskStyle();
 
   if (!player) {
@@ -8176,7 +8204,7 @@ function renderImportedCaptainDecision(decision, currentPlayer, candidate, point
     return;
   }
 
-  const matchdayId = captainChangeMatchdaySelect?.value || decision.selected_matchday_id || "md1";
+  const matchdayId = captainChangeMatchdaySelect?.value || decision.selected_matchday_id || defaultSingleMatchdayId();
   captainChangeResult.className = "captain-change-result captain-change-result--review";
   captainChangeResult.innerHTML = `
     <div class="captain-change-verdict">
@@ -8200,7 +8228,7 @@ function renderImportedSubstitutionDecision(decision, starter, benchPlayer, poin
     return;
   }
 
-  const matchdayId = substitutionAdvisorMatchdaySelect?.value || decision.selected_matchday_id || "md1";
+  const matchdayId = substitutionAdvisorMatchdaySelect?.value || decision.selected_matchday_id || defaultSingleMatchdayId();
   substitutionAdvisorResult.className = "captain-change-result substitution-advisor-result captain-change-result--review";
   substitutionAdvisorResult.innerHTML = `
     <div class="captain-change-verdict">
@@ -8319,7 +8347,7 @@ function renderCaptainChangeAdvisor(event) {
     return;
   }
 
-  const matchdayId = captainChangeMatchdaySelect?.value || "md1";
+  const matchdayId = captainChangeMatchdaySelect?.value || defaultSingleMatchdayId();
   const mode = captainChangeMode();
   const riskStyle = captainChangeRiskSelect?.value || "balanced";
   const currentPlayer = findCaptainChangePlayer(captainChangeCurrentPlayerInput?.value);
@@ -8477,7 +8505,7 @@ function resetCaptainChangeAdvisor() {
   if (captainChangeCurrentPointsInput) captainChangeCurrentPointsInput.value = "";
   if (captainChangeCandidateInput) captainChangeCandidateInput.value = "";
   if (captainChangeRiskSelect) captainChangeRiskSelect.value = "balanced";
-  if (captainChangeMatchdaySelect) captainChangeMatchdaySelect.value = captainChangeMatchdayIds()[0] || "md1";
+  if (captainChangeMatchdaySelect) captainChangeMatchdaySelect.value = defaultSingleMatchdayId();
 
   if (captainChangeResult) {
     captainChangeResult.className = "captain-change-result captain-change-result--empty";
@@ -8565,7 +8593,7 @@ function renderSubstitutionAdvisor(event) {
     return;
   }
 
-  const matchdayId = substitutionAdvisorMatchdaySelect?.value || "md1";
+  const matchdayId = substitutionAdvisorMatchdaySelect?.value || defaultSingleMatchdayId();
   const mode = substitutionAdvisorMode();
   const riskStyle = substitutionAdvisorRiskSelect?.value || "balanced";
   const starter = findCaptainChangePlayer(substitutionAdvisorStarterInput?.value);
@@ -8727,7 +8755,7 @@ function resetSubstitutionAdvisor() {
   if (substitutionAdvisorPointsInput) substitutionAdvisorPointsInput.value = "";
   if (substitutionAdvisorBenchInput) substitutionAdvisorBenchInput.value = "";
   if (substitutionAdvisorRiskSelect) substitutionAdvisorRiskSelect.value = "balanced";
-  if (substitutionAdvisorMatchdaySelect) substitutionAdvisorMatchdaySelect.value = captainChangeMatchdayIds()[0] || "md1";
+  if (substitutionAdvisorMatchdaySelect) substitutionAdvisorMatchdaySelect.value = defaultSingleMatchdayId();
 
   if (substitutionAdvisorResult) {
     substitutionAdvisorResult.className = "captain-change-result substitution-advisor-result captain-change-result--empty";
@@ -8924,7 +8952,7 @@ function updateRuleCopy() {
   teamExportOutput.value = "";
   teamExportPanel.classList.add("hidden");
   swapMessage.textContent = `Build a full ${squadLabel()} first, then click a starter and a bench player to swap them.`;
-  teamMessage.textContent = `Lock a few players first, then click "Build My Squad" to optimize the ${squadLabel()}.`;
+  teamMessage.textContent = `Lock a few players first, then click "${builderActionLabel()}" to optimize the ${squadLabel()}.`;
 }
 
 function updateTeamSummary(tacticName, totalPrice, averageRisk, squadCount) {
@@ -11832,6 +11860,7 @@ function updateMatchdayView(nextMatchdayId) {
     select.value = activeMatchdayId;
   });
   setMatchdayDecisionMatchday(activeMatchdayId);
+  renderBuilderActionCopy();
 
   renderMeasureInfo();
   renderPlayerPicker();
@@ -12889,9 +12918,9 @@ function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built", optio
   renderBench(bench, benchRequirementsForTactic(tacticName));
 
   if (mode === "preview" && squad.length === 0) {
-    teamMessage.textContent = `Transparent slots show the selected starting tactic. Build My Squad will create a ${squadLabel()} with ${benchLabel()} below.`;
+    teamMessage.textContent = `Transparent slots show the selected starting tactic. ${builderActionLabel()} will create a ${squadLabel()} with ${benchLabel()} below.`;
   } else if (mode === "preview") {
-    teamMessage.textContent = `Showing ${squad.length} locked squad player${squad.length === 1 ? "" : "s"}. Click Build My Squad to fill the full ${squadLabel()}.`;
+    teamMessage.textContent = `Showing ${squad.length} locked squad player${squad.length === 1 ? "" : "s"}. Click ${builderActionLabel()} to fill the full ${squadLabel()}.`;
   } else if (missingStarterSlots > 0 || missingSquadSlots > 0) {
     const riskText = builderRiskControlsActive() ? ` Risk controls: ${builderRiskSettingsSummary()}.` : "";
     teamMessage.textContent = `Team Builder found ${squad.length} squad player${squad.length === 1 ? "" : "s"} using ${activeBuilderStrategyLabel()}, ${trustModeLabel()}, and ${activeMatchdayLabel()}. Some spots are still open because the current locks, filters, removals, safety preference, budget, country limit, or risk controls are too tight.${riskText}`;
@@ -13058,7 +13087,7 @@ function renderPicksBuilderTray() {
       ${moreChip}
     </div>
     <div class="picks-builder-tray__actions">
-      <a class="picks-builder-tray__link picks-builder-tray__link--primary" href="#team-builder">Build My Squad</a>
+      <a class="picks-builder-tray__link picks-builder-tray__link--primary" href="#team-builder">${escapeHtml(builderActionLabel())}</a>
       <button class="picks-builder-tray__button" type="button" data-clear-pick-locks>Clear</button>
     </div>
   `;
@@ -13606,7 +13635,7 @@ function lockPlayerFromPickCard(playerId) {
   renderAdviceTable();
   teamMessage.textContent = wasLocked
     ? `${builderPlayer.name} was removed from locked players. Add another pick or build with the current locks.`
-    : `${builderPlayer.name} was added to Team Builder. Add a few more picks or click Build My Squad.`;
+    : `${builderPlayer.name} was added to Team Builder. Add a few more picks or click ${builderActionLabel()}.`;
 
   return {
     locked: !wasLocked,
@@ -14087,7 +14116,7 @@ function buildTeam() {
 }
 
 function resetTeam() {
-  clearRenderedTeam("Team reset. Locked players and filters are still available; click Build My Squad when ready.", {
+  clearRenderedTeam(`Team reset. Locked players and filters are still available; click ${builderActionLabel()} when ready.`, {
     clearExclusions: true
   });
   renderPlayerPicker();
@@ -14104,7 +14133,7 @@ function addBackRemovedPlayer(playerId) {
   renderPlayerPicker();
   renderRemovedPlayers();
   updateControlStates();
-  teamMessage.textContent = `${player.name} is available again. Click Build My Squad to include him if he fits.`;
+  teamMessage.textContent = `${player.name} is available again. Click ${builderActionLabel()} to include him if he fits.`;
 }
 
 function clearLockedPlayers() {
@@ -14159,7 +14188,7 @@ function removeSelectedPlayer() {
   selectedSwap = null;
   renderPlayerPicker();
   renderRemovedPlayers();
-  renderCurrentSlotState(`Removed ${player.name}. The slot is now open. Click Build My Squad to refill it without that player. Reset Team clears removed-player exclusions.`);
+  renderCurrentSlotState(`Removed ${player.name}. The slot is now open. Click ${builderActionLabel()} to refill it without that player. Reset Team clears removed-player exclusions.`);
 }
 
 function showBuilderWarning(message) {
@@ -14381,6 +14410,7 @@ function setupBuilder() {
   renderFinanceLensOptions();
   renderTrustModeOptions();
   renderMatchdayOptions();
+  renderBuilderActionCopy();
   renderCaptainChangeOptions();
   renderSavedSquadTimelineOptions();
   if (advicePoolSelect) {

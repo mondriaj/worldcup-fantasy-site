@@ -7,6 +7,7 @@ const { chromium } = require("playwright");
 const baseUrl = process.env.PUBLIC_PREVIEW_BASE_URL || "http://127.0.0.1:8766";
 const outputPath = process.env.PUBLIC_PREVIEW_QA_OUTPUT || "/private/tmp/public_preview_browser_qa_result.json";
 const screenshotDir = process.env.PUBLIC_PREVIEW_QA_SCREENSHOT_DIR || "/private/tmp/public_preview_browser_qa_screenshots";
+const activePublicMatchdayId = "md2";
 const executableCandidates = [
   process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE,
   "/Users/jordimondria/Library/Caches/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-mac-arm64/chrome-headless-shell",
@@ -92,6 +93,7 @@ async function clickProfileAndClose(page, selector, label) {
     showsOfficialPrice: /Official fantasy price|Price/i.test(modalText),
     showsPosition: /Position|Defender|Midfielder|Forward|Goalkeeper|FWD|MID|DEF|GK/i.test(modalText),
     showsCurrentDataWarning: /Official Fantasy Picks|current FIFA fantasy|Confirm|verify|deadline/i.test(modalText),
+    showsMd2Context: /Matchday 2|MD2/i.test(modalText),
     modalTextSample: modalText.slice(0, 500)
   };
 
@@ -159,6 +161,13 @@ async function collectPageState(page) {
         right: Math.round(element.getBoundingClientRect().right),
         clientWidth: document.documentElement.clientWidth
       }));
+    const selectValue = (selector) => document.querySelector(selector)?.value || null;
+    const selectOptionCount = (selector) => document.querySelector(selector)?.options?.length || 0;
+    const textFrom = (selector) => document.querySelector(selector)?.textContent?.trim() || "";
+    const compactText = (value) => String(value || "").replace(/\s+/g, " ").trim();
+    const quickPickText = compactText(quickPickCards.map((card) => card.innerText).join(" "));
+    const captainCardText = compactText(captainCards.map((card) => card.innerText).join(" "));
+    const adviceCardText = compactText(adviceCards.map((card) => card.innerText).join(" "));
 
     return {
       title: document.title,
@@ -202,16 +211,28 @@ async function collectPageState(page) {
           activeDataBadgeStyle?.visibility !== "hidden"
         ),
         activeDataBadgeText: activeDataBadge?.textContent?.trim() || "",
+        adviceMatchdaySelected: selectValue("#advice-matchday-select"),
+        adviceStyleNote: textFrom("#advice-style-note"),
         quickPickCards: quickPickCards.length,
         quickPickNames,
         quickPickLabels,
+        quickPickText: quickPickText.slice(0, 1200),
         captainCards: captainCards.length,
+        captainCardText: captainCardText.slice(0, 1200),
         adviceCards: adviceCards.length,
+        adviceCardText: adviceCardText.slice(0, 1200),
         environmentRows: environmentRows.slice(0, 8),
         matchEnvironmentSummary: document.querySelector("#match-environment-summary")?.textContent?.trim() || "",
+        matchEnvironmentControls: {
+          selectedMatchday: selectValue("#environment-matchday-select"),
+          matchdayOptions: selectOptionCount("#environment-matchday-select"),
+          groupOptions: selectOptionCount("#environment-group-select"),
+          signalOptions: selectOptionCount("#environment-filter-select")
+        },
         matchdayDeskContentText: document.querySelector("#matchday-decision-center-content")?.textContent?.trim() || "",
         matchdayDeskContentBlocks: document.querySelectorAll(".matchday-decision-empty, .matchday-desk-action-panel, .matchday-live-support, .matchday-squad-status, .matchday-desk-card").length,
         matchdayDeskControls: {
+          selectedMatchday: selectValue("#matchday-decision-matchday-select"),
           matchdayOptions: document.querySelector("#matchday-decision-matchday-select")?.options?.length || 0,
           strategyOptions: document.querySelector("#matchday-decision-risk-select")?.options?.length || 0,
           captainPointsInput: Boolean(document.querySelector("#matchday-decision-captain-points-input")),
@@ -219,10 +240,12 @@ async function collectPageState(page) {
           starterPointsInput: Boolean(document.querySelector("#matchday-decision-starter-points-input"))
         },
         teamBuilderControls: {
+          selectedMatchday: selectValue("#builder-matchday-select"),
           strategyOptions: document.querySelector("#measure-select")?.options?.length || 0,
           matchdayOptions: document.querySelector("#builder-matchday-select")?.options?.length || 0,
           formationOptions: document.querySelector("#tactic-select")?.options?.length || 0,
-          buildButton: Boolean(document.querySelector("#build-team-btn-top"))
+          buildButton: Boolean(document.querySelector("#build-team-btn-top")),
+          buildButtonText: textFrom("#build-team-btn-top")
         },
         addToBuilderButtons: document.querySelectorAll("[data-lock-player-id]").length,
         picksBuilderTrayText: document.querySelector("#picks-builder-tray")?.textContent?.trim() || ""
@@ -269,6 +292,35 @@ async function verifyActiveGlobals(page) {
       projectionDataStatus: window.FANTASY_POOL_MATCHDAY_PROJECTIONS_DATA?.data_status || null
     };
   }, { oldGlobalNames });
+}
+
+async function testMatchEnvironmentMatchdayAccess(page, matchdayId) {
+  const select = page.locator("#environment-matchday-select");
+  if (!(await select.count())) {
+    return { status: "fail", matchdayId, reason: "Match Environment matchday select missing" };
+  }
+
+  await select.selectOption(matchdayId);
+  await page.waitForFunction((selectedMatchdayId) => {
+    const selected = document.querySelector("#environment-matchday-select")?.value || null;
+    const rows = Array.from(document.querySelectorAll("#match-environment-table-body tr"))
+      .map((row) => row.innerText.trim())
+      .filter(Boolean);
+    return selected === selectedMatchdayId && rows.length > 0;
+  }, matchdayId, { timeout: 10000 });
+
+  return page.evaluate((selectedMatchdayId) => {
+    const rows = Array.from(document.querySelectorAll("#match-environment-table-body tr"))
+      .map((row) => row.innerText.trim())
+      .filter(Boolean);
+    return {
+      status: "pass",
+      matchdayId: selectedMatchdayId,
+      selected: document.querySelector("#environment-matchday-select")?.value || null,
+      rowCount: rows.length,
+      rowSample: rows.slice(0, 3)
+    };
+  }, matchdayId);
 }
 
 async function testAddToBuilder(page) {
@@ -318,6 +370,8 @@ async function testMainPage(browser, viewport) {
 
   const activeGlobals = await verifyActiveGlobals(page);
   const stateBeforeClicks = await collectPageState(page);
+  const md1MatchEnvironmentAccess = await testMatchEnvironmentMatchdayAccess(page, "md1");
+  const md2MatchEnvironmentAccess = await testMatchEnvironmentMatchdayAccess(page, activePublicMatchdayId);
   const quickPickProfile = await clickProfileAndClose(page, "#dashboard-grid .player-name-button", "Picks");
   const captainProfile = await clickProfileAndClose(page, "#captain-card-grid .player-name-button", "Captain Watchlist");
   const adviceProfile = await clickProfileAndClose(page, "#advice-card-grid .player-name-button, #advice-table-body .player-name-button", "Official Fantasy Picks");
@@ -360,18 +414,30 @@ async function testMainPage(browser, viewport) {
     currentScriptsLoaded: stateBeforeClicks.scripts.missingCurrentScripts.length === 0,
     oldScriptsAbsent: stateBeforeClicks.scripts.loadedLegacyScripts.length === 0,
     picksRender: stateBeforeClicks.ui.quickPickCards > 0 && stateBeforeClicks.ui.quickPickNames.length > 0,
+    picksDefaultMd2: stateBeforeClicks.ui.adviceMatchdaySelected === activePublicMatchdayId &&
+      /Matchday 2|MD2/i.test(`${stateBeforeClicks.ui.quickPickText} ${stateBeforeClicks.ui.adviceStyleNote}`),
     captainWatchlistRenders: stateBeforeClicks.sections.captainWatchlist && stateBeforeClicks.ui.captainCards > 0,
+    captainWatchlistDefaultMd2: /Matchday 2|MD2/i.test(stateBeforeClicks.ui.captainCardText),
     playerProfileOpens: [quickPickProfile, captainProfile, adviceProfile].some((result) => result.status === "pass" && result.playerProfileOpened),
+    playerProfilePracticalMd2: [quickPickProfile, captainProfile, adviceProfile].some((result) => result.status === "pass" && result.showsMd2Context),
     teamBuilderControlsLoad: stateBeforeClicks.ui.teamBuilderControls.strategyOptions > 0 &&
       stateBeforeClicks.ui.teamBuilderControls.matchdayOptions > 0 &&
       stateBeforeClicks.ui.teamBuilderControls.buildButton,
+    teamBuilderDefaultMd2: stateBeforeClicks.ui.teamBuilderControls.selectedMatchday === activePublicMatchdayId &&
+      /MD2|Matchday 2/i.test(stateBeforeClicks.ui.teamBuilderControls.buildButtonText),
     addToBuilderWorksOrUnsupported: addToBuilder.status === "pass" || addToBuilder.status === "skip",
     matchEnvironmentLoads: stateBeforeClicks.ui.environmentRows.length > 0,
+    matchEnvironmentDefaultMd2: stateBeforeClicks.ui.matchEnvironmentControls.selectedMatchday === activePublicMatchdayId &&
+      stateBeforeClicks.ui.environmentRows.some((row) => /Matchday 2|MD2/i.test(row)),
+    matchEnvironmentMd1Accessible: md1MatchEnvironmentAccess.status === "pass" &&
+      md1MatchEnvironmentAccess.selected === "md1" &&
+      md1MatchEnvironmentAccess.rowCount > 0,
     matchdayDeskLoads: stateBeforeClicks.sections.matchdayDesk &&
       stateBeforeClicks.ui.matchdayDeskControls.matchdayOptions > 0 &&
       stateBeforeClicks.ui.matchdayDeskControls.strategyOptions > 0 &&
       stateBeforeClicks.ui.matchdayDeskContentBlocks > 0 &&
       stateBeforeClicks.ui.matchdayDeskContentText.length > 0,
+    matchdayDeskDefaultMd2: stateBeforeClicks.ui.matchdayDeskControls.selectedMatchday === activePublicMatchdayId,
     liveMd1SupportLoaded: stateBeforeClicks.globals.activeGlobalCounts.liveFixtures > 0 &&
       stateBeforeClicks.globals.activeGlobalCounts.livePlayers > 0
   };
@@ -381,6 +447,10 @@ async function testMainPage(browser, viewport) {
     viewport,
     stateBeforeClicks,
     activeGlobals,
+    matchEnvironmentAccess: {
+      md1: md1MatchEnvironmentAccess,
+      md2: md2MatchEnvironmentAccess
+    },
     profileClicks: [quickPickProfile, captainProfile, adviceProfile],
     addToBuilder,
     filters: {
@@ -515,6 +585,14 @@ async function main() {
         "#captain-card-grid .pick-card, #captain-card-grid .player-name-button",
         "#advice-card-grid .pick-card, #advice-card-grid .player-name-button",
         "#match-environment-table-body tr"
+      ],
+      current_default_assertions: [
+        "Picks default to md2",
+        "Captain Watchlist renders Matchday 2 context",
+        "Player Profile shows Matchday 2 practical context",
+        "Team Builder selected matchday is md2",
+        "Match Environment selected matchday is md2 and MD1 remains selectable",
+        "Matchday Desk selected matchday is md2"
       ],
       fallback_mode_removed: true
     },
