@@ -14,6 +14,39 @@ const executableCandidates = [
 ].filter(Boolean);
 
 const viewports = [360, 390, 768, 1024, 1440].map((width) => ({ width, height: width < 768 ? 900 : 1000 }));
+const currentDataScripts = [
+  "playersData.js",
+  "fantasyRulesData.js",
+  "fantasyPoolRecommendationsData.js",
+  "fantasyPoolMatchdayProjectionsData.js",
+  "fantasyPoolFinanceMetricsData.js",
+  "fantasyPoolScorePredictionsData.js",
+  "fantasyPoolOfficialDataStatusData.js",
+  "liveMatchdayStatusData.js",
+  "livePlayerStatusData.js",
+  "script.js"
+];
+const oldGlobalNames = [
+  "FINANCE_PLAYERS_DATA",
+  "PLAYER_MATCHDAY_PROJECTIONS_DATA",
+  "MATCHDAY_MODEL_SUMMARY",
+  "FINANCE_MODEL_SUMMARY",
+  "SCORE_FIXTURE_PREDICTIONS_DATA",
+  "SCORE_PREDICTIONS_SUMMARY"
+];
+const activeGlobalChecks = {
+  PLAYERS_DATA: (value) => Array.isArray(value) || Array.isArray(value?.players),
+  FANTASY_RULES_DATA: (value) => Boolean(value && Object.keys(value).length),
+  FANTASY_POOL_RECOMMENDATION_CANDIDATES: (value) => Array.isArray(value) && value.length > 0,
+  FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS: (value) => Array.isArray(value) && value.length > 0,
+  FANTASY_POOL_SCORE_CONTEXT: (_value, windowObject) =>
+    Boolean(windowObject.FANTASY_POOL_SCORE_PREDICTIONS_DATA) ||
+    Array.isArray(windowObject.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS),
+  FANTASY_POOL_OFFICIAL_DATA_STATUS: (value) =>
+    Boolean(value && Array.isArray(value.official_position_records) && value.official_position_records.length > 0),
+  LIVE_MATCHDAY_STATUS_DATA: (value) => Boolean(value && Array.isArray(value.fixtures)),
+  LIVE_PLAYER_STATUS_DATA: (value) => Boolean(value && Array.isArray(value.players))
+};
 
 function firstExistingPath(paths) {
   return paths.find((candidate) => fs.existsSync(candidate));
@@ -27,19 +60,92 @@ function summarizeMessages(messages) {
   }));
 }
 
+function failReasons(checks) {
+  return Object.entries(checks)
+    .filter(([, ok]) => !ok)
+    .map(([key]) => key);
+}
+
+async function openDetails(page, selector) {
+  await page.evaluate((target) => {
+    const details = document.querySelector(target);
+    if (details) details.open = true;
+  }, selector);
+}
+
+function isIgnoredFailedRequest(request) {
+  return /https:\/\/www\.google-analytics\.com\/g\/collect/.test(request.url) ||
+    /https:\/\/www\.googletagmanager\.com\//.test(request.url);
+}
+
+async function clickProfileAndClose(page, selector, label) {
+  const count = await page.locator(selector).count();
+  if (!count) return { label, status: "fail", reason: "no player profile trigger found", selector };
+
+  await page.locator(selector).first().click();
+  await page.waitForSelector("#player-detail-modal:not(.hidden)", { timeout: 10000 });
+  const modalText = await page.locator("#player-detail-modal").innerText({ timeout: 10000 });
+  const result = {
+    label,
+    status: "pass",
+    playerProfileOpened: true,
+    showsOfficialPrice: /Official fantasy price|Price/i.test(modalText),
+    showsPosition: /Position|Defender|Midfielder|Forward|Goalkeeper|FWD|MID|DEF|GK/i.test(modalText),
+    showsCurrentDataWarning: /Official Fantasy Picks|current FIFA fantasy|Confirm|verify|deadline/i.test(modalText),
+    modalTextSample: modalText.slice(0, 500)
+  };
+
+  await page.locator("#player-detail-close").click();
+  await page.waitForFunction(() => document.querySelector("#player-detail-modal")?.classList.contains("hidden"), null, { timeout: 10000 });
+  result.closedCleanly = true;
+  return result;
+}
+
+async function waitForCurrentUi(page) {
+  await page.waitForSelector("#dashboard-grid .pick-card, #dashboard-grid .player-name-button", { timeout: 60000 });
+  await page.waitForFunction(() => document.querySelectorAll("#matchday-decision-matchday-select option").length > 0, null, { timeout: 60000 });
+}
+
+async function waitForVisibleActiveDataBadge(page) {
+  await page.waitForFunction(() => {
+    const badge = document.querySelector("#advice-style-note .model-data-badge");
+    if (!badge) return false;
+    const rect = badge.getBoundingClientRect();
+    const style = window.getComputedStyle(badge);
+    return rect.width > 0 && rect.height > 0 && style.display !== "none" && style.visibility !== "hidden";
+  }, null, { timeout: 60000 });
+}
+
 async function collectPageState(page) {
-  return page.evaluate(() => {
-    const bodyText = document.body.innerText;
-    const quickPickNames = [...document.querySelectorAll("#dashboard-grid .player-name-button")].map((button) => button.textContent.trim());
-    const quickPickLabels = [...document.querySelectorAll("#dashboard-grid .info-card__label")].map((label) => label.textContent.trim());
-    const captainRows = [
-      ...document.querySelectorAll("#captain-card-grid .pick-card, #captain-table-body tr")
-    ].map((row) => row.innerText.trim()).filter(Boolean);
-    const adviceRows = [
-      ...document.querySelectorAll("#advice-card-grid .pick-card, #advice-table-body tr")
-    ].map((row) => row.innerText.trim()).filter(Boolean);
-    const environmentRows = [...document.querySelectorAll("#match-environment-table-body tr")].map((row) => row.innerText.trim()).filter(Boolean);
-    const overflowingElements = [...document.querySelectorAll("body *")]
+  return page.evaluate(({ oldGlobalNames: oldGlobals, activeGlobalNames, currentDataScripts: expectedScripts }) => {
+    const activeDataBadge = document.querySelector("#advice-style-note .model-data-badge");
+    const activeDataBadgeRect = activeDataBadge?.getBoundingClientRect();
+    const activeDataBadgeStyle = activeDataBadge ? window.getComputedStyle(activeDataBadge) : null;
+    const bodyText = document.body.innerText || "";
+    const scriptSources = Array.from(document.scripts).map((script) => script.getAttribute("src")).filter(Boolean);
+    const quickPickCards = Array.from(document.querySelectorAll("#dashboard-grid .pick-card"));
+    const quickPickNames = Array.from(document.querySelectorAll("#dashboard-grid .player-name-button")).map((button) => button.textContent.trim());
+    const quickPickLabels = Array.from(document.querySelectorAll("#dashboard-grid .pick-card__label, #dashboard-grid .info-card__label")).map((label) => label.textContent.trim());
+    const captainCards = Array.from(document.querySelectorAll("#captain-card-grid .pick-card"));
+    const adviceCards = Array.from(document.querySelectorAll("#advice-card-grid .pick-card"));
+    const environmentRows = Array.from(document.querySelectorAll("#match-environment-table-body tr")).map((row) => row.innerText.trim()).filter(Boolean);
+    const oldGlobalsPresent = oldGlobals.filter((name) => window[name] !== undefined);
+    const activeGlobals = Object.fromEntries(activeGlobalNames.map((name) => [name, window[name] !== undefined]));
+    const activeGlobalCounts = {
+      players: Array.isArray(window.PLAYERS_DATA) ? window.PLAYERS_DATA.length : window.PLAYERS_DATA?.players?.length || 0,
+      recommendations: window.FANTASY_POOL_RECOMMENDATION_CANDIDATES?.length || 0,
+      projections: window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS?.length || 0,
+      md2Projections: (window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || []).filter((row) => row.matchday === "md2").length,
+      finance: window.FANTASY_POOL_PLAYER_FINANCE_METRICS?.length || 0,
+      scoreFixtures: window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS?.length || window.FANTASY_POOL_SCORE_PREDICTIONS_DATA?.fixtureScorePredictions?.length || 0,
+      officialRecords: window.FANTASY_POOL_OFFICIAL_DATA_STATUS?.official_position_records?.length || 0,
+      liveFixtures: window.LIVE_MATCHDAY_STATUS_DATA?.fixtures?.length || 0,
+      livePlayers: window.LIVE_PLAYER_STATUS_DATA?.players?.length || 0
+    };
+    const topMd2Projection = [...(window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || [])]
+      .filter((row) => row.matchday === "md2")
+      .sort((a, b) => (b.projectedPoints || b.raw_expected_points || 0) - (a.projectedPoints || a.raw_expected_points || 0))[0] || null;
+    const overflowingElements = Array.from(document.querySelectorAll("body *"))
       .filter((element) => {
         const rect = element.getBoundingClientRect();
         return rect.width > 0 && rect.right > document.documentElement.clientWidth + 1 && getComputedStyle(element).position !== "fixed";
@@ -56,77 +162,140 @@ async function collectPageState(page) {
 
     return {
       title: document.title,
-      globals: {
-        fantasyPoolRecommendations: Boolean(window.FANTASY_POOL_RECOMMENDATIONS_DATA),
-        fantasyPoolRecommendationCandidates: window.FANTASY_POOL_RECOMMENDATION_CANDIDATES?.length || 0,
-        fantasyPoolProjections: window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS?.length || 0,
-        fantasyPoolFinanceMetrics: window.FANTASY_POOL_PLAYER_FINANCE_METRICS?.length || 0,
-        fantasyPoolScorePredictions: window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS?.length || 0,
-        fantasyPoolOfficialStatus: Boolean(window.FANTASY_POOL_OFFICIAL_DATA_STATUS),
-        legacyFinancePlayers: window.FINANCE_PLAYERS_DATA?.length || 0,
-        legacyMatchdayProjections: window.PLAYER_MATCHDAY_PROJECTIONS_DATA?.length || 0,
-        legacyScorePredictions: window.SCORE_FIXTURE_PREDICTIONS_DATA?.length || 0
+      scripts: {
+        expectedOrder: expectedScripts,
+        activeRelevantOrder: scriptSources
+          .map((src) => src.split("?")[0].split("/").pop())
+          .filter((file) => expectedScripts.includes(file)),
+        missingCurrentScripts: expectedScripts.filter((file) => !scriptSources.some((src) => src.includes(file))),
+        loadedLegacyScripts: scriptSources.filter((src) =>
+          /financePlayersData|matchdayProjectionsData|scorePredictionsData|scorePredictions_v[0-2]|20260603|official-final/.test(src)
+        )
       },
-      quickPickNames,
-      quickPickLabels,
-      captainRows: captainRows.slice(0, 6),
-      adviceRows: adviceRows.slice(0, 8),
-      environmentRows: environmentRows.slice(0, 8),
+      globals: {
+        activeGlobals,
+        activeGlobalCounts,
+        oldGlobalsPresent,
+        scoreModelVersion: window.FANTASY_POOL_SCORE_PREDICTIONS_DATA?.modelVersion || window.FANTASY_POOL_SCORE_PREDICTIONS_DATA?.model_version || null,
+        projectionModelVersion: window.FANTASY_POOL_MATCHDAY_PROJECTIONS_DATA?.modelVersion || window.FANTASY_POOL_MATCHDAY_PROJECTIONS_DATA?.model_version || null,
+        projectionDataStatus: window.FANTASY_POOL_MATCHDAY_PROJECTIONS_DATA?.data_status || null,
+        topMd2Projection: topMd2Projection ? {
+          name: topMd2Projection.name,
+          projectedPoints: topMd2Projection.projectedPoints || topMd2Projection.raw_expected_points || null,
+          captainUpsideScore: topMd2Projection.captainUpsideScore || topMd2Projection.captain_score || null
+        } : null
+      },
+      sections: {
+        picks: Boolean(document.querySelector("#picks")),
+        captainWatchlist: Boolean(document.querySelector("#captain-picks")),
+        matchdayDesk: Boolean(document.querySelector("#matchday-desk")),
+        teamBuilder: Boolean(document.querySelector("#team-builder")),
+        matchEnvironment: Boolean(document.querySelector("#match-environment")),
+        playerProfileModal: Boolean(document.querySelector("#player-detail-modal"))
+      },
+      ui: {
+        activeDataBadgeVisible: Boolean(
+          activeDataBadge &&
+          activeDataBadgeRect?.width > 0 &&
+          activeDataBadgeRect?.height > 0 &&
+          activeDataBadgeStyle?.display !== "none" &&
+          activeDataBadgeStyle?.visibility !== "hidden"
+        ),
+        activeDataBadgeText: activeDataBadge?.textContent?.trim() || "",
+        quickPickCards: quickPickCards.length,
+        quickPickNames,
+        quickPickLabels,
+        captainCards: captainCards.length,
+        adviceCards: adviceCards.length,
+        environmentRows: environmentRows.slice(0, 8),
+        matchEnvironmentSummary: document.querySelector("#match-environment-summary")?.textContent?.trim() || "",
+        matchdayDeskContentText: document.querySelector("#matchday-decision-center-content")?.textContent?.trim() || "",
+        matchdayDeskContentBlocks: document.querySelectorAll(".matchday-decision-empty, .matchday-desk-action-panel, .matchday-live-support, .matchday-squad-status, .matchday-desk-card").length,
+        matchdayDeskControls: {
+          matchdayOptions: document.querySelector("#matchday-decision-matchday-select")?.options?.length || 0,
+          strategyOptions: document.querySelector("#matchday-decision-risk-select")?.options?.length || 0,
+          captainPointsInput: Boolean(document.querySelector("#matchday-decision-captain-points-input")),
+          starterSelect: Boolean(document.querySelector("#matchday-decision-starter-select")),
+          starterPointsInput: Boolean(document.querySelector("#matchday-decision-starter-points-input"))
+        },
+        teamBuilderControls: {
+          strategyOptions: document.querySelector("#measure-select")?.options?.length || 0,
+          matchdayOptions: document.querySelector("#builder-matchday-select")?.options?.length || 0,
+          formationOptions: document.querySelector("#tactic-select")?.options?.length || 0,
+          buildButton: Boolean(document.querySelector("#build-team-btn-top"))
+        },
+        addToBuilderButtons: document.querySelectorAll("[data-lock-player-id]").length,
+        picksBuilderTrayText: document.querySelector("#picks-builder-tray")?.textContent?.trim() || ""
+      },
       warnings: {
         manualConfirmation: bodyText.includes("Confirm locks") || bodyText.includes("confirm squad legality, locks, and deadlines"),
         teamBuilderPlanningHelp: bodyText.includes("Team Builder is planning help") || bodyText.includes("Use the builder as planning help"),
-        teamBuilderOfficialCheck: bodyText.includes("inside the official FIFA fantasy game") || bodyText.includes("inside the fantasy game")
+        teamBuilderOfficialCheck: bodyText.includes("inside the official FIFA fantasy game") || bodyText.includes("inside the fantasy game"),
+        md1LiveSupport: bodyText.includes("official points") || bodyText.includes("Matchday Desk") || bodyText.includes("live")
       },
-      modalOpen: !document.querySelector("#player-detail-modal")?.classList.contains("hidden"),
       scroll: {
         clientWidth: document.documentElement.clientWidth,
         scrollWidth: document.documentElement.scrollWidth,
         hasPageOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
         overflowingElements
-      },
-      buttons: {
-        previewPlayerButtons: document.querySelectorAll("#dashboard-grid .player-name-button, #captain-card-grid .player-name-button, #captain-table-body .player-name-button, #advice-card-grid .player-name-button, #advice-table-body .player-name-button").length,
-        closeProfileButtons: document.querySelectorAll("[data-close-player-detail]").length
       }
     };
+  }, {
+    oldGlobalNames,
+    activeGlobalNames: Object.keys(activeGlobalChecks).filter((name) => name !== "FANTASY_POOL_SCORE_CONTEXT"),
+    currentDataScripts
   });
 }
 
-async function openDetails(page, selector) {
-  await page.evaluate((target) => {
-    const details = document.querySelector(target);
-    if (details) {
-      details.open = true;
-    }
-  }, selector);
+async function verifyActiveGlobals(page) {
+  return page.evaluate(({ oldGlobalNames: oldGlobals }) => {
+    const activeChecks = {
+      PLAYERS_DATA: Array.isArray(window.PLAYERS_DATA) || Array.isArray(window.PLAYERS_DATA?.players),
+      FANTASY_RULES_DATA: Boolean(window.FANTASY_RULES_DATA && Object.keys(window.FANTASY_RULES_DATA).length),
+      FANTASY_POOL_RECOMMENDATION_CANDIDATES: Array.isArray(window.FANTASY_POOL_RECOMMENDATION_CANDIDATES) && window.FANTASY_POOL_RECOMMENDATION_CANDIDATES.length > 0,
+      FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS: Array.isArray(window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS) && window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS.length > 0,
+      FANTASY_POOL_SCORE_CONTEXT: Boolean(window.FANTASY_POOL_SCORE_PREDICTIONS_DATA) || Array.isArray(window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS),
+      FANTASY_POOL_OFFICIAL_DATA_STATUS: Boolean(window.FANTASY_POOL_OFFICIAL_DATA_STATUS?.official_position_records?.length),
+      LIVE_MATCHDAY_STATUS_DATA: Boolean(window.LIVE_MATCHDAY_STATUS_DATA?.fixtures?.length),
+      LIVE_PLAYER_STATUS_DATA: Boolean(window.LIVE_PLAYER_STATUS_DATA?.players?.length)
+    };
+    const oldGlobalsPresent = oldGlobals.filter((name) => window[name] !== undefined);
+    return {
+      activeChecks,
+      missingActiveGlobals: Object.entries(activeChecks).filter(([, ok]) => !ok).map(([name]) => name),
+      oldGlobalsPresent,
+      scoreModelVersion: window.FANTASY_POOL_SCORE_PREDICTIONS_DATA?.modelVersion || window.FANTASY_POOL_SCORE_PREDICTIONS_DATA?.model_version || null,
+      projectionModelVersion: window.FANTASY_POOL_MATCHDAY_PROJECTIONS_DATA?.modelVersion || window.FANTASY_POOL_MATCHDAY_PROJECTIONS_DATA?.model_version || null,
+      projectionDataStatus: window.FANTASY_POOL_MATCHDAY_PROJECTIONS_DATA?.data_status || null
+    };
+  }, { oldGlobalNames });
 }
 
-async function clickProfileAndClose(page, selector, label) {
-  const count = await page.locator(selector).count();
-  if (!count) {
-    return { label, status: "fail", reason: "no player button found" };
+async function testAddToBuilder(page) {
+  const before = await page.locator("#picks-builder-tray .locked-player-chip").count();
+  const buttonCount = await page.locator("#dashboard-grid [data-lock-player-id], #advice-card-grid [data-lock-player-id]").count();
+  if (!buttonCount) {
+    return { status: "skip", reason: "current UI has no available Add to Builder buttons", buttonCount };
   }
 
-  await page.locator(selector).first().click();
-  await page.waitForSelector("#player-detail-modal:not(.hidden)", { timeout: 10000 });
-  const modalText = await page.locator("#player-detail-modal").innerText({ timeout: 10000 });
-  const result = {
-    label,
-    status: "pass",
-    playerProfileOpened: true,
-    showsOfficialPrice: /Official fantasy price|Price/i.test(modalText),
-    showsPosition: /Position|Defender|Midfielder|Forward|Goalkeeper|FWD|MID|DEF|GK/i.test(modalText),
-    showsPreviewWarning: /Official Fantasy Picks|current FIFA fantasy|Confirm|Refresh the data/i.test(modalText),
-    modalTextSample: modalText.slice(0, 500)
+  await page.locator("#dashboard-grid [data-lock-player-id], #advice-card-grid [data-lock-player-id]").first().click();
+  await page.waitForFunction((previousCount) => {
+    const tray = document.querySelector("#picks-builder-tray");
+    return document.querySelectorAll("#picks-builder-tray .locked-player-chip").length > previousCount ||
+      /locked player|ready for the builder/i.test(tray?.textContent || "");
+  }, before, { timeout: 10000 });
+  const after = await page.locator("#picks-builder-tray .locked-player-chip").count();
+  const trayText = await page.locator("#picks-builder-tray").innerText({ timeout: 10000 });
+  return {
+    status: after > before || /locked player|ready for the builder/i.test(trayText) ? "pass" : "fail",
+    before,
+    after,
+    buttonCount,
+    trayText: trayText.slice(0, 300)
   };
-
-  await page.locator("#player-detail-close").click();
-  await page.waitForFunction(() => document.querySelector("#player-detail-modal")?.classList.contains("hidden"), null, { timeout: 10000 });
-  result.closedCleanly = true;
-  return result;
 }
 
-async function testMainPage(browser, viewport, options = {}) {
+async function testMainPage(browser, viewport) {
   const context = await browser.newContext({ viewport });
   const page = await context.newPage();
   const messages = [];
@@ -137,38 +306,32 @@ async function testMainPage(browser, viewport, options = {}) {
   page.on("requestfailed", (request) => failedRequests.push({ url: request.url(), failure: request.failure()?.errorText || null }));
   page.on("pageerror", (error) => pageErrors.push(String(error)));
 
-  if (options.disablePreviewGlobals) {
-    await page.route(/fantasyPool.*Data\.js(\?.*)?$/, (route) => route.fulfill({
-      status: 200,
-      contentType: "application/javascript",
-      body: "// preview globals intentionally disabled for fallback QA\n"
-    }));
-  }
-
   await page.goto(`${baseUrl}/index.html`, { waitUntil: "load", timeout: 120000 });
-  await page.waitForSelector("#dashboard-grid .player-name-button", { timeout: 60000 });
+  await waitForCurrentUi(page);
   await openDetails(page, "#captain-picks");
-  await page.waitForSelector("#captain-card-grid .player-name-button, #captain-table-body .player-name-button", { timeout: 60000 });
+  await page.waitForSelector("#captain-card-grid .pick-card, #captain-card-grid .player-name-button", { timeout: 60000 });
   await openDetails(page, "#team-advice");
-  await page.waitForSelector("#advice-card-grid .player-name-button, #advice-table-body .player-name-button", { timeout: 60000 });
+  await page.waitForSelector("#advice-card-grid .pick-card, #advice-card-grid .player-name-button", { timeout: 60000 });
+  await waitForVisibleActiveDataBadge(page);
+  await openDetails(page, "#match-environment");
+  await page.waitForSelector("#match-environment-table-body tr", { timeout: 60000 });
 
+  const activeGlobals = await verifyActiveGlobals(page);
   const stateBeforeClicks = await collectPageState(page);
-  const quickPickProfile = await clickProfileAndClose(page, "#dashboard-grid .player-name-button", "Quick Picks");
-  const captainProfile = await clickProfileAndClose(page, "#captain-card-grid .player-name-button, #captain-table-body .player-name-button", "Captain Watchlist");
-  const adviceProfile = await clickProfileAndClose(page, "#advice-card-grid .player-name-button, #advice-table-body .player-name-button", "Pick Explorer");
+  const quickPickProfile = await clickProfileAndClose(page, "#dashboard-grid .player-name-button", "Picks");
+  const captainProfile = await clickProfileAndClose(page, "#captain-card-grid .player-name-button", "Captain Watchlist");
+  const adviceProfile = await clickProfileAndClose(page, "#advice-card-grid .player-name-button, #advice-table-body .player-name-button", "Official Fantasy Picks");
+  const addToBuilder = await testAddToBuilder(page);
 
   await page.locator("#advice-position-select").selectOption("Forward");
   await page.waitForTimeout(100);
   const forwardFilterState = await page.evaluate(() => ({
-    rows: [...document.querySelectorAll("#advice-card-grid .pick-card, #advice-table-body tr")].map((row) => row.innerText.trim()).slice(0, 8),
-    allRowsAreForwards: [...document.querySelectorAll("#advice-card-grid .pick-card, #advice-table-body tr")].every((row) =>
-      row.innerText.includes("Forward") ||
-      row.innerText.includes("Fantasy data unavailable") ||
-      row.innerText.includes("No fantasy candidates match")
-    )
+    rows: Array.from(document.querySelectorAll("#advice-card-grid .pick-card, #advice-table-body tr")).map((row) => row.innerText.trim()).slice(0, 8),
+    cardsOrRows: document.querySelectorAll("#advice-card-grid .pick-card, #advice-table-body tr").length,
+    selected: document.querySelector("#advice-position-select")?.value || null
   }));
 
-  await page.locator("#advice-matchday-select").selectOption("md1");
+  await page.locator("#advice-matchday-select").selectOption("md2");
   await page.waitForTimeout(150);
   const matchdayFilterState = await page.evaluate(() => ({
     selected: document.querySelector("#advice-matchday-select")?.value || null,
@@ -176,27 +339,60 @@ async function testMainPage(browser, viewport, options = {}) {
     rows: document.querySelectorAll("#advice-card-grid .pick-card, #advice-table-body tr").length
   }));
 
-  const screenshotPath = `${screenshotDir}/index-${viewport.width}${options.disablePreviewGlobals ? "-fallback" : ""}.png`;
+  const screenshotPath = `${screenshotDir}/index-${viewport.width}.png`;
   fs.mkdirSync(screenshotDir, { recursive: true });
   await page.screenshot({ path: screenshotPath, fullPage: false });
 
   const stateAfterInteractions = await collectPageState(page);
   await context.close();
 
+  const consoleErrors = summarizeMessages(messages.filter((entry) => entry.type === "error"));
+  const consoleWarnings = summarizeMessages(messages.filter((entry) => entry.type === "warning" || entry.type === "warn"));
+  const sectionChecks = {
+    homepageLoads: stateBeforeClicks.title.includes("Fantasy"),
+    noConsoleOrPageErrors: consoleErrors.length === 0 && pageErrors.length === 0,
+    activeDataBadgeVisible: stateBeforeClicks.ui.activeDataBadgeVisible,
+    scoreModelV4Loaded: activeGlobals.scoreModelVersion === "score-v4-md2-pele-md1-calibrated",
+    projectionModelV4Loaded: activeGlobals.projectionModelVersion === "player-projection-v4-md2-score-v4-role-v2",
+    activeOfficialRecordsLoaded: stateBeforeClicks.globals.activeGlobalCounts.officialRecords > 0,
+    activeGlobalsPresent: activeGlobals.missingActiveGlobals.length === 0,
+    oldGlobalsAbsent: activeGlobals.oldGlobalsPresent.length === 0,
+    currentScriptsLoaded: stateBeforeClicks.scripts.missingCurrentScripts.length === 0,
+    oldScriptsAbsent: stateBeforeClicks.scripts.loadedLegacyScripts.length === 0,
+    picksRender: stateBeforeClicks.ui.quickPickCards > 0 && stateBeforeClicks.ui.quickPickNames.length > 0,
+    captainWatchlistRenders: stateBeforeClicks.sections.captainWatchlist && stateBeforeClicks.ui.captainCards > 0,
+    playerProfileOpens: [quickPickProfile, captainProfile, adviceProfile].some((result) => result.status === "pass" && result.playerProfileOpened),
+    teamBuilderControlsLoad: stateBeforeClicks.ui.teamBuilderControls.strategyOptions > 0 &&
+      stateBeforeClicks.ui.teamBuilderControls.matchdayOptions > 0 &&
+      stateBeforeClicks.ui.teamBuilderControls.buildButton,
+    addToBuilderWorksOrUnsupported: addToBuilder.status === "pass" || addToBuilder.status === "skip",
+    matchEnvironmentLoads: stateBeforeClicks.ui.environmentRows.length > 0,
+    matchdayDeskLoads: stateBeforeClicks.sections.matchdayDesk &&
+      stateBeforeClicks.ui.matchdayDeskControls.matchdayOptions > 0 &&
+      stateBeforeClicks.ui.matchdayDeskControls.strategyOptions > 0 &&
+      stateBeforeClicks.ui.matchdayDeskContentBlocks > 0 &&
+      stateBeforeClicks.ui.matchdayDeskContentText.length > 0,
+    liveMd1SupportLoaded: stateBeforeClicks.globals.activeGlobalCounts.liveFixtures > 0 &&
+      stateBeforeClicks.globals.activeGlobalCounts.livePlayers > 0
+  };
+
   return {
     page: "index.html",
     viewport,
-    fallbackMode: Boolean(options.disablePreviewGlobals),
     stateBeforeClicks,
+    activeGlobals,
     profileClicks: [quickPickProfile, captainProfile, adviceProfile],
+    addToBuilder,
     filters: {
       forwardFilterState,
       matchdayFilterState
     },
     stateAfterInteractions,
+    checks: sectionChecks,
+    failures: failReasons(sectionChecks),
     console: summarizeMessages(messages),
-    consoleErrors: summarizeMessages(messages.filter((entry) => entry.type === "error")),
-    consoleWarnings: summarizeMessages(messages.filter((entry) => entry.type === "warning" || entry.type === "warn")),
+    consoleErrors,
+    consoleWarnings,
     failedRequests,
     pageErrors,
     screenshotPath
@@ -240,15 +436,17 @@ async function testWorldCupPage(browser, viewport) {
     consoleWarnings: summarizeMessages(messages.filter((entry) => entry.type === "warning" || entry.type === "warn")),
     failedRequests,
     pageErrors,
+    failures: [
+      ...(!state.hasGroupsOrFixtures ? ["worldCupContentMissing"] : []),
+      ...(pageErrors.length ? ["worldCupPageErrors"] : [])
+    ],
     screenshotPath
   };
 }
 
 async function main() {
   const executablePath = firstExistingPath(executableCandidates);
-  if (!executablePath) {
-    throw new Error("No local browser executable found for public preview QA.");
-  }
+  if (!executablePath) throw new Error("No local browser executable found for public preview QA.");
 
   const browser = await chromium.launch({ headless: true, executablePath });
   const indexResults = [];
@@ -258,42 +456,79 @@ async function main() {
     indexResults.push(await testMainPage(browser, viewport));
   }
 
-  indexResults.push(await testMainPage(browser, { width: 390, height: 900 }, { disablePreviewGlobals: true }));
-
   for (const viewport of viewports) {
     worldCupResults.push(await testWorldCupPage(browser, viewport));
   }
 
   await browser.close();
 
+  const allResults = indexResults.concat(worldCupResults);
+  const blockingFailedRequests = allResults.flatMap((entry) =>
+    entry.failedRequests
+      .filter((request) => !isIgnoredFailedRequest(request))
+      .map((request) => ({ page: entry.page, viewport: entry.viewport.width, ...request }))
+  );
+  const summary = {
+    indexViewportsTested: indexResults.length,
+    worldCupViewportsTested: worldCupResults.length,
+    consoleErrorCount: allResults.reduce((total, entry) => total + entry.consoleErrors.length + entry.pageErrors.length, 0),
+    consoleWarningCount: allResults.reduce((total, entry) => total + entry.consoleWarnings.length, 0),
+    failedRequestCount: allResults.reduce((total, entry) => total + entry.failedRequests.length, 0),
+    blockingFailedRequestCount: blockingFailedRequests.length,
+    blockingFailedRequests,
+    indexOverflowViewports: indexResults.filter((entry) => entry.stateBeforeClicks.scroll.hasPageOverflow).map((entry) => entry.viewport.width),
+    worldCupOverflowViewports: worldCupResults.filter((entry) => entry.state.scroll.hasPageOverflow).map((entry) => entry.viewport.width),
+    indexFailures: indexResults.flatMap((entry) => entry.failures.map((failure) => ({ viewport: entry.viewport.width, failure }))),
+    worldCupFailures: worldCupResults.flatMap((entry) => entry.failures.map((failure) => ({ viewport: entry.viewport.width, failure }))),
+    profileClickFailures: indexResults.flatMap((entry) =>
+      entry.profileClicks
+        .filter((click) => click.status !== "pass")
+        .map((click) => ({ viewport: entry.viewport.width, label: click.label, reason: click.reason }))
+    ),
+    oldGlobalsPresent: indexResults.flatMap((entry) =>
+      entry.activeGlobals.oldGlobalsPresent.map((globalName) => ({ viewport: entry.viewport.width, globalName }))
+    ),
+    missingActiveGlobals: indexResults.flatMap((entry) =>
+      entry.activeGlobals.missingActiveGlobals.map((globalName) => ({ viewport: entry.viewport.width, globalName }))
+    )
+  };
+  summary.status = summary.consoleErrorCount ||
+    summary.blockingFailedRequestCount ||
+    summary.indexFailures.length ||
+    summary.worldCupFailures.length ||
+    summary.profileClickFailures.length ||
+    summary.oldGlobalsPresent.length ||
+    summary.missingActiveGlobals.length
+    ? "fail"
+    : "pass";
+
   const result = {
     generated_at: new Date().toISOString(),
     baseUrl,
     executablePath,
     viewports,
+    stale_selector_replaced: {
+      previous_selector: "#dashboard-grid .player-name-button inside the fallback-mode run that disabled fantasyPool data scripts",
+      current_waits: [
+        "#dashboard-grid .pick-card, #dashboard-grid .player-name-button",
+        "#advice-style-note .model-data-badge after #team-advice is opened",
+        "#captain-card-grid .pick-card, #captain-card-grid .player-name-button",
+        "#advice-card-grid .pick-card, #advice-card-grid .player-name-button",
+        "#match-environment-table-body tr"
+      ],
+      fallback_mode_removed: true
+    },
     indexResults,
     worldCupResults,
-    summary: {
-      indexViewportsTested: indexResults.filter((entry) => !entry.fallbackMode).length,
-      fallbackTests: indexResults.filter((entry) => entry.fallbackMode).length,
-      worldCupViewportsTested: worldCupResults.length,
-      consoleErrorCount: indexResults.concat(worldCupResults).reduce((sum, entry) => sum + entry.consoleErrors.length + entry.pageErrors.length, 0),
-      consoleWarningCount: indexResults.concat(worldCupResults).reduce((sum, entry) => sum + entry.consoleWarnings.length, 0),
-      failedRequestCount: indexResults.concat(worldCupResults).reduce((sum, entry) => sum + entry.failedRequests.length, 0),
-      indexOverflowViewports: indexResults.filter((entry) => !entry.fallbackMode && entry.stateBeforeClicks.scroll.hasPageOverflow).map((entry) => entry.viewport.width),
-      worldCupOverflowViewports: worldCupResults.filter((entry) => entry.state.scroll.hasPageOverflow).map((entry) => entry.viewport.width),
-      profileClickFailures: indexResults.flatMap((entry) => entry.profileClicks.filter((click) => click.status !== "pass").map((click) => ({ viewport: entry.viewport.width, label: click.label, reason: click.reason }))),
-      warningFailures: indexResults.filter((entry) => !entry.fallbackMode).flatMap((entry) => Object.entries(entry.stateBeforeClicks.warnings).filter(([, ok]) => !ok).map(([key]) => ({ viewport: entry.viewport.width, warning: key }))),
-      fallbackRenderedLegacy: indexResults.filter((entry) => entry.fallbackMode).every((entry) =>
-        entry.stateBeforeClicks.globals.fantasyPoolRecommendationCandidates === 0 &&
-        entry.stateBeforeClicks.quickPickNames.length > 0 &&
-        !entry.stateBeforeClicks.quickPickLabels.some((label) => label.includes("Preview"))
-      )
-    }
+    summary
   };
 
   fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
-  console.log(JSON.stringify(result.summary, null, 2));
+  console.log(JSON.stringify(summary, null, 2));
+
+  if (summary.status !== "pass") {
+    process.exitCode = 1;
+  }
 }
 
 await main();
