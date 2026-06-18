@@ -1,13 +1,13 @@
 # Official Fantasy Data Update Check v1
 
-Generated: 2026-06-18T11:41:40.819Z
+Generated: 2026-06-18T12:07:44.613Z
 
 ## Summary
 
 | Item | Result |
 | --- | --- |
 | Official data changed | yes |
-| Rerun decision | official_player_import_rerun_needed |
+| Rerun decision | minor_change_no_model_rerun_needed |
 | Model outputs updated | no |
 | Final squad status | still_blocked_no_source_backed_final_squads |
 | Fetch failures | 0 |
@@ -16,7 +16,7 @@ Generated: 2026-06-18T11:41:40.819Z
 
 | Source | HTTP | Parsed | Last-Modified | Bytes |
 | --- | --- | --- | --- | --- |
-| fifaFantasyPlayersJson | 200 | yes | 2026-06-18T11:04:22Z | 1165035 |
+| fifaFantasyPlayersJson | 200 | yes | 2026-06-18T12:04:22Z | 1165055 |
 | fifaFantasySquadsJson | 200 | yes | 2026-06-18T04:02:03Z | 6430 |
 | fifaFantasyHelpPagesJson | 200 | yes | 2026-05-29T09:05:39Z | 179308 |
 | fifaFantasyRoundsJson | 200 | yes | 2026-06-18T10:01:03Z | 87297 |
@@ -36,14 +36,14 @@ Generated: 2026-06-18T11:41:40.819Z
 | Rules source/header changes | 0 |
 | Deadline/round changes | 0 |
 | Clean Sheet Shield text changes | 0 |
-| Ownership percent changes | 195 |
+| Ownership percent changes | 41 |
 
 ## Recommendation
 
-Decision: `official_player_import_rerun_needed`
+Decision: `minor_change_no_model_rerun_needed`
 
 Reasons:
-- Official fantasy player import fields changed.
+- Only non-model source headers or ownership-style values changed.
 
 This script is reporting-only. It does not import players, import squads, import rules, rerun models, update browser-ready files, or change Team Builder.
 

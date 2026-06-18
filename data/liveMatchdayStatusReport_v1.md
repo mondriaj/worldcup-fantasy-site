@@ -1,12 +1,12 @@
 # Live Matchday Status Report v1
 
-Generated: 2026-06-18T11:41:50.457Z
+Generated: 2026-06-18T12:07:09.537Z
 
 Status: static live/post-match support import. Model predictions, PELE data, recommendations, projections, finance metrics, Team Builder weights, and website formulas were not rerun by this script.
 
 ## Sources
 
-- fifaFantasyPlayersJson: ok, last modified 2026-06-18T11:04:22Z
+- fifaFantasyPlayersJson: ok, last modified 2026-06-18T12:04:22Z
 - fifaFantasySquadsJson: ok, last modified 2026-06-18T04:02:03Z
 - fifaFantasyRoundsJson: ok, last modified 2026-06-18T10:01:03Z
 
@@ -52,7 +52,7 @@ Players with total points: 753
 Players with last-round points: 753
 Players with round-points maps: 753
 Players with unfinished-fixture points suppressed: 0
-Ownership changes >= 0.1 percentage points: 261
+Ownership changes >= 0.1 percentage points: 65
 
 Player status counts:
 
@@ -66,14 +66,16 @@ matchStatus counts:
 
 ## Material Change Check
 
-Update recommendation: `official_player_import_needed`
-Secondary recommendations: `projection_rebuild_needed`, `recommendation_rerun_needed`
+Update recommendation: `display_only_refresh`
+Secondary recommendations: none
 Model rerun needed now: no
 Score prediction rerun needed now: no
 
 Reasons:
 
-- player pool/status/price/position/team fields changed compared with local official import
+- final fixture score/status changes are display/support data only
+- final actual fantasy points are display/support data only
+- ownership changes do not trigger model reruns
 
 Material change summary:
 

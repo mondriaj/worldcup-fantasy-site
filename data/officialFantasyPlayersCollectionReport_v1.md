@@ -1,11 +1,11 @@
 # Official Fantasy Players Live Collection v1
 
-Generated: 2026-06-17T22:43:50.259Z
+Generated: 2026-06-18T12:03:38.614Z
 
 ## Sources
 
-- Players: https://play.fifa.com/json/fantasy/players.json (200, Last-Modified Wed, 17 Jun 2026 22:04:22 GMT)
-- Squads: https://play.fifa.com/json/fantasy/squads.json (200, Last-Modified Wed, 13 May 2026 10:08:23 GMT)
+- Players: https://play.fifa.com/json/fantasy/players.json (200, Last-Modified Thu, 18 Jun 2026 11:04:22 GMT)
+- Squads: https://play.fifa.com/json/fantasy/squads.json (200, Last-Modified Thu, 18 Jun 2026 04:02:03 GMT)
 
 ## Output
 

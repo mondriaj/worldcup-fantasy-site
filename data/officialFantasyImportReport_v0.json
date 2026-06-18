@@ -1,7 +1,7 @@
 {
   "schema_version": "official_fantasy_import_report_v0",
-  "generated_at": "2026-06-17",
-  "source_checked": "2026-06-17",
+  "generated_at": "2026-06-18",
+  "source_checked": "2026-06-18",
   "status": "imported_needs_manual_review",
   "input_file": "data/imports/officialFantasyPlayers_live_v1.json",
   "current_player_rows_checked": 1339,

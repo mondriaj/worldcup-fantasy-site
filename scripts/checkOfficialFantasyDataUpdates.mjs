@@ -140,6 +140,33 @@ function extractSourceNotesLastModified(rows) {
   };
 }
 
+async function extractLocalPlayerSourceLastModified(localPlayersData, fallbackCsvText) {
+  const fromCsv = extractSourceNotesLastModified(parseDelimited(fallbackCsvText));
+  const inputFile = localPlayersData?.input_file;
+
+  if (!hasValue(inputFile) || !String(inputFile).toLowerCase().endsWith(".json")) {
+    return fromCsv;
+  }
+
+  try {
+    const inputData = await readJson(inputFile);
+    const fromInput = {};
+
+    for (const source of inputData.sources || []) {
+      if (hasValue(source.source_id) && hasValue(source.last_modified)) {
+        fromInput[source.source_id] = normalizeLastModified(source.last_modified);
+      }
+    }
+
+    return {
+      ...fromCsv,
+      ...fromInput
+    };
+  } catch {
+    return fromCsv;
+  }
+}
+
 async function fetchJsonSource(source) {
   const started = Date.now();
   try {
@@ -951,9 +978,8 @@ async function main() {
   const localPlayers = rowsFromJson(localPlayersData, ["officialFantasyPlayers", "players", "data"]);
   const localSquadRows = rowsFromJson(localSquadsData, ["officialSquads", "squads", "players", "data"]);
   const localRules = localRulesData.officialFantasyRules || localRulesData;
-  const localImportRows = parseDelimited(localFantasyPlayersCsv);
   const localSourceLastModified = {
-    ...extractSourceNotesLastModified(localImportRows)
+    ...(await extractLocalPlayerSourceLastModified(localPlayersData, localFantasyPlayersCsv))
   };
   for (const item of localRules.sourceMetadata || []) {
     localSourceLastModified[item.source_id] = normalizeLastModified(item.last_modified);
