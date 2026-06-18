@@ -1,0 +1,756 @@
+{
+  "schema_version": "score_prediction_qa_v4_md2",
+  "generated_at": "2026-06-18T12:46:53.517Z",
+  "status": "pass",
+  "modelVersion": "score-v4-md2-pele-md1-calibrated",
+  "summary": {
+    "fixture_predictions": 72,
+    "team_fixture_predictions": 144,
+    "md1_fixture_count": 24,
+    "md2_fixture_count": 24,
+    "md3_fixture_count": 24,
+    "globalGoalMultiplier": 1.1404,
+    "cleanSheetCalibrationUsed": true,
+    "wdlConfidenceShrinkUsed": true,
+    "top_10_largest_xg_changes": [
+      {
+        "fixture_id": "fwc2026-m042",
+        "match_number": 42,
+        "fixture": "France vs Iraq",
+        "matchday": "md2",
+        "prior_total_xg": 3.468,
+        "new_total_xg": 5.091,
+        "total_xg_delta": 1.623,
+        "home_xg_delta": 1.417,
+        "away_xg_delta": 0.206
+      },
+      {
+        "fixture_id": "fwc2026-m061",
+        "match_number": 61,
+        "fixture": "Norway vs France",
+        "matchday": "md3",
+        "prior_total_xg": 2.949,
+        "new_total_xg": 4.56,
+        "total_xg_delta": 1.611,
+        "home_xg_delta": 0.485,
+        "away_xg_delta": 1.126
+      },
+      {
+        "fixture_id": "fwc2026-m041",
+        "match_number": 41,
+        "fixture": "Norway vs Senegal",
+        "matchday": "md2",
+        "prior_total_xg": 2.579,
+        "new_total_xg": 3.964,
+        "total_xg_delta": 1.385,
+        "home_xg_delta": 0.771,
+        "away_xg_delta": 0.614
+      },
+      {
+        "fixture_id": "fwc2026-m062",
+        "match_number": 62,
+        "fixture": "Senegal vs Iraq",
+        "matchday": "md3",
+        "prior_total_xg": 2.614,
+        "new_total_xg": 3.971,
+        "total_xg_delta": 1.357,
+        "home_xg_delta": 1.141,
+        "away_xg_delta": 0.216
+      },
+      {
+        "fixture_id": "fwc2026-m036",
+        "match_number": 36,
+        "fixture": "Tunisia vs Japan",
+        "matchday": "md2",
+        "prior_total_xg": 2.473,
+        "new_total_xg": 3.819,
+        "total_xg_delta": 1.346,
+        "home_xg_delta": 0.118,
+        "away_xg_delta": 1.228
+      },
+      {
+        "fixture_id": "fwc2026-m058",
+        "match_number": 58,
+        "fixture": "Tunisia vs Netherlands",
+        "matchday": "md3",
+        "prior_total_xg": 2.881,
+        "new_total_xg": 4.124,
+        "total_xg_delta": 1.243,
+        "home_xg_delta": 0.174,
+        "away_xg_delta": 1.069
+      },
+      {
+        "fixture_id": "fwc2026-m055",
+        "match_number": 55,
+        "fixture": "Curaçao vs Côte d'Ivoire",
+        "matchday": "md3",
+        "prior_total_xg": 2.46,
+        "new_total_xg": 3.697,
+        "total_xg_delta": 1.237,
+        "home_xg_delta": 0.062,
+        "away_xg_delta": 1.175
+      },
+      {
+        "fixture_id": "fwc2026-m057",
+        "match_number": 57,
+        "fixture": "Japan vs Sweden",
+        "matchday": "md3",
+        "prior_total_xg": 2.721,
+        "new_total_xg": 3.929,
+        "total_xg_delta": 1.208,
+        "home_xg_delta": 0.822,
+        "away_xg_delta": 0.386
+      },
+      {
+        "fixture_id": "fwc2026-m067",
+        "match_number": 67,
+        "fixture": "Panama vs England",
+        "matchday": "md3",
+        "prior_total_xg": 2.977,
+        "new_total_xg": 4.115,
+        "total_xg_delta": 1.138,
+        "home_xg_delta": 0.061,
+        "away_xg_delta": 1.077
+      },
+      {
+        "fixture_id": "fwc2026-m056",
+        "match_number": 56,
+        "fixture": "Ecuador vs Germany",
+        "matchday": "md3",
+        "prior_total_xg": 2.889,
+        "new_total_xg": 4.024,
+        "total_xg_delta": 1.135,
+        "home_xg_delta": 0.194,
+        "away_xg_delta": 0.941
+      }
+    ],
+    "top_10_attack_upgrades": [
+      {
+        "team": "Germany",
+        "team_id": "germany",
+        "opponent_in_md1": "Curaçao",
+        "fixture_key": "fwc2026-m010",
+        "predicted_gf": 3.045,
+        "actual_gf": 7,
+        "predicted_ga": 0.35,
+        "actual_ga": 1,
+        "attack_residual": 3.955,
+        "defense_residual": 0.65,
+        "raw_attack_residual": 0.7208,
+        "raw_defense_weakness_residual": 0.4818,
+        "attack_multiplier": 1.18,
+        "defense_weakness_multiplier": 1.18,
+        "uncertainty_flag": "moderate_md1_residual",
+        "explanation": "attack upgraded after MD1; defense risk increased after MD1; large MD1 residual kept uncertain"
+      },
+      {
+        "team": "Sweden",
+        "team_id": "sweden",
+        "opponent_in_md1": "Tunisia",
+        "fixture_key": "fwc2026-m012",
+        "predicted_gf": 1.571,
+        "actual_gf": 5,
+        "predicted_ga": 0.668,
+        "actual_ga": 1,
+        "attack_residual": 3.429,
+        "defense_residual": 0.332,
+        "raw_attack_residual": 0.9202,
+        "raw_defense_weakness_residual": 0.2173,
+        "attack_multiplier": 1.18,
+        "defense_weakness_multiplier": 1.079,
+        "uncertainty_flag": "extreme_md1_residual",
+        "explanation": "attack upgraded after MD1; large MD1 residual kept uncertain"
+      },
+      {
+        "team": "USA",
+        "team_id": "usa",
+        "opponent_in_md1": "Paraguay",
+        "fixture_key": "fwc2026-m004",
+        "predicted_gf": 0.947,
+        "actual_gf": 4,
+        "predicted_ga": 1.368,
+        "actual_ga": 1,
+        "attack_residual": 3.053,
+        "defense_residual": -0.368,
+        "raw_attack_residual": 1.0486,
+        "raw_defense_weakness_residual": -0.196,
+        "attack_multiplier": 1.18,
+        "defense_weakness_multiplier": 0.9337,
+        "uncertainty_flag": "extreme_md1_residual",
+        "explanation": "attack upgraded after MD1; defense risk eased after MD1; large MD1 residual kept uncertain"
+      },
+      {
+        "team": "England",
+        "team_id": "england",
+        "opponent_in_md1": "Croatia",
+        "fixture_key": "fwc2026-m022",
+        "predicted_gf": 1.697,
+        "actual_gf": 4,
+        "predicted_ga": 0.639,
+        "actual_ga": 2,
+        "attack_residual": 2.303,
+        "defense_residual": 1.361,
+        "raw_attack_residual": 0.6733,
+        "raw_defense_weakness_residual": 0.7013,
+        "attack_multiplier": 1.18,
+        "defense_weakness_multiplier": 1.18,
+        "uncertainty_flag": "moderate_md1_residual",
+        "explanation": "attack upgraded after MD1; defense risk increased after MD1; large MD1 residual kept uncertain"
+      },
+      {
+        "team": "Australia",
+        "team_id": "australia",
+        "opponent_in_md1": "Türkiye",
+        "fixture_key": "fwc2026-m006",
+        "predicted_gf": 0.604,
+        "actual_gf": 2,
+        "predicted_ga": 1.756,
+        "actual_ga": 0,
+        "attack_residual": 1.396,
+        "defense_residual": -1.756,
+        "raw_attack_residual": 0.7278,
+        "raw_defense_weakness_residual": -1.2552,
+        "attack_multiplier": 1.18,
+        "defense_weakness_multiplier": 0.86,
+        "uncertainty_flag": "moderate_md1_residual",
+        "explanation": "attack upgraded after MD1; defense risk eased after MD1; large MD1 residual kept uncertain"
+      },
+      {
+        "team": "Croatia",
+        "team_id": "croatia",
+        "opponent_in_md1": "England",
+        "fixture_key": "fwc2026-m022",
+        "predicted_gf": 0.639,
+        "actual_gf": 2,
+        "predicted_ga": 1.697,
+        "actual_ga": 4,
+        "attack_residual": 1.361,
+        "defense_residual": 2.303,
+        "raw_attack_residual": 0.7013,
+        "raw_defense_weakness_residual": 0.6733,
+        "attack_multiplier": 1.18,
+        "defense_weakness_multiplier": 1.18,
+        "uncertainty_flag": "moderate_md1_residual",
+        "explanation": "attack upgraded after MD1; defense risk increased after MD1; large MD1 residual kept uncertain"
+      },
+      {
+        "team": "New Zealand",
+        "team_id": "new-zealand",
+        "opponent_in_md1": "IR Iran",
+        "fixture_key": "fwc2026-m015",
+        "predicted_gf": 0.695,
+        "actual_gf": 2,
+        "predicted_ga": 1.294,
+        "actual_ga": 2,
+        "attack_residual": 1.305,
+        "defense_residual": 0.706,
+        "raw_attack_residual": 0.6604,
+        "raw_defense_weakness_residual": 0.3031,
+        "attack_multiplier": 1.18,
+        "defense_weakness_multiplier": 1.1119,
+        "uncertainty_flag": "moderate_md1_residual",
+        "explanation": "attack upgraded after MD1; defense risk increased after MD1; large MD1 residual kept uncertain"
+      },
+      {
+        "team": "Japan",
+        "team_id": "japan",
+        "opponent_in_md1": "Netherlands",
+        "fixture_key": "fwc2026-m011",
+        "predicted_gf": 0.973,
+        "actual_gf": 2,
+        "predicted_ga": 1.578,
+        "actual_ga": 2,
+        "attack_residual": 1.027,
+        "defense_residual": 0.422,
+        "raw_attack_residual": 0.4786,
+        "raw_defense_weakness_residual": 0.17,
+        "attack_multiplier": 1.18,
+        "defense_weakness_multiplier": 1.0613,
+        "uncertainty_flag": "normal",
+        "explanation": "attack upgraded after MD1"
+      },
+      {
+        "team": "Morocco",
+        "team_id": "morocco",
+        "opponent_in_md1": "Brazil",
+        "fixture_key": "fwc2026-m007",
+        "predicted_gf": 0.35,
+        "actual_gf": 1,
+        "predicted_ga": 1.605,
+        "actual_ga": 1,
+        "attack_residual": 0.65,
+        "defense_residual": -0.605,
+        "raw_attack_residual": 0.4818,
+        "raw_defense_weakness_residual": -0.3045,
+        "attack_multiplier": 1.18,
+        "defense_weakness_multiplier": 0.8989,
+        "uncertainty_flag": "normal",
+        "explanation": "attack upgraded after MD1; defense risk eased after MD1"
+      },
+      {
+        "team": "Qatar",
+        "team_id": "qatar",
+        "opponent_in_md1": "Switzerland",
+        "fixture_key": "fwc2026-m008",
+        "predicted_gf": 0.35,
+        "actual_gf": 1,
+        "predicted_ga": 2.65,
+        "actual_ga": 1,
+        "attack_residual": 0.65,
+        "defense_residual": -1.65,
+        "raw_attack_residual": 0.4818,
+        "raw_defense_weakness_residual": -0.6783,
+        "attack_multiplier": 1.18,
+        "defense_weakness_multiplier": 0.86,
+        "uncertainty_flag": "normal",
+        "explanation": "attack upgraded after MD1; defense risk eased after MD1"
+      }
+    ],
+    "top_10_defense_risk_upgrades": [
+      {
+        "team": "Curaçao",
+        "team_id": "curacao",
+        "opponent_in_md1": "Germany",
+        "fixture_key": "fwc2026-m010",
+        "predicted_gf": 0.35,
+        "actual_gf": 1,
+        "predicted_ga": 3.045,
+        "actual_ga": 7,
+        "attack_residual": 0.65,
+        "defense_residual": 3.955,
+        "raw_attack_residual": 0.4818,
+        "raw_defense_weakness_residual": 0.7208,
+        "attack_multiplier": 1.18,
+        "defense_weakness_multiplier": 1.18,
+        "uncertainty_flag": "moderate_md1_residual",
+        "explanation": "attack upgraded after MD1; defense risk increased after MD1; large MD1 residual kept uncertain"
+      },
+      {
+        "team": "Tunisia",
+        "team_id": "tunisia",
+        "opponent_in_md1": "Sweden",
+        "fixture_key": "fwc2026-m012",
+        "predicted_gf": 0.668,
+        "actual_gf": 1,
+        "predicted_ga": 1.571,
+        "actual_ga": 5,
+        "attack_residual": 0.332,
+        "defense_residual": 3.429,
+        "raw_attack_residual": 0.2173,
+        "raw_defense_weakness_residual": 0.9202,
+        "attack_multiplier": 1.079,
+        "defense_weakness_multiplier": 1.18,
+        "uncertainty_flag": "extreme_md1_residual",
+        "explanation": "defense risk increased after MD1; large MD1 residual kept uncertain"
+      },
+      {
+        "team": "Paraguay",
+        "team_id": "paraguay",
+        "opponent_in_md1": "USA",
+        "fixture_key": "fwc2026-m004",
+        "predicted_gf": 1.368,
+        "actual_gf": 1,
+        "predicted_ga": 0.947,
+        "actual_ga": 4,
+        "attack_residual": -0.368,
+        "defense_residual": 3.053,
+        "raw_attack_residual": -0.196,
+        "raw_defense_weakness_residual": 1.0486,
+        "attack_multiplier": 0.9337,
+        "defense_weakness_multiplier": 1.18,
+        "uncertainty_flag": "extreme_md1_residual",
+        "explanation": "attack cooled after MD1; defense risk increased after MD1; large MD1 residual kept uncertain"
+      },
+      {
+        "team": "Croatia",
+        "team_id": "croatia",
+        "opponent_in_md1": "England",
+        "fixture_key": "fwc2026-m022",
+        "predicted_gf": 0.639,
+        "actual_gf": 2,
+        "predicted_ga": 1.697,
+        "actual_ga": 4,
+        "attack_residual": 1.361,
+        "defense_residual": 2.303,
+        "raw_attack_residual": 0.7013,
+        "raw_defense_weakness_residual": 0.6733,
+        "attack_multiplier": 1.18,
+        "defense_weakness_multiplier": 1.18,
+        "uncertainty_flag": "moderate_md1_residual",
+        "explanation": "attack upgraded after MD1; defense risk increased after MD1; large MD1 residual kept uncertain"
+      },
+      {
+        "team": "Türkiye",
+        "team_id": "turkiye",
+        "opponent_in_md1": "Australia",
+        "fixture_key": "fwc2026-m006",
+        "predicted_gf": 1.756,
+        "actual_gf": 0,
+        "predicted_ga": 0.604,
+        "actual_ga": 2,
+        "attack_residual": -1.756,
+        "defense_residual": 1.396,
+        "raw_attack_residual": -1.2552,
+        "raw_defense_weakness_residual": 0.7278,
+        "attack_multiplier": 0.86,
+        "defense_weakness_multiplier": 1.18,
+        "uncertainty_flag": "moderate_md1_residual",
+        "explanation": "attack cooled after MD1; defense risk increased after MD1; large MD1 residual kept uncertain"
+      },
+      {
+        "team": "England",
+        "team_id": "england",
+        "opponent_in_md1": "Croatia",
+        "fixture_key": "fwc2026-m022",
+        "predicted_gf": 1.697,
+        "actual_gf": 4,
+        "predicted_ga": 0.639,
+        "actual_ga": 2,
+        "attack_residual": 2.303,
+        "defense_residual": 1.361,
+        "raw_attack_residual": 0.6733,
+        "raw_defense_weakness_residual": 0.7013,
+        "attack_multiplier": 1.18,
+        "defense_weakness_multiplier": 1.18,
+        "uncertainty_flag": "moderate_md1_residual",
+        "explanation": "attack upgraded after MD1; defense risk increased after MD1; large MD1 residual kept uncertain"
+      },
+      {
+        "team": "IR Iran",
+        "team_id": "ir-iran",
+        "opponent_in_md1": "New Zealand",
+        "fixture_key": "fwc2026-m015",
+        "predicted_gf": 1.294,
+        "actual_gf": 2,
+        "predicted_ga": 0.695,
+        "actual_ga": 2,
+        "attack_residual": 0.706,
+        "defense_residual": 1.305,
+        "raw_attack_residual": 0.3031,
+        "raw_defense_weakness_residual": 0.6604,
+        "attack_multiplier": 1.1119,
+        "defense_weakness_multiplier": 1.18,
+        "uncertainty_flag": "moderate_md1_residual",
+        "explanation": "attack upgraded after MD1; defense risk increased after MD1; large MD1 residual kept uncertain"
+      },
+      {
+        "team": "Netherlands",
+        "team_id": "netherlands",
+        "opponent_in_md1": "Japan",
+        "fixture_key": "fwc2026-m011",
+        "predicted_gf": 1.578,
+        "actual_gf": 2,
+        "predicted_ga": 0.973,
+        "actual_ga": 2,
+        "attack_residual": 0.422,
+        "defense_residual": 1.027,
+        "raw_attack_residual": 0.17,
+        "raw_defense_weakness_residual": 0.4786,
+        "attack_multiplier": 1.0613,
+        "defense_weakness_multiplier": 1.18,
+        "uncertainty_flag": "normal",
+        "explanation": "defense risk increased after MD1"
+      },
+      {
+        "team": "Brazil",
+        "team_id": "brazil",
+        "opponent_in_md1": "Morocco",
+        "fixture_key": "fwc2026-m007",
+        "predicted_gf": 1.605,
+        "actual_gf": 1,
+        "predicted_ga": 0.35,
+        "actual_ga": 1,
+        "attack_residual": -0.605,
+        "defense_residual": 0.65,
+        "raw_attack_residual": -0.3045,
+        "raw_defense_weakness_residual": 0.4818,
+        "attack_multiplier": 0.8989,
+        "defense_weakness_multiplier": 1.18,
+        "uncertainty_flag": "normal",
+        "explanation": "attack cooled after MD1; defense risk increased after MD1"
+      },
+      {
+        "team": "Switzerland",
+        "team_id": "switzerland",
+        "opponent_in_md1": "Qatar",
+        "fixture_key": "fwc2026-m008",
+        "predicted_gf": 2.65,
+        "actual_gf": 1,
+        "predicted_ga": 0.35,
+        "actual_ga": 1,
+        "attack_residual": -1.65,
+        "defense_residual": 0.65,
+        "raw_attack_residual": -0.6783,
+        "raw_defense_weakness_residual": 0.4818,
+        "attack_multiplier": 0.86,
+        "defense_weakness_multiplier": 1.18,
+        "uncertainty_flag": "normal",
+        "explanation": "attack cooled after MD1; defense risk increased after MD1"
+      }
+    ],
+    "top_10_confidence_shrunk_fixtures": [
+      {
+        "fixture_id": "fwc2026-m070",
+        "match_number": 70,
+        "fixture": "Jordan vs Argentina",
+        "matchday": "md3",
+        "wdl_confidence_shrink": 0.1133,
+        "max_probability_shift": 0.0702,
+        "favorite": "Argentina",
+        "favorite_win_probability": 0.883
+      },
+      {
+        "fixture_id": "fwc2026-m042",
+        "match_number": 42,
+        "fixture": "France vs Iraq",
+        "matchday": "md2",
+        "wdl_confidence_shrink": 0.1133,
+        "max_probability_shift": 0.0697,
+        "favorite": "France",
+        "favorite_win_probability": 0.8787
+      },
+      {
+        "fixture_id": "fwc2026-m067",
+        "match_number": 67,
+        "fixture": "Panama vs England",
+        "matchday": "md3",
+        "wdl_confidence_shrink": 0.1133,
+        "max_probability_shift": 0.0671,
+        "favorite": "England",
+        "favorite_win_probability": 0.8584
+      },
+      {
+        "fixture_id": "fwc2026-m043",
+        "match_number": 43,
+        "fixture": "Argentina vs Austria",
+        "matchday": "md2",
+        "wdl_confidence_shrink": 0.1133,
+        "max_probability_shift": 0.0666,
+        "favorite": "Argentina",
+        "favorite_win_probability": 0.8542
+      },
+      {
+        "fixture_id": "fwc2026-m058",
+        "match_number": 58,
+        "fixture": "Tunisia vs Netherlands",
+        "matchday": "md3",
+        "wdl_confidence_shrink": 0.1133,
+        "max_probability_shift": 0.0647,
+        "favorite": "Netherlands",
+        "favorite_win_probability": 0.8395
+      },
+      {
+        "fixture_id": "fwc2026-m045",
+        "match_number": 45,
+        "fixture": "England vs Ghana",
+        "matchday": "md2",
+        "wdl_confidence_shrink": 0.1133,
+        "max_probability_shift": 0.0637,
+        "favorite": "England",
+        "favorite_win_probability": 0.8322
+      },
+      {
+        "fixture_id": "fwc2026-m055",
+        "match_number": 55,
+        "fixture": "Curaçao vs Côte d'Ivoire",
+        "matchday": "md3",
+        "wdl_confidence_shrink": 0.1133,
+        "max_probability_shift": 0.0637,
+        "favorite": "Côte d'Ivoire",
+        "favorite_win_probability": 0.8321
+      },
+      {
+        "fixture_id": "fwc2026-m036",
+        "match_number": 36,
+        "fixture": "Tunisia vs Japan",
+        "matchday": "md2",
+        "wdl_confidence_shrink": 0.1133,
+        "max_probability_shift": 0.0636,
+        "favorite": "Japan",
+        "favorite_win_probability": 0.8307
+      },
+      {
+        "fixture_id": "fwc2026-m062",
+        "match_number": 62,
+        "fixture": "Senegal vs Iraq",
+        "matchday": "md3",
+        "wdl_confidence_shrink": 0.1133,
+        "max_probability_shift": 0.0623,
+        "favorite": "Senegal",
+        "favorite_win_probability": 0.8212
+      },
+      {
+        "fixture_id": "fwc2026-m034",
+        "match_number": 34,
+        "fixture": "Ecuador vs Curaçao",
+        "matchday": "md2",
+        "wdl_confidence_shrink": 0.1133,
+        "max_probability_shift": 0.0593,
+        "favorite": "Ecuador",
+        "favorite_win_probability": 0.7975
+      }
+    ]
+  },
+  "numeric_ranges": {
+    "home_expected_goals": {
+      "min": 0.35,
+      "max": 4.5,
+      "average": 1.666
+    },
+    "away_expected_goals": {
+      "min": 0.339,
+      "max": 4.289,
+      "average": 1.367
+    },
+    "total_expected_goals": {
+      "min": 1.955,
+      "max": 5.091,
+      "average": 3.033
+    },
+    "home_clean_sheet_probability": {
+      "min": 0.0103,
+      "max": 0.7047,
+      "average": 0.301
+    },
+    "away_clean_sheet_probability": {
+      "min": 0.0084,
+      "max": 0.7047,
+      "average": 0.2365
+    }
+  },
+  "checks": [
+    {
+      "id": "fixture_coverage_72",
+      "status": "pass",
+      "severity": "error",
+      "detail": "72/72 fixtures; 72 unique fixture IDs."
+    },
+    {
+      "id": "matchday_coverage",
+      "status": "pass",
+      "severity": "error",
+      "detail": "MD1=24, MD2=24, MD3=24."
+    },
+    {
+      "id": "team_fixture_coverage",
+      "status": "pass",
+      "severity": "error",
+      "detail": "144/144 team-fixture rows."
+    },
+    {
+      "id": "md1_prior_fields_retained",
+      "status": "pass",
+      "severity": "error",
+      "detail": "MD1 rows retain prior prediction fields and are marked uncalibrated."
+    },
+    {
+      "id": "no_nan_or_infinity",
+      "status": "pass",
+      "severity": "error",
+      "detail": "No NaN or Infinity."
+    },
+    {
+      "id": "team_xg_bounds",
+      "status": "pass",
+      "severity": "error",
+      "detail": "xG range {\"min\":0.339,\"max\":4.5,\"average\":1.517}."
+    },
+    {
+      "id": "total_xg_reasonable",
+      "status": "pass",
+      "severity": "error",
+      "detail": "total xG range {\"min\":1.955,\"max\":5.091,\"average\":3.033}."
+    },
+    {
+      "id": "wdl_probability_bounds",
+      "status": "pass",
+      "severity": "error",
+      "detail": "W/D/L probabilities are between 0 and 1."
+    },
+    {
+      "id": "wdl_probability_sum",
+      "status": "pass",
+      "severity": "error",
+      "detail": "W/D/L probabilities sum to approximately 1."
+    },
+    {
+      "id": "clean_sheet_probability_bounds",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Clean-sheet probabilities are between 0 and 1."
+    },
+    {
+      "id": "global_goal_multiplier_cap",
+      "status": "pass",
+      "severity": "error",
+      "detail": "globalGoalMultiplier=1.1404."
+    },
+    {
+      "id": "team_attack_multiplier_cap",
+      "status": "pass",
+      "severity": "error",
+      "detail": "All team attack multipliers are within cap."
+    },
+    {
+      "id": "team_defense_multiplier_cap",
+      "status": "pass",
+      "severity": "error",
+      "detail": "All team defense weakness multipliers are within cap."
+    },
+    {
+      "id": "teams_without_md1_neutral",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Every team has MD1 data; no neutral fallback teams needed."
+    },
+    {
+      "id": "top_change_lists_present",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Top-10 calibration lists are present."
+    },
+    {
+      "id": "browser_globals_same_shape",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Output preserves active browser data shape."
+    },
+    {
+      "id": "pele_not_rebuilt",
+      "status": "pass",
+      "severity": "error",
+      "detail": "PELE/teamQuality is retained as prior, not rebuilt."
+    },
+    {
+      "id": "final_squads_not_source_backed",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Final squads are not claimed source-backed."
+    },
+    {
+      "id": "ownership_not_model_signal",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Ownership changes are not used as signal."
+    },
+    {
+      "id": "live_fixture_mapping_source_green",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Live mapping status=passed; final_fixtures_shown=24."
+    },
+    {
+      "id": "v4_changed_md2_md3_only",
+      "status": "pass",
+      "severity": "error",
+      "detail": "48/48 MD2/MD3 fixtures recalibrated."
+    },
+    {
+      "id": "v3_prior_fixture_coverage_preserved",
+      "status": "pass",
+      "severity": "error",
+      "detail": "v3 prior has 72 fixtures."
+    }
+  ],
+  "failures": []
+}

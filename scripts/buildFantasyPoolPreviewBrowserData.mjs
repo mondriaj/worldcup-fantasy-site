@@ -8,7 +8,7 @@ const sourceFiles = {
   recommendations: "data/matchdayRecommendations_fantasyPool_v3.json",
   projections: "data/playerMatchdayProjections_fantasyPool_v3.json",
   financeMetrics: "data/playerFinanceMetrics_fantasyPool_v1.json",
-  scorePredictions: "data/scorePredictions_fantasyPool_v3.json",
+  scorePredictions: "data/scorePredictions_fantasyPool_v4_md2.json",
   readinessQa: "data/publicPreviewPromotionReadinessQa_v1.json",
   officialPlayers: "data/officialFantasyPlayers_v0.json",
   identityMap: "data/mappings/playerIdentityMap_v1.csv",

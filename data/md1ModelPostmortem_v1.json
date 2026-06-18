@@ -1,0 +1,3097 @@
+{
+  "schema_version": "md1_model_postmortem_v1",
+  "generated_at": "2026-06-18T12:32:25.804Z",
+  "source_dataset": "data/md1CalibrationDataset_v1.json",
+  "status": "pass",
+  "executive_summary": [
+    {
+      "conclusion": "The active data path did not fail.",
+      "confidence": "high",
+      "detail": "Active MD2 data-flow QA and live fixture mapping QA are green; all 24 MD1 final fixtures are included and mapped safely."
+    },
+    {
+      "conclusion": "The score model was globally low on MD1 goals and weak on result calibration.",
+      "confidence": "high",
+      "detail": "Average predicted total goals were 2.461; actual MD1 average was 3.125; result accuracy was 10/24."
+    },
+    {
+      "conclusion": "Player role/start evidence is the largest rebuild blocker, not identity mapping.",
+      "confidence": "high",
+      "detail": "7 possible role/start flags are detected from high-start/no-points-row or low-start/positive-points evidence; direct matchStatus start/sub evidence is unavailable in the current live feed."
+    },
+    {
+      "conclusion": "Recommendation failures are model failures around role, fixture environment, and value/captain weighting.",
+      "confidence": "medium",
+      "detail": "The recommendation audit shows flat/miss/no-actual-row outcomes by mode; no stale legacy public data path is used."
+    },
+    {
+      "conclusion": "Team Builder cannot be fully audited without a saved squad artifact.",
+      "confidence": "high",
+      "detail": "No saved/generated Balanced Squad output was found; the current audit is limited to active builder inputs and recommendation/finance signals."
+    }
+  ],
+  "score_model_failure": {
+    "metrics": {
+      "md1_final_fixtures_used": 24,
+      "incomplete_md1_fixtures_used": 0,
+      "average_predicted_total_goals": 2.461,
+      "average_actual_total_goals": 3.125,
+      "calibration_ratio_actual_to_predicted": 1.27,
+      "mean_absolute_total_goal_error": 1.542,
+      "predicted_result_correct": 10,
+      "predicted_result_accuracy": 0.417,
+      "favorite_result_correct": 10,
+      "favorite_result_accuracy": 0.417,
+      "upset_flags": 12,
+      "high_scoring_misses": 10,
+      "low_scoring_misses": 1,
+      "clean_sheet": {
+        "predicted_clean_sheet_calls": 18,
+        "hits": 4,
+        "misses": 14,
+        "accuracy": 0.222,
+        "unexpected_clean_sheets": 4
+      }
+    },
+    "biggest_fixture_misses": [
+      {
+        "match_number": 10,
+        "home_team": "Germany",
+        "away_team": "Curaçao",
+        "actual_total_goals": 8,
+        "predicted_total_xg": 3.395,
+        "total_goal_error": 4.605,
+        "favorite_team_before_match": "Germany",
+        "result_class_predicted": "home_win",
+        "result_class_final": "home_win"
+      },
+      {
+        "match_number": 12,
+        "home_team": "Sweden",
+        "away_team": "Tunisia",
+        "actual_total_goals": 6,
+        "predicted_total_xg": 2.239,
+        "total_goal_error": 3.761,
+        "favorite_team_before_match": "Sweden",
+        "result_class_predicted": "home_win",
+        "result_class_final": "home_win"
+      },
+      {
+        "match_number": 22,
+        "home_team": "England",
+        "away_team": "Croatia",
+        "actual_total_goals": 6,
+        "predicted_total_xg": 2.336,
+        "total_goal_error": 3.664,
+        "favorite_team_before_match": "England",
+        "result_class_predicted": "home_win",
+        "result_class_final": "home_win"
+      },
+      {
+        "match_number": 14,
+        "home_team": "Spain",
+        "away_team": "Cabo Verde",
+        "actual_total_goals": 0,
+        "predicted_total_xg": 3.55,
+        "total_goal_error": -3.55,
+        "favorite_team_before_match": "Spain",
+        "result_class_predicted": "home_win",
+        "result_class_final": "draw"
+      },
+      {
+        "match_number": 4,
+        "home_team": "USA",
+        "away_team": "Paraguay",
+        "actual_total_goals": 5,
+        "predicted_total_xg": 2.315,
+        "total_goal_error": 2.685,
+        "favorite_team_before_match": "Paraguay",
+        "result_class_predicted": "away_win",
+        "result_class_final": "home_win"
+      },
+      {
+        "match_number": 18,
+        "home_team": "Iraq",
+        "away_team": "Norway",
+        "actual_total_goals": 5,
+        "predicted_total_xg": 2.71,
+        "total_goal_error": 2.29,
+        "favorite_team_before_match": "Norway",
+        "result_class_predicted": "away_win",
+        "result_class_final": "away_win"
+      },
+      {
+        "match_number": 15,
+        "home_team": "IR Iran",
+        "away_team": "New Zealand",
+        "actual_total_goals": 4,
+        "predicted_total_xg": 1.989,
+        "total_goal_error": 2.011,
+        "favorite_team_before_match": "IR Iran",
+        "result_class_predicted": "home_win",
+        "result_class_final": "draw"
+      },
+      {
+        "match_number": 17,
+        "home_team": "France",
+        "away_team": "Senegal",
+        "actual_total_goals": 4,
+        "predicted_total_xg": 2.182,
+        "total_goal_error": 1.818,
+        "favorite_team_before_match": "France",
+        "result_class_predicted": "home_win",
+        "result_class_final": "home_win"
+      },
+      {
+        "match_number": 5,
+        "home_team": "Haiti",
+        "away_team": "Scotland",
+        "actual_total_goals": 1,
+        "predicted_total_xg": 2.574,
+        "total_goal_error": -1.574,
+        "favorite_team_before_match": "Scotland",
+        "result_class_predicted": "away_win",
+        "result_class_final": "away_win"
+      },
+      {
+        "match_number": 20,
+        "home_team": "Austria",
+        "away_team": "Jordan",
+        "actual_total_goals": 4,
+        "predicted_total_xg": 2.436,
+        "total_goal_error": 1.564,
+        "favorite_team_before_match": "Austria",
+        "result_class_predicted": "home_win",
+        "result_class_final": "home_win"
+      }
+    ],
+    "teams_most_underpredicted_attack": [
+      {
+        "team": "Germany",
+        "opponent": "Curaçao",
+        "predicted_goals_for": 3.045,
+        "actual_goals_for": 7,
+        "attack_residual": 3.955,
+        "residual_severity": "moderate",
+        "recommended_score_model_action": "small boost"
+      },
+      {
+        "team": "Sweden",
+        "opponent": "Tunisia",
+        "predicted_goals_for": 1.571,
+        "actual_goals_for": 5,
+        "attack_residual": 3.429,
+        "residual_severity": "extreme",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "USA",
+        "opponent": "Paraguay",
+        "predicted_goals_for": 0.947,
+        "actual_goals_for": 4,
+        "attack_residual": 3.053,
+        "residual_severity": "extreme",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "England",
+        "opponent": "Croatia",
+        "predicted_goals_for": 1.697,
+        "actual_goals_for": 4,
+        "attack_residual": 2.303,
+        "residual_severity": "moderate",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "Norway",
+        "opponent": "Iraq",
+        "predicted_goals_for": 2.36,
+        "actual_goals_for": 4,
+        "attack_residual": 1.64,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "small boost"
+      },
+      {
+        "team": "Australia",
+        "opponent": "Türkiye",
+        "predicted_goals_for": 0.604,
+        "actual_goals_for": 2,
+        "attack_residual": 1.396,
+        "residual_severity": "moderate",
+        "recommended_score_model_action": "small boost"
+      },
+      {
+        "team": "Croatia",
+        "opponent": "England",
+        "predicted_goals_for": 0.639,
+        "actual_goals_for": 2,
+        "attack_residual": 1.361,
+        "residual_severity": "moderate",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "New Zealand",
+        "opponent": "IR Iran",
+        "predicted_goals_for": 0.695,
+        "actual_goals_for": 2,
+        "attack_residual": 1.305,
+        "residual_severity": "moderate",
+        "recommended_score_model_action": "small boost"
+      },
+      {
+        "team": "France",
+        "opponent": "Senegal",
+        "predicted_goals_for": 1.715,
+        "actual_goals_for": 3,
+        "attack_residual": 1.285,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "small boost"
+      },
+      {
+        "team": "Japan",
+        "opponent": "Netherlands",
+        "predicted_goals_for": 0.973,
+        "actual_goals_for": 2,
+        "attack_residual": 1.027,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "Korea Republic",
+        "opponent": "Czechia",
+        "predicted_goals_for": 1.036,
+        "actual_goals_for": 2,
+        "attack_residual": 0.964,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "Austria",
+        "opponent": "Jordan",
+        "predicted_goals_for": 2.065,
+        "actual_goals_for": 3,
+        "attack_residual": 0.935,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "Colombia",
+        "opponent": "Uzbekistan",
+        "predicted_goals_for": 2.147,
+        "actual_goals_for": 3,
+        "attack_residual": 0.853,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "IR Iran",
+        "opponent": "New Zealand",
+        "predicted_goals_for": 1.294,
+        "actual_goals_for": 2,
+        "attack_residual": 0.706,
+        "residual_severity": "moderate",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "Morocco",
+        "opponent": "Brazil",
+        "predicted_goals_for": 0.35,
+        "actual_goals_for": 1,
+        "attack_residual": 0.65,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "Qatar",
+        "opponent": "Switzerland",
+        "predicted_goals_for": 0.35,
+        "actual_goals_for": 1,
+        "attack_residual": 0.65,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "Curaçao",
+        "opponent": "Germany",
+        "predicted_goals_for": 0.35,
+        "actual_goals_for": 1,
+        "attack_residual": 0.65,
+        "residual_severity": "moderate",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "Saudi Arabia",
+        "opponent": "Uruguay",
+        "predicted_goals_for": 0.35,
+        "actual_goals_for": 1,
+        "attack_residual": 0.65,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "Iraq",
+        "opponent": "Norway",
+        "predicted_goals_for": 0.35,
+        "actual_goals_for": 1,
+        "attack_residual": 0.65,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "Congo DR",
+        "opponent": "Portugal",
+        "predicted_goals_for": 0.35,
+        "actual_goals_for": 1,
+        "attack_residual": 0.65,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "uncertainty increase"
+      }
+    ],
+    "teams_most_overpredicted_attack": [
+      {
+        "team": "Spain",
+        "opponent": "Cabo Verde",
+        "predicted_goals_for": 3.2,
+        "actual_goals_for": 0,
+        "attack_residual": -3.2,
+        "residual_severity": "moderate",
+        "recommended_score_model_action": "small downgrade"
+      },
+      {
+        "team": "Türkiye",
+        "opponent": "Australia",
+        "predicted_goals_for": 1.756,
+        "actual_goals_for": 0,
+        "attack_residual": -1.756,
+        "residual_severity": "moderate",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "Switzerland",
+        "opponent": "Qatar",
+        "predicted_goals_for": 2.65,
+        "actual_goals_for": 1,
+        "attack_residual": -1.65,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "small downgrade"
+      },
+      {
+        "team": "Ecuador",
+        "opponent": "Côte d'Ivoire",
+        "predicted_goals_for": 1.56,
+        "actual_goals_for": 0,
+        "attack_residual": -1.56,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "small downgrade"
+      },
+      {
+        "team": "Panama",
+        "opponent": "Ghana",
+        "predicted_goals_for": 1.478,
+        "actual_goals_for": 0,
+        "attack_residual": -1.478,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "small downgrade"
+      },
+      {
+        "team": "Portugal",
+        "opponent": "Congo DR",
+        "predicted_goals_for": 2.238,
+        "actual_goals_for": 1,
+        "attack_residual": -1.238,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "small downgrade"
+      },
+      {
+        "team": "Uruguay",
+        "opponent": "Saudi Arabia",
+        "predicted_goals_for": 2.07,
+        "actual_goals_for": 1,
+        "attack_residual": -1.07,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "Scotland",
+        "opponent": "Haiti",
+        "predicted_goals_for": 1.944,
+        "actual_goals_for": 1,
+        "attack_residual": -0.944,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "Belgium",
+        "opponent": "Egypt",
+        "predicted_goals_for": 1.828,
+        "actual_goals_for": 1,
+        "attack_residual": -0.828,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "Haiti",
+        "opponent": "Scotland",
+        "predicted_goals_for": 0.63,
+        "actual_goals_for": 0,
+        "attack_residual": -0.63,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "Brazil",
+        "opponent": "Morocco",
+        "predicted_goals_for": 1.605,
+        "actual_goals_for": 1,
+        "attack_residual": -0.605,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "Canada",
+        "opponent": "Bosnia and Herzegovina",
+        "predicted_goals_for": 1.579,
+        "actual_goals_for": 1,
+        "attack_residual": -0.579,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "Paraguay",
+        "opponent": "USA",
+        "predicted_goals_for": 1.368,
+        "actual_goals_for": 1,
+        "attack_residual": -0.368,
+        "residual_severity": "extreme",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "South Africa",
+        "opponent": "Mexico",
+        "predicted_goals_for": 0.35,
+        "actual_goals_for": 0,
+        "attack_residual": -0.35,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "Cabo Verde",
+        "opponent": "Spain",
+        "predicted_goals_for": 0.35,
+        "actual_goals_for": 0,
+        "attack_residual": -0.35,
+        "residual_severity": "moderate",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "Algeria",
+        "opponent": "Argentina",
+        "predicted_goals_for": 0.35,
+        "actual_goals_for": 0,
+        "attack_residual": -0.35,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "Czechia",
+        "opponent": "Korea Republic",
+        "predicted_goals_for": 1.049,
+        "actual_goals_for": 1,
+        "attack_residual": -0.049,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "Bosnia and Herzegovina",
+        "opponent": "Canada",
+        "predicted_goals_for": 0.901,
+        "actual_goals_for": 1,
+        "attack_residual": 0.099,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "Ghana",
+        "opponent": "Panama",
+        "predicted_goals_for": 0.771,
+        "actual_goals_for": 1,
+        "attack_residual": 0.229,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "Tunisia",
+        "opponent": "Sweden",
+        "predicted_goals_for": 0.668,
+        "actual_goals_for": 1,
+        "attack_residual": 0.332,
+        "residual_severity": "extreme",
+        "recommended_score_model_action": "uncertainty increase"
+      }
+    ],
+    "teams_defensive_concerns": [
+      {
+        "team": "Curaçao",
+        "opponent": "Germany",
+        "predicted_goals_against": 3.045,
+        "actual_goals_against": 7,
+        "defense_residual": 3.955,
+        "residual_severity": "moderate",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "Tunisia",
+        "opponent": "Sweden",
+        "predicted_goals_against": 1.571,
+        "actual_goals_against": 5,
+        "defense_residual": 3.429,
+        "residual_severity": "extreme",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "Paraguay",
+        "opponent": "USA",
+        "predicted_goals_against": 0.947,
+        "actual_goals_against": 4,
+        "defense_residual": 3.053,
+        "residual_severity": "extreme",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "Croatia",
+        "opponent": "England",
+        "predicted_goals_against": 1.697,
+        "actual_goals_against": 4,
+        "defense_residual": 2.303,
+        "residual_severity": "moderate",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "Iraq",
+        "opponent": "Norway",
+        "predicted_goals_against": 2.36,
+        "actual_goals_against": 4,
+        "defense_residual": 1.64,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "Türkiye",
+        "opponent": "Australia",
+        "predicted_goals_against": 0.604,
+        "actual_goals_against": 2,
+        "defense_residual": 1.396,
+        "residual_severity": "moderate",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "England",
+        "opponent": "Croatia",
+        "predicted_goals_against": 0.639,
+        "actual_goals_against": 2,
+        "defense_residual": 1.361,
+        "residual_severity": "moderate",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "IR Iran",
+        "opponent": "New Zealand",
+        "predicted_goals_against": 0.695,
+        "actual_goals_against": 2,
+        "defense_residual": 1.305,
+        "residual_severity": "moderate",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "Senegal",
+        "opponent": "France",
+        "predicted_goals_against": 1.715,
+        "actual_goals_against": 3,
+        "defense_residual": 1.285,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "uncertainty increase"
+      },
+      {
+        "team": "Netherlands",
+        "opponent": "Japan",
+        "predicted_goals_against": 0.973,
+        "actual_goals_against": 2,
+        "defense_residual": 1.027,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "Czechia",
+        "opponent": "Korea Republic",
+        "predicted_goals_against": 1.036,
+        "actual_goals_against": 2,
+        "defense_residual": 0.964,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "Jordan",
+        "opponent": "Austria",
+        "predicted_goals_against": 2.065,
+        "actual_goals_against": 3,
+        "defense_residual": 0.935,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "Uzbekistan",
+        "opponent": "Colombia",
+        "predicted_goals_against": 2.147,
+        "actual_goals_against": 3,
+        "defense_residual": 0.853,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "New Zealand",
+        "opponent": "IR Iran",
+        "predicted_goals_against": 1.294,
+        "actual_goals_against": 2,
+        "defense_residual": 0.706,
+        "residual_severity": "moderate",
+        "recommended_score_model_action": "small boost"
+      },
+      {
+        "team": "Brazil",
+        "opponent": "Morocco",
+        "predicted_goals_against": 0.35,
+        "actual_goals_against": 1,
+        "defense_residual": 0.65,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "Switzerland",
+        "opponent": "Qatar",
+        "predicted_goals_against": 0.35,
+        "actual_goals_against": 1,
+        "defense_residual": 0.65,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "small downgrade"
+      },
+      {
+        "team": "Germany",
+        "opponent": "Curaçao",
+        "predicted_goals_against": 0.35,
+        "actual_goals_against": 1,
+        "defense_residual": 0.65,
+        "residual_severity": "moderate",
+        "recommended_score_model_action": "small boost"
+      },
+      {
+        "team": "Uruguay",
+        "opponent": "Saudi Arabia",
+        "predicted_goals_against": 0.35,
+        "actual_goals_against": 1,
+        "defense_residual": 0.65,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "none"
+      },
+      {
+        "team": "Norway",
+        "opponent": "Iraq",
+        "predicted_goals_against": 0.35,
+        "actual_goals_against": 1,
+        "defense_residual": 0.65,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "small boost"
+      },
+      {
+        "team": "Portugal",
+        "opponent": "Congo DR",
+        "predicted_goals_against": 0.35,
+        "actual_goals_against": 1,
+        "defense_residual": 0.65,
+        "residual_severity": "normal",
+        "recommended_score_model_action": "small downgrade"
+      }
+    ],
+    "global_goal_environment_assessment": "too_low_on_md1",
+    "pele_prior_assessment": "MD1 indicates a PELE-anchored prior that needs shrinkage-calibrated goal-environment and team residual updates; one matchday is not enough to declare the PELE prior structurally wrong."
+  },
+  "player_projection_failure": {
+    "metrics": {
+      "player_rows": 1488,
+      "active_official_fantasy_players": 1488,
+      "md1_projection_rows": 1233,
+      "actual_point_rows_available": 753,
+      "positive_actual_point_rows": 692,
+      "average_projection_error": 0.084,
+      "mean_absolute_projection_error": 2.319,
+      "role_miss_flags": 7,
+      "match_status_rows_with_direct_start_sub_evidence": 0,
+      "role_evidence_counts": {
+        "points_row_present_zero_points": 61,
+        "unknown_no_md1_role_or_points_evidence": 728,
+        "played_or_scored_points_evidence": 692,
+        "possible_role_miss_high_start_no_points_row": 7
+      },
+      "by_position": {
+        "DEF": {
+          "rows": 485,
+          "actual_rows": 240,
+          "average_error": -0.115,
+          "mean_absolute_error": 2.731
+        },
+        "FWD": {
+          "rows": 307,
+          "actual_rows": 179,
+          "average_error": 0.386,
+          "mean_absolute_error": 2.13
+        },
+        "MID": {
+          "rows": 515,
+          "actual_rows": 285,
+          "average_error": 0.222,
+          "mean_absolute_error": 2.057
+        },
+        "GK": {
+          "rows": 181,
+          "actual_rows": 49,
+          "average_error": -0.842,
+          "mean_absolute_error": 2.514
+        }
+      },
+      "by_price_tier": {
+        "budget": {
+          "rows": 447,
+          "actual_rows": 228,
+          "average_error": 0.115,
+          "mean_absolute_error": 1.819
+        },
+        "ultra_budget": {
+          "rows": 661,
+          "actual_rows": 268,
+          "average_error": 0.063,
+          "mean_absolute_error": 2.374
+        },
+        "mid": {
+          "rows": 331,
+          "actual_rows": 212,
+          "average_error": 0.122,
+          "mean_absolute_error": 2.41
+        },
+        "premium": {
+          "rows": 11,
+          "actual_rows": 11,
+          "average_error": 1.861,
+          "mean_absolute_error": 5.086
+        },
+        "upper_mid": {
+          "rows": 38,
+          "actual_rows": 34,
+          "average_error": -0.762,
+          "mean_absolute_error": 3.745
+        }
+      }
+    },
+    "top_underpredicted_players": [
+      {
+        "official_fantasy_player_id": "832",
+        "name": "Elijah Just",
+        "team": "New Zealand",
+        "position": "MID",
+        "prior_md1_projected_points": 2.24,
+        "actual_md1_fantasy_points": 16,
+        "projection_error": 13.76,
+        "role_label_prior": "likely_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "1114",
+        "name": "Yasin Ayari",
+        "team": "Sweden",
+        "position": "MID",
+        "prior_md1_projected_points": 3.986,
+        "actual_md1_fantasy_points": 17,
+        "projection_error": 13.014,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "1520",
+        "name": "Alexander Isak",
+        "team": "Sweden",
+        "position": "FWD",
+        "prior_md1_projected_points": 3.379,
+        "actual_md1_fantasy_points": 16,
+        "projection_error": 12.621,
+        "role_label_prior": "likely_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "1267",
+        "name": "Folarin Balogun",
+        "team": "USA",
+        "position": "FWD",
+        "prior_md1_projected_points": 3.373,
+        "actual_md1_fantasy_points": 15,
+        "projection_error": 11.627,
+        "role_label_prior": "likely_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "38",
+        "name": "Lionel Messi",
+        "team": "Argentina",
+        "position": "FWD",
+        "prior_md1_projected_points": 8.119,
+        "actual_md1_fantasy_points": 19,
+        "projection_error": 10.881,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "855",
+        "name": "Erling Haaland",
+        "team": "Norway",
+        "position": "FWD",
+        "prior_md1_projected_points": 6.655,
+        "actual_md1_fantasy_points": 17,
+        "projection_error": 10.345,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "1124",
+        "name": "Viktor Gyökeres",
+        "team": "Sweden",
+        "position": "FWD",
+        "prior_md1_projected_points": 4.044,
+        "actual_md1_fantasy_points": 14,
+        "projection_error": 9.956,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "597",
+        "name": "Ramin Rezaeian",
+        "team": "IR Iran",
+        "position": "DEF",
+        "prior_md1_projected_points": 3.072,
+        "actual_md1_fantasy_points": 13,
+        "projection_error": 9.928,
+        "role_label_prior": "likely_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "300",
+        "name": "Wilfried Singo",
+        "team": "Côte d'Ivoire",
+        "position": "DEF",
+        "prior_md1_projected_points": 2.076,
+        "actual_md1_fantasy_points": 12,
+        "projection_error": 9.924,
+        "role_label_prior": "likely_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "531",
+        "name": "Deniz Undav",
+        "team": "Germany",
+        "position": "FWD",
+        "prior_md1_projected_points": 4.132,
+        "actual_md1_fantasy_points": 14,
+        "projection_error": 9.868,
+        "role_label_prior": "impact_sub",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "1549",
+        "name": "In-Beom Hwang",
+        "team": "Korea Republic",
+        "position": "MID",
+        "prior_md1_projected_points": 3.323,
+        "actual_md1_fantasy_points": 13,
+        "projection_error": 9.677,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "525",
+        "name": "Nathaniel Brown",
+        "team": "Germany",
+        "position": "DEF",
+        "prior_md1_projected_points": 4.603,
+        "actual_md1_fantasy_points": 14,
+        "projection_error": 9.397,
+        "role_label_prior": "likely_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "1601",
+        "name": "Felix Nmecha",
+        "team": "Germany",
+        "position": "MID",
+        "prior_md1_projected_points": 3.839,
+        "actual_md1_fantasy_points": 13,
+        "projection_error": 9.161,
+        "role_label_prior": "likely_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "214",
+        "name": "Josimar José Évora Dias",
+        "team": "Cabo Verde",
+        "position": "GK",
+        "prior_md1_projected_points": 1.908,
+        "actual_md1_fantasy_points": 11,
+        "projection_error": 9.092,
+        "role_label_prior": "likely_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "80",
+        "name": "Connor Metcalfe",
+        "team": "Australia",
+        "position": "MID",
+        "prior_md1_projected_points": 1.924,
+        "actual_md1_fantasy_points": 11,
+        "projection_error": 9.076,
+        "role_label_prior": "likely_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "199",
+        "name": "Steven Moreira",
+        "team": "Cabo Verde",
+        "position": "DEF",
+        "prior_md1_projected_points": 0,
+        "actual_md1_fantasy_points": 9,
+        "projection_error": 9,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "1292",
+        "name": "Abbosbek Fayzullaev",
+        "team": "Uzbekistan",
+        "position": "MID",
+        "prior_md1_projected_points": 1.047,
+        "actual_md1_fantasy_points": 10,
+        "projection_error": 8.953,
+        "role_label_prior": "unclear",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "201",
+        "name": "Roberto Carlos Lopes",
+        "team": "Cabo Verde",
+        "position": "DEF",
+        "prior_md1_projected_points": 0.343,
+        "actual_md1_fantasy_points": 9,
+        "projection_error": 8.657,
+        "role_label_prior": "likely_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "205",
+        "name": "Edilson Alberto Monteiro Sanches Borges",
+        "team": "Cabo Verde",
+        "position": "DEF",
+        "prior_md1_projected_points": 0.343,
+        "actual_md1_fantasy_points": 9,
+        "projection_error": 8.657,
+        "role_label_prior": "likely_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "76",
+        "name": "Patrick Beach",
+        "team": "Australia",
+        "position": "GK",
+        "prior_md1_projected_points": 2.401,
+        "actual_md1_fantasy_points": 11,
+        "projection_error": 8.599,
+        "role_label_prior": "likely_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      }
+    ],
+    "top_overpredicted_players": [
+      {
+        "official_fantasy_player_id": "1092",
+        "name": "Lamine Yamal Nasraoui Ebana",
+        "team": "Spain",
+        "position": "MID",
+        "prior_md1_projected_points": 7.577,
+        "actual_md1_fantasy_points": 1,
+        "projection_error": -6.577,
+        "role_label_prior": "rotation_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "916",
+        "name": "Nuno Alexandre Tavares Mendes",
+        "team": "Portugal",
+        "position": "DEF",
+        "prior_md1_projected_points": 8.192,
+        "actual_md1_fantasy_points": 2,
+        "projection_error": -6.192,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "1366",
+        "name": "Raphael Dias Belloli",
+        "team": "Brazil",
+        "position": "MID",
+        "prior_md1_projected_points": 8.077,
+        "actual_md1_fantasy_points": 2,
+        "projection_error": -6.077,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "1338",
+        "name": "Lautaro Martínez",
+        "team": "Argentina",
+        "position": "FWD",
+        "prior_md1_projected_points": 6.428,
+        "actual_md1_fantasy_points": 1,
+        "projection_error": -5.428,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "894",
+        "name": "Júnior Alonso",
+        "team": "Paraguay",
+        "position": "DEF",
+        "prior_md1_projected_points": 3.393,
+        "actual_md1_fantasy_points": -2,
+        "projection_error": -5.393,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": false,
+          "unknown": false,
+          "inferred_status": "points_row_present_zero_points",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "893",
+        "name": "Gustavo Gómez",
+        "team": "Paraguay",
+        "position": "DEF",
+        "prior_md1_projected_points": 4.322,
+        "actual_md1_fantasy_points": -1,
+        "projection_error": -5.322,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": false,
+          "unknown": false,
+          "inferred_status": "points_row_present_zero_points",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "55",
+        "name": "Thiago Almada",
+        "team": "Argentina",
+        "position": "MID",
+        "prior_md1_projected_points": 6.052,
+        "actual_md1_fantasy_points": 1,
+        "projection_error": -5.052,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "1236",
+        "name": "Darwin Núñez",
+        "team": "Uruguay",
+        "position": "FWD",
+        "prior_md1_projected_points": 6.026,
+        "actual_md1_fantasy_points": 1,
+        "projection_error": -5.026,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "353",
+        "name": "Riechedly Bazoer",
+        "team": "Curaçao",
+        "position": "DEF",
+        "prior_md1_projected_points": 0,
+        "actual_md1_fantasy_points": -5,
+        "projection_error": -5,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": false,
+          "unknown": false,
+          "inferred_status": "points_row_present_zero_points",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "368",
+        "name": "Eloy Room",
+        "team": "Curaçao",
+        "position": "GK",
+        "prior_md1_projected_points": 1.98,
+        "actual_md1_fantasy_points": -3,
+        "projection_error": -4.98,
+        "role_label_prior": "likely_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": false,
+          "unknown": false,
+          "inferred_status": "points_row_present_zero_points",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "939",
+        "name": "Bruno Miguel Borges Fernandes",
+        "team": "Portugal",
+        "position": "MID",
+        "prior_md1_projected_points": 7.962,
+        "actual_md1_fantasy_points": 3,
+        "projection_error": -4.962,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "847",
+        "name": "Julian Ryerson",
+        "team": "Norway",
+        "position": "DEF",
+        "prior_md1_projected_points": 6.959,
+        "actual_md1_fantasy_points": 2,
+        "projection_error": -4.959,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "188",
+        "name": "Carlos Henrique Casimiro",
+        "team": "Brazil",
+        "position": "MID",
+        "prior_md1_projected_points": 4.942,
+        "actual_md1_fantasy_points": 0,
+        "projection_error": -4.942,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": false,
+          "unknown": false,
+          "inferred_status": "points_row_present_zero_points",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "1558",
+        "name": "Armando Obispo",
+        "team": "Curaçao",
+        "position": "DEF",
+        "prior_md1_projected_points": 0.731,
+        "actual_md1_fantasy_points": -4,
+        "projection_error": -4.731,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": false,
+          "unknown": false,
+          "inferred_status": "points_row_present_zero_points",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "252",
+        "name": "Johan Mojica",
+        "team": "Colombia",
+        "position": "DEF",
+        "prior_md1_projected_points": 5.699,
+        "actual_md1_fantasy_points": 1,
+        "projection_error": -4.699,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "1573",
+        "name": "Cristiano Ronaldo dos Santos Aveiro",
+        "team": "Portugal",
+        "position": "FWD",
+        "prior_md1_projected_points": 6.676,
+        "actual_md1_fantasy_points": 2,
+        "projection_error": -4.676,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "457",
+        "name": "Nico O'Reilly",
+        "team": "England",
+        "position": "DEF",
+        "prior_md1_projected_points": 5.649,
+        "actual_md1_fantasy_points": 1,
+        "projection_error": -4.649,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "1166",
+        "name": "Ali Abdi",
+        "team": "Tunisia",
+        "position": "DEF",
+        "prior_md1_projected_points": 2.646,
+        "actual_md1_fantasy_points": -2,
+        "projection_error": -4.646,
+        "role_label_prior": "locked_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": false,
+          "unknown": false,
+          "inferred_status": "points_row_present_zero_points",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "1093",
+        "name": "Ferran Torres",
+        "team": "Spain",
+        "position": "FWD",
+        "prior_md1_projected_points": 6.594,
+        "actual_md1_fantasy_points": 2,
+        "projection_error": -4.594,
+        "role_label_prior": "likely_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      },
+      {
+        "official_fantasy_player_id": "1323",
+        "name": "Gonzalo Montiel",
+        "team": "Argentina",
+        "position": "DEF",
+        "prior_md1_projected_points": 5.553,
+        "actual_md1_fantasy_points": 1,
+        "projection_error": -4.553,
+        "role_label_prior": "likely_starter",
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": true,
+          "played_points_evidence": true,
+          "unknown": false,
+          "inferred_status": "played_or_scored_points_evidence",
+          "start_probability_miss_flag": false,
+          "start_probability_miss_reason": "no_direct_start_sub_status_available"
+        }
+      }
+    ],
+    "start_role_misses": [
+      {
+        "official_fantasy_player_id": "887",
+        "name": "Adalberto Carrasquilla",
+        "team": "Panama",
+        "position": "MID",
+        "prior_md1_start_probability": 0.931,
+        "prior_md1_expected_minutes": 69.6,
+        "actual_md1_fantasy_points": null,
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": false,
+          "played_points_evidence": false,
+          "unknown": true,
+          "inferred_status": "possible_role_miss_high_start_no_points_row",
+          "start_probability_miss_flag": true,
+          "start_probability_miss_reason": "possible_role_miss_high_start_no_points_row"
+        },
+        "failure_category": "bad_start_role_estimate"
+      },
+      {
+        "official_fantasy_player_id": "2026",
+        "name": "Fidel Escobar",
+        "team": "Panama",
+        "position": "DEF",
+        "prior_md1_start_probability": 0.904,
+        "prior_md1_expected_minutes": 75.1,
+        "actual_md1_fantasy_points": null,
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": false,
+          "played_points_evidence": false,
+          "unknown": true,
+          "inferred_status": "possible_role_miss_high_start_no_points_row",
+          "start_probability_miss_flag": true,
+          "start_probability_miss_reason": "possible_role_miss_high_start_no_points_row"
+        },
+        "failure_category": "bad_start_role_estimate"
+      },
+      {
+        "official_fantasy_player_id": "257",
+        "name": "Jhon Córdoba",
+        "team": "Colombia",
+        "position": "FWD",
+        "prior_md1_start_probability": 0.9,
+        "prior_md1_expected_minutes": 62.6,
+        "actual_md1_fantasy_points": null,
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": false,
+          "played_points_evidence": false,
+          "unknown": true,
+          "inferred_status": "possible_role_miss_high_start_no_points_row",
+          "start_probability_miss_flag": true,
+          "start_probability_miss_reason": "possible_role_miss_high_start_no_points_row"
+        },
+        "failure_category": "bad_start_role_estimate"
+      },
+      {
+        "official_fantasy_player_id": "1374",
+        "name": "Yerry Mina",
+        "team": "Colombia",
+        "position": "DEF",
+        "prior_md1_start_probability": 0.9,
+        "prior_md1_expected_minutes": 74.8,
+        "actual_md1_fantasy_points": null,
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": false,
+          "played_points_evidence": false,
+          "unknown": true,
+          "inferred_status": "possible_role_miss_high_start_no_points_row",
+          "start_probability_miss_flag": true,
+          "start_probability_miss_reason": "possible_role_miss_high_start_no_points_row"
+        },
+        "failure_category": "bad_start_role_estimate"
+      },
+      {
+        "official_fantasy_player_id": "251",
+        "name": "Déiver Machado",
+        "team": "Colombia",
+        "position": "DEF",
+        "prior_md1_start_probability": 0.89,
+        "prior_md1_expected_minutes": 74.1,
+        "actual_md1_fantasy_points": null,
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": false,
+          "played_points_evidence": false,
+          "unknown": true,
+          "inferred_status": "possible_role_miss_high_start_no_points_row",
+          "start_probability_miss_flag": true,
+          "start_probability_miss_reason": "possible_role_miss_high_start_no_points_row"
+        },
+        "failure_category": "bad_start_role_estimate"
+      },
+      {
+        "official_fantasy_player_id": "253",
+        "name": "Santiago Arias",
+        "team": "Colombia",
+        "position": "DEF",
+        "prior_md1_start_probability": 0.882,
+        "prior_md1_expected_minutes": 73.5,
+        "actual_md1_fantasy_points": null,
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": false,
+          "played_points_evidence": false,
+          "unknown": true,
+          "inferred_status": "possible_role_miss_high_start_no_points_row",
+          "start_probability_miss_flag": true,
+          "start_probability_miss_reason": "possible_role_miss_high_start_no_points_row"
+        },
+        "failure_category": "bad_start_role_estimate"
+      },
+      {
+        "official_fantasy_player_id": "1983",
+        "name": "Thomas Partey",
+        "team": "Ghana",
+        "position": "MID",
+        "prior_md1_start_probability": 0.761,
+        "prior_md1_expected_minutes": 58.7,
+        "actual_md1_fantasy_points": null,
+        "role_evidence": {
+          "started": null,
+          "sub_appearance": null,
+          "not_in_squad": null,
+          "points_row_present": false,
+          "played_points_evidence": false,
+          "unknown": true,
+          "inferred_status": "possible_role_miss_high_start_no_points_row",
+          "start_probability_miss_flag": true,
+          "start_probability_miss_reason": "possible_role_miss_high_start_no_points_row"
+        },
+        "failure_category": "bad_start_role_estimate"
+      }
+    ],
+    "position_level_issues": {
+      "DEF": {
+        "rows": 485,
+        "actual_rows": 240,
+        "average_error": -0.115,
+        "mean_absolute_error": 2.731
+      },
+      "FWD": {
+        "rows": 307,
+        "actual_rows": 179,
+        "average_error": 0.386,
+        "mean_absolute_error": 2.13
+      },
+      "MID": {
+        "rows": 515,
+        "actual_rows": 285,
+        "average_error": 0.222,
+        "mean_absolute_error": 2.057
+      },
+      "GK": {
+        "rows": 181,
+        "actual_rows": 49,
+        "average_error": -0.842,
+        "mean_absolute_error": 2.514
+      }
+    },
+    "price_tier_issues": {
+      "budget": {
+        "rows": 447,
+        "actual_rows": 228,
+        "average_error": 0.115,
+        "mean_absolute_error": 1.819
+      },
+      "ultra_budget": {
+        "rows": 661,
+        "actual_rows": 268,
+        "average_error": 0.063,
+        "mean_absolute_error": 2.374
+      },
+      "mid": {
+        "rows": 331,
+        "actual_rows": 212,
+        "average_error": 0.122,
+        "mean_absolute_error": 2.41
+      },
+      "premium": {
+        "rows": 11,
+        "actual_rows": 11,
+        "average_error": 1.861,
+        "mean_absolute_error": 5.086
+      },
+      "upper_mid": {
+        "rows": 38,
+        "actual_rows": 34,
+        "average_error": -0.762,
+        "mean_absolute_error": 3.745
+      }
+    }
+  },
+  "recommendation_failure": {
+    "metrics": {
+      "recommendation_rows": 125,
+      "md1_recommended_unique_players": 62,
+      "rows_with_actual_points": 122,
+      "rows_without_actual_points": 3,
+      "average_actual_points": 5.049,
+      "average_projection_error": -1.351,
+      "fantasy_results": {
+        "flat": 57,
+        "hit": 33,
+        "miss": 19,
+        "solid": 13,
+        "no_actual_row": 3
+      },
+      "failure_categories": {
+        "price_value_overweight": 16,
+        "cannot_classify": 36,
+        "bad_team_fixture_environment": 50,
+        "poor_individual_outcome_despite_good_role": 19,
+        "stale_missing_data": 3,
+        "low_minutes": 1
+      },
+      "by_mode": {
+        "balanced": {
+          "rows": 25,
+          "actual_rows": 24,
+          "no_actual_rows": 1,
+          "average_actual_points": 6.208,
+          "average_projection_error": -0.528,
+          "fantasy_results": {
+            "flat": 8,
+            "hit": 8,
+            "miss": 4,
+            "solid": 4,
+            "no_actual_row": 1
+          },
+          "failure_categories": {
+            "price_value_overweight": 4,
+            "cannot_classify": 8,
+            "bad_team_fixture_environment": 9,
+            "poor_individual_outcome_despite_good_role": 3,
+            "stale_missing_data": 1
+          },
+          "low_price_rows": 10,
+          "premium_rows": 9
+        },
+        "safe": {
+          "rows": 25,
+          "actual_rows": 25,
+          "no_actual_rows": 0,
+          "average_actual_points": 5.68,
+          "average_projection_error": -0.623,
+          "fantasy_results": {
+            "flat": 10,
+            "hit": 7,
+            "solid": 5,
+            "miss": 3
+          },
+          "failure_categories": {
+            "cannot_classify": 6,
+            "bad_team_fixture_environment": 13,
+            "price_value_overweight": 4,
+            "poor_individual_outcome_despite_good_role": 2
+          },
+          "low_price_rows": 10,
+          "premium_rows": 6
+        },
+        "upside": {
+          "rows": 25,
+          "actual_rows": 24,
+          "no_actual_rows": 1,
+          "average_actual_points": 3.042,
+          "average_projection_error": -2.963,
+          "fantasy_results": {
+            "flat": 13,
+            "no_actual_row": 1,
+            "miss": 6,
+            "hit": 3,
+            "solid": 2
+          },
+          "failure_categories": {
+            "cannot_classify": 6,
+            "bad_team_fixture_environment": 11,
+            "price_value_overweight": 4,
+            "stale_missing_data": 1,
+            "low_minutes": 1,
+            "poor_individual_outcome_despite_good_role": 2
+          },
+          "low_price_rows": 9,
+          "premium_rows": 2
+        },
+        "differential": {
+          "rows": 25,
+          "actual_rows": 24,
+          "no_actual_rows": 1,
+          "average_actual_points": 4.167,
+          "average_projection_error": -1.793,
+          "fantasy_results": {
+            "no_actual_row": 1,
+            "miss": 4,
+            "flat": 14,
+            "hit": 6
+          },
+          "failure_categories": {
+            "stale_missing_data": 1,
+            "price_value_overweight": 3,
+            "bad_team_fixture_environment": 7,
+            "poor_individual_outcome_despite_good_role": 7,
+            "cannot_classify": 7
+          },
+          "low_price_rows": 12,
+          "premium_rows": 1
+        },
+        "captain": {
+          "rows": 25,
+          "actual_rows": 25,
+          "no_actual_rows": 0,
+          "average_actual_points": 6.08,
+          "average_projection_error": -0.899,
+          "fantasy_results": {
+            "hit": 9,
+            "flat": 12,
+            "miss": 2,
+            "solid": 2
+          },
+          "failure_categories": {
+            "cannot_classify": 9,
+            "bad_team_fixture_environment": 10,
+            "poor_individual_outcome_despite_good_role": 5,
+            "price_value_overweight": 1
+          },
+          "low_price_rows": 1,
+          "premium_rows": 13
+        }
+      }
+    },
+    "worst_recommendation_misses": [
+      {
+        "official_fantasy_player_id": "253",
+        "name": "Santiago Arias",
+        "team": "Colombia",
+        "recommendation_type": "balanced",
+        "rank": 25,
+        "projected_points": 5.639,
+        "actual_md1_fantasy_points": null,
+        "projection_error": null,
+        "failure_category": "stale_missing_data"
+      },
+      {
+        "official_fantasy_player_id": "2030",
+        "name": "Tomás Rodríguez",
+        "team": "Panama",
+        "recommendation_type": "upside",
+        "rank": 10,
+        "projected_points": 2.207,
+        "actual_md1_fantasy_points": null,
+        "projection_error": null,
+        "failure_category": "stale_missing_data"
+      },
+      {
+        "official_fantasy_player_id": "253",
+        "name": "Santiago Arias",
+        "team": "Colombia",
+        "recommendation_type": "differential",
+        "rank": 1,
+        "projected_points": 5.639,
+        "actual_md1_fantasy_points": null,
+        "projection_error": null,
+        "failure_category": "stale_missing_data"
+      },
+      {
+        "official_fantasy_player_id": "1092",
+        "name": "Lamine Yamal Nasraoui Ebana",
+        "team": "Spain",
+        "recommendation_type": "upside",
+        "rank": 22,
+        "projected_points": 7.577,
+        "actual_md1_fantasy_points": 1,
+        "projection_error": -6.577,
+        "failure_category": "bad_team_fixture_environment"
+      },
+      {
+        "official_fantasy_player_id": "916",
+        "name": "Nuno Alexandre Tavares Mendes",
+        "team": "Portugal",
+        "recommendation_type": "balanced",
+        "rank": 1,
+        "projected_points": 8.192,
+        "actual_md1_fantasy_points": 2,
+        "projection_error": -6.192,
+        "failure_category": "price_value_overweight"
+      },
+      {
+        "official_fantasy_player_id": "916",
+        "name": "Nuno Alexandre Tavares Mendes",
+        "team": "Portugal",
+        "recommendation_type": "safe",
+        "rank": 14,
+        "projected_points": 8.192,
+        "actual_md1_fantasy_points": 2,
+        "projection_error": -6.192,
+        "failure_category": "price_value_overweight"
+      },
+      {
+        "official_fantasy_player_id": "916",
+        "name": "Nuno Alexandre Tavares Mendes",
+        "team": "Portugal",
+        "recommendation_type": "upside",
+        "rank": 6,
+        "projected_points": 8.192,
+        "actual_md1_fantasy_points": 2,
+        "projection_error": -6.192,
+        "failure_category": "price_value_overweight"
+      },
+      {
+        "official_fantasy_player_id": "916",
+        "name": "Nuno Alexandre Tavares Mendes",
+        "team": "Portugal",
+        "recommendation_type": "differential",
+        "rank": 3,
+        "projected_points": 8.192,
+        "actual_md1_fantasy_points": 2,
+        "projection_error": -6.192,
+        "failure_category": "price_value_overweight"
+      },
+      {
+        "official_fantasy_player_id": "916",
+        "name": "Nuno Alexandre Tavares Mendes",
+        "team": "Portugal",
+        "recommendation_type": "captain",
+        "rank": 18,
+        "projected_points": 8.192,
+        "actual_md1_fantasy_points": 2,
+        "projection_error": -6.192,
+        "failure_category": "price_value_overweight"
+      },
+      {
+        "official_fantasy_player_id": "1366",
+        "name": "Raphael Dias Belloli",
+        "team": "Brazil",
+        "recommendation_type": "captain",
+        "rank": 19,
+        "projected_points": 8.077,
+        "actual_md1_fantasy_points": 2,
+        "projection_error": -6.077,
+        "failure_category": "poor_individual_outcome_despite_good_role"
+      },
+      {
+        "official_fantasy_player_id": "1338",
+        "name": "Lautaro Martínez",
+        "team": "Argentina",
+        "recommendation_type": "balanced",
+        "rank": 9,
+        "projected_points": 6.428,
+        "actual_md1_fantasy_points": 1,
+        "projection_error": -5.428,
+        "failure_category": "poor_individual_outcome_despite_good_role"
+      },
+      {
+        "official_fantasy_player_id": "1338",
+        "name": "Lautaro Martínez",
+        "team": "Argentina",
+        "recommendation_type": "safe",
+        "rank": 15,
+        "projected_points": 6.428,
+        "actual_md1_fantasy_points": 1,
+        "projection_error": -5.428,
+        "failure_category": "poor_individual_outcome_despite_good_role"
+      },
+      {
+        "official_fantasy_player_id": "1338",
+        "name": "Lautaro Martínez",
+        "team": "Argentina",
+        "recommendation_type": "captain",
+        "rank": 6,
+        "projected_points": 6.428,
+        "actual_md1_fantasy_points": 1,
+        "projection_error": -5.428,
+        "failure_category": "poor_individual_outcome_despite_good_role"
+      },
+      {
+        "official_fantasy_player_id": "1236",
+        "name": "Darwin Núñez",
+        "team": "Uruguay",
+        "recommendation_type": "balanced",
+        "rank": 22,
+        "projected_points": 6.026,
+        "actual_md1_fantasy_points": 1,
+        "projection_error": -5.026,
+        "failure_category": "poor_individual_outcome_despite_good_role"
+      },
+      {
+        "official_fantasy_player_id": "1236",
+        "name": "Darwin Núñez",
+        "team": "Uruguay",
+        "recommendation_type": "safe",
+        "rank": 22,
+        "projected_points": 6.026,
+        "actual_md1_fantasy_points": 1,
+        "projection_error": -5.026,
+        "failure_category": "poor_individual_outcome_despite_good_role"
+      },
+      {
+        "official_fantasy_player_id": "1236",
+        "name": "Darwin Núñez",
+        "team": "Uruguay",
+        "recommendation_type": "differential",
+        "rank": 23,
+        "projected_points": 6.026,
+        "actual_md1_fantasy_points": 1,
+        "projection_error": -5.026,
+        "failure_category": "poor_individual_outcome_despite_good_role"
+      },
+      {
+        "official_fantasy_player_id": "1236",
+        "name": "Darwin Núñez",
+        "team": "Uruguay",
+        "recommendation_type": "captain",
+        "rank": 13,
+        "projected_points": 6.026,
+        "actual_md1_fantasy_points": 1,
+        "projection_error": -5.026,
+        "failure_category": "poor_individual_outcome_despite_good_role"
+      },
+      {
+        "official_fantasy_player_id": "939",
+        "name": "Bruno Miguel Borges Fernandes",
+        "team": "Portugal",
+        "recommendation_type": "balanced",
+        "rank": 4,
+        "projected_points": 7.962,
+        "actual_md1_fantasy_points": 3,
+        "projection_error": -4.962,
+        "failure_category": "cannot_classify"
+      },
+      {
+        "official_fantasy_player_id": "939",
+        "name": "Bruno Miguel Borges Fernandes",
+        "team": "Portugal",
+        "recommendation_type": "safe",
+        "rank": 9,
+        "projected_points": 7.962,
+        "actual_md1_fantasy_points": 3,
+        "projection_error": -4.962,
+        "failure_category": "cannot_classify"
+      },
+      {
+        "official_fantasy_player_id": "939",
+        "name": "Bruno Miguel Borges Fernandes",
+        "team": "Portugal",
+        "recommendation_type": "captain",
+        "rank": 3,
+        "projected_points": 7.962,
+        "actual_md1_fantasy_points": 3,
+        "projection_error": -4.962,
+        "failure_category": "cannot_classify"
+      },
+      {
+        "official_fantasy_player_id": "847",
+        "name": "Julian Ryerson",
+        "team": "Norway",
+        "recommendation_type": "balanced",
+        "rank": 17,
+        "projected_points": 6.959,
+        "actual_md1_fantasy_points": 2,
+        "projection_error": -4.959,
+        "failure_category": "bad_team_fixture_environment"
+      },
+      {
+        "official_fantasy_player_id": "847",
+        "name": "Julian Ryerson",
+        "team": "Norway",
+        "recommendation_type": "upside",
+        "rank": 7,
+        "projected_points": 6.959,
+        "actual_md1_fantasy_points": 2,
+        "projection_error": -4.959,
+        "failure_category": "bad_team_fixture_environment"
+      },
+      {
+        "official_fantasy_player_id": "847",
+        "name": "Julian Ryerson",
+        "team": "Norway",
+        "recommendation_type": "captain",
+        "rank": 25,
+        "projected_points": 6.959,
+        "actual_md1_fantasy_points": 2,
+        "projection_error": -4.959,
+        "failure_category": "bad_team_fixture_environment"
+      },
+      {
+        "official_fantasy_player_id": "252",
+        "name": "Johan Mojica",
+        "team": "Colombia",
+        "recommendation_type": "balanced",
+        "rank": 20,
+        "projected_points": 5.699,
+        "actual_md1_fantasy_points": 1,
+        "projection_error": -4.699,
+        "failure_category": "price_value_overweight"
+      },
+      {
+        "official_fantasy_player_id": "252",
+        "name": "Johan Mojica",
+        "team": "Colombia",
+        "recommendation_type": "safe",
+        "rank": 25,
+        "projected_points": 5.699,
+        "actual_md1_fantasy_points": 1,
+        "projection_error": -4.699,
+        "failure_category": "price_value_overweight"
+      },
+      {
+        "official_fantasy_player_id": "252",
+        "name": "Johan Mojica",
+        "team": "Colombia",
+        "recommendation_type": "upside",
+        "rank": 17,
+        "projected_points": 5.699,
+        "actual_md1_fantasy_points": 1,
+        "projection_error": -4.699,
+        "failure_category": "price_value_overweight"
+      },
+      {
+        "official_fantasy_player_id": "252",
+        "name": "Johan Mojica",
+        "team": "Colombia",
+        "recommendation_type": "differential",
+        "rank": 2,
+        "projected_points": 5.699,
+        "actual_md1_fantasy_points": 1,
+        "projection_error": -4.699,
+        "failure_category": "price_value_overweight"
+      },
+      {
+        "official_fantasy_player_id": "1573",
+        "name": "Cristiano Ronaldo dos Santos Aveiro",
+        "team": "Portugal",
+        "recommendation_type": "balanced",
+        "rank": 15,
+        "projected_points": 6.676,
+        "actual_md1_fantasy_points": 2,
+        "projection_error": -4.676,
+        "failure_category": "poor_individual_outcome_despite_good_role"
+      },
+      {
+        "official_fantasy_player_id": "1573",
+        "name": "Cristiano Ronaldo dos Santos Aveiro",
+        "team": "Portugal",
+        "recommendation_type": "captain",
+        "rank": 10,
+        "projected_points": 6.676,
+        "actual_md1_fantasy_points": 2,
+        "projection_error": -4.676,
+        "failure_category": "poor_individual_outcome_despite_good_role"
+      },
+      {
+        "official_fantasy_player_id": "457",
+        "name": "Nico O'Reilly",
+        "team": "England",
+        "recommendation_type": "balanced",
+        "rank": 19,
+        "projected_points": 5.649,
+        "actual_md1_fantasy_points": 1,
+        "projection_error": -4.649,
+        "failure_category": "bad_team_fixture_environment"
+      }
+    ],
+    "value_finance_overweight_signal_count": 26,
+    "omitted_high_upside_actuals": [
+      {
+        "official_fantasy_player_id": "1114",
+        "name": "Yasin Ayari",
+        "team": "Sweden",
+        "position": "MID",
+        "price": 5.3,
+        "actual_md1_fantasy_points": 17,
+        "prior_md1_projected_points": 3.986,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "832",
+        "name": "Elijah Just",
+        "team": "New Zealand",
+        "position": "MID",
+        "price": 4.2,
+        "actual_md1_fantasy_points": 16,
+        "prior_md1_projected_points": 2.24,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "1520",
+        "name": "Alexander Isak",
+        "team": "Sweden",
+        "position": "FWD",
+        "price": 8,
+        "actual_md1_fantasy_points": 16,
+        "prior_md1_projected_points": 3.379,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "1267",
+        "name": "Folarin Balogun",
+        "team": "USA",
+        "position": "FWD",
+        "price": 6,
+        "actual_md1_fantasy_points": 15,
+        "prior_md1_projected_points": 3.373,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "525",
+        "name": "Nathaniel Brown",
+        "team": "Germany",
+        "position": "DEF",
+        "price": 4.7,
+        "actual_md1_fantasy_points": 14,
+        "prior_md1_projected_points": 4.603,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "531",
+        "name": "Deniz Undav",
+        "team": "Germany",
+        "position": "FWD",
+        "price": 6.6,
+        "actual_md1_fantasy_points": 14,
+        "prior_md1_projected_points": 4.132,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "1124",
+        "name": "Viktor Gyökeres",
+        "team": "Sweden",
+        "position": "FWD",
+        "price": 7.8,
+        "actual_md1_fantasy_points": 14,
+        "prior_md1_projected_points": 4.044,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "528",
+        "name": "Kai Havertz",
+        "team": "Germany",
+        "position": "FWD",
+        "price": 7.8,
+        "actual_md1_fantasy_points": 13,
+        "prior_md1_projected_points": 5.133,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "597",
+        "name": "Ramin Rezaeian",
+        "team": "IR Iran",
+        "position": "DEF",
+        "price": 4,
+        "actual_md1_fantasy_points": 13,
+        "prior_md1_projected_points": 3.072,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "1549",
+        "name": "In-Beom Hwang",
+        "team": "Korea Republic",
+        "position": "MID",
+        "price": 5.8,
+        "actual_md1_fantasy_points": 13,
+        "prior_md1_projected_points": 3.323,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "1601",
+        "name": "Felix Nmecha",
+        "team": "Germany",
+        "position": "MID",
+        "price": 5.6,
+        "actual_md1_fantasy_points": 13,
+        "prior_md1_projected_points": 3.839,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "300",
+        "name": "Wilfried Singo",
+        "team": "Côte d'Ivoire",
+        "position": "DEF",
+        "price": 4.4,
+        "actual_md1_fantasy_points": 12,
+        "prior_md1_projected_points": 2.076,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "76",
+        "name": "Patrick Beach",
+        "team": "Australia",
+        "position": "GK",
+        "price": 3.5,
+        "actual_md1_fantasy_points": 11,
+        "prior_md1_projected_points": 2.401,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "80",
+        "name": "Connor Metcalfe",
+        "team": "Australia",
+        "position": "MID",
+        "price": 5.3,
+        "actual_md1_fantasy_points": 11,
+        "prior_md1_projected_points": 1.924,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "214",
+        "name": "Josimar José Évora Dias",
+        "team": "Cabo Verde",
+        "position": "GK",
+        "price": 3.9,
+        "actual_md1_fantasy_points": 11,
+        "prior_md1_projected_points": 1.908,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "526",
+        "name": "Nico Schlotterbeck",
+        "team": "Germany",
+        "position": "DEF",
+        "price": 5.3,
+        "actual_md1_fantasy_points": 11,
+        "prior_md1_projected_points": 6.242,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "682",
+        "name": "Daichi Kamada",
+        "team": "Japan",
+        "position": "MID",
+        "price": 5.8,
+        "actual_md1_fantasy_points": 11,
+        "prior_md1_projected_points": 3.487,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "1003",
+        "name": "John McGinn",
+        "team": "Scotland",
+        "position": "MID",
+        "price": 6,
+        "actual_md1_fantasy_points": 11,
+        "prior_md1_projected_points": 4.63,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "1493",
+        "name": "Chris Wood",
+        "team": "New Zealand",
+        "position": "FWD",
+        "price": 6.5,
+        "actual_md1_fantasy_points": 11,
+        "prior_md1_projected_points": 2.691,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "68",
+        "name": "Nestory Irankunda",
+        "team": "Australia",
+        "position": "FWD",
+        "price": 5.1,
+        "actual_md1_fantasy_points": 10,
+        "prior_md1_projected_points": 1.867,
+        "captain_watchlist": false
+      }
+    ],
+    "captain_candidates_assessment": "Captain rows are auditable, but captain quality needs stronger actual-upside and role evidence checks before MD2 promotion."
+  },
+  "team_builder_md1_audit": {
+    "saved_or_generated_baseline_found": false,
+    "scope_note": "No saved/generated Team Builder squad artifact was found in data/. This audit uses active MD1 recommendation, projection, and finance inputs only.",
+    "balanced_md1_recommendation_rows": 25,
+    "balanced_low_price_rows": 10,
+    "balanced_premium_rows": 9,
+    "balanced_average_price": 6.748,
+    "balanced_average_actual_points": 6.208,
+    "balanced_failure_categories": {
+      "price_value_overweight": 4,
+      "cannot_classify": 8,
+      "bad_team_fixture_environment": 9,
+      "poor_individual_outcome_despite_good_role": 3,
+      "stale_missing_data": 1
+    },
+    "value_finance_overweight_signal": 26,
+    "elite_high_upside_omitted_actual_top20": [
+      {
+        "official_fantasy_player_id": "1114",
+        "name": "Yasin Ayari",
+        "team": "Sweden",
+        "position": "MID",
+        "price": 5.3,
+        "actual_md1_fantasy_points": 17,
+        "prior_md1_projected_points": 3.986,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "832",
+        "name": "Elijah Just",
+        "team": "New Zealand",
+        "position": "MID",
+        "price": 4.2,
+        "actual_md1_fantasy_points": 16,
+        "prior_md1_projected_points": 2.24,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "1520",
+        "name": "Alexander Isak",
+        "team": "Sweden",
+        "position": "FWD",
+        "price": 8,
+        "actual_md1_fantasy_points": 16,
+        "prior_md1_projected_points": 3.379,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "1267",
+        "name": "Folarin Balogun",
+        "team": "USA",
+        "position": "FWD",
+        "price": 6,
+        "actual_md1_fantasy_points": 15,
+        "prior_md1_projected_points": 3.373,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "525",
+        "name": "Nathaniel Brown",
+        "team": "Germany",
+        "position": "DEF",
+        "price": 4.7,
+        "actual_md1_fantasy_points": 14,
+        "prior_md1_projected_points": 4.603,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "531",
+        "name": "Deniz Undav",
+        "team": "Germany",
+        "position": "FWD",
+        "price": 6.6,
+        "actual_md1_fantasy_points": 14,
+        "prior_md1_projected_points": 4.132,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "1124",
+        "name": "Viktor Gyökeres",
+        "team": "Sweden",
+        "position": "FWD",
+        "price": 7.8,
+        "actual_md1_fantasy_points": 14,
+        "prior_md1_projected_points": 4.044,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "528",
+        "name": "Kai Havertz",
+        "team": "Germany",
+        "position": "FWD",
+        "price": 7.8,
+        "actual_md1_fantasy_points": 13,
+        "prior_md1_projected_points": 5.133,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "597",
+        "name": "Ramin Rezaeian",
+        "team": "IR Iran",
+        "position": "DEF",
+        "price": 4,
+        "actual_md1_fantasy_points": 13,
+        "prior_md1_projected_points": 3.072,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "1549",
+        "name": "In-Beom Hwang",
+        "team": "Korea Republic",
+        "position": "MID",
+        "price": 5.8,
+        "actual_md1_fantasy_points": 13,
+        "prior_md1_projected_points": 3.323,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "1601",
+        "name": "Felix Nmecha",
+        "team": "Germany",
+        "position": "MID",
+        "price": 5.6,
+        "actual_md1_fantasy_points": 13,
+        "prior_md1_projected_points": 3.839,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "300",
+        "name": "Wilfried Singo",
+        "team": "Côte d'Ivoire",
+        "position": "DEF",
+        "price": 4.4,
+        "actual_md1_fantasy_points": 12,
+        "prior_md1_projected_points": 2.076,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "76",
+        "name": "Patrick Beach",
+        "team": "Australia",
+        "position": "GK",
+        "price": 3.5,
+        "actual_md1_fantasy_points": 11,
+        "prior_md1_projected_points": 2.401,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "80",
+        "name": "Connor Metcalfe",
+        "team": "Australia",
+        "position": "MID",
+        "price": 5.3,
+        "actual_md1_fantasy_points": 11,
+        "prior_md1_projected_points": 1.924,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "214",
+        "name": "Josimar José Évora Dias",
+        "team": "Cabo Verde",
+        "position": "GK",
+        "price": 3.9,
+        "actual_md1_fantasy_points": 11,
+        "prior_md1_projected_points": 1.908,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "526",
+        "name": "Nico Schlotterbeck",
+        "team": "Germany",
+        "position": "DEF",
+        "price": 5.3,
+        "actual_md1_fantasy_points": 11,
+        "prior_md1_projected_points": 6.242,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "682",
+        "name": "Daichi Kamada",
+        "team": "Japan",
+        "position": "MID",
+        "price": 5.8,
+        "actual_md1_fantasy_points": 11,
+        "prior_md1_projected_points": 3.487,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "1003",
+        "name": "John McGinn",
+        "team": "Scotland",
+        "position": "MID",
+        "price": 6,
+        "actual_md1_fantasy_points": 11,
+        "prior_md1_projected_points": 4.63,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "1493",
+        "name": "Chris Wood",
+        "team": "New Zealand",
+        "position": "FWD",
+        "price": 6.5,
+        "actual_md1_fantasy_points": 11,
+        "prior_md1_projected_points": 2.691,
+        "captain_watchlist": false
+      },
+      {
+        "official_fantasy_player_id": "68",
+        "name": "Nestory Irankunda",
+        "team": "Australia",
+        "position": "FWD",
+        "price": 5.1,
+        "actual_md1_fantasy_points": 10,
+        "prior_md1_projected_points": 1.867,
+        "captain_watchlist": false
+      }
+    ],
+    "omitted_captain_score_top20": [
+      {
+        "official_fantasy_player_id": "1092",
+        "name": "Lamine Yamal Nasraoui Ebana",
+        "team": "Spain",
+        "position": "MID",
+        "price": 10,
+        "captain_score": 15.485,
+        "raw_expected_points": 7.577,
+        "start_probability": 0.58
+      },
+      {
+        "official_fantasy_player_id": "173",
+        "name": "Vinícius José Paixão de Oliveira Júnior",
+        "team": "Brazil",
+        "position": "MID",
+        "price": 10,
+        "captain_score": 14.77,
+        "raw_expected_points": 6.885,
+        "start_probability": 0.95
+      },
+      {
+        "official_fantasy_player_id": "259",
+        "name": "Luis Suárez",
+        "team": "Colombia",
+        "position": "FWD",
+        "price": 5.7,
+        "captain_score": 14.718,
+        "raw_expected_points": 6.469,
+        "start_probability": 0.73
+      },
+      {
+        "official_fantasy_player_id": "505",
+        "name": "Désiré Doué",
+        "team": "France",
+        "position": "MID",
+        "price": 7.5,
+        "captain_score": 14.286,
+        "raw_expected_points": 6.538,
+        "start_probability": 0.74
+      },
+      {
+        "official_fantasy_player_id": "248",
+        "name": "Daniel Muñoz",
+        "team": "Colombia",
+        "position": "DEF",
+        "price": 4.6,
+        "captain_score": 13.601,
+        "raw_expected_points": 6.538,
+        "start_probability": 0.94
+      },
+      {
+        "official_fantasy_player_id": "526",
+        "name": "Nico Schlotterbeck",
+        "team": "Germany",
+        "position": "DEF",
+        "price": 5.3,
+        "captain_score": 13.325,
+        "raw_expected_points": 6.242,
+        "start_probability": 0.884
+      },
+      {
+        "official_fantasy_player_id": "55",
+        "name": "Thiago Almada",
+        "team": "Argentina",
+        "position": "MID",
+        "price": 6.5,
+        "captain_score": 13.164,
+        "raw_expected_points": 6.052,
+        "start_probability": 0.913
+      },
+      {
+        "official_fantasy_player_id": "1229",
+        "name": "Mathías Olivera",
+        "team": "Uruguay",
+        "position": "DEF",
+        "price": 4.3,
+        "captain_score": 13.097,
+        "raw_expected_points": 6.243,
+        "start_probability": 0.93
+      },
+      {
+        "official_fantasy_player_id": "1088",
+        "name": "Marc Cucurella",
+        "team": "Spain",
+        "position": "DEF",
+        "price": 5.1,
+        "captain_score": 13.064,
+        "raw_expected_points": 6.208,
+        "start_probability": 0.9
+      },
+      {
+        "official_fantasy_player_id": "1215",
+        "name": "Arda Güler",
+        "team": "Türkiye",
+        "position": "MID",
+        "price": 7,
+        "captain_score": 12.901,
+        "raw_expected_points": 6.175,
+        "start_probability": 0.931
+      },
+      {
+        "official_fantasy_player_id": "1027",
+        "name": "Scott McTominay",
+        "team": "Scotland",
+        "position": "MID",
+        "price": 6.5,
+        "captain_score": 12.895,
+        "raw_expected_points": 5.791,
+        "start_probability": 0.923
+      },
+      {
+        "official_fantasy_player_id": "262",
+        "name": "Camilo Vargas",
+        "team": "Colombia",
+        "position": "GK",
+        "price": 4.3,
+        "captain_score": 12.704,
+        "raw_expected_points": 6.295,
+        "start_probability": 0.94
+      },
+      {
+        "official_fantasy_player_id": "129",
+        "name": "Charles De Ketelaere",
+        "team": "Belgium",
+        "position": "MID",
+        "price": 5.6,
+        "captain_score": 12.684,
+        "raw_expected_points": 6.071,
+        "start_probability": 0.902
+      },
+      {
+        "official_fantasy_player_id": "529",
+        "name": "Leroy Sané",
+        "team": "Germany",
+        "position": "MID",
+        "price": 7.4,
+        "captain_score": 12.588,
+        "raw_expected_points": 5.667,
+        "start_probability": 0.891
+      },
+      {
+        "official_fantasy_player_id": "863",
+        "name": "Antonio Nusa",
+        "team": "Norway",
+        "position": "MID",
+        "price": 6.1,
+        "captain_score": 12.501,
+        "raw_expected_points": 5.741,
+        "start_probability": 0.87
+      },
+      {
+        "official_fantasy_player_id": "491",
+        "name": "Jude Bellingham",
+        "team": "England",
+        "position": "MID",
+        "price": 8.3,
+        "captain_score": 12.376,
+        "raw_expected_points": 5.717,
+        "start_probability": 0.912
+      },
+      {
+        "official_fantasy_player_id": "45",
+        "name": "Emiliano Martínez",
+        "team": "Argentina",
+        "position": "GK",
+        "price": 5,
+        "captain_score": 12.294,
+        "raw_expected_points": 6.049,
+        "start_probability": 0.94
+      },
+      {
+        "official_fantasy_player_id": "1580",
+        "name": "Lawrence Shankland",
+        "team": "Scotland",
+        "position": "FWD",
+        "price": 5.5,
+        "captain_score": 12.158,
+        "raw_expected_points": 5.349,
+        "start_probability": 0.74
+      },
+      {
+        "official_fantasy_player_id": "1323",
+        "name": "Gonzalo Montiel",
+        "team": "Argentina",
+        "position": "DEF",
+        "price": 4.3,
+        "captain_score": 12.148,
+        "raw_expected_points": 5.553,
+        "start_probability": 0.75
+      },
+      {
+        "official_fantasy_player_id": "1141",
+        "name": "Manuel Akanji",
+        "team": "Switzerland",
+        "position": "DEF",
+        "price": 5,
+        "captain_score": 12.126,
+        "raw_expected_points": 5.754,
+        "start_probability": 0.908
+      }
+    ],
+    "conclusion": "A hard Team Builder output audit is not possible without a saved/generated squad artifact. The input audit still shows whether value/finance-driven candidates underperformed and which elite/upside rows were omitted."
+  },
+  "model_rebuild_guidance": [
+    {
+      "id": "score_v4_goal_environment",
+      "model_step": "score model v4",
+      "recommendation": "Raise the global goal baseline with shrinkage toward the pre-MD1 prior; do not apply the full MD1 ratio unshrunk.",
+      "confidence": "high confidence",
+      "robustness": "likely robust, but exact multiplier could overfit one matchday",
+      "evidence": "MD1 actual avg goals 3.125 vs predicted 2.461; ratio 1.27."
+    },
+    {
+      "id": "score_v4_upset_uncertainty",
+      "model_step": "score model v4",
+      "recommendation": "Add a calibrated upset/draw uncertainty layer for medium favorites and high-uncertainty team contexts.",
+      "confidence": "high confidence",
+      "robustness": "likely robust",
+      "evidence": "Predicted/final result accuracy was 10/24; favorite wins were 10/24."
+    },
+    {
+      "id": "score_v4_clean_sheet_shrink",
+      "model_step": "score model v4",
+      "recommendation": "Shrink clean-sheet probabilities for public defensive context until MD1 residuals are incorporated.",
+      "confidence": "medium confidence",
+      "robustness": "could partly overfit one matchday",
+      "evidence": "14/18 high clean-sheet calls missed."
+    },
+    {
+      "id": "role_v2_md1_points_rows",
+      "model_step": "role/start/minutes model v2",
+      "recommendation": "Use completed MD1 point-row presence and matchStatus when available as a strong live role signal for MD2.",
+      "confidence": "high confidence",
+      "robustness": "likely robust",
+      "evidence": "753 players have completed MD1 point rows; 7 high-start/no-row or low-start/positive-row role flags."
+    },
+    {
+      "id": "projection_v4_role_gating",
+      "model_step": "component player projection model v4",
+      "recommendation": "Gate component projections by live role evidence before applying event-rate upside.",
+      "confidence": "high confidence",
+      "robustness": "likely robust",
+      "evidence": "Player mean absolute projection error was 2.319; missing point rows dominate hard role evidence gaps."
+    },
+    {
+      "id": "projection_v4_position_review",
+      "model_step": "component player projection model v4",
+      "recommendation": "Review position-level component priors against MD1 actual errors before rerunning MD2.",
+      "confidence": "medium confidence",
+      "robustness": "some risk of overfitting one matchday",
+      "evidence": "Position-level MD1 error tables are included in the dataset summary."
+    },
+    {
+      "id": "recommendations_v4_value_guardrail",
+      "model_step": "recommendations v4",
+      "recommendation": "Add a value/finance guardrail: cheap or high-finance-alpha candidates need confirmed role evidence or a stronger raw projection.",
+      "confidence": "high confidence",
+      "robustness": "likely robust",
+      "evidence": "26 value/finance-driven recommendation rows were flat, misses, or had no actual row."
+    },
+    {
+      "id": "recommendations_v4_star_exposure",
+      "model_step": "recommendations v4",
+      "recommendation": "Add explicit elite/high-upside exposure checks for public picks and captain lists.",
+      "confidence": "medium confidence",
+      "robustness": "likely robust as a QA guardrail, exact thresholds need tuning",
+      "evidence": "20 top actual MD1 performers were outside the MD1 recommendation surface."
+    },
+    {
+      "id": "builder_v4_playable_value_cap",
+      "model_step": "Team Builder optimizer v4",
+      "recommendation": "Cap value filler exposure in Balanced Squad unless MD1 role evidence, start probability, and expected minutes all clear stricter thresholds.",
+      "confidence": "high confidence",
+      "robustness": "likely robust",
+      "evidence": "No saved builder squad artifact exists, but active inputs show value/finance rows need live role gating before squad optimization."
+    },
+    {
+      "id": "public_qa_md1_backtest",
+      "model_step": "public explanation/QA",
+      "recommendation": "Publish model notes that distinguish data-path health from model calibration misses and show MD1 backtest tables before MD2 promotion.",
+      "confidence": "high confidence",
+      "robustness": "robust",
+      "evidence": "Active data path, fixture mapping, and official identity are green; the failures are model calibration and role-estimation issues."
+    }
+  ],
+  "top_10_actionable_md2_fixes": [
+    "Recalibrate the score model goal environment upward, but shrink the full MD1 1.27x raw ratio to avoid overfitting one matchday.",
+    "Add a specific underdog/upset uncertainty layer for close or medium-favorite fixtures; MD1 result accuracy was only 10/24.",
+    "Do not let clean-sheet context dominate defender/keeper recommendations after MD1; high-probability clean sheets missed often.",
+    "Treat missing MD1 actual-points rows for high-start players as a role/start warning before MD2 projections.",
+    "Increase weight on completed MD1 live points and point-row presence for start/minutes model v2, while separating it from ownership-only drift.",
+    "Add team-specific attack/defense residual priors with shrinkage for extreme MD1 misses such as Germany attack and Spain finishing volatility.",
+    "Add recommendation penalties for high finance-alpha or value candidates with no MD1 points row or weak role evidence.",
+    "Strengthen captain shortlist exposure to elite/high-upside actual performers, not only price-adjusted value.",
+    "Require public pick QA to show actual MD1 backtest by mode before promoting MD2 recommendations.",
+    "For Team Builder v4, cap low-price/value fill-ins unless role evidence or MD1 points row confirms they are playable."
+  ],
+  "qa": {
+    "status": "pass",
+    "checks": [
+      {
+        "id": "all_24_final_md1_fixtures_used",
+        "status": "pass",
+        "detail": "24/24 final MD1 fixtures used."
+      },
+      {
+        "id": "no_incomplete_fixtures_used",
+        "status": "pass",
+        "detail": "Only complete/final, safe-to-display MD1 fixtures are included."
+      },
+      {
+        "id": "no_md2_md3_actuals_used",
+        "status": "pass",
+        "detail": "All fixture actuals come from round_id=1."
+      },
+      {
+        "id": "player_ids_resolve_active_official_pool",
+        "status": "pass",
+        "detail": "1488/1488 player rows resolve through official_position_records."
+      },
+      {
+        "id": "no_duplicate_fixture_keys",
+        "status": "pass",
+        "detail": "24/24 unique fixture keys."
+      },
+      {
+        "id": "no_duplicate_official_fantasy_player_ids",
+        "status": "pass",
+        "detail": "1488/1488 unique official fantasy player IDs."
+      },
+      {
+        "id": "no_stale_legacy_public_data_used",
+        "status": "pass",
+        "detail": "Sources are current fantasy-pool and live support files only; legacy files are not read by this script."
+      },
+      {
+        "id": "final_squads_not_claimed_source_backed",
+        "status": "pass",
+        "detail": "confirmed_final_squad_rows=0; final squads are not claimed source-backed."
+      },
+      {
+        "id": "active_md2_data_flow_precheck",
+        "status": "pass",
+        "detail": "activeMd2DataFlowQa status=pass, failures=0, warnings=0."
+      },
+      {
+        "id": "live_fixture_mapping_precheck",
+        "status": "pass",
+        "detail": "liveFixtureMappingQa status=passed, final_fixtures_shown=24."
+      },
+      {
+        "id": "no_nan_or_infinity",
+        "status": "pass",
+        "detail": "No NaN or Infinity values found."
+      }
+    ],
+    "invalid_number_paths": []
+  },
+  "safe_to_proceed_to_score_model_v4": true
+}

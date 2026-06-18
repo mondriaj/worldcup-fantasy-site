@@ -1,12 +1,12 @@
 {
   "schema_version": "live_fixture_mapping_qa_v1",
-  "generated_at": "2026-06-18T12:07:17.156Z",
+  "generated_at": "2026-06-18T12:47:12.881Z",
   "status": "passed",
   "files": {
     "localFixtures": "data/fixtures.json",
     "liveMatchday": "data/liveMatchdayStatus_v1.json",
     "livePlayers": "data/livePlayerStatus_v1.json",
-    "scorePredictions": "data/scorePredictions_fantasyPool_v3.json",
+    "scorePredictions": "data/scorePredictions_fantasyPool_v4_md2.json",
     "script": "script.js",
     "worldCupPage": "worldCupPage.js",
     "qaJson": "data/liveFixtureMappingQa_v1.json",
