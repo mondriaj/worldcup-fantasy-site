@@ -1,6 +1,6 @@
 # Live Fixture Mapping QA v1
 
-Generated: 2026-06-18T12:47:12.881Z
+Generated: 2026-06-18T13:28:20.895Z
 
 Status: passed
 

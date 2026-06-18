@@ -1,0 +1,206 @@
+{
+  "schema_version": "player_role_model_qa_md2_v2",
+  "generated_at": "2026-06-18T13:28:10.327Z",
+  "modelVersion": "player-role-md2-v2-md1-evidence",
+  "status": "pass",
+  "summary": {
+    "active_official_player_count": 1488,
+    "role_rows": 1488,
+    "role_tier_counts": {
+      "locked_starter": 230,
+      "impact_sub": 203,
+      "likely_starter": 233,
+      "bench_depth": 278,
+      "unavailable_or_not_selectable": 243,
+      "possible_starter": 125,
+      "managed_minutes_star": 28,
+      "rotation_risk": 136,
+      "no_md1_evidence": 12
+    },
+    "role_tier_counts_by_position": {
+      "DEF": {
+        "locked_starter": 76,
+        "likely_starter": 78,
+        "unavailable_or_not_selectable": 75,
+        "bench_depth": 87,
+        "managed_minutes_star": 23,
+        "possible_starter": 44,
+        "impact_sub": 49,
+        "rotation_risk": 48,
+        "no_md1_evidence": 5
+      },
+      "MID": {
+        "impact_sub": 85,
+        "rotation_risk": 38,
+        "likely_starter": 88,
+        "managed_minutes_star": 4,
+        "unavailable_or_not_selectable": 94,
+        "bench_depth": 70,
+        "locked_starter": 89,
+        "possible_starter": 42,
+        "no_md1_evidence": 5
+      },
+      "GK": {
+        "bench_depth": 71,
+        "unavailable_or_not_selectable": 36,
+        "possible_starter": 10,
+        "impact_sub": 11,
+        "rotation_risk": 12,
+        "locked_starter": 24,
+        "likely_starter": 17
+      },
+      "FWD": {
+        "unavailable_or_not_selectable": 38,
+        "impact_sub": 58,
+        "rotation_risk": 38,
+        "bench_depth": 50,
+        "locked_starter": 41,
+        "likely_starter": 50,
+        "possible_starter": 29,
+        "no_md1_evidence": 2,
+        "managed_minutes_star": 1
+      }
+    },
+    "evidence_strength_counts": {
+      "medium": 692,
+      "weak": 796
+    },
+    "md1_role_evidence_type_counts": {
+      "played_points_evidence": 692,
+      "zero_or_missing_points_evidence": 544,
+      "no_md1_fixture_or_no_evidence": 252
+    },
+    "explicit_starter_sub_not_in_squad_evidence_rows": 0,
+    "points_only_evidence_rows": 1236,
+    "positive_points_only_evidence_rows": 692,
+    "zero_or_missing_points_evidence_rows": 544,
+    "elite_high_prior_players": 289,
+    "elite_high_prior_protected_from_over_downgrade": 42,
+    "not_selectable_forced_zero": 243,
+    "average_start_probability": 0.502,
+    "average_expected_minutes": 47.1
+  },
+  "checks": [
+    {
+      "id": "official_player_coverage",
+      "status": "pass",
+      "severity": "error",
+      "detail": "1488/1488 official fantasy rows have role rows."
+    },
+    {
+      "id": "no_duplicate_official_fantasy_player_ids",
+      "status": "pass",
+      "severity": "error",
+      "detail": "1488/1488 unique official fantasy player IDs."
+    },
+    {
+      "id": "md2_recommendation_players_have_role_rows",
+      "status": "pass",
+      "severity": "error",
+      "detail": "62/62 MD2 recommendation players covered."
+    },
+    {
+      "id": "md2_projection_players_have_role_rows",
+      "status": "pass",
+      "severity": "error",
+      "detail": "1233/1233 MD2 projection players covered."
+    },
+    {
+      "id": "finance_players_have_role_rows_where_active",
+      "status": "pass",
+      "severity": "error",
+      "detail": "1233/1233 finance players covered."
+    },
+    {
+      "id": "start_probability_bounds",
+      "status": "pass",
+      "severity": "error",
+      "detail": "All md2StartProb values are between 0 and 1."
+    },
+    {
+      "id": "expected_minutes_bounds",
+      "status": "pass",
+      "severity": "error",
+      "detail": "All md2ExpectedMinutes values are between 0 and 95."
+    },
+    {
+      "id": "role_risk_bounds",
+      "status": "pass",
+      "severity": "error",
+      "detail": "All roleRiskScore values are between 0 and 1."
+    },
+    {
+      "id": "no_nan_or_infinity",
+      "status": "pass",
+      "severity": "error",
+      "detail": "No NaN or Infinity values."
+    },
+    {
+      "id": "not_selectable_forced_zero",
+      "status": "pass",
+      "severity": "error",
+      "detail": "243 not-selectable rows forced to zero."
+    },
+    {
+      "id": "role_tier_present",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Every role row has a valid roleTier."
+    },
+    {
+      "id": "role_reason_present",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Every role row has a roleReason."
+    },
+    {
+      "id": "evidence_strength_present",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Every role row has evidenceStrength."
+    },
+    {
+      "id": "downgraded_elite_has_caution",
+      "status": "pass",
+      "severity": "error",
+      "detail": "172 downgraded elite/high-prior rows have cautions."
+    },
+    {
+      "id": "top_30_prior_not_all_downgraded",
+      "status": "pass",
+      "severity": "error",
+      "detail": "15/30 top-30 prior MD2 projected players were downgraded."
+    },
+    {
+      "id": "elite_weak_evidence_not_destroyed",
+      "status": "pass",
+      "severity": "error",
+      "detail": "0 elite/high-prior weak-evidence rows fell below 0.50 start probability."
+    },
+    {
+      "id": "low_prior_zero_evidence_downgraded",
+      "status": "pass",
+      "severity": "error",
+      "detail": "288/295 low-prior zero/missing-evidence rows downgraded."
+    },
+    {
+      "id": "positive_points_not_bench_depth",
+      "status": "pass",
+      "severity": "error",
+      "detail": "0 positive MD1 point players marked bench_depth."
+    },
+    {
+      "id": "not_selectable_not_starter_tiers",
+      "status": "pass",
+      "severity": "error",
+      "detail": "0 not-selectable players have starter-like role tiers."
+    },
+    {
+      "id": "role_tier_counts_plausible_by_position",
+      "status": "pass",
+      "severity": "error",
+      "detail": "Role tiers include starter and depth rows across positions."
+    }
+  ],
+  "failures": []
+}
