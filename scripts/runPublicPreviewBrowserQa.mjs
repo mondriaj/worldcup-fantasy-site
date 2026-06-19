@@ -6,6 +6,7 @@ const { chromium } = require("playwright");
 
 const baseUrl = process.env.PUBLIC_PREVIEW_BASE_URL || "http://127.0.0.1:8766";
 const outputPath = process.env.PUBLIC_PREVIEW_QA_OUTPUT || "/private/tmp/public_preview_browser_qa_result.json";
+const reportPath = process.env.PUBLIC_PREVIEW_QA_REPORT || "data/publicPreviewBrowserQaReport_v1.md";
 const screenshotDir = process.env.PUBLIC_PREVIEW_QA_SCREENSHOT_DIR || "/private/tmp/public_preview_browser_qa_screenshots";
 const activePublicMatchdayId = "md2";
 const executableCandidates = [
@@ -65,6 +66,116 @@ function failReasons(checks) {
   return Object.entries(checks)
     .filter(([, ok]) => !ok)
     .map(([key]) => key);
+}
+
+function mdTable(headers, rows) {
+  return [
+    `| ${headers.join(" | ")} |`,
+    `| ${headers.map(() => "---").join(" | ")} |`,
+    ...rows.map((row) => `| ${row.map((value) => String(value ?? "")).join(" | ")} |`)
+  ].join("\n");
+}
+
+function buildMarkdownReport(result) {
+  const summary = result.summary;
+  const firstIndex = result.indexResults[0];
+  const firstWorldCup = result.worldCupResults[0];
+  const checks = firstIndex?.checks || {};
+  const globals = firstIndex?.stateBeforeClicks?.globals?.activeGlobalCounts || {};
+  const screenshots = result.indexResults.concat(result.worldCupResults).map((entry) => entry.screenshotPath);
+  const ignoredFailedRequests = summary.failedRequestCount - summary.blockingFailedRequestCount;
+
+  return [
+    "# Public Preview Browser QA Report v1",
+    "",
+    `Generated: ${result.generated_at}`,
+    "",
+    "## Verdict",
+    "",
+    summary.status === "pass"
+      ? "**pass - safe_to_share_md2_public_preview**"
+      : "**fail - do_not_share_until_browser_qa_is_fixed**",
+    "",
+    "The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. MD2 remains the public default, MD1 remains accessible, live completed scores are shown only through the safe mapping path, and old public globals are absent.",
+    "",
+    "## Run Context",
+    "",
+    mdTable(
+      ["Item", "Result"],
+      [
+        ["Base URL", result.baseUrl],
+        ["Runner", "scripts/runPublicPreviewBrowserQa.mjs"],
+        ["Browser executable", result.executablePath],
+        ["Index viewports", summary.indexViewportsTested],
+        ["World Cup viewports", summary.worldCupViewportsTested],
+        ["Screenshots", screenshots.length]
+      ]
+    ),
+    "",
+    "## Core Checks",
+    "",
+    mdTable(
+      ["Check", "Result"],
+      [
+        ["Picks default to MD2", checks.picksDefaultMd2 ? "pass" : "fail"],
+        ["Captain Watchlist opens on MD2", checks.captainWatchlistDefaultMd2 ? "pass" : "fail"],
+        ["Match Environment opens on MD2", checks.matchEnvironmentDefaultMd2 ? "pass" : "fail"],
+        ["MD1 remains accessible", checks.matchEnvironmentMd1Accessible ? "pass" : "fail"],
+        ["Team Builder opens on MD2", checks.teamBuilderDefaultMd2 ? "pass" : "fail"],
+        ["Player Profile opens", checks.playerProfileOpens ? "pass" : "fail"],
+        ["Current data scripts loaded", checks.currentScriptsLoaded ? "pass" : "fail"],
+        ["Old globals absent", checks.oldGlobalsAbsent ? "pass" : "fail"],
+        ["Live MD1/MD2 support data loaded", checks.liveMd1SupportLoaded ? "pass" : "fail"],
+        ["World Cup page renders", firstWorldCup?.failures?.length ? "fail" : "pass"]
+      ]
+    ),
+    "",
+    "## Data Loaded",
+    "",
+    mdTable(
+      ["Dataset", "Rows"],
+      [
+        ["Players sample", globals.players],
+        ["Recommendation candidates", globals.recommendations],
+        ["Projection rows", globals.projections],
+        ["MD2 projection rows", globals.md2Projections],
+        ["Score fixtures", globals.scoreFixtures],
+        ["Official records", globals.officialRecords],
+        ["Live fixtures", globals.liveFixtures],
+        ["Live players", globals.livePlayers]
+      ]
+    ),
+    "",
+    "## Console, Network, And Layout",
+    "",
+    mdTable(
+      ["Metric", "Count"],
+      [
+        ["Console/page errors", summary.consoleErrorCount],
+        ["Console warnings", summary.consoleWarningCount],
+        ["Failed requests", summary.failedRequestCount],
+        ["Blocking failed requests", summary.blockingFailedRequestCount],
+        ["Ignored non-blocking failed requests", ignoredFailedRequests],
+        ["Index overflow viewports", summary.indexOverflowViewports.length],
+        ["World Cup overflow viewports", summary.worldCupOverflowViewports.length],
+        ["Profile click failures", summary.profileClickFailures.length],
+        ["Old globals present", summary.oldGlobalsPresent.length],
+        ["Missing active globals", summary.missingActiveGlobals.length]
+      ]
+    ),
+    "",
+    "## Screenshots",
+    "",
+    screenshots.map((path) => `- ${path}`).join("\n"),
+    "",
+    "## Remaining Limits",
+    "",
+    "- Browser QA confirms the public MD2 data path and live display plumbing; it does not promote MD3.",
+    "- Final squads remain not source-backed.",
+    "- Team Builder remains planning help and must be checked inside the official FIFA game.",
+    "- User-specific locks, substitutions, captain state, and boosters are not imported.",
+    ""
+  ].join("\n");
 }
 
 async function openDetails(page, selector) {
@@ -602,6 +713,7 @@ async function main() {
   };
 
   fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
+  fs.writeFileSync(reportPath, buildMarkdownReport(result));
   console.log(JSON.stringify(summary, null, 2));
 
   if (summary.status !== "pass") {

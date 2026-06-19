@@ -1,14 +1,14 @@
 # Live Matchday Status Report v1
 
-Generated: 2026-06-18T17:46:00.099Z
+Generated: 2026-06-19T00:22:40.367Z
 
 Status: static live/post-match support import. Model predictions, PELE data, recommendations, projections, finance metrics, Team Builder weights, and website formulas were not rerun by this script.
 
 ## Sources
 
-- fifaFantasyPlayersJson: ok, last modified 2026-06-18T17:45:04Z
+- fifaFantasyPlayersJson: ok, last modified 2026-06-19T00:20:03Z
 - fifaFantasySquadsJson: ok, last modified 2026-06-18T04:02:03Z
-- fifaFantasyRoundsJson: ok, last modified 2026-06-18T17:45:03Z
+- fifaFantasyRoundsJson: ok, last modified 2026-06-19T00:02:04Z
 
 Fetch failures: 0
 
@@ -17,12 +17,12 @@ Fetch failures: 0
 Rounds imported: 8
 Fixtures imported: 72
 Group-stage fixtures mapped locally: 72
-Fixtures with score fields populated: 24
-Completed/played fixtures: 24
-Playing fixtures: 1
-Scheduled fixtures: 47
-In-progress fixture scores hidden until final: 1
-Safe final scores shown: 24
+Fixtures with score fields populated: 27
+Completed/played fixtures: 27
+Playing fixtures: 0
+Scheduled fixtures: 45
+In-progress fixture scores hidden until final: 0
+Safe final scores shown: 27
 Unmatched live fixtures: 0
 Ambiguous live fixtures: 0
 Reversed mappings handled: 0
@@ -43,18 +43,17 @@ Round status counts:
 
 Fixture status counts:
 
-- complete: 24
-- playing: 1
-- scheduled: 47
+- complete: 27
+- scheduled: 45
 
 ## Player Live Fields
 
 Players imported: 1488
-Players with total points: 753
-Players with last-round points: 753
-Players with round-points maps: 753
-Players with unfinished-fixture points suppressed: 29
-Ownership changes >= 0.1 percentage points: 250
+Players with total points: 773
+Players with last-round points: 773
+Players with round-points maps: 773
+Players with unfinished-fixture points suppressed: 0
+Ownership changes >= 0.1 percentage points: 258
 
 Player status counts:
 
@@ -64,10 +63,10 @@ Player status counts:
 
 matchStatus counts:
 
-- none: 1427
-- not_in_squad: 12
-- start: 22
-- sub: 27
+- none: 1229
+- not_in_squad: 58
+- start: 88
+- sub: 113
 
 ## Material Change Check
 
@@ -78,7 +77,7 @@ Score prediction rerun needed now: no
 
 Reasons:
 
-- 12 players are marked not_in_squad; review before changing projections
+- 58 players are marked not_in_squad; review before changing projections
 
 Material change summary:
 
