@@ -5,6 +5,7 @@ const PATHS = {
   liveMatchday: "data/liveMatchdayStatus_v1.json",
   livePlayers: "data/livePlayerStatus_v1.json",
   liveFixtureQa: "data/liveFixtureMappingQa_v1.json",
+  worldCupFixturesPageQa: "data/worldCupFixturesPageLiveScoresQa_v1.json",
   scoreV4: "data/scorePredictions_fantasyPool_v4_md2.json",
   projectionsV4: "data/fantasyPoolMatchdayProjections_md2_v4.json",
   roleModelV2: "data/playerRoleModel_md2_v2.json",
@@ -241,10 +242,13 @@ function buildReadinessDecision({
   liveMatchday,
   livePlayers,
   fixtureQa,
+  worldCupFixturesPageQa,
   completedMd2Fixtures
 }) {
   const materialChange = isMaterialPlayerOrRuleChange(officialMonitor);
   const unsafeLeaks = Number(fixtureQa.summary?.unsafe_fixture_player_point_leak_count || 0);
+  const worldCupFixturesPageCurrent = worldCupFixturesPageQa?.status === "passed" &&
+    Number(worldCupFixturesPageQa.summary?.unsafe_score_leak_count || 0) === 0;
   const officialMonitorClean = officialMonitor.monitor_status === "completed" &&
     officialMonitor.summary?.fetch_failures === 0 &&
     officialMonitor.recommendation?.model_outputs_should_update_now === false &&
@@ -256,12 +260,14 @@ function buildReadinessDecision({
   const reasons = [];
   if (!officialMonitorClean) reasons.push("Official monitor is not clean for model work.");
   if (!liveMappingClean) reasons.push("Live fixture mapping or leak QA is not clean.");
+  if (!worldCupFixturesPageCurrent) reasons.push("World Cup fixtures page live-score QA is not current.");
   if (!enoughMd2EvidenceForStaging) reasons.push(`Only ${completedMd2Fixtures.length}/24 MD2 fixtures are final; this is too thin for a useful MD3 staging rebuild.`);
   if (liveManualReviewNeeded) reasons.push("Live player feed has manual-review flags before projection or role changes.");
 
   return {
-    public_md2_live_update_status: officialMonitorClean && liveMappingClean ? "green" : "red",
+    public_md2_live_update_status: officialMonitorClean && liveMappingClean && worldCupFixturesPageCurrent ? "green" : "red",
     official_monitor_clean_for_model_work: officialMonitorClean,
+    world_cup_fixtures_page_current: worldCupFixturesPageCurrent,
     material_player_or_rule_changes: materialChange,
     md3_model_rebuild_safe_today: false,
     md3_staging_rebuild_recommended_today: false,
@@ -281,6 +287,7 @@ function buildReport(readiness) {
   const summary = readiness.summary;
   const official = readiness.official_monitor;
   const live = readiness.live_status;
+  const worldCup = readiness.world_cup_fixtures_page;
   const partial = readiness.partial_md2_calibration;
   const decision = readiness.md3_readiness_decision;
 
@@ -303,6 +310,7 @@ function buildReport(readiness) {
         ["MD2 player point rows imported", summary.md2_player_actual_point_rows_imported],
         ["Official monitor result", official.rerun_decision],
         ["Material player/rule changes", official.material_player_or_rule_changes ? "yes" : "no"],
+        ["World Cup fixtures page current", summary.world_cup_fixtures_page_current ? "yes" : "no"],
         ["MD3 model rebuild safe today", decision.md3_model_rebuild_safe_today ? "yes" : "no"],
         ["MD3 staging created", summary.md3_staging_created ? "yes" : "no"]
       ]
@@ -342,6 +350,20 @@ function buildReport(readiness) {
         ["Scheduled future fixtures", live.scheduled_future_fixtures],
         ["Safe final scores shown", live.safe_final_scores_shown],
         ["Unsafe fixture/player point leaks", live.unsafe_fixture_player_point_leaks]
+      ]
+    ),
+    "",
+    "## World Cup Fixtures Page",
+    "",
+    mdTable(
+      ["Metric", "Result"],
+      [
+        ["QA status", worldCup.status],
+        ["Completed MD1 finals visible", `${worldCup.completed_md1_final_scores_visible} / ${worldCup.completed_md1_fixture_count}`],
+        ["Completed MD2 finals visible", `${worldCup.completed_md2_final_scores_visible} / ${worldCup.completed_md2_fixture_count}`],
+        ["Playing MD2 fixtures marked live", `${worldCup.playing_md2_fixtures_marked_live} / ${worldCup.playing_md2_fixture_count}`],
+        ["Scheduled fixtures marked scheduled", `${worldCup.scheduled_fixtures_marked_scheduled} / ${worldCup.scheduled_fixture_count}`],
+        ["Unsafe score leaks", worldCup.unsafe_score_leak_count]
       ]
     ),
     "",
@@ -431,6 +453,7 @@ const [
   liveMatchday,
   livePlayers,
   fixtureQa,
+  worldCupFixturesPageQa,
   scoreV4,
   projectionsV4,
   roleModelV2
@@ -439,6 +462,7 @@ const [
   readJson(PATHS.liveMatchday),
   readJson(PATHS.livePlayers),
   readJson(PATHS.liveFixtureQa),
+  readJson(PATHS.worldCupFixturesPageQa),
   readJson(PATHS.scoreV4),
   readJson(PATHS.projectionsV4),
   readJson(PATHS.roleModelV2)
@@ -471,6 +495,7 @@ const decision = buildReadinessDecision({
   liveMatchday,
   livePlayers,
   fixtureQa,
+  worldCupFixturesPageQa,
   completedMd2Fixtures
 });
 
@@ -488,6 +513,7 @@ const readiness = {
     official_monitor_status: officialMonitor.monitor_status,
     official_monitor_result: officialMonitor.recommendation?.rerun_decision || officialMonitor.summary?.rerun_decision,
     material_player_or_rule_changes: materialChange,
+    world_cup_fixtures_page_current: decision.world_cup_fixtures_page_current,
     md3_model_rebuild_safe_today: decision.md3_model_rebuild_safe_today,
     md3_staging_created: false,
     public_md2_model_files_changed: false,
@@ -537,6 +563,23 @@ const readiness = {
     player_point_scope: "completed_fixtures_only",
     live_update_recommendation: livePlayers.update_decision?.primary_recommendation || liveMatchday.update_decision?.primary_recommendation || null
   },
+  world_cup_fixtures_page: {
+    generated_at: worldCupFixturesPageQa.generated_at,
+    status: worldCupFixturesPageQa.status,
+    current: worldCupFixturesPageQa.status === "passed",
+    completed_md1_fixture_count: worldCupFixturesPageQa.summary?.completed_md1_fixture_count ?? null,
+    completed_md1_final_scores_visible: worldCupFixturesPageQa.summary?.completed_md1_final_scores_visible ?? null,
+    completed_md2_fixture_count: worldCupFixturesPageQa.summary?.completed_md2_fixture_count ?? null,
+    completed_md2_final_scores_visible: worldCupFixturesPageQa.summary?.completed_md2_final_scores_visible ?? null,
+    playing_md2_fixture_count: worldCupFixturesPageQa.summary?.playing_md2_fixture_count ?? null,
+    playing_md2_fixtures_marked_live: worldCupFixturesPageQa.summary?.playing_md2_fixtures_marked_live ?? null,
+    scheduled_fixture_count: worldCupFixturesPageQa.summary?.scheduled_fixture_count ?? null,
+    scheduled_fixtures_marked_scheduled: worldCupFixturesPageQa.summary?.scheduled_fixtures_marked_scheduled ?? null,
+    unsafe_score_leak_count: worldCupFixturesPageQa.summary?.unsafe_score_leak_count ?? null,
+    duplicate_rendered_fixture_count: worldCupFixturesPageQa.summary?.duplicate_rendered_fixture_count ?? null,
+    reversed_score_error_count: worldCupFixturesPageQa.summary?.reversed_score_error_count ?? null,
+    console_error_count: worldCupFixturesPageQa.summary?.console_error_count ?? null
+  },
   partial_md2_calibration: {
     status: completedMd2Fixtures.length ? "partial_review_only_not_model_signal" : "no_completed_md2_fixtures_available",
     actuals_used_as_model_signal: false,
@@ -553,7 +596,7 @@ const readiness = {
   staging_outputs: {
     created: false,
     files: [],
-    skipped_reason: "Only 3 completed MD2 fixtures are final; in-progress/scheduled MD2 data cannot be used and live player status has manual-review flags."
+    skipped_reason: `Only ${completedMd2Fixtures.length} completed MD2 fixtures are final; in-progress/scheduled MD2 data cannot be used and live player status has manual-review flags.`
   },
   safeguards: [
     "Completed MD2 fixtures only are included in the partial review section.",

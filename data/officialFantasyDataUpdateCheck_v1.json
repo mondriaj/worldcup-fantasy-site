@@ -1,6 +1,6 @@
 {
   "schema_version": "official_fantasy_data_update_check_v1",
-  "generated_at": "2026-06-19T00:22:34.971Z",
+  "generated_at": "2026-06-19T01:51:55.750Z",
   "monitor_status": "completed",
   "summary": {
     "official_data_changed": true,
@@ -29,10 +29,10 @@
       "status": 200,
       "ok": true,
       "content_type": "application/json",
-      "last_modified": "2026-06-19T00:20:03Z",
-      "etag": "\"60f046a2169837994955eb8007f481d5\"",
-      "bytes": 1197545,
-      "sha256": "c5edad28f3b7d002cec0aff2e6f22de896ff6e26bb50899e4cd7f6d02bb015f0",
+      "last_modified": "2026-06-19T01:39:04Z",
+      "etag": "\"6a61f94b7da558575a16415eeee666f5\"",
+      "bytes": 1198279,
+      "sha256": "c65687f47703631408948b789c18ba0354945129049edcd97c38b22531e85028",
       "parse_error": null
     },
     {
@@ -68,10 +68,10 @@
       "status": 200,
       "ok": true,
       "content_type": "application/json",
-      "last_modified": "2026-06-19T00:02:04Z",
-      "etag": "\"5ae9c9b79251c491c1c8b6ae73f91d39\"",
-      "bytes": 89557,
-      "sha256": "c421b4834ef61afee6fceafb0e1379b003f5b9676167b7015111192ffa3693a4",
+      "last_modified": "2026-06-19T01:51:03Z",
+      "etag": "\"0515561a16d5160afe5f64015dfb7be2\"",
+      "bytes": 89544,
+      "sha256": "be5e4435b39167569f8e1a56a34eae78123c2c148a1fca755003ce436e6cef5a",
       "parse_error": null
     },
     {
@@ -91,7 +91,7 @@
   "local_source_last_modified": {
     "fifaFantasyPlayersJson": "2026-06-18T11:04:22Z",
     "fifaFantasySquadsJson": "2026-06-18T04:02:03Z",
-    "fifaFantasyRoundsJson": "2026-06-19T00:02:04Z"
+    "fifaFantasyRoundsJson": "2026-06-19T01:51:03Z"
   },
   "diffs": {
     "players": {
@@ -572,7 +572,7 @@
           "team_id": "15",
           "field": "ownership_percent",
           "local_value": 3.3,
-          "live_value": 3.8
+          "live_value": 3.7
         },
         {
           "official_fantasy_player_id": "382",
@@ -1042,7 +1042,7 @@
       "help_pages_hash": "192427fcd9b60cb9f7b8f8d38cf881dc712ff7379371aa3c124ed0a4fe100a58",
       "help_text_hash": "106f86894c5b19e2bd8235677fcfc97dcdc47e7568aac1596ed4226c09197291",
       "language_hash": "18e6b9114fdff3dbd7c28cd20c0f0a597442e9d7dd2372e13abf0e3ca846b9ac",
-      "rounds_hash": "35ea50af59a2c2b76365a39d649bfb715bf5006296079fb31dc62643cb6f7266",
+      "rounds_hash": "8d0a7df84b7c6cb2254b8450c2448b2041138d07d905c22132cdf3af0b4fe57a",
       "source_header_changes": [],
       "mystery_booster": {
         "local": {

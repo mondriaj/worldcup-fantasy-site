@@ -91,8 +91,19 @@
       Boolean(fixture.local_fixture_id || fixture.match_id || fixture.match_number);
   }
 
+  function isMappedLiveFixture(fixture) {
+    if (!fixture) {
+      return false;
+    }
+
+    const mappingStatus = String(fixture.mapping_status || "").toLowerCase();
+
+    return ["matched", "matched_reversed"].includes(mappingStatus) &&
+      Boolean(fixture.local_fixture_id || fixture.match_id || fixture.match_number);
+  }
+
   function liveFixtureMatchesLocalFixture(liveFixture, fixture) {
-    if (!isSafeMappedFinalFixture(liveFixture) || !fixture) {
+    if (!isMappedLiveFixture(liveFixture) || !fixture) {
       return false;
     }
 
@@ -150,24 +161,31 @@
   }
 
   function liveFixtureContextHtml(fixture) {
-    if (!isSafeMappedFinalFixture(fixture)) {
+    if (!isMappedLiveFixture(fixture)) {
       return "";
     }
 
+    const fixtureStatus = String(fixture.fixture_status || "").toLowerCase();
     const status = liveFixtureStatusLabel(fixture);
-    const score = liveFixtureScoreText(fixture);
 
-    if (!score) {
-      return "";
+    if (["complete", "completed", "played"].includes(fixtureStatus)) {
+      const score = liveFixtureScoreText(fixture);
+      return score
+        ? `<span class="fixture-row__live fixture-row__live--final">Actual: ${escapeHtml([score, status].filter(Boolean).join(" · "))}</span>`
+        : "";
     }
 
-    const label = ["complete", "completed", "played"].includes(String(fixture.fixture_status || "").toLowerCase())
-      ? "Actual"
-      : String(fixture.fixture_status || "").toLowerCase() === "playing"
-        ? "Live"
-        : "Status";
+    if (fixtureStatus === "playing") {
+      return `<span class="fixture-row__live fixture-row__live--playing">Live: ${escapeHtml([status, "score hidden until final"].filter(Boolean).join(" · "))}</span>`;
+    }
 
-    return `<span class="fixture-row__live">${escapeHtml(label)}: ${escapeHtml([score, status].filter(Boolean).join(" · "))}</span>`;
+    if (fixtureStatus === "scheduled") {
+      return `<span class="fixture-row__live fixture-row__live--scheduled">Status: Scheduled</span>`;
+    }
+
+    return status
+      ? `<span class="fixture-row__live fixture-row__live--status">Status: ${escapeHtml(status)}</span>`
+      : "";
   }
 
   function liveFixtureNoteHtml() {

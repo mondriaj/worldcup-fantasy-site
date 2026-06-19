@@ -1,6 +1,6 @@
 # Public Preview Browser QA Report v1
 
-Generated: 2026-06-19T00:30:39.767Z
+Generated: 2026-06-19T01:57:57.750Z
 
 ## Verdict
 
@@ -12,7 +12,7 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 
 | Item | Result |
 | --- | --- |
-| Base URL | http://127.0.0.1:8770 |
+| Base URL | http://127.0.0.1:8771 |
 | Runner | scripts/runPublicPreviewBrowserQa.mjs |
 | Browser executable | /Users/jordimondria/Library/Caches/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-mac-arm64/chrome-headless-shell |
 | Index viewports | 5 |
@@ -53,9 +53,9 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | --- | --- |
 | Console/page errors | 0 |
 | Console warnings | 0 |
-| Failed requests | 6 |
+| Failed requests | 5 |
 | Blocking failed requests | 0 |
-| Ignored non-blocking failed requests | 6 |
+| Ignored non-blocking failed requests | 5 |
 | Index overflow viewports | 0 |
 | World Cup overflow viewports | 0 |
 | Profile click failures | 0 |

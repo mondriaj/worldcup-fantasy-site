@@ -1,6 +1,6 @@
 # MD3 Readiness Daily Report v1
 
-Generated: 2026-06-19T00:27:47.154Z
+Generated: 2026-06-19T01:58:55.629Z
 
 ## Summary
 
@@ -10,11 +10,12 @@ Generated: 2026-06-19T00:27:47.154Z
 | Safe to share public MD2 | yes |
 | Completed MD1 fixtures | 24 / 24 |
 | Completed MD2 fixtures used | 3 |
-| MD2 in-progress fixtures excluded | 0 |
-| MD2 scheduled fixtures excluded | 21 |
+| MD2 in-progress fixtures excluded | 1 |
+| MD2 scheduled fixtures excluded | 20 |
 | MD2 player point rows imported | 94 |
 | Official monitor result | minor_change_no_model_rerun_needed |
 | Material player/rule changes | no |
+| World Cup fixtures page current | yes |
 | MD3 model rebuild safe today | no |
 | MD3 staging created | no |
 
@@ -43,11 +44,22 @@ Ownership movement is recorded as non-model signal. No price, position, selectab
 | Mapped fixtures | 72 |
 | Completed MD1 fixtures | 24 |
 | Completed MD2 fixtures | 3 |
-| MD2 in-progress fixtures | 0 |
-| MD2 scheduled fixtures | 21 |
-| Scheduled future fixtures | 45 |
+| MD2 in-progress fixtures | 1 |
+| MD2 scheduled fixtures | 20 |
+| Scheduled future fixtures | 44 |
 | Safe final scores shown | 27 |
 | Unsafe fixture/player point leaks | 0 |
+
+## World Cup Fixtures Page
+
+| Metric | Result |
+| --- | --- |
+| QA status | passed |
+| Completed MD1 finals visible | 24 / 24 |
+| Completed MD2 finals visible | 3 / 3 |
+| Playing MD2 fixtures marked live | 1 / 1 |
+| Scheduled fixtures marked scheduled | 44 / 44 |
+| Unsafe score leaks | 0 |
 
 ## Completed MD2 Fixtures Used
 

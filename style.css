@@ -2029,6 +2029,16 @@ html {
   overflow-wrap: anywhere;
 }
 
+.fixture-row__live--playing {
+  background: rgba(184, 120, 12, 0.14);
+  color: #8a5600;
+}
+
+.fixture-row__live--scheduled {
+  background: rgba(88, 104, 118, 0.12);
+  color: var(--muted);
+}
+
 .fixture-live-note {
   margin-bottom: 14px;
 }

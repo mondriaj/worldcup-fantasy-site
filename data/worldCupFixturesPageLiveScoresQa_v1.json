@@ -1,0 +1,193 @@
+{
+  "schema_version": "world_cup_fixtures_page_live_scores_qa_v1",
+  "generated_at": "2026-06-19T01:57:12.045Z",
+  "status": "passed",
+  "files": {
+    "html": "world-cup.html",
+    "worldCupData": "worldCupData.js",
+    "liveMatchdayData": "liveMatchdayStatusData.js",
+    "pageScript": "worldCupPage.js",
+    "liveMatchdayJson": "data/liveMatchdayStatus_v1.json",
+    "liveFixtureQa": "data/liveFixtureMappingQa_v1.json",
+    "outputJson": "data/worldCupFixturesPageLiveScoresQa_v1.json",
+    "outputReport": "data/worldCupFixturesPageLiveScoresQaReport_v1.md"
+  },
+  "summary": {
+    "world_cup_fixture_count": 72,
+    "rendered_fixture_rows": 72,
+    "live_fixture_count": 72,
+    "completed_md1_fixture_count": 24,
+    "completed_md1_final_scores_visible": 24,
+    "completed_md2_fixture_count": 3,
+    "completed_md2_final_scores_visible": 3,
+    "playing_md2_fixture_count": 1,
+    "playing_md2_fixtures_marked_live": 1,
+    "scheduled_fixture_count": 44,
+    "scheduled_fixtures_marked_scheduled": 44,
+    "unsafe_score_leak_count": 0,
+    "duplicate_rendered_fixture_count": 0,
+    "reversed_score_error_count": 0,
+    "console_error_count": 0,
+    "live_script_loaded_before_page_script": true
+  },
+  "completed_md2_score_checks": [
+    {
+      "match_number": 25,
+      "fixture": "Czechia vs South Africa",
+      "round_id": "2",
+      "expected_score_text": "CZE 1 - 1 RSA",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 26,
+      "fixture": "Switzerland vs Bosnia and Herzegovina",
+      "round_id": "2",
+      "expected_score_text": "SUI 4 - 1 BIH",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 27,
+      "fixture": "Canada vs Qatar",
+      "round_id": "2",
+      "expected_score_text": "CAN 6 - 0 QAT",
+      "visible": true,
+      "reversed": false
+    }
+  ],
+  "playing_fixture_checks": [
+    {
+      "match_number": 28,
+      "fixture": "Mexico vs Korea Republic",
+      "status_label": "Live",
+      "marked_live": true,
+      "shown_as_final": false
+    }
+  ],
+  "scheduled_fixture_sample": [
+    {
+      "match_number": 32,
+      "fixture": "USA vs Australia",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 30,
+      "fixture": "Scotland vs Morocco",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 29,
+      "fixture": "Brazil vs Haiti",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 31,
+      "fixture": "Türkiye vs Paraguay",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 35,
+      "fixture": "Netherlands vs Sweden",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 33,
+      "fixture": "Germany vs Côte d'Ivoire",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 34,
+      "fixture": "Ecuador vs Curaçao",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 36,
+      "fixture": "Tunisia vs Japan",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 38,
+      "fixture": "Spain vs Saudi Arabia",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 39,
+      "fixture": "Belgium vs IR Iran",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 37,
+      "fixture": "Uruguay vs Cabo Verde",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 40,
+      "fixture": "New Zealand vs Egypt",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 43,
+      "fixture": "Argentina vs Austria",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 42,
+      "fixture": "France vs Iraq",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 41,
+      "fixture": "Norway vs Senegal",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 44,
+      "fixture": "Jordan vs Algeria",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 47,
+      "fixture": "Portugal vs Uzbekistan",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 45,
+      "fixture": "England vs Ghana",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 46,
+      "fixture": "Panama vs Croatia",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 48,
+      "fixture": "Colombia vs Congo DR",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    }
+  ],
+  "errors": [],
+  "warnings": [],
+  "console_messages": []
+}

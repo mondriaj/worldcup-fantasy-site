@@ -1,6 +1,6 @@
 # Live Fixture Mapping QA v1
 
-Generated: 2026-06-19T00:28:01.971Z
+Generated: 2026-06-19T01:57:12.032Z
 
 Status: passed
 
@@ -11,8 +11,8 @@ Status: passed
 - Total score-prediction fixtures: 72
 - Matched fixtures: 72
 - Final fixtures shown: 27
-- In-progress fixtures suppressed: 0
-- Scheduled fixtures: 45
+- In-progress fixtures suppressed: 1
+- Scheduled fixtures: 44
 - Unmatched fixtures: 0
 - Ambiguous fixtures: 0
 - Reversed mappings: 0
