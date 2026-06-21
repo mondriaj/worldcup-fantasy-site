@@ -1,6 +1,6 @@
 {
   "schema_version": "active_md2_data_flow_qa_v1",
-  "generated_at": "2026-06-19T01:57:12.040Z",
+  "generated_at": "2026-06-21T18:33:19.613Z",
   "active_version": "20260618-md2-active-path",
   "status": "pass",
   "checks": [
@@ -127,8 +127,8 @@
         "duplicate_official_fantasy_player_id_count": 0,
         "selectable_position_counts": {
           "GK": 145,
-          "DEF": 410,
-          "MID": 421,
+          "DEF": 409,
+          "MID": 418,
           "FWD": 269
         }
       }
@@ -223,11 +223,11 @@
       "id": "team_builder_minimum_data",
       "status": "pass",
       "detail": {
-        "selectable_official_records": 1245,
+        "selectable_official_records": 1241,
         "selectable_position_counts": {
           "GK": 145,
-          "DEF": 410,
-          "MID": 421,
+          "DEF": 409,
+          "MID": 418,
           "FWD": 269
         },
         "required_positions": {
@@ -347,11 +347,11 @@
     "missing_official_fantasy_player_id_count": 0,
     "duplicate_official_fantasy_player_id_count": 0,
     "duplicate_official_fantasy_player_ids": [],
-    "selectable_official_records": 1245,
+    "selectable_official_records": 1241,
     "selectable_position_counts": {
       "GK": 145,
-      "DEF": 410,
-      "MID": 421,
+      "DEF": 409,
+      "MID": 418,
       "FWD": 269
     },
     "recommendation_identity_coverage": {
@@ -411,11 +411,11 @@
     "invalid_numeric_value_count": 0
   },
   "team_builder_minimum_data": {
-    "selectable_official_records": 1245,
+    "selectable_official_records": 1241,
     "selectable_position_counts": {
       "GK": 145,
-      "DEF": 410,
-      "MID": 421,
+      "DEF": 409,
+      "MID": 418,
       "FWD": 269
     },
     "required_positions": {

@@ -1,6 +1,6 @@
 # Team Builder Optimizer MD2 v4 QA
 
-Generated: 2026-06-19T01:57:12.676Z
+Generated: 2026-06-21T18:33:24.701Z
 
 Final status: **PASS**
 
@@ -58,7 +58,7 @@ Captain: **Michael Olise**. Vice-captain: **Lionel Messi**.
 
 | Check | Status | Detail |
 |---|---|---|
-| active-official-universe | pass | {"source":"FANTASY_POOL_OFFICIAL_DATA_STATUS.official_position_records","activePlayerRows":1233} |
+| active-official-universe | pass | {"source":"FANTASY_POOL_OFFICIAL_DATA_STATUS.official_position_records","activePlayerRows":1227} |
 | all-strategies-legal | pass | {"statuses":[{"strategy":"Balanced Squad","status":"pass","legal":{"squadSize":true,"starterSize":true,"budget":true,"positions":true,"formation":true,"countryLimit":true,"selectable":true,"activeOfficialIds":true,"projectionRows":true,"roleRows":true}},{"strategy":"Diversified Squad","status":"pass","legal":{"squadSize":true,"starterSize":true,"budget":true,"positions":true,"formation":true,"countryLimit":true,"selectable":true,"activeOfficialIds":true,"projectionRows":true,"roleRows":true}},{"strategy":"Concentrated Upside","status":"pass","legal":{"squadSize":true,"starterSize":true,"budget":true,"positions":true,"formation":true,"countryLimit":true,"selectable":true,"activeOfficialIds":true,"projectionRows":true,"roleRows":true}},{"strategy":"Stars and Scrubs","status":"pass","legal":{"squadSize":true,"starterSize":true,"budget":true,"positions":true,"formation":true,"countryLimit":true,"selectable":true,"activeOfficialIds":true,"projectionRows":true,"roleRows":true}},{"strategy":"Value Squad","status":"pass","legal":{"squadSize":true,"starterSize":true,"budget":true,"positions":true,"formation":true,"countryLimit":true,"selectable":true,"activeOfficialIds":true,"projectionRows":true,"roleRows":true}}]} |
 | balanced-projection-gap | pass | {"balancedStarterProjected":83.134,"greedyBaselineStarterProjected":83.385,"gap":-0.251} |
 | balanced-captain-quality | pass | {"captain":{"id":"517","name":"Michael Olise","country":"France","position":"MID","price":9.5,"projectedPoints":9.146,"riskAdjustedPoints":8.745,"captainScore":28.027,"startProbability":0.935,"expectedMinutes":76.4,"roleTier":"locked_starter","roleConfidence":"medium","opponent":"Iraq"}} |

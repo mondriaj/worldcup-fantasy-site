@@ -6,6 +6,7 @@ const PATHS = {
   livePlayers: "data/livePlayerStatus_v1.json",
   liveFixtureQa: "data/liveFixtureMappingQa_v1.json",
   worldCupFixturesPageQa: "data/worldCupFixturesPageLiveScoresQa_v1.json",
+  statusActionability: "data/md2StatusChangeActionability_v1.json",
   scoreV4: "data/scorePredictions_fantasyPool_v4_md2.json",
   projectionsV4: "data/fantasyPoolMatchdayProjections_md2_v4.json",
   roleModelV2: "data/playerRoleModel_md2_v2.json",
@@ -243,6 +244,7 @@ function buildReadinessDecision({
   livePlayers,
   fixtureQa,
   worldCupFixturesPageQa,
+  statusActionability,
   completedMd2Fixtures
 }) {
   const materialChange = isMaterialPlayerOrRuleChange(officialMonitor);
@@ -256,22 +258,42 @@ function buildReadinessDecision({
   const liveMappingClean = fixtureQa.status === "passed" && unsafeLeaks === 0;
   const enoughMd2EvidenceForStaging = completedMd2Fixtures.length >= 8;
   const liveManualReviewNeeded = livePlayers.update_decision?.primary_recommendation === "manual_review_needed";
+  const statusActionabilityClean = statusActionability?.status === "passed";
+  const md2ActionableStatusChanges = Number(statusActionability?.summary?.md2_actionable_count || 0);
+  const md3OnlyStatusChanges = Number(statusActionability?.summary?.md3_relevant_only_count || 0);
 
   const reasons = [];
   if (!officialMonitorClean) reasons.push("Official monitor is not clean for model work.");
   if (!liveMappingClean) reasons.push("Live fixture mapping or leak QA is not clean.");
   if (!worldCupFixturesPageCurrent) reasons.push("World Cup fixtures page live-score QA is not current.");
+  if (!statusActionabilityClean) reasons.push("MD2 status-change actionability QA is not clean.");
+  if (md2ActionableStatusChanges > 0) reasons.push(`${md2ActionableStatusChanges} selectable-status changes remain actionable for scheduled MD2 fixtures.`);
   if (!enoughMd2EvidenceForStaging) reasons.push(`Only ${completedMd2Fixtures.length}/24 MD2 fixtures are final; this is too thin for a useful MD3 staging rebuild.`);
   if (liveManualReviewNeeded) reasons.push("Live player feed has manual-review flags before projection or role changes.");
 
+  let md3StagingStatus = "skipped_insufficient_completed_md2_evidence";
+  if (enoughMd2EvidenceForStaging && liveManualReviewNeeded) {
+    md3StagingStatus = "skipped_live_player_manual_review_needed";
+  } else if (enoughMd2EvidenceForStaging && !officialMonitorClean) {
+    md3StagingStatus = "skipped_official_monitor_not_clean";
+  } else if (enoughMd2EvidenceForStaging && !statusActionabilityClean) {
+    md3StagingStatus = "skipped_status_actionability_not_clean";
+  } else if (enoughMd2EvidenceForStaging) {
+    md3StagingStatus = "ready_for_staging_script_not_available";
+    reasons.push("No dedicated MD3 staging rebuild script exists in this repo; do not hand-roll public-model promotion artifacts during the live update.");
+  }
+
   return {
-    public_md2_live_update_status: officialMonitorClean && liveMappingClean && worldCupFixturesPageCurrent ? "green" : "red",
+    public_md2_live_update_status: officialMonitorClean && liveMappingClean && worldCupFixturesPageCurrent && statusActionabilityClean ? "green" : "red",
     official_monitor_clean_for_model_work: officialMonitorClean,
     world_cup_fixtures_page_current: worldCupFixturesPageCurrent,
     material_player_or_rule_changes: materialChange,
+    status_actionability_clean: statusActionabilityClean,
+    md2_actionable_status_changes: md2ActionableStatusChanges,
+    md3_relevant_only_status_changes: md3OnlyStatusChanges,
     md3_model_rebuild_safe_today: false,
     md3_staging_rebuild_recommended_today: false,
-    md3_staging_status: "skipped_insufficient_completed_md2_evidence",
+    md3_staging_status: md3StagingStatus,
     md3_should_remain_staging_only: true,
     completed_md2_fixture_threshold_for_staging: 8,
     completed_md2_fixtures_available: completedMd2Fixtures.length,
@@ -288,6 +310,7 @@ function buildReport(readiness) {
   const official = readiness.official_monitor;
   const live = readiness.live_status;
   const worldCup = readiness.world_cup_fixtures_page;
+  const statusActionability = readiness.status_change_actionability;
   const partial = readiness.partial_md2_calibration;
   const decision = readiness.md3_readiness_decision;
 
@@ -310,8 +333,11 @@ function buildReport(readiness) {
         ["MD2 player point rows imported", summary.md2_player_actual_point_rows_imported],
         ["Official monitor result", official.rerun_decision],
         ["Material player/rule changes", official.material_player_or_rule_changes ? "yes" : "no"],
+        ["Tracked status changes MD2-actionable", statusActionability.summary.md2_actionable_count],
+        ["Tracked status changes MD3-only", statusActionability.summary.md3_relevant_only_count],
         ["World Cup fixtures page current", summary.world_cup_fixtures_page_current ? "yes" : "no"],
         ["MD3 model rebuild safe today", decision.md3_model_rebuild_safe_today ? "yes" : "no"],
+        ["MD3 staging status", decision.md3_staging_status],
         ["MD3 staging created", summary.md3_staging_created ? "yes" : "no"]
       ]
     ),
@@ -335,6 +361,26 @@ function buildReport(readiness) {
     ),
     "",
     "Ownership movement is recorded as non-model signal. No price, position, selectable status, team/country, new/removed player, scoring, booster, deadline, or lock-content change is present after the round-status metadata refresh.",
+    "",
+    "## Status Change Actionability",
+    "",
+    mdTable(
+      ["ID", "Player", "Team", "Status Change", "MD2 Fixture", "Fixture Status", "MD2 Actionable", "MD3 Defer"],
+      statusActionability.players.map((row) => [
+        row.official_fantasy_player_id,
+        row.name,
+        row.country,
+        `${row.previous_status} -> ${row.current_selectable_status}`,
+        row.md2_fixture?.label || "unknown",
+        row.md2_fixture_status,
+        row.md2_actionable ? "yes" : "no",
+        row.defer_to_md3_model_rebuild ? "yes" : "no"
+      ])
+    ),
+    "",
+    statusActionability.decision.rebuild_md2_player_side_stack
+      ? "At least one tracked status change is still actionable for a scheduled MD2 fixture, so a targeted MD2 player-side rebuild is allowed."
+      : "All tracked status changes are MD3-relevant only because their MD2 fixtures are completed or no longer actionable. The MD2 player-side stack was not rebuilt from these changes.",
     "",
     "## Live Fixture Gate",
     "",
@@ -439,7 +485,7 @@ function buildReport(readiness) {
     "",
     reportList(decision.reasons),
     "",
-    "MD3 should remain staging only. No MD3 staging rebuild was created today because the official monitor is clean for model fields, but only a small partial MD2 sample is final and live player status still has manual-review flags. In-progress or scheduled MD2 scores and player points were not used.",
+    `MD3 should remain staging only. No MD3 staging rebuild was created today; staging status is \`${decision.md3_staging_status}\`. In-progress or scheduled MD2 scores and player points were not used.`,
     "",
     "## Known Limits",
     "",
@@ -454,6 +500,7 @@ const [
   livePlayers,
   fixtureQa,
   worldCupFixturesPageQa,
+  statusActionability,
   scoreV4,
   projectionsV4,
   roleModelV2
@@ -463,6 +510,7 @@ const [
   readJson(PATHS.livePlayers),
   readJson(PATHS.liveFixtureQa),
   readJson(PATHS.worldCupFixturesPageQa),
+  readJson(PATHS.statusActionability),
   readJson(PATHS.scoreV4),
   readJson(PATHS.projectionsV4),
   readJson(PATHS.roleModelV2)
@@ -496,6 +544,7 @@ const decision = buildReadinessDecision({
   livePlayers,
   fixtureQa,
   worldCupFixturesPageQa,
+  statusActionability,
   completedMd2Fixtures
 });
 
@@ -513,6 +562,9 @@ const readiness = {
     official_monitor_status: officialMonitor.monitor_status,
     official_monitor_result: officialMonitor.recommendation?.rerun_decision || officialMonitor.summary?.rerun_decision,
     material_player_or_rule_changes: materialChange,
+    tracked_selectable_status_changes: statusActionability.summary?.tracked_status_changes ?? null,
+    md2_actionable_status_changes: statusActionability.summary?.md2_actionable_count ?? null,
+    md3_relevant_only_status_changes: statusActionability.summary?.md3_relevant_only_count ?? null,
     world_cup_fixtures_page_current: decision.world_cup_fixtures_page_current,
     md3_model_rebuild_safe_today: decision.md3_model_rebuild_safe_today,
     md3_staging_created: false,
@@ -580,6 +632,13 @@ const readiness = {
     reversed_score_error_count: worldCupFixturesPageQa.summary?.reversed_score_error_count ?? null,
     console_error_count: worldCupFixturesPageQa.summary?.console_error_count ?? null
   },
+  status_change_actionability: {
+    generated_at: statusActionability.generated_at,
+    status: statusActionability.status,
+    summary: statusActionability.summary,
+    decision: statusActionability.decision,
+    players: statusActionability.players
+  },
   partial_md2_calibration: {
     status: completedMd2Fixtures.length ? "partial_review_only_not_model_signal" : "no_completed_md2_fixtures_available",
     actuals_used_as_model_signal: false,
@@ -596,7 +655,7 @@ const readiness = {
   staging_outputs: {
     created: false,
     files: [],
-    skipped_reason: `Only ${completedMd2Fixtures.length} completed MD2 fixtures are final; in-progress/scheduled MD2 data cannot be used and live player status has manual-review flags.`
+    skipped_reason: decision.reasons.join(" ") || "Staging script was not available for a safe dedicated MD3-only rebuild."
   },
   safeguards: [
     "Completed MD2 fixtures only are included in the partial review section.",
@@ -606,9 +665,9 @@ const readiness = {
     "Public MD2 model files remain unchanged unless an explicit promotion is requested."
   ],
   known_limits: [
-    "Only 3 of 24 MD2 fixtures are final, so residuals are volatile.",
-    "The live player feed provides fantasy points and matchStatus, not official player minutes or injury reasons.",
-    "58 players are marked not_in_squad in the live feed and require manual review before projection or role changes.",
+    `Only ${completedMd2Fixtures.length} of 24 MD2 fixtures are final, so residuals are still partial.`,
+    "The live player feed provides fantasy points and matchStatus, not official player minutes, injury reasons, suspension reasons, or return dates.",
+    `${livePlayers.summary?.match_status_counts?.not_in_squad || 0} players are marked not_in_squad in the live feed and require manual review before projection or role changes.`,
     "Final squads remain not source-backed.",
     "No betting odds, confirmed lineups, locks, user-team state, substitutions, or booster state are imported."
   ]

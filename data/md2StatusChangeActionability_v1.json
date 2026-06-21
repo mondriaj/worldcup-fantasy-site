@@ -1,0 +1,395 @@
+{
+  "schema_version": "md2_status_change_actionability_v1",
+  "generated_at": "2026-06-21T18:28:17.332Z",
+  "status": "passed",
+  "files": {
+    "officialPlayers": "data/officialFantasyPlayers_v0.json",
+    "livePlayers": "data/livePlayerStatus_v1.json",
+    "liveMatchday": "data/liveMatchdayStatus_v1.json",
+    "officialMonitor": "data/officialFantasyDataUpdateCheck_v1.json",
+    "outputJson": "data/md2StatusChangeActionability_v1.json",
+    "outputReport": "data/md2StatusChangeActionabilityReport_v1.md"
+  },
+  "summary": {
+    "tracked_status_changes": 8,
+    "expected_status_matches": 8,
+    "md2_actionable_count": 0,
+    "md3_relevant_only_count": 8,
+    "unknown_actionability_count": 0,
+    "official_monitor_status": "completed",
+    "official_monitor_rerun_decision": "no_change",
+    "completed_fixture_count": 37,
+    "playing_fixture_count": 0,
+    "scheduled_fixture_count": 35
+  },
+  "decision": {
+    "rebuild_md2_player_side_stack": false,
+    "rebuild_score_model_v4": false,
+    "score_model_v4_reason": "Tracked changes are player selectable-status changes only; score, fixture, team-quality, and scoring-rule inputs did not change.",
+    "skip_reason": "All tracked status changes map to completed MD2 fixtures, so users cannot still act on those MD2 fixtures."
+  },
+  "players": [
+    {
+      "official_fantasy_player_id": "141",
+      "name": "Tarik Muharemovic",
+      "country": "Bosnia and Herzegovina",
+      "team_id": "6",
+      "previous_status": "playing",
+      "expected_current_status": "suspended",
+      "current_selectable_status": "suspended",
+      "live_selectable_status": "suspended",
+      "status_matches_expected": true,
+      "md2_fixture": {
+        "match_number": 26,
+        "fixture_id": "fwc2026-m026",
+        "label": "Switzerland vs Bosnia and Herzegovina",
+        "kickoff": "2026-06-18T20:00:00+01:00",
+        "score": "Switzerland 4-1 Bosnia and Herzegovina"
+      },
+      "md2_fixture_status": "completed",
+      "md2_actionable": false,
+      "defer_to_md3_model_rebuild": true,
+      "caution": null
+    },
+    {
+      "official_fantasy_player_id": "245",
+      "name": "Ismaël Koné",
+      "country": "Canada",
+      "team_id": "9",
+      "previous_status": "playing",
+      "expected_current_status": "injured",
+      "current_selectable_status": "injured",
+      "live_selectable_status": "injured",
+      "status_matches_expected": true,
+      "md2_fixture": {
+        "match_number": 27,
+        "fixture_id": "fwc2026-m027",
+        "label": "Canada vs Qatar",
+        "kickoff": "2026-06-18T23:00:00+01:00",
+        "score": "Canada 6-0 Qatar"
+      },
+      "md2_fixture_status": "completed",
+      "md2_actionable": false,
+      "defer_to_md3_model_rebuild": true,
+      "caution": null
+    },
+    {
+      "official_fantasy_player_id": "741",
+      "name": "César Montes",
+      "country": "Mexico",
+      "team_id": "28",
+      "previous_status": "suspended",
+      "expected_current_status": "playing",
+      "current_selectable_status": "playing",
+      "live_selectable_status": "playing",
+      "status_matches_expected": true,
+      "md2_fixture": {
+        "match_number": 28,
+        "fixture_id": "fwc2026-m028",
+        "label": "Mexico vs Korea Republic",
+        "kickoff": "2026-06-19T02:00:00+01:00",
+        "score": "Mexico 1-0 Korea Republic"
+      },
+      "md2_fixture_status": "completed",
+      "md2_actionable": false,
+      "defer_to_md3_model_rebuild": true,
+      "caution": null
+    },
+    {
+      "official_fantasy_player_id": "901",
+      "name": "Miguel Almirón",
+      "country": "Paraguay",
+      "team_id": "34",
+      "previous_status": "playing",
+      "expected_current_status": "suspended",
+      "current_selectable_status": "suspended",
+      "live_selectable_status": "suspended",
+      "status_matches_expected": true,
+      "md2_fixture": {
+        "match_number": 31,
+        "fixture_id": "fwc2026-m031",
+        "label": "Türkiye vs Paraguay",
+        "kickoff": "2026-06-20T04:00:00+01:00",
+        "score": "Türkiye 0-1 Paraguay"
+      },
+      "md2_fixture_status": "completed",
+      "md2_actionable": false,
+      "defer_to_md3_model_rebuild": true,
+      "caution": null
+    },
+    {
+      "official_fantasy_player_id": "947",
+      "name": "Assim Omer Al Haj Madibo",
+      "country": "Qatar",
+      "team_id": "36",
+      "previous_status": "playing",
+      "expected_current_status": "suspended",
+      "current_selectable_status": "suspended",
+      "live_selectable_status": "suspended",
+      "status_matches_expected": true,
+      "md2_fixture": {
+        "match_number": 27,
+        "fixture_id": "fwc2026-m027",
+        "label": "Canada vs Qatar",
+        "kickoff": "2026-06-18T23:00:00+01:00",
+        "score": "Canada 6-0 Qatar"
+      },
+      "md2_fixture_status": "completed",
+      "md2_actionable": false,
+      "defer_to_md3_model_rebuild": true,
+      "caution": null
+    },
+    {
+      "official_fantasy_player_id": "1058",
+      "name": "Teboho Mokoena",
+      "country": "South Africa",
+      "team_id": "40",
+      "previous_status": "playing",
+      "expected_current_status": "suspended",
+      "current_selectable_status": "suspended",
+      "live_selectable_status": "suspended",
+      "status_matches_expected": true,
+      "md2_fixture": {
+        "match_number": 25,
+        "fixture_id": "fwc2026-m025",
+        "label": "Czechia vs South Africa",
+        "kickoff": "2026-06-18T17:00:00+01:00",
+        "score": "Czechia 1-1 South Africa"
+      },
+      "md2_fixture_status": "completed",
+      "md2_actionable": false,
+      "defer_to_md3_model_rebuild": true,
+      "caution": null
+    },
+    {
+      "official_fantasy_player_id": "1062",
+      "name": "Sphephelo S'Miso Sithole",
+      "country": "South Africa",
+      "team_id": "40",
+      "previous_status": "suspended",
+      "expected_current_status": "playing",
+      "current_selectable_status": "playing",
+      "live_selectable_status": "playing",
+      "status_matches_expected": true,
+      "md2_fixture": {
+        "match_number": 25,
+        "fixture_id": "fwc2026-m025",
+        "label": "Czechia vs South Africa",
+        "kickoff": "2026-06-18T17:00:00+01:00",
+        "score": "Czechia 1-1 South Africa"
+      },
+      "md2_fixture_status": "completed",
+      "md2_actionable": false,
+      "defer_to_md3_model_rebuild": true,
+      "caution": null
+    },
+    {
+      "official_fantasy_player_id": "1506",
+      "name": "Homam El Amin Mohamed Ahmed",
+      "country": "Qatar",
+      "team_id": "36",
+      "previous_status": "playing",
+      "expected_current_status": "suspended",
+      "current_selectable_status": "suspended",
+      "live_selectable_status": "suspended",
+      "status_matches_expected": true,
+      "md2_fixture": {
+        "match_number": 27,
+        "fixture_id": "fwc2026-m027",
+        "label": "Canada vs Qatar",
+        "kickoff": "2026-06-18T23:00:00+01:00",
+        "score": "Canada 6-0 Qatar"
+      },
+      "md2_fixture_status": "completed",
+      "md2_actionable": false,
+      "defer_to_md3_model_rebuild": true,
+      "caution": null
+    }
+  ],
+  "md2_actionable_players": [],
+  "md3_relevant_only_players": [
+    {
+      "official_fantasy_player_id": "141",
+      "name": "Tarik Muharemovic",
+      "country": "Bosnia and Herzegovina",
+      "team_id": "6",
+      "previous_status": "playing",
+      "expected_current_status": "suspended",
+      "current_selectable_status": "suspended",
+      "live_selectable_status": "suspended",
+      "status_matches_expected": true,
+      "md2_fixture": {
+        "match_number": 26,
+        "fixture_id": "fwc2026-m026",
+        "label": "Switzerland vs Bosnia and Herzegovina",
+        "kickoff": "2026-06-18T20:00:00+01:00",
+        "score": "Switzerland 4-1 Bosnia and Herzegovina"
+      },
+      "md2_fixture_status": "completed",
+      "md2_actionable": false,
+      "defer_to_md3_model_rebuild": true,
+      "caution": null
+    },
+    {
+      "official_fantasy_player_id": "245",
+      "name": "Ismaël Koné",
+      "country": "Canada",
+      "team_id": "9",
+      "previous_status": "playing",
+      "expected_current_status": "injured",
+      "current_selectable_status": "injured",
+      "live_selectable_status": "injured",
+      "status_matches_expected": true,
+      "md2_fixture": {
+        "match_number": 27,
+        "fixture_id": "fwc2026-m027",
+        "label": "Canada vs Qatar",
+        "kickoff": "2026-06-18T23:00:00+01:00",
+        "score": "Canada 6-0 Qatar"
+      },
+      "md2_fixture_status": "completed",
+      "md2_actionable": false,
+      "defer_to_md3_model_rebuild": true,
+      "caution": null
+    },
+    {
+      "official_fantasy_player_id": "741",
+      "name": "César Montes",
+      "country": "Mexico",
+      "team_id": "28",
+      "previous_status": "suspended",
+      "expected_current_status": "playing",
+      "current_selectable_status": "playing",
+      "live_selectable_status": "playing",
+      "status_matches_expected": true,
+      "md2_fixture": {
+        "match_number": 28,
+        "fixture_id": "fwc2026-m028",
+        "label": "Mexico vs Korea Republic",
+        "kickoff": "2026-06-19T02:00:00+01:00",
+        "score": "Mexico 1-0 Korea Republic"
+      },
+      "md2_fixture_status": "completed",
+      "md2_actionable": false,
+      "defer_to_md3_model_rebuild": true,
+      "caution": null
+    },
+    {
+      "official_fantasy_player_id": "901",
+      "name": "Miguel Almirón",
+      "country": "Paraguay",
+      "team_id": "34",
+      "previous_status": "playing",
+      "expected_current_status": "suspended",
+      "current_selectable_status": "suspended",
+      "live_selectable_status": "suspended",
+      "status_matches_expected": true,
+      "md2_fixture": {
+        "match_number": 31,
+        "fixture_id": "fwc2026-m031",
+        "label": "Türkiye vs Paraguay",
+        "kickoff": "2026-06-20T04:00:00+01:00",
+        "score": "Türkiye 0-1 Paraguay"
+      },
+      "md2_fixture_status": "completed",
+      "md2_actionable": false,
+      "defer_to_md3_model_rebuild": true,
+      "caution": null
+    },
+    {
+      "official_fantasy_player_id": "947",
+      "name": "Assim Omer Al Haj Madibo",
+      "country": "Qatar",
+      "team_id": "36",
+      "previous_status": "playing",
+      "expected_current_status": "suspended",
+      "current_selectable_status": "suspended",
+      "live_selectable_status": "suspended",
+      "status_matches_expected": true,
+      "md2_fixture": {
+        "match_number": 27,
+        "fixture_id": "fwc2026-m027",
+        "label": "Canada vs Qatar",
+        "kickoff": "2026-06-18T23:00:00+01:00",
+        "score": "Canada 6-0 Qatar"
+      },
+      "md2_fixture_status": "completed",
+      "md2_actionable": false,
+      "defer_to_md3_model_rebuild": true,
+      "caution": null
+    },
+    {
+      "official_fantasy_player_id": "1058",
+      "name": "Teboho Mokoena",
+      "country": "South Africa",
+      "team_id": "40",
+      "previous_status": "playing",
+      "expected_current_status": "suspended",
+      "current_selectable_status": "suspended",
+      "live_selectable_status": "suspended",
+      "status_matches_expected": true,
+      "md2_fixture": {
+        "match_number": 25,
+        "fixture_id": "fwc2026-m025",
+        "label": "Czechia vs South Africa",
+        "kickoff": "2026-06-18T17:00:00+01:00",
+        "score": "Czechia 1-1 South Africa"
+      },
+      "md2_fixture_status": "completed",
+      "md2_actionable": false,
+      "defer_to_md3_model_rebuild": true,
+      "caution": null
+    },
+    {
+      "official_fantasy_player_id": "1062",
+      "name": "Sphephelo S'Miso Sithole",
+      "country": "South Africa",
+      "team_id": "40",
+      "previous_status": "suspended",
+      "expected_current_status": "playing",
+      "current_selectable_status": "playing",
+      "live_selectable_status": "playing",
+      "status_matches_expected": true,
+      "md2_fixture": {
+        "match_number": 25,
+        "fixture_id": "fwc2026-m025",
+        "label": "Czechia vs South Africa",
+        "kickoff": "2026-06-18T17:00:00+01:00",
+        "score": "Czechia 1-1 South Africa"
+      },
+      "md2_fixture_status": "completed",
+      "md2_actionable": false,
+      "defer_to_md3_model_rebuild": true,
+      "caution": null
+    },
+    {
+      "official_fantasy_player_id": "1506",
+      "name": "Homam El Amin Mohamed Ahmed",
+      "country": "Qatar",
+      "team_id": "36",
+      "previous_status": "playing",
+      "expected_current_status": "suspended",
+      "current_selectable_status": "suspended",
+      "live_selectable_status": "suspended",
+      "status_matches_expected": true,
+      "md2_fixture": {
+        "match_number": 27,
+        "fixture_id": "fwc2026-m027",
+        "label": "Canada vs Qatar",
+        "kickoff": "2026-06-18T23:00:00+01:00",
+        "score": "Canada 6-0 Qatar"
+      },
+      "md2_fixture_status": "completed",
+      "md2_actionable": false,
+      "defer_to_md3_model_rebuild": true,
+      "caution": null
+    }
+  ],
+  "unknown_actionability_players": [],
+  "notes": [
+    "Ownership movement is not used as model signal.",
+    "Completed or playing MD2 fixture changes are recorded for MD3 preparation only.",
+    "Scheduled/not-started MD2 fixture changes are the only status changes allowed to trigger a targeted MD2 player-side rebuild.",
+    "This artifact does not claim source-backed final squads."
+  ]
+}
