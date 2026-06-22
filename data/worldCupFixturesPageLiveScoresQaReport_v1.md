@@ -1,6 +1,6 @@
 # World Cup Fixtures Page Live Scores QA v1
 
-Generated: 2026-06-21T18:30:27.665Z
+Generated: 2026-06-22T14:17:18.657Z
 
 Status: passed
 
@@ -12,9 +12,9 @@ Status: passed
 | Rendered fixture rows | 72 |
 | Live fixtures | 72 |
 | Completed MD1 fixtures visible | 24 / 24 |
-| Completed MD2 fixtures visible | 13 / 13 |
+| Completed MD2 fixtures visible | 16 / 16 |
 | Playing MD2 fixtures marked live | 0 / 0 |
-| Scheduled fixtures marked scheduled | 35 / 35 |
+| Scheduled fixtures marked scheduled | 32 / 32 |
 | Unsafe final score leaks | 0 |
 | Duplicate fixture rows | 0 |
 | Reversed score/team errors | 0 |
@@ -37,6 +37,9 @@ Status: passed
 | 34 | Ecuador vs Curaçao | ECU 0 - 0 CUW | yes |
 | 36 | Tunisia vs Japan | TUN 0 - 4 JPN | yes |
 | 38 | Spain vs Saudi Arabia | ESP 4 - 0 KSA | yes |
+| 39 | Belgium vs IR Iran | BEL 0 - 0 IRN | yes |
+| 37 | Uruguay vs Cabo Verde | URU 2 - 2 CPV | yes |
+| 40 | New Zealand vs Egypt | NZL 1 - 3 EGY | yes |
 
 ## Playing Fixture Checks
 

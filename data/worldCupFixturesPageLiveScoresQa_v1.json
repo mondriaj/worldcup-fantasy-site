@@ -1,6 +1,6 @@
 {
   "schema_version": "world_cup_fixtures_page_live_scores_qa_v1",
-  "generated_at": "2026-06-21T18:30:27.665Z",
+  "generated_at": "2026-06-22T14:17:18.657Z",
   "status": "passed",
   "files": {
     "html": "world-cup.html",
@@ -18,12 +18,12 @@
     "live_fixture_count": 72,
     "completed_md1_fixture_count": 24,
     "completed_md1_final_scores_visible": 24,
-    "completed_md2_fixture_count": 13,
-    "completed_md2_final_scores_visible": 13,
+    "completed_md2_fixture_count": 16,
+    "completed_md2_final_scores_visible": 16,
     "playing_md2_fixture_count": 0,
     "playing_md2_fixtures_marked_live": 0,
-    "scheduled_fixture_count": 35,
-    "scheduled_fixtures_marked_scheduled": 35,
+    "scheduled_fixture_count": 32,
+    "scheduled_fixtures_marked_scheduled": 32,
     "unsafe_score_leak_count": 0,
     "duplicate_rendered_fixture_count": 0,
     "reversed_score_error_count": 0,
@@ -134,28 +134,34 @@
       "expected_score_text": "ESP 4 - 0 KSA",
       "visible": true,
       "reversed": false
-    }
-  ],
-  "playing_fixture_checks": [],
-  "scheduled_fixture_sample": [
+    },
     {
       "match_number": 39,
       "fixture": "Belgium vs IR Iran",
-      "marked_scheduled": true,
-      "shown_as_final": false
+      "round_id": "2",
+      "expected_score_text": "BEL 0 - 0 IRN",
+      "visible": true,
+      "reversed": false
     },
     {
       "match_number": 37,
       "fixture": "Uruguay vs Cabo Verde",
-      "marked_scheduled": true,
-      "shown_as_final": false
+      "round_id": "2",
+      "expected_score_text": "URU 2 - 2 CPV",
+      "visible": true,
+      "reversed": false
     },
     {
       "match_number": 40,
       "fixture": "New Zealand vs Egypt",
-      "marked_scheduled": true,
-      "shown_as_final": false
-    },
+      "round_id": "2",
+      "expected_score_text": "NZL 1 - 3 EGY",
+      "visible": true,
+      "reversed": false
+    }
+  ],
+  "playing_fixture_checks": [],
+  "scheduled_fixture_sample": [
     {
       "match_number": 43,
       "fixture": "Argentina vs Austria",
@@ -255,6 +261,24 @@
     {
       "match_number": 58,
       "fixture": "Tunisia vs Netherlands",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 57,
+      "fixture": "Japan vs Sweden",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 59,
+      "fixture": "Türkiye vs USA",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 60,
+      "fixture": "Paraguay vs Australia",
       "marked_scheduled": true,
       "shown_as_final": false
     }

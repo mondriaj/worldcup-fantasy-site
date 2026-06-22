@@ -1,6 +1,6 @@
 # MD3 Readiness Daily Report v1
 
-Generated: 2026-06-21T18:30:02.701Z
+Generated: 2026-06-22T14:16:54.082Z
 
 ## Summary
 
@@ -9,10 +9,10 @@ Generated: 2026-06-21T18:30:02.701Z
 | Public MD2 live update status | green |
 | Safe to share public MD2 | yes |
 | Completed MD1 fixtures | 24 / 24 |
-| Completed MD2 fixtures used | 13 |
+| Completed MD2 fixtures used | 16 |
 | MD2 in-progress fixtures excluded | 0 |
-| MD2 scheduled fixtures excluded | 11 |
-| MD2 player point rows imported | 412 |
+| MD2 scheduled fixtures excluded | 8 |
+| MD2 player point rows imported | 507 |
 | Official monitor result | no_change |
 | Material player/rule changes | no |
 | Tracked status changes MD2-actionable | 0 |
@@ -61,11 +61,11 @@ All tracked status changes are MD3-relevant only because their MD2 fixtures are 
 | Total fixtures | 72 |
 | Mapped fixtures | 72 |
 | Completed MD1 fixtures | 24 |
-| Completed MD2 fixtures | 13 |
+| Completed MD2 fixtures | 16 |
 | MD2 in-progress fixtures | 0 |
-| MD2 scheduled fixtures | 11 |
-| Scheduled future fixtures | 35 |
-| Safe final scores shown | 37 |
+| MD2 scheduled fixtures | 8 |
+| Scheduled future fixtures | 32 |
+| Safe final scores shown | 40 |
 | Unsafe fixture/player point leaks | 0 |
 
 ## World Cup Fixtures Page
@@ -74,9 +74,9 @@ All tracked status changes are MD3-relevant only because their MD2 fixtures are 
 | --- | --- |
 | QA status | passed |
 | Completed MD1 finals visible | 24 / 24 |
-| Completed MD2 finals visible | 13 / 13 |
+| Completed MD2 finals visible | 16 / 16 |
 | Playing MD2 fixtures marked live | 0 / 0 |
-| Scheduled fixtures marked scheduled | 35 / 35 |
+| Scheduled fixtures marked scheduled | 32 / 32 |
 | Unsafe score leaks | 0 |
 
 ## Completed MD2 Fixtures Used
@@ -96,6 +96,9 @@ All tracked status changes are MD3-relevant only because their MD2 fixtures are 
 | 34 | Ecuador vs Curaçao | 0-0 | 3.062-0.549 | -3.611 |
 | 36 | Tunisia vs Japan | 0-4 | 0.457-3.101 | 0.442 |
 | 38 | Spain vs Saudi Arabia | 4-0 | 2.515-0.409 | 1.076 |
+| 39 | Belgium vs IR Iran | 0-0 | 2.215-0.753 | -2.968 |
+| 37 | Uruguay vs Cabo Verde | 2-2 | 1.828-0.409 | 1.763 |
+| 40 | New Zealand vs Egypt | 1-3 | 0.721-2.264 | 1.015 |
 
 ## Team Residuals
 
@@ -104,15 +107,15 @@ All tracked status changes are MD3-relevant only because their MD2 fixtures are 
 | Canada | Qatar | 3.998 | -0.495 | 0.457 | yes |
 | Ecuador | Curaçao | -3.062 | -0.549 | 0.433 | yes |
 | Netherlands | Sweden | 2.403 | -0.213 | 0.223 | no |
+| Belgium | IR Iran | -2.215 | -0.753 | 0.353 | yes |
 | Switzerland | Bosnia and Herzegovina | 2.189 | 0.138 | 0.317 | no |
 | Türkiye | Paraguay | -1.727 | -0.204 | 0.225 | no |
+| Cabo Verde | Uruguay | 1.591 | 0.172 | 0.121 | no |
 | Spain | Saudi Arabia | 1.485 | -0.409 | 0.498 | yes |
 | Australia | USA | -1.27 | 0.334 | 0.142 | no |
 | Japan | Tunisia | 0.899 | -0.457 | 0.475 | yes |
 | Korea Republic | Mexico | -0.82 | -0.797 | 0.124 | no |
 | Mexico | Korea Republic | -0.797 | -0.82 | 0.33 | yes |
-| Czechia | South Africa | -0.717 | 0.286 | 0.367 | no |
-| Scotland | Morocco | -0.685 | -0.267 | 0.211 | no |
 
 ## Clean Sheet Checks
 
@@ -144,6 +147,12 @@ All tracked status changes are MD3-relevant only because their MD2 fixtures are 
 | Japan | Tunisia | 0.475 | yes | miss |
 | Spain | Saudi Arabia | 0.498 | yes | miss |
 | Saudi Arabia | Spain | 0.061 | no | hit |
+| Belgium | IR Iran | 0.353 | yes | miss |
+| IR Iran | Belgium | 0.082 | yes | miss |
+| Uruguay | Cabo Verde | 0.498 | no | hit |
+| Cabo Verde | Uruguay | 0.121 | no | hit |
+| New Zealand | Egypt | 0.078 | no | hit |
+| Egypt | New Zealand | 0.365 | no | hit |
 
 ## Player Projection Misses
 
@@ -158,6 +167,7 @@ All tracked status changes are MD3-relevant only because their MD2 fixtures are 
 | Eloy Room | Curaçao | GK | 14 | 1.283 | 12.717 | start |
 | Matheus Santos Carneiro da Cunha | Brazil | FWD | 15 | 2.356 | 12.644 | start |
 | Luis Romo | Mexico | MID | 12 | 0.144 | 11.856 | start |
+| Mostafa Mohamed Zaki Abdelraouf | Egypt | MID | 14 | 2.584 | 11.416 | start |
 | Ayase Ueda | Japan | FWD | 18 | 6.653 | 11.347 | start |
 | Cyle Larin | Canada | FWD | 13 | 1.787 | 11.213 | start |
 | Rubén Vargas | Switzerland | MID | 15 | 4.612 | 10.388 | sub |
@@ -167,24 +177,23 @@ All tracked status changes are MD3-relevant only because their MD2 fixtures are 
 | Mikel Oyarzabal | Spain | FWD | 15 | 5.578 | 9.422 | start |
 | Orlando Gill | Paraguay | GK | 10 | 0.821 | 9.179 | start |
 | Sergiño Dest | USA | DEF | 12 | 2.895 | 9.105 | start |
-| Sherel Floranus | Curaçao | DEF | 9 | 0 | 9 | start |
-| Jorge Sánchez | Mexico | DEF | 9 | 0 | 9 | start |
+| Alireza Beiranvand | IR Iran | GK | 11 | 1.974 | 9.026 | start |
 
 ## Role And Participation Evidence
 
 | Bucket | Count |
 | --- | --- |
-| start | 286 |
-| sub | 126 |
+| start | 352 |
+| sub | 155 |
 
 | Prior Role Tier | Count |
 | --- | --- |
-| likely_starter | 124 |
-| locked_starter | 116 |
-| impact_sub | 47 |
-| possible_starter | 41 |
-| rotation_risk | 37 |
-| bench_depth | 37 |
+| likely_starter | 163 |
+| locked_starter | 134 |
+| impact_sub | 60 |
+| possible_starter | 50 |
+| bench_depth | 47 |
+| rotation_risk | 43 |
 | managed_minutes_star | 9 |
 | no_md1_evidence | 1 |
 
@@ -196,8 +205,8 @@ MD3 should remain staging only. No MD3 staging rebuild was created today; stagin
 
 ## Known Limits
 
-- Only 13 of 24 MD2 fixtures are final, so residuals are still partial.
+- Only 16 of 24 MD2 fixtures are final, so residuals are still partial.
 - The live player feed provides fantasy points and matchStatus, not official player minutes, injury reasons, suspension reasons, or return dates.
-- 176 players are marked not_in_squad in the live feed and require manual review before projection or role changes.
+- 189 players are marked not_in_squad in the live feed and require manual review before projection or role changes.
 - Final squads remain not source-backed.
 - No betting odds, confirmed lineups, locks, user-team state, substitutions, or booster state are imported.

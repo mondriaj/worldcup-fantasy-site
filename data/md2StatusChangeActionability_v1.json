@@ -1,6 +1,6 @@
 {
   "schema_version": "md2_status_change_actionability_v1",
-  "generated_at": "2026-06-21T18:28:17.332Z",
+  "generated_at": "2026-06-22T14:16:17.262Z",
   "status": "passed",
   "files": {
     "officialPlayers": "data/officialFantasyPlayers_v0.json",
@@ -18,9 +18,9 @@
     "unknown_actionability_count": 0,
     "official_monitor_status": "completed",
     "official_monitor_rerun_decision": "no_change",
-    "completed_fixture_count": 37,
+    "completed_fixture_count": 40,
     "playing_fixture_count": 0,
-    "scheduled_fixture_count": 35
+    "scheduled_fixture_count": 32
   },
   "decision": {
     "rebuild_md2_player_side_stack": false,

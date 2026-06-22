@@ -1,6 +1,6 @@
 {
   "schema_version": "official_fantasy_data_update_check_v1",
-  "generated_at": "2026-06-21T18:26:21.656Z",
+  "generated_at": "2026-06-22T14:15:48.239Z",
   "monitor_status": "completed",
   "summary": {
     "official_data_changed": false,
@@ -30,10 +30,10 @@
       "status": 200,
       "ok": true,
       "content_type": "application/json",
-      "last_modified": "2026-06-21T18:25:03Z",
-      "etag": "\"d8820d9d342cef322517039d0b35e69b\"",
-      "bytes": 1209660,
-      "sha256": "a5340a83aa31b0884556977078d1030ff690972d683bc223a599ff79772dc968",
+      "last_modified": "2026-06-22T14:04:22Z",
+      "etag": "\"fc2615f914d48829095448b106a9d6db\"",
+      "bytes": 1212848,
+      "sha256": "f366a7258e013917506c7614901a8ecb2b76a837a88c2a65ae5e50e9a10b48ae",
       "parse_error": null
     },
     {
@@ -69,10 +69,10 @@
       "status": 200,
       "ok": true,
       "content_type": "application/json",
-      "last_modified": "2026-06-21T18:02:03Z",
-      "etag": "\"f69665440bd97e9533f5990e0ca620dd\"",
-      "bytes": 93862,
-      "sha256": "f3d58d722f509c700d70b314f996ade994afeda4d3917b7207271e3c3227e598",
+      "last_modified": "2026-06-22T14:01:05Z",
+      "etag": "\"a6c6247a8e98c959d81d388c5317fe04\"",
+      "bytes": 95254,
+      "sha256": "e8a74bc90f94db63483b479b90a266e880903d5ebb374c9676e3a15a0052f6ca",
       "parse_error": null
     },
     {
@@ -90,7 +90,7 @@
     }
   ],
   "local_source_last_modified": {
-    "fifaFantasyPlayersJson": "2026-06-21T18:25:03Z",
+    "fifaFantasyPlayersJson": "2026-06-22T14:04:22Z",
     "fifaFantasySquadsJson": "2026-06-18T04:02:03Z"
   },
   "diffs": {
@@ -141,7 +141,7 @@
       "help_pages_hash": "192427fcd9b60cb9f7b8f8d38cf881dc712ff7379371aa3c124ed0a4fe100a58",
       "help_text_hash": "106f86894c5b19e2bd8235677fcfc97dcdc47e7568aac1596ed4226c09197291",
       "language_hash": "18e6b9114fdff3dbd7c28cd20c0f0a597442e9d7dd2372e13abf0e3ca846b9ac",
-      "rounds_hash": "772729c57fdc3a8f2fb1f43d1b41e71eed958ae5e8d47576bb3776be77845fa4",
+      "rounds_hash": "478fec1df7fd3acf889bf450cdf5d137200d3efe4f28802d4d2e6029715a19bc",
       "source_header_changes": [],
       "mystery_booster": {
         "local": {

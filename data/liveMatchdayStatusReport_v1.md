@@ -1,14 +1,14 @@
 # Live Matchday Status Report v1
 
-Generated: 2026-06-21T18:26:45.789Z
+Generated: 2026-06-22T14:16:04.314Z
 
 Status: static live/post-match support import. Model predictions, PELE data, recommendations, projections, finance metrics, Team Builder weights, and website formulas were not rerun by this script.
 
 ## Sources
 
-- fifaFantasyPlayersJson: ok, last modified 2026-06-21T18:25:03Z
+- fifaFantasyPlayersJson: ok, last modified 2026-06-22T14:04:22Z
 - fifaFantasySquadsJson: ok, last modified 2026-06-18T04:02:03Z
-- fifaFantasyRoundsJson: ok, last modified 2026-06-21T18:02:03Z
+- fifaFantasyRoundsJson: ok, last modified 2026-06-22T14:01:05Z
 
 Fetch failures: 0
 
@@ -17,12 +17,12 @@ Fetch failures: 0
 Rounds imported: 8
 Fixtures imported: 72
 Group-stage fixtures mapped locally: 72
-Fixtures with score fields populated: 37
-Completed/played fixtures: 37
+Fixtures with score fields populated: 40
+Completed/played fixtures: 40
 Playing fixtures: 0
-Scheduled fixtures: 35
+Scheduled fixtures: 32
 In-progress fixture scores hidden until final: 0
-Safe final scores shown: 37
+Safe final scores shown: 40
 Unmatched live fixtures: 0
 Ambiguous live fixtures: 0
 Reversed mappings handled: 0
@@ -43,15 +43,15 @@ Round status counts:
 
 Fixture status counts:
 
-- complete: 37
-- scheduled: 35
+- complete: 40
+- scheduled: 32
 
 ## Player Live Fields
 
 Players imported: 1488
-Players with total points: 832
-Players with last-round points: 832
-Players with round-points maps: 832
+Players with total points: 847
+Players with last-round points: 847
+Players with round-points maps: 847
 Players with unfinished-fixture points suppressed: 0
 Ownership changes >= 0.1 percentage points: 0
 
@@ -64,10 +64,10 @@ Player status counts:
 
 matchStatus counts:
 
-- none: 598
-- not_in_squad: 176
-- start: 308
-- sub: 406
+- none: 484
+- not_in_squad: 189
+- start: 352
+- sub: 463
 
 ## Material Change Check
 
@@ -78,7 +78,7 @@ Score prediction rerun needed now: no
 
 Reasons:
 
-- 176 players are marked not_in_squad; review before changing projections
+- 189 players are marked not_in_squad; review before changing projections
 
 Material change summary:
 

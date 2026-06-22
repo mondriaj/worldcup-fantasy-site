@@ -13,7 +13,7 @@
       "fifaFantasyLaunchArticle",
       "fifaFantasyLanguageJson"
     ],
-    "sourceChecked": "2026-06-21",
+    "sourceChecked": "2026-06-22",
     "squad": {
       "totalPlayers": 15,
       "positions": {
@@ -317,7 +317,7 @@
           "round_end_local": "2026-06-18T05:00:00+01:00",
           "round_end_utc": "2026-06-18T04:00:00Z",
           "source_url": "https://play.fifa.com/json/fantasy/rounds.json",
-          "source_checked": "2026-06-21"
+          "source_checked": "2026-06-22"
         },
         {
           "matchday": 2,
@@ -328,7 +328,7 @@
           "round_end_local": "2026-06-24T05:00:00+01:00",
           "round_end_utc": "2026-06-24T04:00:00Z",
           "source_url": "https://play.fifa.com/json/fantasy/rounds.json",
-          "source_checked": "2026-06-21"
+          "source_checked": "2026-06-22"
         },
         {
           "matchday": 3,
@@ -339,7 +339,7 @@
           "round_end_local": "2026-06-28T05:00:00+01:00",
           "round_end_utc": "2026-06-28T04:00:00Z",
           "source_url": "https://play.fifa.com/json/fantasy/rounds.json",
-          "source_checked": "2026-06-21"
+          "source_checked": "2026-06-22"
         },
         {
           "matchday": 4,
@@ -350,7 +350,7 @@
           "round_end_local": "2026-07-04T04:30:00+01:00",
           "round_end_utc": "2026-07-04T03:30:00Z",
           "source_url": "https://play.fifa.com/json/fantasy/rounds.json",
-          "source_checked": "2026-06-21"
+          "source_checked": "2026-06-22"
         },
         {
           "matchday": 5,
@@ -361,7 +361,7 @@
           "round_end_local": "2026-07-07T23:00:00+01:00",
           "round_end_utc": "2026-07-07T22:00:00Z",
           "source_url": "https://play.fifa.com/json/fantasy/rounds.json",
-          "source_checked": "2026-06-21"
+          "source_checked": "2026-06-22"
         },
         {
           "matchday": 6,
@@ -372,7 +372,7 @@
           "round_end_local": "2026-07-12T04:00:00+01:00",
           "round_end_utc": "2026-07-12T03:00:00Z",
           "source_url": "https://play.fifa.com/json/fantasy/rounds.json",
-          "source_checked": "2026-06-21"
+          "source_checked": "2026-06-22"
         },
         {
           "matchday": 7,
@@ -383,7 +383,7 @@
           "round_end_local": "2026-07-15T22:00:00+01:00",
           "round_end_utc": "2026-07-15T21:00:00Z",
           "source_url": "https://play.fifa.com/json/fantasy/rounds.json",
-          "source_checked": "2026-06-21"
+          "source_checked": "2026-06-22"
         },
         {
           "matchday": 8,
@@ -394,7 +394,7 @@
           "round_end_local": "2026-07-19T22:00:00+01:00",
           "round_end_utc": "2026-07-19T21:00:00Z",
           "source_url": "https://play.fifa.com/json/fantasy/rounds.json",
-          "source_checked": "2026-06-21"
+          "source_checked": "2026-06-22"
         }
       ],
       "deadlineRules": "Transfers use a fixed lockout for each round. Users can make unlimited changes until the first match of the FIFA World Cup 2026 kicks off on Thursday, 11 June 2026. Team changes during live rounds use rolling player lockouts.",

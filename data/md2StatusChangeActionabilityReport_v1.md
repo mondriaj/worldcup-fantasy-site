@@ -1,6 +1,6 @@
 # MD2 Status Change Actionability v1
 
-Generated: 2026-06-21T18:28:17.332Z
+Generated: 2026-06-22T14:16:17.262Z
 
 Status: passed
 
@@ -15,9 +15,9 @@ Status: passed
 | Unknown/caution changes | 0 |
 | Official monitor status | completed |
 | Official monitor rerun decision | no_change |
-| Live completed fixtures | 37 |
+| Live completed fixtures | 40 |
 | Live playing fixtures | 0 |
-| Live scheduled fixtures | 35 |
+| Live scheduled fixtures | 32 |
 
 ## Actionability
 
