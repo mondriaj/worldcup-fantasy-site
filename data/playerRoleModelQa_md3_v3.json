@@ -1,0 +1,45 @@
+{
+  "schema_version": "player_role_model_qa_md3_v3",
+  "generated_at": "2026-06-23T14:15:30.030Z",
+  "status": "pass",
+  "failures": [],
+  "checks": {
+    "roleRows": 1488,
+    "unavailablePlayersForcedZero": true,
+    "md2InProgressPlayerPointsUsed": false,
+    "evidenceStrengthMarked": true,
+    "finalSquadsSourceBacked": false
+  },
+  "summary": {
+    "active_official_player_count": 1488,
+    "role_rows": 1488,
+    "defaultMatchday": "md3",
+    "completedMd2PlayerEvidenceRows": 1265,
+    "excludedMd2PlayerEvidenceRows": 223,
+    "unavailable_or_not_selectable_rows": 249,
+    "role_tier_counts": {
+      "possible_starter": 187,
+      "rotation_risk": 243,
+      "locked_starter": 221,
+      "impact_sub": 278,
+      "likely_starter": 193,
+      "bench_depth": 100,
+      "unavailable_or_not_selectable": 249,
+      "not_in_squad_risk": 17
+    },
+    "evidence_strength_counts": {
+      "strong": 1031,
+      "weak": 457
+    },
+    "md2_role_evidence_type_counts": {
+      "confirmed_sub_md2": 582,
+      "md2_fixture_not_final_excluded": 208,
+      "confirmed_started_md2": 432,
+      "unavailable_or_not_selectable": 249,
+      "confirmed_not_in_squad_md2": 17
+    },
+    "md2InProgressPlayerPointsUsed": false,
+    "ownershipUsedAsSignal": false,
+    "finalSquadsSourceBacked": false
+  }
+}

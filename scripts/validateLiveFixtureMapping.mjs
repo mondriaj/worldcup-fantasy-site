@@ -8,7 +8,7 @@ const FILES = {
   localFixtures: "data/fixtures.json",
   liveMatchday: "data/liveMatchdayStatus_v1.json",
   livePlayers: "data/livePlayerStatus_v1.json",
-  scorePredictions: "data/scorePredictions_fantasyPool_v4_md2.json",
+  scorePredictions: "data/scorePredictions_fantasyPool_v5_md3.json",
   script: "script.js",
   worldCupPage: "worldCupPage.js",
   qaJson: "data/liveFixtureMappingQa_v1.json",

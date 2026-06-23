@@ -8,7 +8,7 @@ const baseUrl = process.env.PUBLIC_PREVIEW_BASE_URL || "http://127.0.0.1:8766";
 const outputPath = process.env.PUBLIC_PREVIEW_QA_OUTPUT || "/private/tmp/public_preview_browser_qa_result.json";
 const reportPath = process.env.PUBLIC_PREVIEW_QA_REPORT || "data/publicPreviewBrowserQaReport_v1.md";
 const screenshotDir = process.env.PUBLIC_PREVIEW_QA_SCREENSHOT_DIR || "/private/tmp/public_preview_browser_qa_screenshots";
-const activePublicMatchdayId = "md2";
+const activePublicMatchdayId = "md3";
 const executableCandidates = [
   process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE,
   "/Users/jordimondria/Library/Caches/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-mac-arm64/chrome-headless-shell",
@@ -93,10 +93,10 @@ function buildMarkdownReport(result) {
     "## Verdict",
     "",
     summary.status === "pass"
-      ? "**pass - safe_to_share_md2_public_preview**"
+      ? "**pass - safe_to_share_md3_public_preview**"
       : "**fail - do_not_share_until_browser_qa_is_fixed**",
     "",
-    "The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. MD2 remains the public default, MD1 remains accessible, live completed scores are shown only through the safe mapping path, and old public globals are absent.",
+    "The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. MD3 is the public default, MD1/MD2 remain accessible, live completed scores are shown only through the safe mapping path, and old public globals are absent.",
     "",
     "## Run Context",
     "",
@@ -117,15 +117,16 @@ function buildMarkdownReport(result) {
     mdTable(
       ["Check", "Result"],
       [
-        ["Picks default to MD2", checks.picksDefaultMd2 ? "pass" : "fail"],
-        ["Captain Watchlist opens on MD2", checks.captainWatchlistDefaultMd2 ? "pass" : "fail"],
-        ["Match Environment opens on MD2", checks.matchEnvironmentDefaultMd2 ? "pass" : "fail"],
+        ["Picks default to MD3", checks.picksDefaultMd3 ? "pass" : "fail"],
+        ["Captain Watchlist opens on MD3", checks.captainWatchlistDefaultMd3 ? "pass" : "fail"],
+        ["Match Environment opens on MD3", checks.matchEnvironmentDefaultMd3 ? "pass" : "fail"],
         ["MD1 remains accessible", checks.matchEnvironmentMd1Accessible ? "pass" : "fail"],
-        ["Team Builder opens on MD2", checks.teamBuilderDefaultMd2 ? "pass" : "fail"],
+        ["MD2 remains accessible", checks.matchEnvironmentMd2Accessible ? "pass" : "fail"],
+        ["Team Builder opens on MD3", checks.teamBuilderDefaultMd3 ? "pass" : "fail"],
         ["Player Profile opens", checks.playerProfileOpens ? "pass" : "fail"],
         ["Current data scripts loaded", checks.currentScriptsLoaded ? "pass" : "fail"],
         ["Old globals absent", checks.oldGlobalsAbsent ? "pass" : "fail"],
-        ["Live MD1/MD2 support data loaded", checks.liveMd1SupportLoaded ? "pass" : "fail"],
+        ["Live MD1/MD2/MD3 support data loaded", checks.liveMd1SupportLoaded ? "pass" : "fail"],
         ["World Cup page renders", firstWorldCup?.failures?.length ? "fail" : "pass"]
       ]
     ),
@@ -138,7 +139,7 @@ function buildMarkdownReport(result) {
         ["Players sample", globals.players],
         ["Recommendation candidates", globals.recommendations],
         ["Projection rows", globals.projections],
-        ["MD2 projection rows", globals.md2Projections],
+        ["MD3 projection rows", globals.md3Projections],
         ["Score fixtures", globals.scoreFixtures],
         ["Official records", globals.officialRecords],
         ["Live fixtures", globals.liveFixtures],
@@ -170,7 +171,7 @@ function buildMarkdownReport(result) {
     "",
     "## Remaining Limits",
     "",
-    "- Browser QA confirms the public MD2 data path and live display plumbing; it does not promote MD3.",
+    "- Browser QA confirms the public MD3 data path and live display plumbing.",
     "- Final squads remain not source-backed.",
     "- Team Builder remains planning help and must be checked inside the official FIFA game.",
     "- User-specific locks, substitutions, captain state, and boosters are not imported.",
@@ -204,7 +205,7 @@ async function clickProfileAndClose(page, selector, label) {
     showsOfficialPrice: /Official fantasy price|Price/i.test(modalText),
     showsPosition: /Position|Defender|Midfielder|Forward|Goalkeeper|FWD|MID|DEF|GK/i.test(modalText),
     showsCurrentDataWarning: /Official Fantasy Picks|current FIFA fantasy|Confirm|verify|deadline/i.test(modalText),
-    showsMd2Context: /Matchday 2|MD2/i.test(modalText),
+    showsMd3Context: /Matchday 3|MD3/i.test(modalText),
     modalTextSample: modalText.slice(0, 500)
   };
 
@@ -248,15 +249,15 @@ async function collectPageState(page) {
       players: Array.isArray(window.PLAYERS_DATA) ? window.PLAYERS_DATA.length : window.PLAYERS_DATA?.players?.length || 0,
       recommendations: window.FANTASY_POOL_RECOMMENDATION_CANDIDATES?.length || 0,
       projections: window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS?.length || 0,
-      md2Projections: (window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || []).filter((row) => row.matchday === "md2").length,
+      md3Projections: (window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || []).filter((row) => row.matchday === "md3").length,
       finance: window.FANTASY_POOL_PLAYER_FINANCE_METRICS?.length || 0,
       scoreFixtures: window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS?.length || window.FANTASY_POOL_SCORE_PREDICTIONS_DATA?.fixtureScorePredictions?.length || 0,
       officialRecords: window.FANTASY_POOL_OFFICIAL_DATA_STATUS?.official_position_records?.length || 0,
       liveFixtures: window.LIVE_MATCHDAY_STATUS_DATA?.fixtures?.length || 0,
       livePlayers: window.LIVE_PLAYER_STATUS_DATA?.players?.length || 0
     };
-    const topMd2Projection = [...(window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || [])]
-      .filter((row) => row.matchday === "md2")
+    const topMd3Projection = [...(window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || [])]
+      .filter((row) => row.matchday === "md3")
       .sort((a, b) => (b.projectedPoints || b.raw_expected_points || 0) - (a.projectedPoints || a.raw_expected_points || 0))[0] || null;
     const overflowingElements = Array.from(document.querySelectorAll("body *"))
       .filter((element) => {
@@ -299,10 +300,10 @@ async function collectPageState(page) {
         scoreModelVersion: window.FANTASY_POOL_SCORE_PREDICTIONS_DATA?.modelVersion || window.FANTASY_POOL_SCORE_PREDICTIONS_DATA?.model_version || null,
         projectionModelVersion: window.FANTASY_POOL_MATCHDAY_PROJECTIONS_DATA?.modelVersion || window.FANTASY_POOL_MATCHDAY_PROJECTIONS_DATA?.model_version || null,
         projectionDataStatus: window.FANTASY_POOL_MATCHDAY_PROJECTIONS_DATA?.data_status || null,
-        topMd2Projection: topMd2Projection ? {
-          name: topMd2Projection.name,
-          projectedPoints: topMd2Projection.projectedPoints || topMd2Projection.raw_expected_points || null,
-          captainUpsideScore: topMd2Projection.captainUpsideScore || topMd2Projection.captain_score || null
+        topMd3Projection: topMd3Projection ? {
+          name: topMd3Projection.name,
+          projectedPoints: topMd3Projection.projectedPoints || topMd3Projection.raw_expected_points || null,
+          captainUpsideScore: topMd3Projection.captainUpsideScore || topMd3Projection.captain_score || null
         } : null
       },
       sections: {
@@ -482,7 +483,8 @@ async function testMainPage(browser, viewport) {
   const activeGlobals = await verifyActiveGlobals(page);
   const stateBeforeClicks = await collectPageState(page);
   const md1MatchEnvironmentAccess = await testMatchEnvironmentMatchdayAccess(page, "md1");
-  const md2MatchEnvironmentAccess = await testMatchEnvironmentMatchdayAccess(page, activePublicMatchdayId);
+  const md2MatchEnvironmentAccess = await testMatchEnvironmentMatchdayAccess(page, "md2");
+  const md3MatchEnvironmentAccess = await testMatchEnvironmentMatchdayAccess(page, activePublicMatchdayId);
   const quickPickProfile = await clickProfileAndClose(page, "#dashboard-grid .player-name-button", "Picks");
   const captainProfile = await clickProfileAndClose(page, "#captain-card-grid .player-name-button", "Captain Watchlist");
   const adviceProfile = await clickProfileAndClose(page, "#advice-card-grid .player-name-button, #advice-table-body .player-name-button", "Official Fantasy Picks");
@@ -517,38 +519,41 @@ async function testMainPage(browser, viewport) {
     homepageLoads: stateBeforeClicks.title.includes("Fantasy"),
     noConsoleOrPageErrors: consoleErrors.length === 0 && pageErrors.length === 0,
     activeDataBadgeVisible: stateBeforeClicks.ui.activeDataBadgeVisible,
-    scoreModelV4Loaded: activeGlobals.scoreModelVersion === "score-v4-md2-pele-md1-calibrated",
-    projectionModelV4Loaded: activeGlobals.projectionModelVersion === "player-projection-v4-md2-score-v4-role-v2",
+    scoreModelV5Loaded: activeGlobals.scoreModelVersion === "score-v5-md3-pele-md1-md2partial-calibrated",
+    projectionModelV5Loaded: activeGlobals.projectionModelVersion === "player-projection-v5-md3-score-v5-role-v3",
     activeOfficialRecordsLoaded: stateBeforeClicks.globals.activeGlobalCounts.officialRecords > 0,
     activeGlobalsPresent: activeGlobals.missingActiveGlobals.length === 0,
     oldGlobalsAbsent: activeGlobals.oldGlobalsPresent.length === 0,
     currentScriptsLoaded: stateBeforeClicks.scripts.missingCurrentScripts.length === 0,
     oldScriptsAbsent: stateBeforeClicks.scripts.loadedLegacyScripts.length === 0,
     picksRender: stateBeforeClicks.ui.quickPickCards > 0 && stateBeforeClicks.ui.quickPickNames.length > 0,
-    picksDefaultMd2: stateBeforeClicks.ui.adviceMatchdaySelected === activePublicMatchdayId &&
-      /Matchday 2|MD2/i.test(`${stateBeforeClicks.ui.quickPickText} ${stateBeforeClicks.ui.adviceStyleNote}`),
+    picksDefaultMd3: stateBeforeClicks.ui.adviceMatchdaySelected === activePublicMatchdayId &&
+      /Matchday 3|MD3/i.test(`${stateBeforeClicks.ui.quickPickText} ${stateBeforeClicks.ui.adviceStyleNote}`),
     captainWatchlistRenders: stateBeforeClicks.sections.captainWatchlist && stateBeforeClicks.ui.captainCards > 0,
-    captainWatchlistDefaultMd2: /Matchday 2|MD2/i.test(stateBeforeClicks.ui.captainCardText),
+    captainWatchlistDefaultMd3: /Matchday 3|MD3/i.test(stateBeforeClicks.ui.captainCardText),
     playerProfileOpens: [quickPickProfile, captainProfile, adviceProfile].some((result) => result.status === "pass" && result.playerProfileOpened),
-    playerProfilePracticalMd2: [quickPickProfile, captainProfile, adviceProfile].some((result) => result.status === "pass" && result.showsMd2Context),
+    playerProfilePracticalMd3: [quickPickProfile, captainProfile, adviceProfile].some((result) => result.status === "pass" && result.showsMd3Context),
     teamBuilderControlsLoad: stateBeforeClicks.ui.teamBuilderControls.strategyOptions > 0 &&
       stateBeforeClicks.ui.teamBuilderControls.matchdayOptions > 0 &&
       stateBeforeClicks.ui.teamBuilderControls.buildButton,
-    teamBuilderDefaultMd2: stateBeforeClicks.ui.teamBuilderControls.selectedMatchday === activePublicMatchdayId &&
-      /MD2|Matchday 2/i.test(stateBeforeClicks.ui.teamBuilderControls.buildButtonText),
+    teamBuilderDefaultMd3: stateBeforeClicks.ui.teamBuilderControls.selectedMatchday === activePublicMatchdayId &&
+      /MD3|Matchday 3/i.test(stateBeforeClicks.ui.teamBuilderControls.buildButtonText),
     addToBuilderWorksOrUnsupported: addToBuilder.status === "pass" || addToBuilder.status === "skip",
     matchEnvironmentLoads: stateBeforeClicks.ui.environmentRows.length > 0,
-    matchEnvironmentDefaultMd2: stateBeforeClicks.ui.matchEnvironmentControls.selectedMatchday === activePublicMatchdayId &&
-      stateBeforeClicks.ui.environmentRows.some((row) => /Matchday 2|MD2/i.test(row)),
+    matchEnvironmentDefaultMd3: stateBeforeClicks.ui.matchEnvironmentControls.selectedMatchday === activePublicMatchdayId &&
+      stateBeforeClicks.ui.environmentRows.some((row) => /Matchday 3|MD3/i.test(row)),
     matchEnvironmentMd1Accessible: md1MatchEnvironmentAccess.status === "pass" &&
       md1MatchEnvironmentAccess.selected === "md1" &&
       md1MatchEnvironmentAccess.rowCount > 0,
+    matchEnvironmentMd2Accessible: md2MatchEnvironmentAccess.status === "pass" &&
+      md2MatchEnvironmentAccess.selected === "md2" &&
+      md2MatchEnvironmentAccess.rowCount > 0,
     matchdayDeskLoads: stateBeforeClicks.sections.matchdayDesk &&
       stateBeforeClicks.ui.matchdayDeskControls.matchdayOptions > 0 &&
       stateBeforeClicks.ui.matchdayDeskControls.strategyOptions > 0 &&
       stateBeforeClicks.ui.matchdayDeskContentBlocks > 0 &&
       stateBeforeClicks.ui.matchdayDeskContentText.length > 0,
-    matchdayDeskDefaultMd2: stateBeforeClicks.ui.matchdayDeskControls.selectedMatchday === activePublicMatchdayId,
+    matchdayDeskDefaultMd3: stateBeforeClicks.ui.matchdayDeskControls.selectedMatchday === activePublicMatchdayId,
     liveMd1SupportLoaded: stateBeforeClicks.globals.activeGlobalCounts.liveFixtures > 0 &&
       stateBeforeClicks.globals.activeGlobalCounts.livePlayers > 0
   };
@@ -560,7 +565,8 @@ async function testMainPage(browser, viewport) {
     activeGlobals,
     matchEnvironmentAccess: {
       md1: md1MatchEnvironmentAccess,
-      md2: md2MatchEnvironmentAccess
+      md2: md2MatchEnvironmentAccess,
+      md3: md3MatchEnvironmentAccess
     },
     profileClicks: [quickPickProfile, captainProfile, adviceProfile],
     addToBuilder,
@@ -698,12 +704,12 @@ async function main() {
         "#match-environment-table-body tr"
       ],
       current_default_assertions: [
-        "Picks default to md2",
-        "Captain Watchlist renders Matchday 2 context",
-        "Player Profile shows Matchday 2 practical context",
-        "Team Builder selected matchday is md2",
-        "Match Environment selected matchday is md2 and MD1 remains selectable",
-        "Matchday Desk selected matchday is md2"
+        "Picks default to md3",
+        "Captain Watchlist renders Matchday 3 context",
+        "Player Profile shows Matchday 3 practical context",
+        "Team Builder selected matchday is md3",
+        "Match Environment selected matchday is md3 and MD1/MD2 remain selectable",
+        "Matchday Desk selected matchday is md3"
       ],
       fallback_mode_removed: true
     },

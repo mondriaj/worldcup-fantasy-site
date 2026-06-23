@@ -1,6 +1,6 @@
 # Recommendation QA v2
 
-Generated: 2026-06-18T17:50:16.568Z
+Generated: 2026-06-23T14:03:16.184Z
 
 This report audits the browser-ready recommendation data after PELE-forward Score Prediction v2.
 

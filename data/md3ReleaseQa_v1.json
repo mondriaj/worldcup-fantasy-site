@@ -1,0 +1,29 @@
+{
+  "schema_version": "md3_release_qa_v1",
+  "generated_at": "2026-06-23T14:24:40.143Z",
+  "status": "GREEN",
+  "safe_to_share": true,
+  "public_site_promoted_to_md3": true,
+  "pele_refreshed": true,
+  "completed_md2_fixtures_used": 20,
+  "remaining_md2_fixtures_excluded": 4,
+  "md3_model_stack_rebuilt": true,
+  "world_cup_fixtures_page_updated": true,
+  "md1_md2_still_accessible": true,
+  "statuses": {
+    "pele": "GREEN",
+    "score": "pass",
+    "role": "pass",
+    "projection": "pass",
+    "recommendation": "pass",
+    "teamBuilder": "pass",
+    "worldCupFixtures": "passed",
+    "liveFixtureMapping": "passed"
+  },
+  "remaining_limits": [
+    "Final squads are not source-backed in the active public path.",
+    "Official locks, deadlines, and lineup legality are not claimed verified.",
+    "Four MD2 fixtures remain excluded until final.",
+    "This remains an independent fantasy helper, not an official FIFA recommendation."
+  ]
+}

@@ -1,6 +1,6 @@
 # World Cup Fixtures Page Live Scores QA v1
 
-Generated: 2026-06-23T13:41:33.438Z
+Generated: 2026-06-23T14:23:22.655Z
 
 Status: passed
 

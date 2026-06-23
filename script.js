@@ -1,7 +1,7 @@
 // Static data scripts are loaded before this file. They expose player, rules,
 // score-projection, and official fantasy-pool data on window globals, so the
 // public site can run without fetching JSON at runtime.
-const ACTIVE_DATA_VERSION = "20260618-md2-active-path";
+const ACTIVE_DATA_VERSION = "20260623-md3-prep";
 const ACTIVE_DATA = {
   version: ACTIVE_DATA_VERSION,
   players: Array.isArray(window.PLAYERS_DATA) ? window.PLAYERS_DATA : [],
@@ -57,10 +57,10 @@ function scorePredictionSourceFromWindow() {
     };
 
     return {
-      key: "fantasy_pool_score_predictions_v3",
+      key: "fantasy_pool_score_predictions_v5_md3",
       label: "Current fantasy score projection context",
       browserFile: "fantasyPoolScorePredictionsData.js",
-      sourceFile: "data/scorePredictions_fantasyPool_v3.json",
+      sourceFile: "data/scorePredictions_fantasyPool_v5_md3.json",
       rows: fantasyPoolRows,
       summary
     };
@@ -70,7 +70,7 @@ function scorePredictionSourceFromWindow() {
     key: "active_match_environment_unavailable",
     label: "Active Match Environment data unavailable",
     browserFile: "fantasyPoolScorePredictionsData.js",
-    sourceFile: "data/scorePredictions_fantasyPool_v3.json",
+    sourceFile: "data/scorePredictions_fantasyPool_v5_md3.json",
     rows: [],
     summary: ACTIVE_DATA.score.summary || null
   };
@@ -353,7 +353,7 @@ const defaultMatchdayOptions = [
   { matchday_id: "md3", label: "Matchday 3" }
 ];
 const matchdayOptions = defaultMatchdayOptions;
-const defaultPublicMatchdayId = "md2";
+const defaultPublicMatchdayId = "md3";
 const defaultActiveMatchdayId = matchdayOptions.some((option) => option.matchday_id === defaultPublicMatchdayId)
   ? defaultPublicMatchdayId
   : matchdayOptions[0]?.matchday_id || "group_stage_full";
@@ -368,8 +368,8 @@ const browserSquadStorageKey = "worldCupFantasyHelper.teamExport.v1";
 
 function activeDataBadgeHtml() {
   return `
-    <span class="model-data-badge" title="Public MD2 page uses only the current active static data path.">
-      MD2 active data path · ${ACTIVE_DATA.version} · playersData.js · fantasyRulesData.js · fantasyPool recommendations/projections/finance/score · live display/support only
+    <span class="model-data-badge" title="Public MD3 page uses only the current active static data path.">
+      MD3 active data path · ${ACTIVE_DATA.version} · playersData.js · fantasyRulesData.js · fantasyPool recommendations/projections/finance/score · live display/support only
     </span>
   `;
 }
@@ -1734,7 +1734,7 @@ const teamBuilderComparisonStrategyKeys = [
   "valueSquad"
 ];
 
-const teamBuilderOptimizerVersion = "team_builder_optimizer_md2_v4";
+const teamBuilderOptimizerVersion = "team_builder_optimizer_md3_v5";
 
 const teamBuilderStrategyScoringProfiles = {
   balancedSquad: {
@@ -5785,7 +5785,7 @@ function playerCeilingPoints(player) {
   return scoreValue(player, "finance_upside_p90_points", "euro_style_points_per90_estimate");
 }
 
-function teamBuilderMd2V4ProjectionAdjustment(player, profile, role = "starter") {
+function teamBuilderMd3V5ProjectionAdjustment(player, profile, role = "starter") {
   const projectedPoints = playerProjectedPoints(player);
   const riskAdjustedPoints = playerRiskAdjustedPoints(player);
   const ceilingPoints = playerCeilingPoints(player);
@@ -5928,7 +5928,7 @@ function teamBuilderStrategyPlayerScore(player, measure = activeMeasure(), role 
   const expectedScore = scoreValue(player, "finance_expected_return_points", "risk_adjusted_expected_points_estimate") * 12;
   const riskAdjustedScore = scoreValue(player, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate") * 12;
   const upsideScore = scoreValue(player, "finance_upside_p90_points", "euro_style_points_per90_estimate") * 8;
-  const md2V4ProjectionAdjustment = teamBuilderMd2V4ProjectionAdjustment(player, profile, role);
+  const md3V5ProjectionAdjustment = teamBuilderMd3V5ProjectionAdjustment(player, profile, role);
   const valueScore = measureScore(player, measures.bestValue);
   const cheapScore = measureScore(player, measures.cheapEnabler);
   const premiumScore = measureScore(player, measures.premiumWorthIt);
@@ -5957,7 +5957,7 @@ function teamBuilderStrategyPlayerScore(player, measure = activeMeasure(), role 
     premiumScore * (weights.premium || 0) +
     attackingContext * (weights.attackingContext || 0) +
     matchEnvironmentAdjustment +
-    md2V4ProjectionAdjustment +
+    md3V5ProjectionAdjustment +
     captainSignal * (weights.captain || 0) +
     priceScore * (weights.price || 0) -
     playerFragilityPenalty(player) * fragilityWeight;

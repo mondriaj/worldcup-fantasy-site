@@ -1,0 +1,38 @@
+{
+  "schema_version": "pele_refresh_audit_md3_v1",
+  "generated_at": "2026-06-23T14:15:17.281Z",
+  "status": "GREEN",
+  "pele_source_refreshed": true,
+  "pele_source_checked": "2026-06-18",
+  "pele_rows_total": 211,
+  "teamQualityCoverage": {
+    "worldCupTeams": 48,
+    "worldCupTeamsWithPele": 48,
+    "missingTeams": [],
+    "duplicateTeamKeys": [],
+    "invalidNumericRows": []
+  },
+  "fixtureMappingSafe": true,
+  "safety": {
+    "md2InProgressActualsUsed": false,
+    "ownershipUsedAsSignal": false,
+    "finalSquadsSourceBacked": false,
+    "sourceBackedPeleOnly": true
+  },
+  "sourceUrls": {
+    "fifa_rankings": "https://inside.fifa.com/api/ranking-overview?locale=en&dateId=id15065",
+    "world_football_elo": "https://www.eloratings.net/World.tsv",
+    "world_football_elo_names": "https://www.eloratings.net/en.teams.tsv",
+    "fjelstul_worldcup_matches": "https://raw.githubusercontent.com/jfjelstul/worldcup/master/data-csv/matches.csv",
+    "fjelstul_worldcup_qualified_teams": "https://raw.githubusercontent.com/jfjelstul/worldcup/master/data-csv/qualified_teams.csv",
+    "fjelstul_worldcup_teams": "https://raw.githubusercontent.com/jfjelstul/worldcup/master/data-csv/teams.csv",
+    "fjelstul_worldcup_tournaments": "https://raw.githubusercontent.com/jfjelstul/worldcup/master/data-csv/tournaments.csv",
+    "openfootball_worldcup_json": "https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json",
+    "pele_ratings": "https://www.natesilver.net/p/pele-international-football-rankings-soccer-ratings-projections",
+    "pele_ratings_article": "https://www.natesilver.net/p/pele-international-football-rankings-soccer-ratings-projections",
+    "pele_methodology": "https://www.natesilver.net/p/pele-methodology",
+    "pele_ratings_csv": "https://datawrapper.dwcdn.net/4oVop/87/dataset.csv",
+    "pele_tilt_csv": "https://datawrapper.dwcdn.net/dxUJw/44/dataset.csv",
+    "pele_offense_defense_csv": "https://datawrapper.dwcdn.net/DcqkH/46/dataset.csv"
+  }
+}

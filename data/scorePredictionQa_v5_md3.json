@@ -1,0 +1,72 @@
+{
+  "schema_version": "score_prediction_qa_v5_md3",
+  "generated_at": "2026-06-23T14:15:25.539Z",
+  "status": "pass",
+  "failures": [],
+  "checks": {
+    "all72FixturesRetained": true,
+    "md3FixtureCoverage": "24 / 24",
+    "noDuplicateFixtureKeys": true,
+    "xgBoundsSafe": true,
+    "probabilitiesSumCorrectly": true,
+    "cleanSheetProbabilitiesValid": true,
+    "noNaNInfinity": true,
+    "md2InProgressFixturesUsedAsCalibration": false,
+    "completedMd2FixturesUsed": 20,
+    "remainingMd2FixturesExcluded": 4
+  },
+  "samples": {
+    "topMd3GoalEnvironments": [
+      {
+        "fixture": "Tunisia vs Netherlands",
+        "total_expected_goals": 4.282,
+        "favorite": "Netherlands"
+      },
+      {
+        "fixture": "Norway vs France",
+        "total_expected_goals": 4.181,
+        "favorite": "France"
+      },
+      {
+        "fixture": "Jordan vs Argentina",
+        "total_expected_goals": 4.04,
+        "favorite": "Argentina"
+      },
+      {
+        "fixture": "Panama vs England",
+        "total_expected_goals": 3.978,
+        "favorite": "England"
+      },
+      {
+        "fixture": "Japan vs Sweden",
+        "total_expected_goals": 3.967,
+        "favorite": "Japan"
+      },
+      {
+        "fixture": "Curaçao vs Côte d'Ivoire",
+        "total_expected_goals": 3.443,
+        "favorite": "Côte d'Ivoire"
+      },
+      {
+        "fixture": "Senegal vs Iraq",
+        "total_expected_goals": 3.383,
+        "favorite": "Senegal"
+      },
+      {
+        "fixture": "Ecuador vs Germany",
+        "total_expected_goals": 3.362,
+        "favorite": "Germany"
+      },
+      {
+        "fixture": "Bosnia and Herzegovina vs Qatar",
+        "total_expected_goals": 3.134,
+        "favorite": "Bosnia and Herzegovina"
+      },
+      {
+        "fixture": "Uruguay vs Spain",
+        "total_expected_goals": 3.093,
+        "favorite": "Spain"
+      }
+    ]
+  }
+}

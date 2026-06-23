@@ -1,6 +1,6 @@
 # Live Matchday Status Report v1
 
-Generated: 2026-06-23T13:40:37.276Z
+Generated: 2026-06-23T14:01:46.751Z
 
 Status: static live/post-match support import. Model predictions, PELE data, recommendations, projections, finance metrics, Team Builder weights, and website formulas were not rerun by this script.
 
@@ -8,7 +8,7 @@ Status: static live/post-match support import. Model predictions, PELE data, rec
 
 - fifaFantasyPlayersJson: ok, last modified 2026-06-23T13:25:03Z
 - fifaFantasySquadsJson: ok, last modified 2026-06-18T04:02:03Z
-- fifaFantasyRoundsJson: ok, last modified 2026-06-23T13:01:02Z
+- fifaFantasyRoundsJson: ok, last modified 2026-06-23T14:01:03Z
 
 Fetch failures: 0
 
