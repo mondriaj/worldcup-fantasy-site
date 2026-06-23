@@ -1,4 +1,6 @@
+import { execFile } from "node:child_process";
 import { readFile, writeFile } from "node:fs/promises";
+import { promisify } from "node:util";
 
 const PATHS = {
   officialPlayers: "data/officialFantasyPlayers_v0.json",
@@ -10,16 +12,19 @@ const PATHS = {
 };
 
 const GENERATED_AT = new Date().toISOString();
+const execFileAsync = promisify(execFile);
 
-const STATUS_CHANGES = [
-  { official_fantasy_player_id: "141", name: "Tarik Muharemovic", previous_status: "playing", expected_current_status: "suspended" },
-  { official_fantasy_player_id: "245", name: "Ismaël Koné", previous_status: "playing", expected_current_status: "injured" },
-  { official_fantasy_player_id: "741", name: "César Montes", previous_status: "suspended", expected_current_status: "playing" },
-  { official_fantasy_player_id: "901", name: "Miguel Almirón", previous_status: "playing", expected_current_status: "suspended" },
-  { official_fantasy_player_id: "947", name: "Assim Omer Al Haj Madibo", previous_status: "playing", expected_current_status: "suspended" },
-  { official_fantasy_player_id: "1058", name: "Teboho Mokoena", previous_status: "playing", expected_current_status: "suspended" },
-  { official_fantasy_player_id: "1062", name: "Sphephelo S'Miso Sithole", previous_status: "suspended", expected_current_status: "playing" },
-  { official_fantasy_player_id: "1506", name: "Homam El Amin Mohamed Ahmed", previous_status: "playing", expected_current_status: "suspended" }
+const TRACKED_STATUS_CHANGES = [
+  { official_fantasy_player_id: "123", name: "Nathan Ngoy", previous_status: "playing", expected_current_status: "suspended", source: "explicit_tracking" },
+  { official_fantasy_player_id: "141", name: "Tarik Muharemovic", previous_status: "playing", expected_current_status: "suspended", source: "explicit_tracking" },
+  { official_fantasy_player_id: "203", name: "Sidny Lopes Cabral", previous_status: "playing", expected_current_status: "suspended", source: "explicit_tracking" },
+  { official_fantasy_player_id: "245", name: "Ismaël Koné", previous_status: "playing", expected_current_status: "injured", source: "explicit_tracking" },
+  { official_fantasy_player_id: "741", name: "César Montes", previous_status: "suspended", expected_current_status: "playing", source: "explicit_tracking" },
+  { official_fantasy_player_id: "901", name: "Miguel Almirón", previous_status: "playing", expected_current_status: "suspended", source: "explicit_tracking" },
+  { official_fantasy_player_id: "947", name: "Assim Omer Al Haj Madibo", previous_status: "playing", expected_current_status: "suspended", source: "explicit_tracking" },
+  { official_fantasy_player_id: "1058", name: "Teboho Mokoena", previous_status: "playing", expected_current_status: "suspended", source: "explicit_tracking" },
+  { official_fantasy_player_id: "1062", name: "Sphephelo S'Miso Sithole", previous_status: "suspended", expected_current_status: "playing", source: "explicit_tracking" },
+  { official_fantasy_player_id: "1506", name: "Homam El Amin Mohamed Ahmed", previous_status: "playing", expected_current_status: "suspended", source: "explicit_tracking" }
 ];
 
 async function readJson(filePath) {
@@ -32,6 +37,51 @@ function rowsFromJson(data, keys) {
     if (Array.isArray(data?.[key])) return data[key];
   }
   return [];
+}
+
+async function readPreviousOfficialPlayers() {
+  try {
+    const { stdout } = await execFileAsync("git", ["show", `HEAD:${PATHS.officialPlayers}`], {
+      maxBuffer: 20 * 1024 * 1024
+    });
+    return rowsFromJson(JSON.parse(stdout), ["officialFantasyPlayers", "players", "data"]);
+  } catch {
+    return [];
+  }
+}
+
+function selectableStatus(row) {
+  return row?.selectable_status || row?.status || null;
+}
+
+function buildTrackedStatusChanges({ previousPlayers, currentPlayers }) {
+  const trackedById = new Map(TRACKED_STATUS_CHANGES.map((change) => [
+    String(change.official_fantasy_player_id),
+    { ...change, official_fantasy_player_id: String(change.official_fantasy_player_id) }
+  ]));
+  const currentById = new Map(currentPlayers.map((row) => [String(row.official_fantasy_player_id), row]));
+
+  for (const previous of previousPlayers) {
+    const id = String(previous.official_fantasy_player_id || "");
+    if (!id) continue;
+    const current = currentById.get(id);
+    if (!current) continue;
+    const previousStatus = selectableStatus(previous);
+    const currentStatus = selectableStatus(current);
+    if (!previousStatus || !currentStatus || previousStatus === currentStatus) continue;
+
+    const existing = trackedById.get(id);
+    trackedById.set(id, {
+      ...existing,
+      official_fantasy_player_id: id,
+      name: current.name || existing?.name || previous.name || null,
+      previous_status: previousStatus,
+      expected_current_status: currentStatus,
+      source: existing?.source ? `${existing.source},previous_commit_diff` : "previous_commit_diff"
+    });
+  }
+
+  return Array.from(trackedById.values()).sort((a, b) => Number(a.official_fantasy_player_id) - Number(b.official_fantasy_player_id));
 }
 
 function fixtureStatusClass(fixture) {
@@ -72,6 +122,8 @@ function buildReport(artifact) {
       ["Metric", "Value"],
       [
         ["Tracked selectable-status changes", artifact.summary.tracked_status_changes],
+        ["Explicitly tracked status changes", artifact.summary.explicit_tracking_count],
+        ["Detected from previous commit", artifact.summary.previous_commit_detected_status_changes],
         ["Imported current statuses matched expected", `${artifact.summary.expected_status_matches} / ${artifact.summary.tracked_status_changes}`],
         ["MD2 actionable changes", artifact.summary.md2_actionable_count],
         ["MD3-relevant only changes", artifact.summary.md3_relevant_only_count],
@@ -87,12 +139,13 @@ function buildReport(artifact) {
     "## Actionability",
     "",
     mdTable(
-      ["ID", "Player", "Team", "Status Change", "MD2 Fixture", "Fixture Status", "MD2 Actionable", "MD3 Defer"],
+      ["ID", "Player", "Team", "Status Change", "Source", "MD2 Fixture", "Fixture Status", "MD2 Actionable", "MD3 Defer"],
       artifact.players.map((row) => [
         row.official_fantasy_player_id,
         row.name,
         row.country,
         `${row.previous_status} -> ${row.current_selectable_status}`,
+        row.source,
         row.md2_fixture?.label || "unknown",
         row.md2_fixture_status,
         row.md2_actionable ? "yes" : "no",
@@ -123,6 +176,8 @@ const [officialPlayersData, livePlayersData, liveMatchdayData, officialMonitor] 
 const officialPlayers = rowsFromJson(officialPlayersData, ["officialFantasyPlayers", "players", "data"]);
 const livePlayers = rowsFromJson(livePlayersData, ["players", "data"]);
 const liveFixtures = rowsFromJson(liveMatchdayData, ["fixtures", "data"]);
+const previousOfficialPlayers = await readPreviousOfficialPlayers();
+const trackedStatusChanges = buildTrackedStatusChanges({ previousPlayers: previousOfficialPlayers, currentPlayers: officialPlayers });
 const officialById = new Map(officialPlayers.map((row) => [String(row.official_fantasy_player_id), row]));
 const liveById = new Map(livePlayers.map((row) => [String(row.official_fantasy_player_id), row]));
 
@@ -133,7 +188,7 @@ for (const fixture of liveFixtures.filter((row) => String(row.round_id) === "2")
   }
 }
 
-const players = STATUS_CHANGES.map((change) => {
+const players = trackedStatusChanges.map((change) => {
   const official = officialById.get(change.official_fantasy_player_id);
   const live = liveById.get(change.official_fantasy_player_id);
   const teamId = String(official?.team_id || official?.squad_id || live?.team_id || live?.squad_id || "");
@@ -152,6 +207,7 @@ const players = STATUS_CHANGES.map((change) => {
     current_selectable_status: official?.selectable_status || live?.status || null,
     live_selectable_status: live?.status || null,
     status_matches_expected: (official?.selectable_status || live?.status || null) === change.expected_current_status,
+    source: change.source,
     md2_fixture: fixture
       ? {
           match_number: fixture.match_number,
@@ -186,6 +242,8 @@ const artifact = {
     unknown_actionability_count: unknown.length,
     official_monitor_status: officialMonitor.monitor_status || null,
     official_monitor_rerun_decision: officialMonitor.recommendation?.rerun_decision || officialMonitor.summary?.rerun_decision || null,
+    explicit_tracking_count: TRACKED_STATUS_CHANGES.length,
+    previous_commit_detected_status_changes: trackedStatusChanges.filter((row) => String(row.source || "").includes("previous_commit_diff")).length,
     completed_fixture_count: liveMatchdayData.summary?.completed_fixture_count ?? null,
     playing_fixture_count: liveMatchdayData.summary?.playing_fixture_count ?? null,
     scheduled_fixture_count: liveMatchdayData.summary?.scheduled_fixture_count ?? null
@@ -206,6 +264,7 @@ const artifact = {
     "Ownership movement is not used as model signal.",
     "Completed or playing MD2 fixture changes are recorded for MD3 preparation only.",
     "Scheduled/not-started MD2 fixture changes are the only status changes allowed to trigger a targeted MD2 player-side rebuild.",
+    "Tracked changes include explicit MD2 status tracking plus selectable-status differences detected against the previous committed official player artifact.",
     "This artifact does not claim source-backed final squads."
   ]
 };

@@ -1,6 +1,6 @@
 # World Cup Fixtures Page Live Scores QA v1
 
-Generated: 2026-06-22T14:17:18.657Z
+Generated: 2026-06-23T13:41:33.438Z
 
 Status: passed
 
@@ -12,9 +12,9 @@ Status: passed
 | Rendered fixture rows | 72 |
 | Live fixtures | 72 |
 | Completed MD1 fixtures visible | 24 / 24 |
-| Completed MD2 fixtures visible | 16 / 16 |
+| Completed MD2 fixtures visible | 20 / 20 |
 | Playing MD2 fixtures marked live | 0 / 0 |
-| Scheduled fixtures marked scheduled | 32 / 32 |
+| Scheduled fixtures marked scheduled | 28 / 28 |
 | Unsafe final score leaks | 0 |
 | Duplicate fixture rows | 0 |
 | Reversed score/team errors | 0 |
@@ -40,6 +40,10 @@ Status: passed
 | 39 | Belgium vs IR Iran | BEL 0 - 0 IRN | yes |
 | 37 | Uruguay vs Cabo Verde | URU 2 - 2 CPV | yes |
 | 40 | New Zealand vs Egypt | NZL 1 - 3 EGY | yes |
+| 43 | Argentina vs Austria | ARG 2 - 0 AUT | yes |
+| 42 | France vs Iraq | FRA 3 - 0 IRQ | yes |
+| 41 | Norway vs Senegal | NOR 3 - 2 SEN | yes |
+| 44 | Jordan vs Algeria | JOR 1 - 2 ALG | yes |
 
 ## Playing Fixture Checks
 

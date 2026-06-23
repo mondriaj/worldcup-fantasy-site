@@ -1,6 +1,6 @@
 {
   "schema_version": "md2_status_change_actionability_v1",
-  "generated_at": "2026-06-22T14:16:17.262Z",
+  "generated_at": "2026-06-23T13:40:46.805Z",
   "status": "passed",
   "files": {
     "officialPlayers": "data/officialFantasyPlayers_v0.json",
@@ -11,16 +11,18 @@
     "outputReport": "data/md2StatusChangeActionabilityReport_v1.md"
   },
   "summary": {
-    "tracked_status_changes": 8,
-    "expected_status_matches": 8,
+    "tracked_status_changes": 10,
+    "expected_status_matches": 10,
     "md2_actionable_count": 0,
-    "md3_relevant_only_count": 8,
+    "md3_relevant_only_count": 10,
     "unknown_actionability_count": 0,
     "official_monitor_status": "completed",
     "official_monitor_rerun_decision": "no_change",
-    "completed_fixture_count": 40,
+    "explicit_tracking_count": 10,
+    "previous_commit_detected_status_changes": 2,
+    "completed_fixture_count": 44,
     "playing_fixture_count": 0,
-    "scheduled_fixture_count": 32
+    "scheduled_fixture_count": 28
   },
   "decision": {
     "rebuild_md2_player_side_stack": false,
@@ -29,6 +31,29 @@
     "skip_reason": "All tracked status changes map to completed MD2 fixtures, so users cannot still act on those MD2 fixtures."
   },
   "players": [
+    {
+      "official_fantasy_player_id": "123",
+      "name": "Nathan Ngoy",
+      "country": "Belgium",
+      "team_id": "5",
+      "previous_status": "playing",
+      "expected_current_status": "suspended",
+      "current_selectable_status": "suspended",
+      "live_selectable_status": "suspended",
+      "status_matches_expected": true,
+      "source": "explicit_tracking,previous_commit_diff",
+      "md2_fixture": {
+        "match_number": 39,
+        "fixture_id": "fwc2026-m039",
+        "label": "Belgium vs IR Iran",
+        "kickoff": "2026-06-21T20:00:00+01:00",
+        "score": "Belgium 0-0 IR Iran"
+      },
+      "md2_fixture_status": "completed",
+      "md2_actionable": false,
+      "defer_to_md3_model_rebuild": true,
+      "caution": null
+    },
     {
       "official_fantasy_player_id": "141",
       "name": "Tarik Muharemovic",
@@ -39,12 +64,36 @@
       "current_selectable_status": "suspended",
       "live_selectable_status": "suspended",
       "status_matches_expected": true,
+      "source": "explicit_tracking",
       "md2_fixture": {
         "match_number": 26,
         "fixture_id": "fwc2026-m026",
         "label": "Switzerland vs Bosnia and Herzegovina",
         "kickoff": "2026-06-18T20:00:00+01:00",
         "score": "Switzerland 4-1 Bosnia and Herzegovina"
+      },
+      "md2_fixture_status": "completed",
+      "md2_actionable": false,
+      "defer_to_md3_model_rebuild": true,
+      "caution": null
+    },
+    {
+      "official_fantasy_player_id": "203",
+      "name": "Sidny Lopes Cabral",
+      "country": "Cabo Verde",
+      "team_id": "8",
+      "previous_status": "playing",
+      "expected_current_status": "suspended",
+      "current_selectable_status": "suspended",
+      "live_selectable_status": "suspended",
+      "status_matches_expected": true,
+      "source": "explicit_tracking,previous_commit_diff",
+      "md2_fixture": {
+        "match_number": 37,
+        "fixture_id": "fwc2026-m037",
+        "label": "Uruguay vs Cabo Verde",
+        "kickoff": "2026-06-21T23:00:00+01:00",
+        "score": "Uruguay 2-2 Cabo Verde"
       },
       "md2_fixture_status": "completed",
       "md2_actionable": false,
@@ -61,6 +110,7 @@
       "current_selectable_status": "injured",
       "live_selectable_status": "injured",
       "status_matches_expected": true,
+      "source": "explicit_tracking",
       "md2_fixture": {
         "match_number": 27,
         "fixture_id": "fwc2026-m027",
@@ -83,6 +133,7 @@
       "current_selectable_status": "playing",
       "live_selectable_status": "playing",
       "status_matches_expected": true,
+      "source": "explicit_tracking",
       "md2_fixture": {
         "match_number": 28,
         "fixture_id": "fwc2026-m028",
@@ -105,6 +156,7 @@
       "current_selectable_status": "suspended",
       "live_selectable_status": "suspended",
       "status_matches_expected": true,
+      "source": "explicit_tracking",
       "md2_fixture": {
         "match_number": 31,
         "fixture_id": "fwc2026-m031",
@@ -127,6 +179,7 @@
       "current_selectable_status": "suspended",
       "live_selectable_status": "suspended",
       "status_matches_expected": true,
+      "source": "explicit_tracking",
       "md2_fixture": {
         "match_number": 27,
         "fixture_id": "fwc2026-m027",
@@ -149,6 +202,7 @@
       "current_selectable_status": "suspended",
       "live_selectable_status": "suspended",
       "status_matches_expected": true,
+      "source": "explicit_tracking",
       "md2_fixture": {
         "match_number": 25,
         "fixture_id": "fwc2026-m025",
@@ -171,6 +225,7 @@
       "current_selectable_status": "playing",
       "live_selectable_status": "playing",
       "status_matches_expected": true,
+      "source": "explicit_tracking",
       "md2_fixture": {
         "match_number": 25,
         "fixture_id": "fwc2026-m025",
@@ -193,6 +248,7 @@
       "current_selectable_status": "suspended",
       "live_selectable_status": "suspended",
       "status_matches_expected": true,
+      "source": "explicit_tracking",
       "md2_fixture": {
         "match_number": 27,
         "fixture_id": "fwc2026-m027",
@@ -209,6 +265,29 @@
   "md2_actionable_players": [],
   "md3_relevant_only_players": [
     {
+      "official_fantasy_player_id": "123",
+      "name": "Nathan Ngoy",
+      "country": "Belgium",
+      "team_id": "5",
+      "previous_status": "playing",
+      "expected_current_status": "suspended",
+      "current_selectable_status": "suspended",
+      "live_selectable_status": "suspended",
+      "status_matches_expected": true,
+      "source": "explicit_tracking,previous_commit_diff",
+      "md2_fixture": {
+        "match_number": 39,
+        "fixture_id": "fwc2026-m039",
+        "label": "Belgium vs IR Iran",
+        "kickoff": "2026-06-21T20:00:00+01:00",
+        "score": "Belgium 0-0 IR Iran"
+      },
+      "md2_fixture_status": "completed",
+      "md2_actionable": false,
+      "defer_to_md3_model_rebuild": true,
+      "caution": null
+    },
+    {
       "official_fantasy_player_id": "141",
       "name": "Tarik Muharemovic",
       "country": "Bosnia and Herzegovina",
@@ -218,12 +297,36 @@
       "current_selectable_status": "suspended",
       "live_selectable_status": "suspended",
       "status_matches_expected": true,
+      "source": "explicit_tracking",
       "md2_fixture": {
         "match_number": 26,
         "fixture_id": "fwc2026-m026",
         "label": "Switzerland vs Bosnia and Herzegovina",
         "kickoff": "2026-06-18T20:00:00+01:00",
         "score": "Switzerland 4-1 Bosnia and Herzegovina"
+      },
+      "md2_fixture_status": "completed",
+      "md2_actionable": false,
+      "defer_to_md3_model_rebuild": true,
+      "caution": null
+    },
+    {
+      "official_fantasy_player_id": "203",
+      "name": "Sidny Lopes Cabral",
+      "country": "Cabo Verde",
+      "team_id": "8",
+      "previous_status": "playing",
+      "expected_current_status": "suspended",
+      "current_selectable_status": "suspended",
+      "live_selectable_status": "suspended",
+      "status_matches_expected": true,
+      "source": "explicit_tracking,previous_commit_diff",
+      "md2_fixture": {
+        "match_number": 37,
+        "fixture_id": "fwc2026-m037",
+        "label": "Uruguay vs Cabo Verde",
+        "kickoff": "2026-06-21T23:00:00+01:00",
+        "score": "Uruguay 2-2 Cabo Verde"
       },
       "md2_fixture_status": "completed",
       "md2_actionable": false,
@@ -240,6 +343,7 @@
       "current_selectable_status": "injured",
       "live_selectable_status": "injured",
       "status_matches_expected": true,
+      "source": "explicit_tracking",
       "md2_fixture": {
         "match_number": 27,
         "fixture_id": "fwc2026-m027",
@@ -262,6 +366,7 @@
       "current_selectable_status": "playing",
       "live_selectable_status": "playing",
       "status_matches_expected": true,
+      "source": "explicit_tracking",
       "md2_fixture": {
         "match_number": 28,
         "fixture_id": "fwc2026-m028",
@@ -284,6 +389,7 @@
       "current_selectable_status": "suspended",
       "live_selectable_status": "suspended",
       "status_matches_expected": true,
+      "source": "explicit_tracking",
       "md2_fixture": {
         "match_number": 31,
         "fixture_id": "fwc2026-m031",
@@ -306,6 +412,7 @@
       "current_selectable_status": "suspended",
       "live_selectable_status": "suspended",
       "status_matches_expected": true,
+      "source": "explicit_tracking",
       "md2_fixture": {
         "match_number": 27,
         "fixture_id": "fwc2026-m027",
@@ -328,6 +435,7 @@
       "current_selectable_status": "suspended",
       "live_selectable_status": "suspended",
       "status_matches_expected": true,
+      "source": "explicit_tracking",
       "md2_fixture": {
         "match_number": 25,
         "fixture_id": "fwc2026-m025",
@@ -350,6 +458,7 @@
       "current_selectable_status": "playing",
       "live_selectable_status": "playing",
       "status_matches_expected": true,
+      "source": "explicit_tracking",
       "md2_fixture": {
         "match_number": 25,
         "fixture_id": "fwc2026-m025",
@@ -372,6 +481,7 @@
       "current_selectable_status": "suspended",
       "live_selectable_status": "suspended",
       "status_matches_expected": true,
+      "source": "explicit_tracking",
       "md2_fixture": {
         "match_number": 27,
         "fixture_id": "fwc2026-m027",
@@ -390,6 +500,7 @@
     "Ownership movement is not used as model signal.",
     "Completed or playing MD2 fixture changes are recorded for MD3 preparation only.",
     "Scheduled/not-started MD2 fixture changes are the only status changes allowed to trigger a targeted MD2 player-side rebuild.",
+    "Tracked changes include explicit MD2 status tracking plus selectable-status differences detected against the previous committed official player artifact.",
     "This artifact does not claim source-backed final squads."
   ]
 }

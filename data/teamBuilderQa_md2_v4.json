@@ -1,6 +1,6 @@
 {
   "schemaVersion": "team_builder_qa_md2_v4",
-  "generatedAt": "2026-06-22T14:17:25.010Z",
+  "generatedAt": "2026-06-23T13:41:34.152Z",
   "version": "team_builder_optimizer_md2_v4",
   "matchday": "md2",
   "activeIdentitySource": "FANTASY_POOL_OFFICIAL_DATA_STATUS.official_position_records",
@@ -15,10 +15,10 @@
   },
   "summary": {
     "officialRows": 1488,
-    "selectableOfficialRows": 1241,
+    "selectableOfficialRows": 1239,
     "md2ProjectionRows": 1233,
     "roleRows": 1488,
-    "optimizerCandidateRows": 1227,
+    "optimizerCandidateRows": 1225,
     "budget": 100,
     "countryLimit": 3,
     "squadRequirements": {
@@ -41,7 +41,7 @@
       "status": "pass",
       "detail": {
         "source": "FANTASY_POOL_OFFICIAL_DATA_STATUS.official_position_records",
-        "activePlayerRows": 1227
+        "activePlayerRows": 1225
       }
     },
     {

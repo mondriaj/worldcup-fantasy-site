@@ -1,6 +1,6 @@
 # Active MD2 Data Flow QA Report
 
-Generated: 2026-06-22T14:17:09.338Z
+Generated: 2026-06-23T13:41:33.436Z
 Status: **PASS**
 Active version: `20260618-md2-active-path`
 
@@ -23,8 +23,8 @@ Active version: `20260618-md2-active-path`
 - active official fantasy players: 1488
 - missing official fantasy player IDs: 0
 - duplicate official fantasy player IDs: 0
-- selectable official records: 1241
-- selectable by position: GK 145, DEF 409, MID 418, FWD 269
+- selectable official records: 1239
+- selectable by position: GK 145, DEF 407, MID 418, FWD 269
 - recommendation identity coverage: 500 / 500 resolved
 - projection identity coverage: 3699 / 3699 resolved
 - finance identity coverage: 1233 / 1233 resolved

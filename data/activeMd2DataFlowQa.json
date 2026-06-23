@@ -1,6 +1,6 @@
 {
   "schema_version": "active_md2_data_flow_qa_v1",
-  "generated_at": "2026-06-22T14:17:09.338Z",
+  "generated_at": "2026-06-23T13:41:33.436Z",
   "active_version": "20260618-md2-active-path",
   "status": "pass",
   "checks": [
@@ -127,7 +127,7 @@
         "duplicate_official_fantasy_player_id_count": 0,
         "selectable_position_counts": {
           "GK": 145,
-          "DEF": 409,
+          "DEF": 407,
           "MID": 418,
           "FWD": 269
         }
@@ -223,10 +223,10 @@
       "id": "team_builder_minimum_data",
       "status": "pass",
       "detail": {
-        "selectable_official_records": 1241,
+        "selectable_official_records": 1239,
         "selectable_position_counts": {
           "GK": 145,
-          "DEF": 409,
+          "DEF": 407,
           "MID": 418,
           "FWD": 269
         },
@@ -347,10 +347,10 @@
     "missing_official_fantasy_player_id_count": 0,
     "duplicate_official_fantasy_player_id_count": 0,
     "duplicate_official_fantasy_player_ids": [],
-    "selectable_official_records": 1241,
+    "selectable_official_records": 1239,
     "selectable_position_counts": {
       "GK": 145,
-      "DEF": 409,
+      "DEF": 407,
       "MID": 418,
       "FWD": 269
     },
@@ -411,10 +411,10 @@
     "invalid_numeric_value_count": 0
   },
   "team_builder_minimum_data": {
-    "selectable_official_records": 1241,
+    "selectable_official_records": 1239,
     "selectable_position_counts": {
       "GK": 145,
-      "DEF": 409,
+      "DEF": 407,
       "MID": 418,
       "FWD": 269
     },
