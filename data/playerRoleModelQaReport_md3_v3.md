@@ -1,6 +1,6 @@
 # Player Role Model QA MD3 v3
 
-Generated: 2026-06-23T14:15:30.030Z
+Generated: 2026-06-24T11:45:12.768Z
 
 Status: **pass**
 
@@ -10,4 +10,6 @@ Status: **pass**
 | Unavailable players forced zero | true |
 | MD2 in-progress player points used | false |
 | Evidence strength marked | true |
+| Group incentive rotation risk applied | true |
+| Two-game form evidence applied | true |
 | Final squads source-backed | false |

@@ -1,6 +1,6 @@
 # World Cup Fixtures Page Live Scores QA v1
 
-Generated: 2026-06-23T14:23:22.655Z
+Generated: 2026-06-24T11:45:55.233Z
 
 Status: passed
 
@@ -12,9 +12,9 @@ Status: passed
 | Rendered fixture rows | 72 |
 | Live fixtures | 72 |
 | Completed MD1 fixtures visible | 24 / 24 |
-| Completed MD2 fixtures visible | 20 / 20 |
+| Completed MD2 fixtures visible | 24 / 24 |
 | Playing MD2 fixtures marked live | 0 / 0 |
-| Scheduled fixtures marked scheduled | 28 / 28 |
+| Scheduled fixtures marked scheduled | 24 / 24 |
 | Unsafe final score leaks | 0 |
 | Duplicate fixture rows | 0 |
 | Reversed score/team errors | 0 |
@@ -44,6 +44,10 @@ Status: passed
 | 42 | France vs Iraq | FRA 3 - 0 IRQ | yes |
 | 41 | Norway vs Senegal | NOR 3 - 2 SEN | yes |
 | 44 | Jordan vs Algeria | JOR 1 - 2 ALG | yes |
+| 47 | Portugal vs Uzbekistan | POR 5 - 0 UZB | yes |
+| 45 | England vs Ghana | ENG 0 - 0 GHA | yes |
+| 46 | Panama vs Croatia | PAN 0 - 1 CRO | yes |
+| 48 | Colombia vs Congo DR | COL 1 - 0 COD | yes |
 
 ## Playing Fixture Checks
 

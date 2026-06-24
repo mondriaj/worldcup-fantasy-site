@@ -1,7 +1,7 @@
 # Player Role Model MD3 v3
 
-Generated: 2026-06-23T14:15:30.029Z
+Generated: 2026-06-24T11:45:12.768Z
 
-Model version: `player-role-v3-md3-md2partial`
+Model version: `player-role-v3-md3-full-md2-incentive-form`
 
-This role model uses the active official fantasy pool, Role Model v2 as prior, final MD1 evidence already embedded in v2, and completed/final MD2 player evidence only. It does not infer exact starts or minutes unless the official fantasy feed supplies matchStatus context.
+This role model uses the active official fantasy pool, Role Model v2 as prior, final MD1 evidence already embedded in v2, full completed/final MD2 player evidence, two-game fantasy points, and conservative MD3 group-incentive rotation risk. It does not infer exact starts or minutes unless the official fantasy feed supplies matchStatus context.

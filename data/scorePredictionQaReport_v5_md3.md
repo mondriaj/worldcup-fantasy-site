@@ -1,6 +1,6 @@
 # Score Prediction QA v5 MD3
 
-Generated: 2026-06-23T14:15:25.539Z
+Generated: 2026-06-24T11:45:05.790Z
 
 Status: **pass**
 
@@ -13,6 +13,6 @@ Status: **pass**
 | Probabilities sum correctly | true |
 | Clean-sheet probabilities valid | true |
 | No NaN/Infinity | true |
-| Completed MD2 fixtures used | 20 |
-| Remaining MD2 fixtures excluded | 4 |
+| Completed MD2 fixtures used | 24 |
+| Remaining MD2 fixtures excluded | 0 |
 | MD2 in-progress fixtures used as calibration | false |

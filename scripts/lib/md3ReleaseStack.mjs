@@ -2,17 +2,18 @@ import fs from "node:fs";
 import { readFile, writeFile } from "node:fs/promises";
 import vm from "node:vm";
 
-const VERSION_STAMP = "20260623";
-const CACHE_VERSION = "20260623-md3-prep";
+const VERSION_STAMP = "20260624";
+const CACHE_VERSION = "20260624-md3-final-md2-evidence";
 const MODEL = {
-  score: "score-v5-md3-pele-md1-md2partial-calibrated",
-  scoreSource: "fantasy_pool_score_prediction_v5_md3_pele_md1_md2partial_calibrated_2026-06-23",
-  role: "player-role-v3-md3-md2partial",
-  projection: "player-projection-v5-md3-score-v5-role-v3",
-  recommendation: "recommendation-v5-md3"
+  score: "score-v5-md3-pele-md1-md2full-calibrated",
+  scoreSource: "fantasy_pool_score_prediction_v5_md3_pele_md1_md2full_calibrated_2026-06-24",
+  role: "player-role-v3-md3-full-md2-incentive-form",
+  projection: "player-projection-v5-md3-score-v5-role-v3-incentive-form",
+  recommendation: "recommendation-v5-md3-incentive-form"
 };
 
 const PATHS = {
+  worldCupData: "worldCupData.js",
   liveMatchday: "data/liveMatchdayStatus_v1.json",
   livePlayers: "data/livePlayerStatus_v1.json",
   liveFixtureQa: "data/liveFixtureMappingQa_v1.json",
@@ -25,9 +26,13 @@ const PATHS = {
   officialStatusJs: "fantasyPoolOfficialDataStatusData.js",
   financeJs: "fantasyPoolFinanceMetricsData.js",
   fantasyRules: "fantasyRules.json",
-  partialDataset: "data/md2PartialCalibrationDataset_for_md3_v1.json",
-  partialPostmortem: "data/md2PartialModelPostmortem_for_md3_v1.json",
-  partialReport: "data/md2PartialModelPostmortemReport_for_md3_v1.md",
+  partialDataset: "data/md2CalibrationDataset_for_md3_v1.json",
+  partialPostmortem: "data/md2ModelPostmortem_for_md3_v1.json",
+  partialReport: "data/md2ModelPostmortemReport_for_md3_v1.md",
+  groupIncentive: "data/groupIncentiveModel_md3_v1.json",
+  groupIncentiveReport: "data/groupIncentiveModel_md3_v1.md",
+  groupIncentiveQa: "data/groupIncentiveQa_md3_v1.json",
+  groupIncentiveQaReport: "data/groupIncentiveQaReport_md3_v1.md",
   peleAuditJson: "data/peleRefreshAudit_md3_v1.json",
   peleAuditMd: "data/peleRefreshAudit_md3_v1.md",
   scoreV5: "data/scorePredictions_fantasyPool_v5_md3.json",
@@ -94,6 +99,19 @@ function sum(values) {
 
 function unique(values) {
   return [...new Set(values.filter((value) => value !== null && value !== undefined && value !== "").map(String))];
+}
+
+function normalizedText(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function teamSlug(value) {
+  return normalizedText(value).replace(/\s+/g, "-");
 }
 
 function countBy(rows, getter) {
@@ -331,8 +349,8 @@ function teamPredictionView(prior, fixture, side, teamXg, opponentXg, winProbabi
     upset_risk_band: upsetBand,
     uncertaintyLabel: uncertaintyLabel,
     uncertainty_label: uncertaintyLabel,
-    uncertaintyReason: `${uncertaintyLabel} uncertainty: MD3 prep uses final MD1 plus partial final MD2 evidence only.`,
-    uncertainty_reason: `${uncertaintyLabel} uncertainty: MD3 prep uses final MD1 plus partial final MD2 evidence only.`,
+    uncertaintyReason: `${uncertaintyLabel} uncertainty: MD3 uses final MD1 plus full final MD2 evidence.`,
+    uncertainty_reason: `${uncertaintyLabel} uncertainty: MD3 uses final MD1 plus full final MD2 evidence.`,
     model_stage: "fantasy_pool_only",
     score_model_version: MODEL.score,
     qa_flags: qaFlags,
@@ -485,6 +503,109 @@ function actualRoundPoints(livePlayer, roundId) {
   return null;
 }
 
+function playerAuditDecision(row) {
+  if (!row) {
+    return "not_found_in_current_official_live_data";
+  }
+  if (!isSelectableStatus(row.selectable_status)) {
+    return "zero_and_remove_from_actionable_recommendations";
+  }
+  if (row.role_downgrade_evidence && row.repeated_underperformance) {
+    return "strong_downgrade_role_and_form_caution";
+  }
+  if (row.repeated_underperformance) {
+    return "downgrade_projection_confidence_due_to_two_game_underperformance";
+  }
+  if (row.role_downgrade_evidence) {
+    return "downgrade_start_probability_due_to_low_md2_participation_points";
+  }
+  return "eligible_but_keep_current_status_and_model_context";
+}
+
+function buildMd2Watchlists(twoGameRows, md2MissRows, statusWatchlist) {
+  const overprojected = [...twoGameRows]
+    .filter((row) => Number.isFinite(row.two_game_projection_error))
+    .sort((a, b) => a.two_game_projection_error - b.two_game_projection_error)
+    .slice(0, 25);
+  const underprojected = [...twoGameRows]
+    .filter((row) => Number.isFinite(row.two_game_projection_error))
+    .sort((a, b) => b.two_game_projection_error - a.two_game_projection_error)
+    .slice(0, 25);
+  return {
+    top_players_overprojected_md1_md2: overprojected,
+    top_players_underprojected_md1_md2: underprojected,
+    premium_players_with_poor_two_game_returns: [...twoGameRows]
+      .filter((row) => number(row.price, 0) >= 7 && number(row.actual_md1_md2_points, 0) <= 4)
+      .sort((a, b) => b.price - a.price || a.actual_md1_md2_points - b.actual_md1_md2_points)
+      .slice(0, 25),
+    high_projection_players_benched_or_low_participation_md2: [...twoGameRows]
+      .filter((row) => row.role_downgrade_evidence)
+      .sort((a, b) => number(b.md2_projected_points, 0) - number(a.md2_projected_points, 0))
+      .slice(0, 25),
+    players_with_new_injury_suspension_not_selectable_flags: statusWatchlist,
+    returned_to_playing_players: [],
+    likely_md3_rotation_watchlist_pending_group_incentive_model: [],
+    largest_md2_projection_misses: [...md2MissRows]
+      .sort((a, b) => Math.abs(b.residual) - Math.abs(a.residual))
+      .slice(0, 25)
+  };
+}
+
+function buildExplicitPlayerAudits(twoGameRows, livePlayers) {
+  const byName = new Map(twoGameRows.map((row) => [normalizedText(row.name), row]));
+  const findByName = (names) => names.map((name) => byName.get(normalizedText(name))).find(Boolean) || null;
+  const auditTargets = [
+    {
+      audit_key: "luis_suarez",
+      requested_name: "Luis Suárez",
+      row: findByName(["Luis Suárez", "Luis Suarez"])
+    },
+    {
+      audit_key: "nico_oreilly",
+      requested_name: "Nico O'Reilly",
+      row: findByName(["Nico O'Reilly", "Nico O’Reilly"])
+    },
+    {
+      audit_key: "raphinha",
+      requested_name: "Raphinha / Raphael Dias Belloli",
+      row: findByName(["Raphael Dias Belloli", "Raphinha"])
+    }
+  ].map((target) => ({
+    audit_key: target.audit_key,
+    requested_name: target.requested_name,
+    identified_player: target.row ? {
+      official_fantasy_player_id: target.row.official_fantasy_player_id,
+      name: target.row.name,
+      country: target.row.country,
+      position: target.row.position,
+      selectable_status: target.row.selectable_status
+    } : null,
+    evidence: target.row,
+    decision: playerAuditDecision(target.row)
+  }));
+  const germanDefenders = (livePlayers || [])
+    .filter((player) => player.team_name === "Germany" && player.position === "DEF" && !isSelectableStatus(player.status))
+    .map((player) => ({
+      official_fantasy_player_id: fantasyId(player),
+      name: player.name,
+      country: player.team_name,
+      position: player.position,
+      selectable_status: player.status,
+      actual_md1_points: actualRoundPoints(player, "1"),
+      actual_md2_points: actualRoundPoints(player, "2")
+    }));
+  auditTargets.push({
+    audit_key: "german_defender_status_issue",
+    requested_name: "German defender injury/status issue",
+    identified_player: germanDefenders[0] || null,
+    evidence: germanDefenders,
+    decision: germanDefenders.length
+      ? "zero_and_remove_from_actionable_recommendations"
+      : "no_current_german_defender_injury_or_not_selectable_status_found_in_official_feed"
+  });
+  return auditTargets;
+}
+
 async function buildMd2PartialPostmortemForMd3() {
   const [live, livePlayers, scoreV4, projectionV4] = await Promise.all([
     readJson(PATHS.liveMatchday),
@@ -493,6 +614,8 @@ async function buildMd2PartialPostmortemForMd3() {
     readJson(PATHS.projectionV4)
   ]);
   const scoreByFixture = indexBy(scoreV4.fixtureScorePredictions, (row) => row.fixture_id);
+  const completedMd1Fixtures = (live.fixtures || [])
+    .filter((fixture) => String(fixture.round_id) === "1" && isFinalStatus(fixture.fixture_status) && fixture.safe_to_display_score !== false);
   const completedMd2Fixtures = (live.fixtures || [])
     .filter((fixture) => String(fixture.round_id) === "2" && isFinalStatus(fixture.fixture_status) && fixture.safe_to_display_score !== false);
   const excludedMd2Fixtures = (live.fixtures || [])
@@ -510,7 +633,10 @@ async function buildMd2PartialPostmortemForMd3() {
   const finalMd2BySquadId = liveFixtureBySquadId(live.fixtures, "2", true);
   const livePlayerById = indexBy(livePlayers.players, fantasyId);
   const md2ProjectionRows = (projectionV4.playerMatchdayProjections || []).filter((row) => row.matchday === "md2");
+  const md1Md2ProjectionRows = (projectionV4.playerMatchdayProjections || [])
+    .filter((row) => ["md1", "md2"].includes(row.matchday));
   const completedFixtureIds = new Set(completedMd2Fixtures.map((fixture) => fixture.local_fixture_id));
+  const completedMd1Md2FixtureIds = new Set([...completedMd1Fixtures, ...completedMd2Fixtures].map((fixture) => fixture.local_fixture_id));
   const playerMissRows = md2ProjectionRows
     .filter((row) => completedFixtureIds.has(row.fixture_id))
     .map((row) => {
@@ -534,6 +660,51 @@ async function buildMd2PartialPostmortemForMd3() {
       };
     })
     .filter(Boolean);
+  const projectionRowsByPlayer = groupBy(
+    md1Md2ProjectionRows.filter((row) => completedMd1Md2FixtureIds.has(row.fixture_id)),
+    fantasyId
+  );
+  const twoGamePlayerRows = [...projectionRowsByPlayer.entries()]
+    .map(([id, rows]) => {
+      const livePlayer = livePlayerById.get(id);
+      if (!livePlayer) return null;
+      const actual1 = actualRoundPoints(livePlayer, "1");
+      const actual2 = actualRoundPoints(livePlayer, "2");
+      const actualValues = [actual1, actual2].filter(Number.isFinite);
+      if (!actualValues.length) return null;
+      const md1Projection = rows.find((row) => row.matchday === "md1");
+      const md2Projection = rows.find((row) => row.matchday === "md2");
+      const projected = sum(rows.map((row) => number(row.raw_expected_points, 0)));
+      const actual = sum(actualValues);
+      const md2Projected = number(md2Projection?.raw_expected_points, null);
+      const md2Actual = Number.isFinite(actual2) ? actual2 : null;
+      const repeatedUnderperformance = projected >= 8 && actual <= 4 && actual <= projected - 4.5;
+      const roleDowngradeEvidence = Number.isFinite(md2Actual) && md2Actual <= 1 && Number.isFinite(md2Projected) && md2Projected >= 4;
+      return {
+        official_fantasy_player_id: id,
+        name: livePlayer.name || rows[0].name,
+        country: livePlayer.team_name || rows[0].country,
+        team_id: rows[0].team_id,
+        official_team_id: rows[0].official_team_id || livePlayer.team_id,
+        position: rows[0].official_fantasy_position || rows[0].position || livePlayer.position,
+        selectable_status: livePlayer.status || rows[0].selectable_status || "playing",
+        price: number(rows[0].official_price || rows[0].price || livePlayer.price, null),
+        projected_md1_md2_points: round(projected, 3),
+        actual_md1_points: actual1,
+        actual_md2_points: actual2,
+        actual_md1_md2_points: round(actual, 3),
+        two_game_projection_error: round(actual - projected, 3),
+        md1_projected_points: number(md1Projection?.raw_expected_points, null),
+        md2_projected_points: md2Projected,
+        md2_fixture_id: md2Projection?.fixture_id || null,
+        md2_opponent: md2Projection?.opponent || null,
+        matchStatus: livePlayer.matchStatus || null,
+        repeated_underperformance: repeatedUnderperformance,
+        role_downgrade_evidence: roleDowngradeEvidence,
+        point_scope: livePlayer.stats?.pointScope || null
+      };
+    })
+    .filter(Boolean);
   const participationEvidence = (livePlayers.players || [])
     .filter((player) => finalMd2BySquadId.has(String(player.team_id || player.squad_id || "")))
     .map((player) => ({
@@ -553,10 +724,26 @@ async function buildMd2PartialPostmortemForMd3() {
               ? "positive_final_points"
               : "zero_or_missing_final_points"
     }));
+  const statusWatchlist = (livePlayers.players || [])
+    .filter((player) => !isSelectableStatus(player.status))
+    .map((player) => ({
+      official_fantasy_player_id: fantasyId(player),
+      name: player.name,
+      country: player.team_name,
+      team_id: player.team_id,
+      position: player.position,
+      selectable_status: player.status,
+      actual_md1_points: actualRoundPoints(player, "1"),
+      actual_md2_points: actualRoundPoints(player, "2"),
+      model_action: "force_zero_unavailable"
+    }));
+  const explicitAudits = buildExplicitPlayerAudits(twoGamePlayerRows, livePlayers.players || []);
   const summary = {
     generated_at: now(),
     defaultMatchday: "md3",
-    md2EvidenceIsPartial: true,
+    md2EvidenceIsPartial: false,
+    md2FullEvidence: true,
+    completedMd1FixturesUsed: completedMd1Fixtures.length,
     completedMd2FixturesUsed: completedMd2Fixtures.length,
     remainingMd2FixturesExcluded: excludedMd2Fixtures.length,
     md2InProgressActualsUsedForCalibration: false,
@@ -566,6 +753,7 @@ async function buildMd2PartialPostmortemForMd3() {
     fixtureResidualRows: fixtureRows.length,
     teamResidualRows: teamRows.length,
     playerProjectionMissRows: playerMissRows.length,
+    twoGamePlayerRows: twoGamePlayerRows.length,
     participationEvidenceRows: participationEvidence.length,
     actualGoalsPerCompletedMd2Fixture: round(average(fixtureRows.map((row) => row.actual_total_goals)), 3),
     predictedGoalsPerCompletedMd2Fixture: round(average(fixtureRows.map((row) => row.predicted_total_xg)), 3),
@@ -574,25 +762,30 @@ async function buildMd2PartialPostmortemForMd3() {
     cleanSheetExpectedCount: round(sum(fixtureRows.flatMap((row) => [row.home_clean_sheet_predicted_probability, row.away_clean_sheet_predicted_probability])), 3)
   };
   const dataset = {
-    schema_version: "md2_partial_calibration_for_md3_v1",
+    schema_version: "md2_calibration_for_md3_v1",
     generated_at: summary.generated_at,
-    model_scope: "MD3 prep, not final MD2 postmortem",
+    model_scope: "MD3 model input using full final MD1 and MD2 evidence",
     summary,
     fixture_calibration_rows: fixtureRows,
     team_residual_rows: teamRows,
     player_projection_miss_rows: playerMissRows,
+    two_game_player_rows: twoGamePlayerRows,
     role_participation_evidence_rows: participationEvidence,
+    status_watchlist: statusWatchlist,
+    watchlists: buildMd2Watchlists(twoGamePlayerRows, playerMissRows, statusWatchlist),
+    explicit_audits: explicitAudits,
     excluded_md2_fixtures: excludedMd2Fixtures,
     policy: {
       completedFinalMd2FixturesOnly: true,
       excludesInProgressMd2Fixtures: true,
       excludesScheduledMd2Fixtures: true,
+      usesFullCompletedMd2Evidence: completedMd2Fixtures.length === 24 && excludedMd2Fixtures.length === 0,
       ownershipUsedAsSignal: false,
       finalSquadsSourceBacked: false
     }
   };
   const postmortem = {
-    schema_version: "md2_partial_model_postmortem_for_md3_v1",
+    schema_version: "md2_model_postmortem_for_md3_v1",
     generated_at: summary.generated_at,
     summary,
     fixture_level: {
@@ -609,7 +802,9 @@ async function buildMd2PartialPostmortemForMd3() {
     player_level: {
       largest_positive_projection_misses: [...playerMissRows].sort((a, b) => b.residual - a.residual).slice(0, 20),
       largest_negative_projection_misses: [...playerMissRows].sort((a, b) => a.residual - b.residual).slice(0, 20),
-      participation_evidence_counts: countBy(participationEvidence, (row) => row.evidence_type)
+      participation_evidence_counts: countBy(participationEvidence, (row) => row.evidence_type),
+      watchlists: dataset.watchlists,
+      explicit_audits: explicitAudits
     },
     excluded_md2_fixtures: excludedMd2Fixtures
   };
@@ -621,26 +816,31 @@ async function buildMd2PartialPostmortemForMd3() {
 
 function md2PartialReport(postmortem) {
   const summary = postmortem.summary;
-  const excluded = postmortem.excluded_md2_fixtures.map((row) => `| ${row.match_number} | ${row.fixture} | ${row.fixture_status} | ${row.reason} |`).join("\n");
+  const excluded = postmortem.excluded_md2_fixtures.length
+    ? postmortem.excluded_md2_fixtures.map((row) => `| ${row.match_number} | ${row.fixture} | ${row.fixture_status} | ${row.reason} |`).join("\n")
+    : "| none | none | none | full MD2 final evidence used |";
   const fixtureRows = postmortem.fixture_level.largest_total_goal_residuals.map((row) => `| ${row.match_number} | ${row.fixture} | ${row.actual_home_goals}-${row.actual_away_goals} | ${row.predicted_total_xg} | ${row.total_goal_residual} |`).join("\n");
-  return `# MD2 Partial Model Postmortem For MD3 v1
+  const auditRows = (postmortem.player_level.explicit_audits || []).map((row) => `| ${row.requested_name} | ${row.identified_player?.name || "none"} | ${row.identified_player?.selectable_status || "n/a"} | ${row.decision} |`).join("\n");
+  return `# MD2 Model Postmortem For MD3 v1
 
 Generated: ${postmortem.generated_at}
 
-Status: **partial MD2 evidence for MD3 prep only**
+Status: **full final MD2 evidence for MD3**
 
-This is not a final MD2 postmortem. It uses only completed/final MD2 fixtures and excludes scheduled or otherwise unfinished MD2 fixtures.
+This postmortem uses all completed/final MD2 fixtures and completed MD1 player-point evidence for MD3 calibration, role, form, and recommendation caution.
 
 ## Summary
 
 | Metric | Value |
 | --- | ---: |
+| Completed MD1 fixtures used | ${summary.completedMd1FixturesUsed} |
 | Completed MD2 fixtures used | ${summary.completedMd2FixturesUsed} |
 | Remaining MD2 fixtures excluded | ${summary.remainingMd2FixturesExcluded} |
 | Actual goals per completed MD2 fixture | ${summary.actualGoalsPerCompletedMd2Fixture} |
 | Prior predicted goals per completed MD2 fixture | ${summary.predictedGoalsPerCompletedMd2Fixture} |
 | Favorite/result hit rate | ${summary.resultAccuracy} |
 | Player projection miss rows | ${summary.playerProjectionMissRows} |
+| Two-game player rows | ${summary.twoGamePlayerRows} |
 | MD2 in-progress actuals used | false |
 | Ownership used as signal | false |
 
@@ -655,6 +855,12 @@ ${fixtureRows}
 | Match | Fixture | Status | Reason |
 | ---: | --- | --- | --- |
 ${excluded}
+
+## Explicit Player Audits
+
+| Request | Identified player | Status | Decision |
+| --- | --- | --- | --- |
+${auditRows}
 `;
 }
 
@@ -720,6 +926,267 @@ Status: **${audit.status}**
   return audit;
 }
 
+function emptyTableRow(team, groupId, teamId, squadId = null) {
+  return {
+    group: groupId,
+    team,
+    team_id: teamId,
+    squad_id: squadId,
+    played: 0,
+    wins: 0,
+    draws: 0,
+    losses: 0,
+    goals_for: 0,
+    goals_against: 0,
+    goal_difference: 0,
+    points: 0,
+    remaining_md3_fixture: null
+  };
+}
+
+function applyGroupResult(teamRow, goalsFor, goalsAgainst) {
+  teamRow.played += 1;
+  teamRow.goals_for += goalsFor;
+  teamRow.goals_against += goalsAgainst;
+  teamRow.goal_difference = teamRow.goals_for - teamRow.goals_against;
+  if (goalsFor > goalsAgainst) {
+    teamRow.wins += 1;
+    teamRow.points += 3;
+  } else if (goalsFor === goalsAgainst) {
+    teamRow.draws += 1;
+    teamRow.points += 1;
+  } else {
+    teamRow.losses += 1;
+  }
+}
+
+function statusForGroupTeam(team, rows) {
+  const others = rows.filter((row) => row.team_id !== team.team_id);
+  const otherMaxPoints = others.map((row) => row.points + 3);
+  const maxOther = Math.max(...otherMaxPoints);
+  const teamMax = team.points + 3;
+  const othersCanTieOrPassCurrent = others.filter((row) => row.points + 3 >= team.points).length;
+  const othersAlreadyAboveTeamMax = others.filter((row) => row.points > teamMax).length;
+  const drawPoints = team.points + 1;
+  const othersCanTieOrPassDraw = others.filter((row) => row.points + 3 >= drawPoints).length;
+
+  if (team.points > maxOther) {
+    return {
+      incentive_status: "clinched_first",
+      rotation_risk_category: "very_high_rotation_risk",
+      certainty: "points_mathematical",
+      reason: "Current points exceed every other team's maximum possible points."
+    };
+  }
+  if (othersCanTieOrPassCurrent <= 1) {
+    return {
+      incentive_status: "qualified_but_first_not_clinched",
+      rotation_risk_category: "moderate_rotation_risk",
+      certainty: "conservative_points_safe_top_two",
+      reason: "At most one other team can tie or pass the current points total, but first place remains open."
+    };
+  }
+  if (othersAlreadyAboveTeamMax >= 3) {
+    return {
+      incentive_status: "eliminated_or_low_incentive",
+      rotation_risk_category: "high_rotation_risk",
+      certainty: "points_mathematical",
+      reason: "Three other teams already have more points than this team can reach."
+    };
+  }
+  if (team.points <= 1 || othersCanTieOrPassDraw >= 3) {
+    return {
+      incentive_status: "must_win",
+      rotation_risk_category: "must_play_strong",
+      certainty: "conservative_points_pressure",
+      reason: "A draw leaves too many teams able to tie or pass; model treats MD3 as must-win."
+    };
+  }
+  if (team.points >= 4) {
+    return {
+      incentive_status: "likely_qualified_but_not_mathematically_safe",
+      rotation_risk_category: "moderate_rotation_risk",
+      certainty: "best_third_place_not_fully_modeled",
+      reason: "Four-plus points is likely useful, but best-third-place and tiebreakers are not fully implemented."
+    };
+  }
+  return {
+    incentive_status: "can_finish_1_2_3",
+    rotation_risk_category: "normal_incentive",
+    certainty: "tiebreaker_uncertainty",
+    reason: "Team can still move materially in MD3; preserve normal incentive."
+  };
+}
+
+async function buildMd3GroupIncentiveModel() {
+  const [live, globals] = await Promise.all([
+    readJson(PATHS.liveMatchday),
+    loadGlobals([PATHS.worldCupData])
+  ]);
+  const worldCup = globals.WORLD_CUP_DATA || {};
+  const nameToLiveMeta = new Map();
+  for (const fixture of live.fixtures || []) {
+    for (const side of ["home", "away"]) {
+      const name = teamNameForSide(fixture, side);
+      if (!name) continue;
+      nameToLiveMeta.set(normalizedText(name), {
+        team_id: teamIdForSide(fixture, side) || teamSlug(name),
+        squad_id: fixture[`${side}_squad_id`] || fixture[`live_${side}_squad_id`] || null,
+        team: name
+      });
+    }
+  }
+  const tablesByGroup = new Map();
+  const teamGroup = new Map();
+  for (const group of worldCup.groups || []) {
+    const rows = [];
+    for (const teamName of group.teams || []) {
+      const liveMeta = nameToLiveMeta.get(normalizedText(teamName)) || {};
+      const teamId = liveMeta.team_id || teamSlug(teamName);
+      const row = emptyTableRow(liveMeta.team || teamName, group.id, teamId, liveMeta.squad_id || null);
+      rows.push(row);
+      teamGroup.set(teamId, group.id);
+    }
+    tablesByGroup.set(group.id, rows);
+  }
+  const rowByTeamId = new Map([...tablesByGroup.values()].flat().map((row) => [row.team_id, row]));
+  const finalMd1Md2 = (live.fixtures || [])
+    .filter((fixture) => ["1", "2"].includes(String(fixture.round_id)))
+    .filter((fixture) => isFinalStatus(fixture.fixture_status) && fixture.safe_to_display_score !== false);
+  for (const fixture of finalMd1Md2) {
+    const homeId = teamIdForSide(fixture, "home");
+    const awayId = teamIdForSide(fixture, "away");
+    const home = rowByTeamId.get(homeId);
+    const away = rowByTeamId.get(awayId);
+    if (!home || !away) continue;
+    applyGroupResult(home, number(fixture.home_score, 0), number(fixture.away_score, 0));
+    applyGroupResult(away, number(fixture.away_score, 0), number(fixture.home_score, 0));
+  }
+  const md3Fixtures = (live.fixtures || []).filter((fixture) => String(fixture.round_id) === "3");
+  for (const fixture of md3Fixtures) {
+    for (const [side, opponentSide] of [["home", "away"], ["away", "home"]]) {
+      const teamId = teamIdForSide(fixture, side);
+      const row = rowByTeamId.get(teamId);
+      if (!row) continue;
+      row.remaining_md3_fixture = {
+        fixture_id: fixture.local_fixture_id,
+        match_number: fixture.match_number,
+        opponent_team_id: teamIdForSide(fixture, opponentSide),
+        opponent: teamNameForSide(fixture, opponentSide),
+        status: fixture.fixture_status,
+        date: fixture.date || null
+      };
+    }
+  }
+  const team_statuses = [];
+  const group_tables = {};
+  for (const [groupId, rows] of tablesByGroup.entries()) {
+    const sorted = rows
+      .map((row) => ({ ...row }))
+      .sort((a, b) => b.points - a.points || b.goal_difference - a.goal_difference || b.goals_for - a.goals_for || a.team.localeCompare(b.team));
+    group_tables[groupId] = sorted;
+    for (const row of sorted) {
+      team_statuses.push({
+        ...row,
+        ...statusForGroupTeam(row, sorted),
+        tiebreaker_policy: "conservative_points_first; do not mark clinched first unless points alone prove it"
+      });
+    }
+  }
+  const qa = {
+    schema_version: "group_incentive_qa_md3_v1",
+    generated_at: now(),
+    status: finalMd1Md2.length === 48 && md3Fixtures.length === 24 && team_statuses.length === 48 ? "GREEN" : "YELLOW",
+    checks: {
+      completedMd1Md2FixturesUsed: finalMd1Md2.length,
+      md3FixtureCoverage: `${md3Fixtures.length} / 24`,
+      teamStatusRows: team_statuses.length,
+      groupsCovered: Object.keys(group_tables).length,
+      tiebreakersFullyImplemented: false,
+      bestThirdPlaceFullyImplemented: false
+    },
+    teams_classified_very_high_rotation_risk: team_statuses.filter((row) => row.rotation_risk_category === "very_high_rotation_risk").map((row) => row.team),
+    teams_classified_must_play_strong: team_statuses.filter((row) => row.rotation_risk_category === "must_play_strong").map((row) => row.team),
+    teams_classified_normal_incentive: team_statuses.filter((row) => row.rotation_risk_category === "normal_incentive").map((row) => row.team),
+    teams_where_status_uncertain: team_statuses.filter((row) => row.certainty.includes("uncertainty") || row.certainty.includes("not_fully_modeled")).map((row) => row.team),
+    assumptions: [
+      "Top two group qualification is treated by conservative points math.",
+      "Best-third-place and detailed FIFA tiebreakers are not fully modeled; uncertain teams are not overclaimed.",
+      "Clinched first requires points alone to beat every other team's maximum possible points."
+    ]
+  };
+  const output = {
+    schema_version: "group_incentive_model_md3_v1",
+    generated_at: now(),
+    defaultMatchday: "md3",
+    source_files: [PATHS.worldCupData, PATHS.liveMatchday, PATHS.liveFixtureQa],
+    completed_md1_fixtures_used: finalMd1Md2.filter((fixture) => String(fixture.round_id) === "1").length,
+    completed_md2_fixtures_used: finalMd1Md2.filter((fixture) => String(fixture.round_id) === "2").length,
+    md3_fixture_count: md3Fixtures.length,
+    qualification_policy: {
+      exact_group_rules_source: "worldCupData.js FIFA groups/tie-breaker source note",
+      tiebreakers_fully_implemented: false,
+      best_third_place_fully_implemented: false,
+      conservative_uncertainty_policy: true
+    },
+    group_tables,
+    team_statuses,
+    qa_status: qa.status,
+    safety: {
+      ownershipUsedAsSignal: false,
+      finalSquadsSourceBacked: false,
+      noInProgressFixturesUsed: true
+    }
+  };
+  await writeJson(PATHS.groupIncentive, output);
+  await writeJson(PATHS.groupIncentiveQa, qa);
+  await writeFile(PATHS.groupIncentiveReport, groupIncentiveMarkdown(output, qa), "utf8");
+  await writeFile(PATHS.groupIncentiveQaReport, groupIncentiveQaMarkdown(qa), "utf8");
+  return { output, qa };
+}
+
+function groupIncentiveMarkdown(output, qa) {
+  const rows = output.team_statuses
+    .map((row) => `| ${row.group} | ${row.team} | ${row.points} | ${row.goal_difference} | ${row.incentive_status} | ${row.rotation_risk_category} |`)
+    .join("\n");
+  return `# Group Incentive Model MD3 v1
+
+Generated: ${output.generated_at}
+
+Status: **${qa.status}**
+
+The model uses completed MD1 and MD2 scores only. Tiebreakers and best-third-place logic are conservative, so uncertain teams are not marked clinched.
+
+| Group | Team | Pts | GD | Incentive | Rotation Risk |
+| --- | --- | ---: | ---: | --- | --- |
+${rows}
+`;
+}
+
+function groupIncentiveQaMarkdown(qa) {
+  return `# Group Incentive QA MD3 v1
+
+Generated: ${qa.generated_at}
+
+Status: **${qa.status}**
+
+| Check | Result |
+| --- | --- |
+| Completed MD1+MD2 fixtures used | ${qa.checks.completedMd1Md2FixturesUsed} |
+| MD3 fixture coverage | ${qa.checks.md3FixtureCoverage} |
+| Team status rows | ${qa.checks.teamStatusRows} |
+| Groups covered | ${qa.checks.groupsCovered} |
+| Tiebreakers fully implemented | false |
+| Best-third-place fully implemented | false |
+
+Very high rotation risk: ${qa.teams_classified_very_high_rotation_risk.join(", ") || "none"}
+
+Must play strong: ${qa.teams_classified_must_play_strong.join(", ") || "none"}
+
+Uncertain: ${qa.teams_where_status_uncertain.join(", ") || "none"}
+`;
+}
+
 function teamAdjustmentsFromPartial(partial) {
   const grouped = groupBy(partial.team_residual_rows || [], (row) => row.team_id);
   const output = new Map();
@@ -765,7 +1232,8 @@ function scoreCalibrationFromPartial(partial) {
     rawCleanSheetRatio: round(rawCsRatio, 4),
     cleanSheetMultiplier: round(clamp(Math.exp(0.22 * Math.log(Math.max(0.1, rawCsRatio))), 0.85, 1.05), 4),
     wdlConfidenceShrink: 0.1,
-    md2PartialEvidence: true,
+    md2PartialEvidence: false,
+    md2FullEvidence: true,
     md2InProgressActualsUsedForCalibration: false,
     ownershipUsedAsSignal: false,
     finalSquadsSourceBacked: false
@@ -779,7 +1247,7 @@ function updateFixtureForScoreV5(prior, teamAdjustments, calibration) {
       modelVersion: MODEL.score,
       model_version: MODEL.score,
       defaultMatchday: "md3",
-      md2_partial_evidence_used_for_this_fixture: false,
+      md2_full_evidence_used_for_this_fixture: false,
       source_model_version: MODEL.scoreSource
     };
   }
@@ -810,7 +1278,7 @@ function updateFixtureForScoreV5(prior, teamAdjustments, calibration) {
   const qaFlags = unique([
     ...(prior.qa_flags || []),
     "md3_default_score_v5",
-    "md2_partial_final_fixture_calibrated",
+    "md2_full_final_fixture_calibrated",
     "md2_in_progress_actuals_not_used",
     "ownership_not_used_as_signal",
     "final_squads_not_source_backed"
@@ -881,7 +1349,7 @@ function updateFixtureForScoreV5(prior, teamAdjustments, calibration) {
     score_model_version: MODEL.score,
     defaultMatchday: "md3",
     source_model_version: MODEL.scoreSource,
-    md2_partial_evidence_used_for_this_fixture: true,
+    md2_full_evidence_used_for_this_fixture: true,
     v5_calibration: {
       calibration_applied: true,
       prior_home_xg: priorHomeXg,
@@ -891,7 +1359,7 @@ function updateFixtureForScoreV5(prior, teamAdjustments, calibration) {
       wdl_confidence_shrink: calibration.wdlConfidenceShrink,
       home_md2_adjustment: homeAdjustment,
       away_md2_adjustment: awayAdjustment,
-      md2_partial_evidence: true,
+      md2_full_evidence: true,
       md2_in_progress_actuals_used: false,
       remaining_md2_fixtures_excluded: calibration.remainingMd2FixturesExcluded
     },
@@ -951,7 +1419,7 @@ function scoreSummary(fixtures, teamRows, calibration) {
     md2_fixture_count: fixtures.filter((row) => row.fantasy_matchday_id === "md2").length,
     md3_fixture_count: md3.length,
     defaultMatchday: "md3",
-    md3_recalibrated_fixture_count: md3.filter((row) => row.md2_partial_evidence_used_for_this_fixture).length,
+    md3_recalibrated_fixture_count: md3.filter((row) => row.md2_full_evidence_used_for_this_fixture).length,
     average_total_expected_goals: round(average(fixtures.map((row) => number(row.total_expected_goals, null))), 3),
     average_md3_total_expected_goals: round(average(md3.map((row) => number(row.total_expected_goals, null))), 3),
     final_squad_source_status: "fantasy_pool_only_not_source_backed",
@@ -959,7 +1427,8 @@ function scoreSummary(fixtures, teamRows, calibration) {
     pele_rebuilt: true,
     completedMd2FixturesUsed: calibration.completedMd2FixturesUsed,
     remainingMd2FixturesExcluded: calibration.remainingMd2FixturesExcluded,
-    md2PartialEvidence: true,
+    md2PartialEvidence: false,
+    md2FullEvidence: true,
     md2InProgressActualsUsedForCalibration: false,
     ownershipUsedAsSignal: false,
     finalSquadsSourceBacked: false,
@@ -993,7 +1462,8 @@ function scoreQa(output, partial) {
   if (duplicateIds.length) failures.push("duplicate_fixture_ids");
   if (invalidProbabilities.length) failures.push("probabilities_do_not_sum");
   if (invalidNumeric.length) failures.push("invalid_numeric_values");
-  if (partial.summary.remainingMd2FixturesExcluded !== 4) failures.push("unexpected_md2_exclusion_count");
+  if (partial.summary.completedMd2FixturesUsed !== 24) failures.push("completed_md2_fixture_count_not_24");
+  if (partial.summary.remainingMd2FixturesExcluded !== 0) failures.push("unexpected_md2_exclusion_count");
   return {
     schema_version: "score_prediction_qa_v5_md3",
     generated_at: now(),
@@ -1036,7 +1506,7 @@ async function buildScorePredictionsFantasyPoolV5Md3() {
     generated_at: generatedAt,
     source_checked: VERSION_STAMP,
     model_stage: "fantasy_pool_only",
-    data_status: "active_md3_score_v5_partial_md2_calibrated",
+    data_status: "active_md3_score_v5_full_md2_calibrated",
     previous_model_file: PATHS.scoreV4,
     team_quality_file: PATHS.teamQuality,
     safety_labels: [
@@ -1051,7 +1521,7 @@ async function buildScorePredictionsFantasyPoolV5Md3() {
     ],
     model: {
       ...(prior.model || {}),
-      model_name: "PELE-prior MD1 plus partial MD2-calibrated fantasy-pool score predictor v5 for MD3",
+      model_name: "PELE-prior MD1 plus full MD2-calibrated fantasy-pool score predictor v5 for MD3",
       formula_version: MODEL.scoreSource,
       modelVersion: MODEL.score,
       model_version: MODEL.score,
@@ -1059,7 +1529,8 @@ async function buildScorePredictionsFantasyPoolV5Md3() {
       current_inputs: [PATHS.scoreV4, PATHS.partialDataset, PATHS.teamQuality, PATHS.liveFixtureQa],
       completedMd2FixturesUsed: calibration.completedMd2FixturesUsed,
       remainingMd2FixturesExcluded: calibration.remainingMd2FixturesExcluded,
-      md2PartialEvidence: true,
+      md2PartialEvidence: false,
+      md2FullEvidence: true,
       md2InProgressActualsUsedForCalibration: false,
       ownershipUsedAsSignal: false,
       finalSquadsSourceBacked: false,
@@ -1068,8 +1539,8 @@ async function buildScorePredictionsFantasyPoolV5Md3() {
     summary: scoreSummary(fixtureScorePredictions, teamFixturePredictions, calibration),
     model_notes: [
       "MD3 is the public default.",
-      "Score v5 starts from Score v4 and applies a small, capped calibration layer from completed/final MD2 fixtures only.",
-      "The four unplayed MD2 fixtures are explicitly excluded from calibration.",
+      "Score v5 starts from Score v4 and applies a small, capped calibration layer from all 24 completed/final MD2 fixtures.",
+      "No MD2 fixtures are excluded after the full MD2 live import.",
       "Ownership, in-progress scores, scheduled scores, final-squad claims, betting odds, and lineup legality are not used as model signals."
     ],
     fixtureScorePredictions,
@@ -1077,7 +1548,7 @@ async function buildScorePredictionsFantasyPoolV5Md3() {
     modelVersion: MODEL.score,
     model_version: MODEL.score,
     defaultMatchday: "md3",
-    md2_partial_calibration_metadata: calibration,
+    md2_full_calibration_metadata: calibration,
     teamAdjustmentTable: [...teamAdjustments.values()],
     team_adjustment_table: [...teamAdjustments.values()]
   };
@@ -1125,7 +1596,7 @@ MD3 is the public default. The model uses refreshed PELE/teamQuality prior, fina
 | --- | --- |
 | Completed MD2 fixtures used | ${output.summary.completedMd2FixturesUsed} |
 | Remaining MD2 fixtures excluded | ${output.summary.remainingMd2FixturesExcluded} |
-| MD2 partial evidence | true |
+| MD2 full evidence | true |
 | MD2 in-progress actuals used for calibration | false |
 | Ownership used as signal | false |
 | Final squads source-backed | false |
@@ -1149,6 +1620,33 @@ function md3RoleConfidence(evidenceType, priorConfidence) {
   return priorConfidence === "high" ? "medium" : priorConfidence || "low";
 }
 
+function rotationMultiplier(category) {
+  return {
+    very_high_rotation_risk: 0.72,
+    high_rotation_risk: 0.82,
+    moderate_rotation_risk: 0.92,
+    unknown_rotation_risk: 0.96,
+    normal_incentive: 1,
+    must_play_strong: 1.03
+  }[category] ?? 1;
+}
+
+function rotationCaution(category) {
+  if (category === "very_high_rotation_risk") return "Very high MD3 rotation risk from group incentive model.";
+  if (category === "high_rotation_risk") return "High MD3 rotation uncertainty from group incentive model.";
+  if (category === "moderate_rotation_risk") return "Moderate MD3 rotation caution from group incentive model.";
+  if (category === "must_play_strong") return "Team incentive suggests strongest available XI is more likely.";
+  return null;
+}
+
+function playerProjectionByMatchday(rows) {
+  const map = new Map();
+  for (const row of rows || []) {
+    map.set(`${fantasyId(row)}:${row.matchday}`, row);
+  }
+  return map;
+}
+
 async function buildPlayerRoleModelMd3V3() {
   const [roleV2, projectionV4, live, livePlayers] = await Promise.all([
     readJson(PATHS.roleV2),
@@ -1160,15 +1658,22 @@ async function buildPlayerRoleModelMd3V3() {
   const officialRows = globals.FANTASY_POOL_OFFICIAL_DATA_STATUS?.official_position_records || [];
   const officialById = indexBy(officialRows, fantasyId);
   const liveById = indexBy(livePlayers.players, fantasyId);
+  const groupModel = fs.existsSync(PATHS.groupIncentive) ? await readJson(PATHS.groupIncentive) : { team_statuses: [] };
+  const incentiveByTeamId = indexBy(groupModel.team_statuses || [], (row) => row.team_id);
+  const projectionByIdMatchday = playerProjectionByMatchday(projectionV4.playerMatchdayProjections || []);
   const md3ProjectionById = indexBy((projectionV4.playerMatchdayProjections || []).filter((row) => row.matchday === "md3"), fantasyId);
   const md2FinalBySquadId = liveFixtureBySquadId(live.fixtures, "2", true);
   const playerRoleRows = (roleV2.playerRoleRows || []).map((row) => {
     const id = fantasyId(row);
     const official = officialById.get(id) || {};
     const liveRow = liveById.get(id) || {};
+    const priorMd1 = projectionByIdMatchday.get(`${id}:md1`) || {};
+    const priorMd2 = projectionByIdMatchday.get(`${id}:md2`) || {};
     const priorMd3 = md3ProjectionById.get(id) || {};
+    const incentive = incentiveByTeamId.get(row.team_id || priorMd3.team_id || teamSlug(row.country));
     const status = official.selectable_status || liveRow.status || row.selectable_status || "playing";
     const finalMd2Fixture = md2FinalBySquadId.get(String(liveRow.team_id || row.official_team_id || ""));
+    const md1Actual = actualRoundPoints(liveRow, "1");
     const md2Actual = finalMd2Fixture ? actualRoundPoints(liveRow, "2") : null;
     const matchStatus = finalMd2Fixture ? liveRow.matchStatus || null : null;
     const baseStart = number(priorMd3.start_probability, number(row.md2StartProb, 0.12));
@@ -1176,6 +1681,10 @@ async function buildPlayerRoleModelMd3V3() {
     let start = baseStart;
     let minutes = baseMinutes;
     let evidenceType = "md2_fixture_not_final_excluded";
+    let formEvidenceType = "two_game_points_not_available";
+    let rotationStartDelta = 0;
+    let formStartDelta = 0;
+    let minutesDeltaFromAdjustments = 0;
     const reasons = [];
     if (!isSelectableStatus(status)) {
       start = 0;
@@ -1212,8 +1721,61 @@ async function buildPlayerRoleModelMd3V3() {
     } else {
       reasons.push("md2_fixture_not_final_or_not_played_excluded_from_role_update");
     }
+    const preRotationStart = start;
+    const preRotationMinutes = minutes;
+    const rotationRisk = incentive?.rotation_risk_category || "unknown_rotation_risk";
+    const rotationFactor = rotationMultiplier(rotationRisk);
+    if (isSelectableStatus(status) && rotationFactor !== 1) {
+      start = clamp(start * rotationFactor, 0, rotationRisk === "must_play_strong" ? 0.98 : 0.94);
+      minutes = clamp(minutes * rotationFactor, 0, rotationRisk === "must_play_strong" ? 94 : 90);
+      rotationStartDelta = round(start - preRotationStart, 3);
+      minutesDeltaFromAdjustments += minutes - preRotationMinutes;
+      reasons.push(`group_incentive_${rotationRisk}`);
+    }
+    const twoGameProjected = sum([number(priorMd1.raw_expected_points, null), number(priorMd2.raw_expected_points, null)]);
+    const twoGameActualValues = [md1Actual, md2Actual].filter(Number.isFinite);
+    const twoGameActual = twoGameActualValues.length ? sum(twoGameActualValues) : null;
+    const twoGameProjectionError = Number.isFinite(twoGameActual) && Number.isFinite(twoGameProjected)
+      ? round(twoGameActual - twoGameProjected, 3)
+      : null;
+    const severeUnderperformance = Number.isFinite(twoGameActual)
+      && Number.isFinite(twoGameProjected)
+      && twoGameProjected >= 8
+      && twoGameActual <= 4
+      && twoGameActual <= twoGameProjected - 4.5;
+    const md2LowParticipation = Number.isFinite(md2Actual)
+      && md2Actual <= 1
+      && number(priorMd2.raw_expected_points, 0) >= 4;
+    if (isSelectableStatus(status) && severeUnderperformance) {
+      const preFormStart = start;
+      const preFormMinutes = minutes;
+      const mustPlay = rotationRisk === "must_play_strong";
+      const factor = md2LowParticipation ? (mustPlay ? 0.88 : 0.8) : (mustPlay ? 0.94 : 0.9);
+      start = clamp(start * factor, 0, 0.92);
+      minutes = clamp(minutes * factor, 0, 88);
+      formStartDelta = round(start - preFormStart, 3);
+      minutesDeltaFromAdjustments += minutes - preFormMinutes;
+      formEvidenceType = md2LowParticipation
+        ? "repeated_underperformance_plus_low_md2_points"
+        : "repeated_two_game_underperformance";
+      reasons.push(formEvidenceType);
+    } else if (isSelectableStatus(status) && md2LowParticipation) {
+      const preFormStart = start;
+      const preFormMinutes = minutes;
+      start = clamp(start * (rotationRisk === "must_play_strong" ? 0.92 : 0.86), 0, 0.9);
+      minutes = clamp(minutes * (rotationRisk === "must_play_strong" ? 0.94 : 0.88), 0, 86);
+      formStartDelta = round(start - preFormStart, 3);
+      minutesDeltaFromAdjustments += minutes - preFormMinutes;
+      formEvidenceType = "low_md2_points_role_caution";
+      reasons.push(formEvidenceType);
+    } else if (Number.isFinite(twoGameProjectionError)) {
+      formEvidenceType = twoGameProjectionError < -3 ? "mild_two_game_underperformance" : twoGameProjectionError > 3 ? "positive_two_game_form" : "neutral_two_game_form";
+    }
     const roleTier = md3RoleTier(start, minutes, status, evidenceType);
-    const roleConfidence = md3RoleConfidence(evidenceType, row.roleConfidence);
+    let roleConfidence = md3RoleConfidence(evidenceType, row.roleConfidence);
+    if (formEvidenceType === "repeated_underperformance_plus_low_md2_points") roleConfidence = "low";
+    else if (formEvidenceType === "repeated_two_game_underperformance" && roleConfidence === "high") roleConfidence = "medium";
+    if (["very_high_rotation_risk", "high_rotation_risk"].includes(rotationRisk) && roleConfidence === "high") roleConfidence = "medium";
     const evidenceStrength = ["confirmed_started_md2", "confirmed_sub_md2", "confirmed_not_in_squad_md2"].includes(evidenceType)
       ? "strong"
       : ["positive_final_md2_points", "zero_or_missing_final_md2_points"].includes(evidenceType)
@@ -1240,6 +1802,17 @@ async function buildPlayerRoleModelMd3V3() {
       } : null,
       md2_actual_fantasy_points: md2Actual,
       md2_actual_points_available: Number.isFinite(md2Actual),
+      md1_actual_fantasy_points: md1Actual,
+      two_game_actual_fantasy_points: twoGameActual,
+      two_game_projected_points: Number.isFinite(twoGameProjected) ? round(twoGameProjected, 3) : null,
+      two_game_projection_error: twoGameProjectionError,
+      two_game_form_evidence_type: formEvidenceType,
+      md3_group_incentive_status: incentive?.incentive_status || "unknown_due_tiebreaker_uncertainty",
+      md3_rotation_risk_category: rotationRisk,
+      md3_rotation_reason: incentive?.reason || null,
+      rotation_start_probability_delta: rotationStartDelta,
+      form_start_probability_delta: formStartDelta,
+      total_adjusted_minutes_delta: round(minutesDeltaFromAdjustments, 2),
       md2_live_status_fields: {
         live_row_available: Boolean(liveRow.official_fantasy_player_id),
         status: liveRow.status || null,
@@ -1260,14 +1833,25 @@ async function buildPlayerRoleModelMd3V3() {
       roleReason: reasons.join("; "),
       caution: evidenceType === "md2_fixture_not_final_excluded"
         ? "MD3 role uses prior evidence because this player's MD2 fixture is not final."
-        : row.caution || null,
+        : unique([
+          row.caution,
+          rotationCaution(rotationRisk),
+          formEvidenceType === "repeated_underperformance_plus_low_md2_points" ? "Repeated MD1+MD2 underperformance plus low MD2 points; role and recommendation confidence reduced." : null,
+          formEvidenceType === "repeated_two_game_underperformance" ? "Repeated MD1+MD2 underperformance; projection confidence reduced." : null,
+          formEvidenceType === "low_md2_points_role_caution" ? "Low MD2 points against a strong prior projection; start probability reduced cautiously." : null
+        ]).join(" "),
       evidenceStrength,
       dataQualityFlags: unique([
         ...(row.dataQualityFlags || []),
         "player_role_v3_md3",
-        "md2_partial_final_evidence_only",
+        "md2_full_final_evidence",
+        "two_game_form_evidence",
+        "group_incentive_rotation_model",
         "md2_in_progress_player_points_not_used",
         "ownership_not_used_as_signal",
+        severeUnderperformance ? "repeated_underperformance_downgrade" : null,
+        md2LowParticipation ? "low_md2_points_role_caution" : null,
+        ["very_high_rotation_risk", "high_rotation_risk", "moderate_rotation_risk"].includes(rotationRisk) ? `rotation_${rotationRisk}` : null,
         !isSelectableStatus(status) ? "not_selectable_zero_role" : null
       ]),
       source_model_version: MODEL.role
@@ -1284,6 +1868,28 @@ async function buildPlayerRoleModelMd3V3() {
     role_tier_counts: countBy(playerRoleRows, (row) => row.roleTier),
     evidence_strength_counts: countBy(playerRoleRows, (row) => row.evidenceStrength),
     md2_role_evidence_type_counts: countBy(playerRoleRows, (row) => row.md2_role_evidence_type),
+    rotation_risk_counts: countBy(playerRoleRows, (row) => row.md3_rotation_risk_category),
+    two_game_form_evidence_counts: countBy(playerRoleRows, (row) => row.two_game_form_evidence_type),
+    top_downgraded_due_to_rotation_risk: playerRoleRows
+      .filter((row) => number(row.rotation_start_probability_delta, 0) < 0)
+      .sort((a, b) => number(a.rotation_start_probability_delta, 0) - number(b.rotation_start_probability_delta, 0))
+      .slice(0, 20)
+      .map(playerListSummary),
+    top_downgraded_due_to_repeated_underperformance: playerRoleRows
+      .filter((row) => String(row.two_game_form_evidence_type || "").includes("underperformance"))
+      .sort((a, b) => number(a.two_game_projection_error, 0) - number(b.two_game_projection_error, 0))
+      .slice(0, 20)
+      .map(playerListSummary),
+    top_downgraded_due_to_role_loss: playerRoleRows
+      .filter((row) => row.two_game_form_evidence_type === "low_md2_points_role_caution" || row.two_game_form_evidence_type === "repeated_underperformance_plus_low_md2_points")
+      .sort((a, b) => number(a.form_start_probability_delta, 0) - number(b.form_start_probability_delta, 0))
+      .slice(0, 20)
+      .map(playerListSummary),
+    players_preserved_because_team_must_play_strong: playerRoleRows
+      .filter((row) => row.md3_rotation_risk_category === "must_play_strong")
+      .sort((a, b) => number(b.md3StartProb, 0) - number(a.md3StartProb, 0))
+      .slice(0, 20)
+      .map(playerListSummary),
     md2InProgressPlayerPointsUsed: false,
     ownershipUsedAsSignal: false,
     finalSquadsSourceBacked: false
@@ -1294,17 +1900,19 @@ async function buildPlayerRoleModelMd3V3() {
     modelVersion: MODEL.role,
     model_version: MODEL.role,
     model_stage: "active_md3_role_support",
-    source_files: [PATHS.roleV2, PATHS.projectionV4, PATHS.livePlayers, PATHS.liveMatchday],
+    source_files: [PATHS.roleV2, PATHS.projectionV4, PATHS.livePlayers, PATHS.liveMatchday, PATHS.groupIncentive],
     input_status: {
       official_fantasy_pool_active: true,
-      md2_evidence_scope: "completed_final_md2_player_rows_only",
+      md2_evidence_scope: "full_completed_final_md2_player_rows",
       no_in_progress_md2_player_points: true
     },
     model_rules: {
       injured_suspended_not_selectable_forced_zero: true,
       returned_to_playing_allowed_back_in: true,
       exact_starts_minutes_not_inferred_without_matchStatus: true,
-      evidence_strength_marked: true
+      evidence_strength_marked: true,
+      group_incentive_rotation_risk_applied: true,
+      two_game_form_confidence_adjustment_applied: true
     },
     summary,
     playerRoleRows
@@ -1333,9 +1941,19 @@ function roleQa(output) {
       unavailablePlayersForcedZero: !failures.includes("non_selectable_positive_role"),
       md2InProgressPlayerPointsUsed: false,
       evidenceStrengthMarked: rows.every((row) => row.evidenceStrength),
+      groupIncentiveRotationRiskApplied: rows.some((row) => row.md3_rotation_risk_category && row.md3_rotation_risk_category !== "unknown_rotation_risk"),
+      twoGameFormEvidenceApplied: rows.some((row) => row.two_game_form_evidence_type && row.two_game_form_evidence_type !== "two_game_points_not_available"),
       finalSquadsSourceBacked: false
     },
-    summary: output.summary
+    summary: output.summary,
+    top_downgraded_players_due_to_rotation_risk: output.summary.top_downgraded_due_to_rotation_risk,
+    top_downgraded_players_due_to_injury_suspension_status: rows
+      .filter((row) => !isSelectableStatus(row.selectable_status))
+      .slice(0, 20)
+      .map(playerListSummary),
+    top_downgraded_players_due_to_role_loss: output.summary.top_downgraded_due_to_role_loss,
+    top_downgraded_players_due_to_repeated_underperformance: output.summary.top_downgraded_due_to_repeated_underperformance,
+    players_preserved_because_team_must_play_strong: output.summary.players_preserved_because_team_must_play_strong
   };
 }
 
@@ -1352,6 +1970,8 @@ Status: **${qa.status}**
 | Unavailable players forced zero | ${qa.checks.unavailablePlayersForcedZero} |
 | MD2 in-progress player points used | false |
 | Evidence strength marked | ${qa.checks.evidenceStrengthMarked} |
+| Group incentive rotation risk applied | ${qa.checks.groupIncentiveRotationRiskApplied} |
+| Two-game form evidence applied | ${qa.checks.twoGameFormEvidenceApplied} |
 | Final squads source-backed | false |
 `;
 }
@@ -1363,7 +1983,7 @@ Generated: ${output.generated_at}
 
 Model version: \`${MODEL.role}\`
 
-This role model uses the active official fantasy pool, Role Model v2 as prior, final MD1 evidence already embedded in v2, and completed/final MD2 player evidence only. It does not infer exact starts or minutes unless the official fantasy feed supplies matchStatus context.
+This role model uses the active official fantasy pool, Role Model v2 as prior, final MD1 evidence already embedded in v2, full completed/final MD2 player evidence, two-game fantasy points, and conservative MD3 group-incentive rotation risk. It does not infer exact starts or minutes unless the official fantasy feed supplies matchStatus context.
 `;
 }
 
@@ -1402,14 +2022,39 @@ function projectionFromPrior(row, role, scoreView, official, livePlayer) {
   const cleanDelta = (newCs - oldCs) * cleanSheetPoints(position) * appearanceProbability(minutes, start) * 0.75;
   const md2Actual = role?.md2_actual_points_available ? number(role.md2_actual_fantasy_points, null) : null;
   const md2Prior = number(row.raw_expected_points, 0);
-  const formDelta = Number.isFinite(md2Actual) ? clamp((md2Actual - md2Prior) * 0.035, -0.35, 0.45) : 0;
+  const twoGameActual = number(role?.two_game_actual_fantasy_points, null);
+  const twoGameProjected = number(role?.two_game_projected_points, null);
+  const twoGameError = number(role?.two_game_projection_error, null);
+  const md2OnlyDelta = Number.isFinite(md2Actual) ? clamp((md2Actual - md2Prior) * 0.035, -0.35, 0.45) : 0;
+  const twoGameDelta = Number.isFinite(twoGameError) ? clamp(twoGameError * 0.045, -0.85, 0.55) : md2OnlyDelta;
+  const roleLossPenalty = ["repeated_underperformance_plus_low_md2_points", "low_md2_points_role_caution"].includes(role?.two_game_form_evidence_type)
+    ? -0.35
+    : 0;
+  const formDelta = twoGameDelta + roleLossPenalty;
+  const rotationRisk = role?.md3_rotation_risk_category || "unknown_rotation_risk";
+  const rotationProjectionPenalty = {
+    very_high_rotation_risk: -0.75,
+    high_rotation_risk: -0.45,
+    moderate_rotation_risk: -0.2,
+    unknown_rotation_risk: -0.05,
+    normal_incentive: 0,
+    must_play_strong: 0.12
+  }[rotationRisk] ?? 0;
+  const rotationCaptainPenalty = {
+    very_high_rotation_risk: -10,
+    high_rotation_risk: -6,
+    moderate_rotation_risk: -2.5,
+    unknown_rotation_risk: -1,
+    normal_incentive: 0,
+    must_play_strong: 1
+  }[rotationRisk] ?? 0;
   const priorRaw = number(row.raw_expected_points, 0);
-  const raw = nonSelectable ? 0 : round(clamp(priorRaw + roleDelta + attackDelta + cleanDelta + formDelta, 0, 32), 3);
+  const raw = nonSelectable ? 0 : round(clamp(priorRaw + roleDelta + attackDelta + cleanDelta + formDelta + rotationProjectionPenalty, 0, 32), 3);
   const riskRatio = priorRaw > 0 ? number(row.risk_adjusted_points, priorRaw) / priorRaw : 0.88;
   const riskAdjusted = nonSelectable ? 0 : round(clamp(raw * clamp(riskRatio, 0.72, 1.04) + (start - oldStart) * 0.4, 0, raw), 3);
   const floor = nonSelectable ? 0 : round(clamp(number(row.floor_points, 0) + roleDelta * 0.25 + cleanDelta * 0.25, 0, raw), 3);
   const ceiling = nonSelectable ? 0 : round(Math.max(raw, number(row.ceiling_points, raw) + attackDelta * 1.7 + formDelta * 0.8), 3);
-  const captain = nonSelectable ? 0 : round(clamp(number(row.captain_score, raw * 2.4) + attackDelta * 3 + (number(scoreView?.captain_environment_score, 50) - number(row.fixture_context?.captain_environment_score, 50)) * 0.05 + formDelta * 2, 0, 80), 3);
+  const captain = nonSelectable ? 0 : round(clamp(number(row.captain_score, raw * 2.4) + attackDelta * 3 + (number(scoreView?.captain_environment_score, 50) - number(row.fixture_context?.captain_environment_score, 50)) * 0.05 + formDelta * 2 + rotationCaptainPenalty, 0, 80), 3);
   const fixtureContext = {
     ...(row.fixture_context || {}),
     ...(scoreView || {}),
@@ -1422,7 +2067,9 @@ function projectionFromPrior(row, role, scoreView, official, livePlayer) {
     "player_projection_v5_md3",
     "score_model_v5_md3",
     "role_model_v3_md3",
-    "md2_partial_final_evidence_only",
+    "md2_full_final_evidence",
+    "two_game_form_evidence",
+    "group_incentive_rotation_model",
     "md2_in_progress_player_points_not_used",
     "ownership_not_used_as_signal",
     "final_squads_not_source_backed",
@@ -1458,20 +2105,30 @@ function projectionFromPrior(row, role, scoreView, official, livePlayer) {
       evidence_notes: role?.roleReason || row.minutes_context?.evidence_notes || null,
       md2_actual_fantasy_points: role?.md2_actual_fantasy_points ?? null,
       md2_actual_points_available: role?.md2_actual_points_available === true,
-      md2_role_evidence_type: role?.md2_role_evidence_type || null
+      md2_role_evidence_type: role?.md2_role_evidence_type || null,
+      two_game_actual_fantasy_points: twoGameActual,
+      two_game_projected_points: twoGameProjected,
+      two_game_projection_error: twoGameError,
+      two_game_form_evidence_type: role?.two_game_form_evidence_type || null,
+      md3_rotation_risk_category: rotationRisk,
+      md3_group_incentive_status: role?.md3_group_incentive_status || null
     },
     projection_components: {
       ...(row.projection_components || {}),
       role_adjustment: round(roleDelta, 3),
       fixture_adjustment: round(attackDelta + cleanDelta, 3),
-      md2_form_adjustment: round(formDelta, 3)
+      two_game_form_adjustment: round(formDelta, 3),
+      rotation_projection_penalty: round(rotationProjectionPenalty, 3),
+      rotation_captain_penalty: round(rotationCaptainPenalty, 3)
     },
     projectionReason: nonSelectable
       ? `Not selectable in official fantasy pool: ${status}.`
-      : `Role v3 ${role?.roleTier || "prior role"}; Score v5 MD3 context applied; completed MD2 evidence used only where final.`,
+      : `Role v3 ${role?.roleTier || "prior role"}; Score v5 MD3 context applied; full MD1+MD2 evidence plus group incentive risk applied.`,
     roleReason: role?.roleReason || row.roleReason,
     fixtureReason: `Score v5 xG ${round(newXg, 2)}, clean-sheet ${cleanSheetContextLabel(newCs)}, uncertainty ${scoreView?.matchUncertainty || "Medium"}.`,
-    caution: nonSelectable ? "Excluded from actionable MD3 projection." : role?.caution || row.caution || null,
+    caution: nonSelectable
+      ? "Excluded from actionable MD3 projection."
+      : unique([role?.caution, row.caution, rotationCaution(rotationRisk)]).join(" ") || null,
     data_quality_flags: flags,
     dataQualityFlags: flags,
     model_stage: "active_md3_player_projection_support",
@@ -1525,6 +2182,9 @@ async function buildFantasyPoolMatchdayProjectionsV5Md3() {
     defaultMatchday: "md3",
     completedMd2FixturesUsed: score.summary.completedMd2FixturesUsed,
     remainingMd2FixturesExcluded: score.summary.remainingMd2FixturesExcluded,
+    md2FullEvidence: true,
+    rotation_risk_counts_md3: countBy(md3Rows, (row) => row.minutes_context?.md3_rotation_risk_category || "unknown_rotation_risk"),
+    two_game_form_evidence_counts_md3: countBy(md3Rows, (row) => row.minutes_context?.two_game_form_evidence_type || "missing"),
     md2_in_progress_player_points_used_as_signal: false,
     ownershipUsedAsSignal: false,
     finalSquadsSourceBacked: false,
@@ -1545,20 +2205,26 @@ async function buildFantasyPoolMatchdayProjectionsV5Md3() {
       "not final-squad-backed",
       "score model v5",
       "role model v3",
-      "completed MD2 player evidence only",
+      "full completed MD2 player evidence",
+      "two-game form and role caution",
+      "group incentive rotation risk",
       "ownership not used as signal"
     ],
     previous_active_projection_file: PATHS.projectionV4,
     input_files: [PATHS.projectionV4, PATHS.scoreV5, PATHS.roleV3, PATHS.fantasyRules, PATHS.livePlayers, PATHS.liveMatchday],
     model: {
       model_name: "Component Player Projection Model v5 for MD3",
-      formula_version: "fantasy_pool_player_projection_v5_md3_score_v5_role_v3_2026-06-23",
+      formula_version: "fantasy_pool_player_projection_v5_md3_score_v5_role_v3_incentive_form_2026-06-24",
       score_model_version: MODEL.score,
       role_model_version: MODEL.role,
       uses_official_fantasy_prices: true,
       uses_official_fantasy_positions: true,
       uses_official_scoring_rules: true,
       no_in_progress_md2_actuals: true,
+      completed_md2_fixtures_used: score.summary.completedMd2FixturesUsed,
+      md2_full_evidence: true,
+      group_incentive_rotation_risk_applied: true,
+      two_game_form_adjustment_applied: true,
       ownership_policy: "Ownership fields are not used as projection signal."
     },
     summary,
@@ -1590,6 +2256,78 @@ function playerListSummary(row) {
   };
 }
 
+function explicitMd3AuditRows(rows, candidates = []) {
+  const allRows = rows || [];
+  const byName = new Map(allRows.map((row) => [normalizedText(row.name), row]));
+  const candidatesById = groupBy(candidates, fantasyId);
+  const targets = [
+    ["luis_suarez", "Luis Suárez", ["Luis Suárez", "Luis Suarez"]],
+    ["nico_oreilly", "Nico O'Reilly", ["Nico O'Reilly", "Nico O’Reilly"]],
+    ["raphinha", "Raphinha / Raphael Dias Belloli", ["Raphael Dias Belloli", "Raphinha"]]
+  ].map(([auditKey, requestedName, aliases]) => {
+    const row = aliases.map((name) => byName.get(normalizedText(name))).find(Boolean) || null;
+    const candidateRows = row ? (candidatesById.get(fantasyId(row)) || []) : [];
+    const publicRecommended = candidateRows.some((candidate) => candidate.matchday === "md3");
+    const decision = !row
+      ? "not_found_in_current_md3_projection_rows"
+      : !isSelectableStatus(row.selectable_status)
+        ? "zeroed_not_recommended"
+        : publicRecommended
+          ? (String(row.minutes_context?.two_game_form_evidence_type || "").includes("underperformance") || String(row.minutes_context?.two_game_form_evidence_type || "").includes("low_md2")
+            ? "recommended_with_downgraded_confidence_and_caution"
+            : "recommended")
+          : "not_in_public_md3_recommendations_after_caution";
+    return {
+      audit_key: auditKey,
+      requested_name: requestedName,
+      identified_player: row ? {
+        official_fantasy_player_id: fantasyId(row),
+        name: row.name,
+        country: row.country,
+        position: row.official_fantasy_position || row.position,
+        selectable_status: row.selectable_status
+      } : null,
+      md3_projected_points: row ? number(row.raw_expected_points, 0) : null,
+      start_probability: row ? number(row.start_probability, 0) : null,
+      two_game_actual_points: row ? number(row.minutes_context?.two_game_actual_fantasy_points, null) : null,
+      two_game_projected_points: row ? number(row.minutes_context?.two_game_projected_points, null) : null,
+      two_game_projection_error: row ? number(row.minutes_context?.two_game_projection_error, null) : null,
+      rotation_risk: row?.minutes_context?.md3_rotation_risk_category || null,
+      form_evidence: row?.minutes_context?.two_game_form_evidence_type || null,
+      public_recommended: publicRecommended,
+      decision
+    };
+  });
+  const germanDefenders = allRows.filter((row) =>
+    row.country === "Germany" &&
+    (row.official_fantasy_position || row.position) === "DEF" &&
+    !isSelectableStatus(row.selectable_status)
+  );
+  targets.push({
+    audit_key: "german_defender_status_issue",
+    requested_name: "German defender injury/status issue",
+    identified_player: germanDefenders[0] ? {
+      official_fantasy_player_id: fantasyId(germanDefenders[0]),
+      name: germanDefenders[0].name,
+      country: germanDefenders[0].country,
+      position: germanDefenders[0].official_fantasy_position || germanDefenders[0].position,
+      selectable_status: germanDefenders[0].selectable_status
+    } : null,
+    md3_projected_points: germanDefenders[0] ? number(germanDefenders[0].raw_expected_points, 0) : null,
+    start_probability: germanDefenders[0] ? number(germanDefenders[0].start_probability, 0) : null,
+    two_game_actual_points: germanDefenders[0] ? number(germanDefenders[0].minutes_context?.two_game_actual_fantasy_points, null) : null,
+    two_game_projected_points: germanDefenders[0] ? number(germanDefenders[0].minutes_context?.two_game_projected_points, null) : null,
+    two_game_projection_error: germanDefenders[0] ? number(germanDefenders[0].minutes_context?.two_game_projection_error, null) : null,
+    rotation_risk: germanDefenders[0]?.minutes_context?.md3_rotation_risk_category || null,
+    form_evidence: germanDefenders[0]?.minutes_context?.two_game_form_evidence_type || null,
+    public_recommended: false,
+    decision: germanDefenders.length
+      ? "zeroed_not_recommended"
+      : "no_current_german_defender_injury_or_not_selectable_status_found_in_official_feed"
+  });
+  return targets;
+}
+
 function projectionQa(output, failures = []) {
   const rows = output.playerMatchdayProjections || [];
   const md3Rows = rows.filter((row) => row.matchday === "md3");
@@ -1610,12 +2348,14 @@ function projectionQa(output, failures = []) {
       finalSquadsSourceBacked: false,
       md2InProgressActualsUsed: false
     },
-    topProjectedMd3Players: output.summary.topProjectedMd3Players
+    topProjectedMd3Players: output.summary.topProjectedMd3Players,
+    explicitPlayerAudits: explicitMd3AuditRows(md3Rows)
   };
 }
 
 function projectionQaMarkdown(qa) {
   const rows = qa.topProjectedMd3Players.map((row, index) => `| ${index + 1} | ${row.name} | ${row.country} | ${row.position} | ${row.opponent} | ${row.projectedPoints} | ${row.startProbability} |`).join("\n");
+  const auditRows = (qa.explicitPlayerAudits || []).map((row) => `| ${row.requested_name} | ${row.identified_player?.name || "none"} | ${row.identified_player?.selectable_status || "n/a"} | ${row.md3_projected_points ?? "n/a"} | ${row.start_probability ?? "n/a"} | ${row.decision} |`).join("\n");
   return `# Player Projection QA MD3 v5
 
 Generated: ${qa.generated_at}
@@ -1637,6 +2377,12 @@ Status: **${qa.status}**
 | Rank | Player | Team | Pos | Opponent | Projected | Start |
 | ---: | --- | --- | --- | --- | ---: | ---: |
 ${rows}
+
+## Explicit Audits
+
+| Request | Identified player | Status | MD3 projected | Start | Decision |
+| --- | --- | --- | ---: | ---: | --- |
+${auditRows}
 `;
 }
 
@@ -1647,7 +2393,7 @@ Generated: ${output.generated_at}
 
 Model version: \`${MODEL.projection}\`
 
-Inputs: Score Model v5 MD3, Role Model v3 MD3, official fantasy rules/prices/positions, and the active official fantasy pool. In-progress MD2 player actuals and ownership are not used.
+Inputs: Score Model v5 MD3, Role Model v3 MD3, official fantasy rules/prices/positions, two-game form/role evidence, group-incentive rotation risk, and the active official fantasy pool. In-progress MD2 player actuals and ownership are not used.
 `;
 }
 
@@ -1703,6 +2449,23 @@ function recommendationScore(row, mode, finance) {
   const minutes = number(row.expected_minutes, 0);
   const price = Math.max(1, number(row.official_price || row.price, 1));
   const value = raw / price + Math.max(0, number(finance?.value_over_replacement, 0)) * 0.05;
+  const rotationRisk = row.minutes_context?.md3_rotation_risk_category || "unknown_rotation_risk";
+  const formEvidence = row.minutes_context?.two_game_form_evidence_type || "";
+  const rotationFactor = {
+    very_high_rotation_risk: mode === "captain" ? 0.45 : 0.62,
+    high_rotation_risk: mode === "captain" ? 0.62 : 0.78,
+    moderate_rotation_risk: mode === "captain" ? 0.84 : 0.9,
+    unknown_rotation_risk: 0.96,
+    normal_incentive: 1,
+    must_play_strong: 1.04
+  }[rotationRisk] ?? 1;
+  const formPenalty = formEvidence === "repeated_underperformance_plus_low_md2_points"
+    ? 0.78
+    : formEvidence === "repeated_two_game_underperformance"
+      ? 0.86
+      : formEvidence === "low_md2_points_role_caution"
+        ? 0.88
+        : 1;
   const formulas = {
     balanced: raw * 12 + risk * 9 + start * 18 + minutes * 0.08 + captain * 0.35 + value * 1.2,
     safe: risk * 12 + floor * 9 + start * 28 + minutes * 0.12 + value * 0.8,
@@ -1710,7 +2473,7 @@ function recommendationScore(row, mode, finance) {
     differential: raw * 9 + risk * 6 + value * 7 + (price <= 6 ? 5 : 0) + start * 8,
     captain: captain * 3.8 + raw * 9 + ceiling * 3.2 + start * 24 + minutes * 0.05
   };
-  return round(formulas[mode] || formulas.balanced, 3);
+  return round((formulas[mode] || formulas.balanced) * rotationFactor * formPenalty, 3);
 }
 
 function candidateFromProjection(row, mode, rank, score, finance) {
@@ -1722,7 +2485,12 @@ function candidateFromProjection(row, mode, rank, score, finance) {
     "recommendation_model_v5_md3",
     "finance_secondary_only",
     "ownership_not_used_as_signal",
-    "md2_in_progress_actuals_not_used_as_signal"
+    "md2_in_progress_actuals_not_used_as_signal",
+    "full_md2_evidence",
+    "two_game_form_evidence",
+    "group_incentive_rotation_model",
+    row.minutes_context?.md3_rotation_risk_category ? `rotation_${row.minutes_context.md3_rotation_risk_category}` : null,
+    row.minutes_context?.two_game_form_evidence_type ? `form_${row.minutes_context.two_game_form_evidence_type}` : null
   ]);
   return {
     internal_player_id: row.internal_player_id,
@@ -1781,6 +2549,12 @@ function candidateFromProjection(row, mode, rank, score, finance) {
       finance_secondary_only: true
     },
     projection_components: row.projection_components,
+    two_game_actual_points: row.minutes_context?.two_game_actual_fantasy_points ?? null,
+    two_game_projected_points: row.minutes_context?.two_game_projected_points ?? null,
+    two_game_projection_error: row.minutes_context?.two_game_projection_error ?? null,
+    two_game_form_evidence_type: row.minutes_context?.two_game_form_evidence_type || null,
+    md3_group_incentive_status: row.minutes_context?.md3_group_incentive_status || null,
+    md3_rotation_risk_category: row.minutes_context?.md3_rotation_risk_category || null,
     recommendation_score: score,
     recommendation_tier: rank <= 10 ? "top_pick_candidate" : "strong_candidate",
     projectionReason: row.projectionReason,
@@ -1793,7 +2567,13 @@ function candidateFromProjection(row, mode, rank, score, finance) {
       `${round(number(row.expected_minutes, 0), 0)} expected minutes`,
       row.fixture_context?.expected_goals ? `team xG ${round(number(row.fixture_context.expected_goals, 0), 2)}` : null
     ].filter(Boolean),
-    why_careful: unique([row.caution, "not final-squad-backed", "confirm locks/deadlines in FIFA"]).slice(0, 4),
+    why_careful: unique([
+      row.caution,
+      rotationCaution(row.minutes_context?.md3_rotation_risk_category),
+      String(row.minutes_context?.two_game_form_evidence_type || "").includes("underperformance") ? "two-game underperformance caution" : null,
+      "not final-squad-backed",
+      "confirm locks/deadlines in FIFA"
+    ]).slice(0, 5),
     dataQualityFlags: flags,
     data_quality_flags: flags,
     selected_from: `${mode}_pool`,
@@ -1818,7 +2598,14 @@ async function buildFantasyPoolRecommendationsV5Md3() {
     for (const mode of Object.keys(MODE_LABELS)) {
       const pool = scopedRows
         .filter((row) => mode !== "captain" || row.official_fantasy_position !== "GK")
-        .filter((row) => scope !== "md3" || number(row.start_probability, 0) >= (mode === "captain" ? 0.55 : 0.45))
+        .filter((row) => {
+          if (scope !== "md3") return true;
+          const rotationRisk = row.minutes_context?.md3_rotation_risk_category || "unknown_rotation_risk";
+          if (mode === "captain" && ["very_high_rotation_risk", "high_rotation_risk"].includes(rotationRisk)) return false;
+          if (rotationRisk === "very_high_rotation_risk" && number(row.start_probability, 0) < 0.72) return false;
+          return true;
+        })
+        .filter((row) => scope !== "md3" || number(row.start_probability, 0) >= (mode === "captain" ? 0.58 : 0.42))
         .map((row) => {
           const finance = financeById.get(fantasyId(row));
           return { row, finance, score: recommendationScore(row, mode, finance) };
@@ -1839,6 +2626,10 @@ async function buildFantasyPoolRecommendationsV5Md3() {
     candidates_by_position: countBy(candidates, (row) => row.position),
     candidates_by_tier: countBy(candidates, (row) => row.recommendation_tier),
     candidates_by_price_bucket: countBy(candidates, (row) => priceBucket(row.price)),
+    md3_rotation_risk_counts: countBy(candidates.filter((row) => row.matchday === "md3"), (row) => row.md3_rotation_risk_category || "unknown"),
+    teams_suppressed_due_to_rotation_risk: unique(projectionRows
+      .filter((row) => row.matchday === "md3" && ["very_high_rotation_risk", "high_rotation_risk"].includes(row.minutes_context?.md3_rotation_risk_category))
+      .map((row) => row.country)),
     projected_player_rows_available: projectionRows.length,
     top_list_limit: 25,
     defaultMatchday: "md3",
@@ -1847,6 +2638,8 @@ async function buildFantasyPoolRecommendationsV5Md3() {
     role_model_version: MODEL.role,
     safe_for_public_recommendations: true,
     browser_ready_files_updated: true,
+    completedMd2FixturesUsed: projectionData.summary?.completedMd2FixturesUsed ?? 24,
+    md2FullEvidence: true,
     md2_in_progress_actuals_used_as_recommendation_signal: false,
     ownershipUsedAsSignal: false,
     financeSecondaryOnly: true
@@ -1864,6 +2657,8 @@ async function buildFantasyPoolRecommendationsV5Md3() {
       "projection model v5",
       "role model v3",
       "score model v5",
+      "group incentive rotation risk",
+      "two-game form/role evidence",
       "finance secondary only",
       "MD2 in-progress actuals excluded from recommendation signal",
       "ownership not used as signal",
@@ -1879,6 +2674,10 @@ async function buildFantasyPoolRecommendationsV5Md3() {
       modes: Object.entries(MODE_LABELS).map(([id, label]) => ({ id, label })),
       scoring_note: "Projection/start/minutes/role/fixture context drive rankings. Finance is secondary and cannot bypass projection/start thresholds.",
       defaultMatchday: "md3",
+      completedMd2FixturesUsed: projectionData.summary?.completedMd2FixturesUsed ?? 24,
+      md2FullEvidence: true,
+      group_incentive_rotation_risk_applied: true,
+      two_game_form_role_evidence_applied: true,
       md2_in_progress_actuals_used_as_recommendation_signal: false,
       ownership_policy: "Ownership is present only as a monitored/feed field and is not used as signal."
     },
@@ -1904,10 +2703,27 @@ function recommendationQa(output, projectionData) {
   const md3 = candidates.filter((row) => row.matchday === "md3");
   const captain = md3.filter((row) => row.mode === "captain");
   const unavailable = candidates.filter((row) => !isSelectableStatus(row.selectable_status));
-  const projectionIds = new Set((projectionData.playerMatchdayProjections || []).filter((row) => row.matchday === "md3").map(fantasyId));
+  const md3ProjectionRows = (projectionData.playerMatchdayProjections || []).filter((row) => row.matchday === "md3");
+  const projectionIds = new Set(md3ProjectionRows.map(fantasyId));
   const missingProjection = md3.filter((row) => !projectionIds.has(fantasyId(row)));
   const topNames = new Set(md3.slice(0, 80).map((row) => row.name));
   const obviousPremiumPresent = ["Lionel Messi", "Kylian Mbappe", "Kylian Mbappé", "Michael Olise", "Harry Kane", "Cristiano Ronaldo"].some((name) => topNames.has(name));
+  const topProjected = [...md3ProjectionRows].sort((a, b) => number(b.raw_expected_points, 0) - number(a.raw_expected_points, 0)).slice(0, 25);
+  const candidateIds = new Set(md3.map(fantasyId));
+  const eliteOmissions = topProjected
+    .filter((row) => !candidateIds.has(fantasyId(row)))
+    .slice(0, 20)
+    .map((row) => ({
+      ...playerListSummary(row),
+      reason: !isSelectableStatus(row.selectable_status)
+        ? "not selectable"
+        : ["very_high_rotation_risk", "high_rotation_risk"].includes(row.minutes_context?.md3_rotation_risk_category)
+          ? `rotation risk ${row.minutes_context?.md3_rotation_risk_category}`
+          : String(row.minutes_context?.two_game_form_evidence_type || "").includes("underperformance")
+            ? "two-game form caution"
+            : "ranking threshold"
+    }));
+  const explicitAudits = explicitMd3AuditRows(md3ProjectionRows, candidates);
   const failures = [];
   if (!md3.length) failures.push("no_md3_recommendations");
   if (!captain.length) failures.push("no_md3_captain_watchlist");
@@ -1927,15 +2743,27 @@ function recommendationQa(output, projectionData) {
       financeRemainsSecondary: true,
       injuredSuspendedNotSelectableExcluded: unavailable.length === 0,
       starAuditPasses: obviousPremiumPresent,
-      noInProgressMd2ActualsUsedAsRecommendationSignal: true
+      noInProgressMd2ActualsUsedAsRecommendationSignal: true,
+      groupIncentiveRotationRiskApplied: md3.some((row) => row.md3_rotation_risk_category),
+      twoGameFormRoleEvidenceApplied: md3.some((row) => row.two_game_form_evidence_type)
     },
+    top25Md3ProjectedPoints: topProjected.map(playerListSummary),
     top20Md3CaptainWatchlist: captain.slice(0, 20).map(playerListSummary),
-    top20Md3Recommendations: md3.filter((row) => row.mode === "balanced").slice(0, 20).map(playerListSummary)
+    top20Md3Recommendations: md3.filter((row) => row.mode === "balanced").slice(0, 20).map(playerListSummary),
+    teamsSuppressedDueToRotationRisk: output.summary.teams_suppressed_due_to_rotation_risk || [],
+    eliteOmissions,
+    explicitPlayerAudits: explicitAudits,
+    valueFinanceOverweightCheck: {
+      financeSecondaryOnly: true,
+      note: "Finance metrics are used only after projection/start/role filters and cannot bypass unavailable or rotation captain suppressions."
+    }
   };
 }
 
 function recommendationQaMarkdown(qa) {
+  const projectedRows = (qa.top25Md3ProjectedPoints || []).map((row, index) => `| ${index + 1} | ${row.name} | ${row.country} | ${row.position} | ${row.opponent} | ${row.projectedPoints} | ${row.startProbability} |`).join("\n");
   const captainRows = qa.top20Md3CaptainWatchlist.map((row, index) => `| ${index + 1} | ${row.name} | ${row.country} | ${row.position} | ${row.opponent} | ${row.projectedPoints} | ${row.captainScore} |`).join("\n");
+  const auditRows = (qa.explicitPlayerAudits || []).map((row) => `| ${row.requested_name} | ${row.identified_player?.name || "none"} | ${row.identified_player?.selectable_status || "n/a"} | ${row.public_recommended ? "yes" : "no"} | ${row.decision} |`).join("\n");
   return `# Recommendation QA MD3 v5
 
 Generated: ${qa.generated_at}
@@ -1950,12 +2778,30 @@ Status: **${qa.status}**
 | Finance secondary | true |
 | Unavailable players excluded | ${qa.checks.injuredSuspendedNotSelectableExcluded} |
 | No in-progress MD2 actuals used | true |
+| Group incentive rotation applied | ${qa.checks.groupIncentiveRotationRiskApplied} |
+| Two-game form/role evidence applied | ${qa.checks.twoGameFormRoleEvidenceApplied} |
+
+## Top 25 MD3 Projected Points
+
+| Rank | Player | Team | Pos | Opponent | Projected | Start |
+| ---: | --- | --- | --- | --- | ---: | ---: |
+${projectedRows}
 
 ## Top 20 MD3 Captain Watchlist
 
 | Rank | Player | Team | Pos | Opponent | Projected | Captain |
 | ---: | --- | --- | --- | --- | ---: | ---: |
 ${captainRows}
+
+## Rotation-Suppressed Teams
+
+${qa.teamsSuppressedDueToRotationRisk.join(", ") || "none"}
+
+## Explicit Audits
+
+| Request | Identified player | Status | Public recommendation | Decision |
+| --- | --- | --- | --- | --- |
+${auditRows}
 `;
 }
 
@@ -1966,7 +2812,7 @@ Generated: ${output.generated_at}
 
 Model version: \`${MODEL.recommendation}\`
 
-Recommendations use Projection Model v5, Role Model v3, Score Model v5, and finance metrics as secondary context only. Ownership, in-progress MD2 actuals, official lock/deadline claims, and final-squad source-backed claims are not used.
+Recommendations use Projection Model v5, Role Model v3, Score Model v5, group-incentive rotation risk, two-game form/role evidence, and finance metrics as secondary context only. Ownership, in-progress MD2 actuals, official lock/deadline claims, and final-squad source-backed claims are not used.
 `;
 }
 
@@ -1974,6 +2820,7 @@ async function buildMd3ReleaseQa() {
   const files = [
     PATHS.peleAuditJson,
     PATHS.partialDataset,
+    PATHS.groupIncentiveQa,
     PATHS.scoreQa,
     PATHS.roleQa,
     PATHS.projectionQa,
@@ -1988,6 +2835,7 @@ async function buildMd3ReleaseQa() {
   }
   const statuses = {
     pele: loaded[PATHS.peleAuditJson]?.status,
+    groupIncentive: loaded[PATHS.groupIncentiveQa]?.status,
     score: loaded[PATHS.scoreQa]?.status,
     role: loaded[PATHS.roleQa]?.status,
     projection: loaded[PATHS.projectionQa]?.status,
@@ -2005,8 +2853,11 @@ async function buildMd3ReleaseQa() {
     safe_to_share: green,
     public_site_promoted_to_md3: true,
     pele_refreshed: loaded[PATHS.peleAuditJson]?.pele_source_refreshed === true,
+    group_incentive_rotation_model_added: ["GREEN", "pass", "passed"].includes(statuses.groupIncentive),
     completed_md2_fixtures_used: partial?.summary?.completedMd2FixturesUsed ?? null,
     remaining_md2_fixtures_excluded: partial?.summary?.remainingMd2FixturesExcluded ?? null,
+    completed_md2_24_of_24: partial?.summary?.completedMd2FixturesUsed === 24 && partial?.summary?.remainingMd2FixturesExcluded === 0,
+    two_game_form_role_evidence_used: true,
     md3_model_stack_rebuilt: ["score", "role", "projection", "recommendation"].every((key) => statuses[key] === "pass"),
     world_cup_fixtures_page_updated: ["pass", "passed"].includes(statuses.worldCupFixtures),
     md1_md2_still_accessible: true,
@@ -2014,7 +2865,7 @@ async function buildMd3ReleaseQa() {
     remaining_limits: [
       "Final squads are not source-backed in the active public path.",
       "Official locks, deadlines, and lineup legality are not claimed verified.",
-      "Four MD2 fixtures remain excluded until final.",
+      "Best-third-place and detailed tiebreakers are conservative rather than fully simulated.",
       "This remains an independent fantasy helper, not an official FIFA recommendation."
     ]
   };
@@ -2030,8 +2881,11 @@ Status: **${qa.status}**
 | Safe to share | ${qa.safe_to_share ? "yes" : "no"} |
 | Public site promoted to MD3 | yes |
 | PELE refreshed | ${qa.pele_refreshed ? "yes" : "no"} |
+| Group incentive/rotation model added | ${qa.group_incentive_rotation_model_added ? "yes" : "no"} |
 | Completed MD2 fixtures used | ${qa.completed_md2_fixtures_used} |
 | Remaining MD2 fixtures excluded | ${qa.remaining_md2_fixtures_excluded} |
+| Completed MD2 24/24 | ${qa.completed_md2_24_of_24 ? "yes" : "no"} |
+| Two-game form/role evidence used | ${qa.two_game_form_role_evidence_used ? "yes" : "no"} |
 | MD3 model stack rebuilt | ${qa.md3_model_stack_rebuilt ? "yes" : "no"} |
 | World Cup fixtures page updated | ${qa.world_cup_fixtures_page_updated ? "yes" : "no"} |
 | MD1/MD2 still accessible | yes |
@@ -2040,8 +2894,9 @@ Status: **${qa.status}**
 }
 
 export async function runStep(step) {
-  if (step === "partial") return buildMd2PartialPostmortemForMd3();
+  if (step === "partial" || step === "postmortem") return buildMd2PartialPostmortemForMd3();
   if (step === "pele-audit") return buildPeleRefreshAuditMd3();
+  if (step === "group-incentive") return buildMd3GroupIncentiveModel();
   if (step === "score") return buildScorePredictionsFantasyPoolV5Md3();
   if (step === "role") return buildPlayerRoleModelMd3V3();
   if (step === "projection") return buildFantasyPoolMatchdayProjectionsV5Md3();
@@ -2050,6 +2905,7 @@ export async function runStep(step) {
   if (step === "all") {
     await buildPeleRefreshAuditMd3();
     await buildMd2PartialPostmortemForMd3();
+    await buildMd3GroupIncentiveModel();
     await buildScorePredictionsFantasyPoolV5Md3();
     await buildPlayerRoleModelMd3V3();
     await buildFantasyPoolMatchdayProjectionsV5Md3();

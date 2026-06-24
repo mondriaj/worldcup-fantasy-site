@@ -1,6 +1,6 @@
 # Active MD3 Data Flow QA Report
 
-Generated: 2026-06-23T14:23:22.666Z
+Generated: 2026-06-24T11:45:55.217Z
 Status: **PASS**
 Active version: `20260623-md3-prep`
 
@@ -51,7 +51,7 @@ Active version: `20260623-md3-prep`
 - MD3 recommendation projection misses: 0
 - MD3 projections: 1233
 - MD3 score fixtures: 24
-- playersData.js MD3 recommendation enrichment misses: 100
+- playersData.js MD3 recommendation enrichment misses: 103
 - playersData.js MD3 projection enrichment misses: 1122
 - playersData.js finance enrichment misses: 1122
 

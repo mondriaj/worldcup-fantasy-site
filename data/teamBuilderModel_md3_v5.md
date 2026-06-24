@@ -1,6 +1,6 @@
 # Team Builder Model MD3 v5
 
-Generated: 2026-06-23T14:23:23.313Z
+Generated: 2026-06-24T11:45:32.108Z
 
 Version: `team_builder_optimizer_md3_v5`
 
@@ -15,4 +15,4 @@ The MD3 Team Builder keeps the MD2 v4 optimizer philosophy and rebuilds legal sq
 | Country limit | 3 |
 | Formation | 4-3-3 |
 | Balanced captain | Lionel Messi |
-| Balanced starter MD3 points | 85.371 |
+| Balanced starter MD3 points | 84.286 |

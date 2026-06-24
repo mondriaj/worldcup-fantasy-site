@@ -1,6 +1,6 @@
 {
   "schema_version": "world_cup_fixtures_page_live_scores_qa_v1",
-  "generated_at": "2026-06-23T14:23:22.655Z",
+  "generated_at": "2026-06-24T11:45:55.233Z",
   "status": "passed",
   "files": {
     "html": "world-cup.html",
@@ -18,12 +18,12 @@
     "live_fixture_count": 72,
     "completed_md1_fixture_count": 24,
     "completed_md1_final_scores_visible": 24,
-    "completed_md2_fixture_count": 20,
-    "completed_md2_final_scores_visible": 20,
+    "completed_md2_fixture_count": 24,
+    "completed_md2_final_scores_visible": 24,
     "playing_md2_fixture_count": 0,
     "playing_md2_fixtures_marked_live": 0,
-    "scheduled_fixture_count": 28,
-    "scheduled_fixtures_marked_scheduled": 28,
+    "scheduled_fixture_count": 24,
+    "scheduled_fixtures_marked_scheduled": 24,
     "unsafe_score_leak_count": 0,
     "duplicate_rendered_fixture_count": 0,
     "reversed_score_error_count": 0,
@@ -190,34 +190,42 @@
       "expected_score_text": "JOR 1 - 2 ALG",
       "visible": true,
       "reversed": false
-    }
-  ],
-  "playing_fixture_checks": [],
-  "scheduled_fixture_sample": [
+    },
     {
       "match_number": 47,
       "fixture": "Portugal vs Uzbekistan",
-      "marked_scheduled": true,
-      "shown_as_final": false
+      "round_id": "2",
+      "expected_score_text": "POR 5 - 0 UZB",
+      "visible": true,
+      "reversed": false
     },
     {
       "match_number": 45,
       "fixture": "England vs Ghana",
-      "marked_scheduled": true,
-      "shown_as_final": false
+      "round_id": "2",
+      "expected_score_text": "ENG 0 - 0 GHA",
+      "visible": true,
+      "reversed": false
     },
     {
       "match_number": 46,
       "fixture": "Panama vs Croatia",
-      "marked_scheduled": true,
-      "shown_as_final": false
+      "round_id": "2",
+      "expected_score_text": "PAN 0 - 1 CRO",
+      "visible": true,
+      "reversed": false
     },
     {
       "match_number": 48,
       "fixture": "Colombia vs Congo DR",
-      "marked_scheduled": true,
-      "shown_as_final": false
-    },
+      "round_id": "2",
+      "expected_score_text": "COL 1 - 0 COD",
+      "visible": true,
+      "reversed": false
+    }
+  ],
+  "playing_fixture_checks": [],
+  "scheduled_fixture_sample": [
     {
       "match_number": 51,
       "fixture": "Switzerland vs Canada",
@@ -311,6 +319,30 @@
     {
       "match_number": 65,
       "fixture": "Cabo Verde vs Saudi Arabia",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 64,
+      "fixture": "New Zealand vs Belgium",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 63,
+      "fixture": "Egypt vs IR Iran",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 68,
+      "fixture": "Croatia vs Ghana",
+      "marked_scheduled": true,
+      "shown_as_final": false
+    },
+    {
+      "match_number": 67,
+      "fixture": "Panama vs England",
       "marked_scheduled": true,
       "shown_as_final": false
     }

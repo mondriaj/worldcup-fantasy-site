@@ -1,7 +1,7 @@
 // Static data scripts are loaded before this file. They expose player, rules,
 // score-projection, and official fantasy-pool data on window globals, so the
 // public site can run without fetching JSON at runtime.
-const ACTIVE_DATA_VERSION = "20260623-md3-prep";
+const ACTIVE_DATA_VERSION = "20260624-md3-final-md2-evidence";
 const ACTIVE_DATA = {
   version: ACTIVE_DATA_VERSION,
   players: Array.isArray(window.PLAYERS_DATA) ? window.PLAYERS_DATA : [],
