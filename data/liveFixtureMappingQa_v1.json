@@ -1,6 +1,6 @@
 {
   "schema_version": "live_fixture_mapping_qa_v1",
-  "generated_at": "2026-06-24T11:45:55.238Z",
+  "generated_at": "2026-06-25T17:34:56.200Z",
   "status": "passed",
   "files": {
     "localFixtures": "data/fixtures.json",
@@ -14,20 +14,24 @@
   },
   "summary": {
     "total_local_fixtures": 72,
-    "total_live_fixtures": 72,
+    "total_live_fixtures": 73,
+    "group_stage_live_fixtures": 72,
+    "extra_live_fixtures": 1,
     "total_score_prediction_fixtures": 72,
     "matched_fixtures": 72,
-    "final_fixtures_shown": 48,
+    "final_fixtures_shown": 54,
     "in_progress_fixtures_suppressed": 0,
-    "scheduled_fixtures": 24,
-    "unmatched_fixtures": 0,
+    "scheduled_fixtures": 19,
+    "unmatched_fixtures": 1,
     "ambiguous_fixtures": 0,
     "reversed_mappings": 0,
     "mapping_status_counts": {
-      "matched": 72
+      "matched": 72,
+      "unmatched": 1
     },
     "mapping_orientation_counts": {
-      "direct": 72
+      "direct": 72,
+      "unknown": 1
     },
     "unsafe_fixture_player_point_leak_count": 0
   },
@@ -107,6 +111,17 @@
     "Early sample: Match 1 Mexico vs South Africa maps to fwc2026-m001 and score-prediction team pair.",
     "Middle sample: Match 14 Spain vs Cabo Verde maps to fwc2026-m014 and does not attach to Match 13 or Match 15.",
     "Late sample: Match 72 Congo DR vs Uzbekistan maps by round/team pair rather than source fixture order."
+  ],
+  "extra_live_fixtures_sample": [
+    {
+      "source_fixture_id": "73",
+      "round_id": "4",
+      "round_stage": "R32",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "teams": "South Africa vs Canada",
+      "safe_to_display_score": false
+    }
   ],
   "unsafe_fixture_player_point_leaks_sample": [],
   "errors": [],

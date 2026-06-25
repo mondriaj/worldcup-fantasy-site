@@ -1,6 +1,6 @@
 {
   "schema_version": "active_fantasy_data_flow_qa_v1",
-  "generated_at": "2026-06-24T11:45:55.217Z",
+  "generated_at": "2026-06-25T17:34:56.181Z",
   "active_version": "20260623-md3-prep",
   "status": "pass",
   "checks": [
@@ -112,9 +112,9 @@
         "finance_rows": 1233,
         "score_fixture_rows": 72,
         "score_team_fixture_rows": 144,
-        "official_position_records": 1488,
-        "live_fixture_rows": 72,
-        "live_player_rows": 1488
+        "official_position_records": 1489,
+        "live_fixture_rows": 73,
+        "live_player_rows": 1489
       }
     },
     {
@@ -122,12 +122,12 @@
       "status": "pass",
       "detail": {
         "active_official_universe_field": "official_position_records",
-        "active_official_fantasy_players": 1488,
+        "active_official_fantasy_players": 1489,
         "missing_official_fantasy_player_id_count": 0,
         "duplicate_official_fantasy_player_id_count": 0,
         "selectable_position_counts": {
           "GK": 145,
-          "DEF": 407,
+          "DEF": 408,
           "MID": 418,
           "FWD": 269
         }
@@ -177,10 +177,10 @@
       "status": "pass",
       "detail": {
         "identity_role": "supplemental_enrichment_only",
-        "active_official_fantasy_players": 1488,
+        "active_official_fantasy_players": 1489,
         "players_data_rows": 100,
         "active_players_resolving_to_players_data": 120,
-        "active_players_not_resolving_to_players_data": 1368,
+        "active_players_not_resolving_to_players_data": 1369,
         "coverage_percent": 8.06
       }
     },
@@ -223,10 +223,10 @@
       "id": "team_builder_minimum_data",
       "status": "pass",
       "detail": {
-        "selectable_official_records": 1239,
+        "selectable_official_records": 1240,
         "selectable_position_counts": {
           "GK": 145,
-          "DEF": 407,
+          "DEF": 408,
           "MID": 418,
           "FWD": 269
         },
@@ -281,9 +281,9 @@
     "finance_rows": 1233,
     "score_fixture_rows": 72,
     "score_team_fixture_rows": 144,
-    "official_position_records": 1488,
-    "live_fixture_rows": 72,
-    "live_player_rows": 1488
+    "official_position_records": 1489,
+    "live_fixture_rows": 73,
+    "live_player_rows": 1489
   },
   "players_sync": {
     "source_count": 100,
@@ -343,14 +343,14 @@
   },
   "active_identity": {
     "active_official_universe_field": "official_position_records",
-    "active_official_fantasy_players": 1488,
+    "active_official_fantasy_players": 1489,
     "missing_official_fantasy_player_id_count": 0,
     "duplicate_official_fantasy_player_id_count": 0,
     "duplicate_official_fantasy_player_ids": [],
-    "selectable_official_records": 1239,
+    "selectable_official_records": 1240,
     "selectable_position_counts": {
       "GK": 145,
-      "DEF": 407,
+      "DEF": 408,
       "MID": 418,
       "FWD": 269
     },
@@ -379,19 +379,19 @@
     },
     "players_data_enrichment": {
       "identity_role": "supplemental_enrichment_only",
-      "active_official_fantasy_players": 1488,
+      "active_official_fantasy_players": 1489,
       "players_data_rows": 100,
       "active_players_resolving_to_players_data": 120,
-      "active_players_not_resolving_to_players_data": 1368,
+      "active_players_not_resolving_to_players_data": 1369,
       "coverage_percent": 8.06
     }
   },
   "enrichment_coverage": {
     "identity_role": "supplemental_enrichment_only",
-    "active_official_fantasy_players": 1488,
+    "active_official_fantasy_players": 1489,
     "players_data_rows": 100,
     "active_players_resolving_to_players_data": 120,
-    "active_players_not_resolving_to_players_data": 1368,
+    "active_players_not_resolving_to_players_data": 1369,
     "coverage_percent": 8.06
   },
   "md3_consistency": {
@@ -411,10 +411,10 @@
     "invalid_numeric_value_count": 0
   },
   "team_builder_minimum_data": {
-    "selectable_official_records": 1239,
+    "selectable_official_records": 1240,
     "selectable_position_counts": {
       "GK": 145,
-      "DEF": 407,
+      "DEF": 408,
       "MID": 418,
       "FWD": 269
     },

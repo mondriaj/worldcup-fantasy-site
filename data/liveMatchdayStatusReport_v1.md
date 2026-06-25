@@ -1,82 +1,86 @@
 # Live Matchday Status Report v1
 
-Generated: 2026-06-24T11:26:29.252Z
+Generated: 2026-06-25T17:22:50.049Z
 
 Status: static live/post-match support import. Model predictions, PELE data, recommendations, projections, finance metrics, Team Builder weights, and website formulas were not rerun by this script.
 
 ## Sources
 
-- fifaFantasyPlayersJson: ok, last modified 2026-06-24T11:04:22Z
+- fifaFantasyPlayersJson: ok, last modified 2026-06-25T17:04:22Z
 - fifaFantasySquadsJson: ok, last modified 2026-06-24T03:58:03Z
-- fifaFantasyRoundsJson: ok, last modified 2026-06-24T11:01:02Z
+- fifaFantasyRoundsJson: ok, last modified 2026-06-25T15:01:02Z
 
 Fetch failures: 0
 
 ## Round And Fixture Status
 
 Rounds imported: 8
-Fixtures imported: 72
+Fixtures imported: 73
 Group-stage fixtures mapped locally: 72
-Fixtures with score fields populated: 48
-Completed/played fixtures: 48
+Fixtures with score fields populated: 54
+Completed/played fixtures: 54
 Playing fixtures: 0
-Scheduled fixtures: 24
+Scheduled fixtures: 19
 In-progress fixture scores hidden until final: 0
-Safe final scores shown: 48
-Unmatched live fixtures: 0
+Safe final scores shown: 54
+Unmatched live fixtures: 1
 Ambiguous live fixtures: 0
 Reversed mappings handled: 0
 
 Mapping status counts:
 
 - matched: 72
+- unmatched: 1
 
 Mapping orientation counts:
 
 - direct: 72
+- unknown: 1
 
 Round status counts:
 
 - complete: 2
-- scheduled: 6
+- playing: 1
+- scheduled: 5
 
 Fixture status counts:
 
-- complete: 48
-- scheduled: 24
+- complete: 54
+- scheduled: 19
 
 ## Player Live Fields
 
-Players imported: 1488
-Players with total points: 893
-Players with last-round points: 893
-Players with round-points maps: 893
+Players imported: 1489
+Players with total points: 916
+Players with last-round points: 916
+Players with round-points maps: 916
 Players with unfinished-fixture points suppressed: 0
-Ownership changes >= 0.1 percentage points: 303
+Ownership changes >= 0.1 percentage points: 0
 
 Player status counts:
 
 - injured: 1
-- playing: 1239
+- playing: 1240
 - suspended: 8
 - transferred: 240
 
 matchStatus counts:
 
-- none: 1488
+- none: 1102
+- not_in_squad: 85
+- start: 132
+- sub: 170
 
 ## Material Change Check
 
-Update recommendation: `display_only_refresh`
+Update recommendation: `manual_review_needed`
 Secondary recommendations: none
 Model rerun needed now: no
 Score prediction rerun needed now: no
 
 Reasons:
 
-- final fixture score/status changes are display/support data only
-- final actual fantasy points are display/support data only
-- ownership changes do not trigger model reruns
+- 85 players are marked not_in_squad; review before changing projections
 
 Material change summary:
 
@@ -84,11 +88,11 @@ None
 
 ## Validation
 
-Validation status: passed
+Validation status: passed_with_warnings
 
 Warnings:
 
-None
+- 1 group-stage live fixtures did not map to local fixtures
 
 Errors:
 

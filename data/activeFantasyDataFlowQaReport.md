@@ -1,6 +1,6 @@
 # Active MD3 Data Flow QA Report
 
-Generated: 2026-06-24T11:45:55.217Z
+Generated: 2026-06-25T17:34:56.181Z
 Status: **PASS**
 Active version: `20260623-md3-prep`
 
@@ -20,11 +20,11 @@ Active version: `20260623-md3-prep`
 ## B. Active Fantasy Identity
 
 - active official universe field: `official_position_records`
-- active official fantasy players: 1488
+- active official fantasy players: 1489
 - missing official fantasy player IDs: 0
 - duplicate official fantasy player IDs: 0
-- selectable official records: 1239
-- selectable by position: GK 145, DEF 407, MID 418, FWD 269
+- selectable official records: 1240
+- selectable by position: GK 145, DEF 408, MID 418, FWD 269
 - recommendation identity coverage: 500 / 500 resolved
 - projection identity coverage: 3699 / 3699 resolved
 - finance identity coverage: 1233 / 1233 resolved
@@ -33,8 +33,8 @@ Active version: `20260623-md3-prep`
 ## C. Enrichment Coverage
 
 - role: supplemental_enrichment_only
-- active fantasy players resolving to playersData.js: 120 / 1488
-- active fantasy players not resolving to playersData.js: 1368
+- active fantasy players resolving to playersData.js: 120 / 1489
+- active fantasy players not resolving to playersData.js: 1369
 - coverage: 8.06%
 
 ## D. Public Stale-Path Block

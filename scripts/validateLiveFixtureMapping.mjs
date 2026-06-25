@@ -17,6 +17,7 @@ const FILES = {
 
 const FINAL_FIXTURE_STATUS_VALUES = new Set(["complete", "played", "completed"]);
 const SAFE_MAPPING_STATUS_VALUES = new Set(["matched", "matched_reversed"]);
+const GROUP_STAGE_ROUND_IDS = new Set(["1", "2", "3"]);
 const TEAM_NAME_ALIASES = new Map([
   ["south korea", "korea republic"],
   ["republic of korea", "korea republic"],
@@ -114,6 +115,11 @@ function resolvedLiveFixtureKey(fixture) {
     fixture?.match_id ||
     localFixtureIdFromMatchNumber(fixture?.match_number)
   );
+}
+
+function isGroupStageLiveFixture(fixture) {
+  return GROUP_STAGE_ROUND_IDS.has(String(fixture?.round_id || "")) ||
+    Boolean(resolvedLiveFixtureKey(fixture));
 }
 
 function countBy(rows, keyFn) {
@@ -307,6 +313,8 @@ Status: ${qa.status}
 
 - Total local fixtures: ${qa.summary.total_local_fixtures}
 - Total live fixtures: ${qa.summary.total_live_fixtures}
+- Group-stage live fixtures: ${qa.summary.group_stage_live_fixtures}
+- Extra non-group live fixtures: ${qa.summary.extra_live_fixtures}
 - Total score-prediction fixtures: ${qa.summary.total_score_prediction_fixtures}
 - Matched fixtures: ${qa.summary.matched_fixtures}
 - Final fixtures shown: ${qa.summary.final_fixtures_shown}
@@ -378,6 +386,8 @@ async function main() {
 
   const localFixtures = rowsFromJson(localFixturesData, ["fixtures"]);
   const liveFixtures = rowsFromJson(liveMatchdayData, ["fixtures"]);
+  const groupStageLiveFixtures = liveFixtures.filter(isGroupStageLiveFixture);
+  const extraLiveFixtures = liveFixtures.filter((fixture) => !isGroupStageLiveFixture(fixture));
   const livePlayers = rowsFromJson(livePlayerData, ["players"]);
   const scorePredictions = rowsFromJson(scorePredictionData, ["fixtureScorePredictions"]);
   const localFixturesById = new Map(localFixtures
@@ -400,8 +410,8 @@ async function main() {
     errors.push(`Expected 72 local fixtures, found ${localFixtures.length}`);
   }
 
-  if (liveFixtures.length !== 72) {
-    errors.push(`Expected 72 live fixtures, found ${liveFixtures.length}`);
+  if (groupStageLiveFixtures.length !== 72) {
+    errors.push(`Expected 72 group-stage live fixtures, found ${groupStageLiveFixtures.length}`);
   }
 
   if (scorePredictions.length !== 72) {
@@ -526,6 +536,8 @@ async function main() {
     summary: {
       total_local_fixtures: localFixtures.length,
       total_live_fixtures: liveFixtures.length,
+      group_stage_live_fixtures: groupStageLiveFixtures.length,
+      extra_live_fixtures: extraLiveFixtures.length,
       total_score_prediction_fixtures: scorePredictions.length,
       matched_fixtures: liveFixtures.filter((fixture) => SAFE_MAPPING_STATUS_VALUES.has(String(fixture.mapping_status || "").toLowerCase())).length,
       final_fixtures_shown: liveFixtures.filter(safeFinalScoreIsShown).length,
@@ -542,6 +554,15 @@ async function main() {
     display_lookup_audit: displayLookupAudit,
     manual_examples: manualExamples,
     manual_spot_checks: manualSpotChecks,
+    extra_live_fixtures_sample: extraLiveFixtures.slice(0, 10).map((fixture) => ({
+      source_fixture_id: fixture.source_fixture_id,
+      round_id: fixture.round_id,
+      round_stage: fixture.round_stage,
+      fixture_status: fixture.fixture_status,
+      score_status: fixture.score_status,
+      teams: `${fixture.live_home_team || fixture.home_team} vs ${fixture.live_away_team || fixture.away_team}`,
+      safe_to_display_score: fixture.safe_to_display_score
+    })),
     unsafe_fixture_player_point_leaks_sample: unsafeFixturePointLeaks.slice(0, 20),
     errors,
     warnings

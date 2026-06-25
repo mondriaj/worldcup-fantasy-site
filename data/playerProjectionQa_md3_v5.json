@@ -1,6 +1,6 @@
 {
   "schema_version": "player_projection_qa_md3_v5",
-  "generated_at": "2026-06-24T11:45:20.063Z",
+  "generated_at": "2026-06-25T17:31:01.289Z",
   "status": "pass",
   "failures": [],
   "checks": {
@@ -68,11 +68,11 @@
       "country": "Morocco",
       "position": "MID",
       "opponent": "Haiti",
-      "projectedPoints": 8.096,
-      "riskAdjustedPoints": 7.619,
+      "projectedPoints": 8.146,
+      "riskAdjustedPoints": 7.673,
       "captainScore": 20.25,
-      "startProbability": 0.739,
-      "expectedMinutes": 62.7
+      "startProbability": 0.757,
+      "expectedMinutes": 64.5
     },
     {
       "official_fantasy_player_id": "1696",
@@ -111,6 +111,18 @@
       "expectedMinutes": 62.7
     },
     {
+      "official_fantasy_player_id": "173",
+      "name": "Vinícius José Paixão de Oliveira Júnior",
+      "country": "Brazil",
+      "position": "MID",
+      "opponent": "Scotland",
+      "projectedPoints": 7.538,
+      "riskAdjustedPoints": 7.086,
+      "captainScore": 18.557,
+      "startProbability": 0.892,
+      "expectedMinutes": 72.8
+    },
+    {
       "official_fantasy_player_id": "1041",
       "name": "Nicolas Jackson",
       "country": "Senegal",
@@ -121,18 +133,6 @@
       "captainScore": 22.634,
       "startProbability": 0.827,
       "expectedMinutes": 70.2
-    },
-    {
-      "official_fantasy_player_id": "173",
-      "name": "Vinícius José Paixão de Oliveira Júnior",
-      "country": "Brazil",
-      "position": "MID",
-      "opponent": "Scotland",
-      "projectedPoints": 7.476,
-      "riskAdjustedPoints": 7.017,
-      "captainScore": 18.557,
-      "startProbability": 0.865,
-      "expectedMinutes": 70.9
     },
     {
       "official_fantasy_player_id": "1092",
@@ -188,11 +188,11 @@
       "country": "Morocco",
       "position": "DEF",
       "opponent": "Haiti",
-      "projectedPoints": 7.074,
-      "riskAdjustedPoints": 6.696,
+      "projectedPoints": 7.124,
+      "riskAdjustedPoints": 6.75,
       "captainScore": 16.8,
-      "startProbability": 0.842,
-      "expectedMinutes": 73.8
+      "startProbability": 0.86,
+      "expectedMinutes": 75.6
     },
     {
       "official_fantasy_player_id": "57",
@@ -243,16 +243,16 @@
       "expectedMinutes": 81.3
     },
     {
-      "official_fantasy_player_id": "1431",
-      "name": "Bradley Barcola",
-      "country": "France",
-      "position": "MID",
-      "opponent": "Norway",
-      "projectedPoints": 6.841,
-      "riskAdjustedPoints": 6.305,
-      "captainScore": 17.44,
-      "startProbability": 0.639,
-      "expectedMinutes": 50.2
+      "official_fantasy_player_id": "750",
+      "name": "Julián Quiñones",
+      "country": "Mexico",
+      "position": "FWD",
+      "opponent": "Czechia",
+      "projectedPoints": 6.882,
+      "riskAdjustedPoints": 6.375,
+      "captainScore": 17.553,
+      "startProbability": 0.743,
+      "expectedMinutes": 64.5
     }
   ],
   "explicitPlayerAudits": [
@@ -306,8 +306,8 @@
         "position": "MID",
         "selectable_status": "playing"
       },
-      "md3_projected_points": 6.118,
-      "start_probability": 0.691,
+      "md3_projected_points": 4.735,
+      "start_probability": 0.162,
       "two_game_actual_points": 3,
       "two_game_projected_points": 15.788,
       "two_game_projection_error": -12.788,

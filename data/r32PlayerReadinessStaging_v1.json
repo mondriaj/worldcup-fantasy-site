@@ -1,0 +1,133 @@
+{
+  "schema_version": "r32_player_readiness_staging_v1",
+  "generated_at": "2026-06-25T17:34:27.400Z",
+  "status": "partial_official_source_staging_only",
+  "public_promotion": "blocked_md3_public_default",
+  "source_fixture_count": 1,
+  "team_status": [
+    {
+      "team": "South Africa",
+      "team_id": "40",
+      "official_player_count": 32,
+      "selectable_status_counts": {
+        "playing": 24,
+        "suspended": 2,
+        "transferred": 6
+      },
+      "players_newly_injured_suspended_not_selectable": [
+        {
+          "official_fantasy_player_id": "1058",
+          "name": "Teboho Mokoena",
+          "position": "MID",
+          "selectable_status": "suspended"
+        },
+        {
+          "official_fantasy_player_id": "1059",
+          "name": "Themba Zwane",
+          "position": "MID",
+          "selectable_status": "suspended"
+        }
+      ]
+    },
+    {
+      "team": "Canada",
+      "team_id": "9",
+      "official_player_count": 32,
+      "selectable_status_counts": {
+        "playing": 25,
+        "transferred": 6,
+        "injured": 1
+      },
+      "players_newly_injured_suspended_not_selectable": [
+        {
+          "official_fantasy_player_id": "245",
+          "name": "Ismaël Koné",
+          "position": "MID",
+          "selectable_status": "injured"
+        }
+      ]
+    }
+  ],
+  "top_md3_form_players": [
+    {
+      "official_fantasy_player_id": "1065",
+      "name": "Khuliso Mudau",
+      "team": "South Africa",
+      "team_id": "40",
+      "position": "DEF",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 9
+    },
+    {
+      "official_fantasy_player_id": "1067",
+      "name": "Mbekezeli Mbokazi",
+      "team": "South Africa",
+      "team_id": "40",
+      "position": "DEF",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 9
+    },
+    {
+      "official_fantasy_player_id": "1069",
+      "name": "Ime Okon",
+      "team": "South Africa",
+      "team_id": "40",
+      "position": "DEF",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 9
+    },
+    {
+      "official_fantasy_player_id": "1076",
+      "name": "Thapelo Maseko",
+      "team": "South Africa",
+      "team_id": "40",
+      "position": "FWD",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 9
+    },
+    {
+      "official_fantasy_player_id": "1077",
+      "name": "Ronwen Williams",
+      "team": "South Africa",
+      "team_id": "40",
+      "position": "GK",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 9
+    },
+    {
+      "official_fantasy_player_id": "1970",
+      "name": "Promise David",
+      "team": "Canada",
+      "team_id": "9",
+      "position": "FWD",
+      "selectable_status": "playing",
+      "match_status": "sub",
+      "round3_points": 9
+    },
+    {
+      "official_fantasy_player_id": "1063",
+      "name": "Aubrey Modiba",
+      "team": "South Africa",
+      "team_id": "40",
+      "position": "DEF",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 8
+    }
+  ],
+  "new_player_notes": [
+    "Arjan Malic (official id 2079) is incorporated as zero role/projection coverage: no_active_public_projection_identity.",
+    "R32 staging impact today: no_direct_r32_staging_effect_today."
+  ],
+  "safeguards": [
+    "No R32 public UI promotion.",
+    "No final-squad source-backed claim.",
+    "No in-progress MD3 player points used.",
+    "Official R32 source fixtures remain staging only."
+  ]
+}

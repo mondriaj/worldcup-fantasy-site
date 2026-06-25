@@ -1,0 +1,398 @@
+{
+  "schema_version": "r32_qualified_teams_staging_v1",
+  "generated_at": "2026-06-25T17:34:27.400Z",
+  "status": "partial_official_source_staging_only",
+  "public_promotion": "blocked_md3_public_default",
+  "official_r32_fixtures": [
+    {
+      "source_fixture_id": "73",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "fixture": "South Africa vs Canada",
+      "home_team": "South Africa",
+      "home_squad_id": "40",
+      "away_team": "Canada",
+      "away_squad_id": "9",
+      "date": "2026-06-28T20:00:00+01:00",
+      "safe_to_display_score": false,
+      "public_promotion": "blocked_md3_public_default"
+    }
+  ],
+  "safe_group_qualifiers": [
+    {
+      "team": "Mexico",
+      "team_id": "mexico",
+      "group": "A",
+      "played": 3,
+      "wins": 3,
+      "draws": 0,
+      "losses": 0,
+      "goals_for": 6,
+      "goals_against": 0,
+      "goal_difference": 6,
+      "points": 9,
+      "seed_type": "group_winner_or_tiebreaker_leader",
+      "basis": "complete_group_top_two_standings"
+    },
+    {
+      "team": "South Africa",
+      "team_id": "south-africa",
+      "group": "A",
+      "played": 3,
+      "wins": 1,
+      "draws": 1,
+      "losses": 1,
+      "goals_for": 2,
+      "goals_against": 3,
+      "goal_difference": -1,
+      "points": 4,
+      "seed_type": "group_runner_up_or_tiebreaker_second",
+      "basis": "complete_group_top_two_standings"
+    },
+    {
+      "team": "Switzerland",
+      "team_id": "switzerland",
+      "group": "B",
+      "played": 3,
+      "wins": 2,
+      "draws": 1,
+      "losses": 0,
+      "goals_for": 7,
+      "goals_against": 3,
+      "goal_difference": 4,
+      "points": 7,
+      "seed_type": "group_winner_or_tiebreaker_leader",
+      "basis": "complete_group_top_two_standings"
+    },
+    {
+      "team": "Canada",
+      "team_id": "canada",
+      "group": "B",
+      "played": 3,
+      "wins": 1,
+      "draws": 1,
+      "losses": 1,
+      "goals_for": 8,
+      "goals_against": 3,
+      "goal_difference": 5,
+      "points": 4,
+      "seed_type": "group_runner_up_or_tiebreaker_second",
+      "basis": "complete_group_top_two_standings"
+    },
+    {
+      "team": "Brazil",
+      "team_id": "brazil",
+      "group": "C",
+      "played": 3,
+      "wins": 2,
+      "draws": 1,
+      "losses": 0,
+      "goals_for": 7,
+      "goals_against": 1,
+      "goal_difference": 6,
+      "points": 7,
+      "seed_type": "group_winner_or_tiebreaker_leader",
+      "basis": "complete_group_top_two_standings"
+    },
+    {
+      "team": "Morocco",
+      "team_id": "morocco",
+      "group": "C",
+      "played": 3,
+      "wins": 2,
+      "draws": 1,
+      "losses": 0,
+      "goals_for": 6,
+      "goals_against": 3,
+      "goal_difference": 3,
+      "points": 7,
+      "seed_type": "group_runner_up_or_tiebreaker_second",
+      "basis": "complete_group_top_two_standings"
+    }
+  ],
+  "safe_eliminated_teams": [
+    {
+      "team": "Czechia",
+      "team_id": "czechia",
+      "group": "A",
+      "played": 3,
+      "wins": 0,
+      "draws": 1,
+      "losses": 2,
+      "goals_for": 2,
+      "goals_against": 6,
+      "goal_difference": -4,
+      "points": 1,
+      "basis": "complete_group_fourth_place_not_in_best_third_pool"
+    },
+    {
+      "team": "Qatar",
+      "team_id": "qatar",
+      "group": "B",
+      "played": 3,
+      "wins": 0,
+      "draws": 1,
+      "losses": 2,
+      "goals_for": 2,
+      "goals_against": 10,
+      "goal_difference": -8,
+      "points": 1,
+      "basis": "complete_group_fourth_place_not_in_best_third_pool"
+    },
+    {
+      "team": "Haiti",
+      "team_id": "haiti",
+      "group": "C",
+      "played": 3,
+      "wins": 0,
+      "draws": 0,
+      "losses": 3,
+      "goals_for": 2,
+      "goals_against": 8,
+      "goal_difference": -6,
+      "points": 0,
+      "basis": "complete_group_fourth_place_not_in_best_third_pool"
+    }
+  ],
+  "still_uncertain_teams": [
+    {
+      "group": "A",
+      "team": "Korea Republic",
+      "points": 3,
+      "basis": "complete_group_third_place_best_third_unresolved"
+    },
+    {
+      "group": "B",
+      "team": "Bosnia and Herzegovina",
+      "points": 4,
+      "basis": "complete_group_third_place_best_third_unresolved"
+    },
+    {
+      "group": "C",
+      "team": "Scotland",
+      "points": 3,
+      "basis": "complete_group_third_place_best_third_unresolved"
+    },
+    {
+      "group": "D",
+      "team": "USA",
+      "points": 6,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "D",
+      "team": "Australia",
+      "points": 3,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "D",
+      "team": "Paraguay",
+      "points": 3,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "D",
+      "team": "Türkiye",
+      "points": 0,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "E",
+      "team": "Germany",
+      "points": 6,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "E",
+      "team": "Côte d'Ivoire",
+      "points": 3,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "E",
+      "team": "Ecuador",
+      "points": 1,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "E",
+      "team": "Curaçao",
+      "points": 1,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "F",
+      "team": "Netherlands",
+      "points": 4,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "F",
+      "team": "Japan",
+      "points": 4,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "F",
+      "team": "Sweden",
+      "points": 3,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "F",
+      "team": "Tunisia",
+      "points": 0,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "G",
+      "team": "Egypt",
+      "points": 4,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "G",
+      "team": "IR Iran",
+      "points": 2,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "G",
+      "team": "Belgium",
+      "points": 2,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "G",
+      "team": "New Zealand",
+      "points": 1,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "H",
+      "team": "Spain",
+      "points": 4,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "H",
+      "team": "Uruguay",
+      "points": 2,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "H",
+      "team": "Cabo Verde",
+      "points": 2,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "H",
+      "team": "Saudi Arabia",
+      "points": 1,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "I",
+      "team": "France",
+      "points": 6,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "I",
+      "team": "Norway",
+      "points": 6,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "I",
+      "team": "Senegal",
+      "points": 0,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "I",
+      "team": "Iraq",
+      "points": 0,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "J",
+      "team": "Argentina",
+      "points": 6,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "J",
+      "team": "Austria",
+      "points": 3,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "J",
+      "team": "Algeria",
+      "points": 3,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "J",
+      "team": "Jordan",
+      "points": 0,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "K",
+      "team": "Colombia",
+      "points": 6,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "K",
+      "team": "Portugal",
+      "points": 4,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "K",
+      "team": "Congo DR",
+      "points": 1,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "K",
+      "team": "Uzbekistan",
+      "points": 0,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "L",
+      "team": "England",
+      "points": 4,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "L",
+      "team": "Ghana",
+      "points": 4,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "L",
+      "team": "Croatia",
+      "points": 3,
+      "basis": "group_not_complete"
+    },
+    {
+      "group": "L",
+      "team": "Panama",
+      "points": 0,
+      "basis": "group_not_complete"
+    }
+  ],
+  "missing_tiebreaker_assumptions": [
+    "Best third-place ranking is not resolved until enough groups complete.",
+    "Only points, goal difference, goals for, and team-name ordering are modeled for completed-group top-two staging; deeper FIFA tiebreakers remain manual review if tied.",
+    "Official R32 source fixtures from the live fantasy feed are staged as source fixtures, not public promotion."
+  ]
+}

@@ -13,6 +13,7 @@ const PATHS = {
 };
 
 const GENERATED_AT = new Date().toISOString();
+const GROUP_STAGE_ROUND_IDS = new Set(["1", "2", "3"]);
 
 function normalizeText(value) {
   return String(value || "")
@@ -38,6 +39,25 @@ function htmlToText(html) {
 function localFixtureIdFromMatchNumber(matchNumber) {
   const number = Number(matchNumber);
   return Number.isFinite(number) && number > 0 ? `fwc2026-m${String(number).padStart(3, "0")}` : "";
+}
+
+function validLocalFixtureKey(value) {
+  const key = String(value || "").trim();
+  return /^fwc2026-m\d{3}$/i.test(key) ? key.toLowerCase() : "";
+}
+
+function liveFixtureKey(fixture) {
+  return validLocalFixtureKey(
+    fixture?.resolved_local_fixture_key ||
+    fixture?.local_fixture_id ||
+    fixture?.match_id ||
+    localFixtureIdFromMatchNumber(fixture?.match_number)
+  );
+}
+
+function isGroupStageLiveFixture(fixture) {
+  return GROUP_STAGE_ROUND_IDS.has(String(fixture?.round_id || "")) &&
+    Boolean(liveFixtureKey(fixture));
 }
 
 function mdTable(headers, rows) {
@@ -160,9 +180,12 @@ function buildReport(qa) {
         ["World Cup fixtures", qa.summary.world_cup_fixture_count],
         ["Rendered fixture rows", qa.summary.rendered_fixture_rows],
         ["Live fixtures", qa.summary.live_fixture_count],
+        ["Group-stage live fixtures", qa.summary.group_stage_live_fixture_count],
+        ["Extra non-group live fixtures", qa.summary.extra_live_fixture_count],
         ["Completed MD1 fixtures visible", `${qa.summary.completed_md1_final_scores_visible} / ${qa.summary.completed_md1_fixture_count}`],
         ["Completed MD2 fixtures visible", `${qa.summary.completed_md2_final_scores_visible} / ${qa.summary.completed_md2_fixture_count}`],
-        ["Playing MD2 fixtures marked live", `${qa.summary.playing_md2_fixtures_marked_live} / ${qa.summary.playing_md2_fixture_count}`],
+        ["Completed MD3 fixtures visible", `${qa.summary.completed_md3_final_scores_visible} / ${qa.summary.completed_md3_fixture_count}`],
+        ["Playing MD3 fixtures marked live", `${qa.summary.playing_md3_fixtures_marked_live} / ${qa.summary.playing_md3_fixture_count}`],
         ["Scheduled fixtures marked scheduled", `${qa.summary.scheduled_fixtures_marked_scheduled} / ${qa.summary.scheduled_fixture_count}`],
         ["Unsafe final score leaks", qa.summary.unsafe_score_leak_count],
         ["Duplicate fixture rows", qa.summary.duplicate_rendered_fixture_count],
@@ -171,11 +194,11 @@ function buildReport(qa) {
       ]
     ),
     "",
-    "## Completed MD2 Scores Checked",
+    "## Completed MD3 Scores Checked",
     "",
     mdTable(
       ["Match", "Fixture", "Score", "Visible"],
-      qa.completed_md2_score_checks.map((row) => [
+      qa.completed_md3_score_checks.map((row) => [
         row.match_number,
         row.fixture,
         row.expected_score_text,
@@ -216,6 +239,8 @@ const [html, liveMatchday, liveFixtureQa, rendered] = await Promise.all([
 
 const worldCupFixtures = (rendered.worldCupData?.fixtures || []).filter((fixture) => fixture.stage === "group");
 const liveFixtures = liveMatchday.fixtures || [];
+const groupStageLiveFixtures = liveFixtures.filter(isGroupStageLiveFixture);
+const extraLiveFixtures = liveFixtures.filter((fixture) => !isGroupStageLiveFixture(fixture));
 const renderedRows = fixtureRowsFromHtml(rendered.fixturesHtml);
 const renderedRowsByMatch = new Map(renderedRows.map((row) => [Number(row.match_number), row]));
 const worldCupByMatch = new Map(worldCupFixtures.map((fixture) => [Number(fixture.match_number), fixture]));
@@ -239,7 +264,7 @@ if ((liveFixtureQa.summary?.unsafe_fixture_player_point_leak_count || 0) !== 0) 
 }
 
 const mappingErrors = [];
-for (const liveFixture of liveFixtures) {
+for (const liveFixture of groupStageLiveFixtures) {
   const matchNumber = Number(liveFixture.match_number);
   const staticFixture = worldCupByMatch.get(matchNumber);
   if (!staticFixture) {
@@ -263,11 +288,12 @@ for (const liveFixture of liveFixtures) {
 if (mappingErrors.length) errors.push(...mappingErrors.slice(0, 20));
 if (mappingErrors.length > 20) warnings.push(`${mappingErrors.length - 20} additional mapping errors omitted from report.`);
 
-const finalFixtures = liveFixtures.filter(isFinalFixture);
+const finalFixtures = groupStageLiveFixtures.filter(isFinalFixture);
 const completedMd1Fixtures = finalFixtures.filter((fixture) => fixture.round_id === "1");
 const completedMd2Fixtures = finalFixtures.filter((fixture) => fixture.round_id === "2");
-const playingMd2Fixtures = liveFixtures.filter((fixture) => fixture.round_id === "2" && isPlayingFixture(fixture));
-const scheduledFixtures = liveFixtures.filter(isScheduledFixture);
+const completedMd3Fixtures = finalFixtures.filter((fixture) => fixture.round_id === "3");
+const playingMd3Fixtures = groupStageLiveFixtures.filter((fixture) => fixture.round_id === "3" && isPlayingFixture(fixture));
+const scheduledFixtures = groupStageLiveFixtures.filter(isScheduledFixture);
 const finalScoreChecks = finalFixtures.map((fixture) => {
   const row = renderedRowsByMatch.get(Number(fixture.match_number));
   const expected = expectedScoreText(fixture);
@@ -283,7 +309,7 @@ const finalScoreChecks = finalFixtures.map((fixture) => {
   };
 });
 
-const playingFixtureChecks = playingMd2Fixtures.map((fixture) => {
+const playingFixtureChecks = playingMd3Fixtures.map((fixture) => {
   const row = renderedRowsByMatch.get(Number(fixture.match_number));
   return {
     match_number: Number(fixture.match_number),
@@ -304,7 +330,7 @@ const scheduledChecks = scheduledFixtures.map((fixture) => {
   };
 });
 
-const unsafeScoreLeaks = liveFixtures
+const unsafeScoreLeaks = groupStageLiveFixtures
   .filter((fixture) => !isFinalFixture(fixture))
   .flatMap((fixture) => {
     const row = renderedRowsByMatch.get(Number(fixture.match_number));
@@ -345,12 +371,16 @@ const qa = {
     world_cup_fixture_count: worldCupFixtures.length,
     rendered_fixture_rows: renderedRows.length,
     live_fixture_count: liveFixtures.length,
+    group_stage_live_fixture_count: groupStageLiveFixtures.length,
+    extra_live_fixture_count: extraLiveFixtures.length,
     completed_md1_fixture_count: completedMd1Fixtures.length,
     completed_md1_final_scores_visible: finalScoreChecks.filter((row) => row.round_id === "1" && row.visible).length,
     completed_md2_fixture_count: completedMd2Fixtures.length,
     completed_md2_final_scores_visible: finalScoreChecks.filter((row) => row.round_id === "2" && row.visible).length,
-    playing_md2_fixture_count: playingMd2Fixtures.length,
-    playing_md2_fixtures_marked_live: playingFixtureChecks.filter((row) => row.marked_live).length,
+    completed_md3_fixture_count: completedMd3Fixtures.length,
+    completed_md3_final_scores_visible: finalScoreChecks.filter((row) => row.round_id === "3" && row.visible).length,
+    playing_md3_fixture_count: playingMd3Fixtures.length,
+    playing_md3_fixtures_marked_live: playingFixtureChecks.filter((row) => row.marked_live).length,
     scheduled_fixture_count: scheduledFixtures.length,
     scheduled_fixtures_marked_scheduled: scheduledChecks.filter((row) => row.marked_scheduled).length,
     unsafe_score_leak_count: unsafeScoreLeaks.length + playingShownFinal.length + scheduledShownFinal.length,
@@ -360,8 +390,18 @@ const qa = {
     live_script_loaded_before_page_script: liveBeforePageScript
   },
   completed_md2_score_checks: finalScoreChecks.filter((row) => row.round_id === "2"),
+  completed_md3_score_checks: finalScoreChecks.filter((row) => row.round_id === "3"),
   playing_fixture_checks: playingFixtureChecks,
   scheduled_fixture_sample: scheduledChecks.slice(0, 20),
+  extra_live_fixtures_sample: extraLiveFixtures.slice(0, 10).map((fixture) => ({
+    source_fixture_id: fixture.source_fixture_id,
+    round_id: fixture.round_id,
+    round_stage: fixture.round_stage,
+    fixture_status: fixture.fixture_status,
+    score_status: fixture.score_status,
+    teams: `${fixture.live_home_team || fixture.home_team} vs ${fixture.live_away_team || fixture.away_team}`,
+    safe_to_display_score: fixture.safe_to_display_score
+  })),
   errors,
   warnings,
   console_messages: rendered.consoleMessages
@@ -376,7 +416,8 @@ console.log(JSON.stringify({
   output_report: PATHS.outputReport,
   completed_md1_final_scores_visible: `${qa.summary.completed_md1_final_scores_visible}/${qa.summary.completed_md1_fixture_count}`,
   completed_md2_final_scores_visible: `${qa.summary.completed_md2_final_scores_visible}/${qa.summary.completed_md2_fixture_count}`,
-  playing_md2_fixtures_marked_live: `${qa.summary.playing_md2_fixtures_marked_live}/${qa.summary.playing_md2_fixture_count}`,
+  completed_md3_final_scores_visible: `${qa.summary.completed_md3_final_scores_visible}/${qa.summary.completed_md3_fixture_count}`,
+  playing_md3_fixtures_marked_live: `${qa.summary.playing_md3_fixtures_marked_live}/${qa.summary.playing_md3_fixture_count}`,
   scheduled_fixtures_marked_scheduled: `${qa.summary.scheduled_fixtures_marked_scheduled}/${qa.summary.scheduled_fixture_count}`,
   unsafe_score_leak_count: qa.summary.unsafe_score_leak_count
 }, null, 2));

@@ -1,6 +1,6 @@
 # Recommendation Model MD3 v5
 
-Generated: 2026-06-24T11:45:25.919Z
+Generated: 2026-06-25T17:31:06.743Z
 
 Model version: `recommendation-v5-md3-incentive-form`
 

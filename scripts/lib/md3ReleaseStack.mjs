@@ -1647,6 +1647,83 @@ function playerProjectionByMatchday(rows) {
   return map;
 }
 
+function syntheticInternalPlayerId(row) {
+  return row?.internal_player_id ||
+    row?.matched_existing_player_id ||
+    `thin-${row?.team_id || teamSlug(row?.country)}-${teamSlug(row?.name)}`;
+}
+
+function zeroRoleCoverageFromOfficial(official) {
+  const status = official?.selectable_status || "playing";
+  const selectable = isSelectableStatus(status);
+  return {
+    official_fantasy_player_id: fantasyId(official),
+    internal_player_id: syntheticInternalPlayerId(official),
+    matched_existing_player_id: official?.matched_existing_player_id || null,
+    name: official?.name || null,
+    display_name: official?.name || null,
+    country: official?.country || null,
+    team_id: teamSlug(official?.country),
+    official_team_id: official?.team_id || null,
+    official_fantasy_position: official?.official_fantasy_position || official?.position || null,
+    position: official?.official_fantasy_position || official?.position || null,
+    official_price: number(official?.official_price, null),
+    price: number(official?.official_price, null),
+    selectable_status: status,
+    live_selectable_status: status,
+    modelVersion: MODEL.role,
+    model_version: MODEL.role,
+    model_stage: "active_md3_role_support",
+    md3_fixture: null,
+    md2_final_fixture_used_for_md3_role: null,
+    md2_actual_fantasy_points: null,
+    md2_actual_points_available: false,
+    md1_actual_fantasy_points: null,
+    two_game_actual_fantasy_points: null,
+    two_game_projected_points: null,
+    two_game_projection_error: null,
+    two_game_form_evidence_type: "new_official_player_no_prior_projection",
+    md3_group_incentive_status: "unknown_due_no_prior_projection_identity",
+    md3_rotation_risk_category: "unknown_rotation_risk",
+    md3_rotation_reason: null,
+    rotation_start_probability_delta: 0,
+    form_start_probability_delta: 0,
+    total_adjusted_minutes_delta: 0,
+    md2_live_status_fields: {
+      live_row_available: false,
+      status,
+      matchStatus: null,
+      round2_points_available: false,
+      round2_points: null,
+      pointScope: null,
+      suppressed_unfinalized_point_rounds: []
+    },
+    md2_role_evidence_type: "new_official_player_no_prior_projection",
+    roleTier: selectable ? "no_active_public_projection_identity" : "unavailable_or_not_selectable",
+    md3StartProb: 0,
+    md3ExpectedMinutes: 0,
+    start_probability: 0,
+    expected_minutes: 0,
+    roleConfidence: "low",
+    role_confidence: "low",
+    roleRiskScore: 1,
+    roleReason: "New official fantasy player has no active public projection identity; kept as zero-role coverage until manually sourced.",
+    caution: selectable
+      ? "New official fantasy player lacks source-backed role/projection identity; excluded from actionable recommendations."
+      : `Not selectable in official fantasy pool: ${status}.`,
+    evidenceStrength: "coverage_only",
+    dataQualityFlags: unique([
+      "player_role_v3_md3",
+      "official_record_covered_as_zero_role",
+      "new_official_player_no_prior_projection",
+      "md2_in_progress_player_points_not_used",
+      "ownership_not_used_as_signal",
+      selectable ? "playing_without_public_projection_row" : "not_selectable_zero_role"
+    ]),
+    source_model_version: MODEL.role
+  };
+}
+
 async function buildPlayerRoleModelMd3V3() {
   const [roleV2, projectionV4, live, livePlayers] = await Promise.all([
     readJson(PATHS.roleV2),
@@ -1663,7 +1740,8 @@ async function buildPlayerRoleModelMd3V3() {
   const projectionByIdMatchday = playerProjectionByMatchday(projectionV4.playerMatchdayProjections || []);
   const md3ProjectionById = indexBy((projectionV4.playerMatchdayProjections || []).filter((row) => row.matchday === "md3"), fantasyId);
   const md2FinalBySquadId = liveFixtureBySquadId(live.fixtures, "2", true);
-  const playerRoleRows = (roleV2.playerRoleRows || []).map((row) => {
+  const priorRoleIds = new Set((roleV2.playerRoleRows || []).map(fantasyId));
+  const priorPlayerRoleRows = (roleV2.playerRoleRows || []).map((row) => {
     const id = fantasyId(row);
     const official = officialById.get(id) || {};
     const liveRow = liveById.get(id) || {};
@@ -1857,10 +1935,15 @@ async function buildPlayerRoleModelMd3V3() {
       source_model_version: MODEL.role
     };
   });
+  const missingOfficialRoleRows = officialRows
+    .filter((row) => fantasyId(row) && !priorRoleIds.has(fantasyId(row)))
+    .map(zeroRoleCoverageFromOfficial);
+  const playerRoleRows = [...priorPlayerRoleRows, ...missingOfficialRoleRows];
   const unavailable = playerRoleRows.filter((row) => !isSelectableStatus(row.selectable_status) || row.roleTier === "unavailable_or_not_selectable");
   const summary = {
     active_official_player_count: officialRows.length,
     role_rows: playerRoleRows.length,
+    zero_role_coverage_rows: missingOfficialRoleRows.length,
     defaultMatchday: "md3",
     completedMd2PlayerEvidenceRows: playerRoleRows.filter((row) => row.md2_final_fixture_used_for_md3_role).length,
     excludedMd2PlayerEvidenceRows: playerRoleRows.filter((row) => !row.md2_final_fixture_used_for_md3_role).length,
@@ -2139,6 +2222,76 @@ function projectionFromPrior(row, role, scoreView, official, livePlayer) {
   };
 }
 
+function zeroProjectionCoverageFromOfficial(official, role = null) {
+  const status = official?.selectable_status || role?.selectable_status || "playing";
+  const selectable = isSelectableStatus(status);
+  const playerId = syntheticInternalPlayerId(official || role);
+  const flags = unique([
+    "active_official_record_covered_as_zero_projection",
+    "not_in_public_projection_rows",
+    selectable ? "playing_without_public_projection_row" : "not_selectable_zero_projection",
+    "new_official_player_no_prior_projection",
+    "player_projection_v5_md3",
+    "ownership_not_used_as_signal",
+    "final_squads_not_source_backed"
+  ]);
+  return {
+    official_fantasy_player_id: fantasyId(official || role),
+    internal_player_id: playerId,
+    playerId,
+    name: official?.name || role?.name || null,
+    display_name: official?.name || role?.display_name || role?.name || null,
+    country: official?.country || role?.country || null,
+    team_id: teamSlug(official?.country || role?.country),
+    official_team_id: official?.team_id || role?.official_team_id || null,
+    official_fantasy_position: official?.official_fantasy_position || role?.official_fantasy_position || role?.position || null,
+    position: official?.official_fantasy_position || role?.official_fantasy_position || role?.position || null,
+    official_price: number(official?.official_price ?? role?.official_price, null),
+    price: number(official?.official_price ?? role?.official_price ?? role?.price, null),
+    selectable_status: status,
+    roleTier: selectable ? "no_active_public_projection_identity" : "unavailable_or_not_selectable",
+    role_label: selectable ? "no_active_public_projection_identity" : "unavailable_or_not_selectable",
+    roleConfidence: "low",
+    role_confidence: "low",
+    md2StartProb: 0,
+    md2ExpectedMinutes: 0,
+    md3StartProb: 0,
+    md3ExpectedMinutes: 0,
+    start_probability: 0,
+    expected_minutes: 0,
+    projectedPoints: 0,
+    raw_expected_points: 0,
+    risk_adjusted_points: 0,
+    floor_points: 0,
+    ceiling_points: 0,
+    captainUpsideScore: 0,
+    captain_score: 0,
+    riskScore: 1,
+    risk_score: 1,
+    valueScore: 0,
+    value_score: 0,
+    blocked_reasons: unique([
+      "not_in_active_public_projection_identity_set",
+      selectable
+        ? "No active public projection row; zero coverage only until manually sourced."
+        : `selectable_status_${status}`
+    ]),
+    projectionReason: selectable
+      ? "New official fantasy player has no active public projection identity; zero projection coverage only."
+      : `Not selectable in official fantasy pool: ${status}.`,
+    roleReason: role?.roleReason || null,
+    caution: selectable
+      ? "Excluded from public projection rows and recommendations until source-backed role/projection identity is added."
+      : "Excluded from public projection rows; projected points set to zero.",
+    dataQualityFlags: flags,
+    data_quality_flags: flags,
+    modelVersion: MODEL.projection,
+    model_version: MODEL.projection,
+    model_stage: "active_md3_player_projection_support",
+    source_model_version: MODEL.projection
+  };
+}
+
 async function buildFantasyPoolMatchdayProjectionsV5Md3() {
   const [prior, score, role, livePlayers] = await Promise.all([
     readJson(PATHS.projectionV4),
@@ -2147,14 +2300,19 @@ async function buildFantasyPoolMatchdayProjectionsV5Md3() {
     readJson(PATHS.livePlayers)
   ]);
   const globals = await loadGlobals([PATHS.officialStatusJs]);
-  const officialById = indexBy(globals.FANTASY_POOL_OFFICIAL_DATA_STATUS?.official_position_records || [], fantasyId);
+  const officialRows = globals.FANTASY_POOL_OFFICIAL_DATA_STATUS?.official_position_records || [];
+  const officialById = indexBy(officialRows, fantasyId);
   const liveById = indexBy(livePlayers.players || [], fantasyId);
   const roleById = indexBy(role.playerRoleRows || [], fantasyId);
   const teamScoreByKey = indexBy(score.teamFixturePredictions || [], (row) => `${row.fixture_id}:${row.team_id}`);
   const rows = (prior.playerMatchdayProjections || []).map((row) =>
     projectionFromPrior(row, roleById.get(fantasyId(row)), teamScoreByKey.get(`${row.fixture_id}:${row.team_id}`), officialById.get(fantasyId(row)), liveById.get(fantasyId(row)))
   );
-  const blockedPlayers = (prior.blockedPlayers || []).map((row) => ({
+  const coveredProjectionIds = new Set([
+    ...rows.map(fantasyId),
+    ...(prior.blockedPlayers || []).map(fantasyId)
+  ].filter(Boolean));
+  const priorBlockedPlayers = (prior.blockedPlayers || []).map((row) => ({
     ...row,
     md3StartProb: 0,
     md3ExpectedMinutes: 0,
@@ -2166,6 +2324,10 @@ async function buildFantasyPoolMatchdayProjectionsV5Md3() {
     modelVersion: MODEL.projection,
     dataQualityFlags: unique([...(row.dataQualityFlags || []), "not_selectable_zero_projection", "player_projection_v5_md3"])
   }));
+  const newOfficialZeroCoverage = officialRows
+    .filter((row) => fantasyId(row) && !coveredProjectionIds.has(fantasyId(row)))
+    .map((row) => zeroProjectionCoverageFromOfficial(row, roleById.get(fantasyId(row))));
+  const blockedPlayers = [...priorBlockedPlayers, ...newOfficialZeroCoverage];
   const md3Rows = rows.filter((row) => row.matchday === "md3");
   const nonSelectablePositive = md3Rows.filter((row) => !isSelectableStatus(row.selectable_status) && number(row.raw_expected_points, 0) > 0);
   const qaFailures = [];
@@ -2175,8 +2337,9 @@ async function buildFantasyPoolMatchdayProjectionsV5Md3() {
     projection_rows: rows.length,
     md3_projection_rows: md3Rows.length,
     projected_unique_players: new Set(md3Rows.map(fantasyId)).size,
-    active_official_player_count: globals.FANTASY_POOL_OFFICIAL_DATA_STATUS?.official_position_records?.length || null,
+    active_official_player_count: officialRows.length || null,
     blocked_zero_projection_players: blockedPlayers.length,
+    new_official_zero_projection_coverage_players: newOfficialZeroCoverage.length,
     score_model_version: MODEL.score,
     role_model_version: MODEL.role,
     defaultMatchday: "md3",

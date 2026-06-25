@@ -1,6 +1,6 @@
 # Public Preview Browser QA Report v1
 
-Generated: 2026-06-24T11:48:06.651Z
+Generated: 2026-06-25T17:36:20.341Z
 
 ## Verdict
 
@@ -44,9 +44,9 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | Projection rows | 3699 |
 | MD3 projection rows | 1233 |
 | Score fixtures | 72 |
-| Official records | 1488 |
-| Live fixtures | 72 |
-| Live players | 1488 |
+| Official records | 1489 |
+| Live fixtures | 73 |
+| Live players | 1489 |
 
 ## Console, Network, And Layout
 
@@ -54,9 +54,9 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | --- | --- |
 | Console/page errors | 0 |
 | Console warnings | 0 |
-| Failed requests | 5 |
+| Failed requests | 6 |
 | Blocking failed requests | 0 |
-| Ignored non-blocking failed requests | 5 |
+| Ignored non-blocking failed requests | 6 |
 | Index overflow viewports | 0 |
 | World Cup overflow viewports | 0 |
 | Profile click failures | 0 |
