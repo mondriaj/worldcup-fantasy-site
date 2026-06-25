@@ -1,6 +1,6 @@
 # Public Preview Browser QA Report v1
 
-Generated: 2026-06-25T17:36:20.341Z
+Generated: 2026-06-25T17:55:32.376Z
 
 ## Verdict
 
@@ -54,9 +54,9 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | --- | --- |
 | Console/page errors | 0 |
 | Console warnings | 0 |
-| Failed requests | 6 |
+| Failed requests | 5 |
 | Blocking failed requests | 0 |
-| Ignored non-blocking failed requests | 6 |
+| Ignored non-blocking failed requests | 5 |
 | Index overflow viewports | 0 |
 | World Cup overflow viewports | 0 |
 | Profile click failures | 0 |

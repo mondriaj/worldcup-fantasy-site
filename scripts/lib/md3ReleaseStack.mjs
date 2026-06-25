@@ -362,8 +362,9 @@ async function readJson(path) {
   return JSON.parse(await readFile(path, "utf8"));
 }
 
-async function writeJson(path, value) {
-  await writeFile(path, `${JSON.stringify(value, null, 2)}\n`, "utf8");
+async function writeJson(path, value, options = {}) {
+  const spacing = options.compact ? 0 : 2;
+  await writeFile(path, `${JSON.stringify(value, null, spacing)}\n`, "utf8");
 }
 
 async function loadGlobals(files) {
@@ -2396,7 +2397,7 @@ async function buildFantasyPoolMatchdayProjectionsV5Md3() {
     blockedPlayers
   };
   const qa = projectionQa(output, qaFailures);
-  await writeJson(PATHS.projectionV5, output);
+  await writeJson(PATHS.projectionV5, output, { compact: true });
   await writeJson(PATHS.projectionQa, qa);
   await writeFile(PATHS.projectionQaReport, projectionQaMarkdown(qa), "utf8");
   await writeFile(PATHS.projectionDoc, projectionDocMarkdown(output), "utf8");

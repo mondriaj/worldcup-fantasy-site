@@ -1,6 +1,6 @@
 # Live Matchday Status Report v1
 
-Generated: 2026-06-25T17:22:50.049Z
+Generated: 2026-06-25T17:53:01.481Z
 
 Status: static live/post-match support import. Model predictions, PELE data, recommendations, projections, finance metrics, Team Builder weights, and website formulas were not rerun by this script.
 

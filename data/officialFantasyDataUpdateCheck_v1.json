@@ -1,10 +1,10 @@
 {
   "schema_version": "official_fantasy_data_update_check_v1",
-  "generated_at": "2026-06-25T17:37:17.918Z",
+  "generated_at": "2026-06-25T17:51:32.048Z",
   "monitor_status": "completed",
   "summary": {
-    "official_data_changed": true,
-    "rerun_decision": "minor_change_no_model_rerun_needed",
+    "official_data_changed": false,
+    "rerun_decision": "no_change",
     "fetch_failures": 0,
     "local_official_fantasy_players": 1489,
     "live_official_fantasy_players": 1489,
@@ -30,7 +30,7 @@
       "status": 200,
       "ok": true,
       "content_type": "application/json",
-      "last_modified": "2026-06-25T17:20:02Z",
+      "last_modified": "2026-06-25T17:04:22Z",
       "etag": "\"471089fe6894dbf2fa6f1af63a073daf\"",
       "bytes": 1256515,
       "sha256": "c3e6ba7d15073e9aea1519d49e4734d8c127e93f70f7aa8953fb1bdff4c0e8e0",
@@ -69,7 +69,7 @@
       "status": 200,
       "ok": true,
       "content_type": "application/json",
-      "last_modified": "2026-06-25T16:01:03Z",
+      "last_modified": "2026-06-25T15:01:02Z",
       "etag": "\"b54d58abdc5b429465cf6c229755c425\"",
       "bytes": 103467,
       "sha256": "1d55a1923d0d4969a84e35f33b24b8a472113acf59a0c9af49477aa7cef26acc",
@@ -82,7 +82,7 @@
       "status": 200,
       "ok": true,
       "content_type": "application/json",
-      "last_modified": "2026-06-25T11:14:41Z",
+      "last_modified": "2026-06-25T11:19:05Z",
       "etag": "\"c623772cb8ffabf3e6c2a855a0a9e407\"",
       "bytes": 27459,
       "sha256": "b00d9c513a0fe3d17d3ae659138d31dcf5a14dd3bb051751f34fe11264f1d6bb",
@@ -338,10 +338,8 @@
     }
   },
   "recommendation": {
-    "rerun_decision": "minor_change_no_model_rerun_needed",
-    "reasons": [
-      "Only non-model source headers or ownership-style values changed."
-    ],
+    "rerun_decision": "no_change",
+    "reasons": [],
     "player_import_needed": false,
     "squad_import_needed": false,
     "rules_import_needed": false,

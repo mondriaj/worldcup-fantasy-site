@@ -1,6 +1,6 @@
 # R32 Readiness Daily Report v1
 
-Generated: 2026-06-25T17:34:27.400Z
+Generated: 2026-06-25T17:53:54.578Z
 
 ## Summary
 

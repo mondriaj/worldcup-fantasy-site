@@ -1,6 +1,6 @@
 {
   "schema_version": "r32_readiness_daily_v1",
-  "generated_at": "2026-06-25T17:34:27.400Z",
+  "generated_at": "2026-06-25T17:53:54.578Z",
   "source_files": {
     "worldCupData": "worldCupData.js",
     "liveMatchday": "data/liveMatchdayStatus_v1.json",
