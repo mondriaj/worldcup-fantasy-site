@@ -1,17 +1,17 @@
 # Official Fantasy Players Live Collection v1
 
-Generated: 2026-06-25T17:22:03.607Z
+Generated: 2026-06-27T16:45:49.890Z
 
 ## Sources
 
-- Players: https://play.fifa.com/json/fantasy/players.json (200, Last-Modified Thu, 25 Jun 2026 17:04:22 GMT)
-- Squads: https://play.fifa.com/json/fantasy/squads.json (200, Last-Modified Wed, 24 Jun 2026 03:58:03 GMT)
+- Players: https://play.fifa.com/json/fantasy/players.json (200, Last-Modified Sat, 27 Jun 2026 16:45:03 GMT)
+- Squads: https://play.fifa.com/json/fantasy/squads.json (200, Last-Modified Sat, 27 Jun 2026 06:09:15 GMT)
 
 ## Output
 
 - Import file: data/imports/officialFantasyPlayers_live_v1.json
 - Player rows: 1489
-- Selectable-status counts: {"playing":1240,"transferred":240,"suspended":8,"injured":1}
+- Selectable-status counts: {"playing":984,"transferred":196,"suspended":4,"injured":1,"eliminated":304}
 - Position counts: {"DEF":486,"FWD":307,"MID":515,"GK":181}
 
 ## Safeguards

@@ -1,6 +1,6 @@
 {
   "schema_version": "active_fantasy_data_flow_qa_v1",
-  "generated_at": "2026-06-25T17:54:13.673Z",
+  "generated_at": "2026-06-27T16:48:29.992Z",
   "active_version": "20260623-md3-prep",
   "status": "pass",
   "checks": [
@@ -113,7 +113,7 @@
         "score_fixture_rows": 72,
         "score_team_fixture_rows": 144,
         "official_position_records": 1489,
-        "live_fixture_rows": 73,
+        "live_fixture_rows": 81,
         "live_player_rows": 1489
       }
     },
@@ -196,7 +196,7 @@
         "md3_projections_missing_active_identity_count": 0,
         "finance_missing_active_identity_count": 0,
         "recommendation_projection_missing_count": 0,
-        "md3_recommendations_missing_players_data_enrichment_count": 103,
+        "md3_recommendations_missing_players_data_enrichment_count": 102,
         "md3_projections_missing_players_data_enrichment_count": 1122,
         "finance_missing_players_data_enrichment_count": 1122,
         "players_data_role": "supplemental_enrichment_only",
@@ -282,7 +282,7 @@
     "score_fixture_rows": 72,
     "score_team_fixture_rows": 144,
     "official_position_records": 1489,
-    "live_fixture_rows": 73,
+    "live_fixture_rows": 81,
     "live_player_rows": 1489
   },
   "players_sync": {
@@ -403,7 +403,7 @@
     "md3_projections_missing_active_identity_count": 0,
     "finance_missing_active_identity_count": 0,
     "recommendation_projection_missing_count": 0,
-    "md3_recommendations_missing_players_data_enrichment_count": 103,
+    "md3_recommendations_missing_players_data_enrichment_count": 102,
     "md3_projections_missing_players_data_enrichment_count": 1122,
     "finance_missing_players_data_enrichment_count": 1122,
     "players_data_role": "supplemental_enrichment_only",

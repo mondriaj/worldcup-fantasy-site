@@ -1,6 +1,6 @@
 {
   "schema_version": "r32_readiness_daily_v1",
-  "generated_at": "2026-06-25T17:53:54.578Z",
+  "generated_at": "2026-06-27T16:47:59.530Z",
   "source_files": {
     "worldCupData": "worldCupData.js",
     "liveMatchday": "data/liveMatchdayStatus_v1.json",
@@ -16,12 +16,12 @@
     "playerReadinessStagingReport": "data/r32PlayerReadinessStagingReport_v1.md"
   },
   "summary": {
-    "completed_md3_fixtures": 6,
-    "complete_groups": 3,
-    "safe_top_two_qualifiers": 6,
-    "safe_eliminated_teams": 3,
-    "uncertain_teams": 39,
-    "official_r32_source_fixtures": 1,
+    "completed_md3_fixtures": 18,
+    "complete_groups": 9,
+    "safe_top_two_qualifiers": 18,
+    "safe_eliminated_teams": 9,
+    "uncertain_teams": 21,
+    "official_r32_source_fixtures": 9,
     "r32_staging_safe_today": true,
     "r32_public_promotion_blocked": true
   },
@@ -394,691 +394,733 @@
     },
     {
       "group": "D",
-      "completed_fixtures": 4,
-      "group_complete": false,
+      "completed_fixtures": 6,
+      "group_complete": true,
       "standings": [
         {
           "team": "USA",
           "team_id": "usa",
           "group": "D",
-          "played": 2,
+          "played": 3,
           "wins": 2,
           "draws": 0,
-          "losses": 0,
-          "goals_for": 6,
-          "goals_against": 1,
-          "goal_difference": 5,
+          "losses": 1,
+          "goals_for": 8,
+          "goals_against": 4,
+          "goal_difference": 4,
           "points": 6
         },
         {
           "team": "Australia",
           "team_id": "australia",
           "group": "D",
-          "played": 2,
+          "played": 3,
           "wins": 1,
-          "draws": 0,
+          "draws": 1,
           "losses": 1,
           "goals_for": 2,
           "goals_against": 2,
           "goal_difference": 0,
-          "points": 3
+          "points": 4
         },
         {
           "team": "Paraguay",
           "team_id": "paraguay",
           "group": "D",
-          "played": 2,
+          "played": 3,
           "wins": 1,
-          "draws": 0,
+          "draws": 1,
           "losses": 1,
           "goals_for": 2,
           "goals_against": 4,
           "goal_difference": -2,
-          "points": 3
+          "points": 4
         },
         {
           "team": "Türkiye",
           "team_id": "turkiye",
           "group": "D",
-          "played": 2,
-          "wins": 0,
+          "played": 3,
+          "wins": 1,
           "draws": 0,
           "losses": 2,
-          "goals_for": 0,
-          "goals_against": 3,
-          "goal_difference": -3,
-          "points": 0
+          "goals_for": 3,
+          "goals_against": 5,
+          "goal_difference": -2,
+          "points": 3
         }
       ],
-      "safe_qualified": [],
-      "safe_eliminated": [],
-      "still_uncertain": [
+      "safe_qualified": [
         {
           "team": "USA",
           "team_id": "usa",
           "group": "D",
-          "played": 2,
+          "played": 3,
           "wins": 2,
           "draws": 0,
-          "losses": 0,
-          "goals_for": 6,
-          "goals_against": 1,
-          "goal_difference": 5,
-          "points": 6
+          "losses": 1,
+          "goals_for": 8,
+          "goals_against": 4,
+          "goal_difference": 4,
+          "points": 6,
+          "seed_type": "group_winner_or_tiebreaker_leader",
+          "basis": "complete_group_top_two_standings"
         },
         {
           "team": "Australia",
           "team_id": "australia",
           "group": "D",
-          "played": 2,
+          "played": 3,
           "wins": 1,
-          "draws": 0,
+          "draws": 1,
           "losses": 1,
           "goals_for": 2,
           "goals_against": 2,
           "goal_difference": 0,
-          "points": 3
-        },
-        {
-          "team": "Paraguay",
-          "team_id": "paraguay",
-          "group": "D",
-          "played": 2,
-          "wins": 1,
-          "draws": 0,
-          "losses": 1,
-          "goals_for": 2,
-          "goals_against": 4,
-          "goal_difference": -2,
-          "points": 3
-        },
+          "points": 4,
+          "seed_type": "group_runner_up_or_tiebreaker_second",
+          "basis": "complete_group_top_two_standings"
+        }
+      ],
+      "safe_eliminated": [
         {
           "team": "Türkiye",
           "team_id": "turkiye",
           "group": "D",
-          "played": 2,
-          "wins": 0,
+          "played": 3,
+          "wins": 1,
           "draws": 0,
           "losses": 2,
-          "goals_for": 0,
-          "goals_against": 3,
-          "goal_difference": -3,
-          "points": 0
+          "goals_for": 3,
+          "goals_against": 5,
+          "goal_difference": -2,
+          "points": 3,
+          "basis": "complete_group_fourth_place_not_in_best_third_pool"
+        }
+      ],
+      "still_uncertain": [
+        {
+          "team": "Paraguay",
+          "team_id": "paraguay",
+          "group": "D",
+          "played": 3,
+          "wins": 1,
+          "draws": 1,
+          "losses": 1,
+          "goals_for": 2,
+          "goals_against": 4,
+          "goal_difference": -2,
+          "points": 4
         }
       ]
     },
     {
       "group": "E",
-      "completed_fixtures": 4,
-      "group_complete": false,
+      "completed_fixtures": 6,
+      "group_complete": true,
       "standings": [
         {
           "team": "Germany",
           "team_id": "germany",
           "group": "E",
-          "played": 2,
+          "played": 3,
           "wins": 2,
           "draws": 0,
-          "losses": 0,
-          "goals_for": 9,
-          "goals_against": 2,
-          "goal_difference": 7,
+          "losses": 1,
+          "goals_for": 10,
+          "goals_against": 4,
+          "goal_difference": 6,
           "points": 6
         },
         {
           "team": "Côte d'Ivoire",
           "team_id": "cote-d-ivoire",
           "group": "E",
-          "played": 2,
-          "wins": 1,
+          "played": 3,
+          "wins": 2,
           "draws": 0,
           "losses": 1,
-          "goals_for": 2,
+          "goals_for": 4,
           "goals_against": 2,
-          "goal_difference": 0,
-          "points": 3
+          "goal_difference": 2,
+          "points": 6
         },
         {
           "team": "Ecuador",
           "team_id": "ecuador",
           "group": "E",
-          "played": 2,
-          "wins": 0,
+          "played": 3,
+          "wins": 1,
           "draws": 1,
           "losses": 1,
-          "goals_for": 0,
-          "goals_against": 1,
-          "goal_difference": -1,
-          "points": 1
+          "goals_for": 2,
+          "goals_against": 2,
+          "goal_difference": 0,
+          "points": 4
         },
         {
           "team": "Curaçao",
           "team_id": "curacao",
           "group": "E",
-          "played": 2,
+          "played": 3,
           "wins": 0,
           "draws": 1,
-          "losses": 1,
+          "losses": 2,
           "goals_for": 1,
-          "goals_against": 7,
-          "goal_difference": -6,
+          "goals_against": 9,
+          "goal_difference": -8,
           "points": 1
         }
       ],
-      "safe_qualified": [],
-      "safe_eliminated": [],
-      "still_uncertain": [
+      "safe_qualified": [
         {
           "team": "Germany",
           "team_id": "germany",
           "group": "E",
-          "played": 2,
+          "played": 3,
           "wins": 2,
           "draws": 0,
-          "losses": 0,
-          "goals_for": 9,
-          "goals_against": 2,
-          "goal_difference": 7,
-          "points": 6
+          "losses": 1,
+          "goals_for": 10,
+          "goals_against": 4,
+          "goal_difference": 6,
+          "points": 6,
+          "seed_type": "group_winner_or_tiebreaker_leader",
+          "basis": "complete_group_top_two_standings"
         },
         {
           "team": "Côte d'Ivoire",
           "team_id": "cote-d-ivoire",
           "group": "E",
-          "played": 2,
-          "wins": 1,
+          "played": 3,
+          "wins": 2,
           "draws": 0,
           "losses": 1,
-          "goals_for": 2,
+          "goals_for": 4,
           "goals_against": 2,
-          "goal_difference": 0,
-          "points": 3
-        },
-        {
-          "team": "Ecuador",
-          "team_id": "ecuador",
-          "group": "E",
-          "played": 2,
-          "wins": 0,
-          "draws": 1,
-          "losses": 1,
-          "goals_for": 0,
-          "goals_against": 1,
-          "goal_difference": -1,
-          "points": 1
-        },
+          "goal_difference": 2,
+          "points": 6,
+          "seed_type": "group_runner_up_or_tiebreaker_second",
+          "basis": "complete_group_top_two_standings"
+        }
+      ],
+      "safe_eliminated": [
         {
           "team": "Curaçao",
           "team_id": "curacao",
           "group": "E",
-          "played": 2,
+          "played": 3,
           "wins": 0,
           "draws": 1,
-          "losses": 1,
+          "losses": 2,
           "goals_for": 1,
-          "goals_against": 7,
-          "goal_difference": -6,
-          "points": 1
+          "goals_against": 9,
+          "goal_difference": -8,
+          "points": 1,
+          "basis": "complete_group_fourth_place_not_in_best_third_pool"
+        }
+      ],
+      "still_uncertain": [
+        {
+          "team": "Ecuador",
+          "team_id": "ecuador",
+          "group": "E",
+          "played": 3,
+          "wins": 1,
+          "draws": 1,
+          "losses": 1,
+          "goals_for": 2,
+          "goals_against": 2,
+          "goal_difference": 0,
+          "points": 4
         }
       ]
     },
     {
       "group": "F",
-      "completed_fixtures": 4,
-      "group_complete": false,
+      "completed_fixtures": 6,
+      "group_complete": true,
       "standings": [
         {
           "team": "Netherlands",
           "team_id": "netherlands",
           "group": "F",
-          "played": 2,
-          "wins": 1,
+          "played": 3,
+          "wins": 2,
           "draws": 1,
           "losses": 0,
-          "goals_for": 7,
-          "goals_against": 3,
-          "goal_difference": 4,
-          "points": 4
+          "goals_for": 10,
+          "goals_against": 4,
+          "goal_difference": 6,
+          "points": 7
         },
         {
           "team": "Japan",
           "team_id": "japan",
           "group": "F",
-          "played": 2,
+          "played": 3,
           "wins": 1,
-          "draws": 1,
+          "draws": 2,
           "losses": 0,
-          "goals_for": 6,
-          "goals_against": 2,
+          "goals_for": 7,
+          "goals_against": 3,
           "goal_difference": 4,
-          "points": 4
+          "points": 5
         },
         {
           "team": "Sweden",
           "team_id": "sweden",
           "group": "F",
-          "played": 2,
+          "played": 3,
           "wins": 1,
-          "draws": 0,
+          "draws": 1,
           "losses": 1,
-          "goals_for": 6,
-          "goals_against": 6,
+          "goals_for": 7,
+          "goals_against": 7,
           "goal_difference": 0,
-          "points": 3
+          "points": 4
         },
         {
           "team": "Tunisia",
           "team_id": "tunisia",
           "group": "F",
-          "played": 2,
+          "played": 3,
           "wins": 0,
           "draws": 0,
-          "losses": 2,
-          "goals_for": 1,
-          "goals_against": 9,
-          "goal_difference": -8,
+          "losses": 3,
+          "goals_for": 2,
+          "goals_against": 12,
+          "goal_difference": -10,
           "points": 0
         }
       ],
-      "safe_qualified": [],
-      "safe_eliminated": [],
-      "still_uncertain": [
+      "safe_qualified": [
         {
           "team": "Netherlands",
           "team_id": "netherlands",
           "group": "F",
-          "played": 2,
-          "wins": 1,
+          "played": 3,
+          "wins": 2,
           "draws": 1,
           "losses": 0,
-          "goals_for": 7,
-          "goals_against": 3,
-          "goal_difference": 4,
-          "points": 4
+          "goals_for": 10,
+          "goals_against": 4,
+          "goal_difference": 6,
+          "points": 7,
+          "seed_type": "group_winner_or_tiebreaker_leader",
+          "basis": "complete_group_top_two_standings"
         },
         {
           "team": "Japan",
           "team_id": "japan",
           "group": "F",
-          "played": 2,
+          "played": 3,
           "wins": 1,
-          "draws": 1,
+          "draws": 2,
           "losses": 0,
-          "goals_for": 6,
-          "goals_against": 2,
+          "goals_for": 7,
+          "goals_against": 3,
           "goal_difference": 4,
-          "points": 4
-        },
-        {
-          "team": "Sweden",
-          "team_id": "sweden",
-          "group": "F",
-          "played": 2,
-          "wins": 1,
-          "draws": 0,
-          "losses": 1,
-          "goals_for": 6,
-          "goals_against": 6,
-          "goal_difference": 0,
-          "points": 3
-        },
+          "points": 5,
+          "seed_type": "group_runner_up_or_tiebreaker_second",
+          "basis": "complete_group_top_two_standings"
+        }
+      ],
+      "safe_eliminated": [
         {
           "team": "Tunisia",
           "team_id": "tunisia",
           "group": "F",
-          "played": 2,
+          "played": 3,
           "wins": 0,
           "draws": 0,
-          "losses": 2,
-          "goals_for": 1,
-          "goals_against": 9,
-          "goal_difference": -8,
-          "points": 0
+          "losses": 3,
+          "goals_for": 2,
+          "goals_against": 12,
+          "goal_difference": -10,
+          "points": 0,
+          "basis": "complete_group_fourth_place_not_in_best_third_pool"
+        }
+      ],
+      "still_uncertain": [
+        {
+          "team": "Sweden",
+          "team_id": "sweden",
+          "group": "F",
+          "played": 3,
+          "wins": 1,
+          "draws": 1,
+          "losses": 1,
+          "goals_for": 7,
+          "goals_against": 7,
+          "goal_difference": 0,
+          "points": 4
         }
       ]
     },
     {
       "group": "G",
-      "completed_fixtures": 4,
-      "group_complete": false,
+      "completed_fixtures": 6,
+      "group_complete": true,
       "standings": [
+        {
+          "team": "Belgium",
+          "team_id": "belgium",
+          "group": "G",
+          "played": 3,
+          "wins": 1,
+          "draws": 2,
+          "losses": 0,
+          "goals_for": 6,
+          "goals_against": 2,
+          "goal_difference": 4,
+          "points": 5
+        },
         {
           "team": "Egypt",
           "team_id": "egypt",
           "group": "G",
-          "played": 2,
+          "played": 3,
           "wins": 1,
-          "draws": 1,
+          "draws": 2,
           "losses": 0,
-          "goals_for": 4,
-          "goals_against": 2,
+          "goals_for": 5,
+          "goals_against": 3,
           "goal_difference": 2,
-          "points": 4
+          "points": 5
         },
         {
           "team": "IR Iran",
           "team_id": "ir-iran",
           "group": "G",
-          "played": 2,
+          "played": 3,
           "wins": 0,
-          "draws": 2,
+          "draws": 3,
           "losses": 0,
-          "goals_for": 2,
-          "goals_against": 2,
+          "goals_for": 3,
+          "goals_against": 3,
           "goal_difference": 0,
-          "points": 2
-        },
-        {
-          "team": "Belgium",
-          "team_id": "belgium",
-          "group": "G",
-          "played": 2,
-          "wins": 0,
-          "draws": 2,
-          "losses": 0,
-          "goals_for": 1,
-          "goals_against": 1,
-          "goal_difference": 0,
-          "points": 2
+          "points": 3
         },
         {
           "team": "New Zealand",
           "team_id": "new-zealand",
           "group": "G",
-          "played": 2,
+          "played": 3,
           "wins": 0,
           "draws": 1,
-          "losses": 1,
-          "goals_for": 3,
-          "goals_against": 5,
-          "goal_difference": -2,
+          "losses": 2,
+          "goals_for": 4,
+          "goals_against": 10,
+          "goal_difference": -6,
           "points": 1
         }
       ],
-      "safe_qualified": [],
-      "safe_eliminated": [],
-      "still_uncertain": [
-        {
-          "team": "Egypt",
-          "team_id": "egypt",
-          "group": "G",
-          "played": 2,
-          "wins": 1,
-          "draws": 1,
-          "losses": 0,
-          "goals_for": 4,
-          "goals_against": 2,
-          "goal_difference": 2,
-          "points": 4
-        },
-        {
-          "team": "IR Iran",
-          "team_id": "ir-iran",
-          "group": "G",
-          "played": 2,
-          "wins": 0,
-          "draws": 2,
-          "losses": 0,
-          "goals_for": 2,
-          "goals_against": 2,
-          "goal_difference": 0,
-          "points": 2
-        },
+      "safe_qualified": [
         {
           "team": "Belgium",
           "team_id": "belgium",
           "group": "G",
-          "played": 2,
-          "wins": 0,
+          "played": 3,
+          "wins": 1,
           "draws": 2,
           "losses": 0,
-          "goals_for": 1,
-          "goals_against": 1,
-          "goal_difference": 0,
-          "points": 2
+          "goals_for": 6,
+          "goals_against": 2,
+          "goal_difference": 4,
+          "points": 5,
+          "seed_type": "group_winner_or_tiebreaker_leader",
+          "basis": "complete_group_top_two_standings"
         },
+        {
+          "team": "Egypt",
+          "team_id": "egypt",
+          "group": "G",
+          "played": 3,
+          "wins": 1,
+          "draws": 2,
+          "losses": 0,
+          "goals_for": 5,
+          "goals_against": 3,
+          "goal_difference": 2,
+          "points": 5,
+          "seed_type": "group_runner_up_or_tiebreaker_second",
+          "basis": "complete_group_top_two_standings"
+        }
+      ],
+      "safe_eliminated": [
         {
           "team": "New Zealand",
           "team_id": "new-zealand",
           "group": "G",
-          "played": 2,
+          "played": 3,
           "wins": 0,
           "draws": 1,
-          "losses": 1,
+          "losses": 2,
+          "goals_for": 4,
+          "goals_against": 10,
+          "goal_difference": -6,
+          "points": 1,
+          "basis": "complete_group_fourth_place_not_in_best_third_pool"
+        }
+      ],
+      "still_uncertain": [
+        {
+          "team": "IR Iran",
+          "team_id": "ir-iran",
+          "group": "G",
+          "played": 3,
+          "wins": 0,
+          "draws": 3,
+          "losses": 0,
           "goals_for": 3,
-          "goals_against": 5,
-          "goal_difference": -2,
-          "points": 1
+          "goals_against": 3,
+          "goal_difference": 0,
+          "points": 3
         }
       ]
     },
     {
       "group": "H",
-      "completed_fixtures": 4,
-      "group_complete": false,
+      "completed_fixtures": 6,
+      "group_complete": true,
       "standings": [
         {
           "team": "Spain",
           "team_id": "spain",
           "group": "H",
-          "played": 2,
-          "wins": 1,
+          "played": 3,
+          "wins": 2,
           "draws": 1,
           "losses": 0,
-          "goals_for": 4,
+          "goals_for": 5,
           "goals_against": 0,
-          "goal_difference": 4,
-          "points": 4
-        },
-        {
-          "team": "Uruguay",
-          "team_id": "uruguay",
-          "group": "H",
-          "played": 2,
-          "wins": 0,
-          "draws": 2,
-          "losses": 0,
-          "goals_for": 3,
-          "goals_against": 3,
-          "goal_difference": 0,
-          "points": 2
+          "goal_difference": 5,
+          "points": 7
         },
         {
           "team": "Cabo Verde",
           "team_id": "cabo-verde",
           "group": "H",
-          "played": 2,
+          "played": 3,
           "wins": 0,
-          "draws": 2,
+          "draws": 3,
           "losses": 0,
           "goals_for": 2,
           "goals_against": 2,
           "goal_difference": 0,
+          "points": 3
+        },
+        {
+          "team": "Uruguay",
+          "team_id": "uruguay",
+          "group": "H",
+          "played": 3,
+          "wins": 0,
+          "draws": 2,
+          "losses": 1,
+          "goals_for": 3,
+          "goals_against": 4,
+          "goal_difference": -1,
           "points": 2
         },
         {
           "team": "Saudi Arabia",
           "team_id": "saudi-arabia",
           "group": "H",
-          "played": 2,
+          "played": 3,
           "wins": 0,
-          "draws": 1,
+          "draws": 2,
           "losses": 1,
           "goals_for": 1,
           "goals_against": 5,
           "goal_difference": -4,
-          "points": 1
+          "points": 2
         }
       ],
-      "safe_qualified": [],
-      "safe_eliminated": [],
-      "still_uncertain": [
+      "safe_qualified": [
         {
           "team": "Spain",
           "team_id": "spain",
           "group": "H",
-          "played": 2,
-          "wins": 1,
+          "played": 3,
+          "wins": 2,
           "draws": 1,
           "losses": 0,
-          "goals_for": 4,
+          "goals_for": 5,
           "goals_against": 0,
-          "goal_difference": 4,
-          "points": 4
-        },
-        {
-          "team": "Uruguay",
-          "team_id": "uruguay",
-          "group": "H",
-          "played": 2,
-          "wins": 0,
-          "draws": 2,
-          "losses": 0,
-          "goals_for": 3,
-          "goals_against": 3,
-          "goal_difference": 0,
-          "points": 2
+          "goal_difference": 5,
+          "points": 7,
+          "seed_type": "group_winner_or_tiebreaker_leader",
+          "basis": "complete_group_top_two_standings"
         },
         {
           "team": "Cabo Verde",
           "team_id": "cabo-verde",
           "group": "H",
-          "played": 2,
+          "played": 3,
           "wins": 0,
-          "draws": 2,
+          "draws": 3,
           "losses": 0,
           "goals_for": 2,
           "goals_against": 2,
           "goal_difference": 0,
-          "points": 2
-        },
+          "points": 3,
+          "seed_type": "group_runner_up_or_tiebreaker_second",
+          "basis": "complete_group_top_two_standings"
+        }
+      ],
+      "safe_eliminated": [
         {
           "team": "Saudi Arabia",
           "team_id": "saudi-arabia",
           "group": "H",
-          "played": 2,
+          "played": 3,
           "wins": 0,
-          "draws": 1,
+          "draws": 2,
           "losses": 1,
           "goals_for": 1,
           "goals_against": 5,
           "goal_difference": -4,
-          "points": 1
+          "points": 2,
+          "basis": "complete_group_fourth_place_not_in_best_third_pool"
+        }
+      ],
+      "still_uncertain": [
+        {
+          "team": "Uruguay",
+          "team_id": "uruguay",
+          "group": "H",
+          "played": 3,
+          "wins": 0,
+          "draws": 2,
+          "losses": 1,
+          "goals_for": 3,
+          "goals_against": 4,
+          "goal_difference": -1,
+          "points": 2
         }
       ]
     },
     {
       "group": "I",
-      "completed_fixtures": 4,
-      "group_complete": false,
+      "completed_fixtures": 6,
+      "group_complete": true,
       "standings": [
         {
           "team": "France",
           "team_id": "france",
           "group": "I",
-          "played": 2,
-          "wins": 2,
+          "played": 3,
+          "wins": 3,
           "draws": 0,
           "losses": 0,
-          "goals_for": 6,
-          "goals_against": 1,
-          "goal_difference": 5,
-          "points": 6
+          "goals_for": 10,
+          "goals_against": 2,
+          "goal_difference": 8,
+          "points": 9
         },
         {
           "team": "Norway",
           "team_id": "norway",
           "group": "I",
-          "played": 2,
+          "played": 3,
           "wins": 2,
           "draws": 0,
-          "losses": 0,
-          "goals_for": 7,
-          "goals_against": 3,
-          "goal_difference": 4,
+          "losses": 1,
+          "goals_for": 8,
+          "goals_against": 7,
+          "goal_difference": 1,
           "points": 6
         },
         {
           "team": "Senegal",
           "team_id": "senegal",
           "group": "I",
-          "played": 2,
-          "wins": 0,
+          "played": 3,
+          "wins": 1,
           "draws": 0,
           "losses": 2,
-          "goals_for": 3,
+          "goals_for": 8,
           "goals_against": 6,
-          "goal_difference": -3,
-          "points": 0
+          "goal_difference": 2,
+          "points": 3
         },
         {
           "team": "Iraq",
           "team_id": "iraq",
           "group": "I",
-          "played": 2,
+          "played": 3,
           "wins": 0,
           "draws": 0,
-          "losses": 2,
+          "losses": 3,
           "goals_for": 1,
-          "goals_against": 7,
-          "goal_difference": -6,
+          "goals_against": 12,
+          "goal_difference": -11,
           "points": 0
         }
       ],
-      "safe_qualified": [],
-      "safe_eliminated": [],
-      "still_uncertain": [
+      "safe_qualified": [
         {
           "team": "France",
           "team_id": "france",
           "group": "I",
-          "played": 2,
-          "wins": 2,
+          "played": 3,
+          "wins": 3,
           "draws": 0,
           "losses": 0,
-          "goals_for": 6,
-          "goals_against": 1,
-          "goal_difference": 5,
-          "points": 6
+          "goals_for": 10,
+          "goals_against": 2,
+          "goal_difference": 8,
+          "points": 9,
+          "seed_type": "group_winner_or_tiebreaker_leader",
+          "basis": "complete_group_top_two_standings"
         },
         {
           "team": "Norway",
           "team_id": "norway",
           "group": "I",
-          "played": 2,
+          "played": 3,
           "wins": 2,
           "draws": 0,
-          "losses": 0,
-          "goals_for": 7,
-          "goals_against": 3,
-          "goal_difference": 4,
-          "points": 6
-        },
-        {
-          "team": "Senegal",
-          "team_id": "senegal",
-          "group": "I",
-          "played": 2,
-          "wins": 0,
-          "draws": 0,
-          "losses": 2,
-          "goals_for": 3,
-          "goals_against": 6,
-          "goal_difference": -3,
-          "points": 0
-        },
+          "losses": 1,
+          "goals_for": 8,
+          "goals_against": 7,
+          "goal_difference": 1,
+          "points": 6,
+          "seed_type": "group_runner_up_or_tiebreaker_second",
+          "basis": "complete_group_top_two_standings"
+        }
+      ],
+      "safe_eliminated": [
         {
           "team": "Iraq",
           "team_id": "iraq",
           "group": "I",
-          "played": 2,
+          "played": 3,
           "wins": 0,
           "draws": 0,
-          "losses": 2,
+          "losses": 3,
           "goals_for": 1,
-          "goals_against": 7,
-          "goal_difference": -6,
-          "points": 0
+          "goals_against": 12,
+          "goal_difference": -11,
+          "points": 0,
+          "basis": "complete_group_fourth_place_not_in_best_third_pool"
+        }
+      ],
+      "still_uncertain": [
+        {
+          "team": "Senegal",
+          "team_id": "senegal",
+          "group": "I",
+          "played": 3,
+          "wins": 1,
+          "draws": 0,
+          "losses": 2,
+          "goals_for": 8,
+          "goals_against": 6,
+          "goal_difference": 2,
+          "points": 3
         }
       ]
     },
@@ -1441,16 +1483,150 @@
       "date": "2026-06-28T20:00:00+01:00",
       "safe_to_display_score": false,
       "public_promotion": "blocked_md3_public_default"
+    },
+    {
+      "source_fixture_id": "74",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "fixture": "Brazil vs Japan",
+      "home_team": "Brazil",
+      "home_squad_id": "7",
+      "away_team": "Japan",
+      "away_squad_id": "25",
+      "date": "2026-06-29T18:00:00+01:00",
+      "safe_to_display_score": false,
+      "public_promotion": "blocked_md3_public_default"
+    },
+    {
+      "source_fixture_id": "78",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "fixture": "Germany vs Paraguay",
+      "home_team": "Germany",
+      "home_squad_id": "20",
+      "away_team": "Paraguay",
+      "away_squad_id": "34",
+      "date": "2026-06-29T21:30:00+01:00",
+      "safe_to_display_score": false,
+      "public_promotion": "blocked_md3_public_default"
+    },
+    {
+      "source_fixture_id": "75",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "fixture": "Netherlands vs Morocco",
+      "home_team": "Netherlands",
+      "home_squad_id": "30",
+      "away_team": "Morocco",
+      "away_squad_id": "29",
+      "date": "2026-06-30T02:00:00+01:00",
+      "safe_to_display_score": false,
+      "public_promotion": "blocked_md3_public_default"
+    },
+    {
+      "source_fixture_id": "77",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "fixture": "Côte d'Ivoire vs Norway",
+      "home_team": "Côte d'Ivoire",
+      "home_squad_id": "12",
+      "away_team": "Norway",
+      "away_squad_id": "32",
+      "date": "2026-06-30T18:00:00+01:00",
+      "safe_to_display_score": false,
+      "public_promotion": "blocked_md3_public_default"
+    },
+    {
+      "source_fixture_id": "79",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "fixture": "France vs Sweden",
+      "home_team": "France",
+      "home_squad_id": "19",
+      "away_team": "Sweden",
+      "away_squad_id": "42",
+      "date": "2026-06-30T22:00:00+01:00",
+      "safe_to_display_score": false,
+      "public_promotion": "blocked_md3_public_default"
+    },
+    {
+      "source_fixture_id": "76",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "fixture": "USA vs Bosnia and Herzegovina",
+      "home_team": "USA",
+      "home_squad_id": "47",
+      "away_team": "Bosnia and Herzegovina",
+      "away_squad_id": "6",
+      "date": "2026-07-02T01:00:00+01:00",
+      "safe_to_display_score": false,
+      "public_promotion": "blocked_md3_public_default"
+    },
+    {
+      "source_fixture_id": "81",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "fixture": "Australia vs Egypt",
+      "home_team": "Australia",
+      "home_squad_id": "3",
+      "away_team": "Egypt",
+      "away_squad_id": "17",
+      "date": "2026-07-03T19:00:00+01:00",
+      "safe_to_display_score": false,
+      "public_promotion": "blocked_md3_public_default"
+    },
+    {
+      "source_fixture_id": "80",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "fixture": "Argentina vs Cabo Verde",
+      "home_team": "Argentina",
+      "home_squad_id": "2",
+      "away_team": "Cabo Verde",
+      "away_squad_id": "8",
+      "date": "2026-07-03T23:00:00+01:00",
+      "safe_to_display_score": false,
+      "public_promotion": "blocked_md3_public_default"
     }
   ],
   "new_player_arjan_malic": {
     "official_fantasy_player_id": "2079",
     "incorporated_in_role_coverage": true,
     "incorporated_in_projection_coverage": true,
-    "r32_readiness_impact_today": "no_direct_r32_staging_effect_today",
+    "r32_readiness_impact_today": "monitor_if_bosnia_r32_slot_remains_source_backed",
     "projection_status": "no_active_public_projection_identity"
   },
   "top_md3_form_players": [
+    {
+      "official_fantasy_player_id": "501",
+      "name": "Ousmane Dembélé",
+      "team": "France",
+      "team_id": "19",
+      "position": "MID",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 20
+    },
+    {
+      "official_fantasy_player_id": "1032",
+      "name": "Pape Gueye",
+      "team": "Senegal",
+      "team_id": "39",
+      "position": "MID",
+      "selectable_status": "playing",
+      "match_status": "sub",
+      "round3_points": 17
+    },
+    {
+      "official_fantasy_player_id": "1526",
+      "name": "Leandro Trossard",
+      "team": "Belgium",
+      "team_id": "5",
+      "position": "MID",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 17
+    },
     {
       "official_fantasy_player_id": "1465",
       "name": "Mateo Chávez",
@@ -1472,6 +1648,26 @@
       "round3_points": 15
     },
     {
+      "official_fantasy_player_id": "308",
+      "name": "Nicolas Pépé",
+      "team": "Côte d'Ivoire",
+      "team_id": "12",
+      "position": "FWD",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 14
+    },
+    {
+      "official_fantasy_player_id": "1043",
+      "name": "Ismaïla Sarr",
+      "team": "Senegal",
+      "team_id": "39",
+      "position": "FWD",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 13
+    },
+    {
       "official_fantasy_player_id": "1133",
       "name": "Johan Manzambi",
       "team": "Switzerland",
@@ -1480,6 +1676,26 @@
       "selectable_status": "playing",
       "match_status": "start",
       "round3_points": 13
+    },
+    {
+      "official_fantasy_player_id": "1250",
+      "name": "Sebastian Berhalter",
+      "team": "USA",
+      "team_id": "47",
+      "position": "MID",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 13
+    },
+    {
+      "official_fantasy_player_id": "138",
+      "name": "Kevin De Bruyne",
+      "team": "Belgium",
+      "team_id": "5",
+      "position": "MID",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 12
     },
     {
       "official_fantasy_player_id": "743",
@@ -1492,6 +1708,36 @@
       "round3_points": 12
     },
     {
+      "official_fantasy_player_id": "1042",
+      "name": "Iliman Ndiaye",
+      "team": "Senegal",
+      "team_id": "39",
+      "position": "FWD",
+      "selectable_status": "playing",
+      "match_status": "sub",
+      "round3_points": 12
+    },
+    {
+      "official_fantasy_player_id": "1102",
+      "name": "Marcos Llorente",
+      "team": "Spain",
+      "team_id": "41",
+      "position": "DEF",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 12
+    },
+    {
+      "official_fantasy_player_id": "1206",
+      "name": "Baris Alper Yilmaz",
+      "team": "Türkiye",
+      "team_id": "45",
+      "position": "FWD",
+      "selectable_status": "eliminated",
+      "match_status": "start",
+      "round3_points": 12
+    },
+    {
       "official_fantasy_player_id": "1361",
       "name": "Bruno Guimarães Rodriguez Moura",
       "team": "Brazil",
@@ -1500,6 +1746,56 @@
       "selectable_status": "playing",
       "match_status": "start",
       "round3_points": 12
+    },
+    {
+      "official_fantasy_player_id": "124",
+      "name": "Romelu Lukaku",
+      "team": "Belgium",
+      "team_id": "5",
+      "position": "FWD",
+      "selectable_status": "playing",
+      "match_status": "sub",
+      "round3_points": 11
+    },
+    {
+      "official_fantasy_player_id": "597",
+      "name": "Ramin Rezaeian",
+      "team": "IR Iran",
+      "team_id": "23",
+      "position": "DEF",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 11
+    },
+    {
+      "official_fantasy_player_id": "670",
+      "name": "Daizen Maeda",
+      "team": "Japan",
+      "team_id": "25",
+      "position": "MID",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 11
+    },
+    {
+      "official_fantasy_player_id": "802",
+      "name": "Jan Paul van Hecke",
+      "team": "Netherlands",
+      "team_id": "30",
+      "position": "DEF",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 11
+    },
+    {
+      "official_fantasy_player_id": "1682",
+      "name": "Thelo Aasgaard",
+      "team": "Norway",
+      "team_id": "32",
+      "position": "MID",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 11
     },
     {
       "official_fantasy_player_id": "2012",
@@ -1532,245 +1828,120 @@
       "round3_points": 10
     },
     {
-      "official_fantasy_player_id": "1158",
-      "name": "Rubén Vargas",
-      "team": "Switzerland",
-      "team_id": "43",
+      "official_fantasy_player_id": "214",
+      "name": "Josimar José Évora Dias",
+      "team": "Cabo Verde",
+      "team_id": "8",
+      "position": "GK",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 10
+    },
+    {
+      "official_fantasy_player_id": "429",
+      "name": "Pedro Vite",
+      "team": "Ecuador",
+      "team_id": "16",
       "position": "MID",
       "selectable_status": "playing",
       "match_status": "start",
       "round3_points": 10
     },
     {
-      "official_fantasy_player_id": "152",
-      "name": "Kerim Alajbegovic",
-      "team": "Bosnia and Herzegovina",
-      "team_id": "6",
-      "position": "FWD",
-      "selectable_status": "playing",
-      "match_status": "start",
-      "round3_points": 9
-    },
-    {
-      "official_fantasy_player_id": "168",
-      "name": "Douglas dos Santos Justino de Melo",
-      "team": "Brazil",
-      "team_id": "7",
-      "position": "DEF",
-      "selectable_status": "playing",
-      "match_status": "start",
-      "round3_points": 9
-    },
-    {
-      "official_fantasy_player_id": "582",
-      "name": "Wilson Isidor",
-      "team": "Haiti",
-      "team_id": "22",
-      "position": "FWD",
-      "selectable_status": "playing",
-      "match_status": "start",
-      "round3_points": 9
-    },
-    {
-      "official_fantasy_player_id": "741",
-      "name": "César Montes",
-      "team": "Mexico",
-      "team_id": "28",
-      "position": "DEF",
-      "selectable_status": "playing",
-      "match_status": "start",
-      "round3_points": 9
-    },
-    {
-      "official_fantasy_player_id": "744",
-      "name": "Israel Reyes",
-      "team": "Mexico",
-      "team_id": "28",
-      "position": "DEF",
-      "selectable_status": "playing",
-      "match_status": "start",
-      "round3_points": 9
-    },
-    {
-      "official_fantasy_player_id": "750",
-      "name": "Julián Quiñones",
-      "team": "Mexico",
-      "team_id": "28",
-      "position": "FWD",
-      "selectable_status": "playing",
-      "match_status": "start",
-      "round3_points": 9
-    },
-    {
-      "official_fantasy_player_id": "763",
-      "name": "Álvaro Fidalgo",
-      "team": "Mexico",
-      "team_id": "28",
-      "position": "MID",
-      "selectable_status": "playing",
-      "match_status": "sub",
-      "round3_points": 9
-    },
-    {
-      "official_fantasy_player_id": "1065",
-      "name": "Khuliso Mudau",
-      "team": "South Africa",
-      "team_id": "40",
-      "position": "DEF",
-      "selectable_status": "playing",
-      "match_status": "start",
-      "round3_points": 9
-    },
-    {
-      "official_fantasy_player_id": "1067",
-      "name": "Mbekezeli Mbokazi",
-      "team": "South Africa",
-      "team_id": "40",
-      "position": "DEF",
-      "selectable_status": "playing",
-      "match_status": "start",
-      "round3_points": 9
-    },
-    {
-      "official_fantasy_player_id": "1069",
-      "name": "Ime Okon",
-      "team": "South Africa",
-      "team_id": "40",
-      "position": "DEF",
-      "selectable_status": "playing",
-      "match_status": "start",
-      "round3_points": 9
-    },
-    {
-      "official_fantasy_player_id": "1076",
-      "name": "Thapelo Maseko",
-      "team": "South Africa",
-      "team_id": "40",
-      "position": "FWD",
-      "selectable_status": "playing",
-      "match_status": "start",
-      "round3_points": 9
-    },
-    {
-      "official_fantasy_player_id": "1077",
-      "name": "Ronwen Williams",
-      "team": "South Africa",
-      "team_id": "40",
-      "position": "GK",
-      "selectable_status": "playing",
-      "match_status": "start",
-      "round3_points": 9
-    },
-    {
-      "official_fantasy_player_id": "1148",
-      "name": "Luca Jaquez",
-      "team": "Switzerland",
-      "team_id": "43",
-      "position": "DEF",
-      "selectable_status": "playing",
-      "match_status": "start",
-      "round3_points": 9
-    },
-    {
-      "official_fantasy_player_id": "1970",
-      "name": "Promise David",
-      "team": "Canada",
-      "team_id": "9",
-      "position": "FWD",
-      "selectable_status": "playing",
-      "match_status": "sub",
-      "round3_points": 9
-    },
-    {
-      "official_fantasy_player_id": "167",
-      "name": "Danilo Luiz da Silva",
-      "team": "Brazil",
-      "team_id": "7",
-      "position": "DEF",
-      "selectable_status": "playing",
-      "match_status": "start",
-      "round3_points": 8
-    },
-    {
-      "official_fantasy_player_id": "183",
-      "name": "Alisson Ramsés Becker",
-      "team": "Brazil",
-      "team_id": "7",
-      "position": "GK",
-      "selectable_status": "playing",
-      "match_status": "start",
-      "round3_points": 8
-    },
-    {
-      "official_fantasy_player_id": "782",
-      "name": "Gessime Yassine",
-      "team": "Morocco",
-      "team_id": "29",
-      "position": "FWD",
-      "selectable_status": "playing",
-      "match_status": "sub",
-      "round3_points": 8
-    },
-    {
-      "official_fantasy_player_id": "792",
-      "name": "Ismael Saibari",
-      "team": "Morocco",
-      "team_id": "29",
+      "official_fantasy_player_id": "505",
+      "name": "Désiré Doué",
+      "team": "France",
+      "team_id": "19",
       "position": "MID",
       "selectable_status": "playing",
       "match_status": "start",
-      "round3_points": 8
+      "round3_points": 10
     },
     {
-      "official_fantasy_player_id": "961",
-      "name": "Hassan Khalid Hassan Al Haydos",
-      "team": "Qatar",
-      "team_id": "36",
+      "official_fantasy_player_id": "529",
+      "name": "Leroy Sané",
+      "team": "Germany",
+      "team_id": "20",
+      "position": "MID",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 10
+    },
+    {
+      "official_fantasy_player_id": "910",
+      "name": "Orlando Gill",
+      "team": "Paraguay",
+      "team_id": "34",
+      "position": "GK",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 10
+    },
+    {
+      "official_fantasy_player_id": "1082",
+      "name": "Álex Baena",
+      "team": "Spain",
+      "team_id": "41",
+      "position": "MID",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 10
+    },
+    {
+      "official_fantasy_player_id": "1125",
+      "name": "Anthony Elanga",
+      "team": "Sweden",
+      "team_id": "42",
       "position": "FWD",
       "selectable_status": "playing",
       "match_status": "start",
-      "round3_points": 8
-    },
-    {
-      "official_fantasy_player_id": "1063",
-      "name": "Aubrey Modiba",
-      "team": "South Africa",
-      "team_id": "40",
-      "position": "DEF",
-      "selectable_status": "playing",
-      "match_status": "start",
-      "round3_points": 8
-    },
-    {
-      "official_fantasy_player_id": "1149",
-      "name": "Breel Embolo",
-      "team": "Switzerland",
-      "team_id": "43",
-      "position": "FWD",
-      "selectable_status": "playing",
-      "match_status": "start",
-      "round3_points": 8
+      "round3_points": 10
     }
   ],
   "role_lineup_evidence": {
     "completed_md3_team_ids": [
+      "12",
+      "14",
       "15",
+      "16",
+      "17",
+      "19",
+      "20",
       "22",
+      "23",
+      "24",
+      "25",
       "27",
       "28",
       "29",
+      "3",
+      "30",
+      "31",
+      "32",
+      "34",
       "36",
+      "37",
       "38",
+      "39",
       "40",
+      "41",
+      "42",
       "43",
+      "44",
+      "45",
+      "46",
+      "47",
+      "5",
       "6",
       "7",
+      "8",
       "9"
     ],
     "completed_md3_match_status_counts": {
-      "start": 132,
-      "sub": 170,
-      "not_in_squad": 85
+      "start": 396,
+      "not_in_squad": 211,
+      "sub": 513,
+      "none": 1
     }
   },
   "missing_tiebreaker_assumptions": [

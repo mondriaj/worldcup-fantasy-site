@@ -1,6 +1,6 @@
 # Public Preview Browser QA Report v1
 
-Generated: 2026-06-25T17:55:32.376Z
+Generated: 2026-06-27T16:49:43.813Z
 
 ## Verdict
 
@@ -45,7 +45,7 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | MD3 projection rows | 1233 |
 | Score fixtures | 72 |
 | Official records | 1489 |
-| Live fixtures | 73 |
+| Live fixtures | 81 |
 | Live players | 1489 |
 
 ## Console, Network, And Layout

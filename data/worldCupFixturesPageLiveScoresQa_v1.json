@@ -1,6 +1,6 @@
 {
   "schema_version": "world_cup_fixtures_page_live_scores_qa_v1",
-  "generated_at": "2026-06-25T17:54:13.682Z",
+  "generated_at": "2026-06-27T16:48:29.979Z",
   "status": "passed",
   "files": {
     "html": "world-cup.html",
@@ -15,19 +15,19 @@
   "summary": {
     "world_cup_fixture_count": 72,
     "rendered_fixture_rows": 72,
-    "live_fixture_count": 73,
+    "live_fixture_count": 81,
     "group_stage_live_fixture_count": 72,
-    "extra_live_fixture_count": 1,
+    "extra_live_fixture_count": 9,
     "completed_md1_fixture_count": 24,
     "completed_md1_final_scores_visible": 24,
     "completed_md2_fixture_count": 24,
     "completed_md2_final_scores_visible": 24,
-    "completed_md3_fixture_count": 6,
-    "completed_md3_final_scores_visible": 6,
+    "completed_md3_fixture_count": 18,
+    "completed_md3_final_scores_visible": 18,
     "playing_md3_fixture_count": 0,
     "playing_md3_fixtures_marked_live": 0,
-    "scheduled_fixture_count": 18,
-    "scheduled_fixtures_marked_scheduled": 18,
+    "scheduled_fixture_count": 6,
+    "scheduled_fixtures_marked_scheduled": 6,
     "unsafe_score_leak_count": 0,
     "duplicate_rendered_fixture_count": 0,
     "reversed_score_error_count": 0,
@@ -246,6 +246,14 @@
       "reversed": false
     },
     {
+      "match_number": 50,
+      "fixture": "Morocco vs Haiti",
+      "round_id": "3",
+      "expected_score_text": "MAR 4 - 2 HAI",
+      "visible": true,
+      "reversed": false
+    },
+    {
       "match_number": 49,
       "fixture": "Scotland vs Brazil",
       "round_id": "3",
@@ -254,10 +262,10 @@
       "reversed": false
     },
     {
-      "match_number": 50,
-      "fixture": "Morocco vs Haiti",
+      "match_number": 54,
+      "fixture": "South Africa vs Korea Republic",
       "round_id": "3",
-      "expected_score_text": "MAR 4 - 2 HAI",
+      "expected_score_text": "RSA 1 - 0 KOR",
       "visible": true,
       "reversed": false
     },
@@ -270,88 +278,104 @@
       "reversed": false
     },
     {
-      "match_number": 54,
-      "fixture": "South Africa vs Korea Republic",
+      "match_number": 55,
+      "fixture": "Curaçao vs Côte d'Ivoire",
       "round_id": "3",
-      "expected_score_text": "RSA 1 - 0 KOR",
+      "expected_score_text": "CUW 0 - 2 CIV",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 56,
+      "fixture": "Ecuador vs Germany",
+      "round_id": "3",
+      "expected_score_text": "ECU 2 - 1 GER",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 57,
+      "fixture": "Japan vs Sweden",
+      "round_id": "3",
+      "expected_score_text": "JPN 1 - 1 SWE",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 58,
+      "fixture": "Tunisia vs Netherlands",
+      "round_id": "3",
+      "expected_score_text": "TUN 1 - 3 NED",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 60,
+      "fixture": "Paraguay vs Australia",
+      "round_id": "3",
+      "expected_score_text": "PAR 0 - 0 AUS",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 59,
+      "fixture": "Türkiye vs USA",
+      "round_id": "3",
+      "expected_score_text": "TUR 3 - 2 USA",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 61,
+      "fixture": "Norway vs France",
+      "round_id": "3",
+      "expected_score_text": "NOR 1 - 4 FRA",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 62,
+      "fixture": "Senegal vs Iraq",
+      "round_id": "3",
+      "expected_score_text": "SEN 5 - 0 IRQ",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 65,
+      "fixture": "Cabo Verde vs Saudi Arabia",
+      "round_id": "3",
+      "expected_score_text": "CPV 0 - 0 KSA",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 66,
+      "fixture": "Uruguay vs Spain",
+      "round_id": "3",
+      "expected_score_text": "URU 0 - 1 ESP",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 64,
+      "fixture": "New Zealand vs Belgium",
+      "round_id": "3",
+      "expected_score_text": "NZL 1 - 5 BEL",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 63,
+      "fixture": "Egypt vs IR Iran",
+      "round_id": "3",
+      "expected_score_text": "EGY 1 - 1 IRN",
       "visible": true,
       "reversed": false
     }
   ],
   "playing_fixture_checks": [],
   "scheduled_fixture_sample": [
-    {
-      "match_number": 55,
-      "fixture": "Curaçao vs Côte d'Ivoire",
-      "marked_scheduled": true,
-      "shown_as_final": false
-    },
-    {
-      "match_number": 56,
-      "fixture": "Ecuador vs Germany",
-      "marked_scheduled": true,
-      "shown_as_final": false
-    },
-    {
-      "match_number": 58,
-      "fixture": "Tunisia vs Netherlands",
-      "marked_scheduled": true,
-      "shown_as_final": false
-    },
-    {
-      "match_number": 57,
-      "fixture": "Japan vs Sweden",
-      "marked_scheduled": true,
-      "shown_as_final": false
-    },
-    {
-      "match_number": 60,
-      "fixture": "Paraguay vs Australia",
-      "marked_scheduled": true,
-      "shown_as_final": false
-    },
-    {
-      "match_number": 59,
-      "fixture": "Türkiye vs USA",
-      "marked_scheduled": true,
-      "shown_as_final": false
-    },
-    {
-      "match_number": 61,
-      "fixture": "Norway vs France",
-      "marked_scheduled": true,
-      "shown_as_final": false
-    },
-    {
-      "match_number": 62,
-      "fixture": "Senegal vs Iraq",
-      "marked_scheduled": true,
-      "shown_as_final": false
-    },
-    {
-      "match_number": 65,
-      "fixture": "Cabo Verde vs Saudi Arabia",
-      "marked_scheduled": true,
-      "shown_as_final": false
-    },
-    {
-      "match_number": 66,
-      "fixture": "Uruguay vs Spain",
-      "marked_scheduled": true,
-      "shown_as_final": false
-    },
-    {
-      "match_number": 63,
-      "fixture": "Egypt vs IR Iran",
-      "marked_scheduled": true,
-      "shown_as_final": false
-    },
-    {
-      "match_number": 64,
-      "fixture": "New Zealand vs Belgium",
-      "marked_scheduled": true,
-      "shown_as_final": false
-    },
     {
       "match_number": 68,
       "fixture": "Croatia vs Ghana",
@@ -365,14 +389,14 @@
       "shown_as_final": false
     },
     {
-      "match_number": 71,
-      "fixture": "Colombia vs Portugal",
+      "match_number": 72,
+      "fixture": "Congo DR vs Uzbekistan",
       "marked_scheduled": true,
       "shown_as_final": false
     },
     {
-      "match_number": 72,
-      "fixture": "Congo DR vs Uzbekistan",
+      "match_number": 71,
+      "fixture": "Colombia vs Portugal",
       "marked_scheduled": true,
       "shown_as_final": false
     },
@@ -397,6 +421,78 @@
       "fixture_status": "scheduled",
       "score_status": "not_final_hidden",
       "teams": "South Africa vs Canada",
+      "safe_to_display_score": false
+    },
+    {
+      "source_fixture_id": "74",
+      "round_id": "4",
+      "round_stage": "R32",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "teams": "Brazil vs Japan",
+      "safe_to_display_score": false
+    },
+    {
+      "source_fixture_id": "78",
+      "round_id": "4",
+      "round_stage": "R32",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "teams": "Germany vs Paraguay",
+      "safe_to_display_score": false
+    },
+    {
+      "source_fixture_id": "75",
+      "round_id": "4",
+      "round_stage": "R32",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "teams": "Netherlands vs Morocco",
+      "safe_to_display_score": false
+    },
+    {
+      "source_fixture_id": "77",
+      "round_id": "4",
+      "round_stage": "R32",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "teams": "Côte d'Ivoire vs Norway",
+      "safe_to_display_score": false
+    },
+    {
+      "source_fixture_id": "79",
+      "round_id": "4",
+      "round_stage": "R32",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "teams": "France vs Sweden",
+      "safe_to_display_score": false
+    },
+    {
+      "source_fixture_id": "76",
+      "round_id": "4",
+      "round_stage": "R32",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "teams": "USA vs Bosnia and Herzegovina",
+      "safe_to_display_score": false
+    },
+    {
+      "source_fixture_id": "81",
+      "round_id": "4",
+      "round_stage": "R32",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "teams": "Australia vs Egypt",
+      "safe_to_display_score": false
+    },
+    {
+      "source_fixture_id": "80",
+      "round_id": "4",
+      "round_stage": "R32",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "teams": "Argentina vs Cabo Verde",
       "safe_to_display_score": false
     }
   ],

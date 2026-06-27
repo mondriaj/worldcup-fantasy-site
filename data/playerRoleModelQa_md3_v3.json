@@ -1,6 +1,6 @@
 {
   "schema_version": "player_role_model_qa_md3_v3",
-  "generated_at": "2026-06-25T17:30:57.500Z",
+  "generated_at": "2026-06-27T16:47:12.704Z",
   "status": "pass",
   "failures": [],
   "checks": {
@@ -21,29 +21,29 @@
     "excludedMd2PlayerEvidenceRows": 1,
     "unavailable_or_not_selectable_rows": 249,
     "role_tier_counts": {
-      "possible_starter": 153,
-      "rotation_risk": 268,
-      "locked_starter": 161,
-      "impact_sub": 285,
-      "likely_starter": 261,
-      "bench_depth": 106,
+      "possible_starter": 179,
+      "rotation_risk": 310,
+      "locked_starter": 162,
+      "impact_sub": 279,
+      "likely_starter": 190,
+      "bench_depth": 100,
       "unavailable_or_not_selectable": 249,
-      "not_in_squad_risk": 5,
+      "not_in_squad_risk": 19,
       "no_active_public_projection_identity": 1
     },
     "evidence_strength_counts": {
-      "strong": 306,
-      "medium": 933,
+      "strong": 927,
+      "medium": 312,
       "weak": 249,
       "coverage_only": 1
     },
     "md2_role_evidence_type_counts": {
-      "confirmed_sub_md2": 170,
-      "zero_or_missing_final_md2_points": 417,
-      "positive_final_md2_points": 516,
+      "confirmed_sub_md2": 513,
+      "zero_or_missing_final_md2_points": 137,
+      "positive_final_md2_points": 175,
       "unavailable_or_not_selectable": 249,
-      "confirmed_started_md2": 131,
-      "confirmed_not_in_squad_md2": 5,
+      "confirmed_started_md2": 395,
+      "confirmed_not_in_squad_md2": 19,
       "new_official_player_no_prior_projection": 1
     },
     "rotation_risk_counts": {
@@ -75,6 +75,94 @@
         "expectedMinutes": 72.8
       },
       {
+        "official_fantasy_player_id": "682",
+        "name": "Daichi Kamada",
+        "country": "Japan",
+        "position": "MID",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.892,
+        "expectedMinutes": 71.7
+      },
+      {
+        "official_fantasy_player_id": "543",
+        "name": "Florian Wirtz",
+        "country": "Germany",
+        "position": "MID",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.892,
+        "expectedMinutes": 71.7
+      },
+      {
+        "official_fantasy_player_id": "542",
+        "name": "Joshua Kimmich",
+        "country": "Germany",
+        "position": "DEF",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.892,
+        "expectedMinutes": 75.8
+      },
+      {
+        "official_fantasy_player_id": "500",
+        "name": "Kylian Mbappé",
+        "country": "France",
+        "position": "FWD",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.892,
+        "expectedMinutes": 67.8
+      },
+      {
+        "official_fantasy_player_id": "517",
+        "name": "Michael Olise",
+        "country": "France",
+        "position": "MID",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.892,
+        "expectedMinutes": 71.6
+      },
+      {
+        "official_fantasy_player_id": "1597",
+        "name": "Mohamed Salah Hamed Mahrous Ghaly",
+        "country": "Egypt",
+        "position": "MID",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.892,
+        "expectedMinutes": 72.8
+      },
+      {
+        "official_fantasy_player_id": "812",
+        "name": "Ryan Gravenberch",
+        "country": "Netherlands",
+        "position": "MID",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.892,
+        "expectedMinutes": 71.5
+      },
+      {
+        "official_fantasy_player_id": "1099",
+        "name": "Unai Simón",
+        "country": "Spain",
+        "position": "GK",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.892,
+        "expectedMinutes": 79.6
+      },
+      {
         "official_fantasy_player_id": "173",
         "name": "Vinícius José Paixão de Oliveira Júnior",
         "country": "Brazil",
@@ -84,6 +172,39 @@
         "captainScore": 0,
         "startProbability": 0.892,
         "expectedMinutes": 72.8
+      },
+      {
+        "official_fantasy_player_id": "796",
+        "name": "Virgil van Dijk",
+        "country": "Netherlands",
+        "position": "DEF",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.892,
+        "expectedMinutes": 76.9
+      },
+      {
+        "official_fantasy_player_id": "672",
+        "name": "Ayase Ueda",
+        "country": "Japan",
+        "position": "FWD",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.882,
+        "expectedMinutes": 69
+      },
+      {
+        "official_fantasy_player_id": "1086",
+        "name": "Aymeric Laporte",
+        "country": "Spain",
+        "position": "DEF",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.888,
+        "expectedMinutes": 75.1
       },
       {
         "official_fantasy_player_id": "2020",
@@ -106,6 +227,17 @@
         "captainScore": 0,
         "startProbability": 0.889,
         "expectedMinutes": 68.2
+      },
+      {
+        "official_fantasy_player_id": "1088",
+        "name": "Marc Cucurella",
+        "country": "Spain",
+        "position": "DEF",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.89,
+        "expectedMinutes": 75.4
       },
       {
         "official_fantasy_player_id": "1138",
@@ -141,147 +273,15 @@
         "expectedMinutes": 81
       },
       {
-        "official_fantasy_player_id": "188",
-        "name": "Carlos Henrique Casimiro",
-        "country": "Brazil",
-        "position": "MID",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.869,
-        "expectedMinutes": 67.8
-      },
-      {
-        "official_fantasy_player_id": "2012",
-        "name": "Achraf Hakimi",
-        "country": "Morocco",
-        "position": "DEF",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.86,
-        "expectedMinutes": 75.6
-      },
-      {
-        "official_fantasy_player_id": "856",
-        "name": "Alexander Sørloth",
-        "country": "Norway",
-        "position": "FWD",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.775,
-        "expectedMinutes": 60.2
-      },
-      {
-        "official_fantasy_player_id": "56",
-        "name": "Alexis Mac Allister",
-        "country": "Argentina",
-        "position": "MID",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.865,
-        "expectedMinutes": 70.9
-      },
-      {
-        "official_fantasy_player_id": "672",
-        "name": "Ayase Ueda",
-        "country": "Japan",
-        "position": "FWD",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.863,
-        "expectedMinutes": 67.1
-      },
-      {
-        "official_fantasy_player_id": "1086",
-        "name": "Aymeric Laporte",
-        "country": "Spain",
-        "position": "DEF",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.865,
-        "expectedMinutes": 73.3
-      },
-      {
-        "official_fantasy_player_id": "262",
-        "name": "Camilo Vargas",
-        "country": "Colombia",
+        "official_fantasy_player_id": "809",
+        "name": "Bart Verbruggen",
+        "country": "Netherlands",
         "position": "GK",
         "projectedPoints": 0,
         "riskAdjustedPoints": 0,
         "captainScore": 0,
-        "startProbability": 0.861,
+        "startProbability": 0.869,
         "expectedMinutes": 79.6
-      },
-      {
-        "official_fantasy_player_id": "804",
-        "name": "Cody Gakpo",
-        "country": "Netherlands",
-        "position": "FWD",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.861,
-        "expectedMinutes": 66.9
-      },
-      {
-        "official_fantasy_player_id": "28",
-        "name": "Cristian Romero",
-        "country": "Argentina",
-        "position": "DEF",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.744,
-        "expectedMinutes": 66.4
-      },
-      {
-        "official_fantasy_player_id": "682",
-        "name": "Daichi Kamada",
-        "country": "Japan",
-        "position": "MID",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.865,
-        "expectedMinutes": 69.8
-      },
-      {
-        "official_fantasy_player_id": "248",
-        "name": "Daniel Muñoz",
-        "country": "Colombia",
-        "position": "DEF",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.865,
-        "expectedMinutes": 75.4
-      },
-      {
-        "official_fantasy_player_id": "250",
-        "name": "Dávinson Sánchez",
-        "country": "Colombia",
-        "position": "DEF",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.861,
-        "expectedMinutes": 75.4
-      },
-      {
-        "official_fantasy_player_id": "488",
-        "name": "Declan Rice",
-        "country": "England",
-        "position": "MID",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.865,
-        "expectedMinutes": 70.1
       }
     ],
     "top_downgraded_due_to_repeated_underperformance": [
@@ -315,8 +315,8 @@
         "projectedPoints": 0,
         "riskAdjustedPoints": 0,
         "captainScore": 0,
-        "startProbability": 0.587,
-        "expectedMinutes": 50.2
+        "startProbability": 0.602,
+        "expectedMinutes": 51.6
       },
       {
         "official_fantasy_player_id": "129",
@@ -326,8 +326,8 @@
         "projectedPoints": 0,
         "riskAdjustedPoints": 0,
         "captainScore": 0,
-        "startProbability": 0.843,
-        "expectedMinutes": 68.4
+        "startProbability": 0.912,
+        "expectedMinutes": 74.4
       },
       {
         "official_fantasy_player_id": "1323",
@@ -348,8 +348,8 @@
         "projectedPoints": 0,
         "riskAdjustedPoints": 0,
         "captainScore": 0,
-        "startProbability": 0.587,
-        "expectedMinutes": 50.2
+        "startProbability": 0.427,
+        "expectedMinutes": 39.7
       },
       {
         "official_fantasy_player_id": "1236",
@@ -359,8 +359,8 @@
         "projectedPoints": 0,
         "riskAdjustedPoints": 0,
         "captainScore": 0,
-        "startProbability": 0.85,
-        "expectedMinutes": 66.1
+        "startProbability": 0.862,
+        "expectedMinutes": 67.9
       },
       {
         "official_fantasy_player_id": "125",
@@ -370,8 +370,8 @@
         "projectedPoints": 0,
         "riskAdjustedPoints": 0,
         "captainScore": 0,
-        "startProbability": 0.852,
-        "expectedMinutes": 69.5
+        "startProbability": 0.92,
+        "expectedMinutes": 75.6
       },
       {
         "official_fantasy_player_id": "457",
@@ -392,8 +392,8 @@
         "projectedPoints": 0,
         "riskAdjustedPoints": 0,
         "captainScore": 0,
-        "startProbability": 0.716,
-        "expectedMinutes": 61.8
+        "startProbability": 0.775,
+        "expectedMinutes": 67.1
       },
       {
         "official_fantasy_player_id": "1229",
@@ -403,8 +403,8 @@
         "projectedPoints": 0,
         "riskAdjustedPoints": 0,
         "captainScore": 0,
-        "startProbability": 0.798,
-        "expectedMinutes": 69.8
+        "startProbability": 0.862,
+        "expectedMinutes": 75.6
       },
       {
         "official_fantasy_player_id": "670",
@@ -414,8 +414,8 @@
         "projectedPoints": 0,
         "riskAdjustedPoints": 0,
         "captainScore": 0,
-        "startProbability": 0.62,
-        "expectedMinutes": 53.1
+        "startProbability": 0.677,
+        "expectedMinutes": 58.1
       },
       {
         "official_fantasy_player_id": "39",
@@ -436,8 +436,8 @@
         "projectedPoints": 0,
         "riskAdjustedPoints": 0,
         "captainScore": 0,
-        "startProbability": 0.549,
-        "expectedMinutes": 45.3
+        "startProbability": 0.526,
+        "expectedMinutes": 43.4
       },
       {
         "official_fantasy_player_id": "178",
@@ -491,8 +491,8 @@
         "projectedPoints": 0,
         "riskAdjustedPoints": 0,
         "captainScore": 0,
-        "startProbability": 0.594,
-        "expectedMinutes": 50.2
+        "startProbability": 0.609,
+        "expectedMinutes": 51.7
       },
       {
         "official_fantasy_player_id": "397",
@@ -530,6 +530,17 @@
         "expectedMinutes": 56.3
       },
       {
+        "official_fantasy_player_id": "816",
+        "name": "Tijjani Reijnders",
+        "country": "Netherlands",
+        "position": "MID",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.684,
+        "expectedMinutes": 55.3
+      },
+      {
         "official_fantasy_player_id": "457",
         "name": "Nico O'Reilly",
         "country": "England",
@@ -541,17 +552,6 @@
         "expectedMinutes": 57.9
       },
       {
-        "official_fantasy_player_id": "816",
-        "name": "Tijjani Reijnders",
-        "country": "Netherlands",
-        "position": "MID",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.669,
-        "expectedMinutes": 53.9
-      },
-      {
         "official_fantasy_player_id": "805",
         "name": "Donyell Malen",
         "country": "Netherlands",
@@ -559,8 +559,8 @@
         "projectedPoints": 0,
         "riskAdjustedPoints": 0,
         "captainScore": 0,
-        "startProbability": 0.594,
-        "expectedMinutes": 50.2
+        "startProbability": 0.609,
+        "expectedMinutes": 51.7
       },
       {
         "official_fantasy_player_id": "505",
@@ -570,30 +570,8 @@
         "projectedPoints": 0,
         "riskAdjustedPoints": 0,
         "captainScore": 0,
-        "startProbability": 0.587,
-        "expectedMinutes": 50.2
-      },
-      {
-        "official_fantasy_player_id": "1998",
-        "name": "Fabián Ruiz",
-        "country": "Spain",
-        "position": "MID",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.587,
-        "expectedMinutes": 50.2
-      },
-      {
-        "official_fantasy_player_id": "1093",
-        "name": "Ferran Torres",
-        "country": "Spain",
-        "position": "FWD",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.587,
-        "expectedMinutes": 50.2
+        "startProbability": 0.602,
+        "expectedMinutes": 51.6
       },
       {
         "official_fantasy_player_id": "259",
@@ -629,6 +607,17 @@
         "expectedMinutes": 62.1
       },
       {
+        "official_fantasy_player_id": "1997",
+        "name": "Mikel Merino",
+        "country": "Spain",
+        "position": "MID",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.496,
+        "expectedMinutes": 44.1
+      },
+      {
         "official_fantasy_player_id": "1536",
         "name": "Josko Gvardiol",
         "country": "Croatia",
@@ -662,26 +651,26 @@
         "expectedMinutes": 66.4
       },
       {
-        "official_fantasy_player_id": "526",
-        "name": "Nico Schlotterbeck",
-        "country": "Germany",
+        "official_fantasy_player_id": "1236",
+        "name": "Darwin Núñez",
+        "country": "Uruguay",
+        "position": "FWD",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.862,
+        "expectedMinutes": 67.9
+      },
+      {
+        "official_fantasy_player_id": "1229",
+        "name": "Mathías Olivera",
+        "country": "Uruguay",
         "position": "DEF",
         "projectedPoints": 0,
         "riskAdjustedPoints": 0,
         "captainScore": 0,
-        "startProbability": 0.744,
-        "expectedMinutes": 64
-      },
-      {
-        "official_fantasy_player_id": "1997",
-        "name": "Mikel Merino",
-        "country": "Spain",
-        "position": "MID",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.481,
-        "expectedMinutes": 42.7
+        "startProbability": 0.862,
+        "expectedMinutes": 75.6
       },
       {
         "official_fantasy_player_id": "397",
@@ -695,17 +684,6 @@
         "expectedMinutes": 70.8
       },
       {
-        "official_fantasy_player_id": "1236",
-        "name": "Darwin Núñez",
-        "country": "Uruguay",
-        "position": "FWD",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.85,
-        "expectedMinutes": 66.1
-      },
-      {
         "official_fantasy_player_id": "1230",
         "name": "Guillermo Varela",
         "country": "Uruguay",
@@ -713,22 +691,99 @@
         "projectedPoints": 0,
         "riskAdjustedPoints": 0,
         "captainScore": 0,
-        "startProbability": 0.835,
-        "expectedMinutes": 72.3
+        "startProbability": 0.853,
+        "expectedMinutes": 74.1
       },
       {
-        "official_fantasy_player_id": "2000",
-        "name": "Nico Williams",
+        "official_fantasy_player_id": "336",
+        "name": "Petar Musa",
+        "country": "Croatia",
+        "position": "FWD",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.686,
+        "expectedMinutes": 60
+      },
+      {
+        "official_fantasy_player_id": "13",
+        "name": "Anis Hadj Moussa",
+        "country": "Algeria",
+        "position": "FWD",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.677,
+        "expectedMinutes": 59.9
+      },
+      {
+        "official_fantasy_player_id": "1998",
+        "name": "Fabián Ruiz",
         "country": "Spain",
         "position": "MID",
         "projectedPoints": 0,
         "riskAdjustedPoints": 0,
         "captainScore": 0,
-        "startProbability": 0.451,
-        "expectedMinutes": 38.4
+        "startProbability": 0.427,
+        "expectedMinutes": 39.7
       }
     ],
     "players_preserved_because_team_must_play_strong": [
+      {
+        "official_fantasy_player_id": "428",
+        "name": "Alan Franco",
+        "country": "Ecuador",
+        "position": "MID",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.98,
+        "expectedMinutes": 81.4
+      },
+      {
+        "official_fantasy_player_id": "412",
+        "name": "Enner Valencia",
+        "country": "Ecuador",
+        "position": "FWD",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.98,
+        "expectedMinutes": 77
+      },
+      {
+        "official_fantasy_player_id": "1248",
+        "name": "Federico Valverde",
+        "country": "Uruguay",
+        "position": "MID",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.98,
+        "expectedMinutes": 81.4
+      },
+      {
+        "official_fantasy_player_id": "1555",
+        "name": "Hannibal Mejbri",
+        "country": "Tunisia",
+        "position": "MID",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.98,
+        "expectedMinutes": 78.7
+      },
+      {
+        "official_fantasy_player_id": "423",
+        "name": "Hernán Galíndez",
+        "country": "Ecuador",
+        "position": "GK",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.98,
+        "expectedMinutes": 91.2
+      },
       {
         "official_fantasy_player_id": "1549",
         "name": "In-Beom Hwang",
@@ -752,6 +807,105 @@
         "expectedMinutes": 81
       },
       {
+        "official_fantasy_player_id": "1224",
+        "name": "Manuel Ugarte",
+        "country": "Uruguay",
+        "position": "MID",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.98,
+        "expectedMinutes": 80.4
+      },
+      {
+        "official_fantasy_player_id": "1223",
+        "name": "Maxi Araújo",
+        "country": "Uruguay",
+        "position": "MID",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.98,
+        "expectedMinutes": 81.5
+      },
+      {
+        "official_fantasy_player_id": "430",
+        "name": "Moisés Caicedo",
+        "country": "Ecuador",
+        "position": "MID",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.98,
+        "expectedMinutes": 81.4
+      },
+      {
+        "official_fantasy_player_id": "2052",
+        "name": "Piero Hincapié",
+        "country": "Ecuador",
+        "position": "DEF",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.98,
+        "expectedMinutes": 85.9
+      },
+      {
+        "official_fantasy_player_id": "2053",
+        "name": "Willian Pacho",
+        "country": "Ecuador",
+        "position": "DEF",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.98,
+        "expectedMinutes": 86.4
+      },
+      {
+        "official_fantasy_player_id": "317",
+        "name": "Yahia Fofana",
+        "country": "Côte d'Ivoire",
+        "position": "GK",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.98,
+        "expectedMinutes": 90.7
+      },
+      {
+        "official_fantasy_player_id": "413",
+        "name": "Gonzalo Plata",
+        "country": "Ecuador",
+        "position": "FWD",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.979,
+        "expectedMinutes": 76.4
+      },
+      {
+        "official_fantasy_player_id": "429",
+        "name": "Pedro Vite",
+        "country": "Ecuador",
+        "position": "MID",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.979,
+        "expectedMinutes": 80.1
+      },
+      {
+        "official_fantasy_player_id": "2064",
+        "name": "Rodrigo Bentancur",
+        "country": "Uruguay",
+        "position": "MID",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.979,
+        "expectedMinutes": 80.1
+      },
+      {
         "official_fantasy_player_id": "958",
         "name": "Akram Hassan Afif Yahya Afif",
         "country": "Qatar",
@@ -763,6 +917,28 @@
         "expectedMinutes": 77.3
       },
       {
+        "official_fantasy_player_id": "1551",
+        "name": "Montassar Talbi",
+        "country": "Tunisia",
+        "position": "DEF",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.978,
+        "expectedMinutes": 80.3
+      },
+      {
+        "official_fantasy_player_id": "1955",
+        "name": "Salem bin Mohammed bin Shafi Al Dawsari",
+        "country": "Saudi Arabia",
+        "position": "MID",
+        "projectedPoints": 0,
+        "riskAdjustedPoints": 0,
+        "captainScore": 0,
+        "startProbability": 0.978,
+        "expectedMinutes": 81.3
+      },
+      {
         "official_fantasy_player_id": "139",
         "name": "Sead Kolasinac",
         "country": "Bosnia and Herzegovina",
@@ -772,182 +948,6 @@
         "captainScore": 0,
         "startProbability": 0.978,
         "expectedMinutes": 83.4
-      },
-      {
-        "official_fantasy_player_id": "153",
-        "name": "Nikola Vasilj",
-        "country": "Bosnia and Herzegovina",
-        "position": "GK",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.974,
-        "expectedMinutes": 91.2
-      },
-      {
-        "official_fantasy_player_id": "1077",
-        "name": "Ronwen Williams",
-        "country": "South Africa",
-        "position": "GK",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.974,
-        "expectedMinutes": 91.2
-      },
-      {
-        "official_fantasy_player_id": "387",
-        "name": "Matej Kovár",
-        "country": "Czechia",
-        "position": "GK",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.971,
-        "expectedMinutes": 90.7
-      },
-      {
-        "official_fantasy_player_id": "573",
-        "name": "Danley Jean Jacques",
-        "country": "Haiti",
-        "position": "MID",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.969,
-        "expectedMinutes": 80.1
-      },
-      {
-        "official_fantasy_player_id": "952",
-        "name": "Boualem Khoukhi",
-        "country": "Qatar",
-        "position": "DEF",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.968,
-        "expectedMinutes": 85.4
-      },
-      {
-        "official_fantasy_player_id": "1306",
-        "name": "Eldor Shomurodov",
-        "country": "Uzbekistan",
-        "position": "FWD",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.968,
-        "expectedMinutes": 75.3
-      },
-      {
-        "official_fantasy_player_id": "1223",
-        "name": "Maxi Araújo",
-        "country": "Uruguay",
-        "position": "MID",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.968,
-        "expectedMinutes": 79.4
-      },
-      {
-        "official_fantasy_player_id": "949",
-        "name": "Pedro Miguel Carvalho Deus Correia",
-        "country": "Qatar",
-        "position": "DEF",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.968,
-        "expectedMinutes": 85.4
-      },
-      {
-        "official_fantasy_player_id": "199",
-        "name": "Steven Moreira",
-        "country": "Cabo Verde",
-        "position": "DEF",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.968,
-        "expectedMinutes": 82.7
-      },
-      {
-        "official_fantasy_player_id": "380",
-        "name": "Vladimír Coufal",
-        "country": "Czechia",
-        "position": "DEF",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.968,
-        "expectedMinutes": 85.4
-      },
-      {
-        "official_fantasy_player_id": "317",
-        "name": "Yahia Fofana",
-        "country": "Côte d'Ivoire",
-        "position": "GK",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.968,
-        "expectedMinutes": 88.7
-      },
-      {
-        "official_fantasy_player_id": "281",
-        "name": "Yoane Wissa",
-        "country": "Congo DR",
-        "position": "FWD",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.968,
-        "expectedMinutes": 74
-      },
-      {
-        "official_fantasy_player_id": "428",
-        "name": "Alan Franco",
-        "country": "Ecuador",
-        "position": "MID",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.967,
-        "expectedMinutes": 79.3
-      },
-      {
-        "official_fantasy_player_id": "1248",
-        "name": "Federico Valverde",
-        "country": "Uruguay",
-        "position": "MID",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.967,
-        "expectedMinutes": 79.3
-      },
-      {
-        "official_fantasy_player_id": "430",
-        "name": "Moisés Caicedo",
-        "country": "Ecuador",
-        "position": "MID",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.967,
-        "expectedMinutes": 79.3
-      },
-      {
-        "official_fantasy_player_id": "577",
-        "name": "Ricardo Adé",
-        "country": "Haiti",
-        "position": "DEF",
-        "projectedPoints": 0,
-        "riskAdjustedPoints": 0,
-        "captainScore": 0,
-        "startProbability": 0.967,
-        "expectedMinutes": 85.3
       }
     ],
     "md2InProgressPlayerPointsUsed": false,
@@ -967,6 +967,94 @@
       "expectedMinutes": 72.8
     },
     {
+      "official_fantasy_player_id": "682",
+      "name": "Daichi Kamada",
+      "country": "Japan",
+      "position": "MID",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.892,
+      "expectedMinutes": 71.7
+    },
+    {
+      "official_fantasy_player_id": "543",
+      "name": "Florian Wirtz",
+      "country": "Germany",
+      "position": "MID",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.892,
+      "expectedMinutes": 71.7
+    },
+    {
+      "official_fantasy_player_id": "542",
+      "name": "Joshua Kimmich",
+      "country": "Germany",
+      "position": "DEF",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.892,
+      "expectedMinutes": 75.8
+    },
+    {
+      "official_fantasy_player_id": "500",
+      "name": "Kylian Mbappé",
+      "country": "France",
+      "position": "FWD",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.892,
+      "expectedMinutes": 67.8
+    },
+    {
+      "official_fantasy_player_id": "517",
+      "name": "Michael Olise",
+      "country": "France",
+      "position": "MID",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.892,
+      "expectedMinutes": 71.6
+    },
+    {
+      "official_fantasy_player_id": "1597",
+      "name": "Mohamed Salah Hamed Mahrous Ghaly",
+      "country": "Egypt",
+      "position": "MID",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.892,
+      "expectedMinutes": 72.8
+    },
+    {
+      "official_fantasy_player_id": "812",
+      "name": "Ryan Gravenberch",
+      "country": "Netherlands",
+      "position": "MID",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.892,
+      "expectedMinutes": 71.5
+    },
+    {
+      "official_fantasy_player_id": "1099",
+      "name": "Unai Simón",
+      "country": "Spain",
+      "position": "GK",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.892,
+      "expectedMinutes": 79.6
+    },
+    {
       "official_fantasy_player_id": "173",
       "name": "Vinícius José Paixão de Oliveira Júnior",
       "country": "Brazil",
@@ -976,6 +1064,39 @@
       "captainScore": 0,
       "startProbability": 0.892,
       "expectedMinutes": 72.8
+    },
+    {
+      "official_fantasy_player_id": "796",
+      "name": "Virgil van Dijk",
+      "country": "Netherlands",
+      "position": "DEF",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.892,
+      "expectedMinutes": 76.9
+    },
+    {
+      "official_fantasy_player_id": "672",
+      "name": "Ayase Ueda",
+      "country": "Japan",
+      "position": "FWD",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.882,
+      "expectedMinutes": 69
+    },
+    {
+      "official_fantasy_player_id": "1086",
+      "name": "Aymeric Laporte",
+      "country": "Spain",
+      "position": "DEF",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.888,
+      "expectedMinutes": 75.1
     },
     {
       "official_fantasy_player_id": "2020",
@@ -998,6 +1119,17 @@
       "captainScore": 0,
       "startProbability": 0.889,
       "expectedMinutes": 68.2
+    },
+    {
+      "official_fantasy_player_id": "1088",
+      "name": "Marc Cucurella",
+      "country": "Spain",
+      "position": "DEF",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.89,
+      "expectedMinutes": 75.4
     },
     {
       "official_fantasy_player_id": "1138",
@@ -1033,147 +1165,15 @@
       "expectedMinutes": 81
     },
     {
-      "official_fantasy_player_id": "188",
-      "name": "Carlos Henrique Casimiro",
-      "country": "Brazil",
-      "position": "MID",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.869,
-      "expectedMinutes": 67.8
-    },
-    {
-      "official_fantasy_player_id": "2012",
-      "name": "Achraf Hakimi",
-      "country": "Morocco",
-      "position": "DEF",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.86,
-      "expectedMinutes": 75.6
-    },
-    {
-      "official_fantasy_player_id": "856",
-      "name": "Alexander Sørloth",
-      "country": "Norway",
-      "position": "FWD",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.775,
-      "expectedMinutes": 60.2
-    },
-    {
-      "official_fantasy_player_id": "56",
-      "name": "Alexis Mac Allister",
-      "country": "Argentina",
-      "position": "MID",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.865,
-      "expectedMinutes": 70.9
-    },
-    {
-      "official_fantasy_player_id": "672",
-      "name": "Ayase Ueda",
-      "country": "Japan",
-      "position": "FWD",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.863,
-      "expectedMinutes": 67.1
-    },
-    {
-      "official_fantasy_player_id": "1086",
-      "name": "Aymeric Laporte",
-      "country": "Spain",
-      "position": "DEF",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.865,
-      "expectedMinutes": 73.3
-    },
-    {
-      "official_fantasy_player_id": "262",
-      "name": "Camilo Vargas",
-      "country": "Colombia",
+      "official_fantasy_player_id": "809",
+      "name": "Bart Verbruggen",
+      "country": "Netherlands",
       "position": "GK",
       "projectedPoints": 0,
       "riskAdjustedPoints": 0,
       "captainScore": 0,
-      "startProbability": 0.861,
+      "startProbability": 0.869,
       "expectedMinutes": 79.6
-    },
-    {
-      "official_fantasy_player_id": "804",
-      "name": "Cody Gakpo",
-      "country": "Netherlands",
-      "position": "FWD",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.861,
-      "expectedMinutes": 66.9
-    },
-    {
-      "official_fantasy_player_id": "28",
-      "name": "Cristian Romero",
-      "country": "Argentina",
-      "position": "DEF",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.744,
-      "expectedMinutes": 66.4
-    },
-    {
-      "official_fantasy_player_id": "682",
-      "name": "Daichi Kamada",
-      "country": "Japan",
-      "position": "MID",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.865,
-      "expectedMinutes": 69.8
-    },
-    {
-      "official_fantasy_player_id": "248",
-      "name": "Daniel Muñoz",
-      "country": "Colombia",
-      "position": "DEF",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.865,
-      "expectedMinutes": 75.4
-    },
-    {
-      "official_fantasy_player_id": "250",
-      "name": "Dávinson Sánchez",
-      "country": "Colombia",
-      "position": "DEF",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.861,
-      "expectedMinutes": 75.4
-    },
-    {
-      "official_fantasy_player_id": "488",
-      "name": "Declan Rice",
-      "country": "England",
-      "position": "MID",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.865,
-      "expectedMinutes": 70.1
     }
   ],
   "top_downgraded_players_due_to_injury_suspension_status": [
@@ -1422,6 +1422,17 @@
       "expectedMinutes": 56.3
     },
     {
+      "official_fantasy_player_id": "816",
+      "name": "Tijjani Reijnders",
+      "country": "Netherlands",
+      "position": "MID",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.684,
+      "expectedMinutes": 55.3
+    },
+    {
       "official_fantasy_player_id": "457",
       "name": "Nico O'Reilly",
       "country": "England",
@@ -1433,17 +1444,6 @@
       "expectedMinutes": 57.9
     },
     {
-      "official_fantasy_player_id": "816",
-      "name": "Tijjani Reijnders",
-      "country": "Netherlands",
-      "position": "MID",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.669,
-      "expectedMinutes": 53.9
-    },
-    {
       "official_fantasy_player_id": "805",
       "name": "Donyell Malen",
       "country": "Netherlands",
@@ -1451,8 +1451,8 @@
       "projectedPoints": 0,
       "riskAdjustedPoints": 0,
       "captainScore": 0,
-      "startProbability": 0.594,
-      "expectedMinutes": 50.2
+      "startProbability": 0.609,
+      "expectedMinutes": 51.7
     },
     {
       "official_fantasy_player_id": "505",
@@ -1462,30 +1462,8 @@
       "projectedPoints": 0,
       "riskAdjustedPoints": 0,
       "captainScore": 0,
-      "startProbability": 0.587,
-      "expectedMinutes": 50.2
-    },
-    {
-      "official_fantasy_player_id": "1998",
-      "name": "Fabián Ruiz",
-      "country": "Spain",
-      "position": "MID",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.587,
-      "expectedMinutes": 50.2
-    },
-    {
-      "official_fantasy_player_id": "1093",
-      "name": "Ferran Torres",
-      "country": "Spain",
-      "position": "FWD",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.587,
-      "expectedMinutes": 50.2
+      "startProbability": 0.602,
+      "expectedMinutes": 51.6
     },
     {
       "official_fantasy_player_id": "259",
@@ -1521,6 +1499,17 @@
       "expectedMinutes": 62.1
     },
     {
+      "official_fantasy_player_id": "1997",
+      "name": "Mikel Merino",
+      "country": "Spain",
+      "position": "MID",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.496,
+      "expectedMinutes": 44.1
+    },
+    {
       "official_fantasy_player_id": "1536",
       "name": "Josko Gvardiol",
       "country": "Croatia",
@@ -1554,26 +1543,26 @@
       "expectedMinutes": 66.4
     },
     {
-      "official_fantasy_player_id": "526",
-      "name": "Nico Schlotterbeck",
-      "country": "Germany",
+      "official_fantasy_player_id": "1236",
+      "name": "Darwin Núñez",
+      "country": "Uruguay",
+      "position": "FWD",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.862,
+      "expectedMinutes": 67.9
+    },
+    {
+      "official_fantasy_player_id": "1229",
+      "name": "Mathías Olivera",
+      "country": "Uruguay",
       "position": "DEF",
       "projectedPoints": 0,
       "riskAdjustedPoints": 0,
       "captainScore": 0,
-      "startProbability": 0.744,
-      "expectedMinutes": 64
-    },
-    {
-      "official_fantasy_player_id": "1997",
-      "name": "Mikel Merino",
-      "country": "Spain",
-      "position": "MID",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.481,
-      "expectedMinutes": 42.7
+      "startProbability": 0.862,
+      "expectedMinutes": 75.6
     },
     {
       "official_fantasy_player_id": "397",
@@ -1587,17 +1576,6 @@
       "expectedMinutes": 70.8
     },
     {
-      "official_fantasy_player_id": "1236",
-      "name": "Darwin Núñez",
-      "country": "Uruguay",
-      "position": "FWD",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.85,
-      "expectedMinutes": 66.1
-    },
-    {
       "official_fantasy_player_id": "1230",
       "name": "Guillermo Varela",
       "country": "Uruguay",
@@ -1605,19 +1583,41 @@
       "projectedPoints": 0,
       "riskAdjustedPoints": 0,
       "captainScore": 0,
-      "startProbability": 0.835,
-      "expectedMinutes": 72.3
+      "startProbability": 0.853,
+      "expectedMinutes": 74.1
     },
     {
-      "official_fantasy_player_id": "2000",
-      "name": "Nico Williams",
+      "official_fantasy_player_id": "336",
+      "name": "Petar Musa",
+      "country": "Croatia",
+      "position": "FWD",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.686,
+      "expectedMinutes": 60
+    },
+    {
+      "official_fantasy_player_id": "13",
+      "name": "Anis Hadj Moussa",
+      "country": "Algeria",
+      "position": "FWD",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.677,
+      "expectedMinutes": 59.9
+    },
+    {
+      "official_fantasy_player_id": "1998",
+      "name": "Fabián Ruiz",
       "country": "Spain",
       "position": "MID",
       "projectedPoints": 0,
       "riskAdjustedPoints": 0,
       "captainScore": 0,
-      "startProbability": 0.451,
-      "expectedMinutes": 38.4
+      "startProbability": 0.427,
+      "expectedMinutes": 39.7
     }
   ],
   "top_downgraded_players_due_to_repeated_underperformance": [
@@ -1651,8 +1651,8 @@
       "projectedPoints": 0,
       "riskAdjustedPoints": 0,
       "captainScore": 0,
-      "startProbability": 0.587,
-      "expectedMinutes": 50.2
+      "startProbability": 0.602,
+      "expectedMinutes": 51.6
     },
     {
       "official_fantasy_player_id": "129",
@@ -1662,8 +1662,8 @@
       "projectedPoints": 0,
       "riskAdjustedPoints": 0,
       "captainScore": 0,
-      "startProbability": 0.843,
-      "expectedMinutes": 68.4
+      "startProbability": 0.912,
+      "expectedMinutes": 74.4
     },
     {
       "official_fantasy_player_id": "1323",
@@ -1684,8 +1684,8 @@
       "projectedPoints": 0,
       "riskAdjustedPoints": 0,
       "captainScore": 0,
-      "startProbability": 0.587,
-      "expectedMinutes": 50.2
+      "startProbability": 0.427,
+      "expectedMinutes": 39.7
     },
     {
       "official_fantasy_player_id": "1236",
@@ -1695,8 +1695,8 @@
       "projectedPoints": 0,
       "riskAdjustedPoints": 0,
       "captainScore": 0,
-      "startProbability": 0.85,
-      "expectedMinutes": 66.1
+      "startProbability": 0.862,
+      "expectedMinutes": 67.9
     },
     {
       "official_fantasy_player_id": "125",
@@ -1706,8 +1706,8 @@
       "projectedPoints": 0,
       "riskAdjustedPoints": 0,
       "captainScore": 0,
-      "startProbability": 0.852,
-      "expectedMinutes": 69.5
+      "startProbability": 0.92,
+      "expectedMinutes": 75.6
     },
     {
       "official_fantasy_player_id": "457",
@@ -1728,8 +1728,8 @@
       "projectedPoints": 0,
       "riskAdjustedPoints": 0,
       "captainScore": 0,
-      "startProbability": 0.716,
-      "expectedMinutes": 61.8
+      "startProbability": 0.775,
+      "expectedMinutes": 67.1
     },
     {
       "official_fantasy_player_id": "1229",
@@ -1739,8 +1739,8 @@
       "projectedPoints": 0,
       "riskAdjustedPoints": 0,
       "captainScore": 0,
-      "startProbability": 0.798,
-      "expectedMinutes": 69.8
+      "startProbability": 0.862,
+      "expectedMinutes": 75.6
     },
     {
       "official_fantasy_player_id": "670",
@@ -1750,8 +1750,8 @@
       "projectedPoints": 0,
       "riskAdjustedPoints": 0,
       "captainScore": 0,
-      "startProbability": 0.62,
-      "expectedMinutes": 53.1
+      "startProbability": 0.677,
+      "expectedMinutes": 58.1
     },
     {
       "official_fantasy_player_id": "39",
@@ -1772,8 +1772,8 @@
       "projectedPoints": 0,
       "riskAdjustedPoints": 0,
       "captainScore": 0,
-      "startProbability": 0.549,
-      "expectedMinutes": 45.3
+      "startProbability": 0.526,
+      "expectedMinutes": 43.4
     },
     {
       "official_fantasy_player_id": "178",
@@ -1827,8 +1827,8 @@
       "projectedPoints": 0,
       "riskAdjustedPoints": 0,
       "captainScore": 0,
-      "startProbability": 0.594,
-      "expectedMinutes": 50.2
+      "startProbability": 0.609,
+      "expectedMinutes": 51.7
     },
     {
       "official_fantasy_player_id": "397",
@@ -1843,6 +1843,61 @@
     }
   ],
   "players_preserved_because_team_must_play_strong": [
+    {
+      "official_fantasy_player_id": "428",
+      "name": "Alan Franco",
+      "country": "Ecuador",
+      "position": "MID",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.98,
+      "expectedMinutes": 81.4
+    },
+    {
+      "official_fantasy_player_id": "412",
+      "name": "Enner Valencia",
+      "country": "Ecuador",
+      "position": "FWD",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.98,
+      "expectedMinutes": 77
+    },
+    {
+      "official_fantasy_player_id": "1248",
+      "name": "Federico Valverde",
+      "country": "Uruguay",
+      "position": "MID",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.98,
+      "expectedMinutes": 81.4
+    },
+    {
+      "official_fantasy_player_id": "1555",
+      "name": "Hannibal Mejbri",
+      "country": "Tunisia",
+      "position": "MID",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.98,
+      "expectedMinutes": 78.7
+    },
+    {
+      "official_fantasy_player_id": "423",
+      "name": "Hernán Galíndez",
+      "country": "Ecuador",
+      "position": "GK",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.98,
+      "expectedMinutes": 91.2
+    },
     {
       "official_fantasy_player_id": "1549",
       "name": "In-Beom Hwang",
@@ -1866,6 +1921,105 @@
       "expectedMinutes": 81
     },
     {
+      "official_fantasy_player_id": "1224",
+      "name": "Manuel Ugarte",
+      "country": "Uruguay",
+      "position": "MID",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.98,
+      "expectedMinutes": 80.4
+    },
+    {
+      "official_fantasy_player_id": "1223",
+      "name": "Maxi Araújo",
+      "country": "Uruguay",
+      "position": "MID",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.98,
+      "expectedMinutes": 81.5
+    },
+    {
+      "official_fantasy_player_id": "430",
+      "name": "Moisés Caicedo",
+      "country": "Ecuador",
+      "position": "MID",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.98,
+      "expectedMinutes": 81.4
+    },
+    {
+      "official_fantasy_player_id": "2052",
+      "name": "Piero Hincapié",
+      "country": "Ecuador",
+      "position": "DEF",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.98,
+      "expectedMinutes": 85.9
+    },
+    {
+      "official_fantasy_player_id": "2053",
+      "name": "Willian Pacho",
+      "country": "Ecuador",
+      "position": "DEF",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.98,
+      "expectedMinutes": 86.4
+    },
+    {
+      "official_fantasy_player_id": "317",
+      "name": "Yahia Fofana",
+      "country": "Côte d'Ivoire",
+      "position": "GK",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.98,
+      "expectedMinutes": 90.7
+    },
+    {
+      "official_fantasy_player_id": "413",
+      "name": "Gonzalo Plata",
+      "country": "Ecuador",
+      "position": "FWD",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.979,
+      "expectedMinutes": 76.4
+    },
+    {
+      "official_fantasy_player_id": "429",
+      "name": "Pedro Vite",
+      "country": "Ecuador",
+      "position": "MID",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.979,
+      "expectedMinutes": 80.1
+    },
+    {
+      "official_fantasy_player_id": "2064",
+      "name": "Rodrigo Bentancur",
+      "country": "Uruguay",
+      "position": "MID",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.979,
+      "expectedMinutes": 80.1
+    },
+    {
       "official_fantasy_player_id": "958",
       "name": "Akram Hassan Afif Yahya Afif",
       "country": "Qatar",
@@ -1877,6 +2031,28 @@
       "expectedMinutes": 77.3
     },
     {
+      "official_fantasy_player_id": "1551",
+      "name": "Montassar Talbi",
+      "country": "Tunisia",
+      "position": "DEF",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.978,
+      "expectedMinutes": 80.3
+    },
+    {
+      "official_fantasy_player_id": "1955",
+      "name": "Salem bin Mohammed bin Shafi Al Dawsari",
+      "country": "Saudi Arabia",
+      "position": "MID",
+      "projectedPoints": 0,
+      "riskAdjustedPoints": 0,
+      "captainScore": 0,
+      "startProbability": 0.978,
+      "expectedMinutes": 81.3
+    },
+    {
       "official_fantasy_player_id": "139",
       "name": "Sead Kolasinac",
       "country": "Bosnia and Herzegovina",
@@ -1886,182 +2062,6 @@
       "captainScore": 0,
       "startProbability": 0.978,
       "expectedMinutes": 83.4
-    },
-    {
-      "official_fantasy_player_id": "153",
-      "name": "Nikola Vasilj",
-      "country": "Bosnia and Herzegovina",
-      "position": "GK",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.974,
-      "expectedMinutes": 91.2
-    },
-    {
-      "official_fantasy_player_id": "1077",
-      "name": "Ronwen Williams",
-      "country": "South Africa",
-      "position": "GK",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.974,
-      "expectedMinutes": 91.2
-    },
-    {
-      "official_fantasy_player_id": "387",
-      "name": "Matej Kovár",
-      "country": "Czechia",
-      "position": "GK",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.971,
-      "expectedMinutes": 90.7
-    },
-    {
-      "official_fantasy_player_id": "573",
-      "name": "Danley Jean Jacques",
-      "country": "Haiti",
-      "position": "MID",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.969,
-      "expectedMinutes": 80.1
-    },
-    {
-      "official_fantasy_player_id": "952",
-      "name": "Boualem Khoukhi",
-      "country": "Qatar",
-      "position": "DEF",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.968,
-      "expectedMinutes": 85.4
-    },
-    {
-      "official_fantasy_player_id": "1306",
-      "name": "Eldor Shomurodov",
-      "country": "Uzbekistan",
-      "position": "FWD",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.968,
-      "expectedMinutes": 75.3
-    },
-    {
-      "official_fantasy_player_id": "1223",
-      "name": "Maxi Araújo",
-      "country": "Uruguay",
-      "position": "MID",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.968,
-      "expectedMinutes": 79.4
-    },
-    {
-      "official_fantasy_player_id": "949",
-      "name": "Pedro Miguel Carvalho Deus Correia",
-      "country": "Qatar",
-      "position": "DEF",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.968,
-      "expectedMinutes": 85.4
-    },
-    {
-      "official_fantasy_player_id": "199",
-      "name": "Steven Moreira",
-      "country": "Cabo Verde",
-      "position": "DEF",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.968,
-      "expectedMinutes": 82.7
-    },
-    {
-      "official_fantasy_player_id": "380",
-      "name": "Vladimír Coufal",
-      "country": "Czechia",
-      "position": "DEF",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.968,
-      "expectedMinutes": 85.4
-    },
-    {
-      "official_fantasy_player_id": "317",
-      "name": "Yahia Fofana",
-      "country": "Côte d'Ivoire",
-      "position": "GK",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.968,
-      "expectedMinutes": 88.7
-    },
-    {
-      "official_fantasy_player_id": "281",
-      "name": "Yoane Wissa",
-      "country": "Congo DR",
-      "position": "FWD",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.968,
-      "expectedMinutes": 74
-    },
-    {
-      "official_fantasy_player_id": "428",
-      "name": "Alan Franco",
-      "country": "Ecuador",
-      "position": "MID",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.967,
-      "expectedMinutes": 79.3
-    },
-    {
-      "official_fantasy_player_id": "1248",
-      "name": "Federico Valverde",
-      "country": "Uruguay",
-      "position": "MID",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.967,
-      "expectedMinutes": 79.3
-    },
-    {
-      "official_fantasy_player_id": "430",
-      "name": "Moisés Caicedo",
-      "country": "Ecuador",
-      "position": "MID",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.967,
-      "expectedMinutes": 79.3
-    },
-    {
-      "official_fantasy_player_id": "577",
-      "name": "Ricardo Adé",
-      "country": "Haiti",
-      "position": "DEF",
-      "projectedPoints": 0,
-      "riskAdjustedPoints": 0,
-      "captainScore": 0,
-      "startProbability": 0.967,
-      "expectedMinutes": 85.3
     }
   ]
 }

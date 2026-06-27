@@ -1,6 +1,6 @@
 {
   "schema_version": "player_projection_qa_md3_v5",
-  "generated_at": "2026-06-25T17:31:01.289Z",
+  "generated_at": "2026-06-27T16:47:18.045Z",
   "status": "pass",
   "failures": [],
   "checks": {
@@ -32,11 +32,11 @@
       "country": "France",
       "position": "MID",
       "opponent": "Norway",
-      "projectedPoints": 8.515,
-      "riskAdjustedPoints": 8.016,
+      "projectedPoints": 8.576,
+      "riskAdjustedPoints": 8.085,
       "captainScore": 22.69,
-      "startProbability": 0.865,
-      "expectedMinutes": 69.7
+      "startProbability": 0.892,
+      "expectedMinutes": 71.6
     },
     {
       "official_fantasy_player_id": "500",
@@ -44,11 +44,11 @@
       "country": "France",
       "position": "FWD",
       "opponent": "Norway",
-      "projectedPoints": 8.228,
-      "riskAdjustedPoints": 7.738,
+      "projectedPoints": 8.288,
+      "riskAdjustedPoints": 7.806,
       "captainScore": 22.221,
-      "startProbability": 0.865,
-      "expectedMinutes": 66
+      "startProbability": 0.892,
+      "expectedMinutes": 67.8
     },
     {
       "official_fantasy_player_id": "501",
@@ -56,11 +56,11 @@
       "country": "France",
       "position": "MID",
       "opponent": "Norway",
-      "projectedPoints": 8.155,
-      "riskAdjustedPoints": 7.576,
+      "projectedPoints": 8.204,
+      "riskAdjustedPoints": 7.629,
       "captainScore": 20.988,
-      "startProbability": 0.734,
-      "expectedMinutes": 62.7
+      "startProbability": 0.752,
+      "expectedMinutes": 64.5
     },
     {
       "official_fantasy_player_id": "792",
@@ -80,11 +80,11 @@
       "country": "Senegal",
       "position": "MID",
       "opponent": "Iraq",
-      "projectedPoints": 7.937,
-      "riskAdjustedPoints": 7.462,
+      "projectedPoints": 7.995,
+      "riskAdjustedPoints": 7.525,
       "captainScore": 23.538,
-      "startProbability": 0.953,
-      "expectedMinutes": 78.7
+      "startProbability": 0.974,
+      "expectedMinutes": 80.8
     },
     {
       "official_fantasy_player_id": "468",
@@ -104,11 +104,11 @@
       "country": "Germany",
       "position": "MID",
       "opponent": "Ecuador",
-      "projectedPoints": 7.564,
-      "riskAdjustedPoints": 7.039,
+      "projectedPoints": 7.614,
+      "riskAdjustedPoints": 7.093,
       "captainScore": 18.674,
-      "startProbability": 0.734,
-      "expectedMinutes": 62.7
+      "startProbability": 0.752,
+      "expectedMinutes": 64.5
     },
     {
       "official_fantasy_player_id": "173",
@@ -123,28 +123,16 @@
       "expectedMinutes": 72.8
     },
     {
-      "official_fantasy_player_id": "1041",
-      "name": "Nicolas Jackson",
-      "country": "Senegal",
-      "position": "FWD",
-      "opponent": "Iraq",
-      "projectedPoints": 7.522,
-      "riskAdjustedPoints": 7.007,
-      "captainScore": 22.634,
-      "startProbability": 0.827,
-      "expectedMinutes": 70.2
-    },
-    {
       "official_fantasy_player_id": "1092",
       "name": "Lamine Yamal Nasraoui Ebana",
       "country": "Spain",
       "position": "MID",
       "opponent": "Uruguay",
-      "projectedPoints": 7.385,
-      "riskAdjustedPoints": 6.887,
+      "projectedPoints": 7.436,
+      "riskAdjustedPoints": 6.943,
       "captainScore": 18.622,
-      "startProbability": 0.61,
-      "expectedMinutes": 53.5
+      "startProbability": 0.629,
+      "expectedMinutes": 55.3
     },
     {
       "official_fantasy_player_id": "491",
@@ -159,28 +147,16 @@
       "expectedMinutes": 69.4
     },
     {
-      "official_fantasy_player_id": "300",
-      "name": "Wilfried Singo",
-      "country": "Côte d'Ivoire",
-      "position": "DEF",
-      "opponent": "Curaçao",
-      "projectedPoints": 7.313,
-      "riskAdjustedPoints": 6.894,
-      "captainScore": 20.326,
-      "startProbability": 0.811,
-      "expectedMinutes": 70.1
-    },
-    {
       "official_fantasy_player_id": "672",
       "name": "Ayase Ueda",
       "country": "Japan",
       "position": "FWD",
       "opponent": "Sweden",
-      "projectedPoints": 7.277,
-      "riskAdjustedPoints": 6.807,
+      "projectedPoints": 7.329,
+      "riskAdjustedPoints": 6.863,
       "captainScore": 20.382,
-      "startProbability": 0.863,
-      "expectedMinutes": 67.1
+      "startProbability": 0.882,
+      "expectedMinutes": 69
     },
     {
       "official_fantasy_player_id": "2012",
@@ -195,6 +171,18 @@
       "expectedMinutes": 75.6
     },
     {
+      "official_fantasy_player_id": "138",
+      "name": "Kevin De Bruyne",
+      "country": "Belgium",
+      "position": "MID",
+      "opponent": "New Zealand",
+      "projectedPoints": 7.089,
+      "riskAdjustedPoints": 6.777,
+      "captainScore": 20.722,
+      "startProbability": 0.975,
+      "expectedMinutes": 79.6
+    },
+    {
       "official_fantasy_player_id": "57",
       "name": "Enzo Fernández",
       "country": "Argentina",
@@ -207,16 +195,16 @@
       "expectedMinutes": 70.9
     },
     {
-      "official_fantasy_player_id": "138",
-      "name": "Kevin De Bruyne",
-      "country": "Belgium",
-      "position": "MID",
-      "opponent": "New Zealand",
-      "projectedPoints": 7.031,
-      "riskAdjustedPoints": 6.713,
-      "captainScore": 20.722,
-      "startProbability": 0.954,
-      "expectedMinutes": 77.5
+      "official_fantasy_player_id": "1041",
+      "name": "Nicolas Jackson",
+      "country": "Senegal",
+      "position": "FWD",
+      "opponent": "Iraq",
+      "projectedPoints": 7.019,
+      "riskAdjustedPoints": 6.448,
+      "captainScore": 22.634,
+      "startProbability": 0.597,
+      "expectedMinutes": 55.6
     },
     {
       "official_fantasy_player_id": "317",
@@ -224,23 +212,11 @@
       "country": "Côte d'Ivoire",
       "position": "GK",
       "opponent": "Curaçao",
-      "projectedPoints": 6.908,
-      "riskAdjustedPoints": 6.607,
+      "projectedPoints": 6.954,
+      "riskAdjustedPoints": 6.656,
       "captainScore": 19.41,
-      "startProbability": 0.968,
-      "expectedMinutes": 88.7
-    },
-    {
-      "official_fantasy_player_id": "304",
-      "name": "Emmanuel Agbadou",
-      "country": "Côte d'Ivoire",
-      "position": "DEF",
-      "opponent": "Curaçao",
-      "projectedPoints": 6.885,
-      "riskAdjustedPoints": 6.586,
-      "captainScore": 19.913,
-      "startProbability": 0.958,
-      "expectedMinutes": 81.3
+      "startProbability": 0.98,
+      "expectedMinutes": 90.7
     },
     {
       "official_fantasy_player_id": "750",
@@ -253,6 +229,30 @@
       "captainScore": 17.553,
       "startProbability": 0.743,
       "expectedMinutes": 64.5
+    },
+    {
+      "official_fantasy_player_id": "300",
+      "name": "Wilfried Singo",
+      "country": "Côte d'Ivoire",
+      "position": "DEF",
+      "opponent": "Curaçao",
+      "projectedPoints": 6.83,
+      "riskAdjustedPoints": 6.354,
+      "captainScore": 20.326,
+      "startProbability": 0.597,
+      "expectedMinutes": 55.6
+    },
+    {
+      "official_fantasy_player_id": "795",
+      "name": "Denzel Dumfries",
+      "country": "Netherlands",
+      "position": "DEF",
+      "opponent": "Tunisia",
+      "projectedPoints": 6.726,
+      "riskAdjustedPoints": 6.379,
+      "captainScore": 17.558,
+      "startProbability": 0.869,
+      "expectedMinutes": 75.7
     }
   ],
   "explicitPlayerAudits": [

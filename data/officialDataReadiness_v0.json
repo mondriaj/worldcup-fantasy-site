@@ -23,9 +23,9 @@
     "proxy_price_rows": 1339,
     "price_adjusted_finance_rows": 0,
     "official_fantasy_import_pipeline_status": "imported_needs_manual_review",
-    "official_fantasy_import_rows": 1489,
+    "official_fantasy_import_rows": 1482,
     "official_fantasy_import_matched_rows": 996,
-    "official_fantasy_import_unmatched_rows": 493,
+    "official_fantasy_import_unmatched_rows": 486,
     "official_fantasy_import_error_rows": 0,
     "official_fantasy_rules_import_pipeline_status": "imported_needs_manual_review",
     "official_squads_import_pipeline_status": "imported_needs_manual_review"

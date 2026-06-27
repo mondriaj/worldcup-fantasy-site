@@ -1,26 +1,20 @@
 {
   "schema_version": "r32_player_readiness_staging_v1",
-  "generated_at": "2026-06-25T17:53:54.578Z",
+  "generated_at": "2026-06-27T16:47:59.530Z",
   "status": "partial_official_source_staging_only",
   "public_promotion": "blocked_md3_public_default",
-  "source_fixture_count": 1,
+  "source_fixture_count": 9,
   "team_status": [
     {
       "team": "South Africa",
       "team_id": "40",
       "official_player_count": 32,
       "selectable_status_counts": {
-        "playing": 24,
-        "suspended": 2,
+        "playing": 25,
+        "suspended": 1,
         "transferred": 6
       },
       "players_newly_injured_suspended_not_selectable": [
-        {
-          "official_fantasy_player_id": "1058",
-          "name": "Teboho Mokoena",
-          "position": "MID",
-          "selectable_status": "suspended"
-        },
         {
           "official_fantasy_player_id": "1059",
           "name": "Themba Zwane",
@@ -46,83 +40,346 @@
           "selectable_status": "injured"
         }
       ]
+    },
+    {
+      "team": "Brazil",
+      "team_id": "7",
+      "official_player_count": 27,
+      "selectable_status_counts": {
+        "playing": 26,
+        "transferred": 1
+      },
+      "players_newly_injured_suspended_not_selectable": []
+    },
+    {
+      "team": "Japan",
+      "team_id": "25",
+      "official_player_count": 28,
+      "selectable_status_counts": {
+        "playing": 26,
+        "transferred": 2
+      },
+      "players_newly_injured_suspended_not_selectable": []
+    },
+    {
+      "team": "Germany",
+      "team_id": "20",
+      "official_player_count": 28,
+      "selectable_status_counts": {
+        "transferred": 2,
+        "playing": 26
+      },
+      "players_newly_injured_suspended_not_selectable": []
+    },
+    {
+      "team": "Paraguay",
+      "team_id": "34",
+      "official_player_count": 55,
+      "selectable_status_counts": {
+        "playing": 25,
+        "transferred": 29,
+        "suspended": 1
+      },
+      "players_newly_injured_suspended_not_selectable": [
+        {
+          "official_fantasy_player_id": "913",
+          "name": "Diego Gómez",
+          "position": "MID",
+          "selectable_status": "suspended"
+        }
+      ]
+    },
+    {
+      "team": "Netherlands",
+      "team_id": "30",
+      "official_player_count": 35,
+      "selectable_status_counts": {
+        "transferred": 9,
+        "playing": 26
+      },
+      "players_newly_injured_suspended_not_selectable": []
+    },
+    {
+      "team": "Morocco",
+      "team_id": "29",
+      "official_player_count": 46,
+      "selectable_status_counts": {
+        "playing": 26,
+        "transferred": 20
+      },
+      "players_newly_injured_suspended_not_selectable": []
+    },
+    {
+      "team": "Côte d'Ivoire",
+      "team_id": "12",
+      "official_player_count": 27,
+      "selectable_status_counts": {
+        "playing": 26,
+        "transferred": 1
+      },
+      "players_newly_injured_suspended_not_selectable": []
+    },
+    {
+      "team": "Norway",
+      "team_id": "32",
+      "official_player_count": 26,
+      "selectable_status_counts": {
+        "playing": 26
+      },
+      "players_newly_injured_suspended_not_selectable": []
+    },
+    {
+      "team": "France",
+      "team_id": "19",
+      "official_player_count": 26,
+      "selectable_status_counts": {
+        "playing": 26
+      },
+      "players_newly_injured_suspended_not_selectable": []
+    },
+    {
+      "team": "Sweden",
+      "team_id": "42",
+      "official_player_count": 28,
+      "selectable_status_counts": {
+        "playing": 26,
+        "transferred": 2
+      },
+      "players_newly_injured_suspended_not_selectable": []
+    },
+    {
+      "team": "USA",
+      "team_id": "47",
+      "official_player_count": 31,
+      "selectable_status_counts": {
+        "playing": 26,
+        "transferred": 5
+      },
+      "players_newly_injured_suspended_not_selectable": []
+    },
+    {
+      "team": "Bosnia and Herzegovina",
+      "team_id": "6",
+      "official_player_count": 28,
+      "selectable_status_counts": {
+        "playing": 27,
+        "transferred": 1
+      },
+      "players_newly_injured_suspended_not_selectable": []
+    },
+    {
+      "team": "Australia",
+      "team_id": "3",
+      "official_player_count": 36,
+      "selectable_status_counts": {
+        "playing": 26,
+        "transferred": 10
+      },
+      "players_newly_injured_suspended_not_selectable": []
+    },
+    {
+      "team": "Egypt",
+      "team_id": "17",
+      "official_player_count": 27,
+      "selectable_status_counts": {
+        "playing": 26,
+        "transferred": 1
+      },
+      "players_newly_injured_suspended_not_selectable": []
+    },
+    {
+      "team": "Argentina",
+      "team_id": "2",
+      "official_player_count": 55,
+      "selectable_status_counts": {
+        "playing": 26,
+        "transferred": 29
+      },
+      "players_newly_injured_suspended_not_selectable": []
+    },
+    {
+      "team": "Cabo Verde",
+      "team_id": "8",
+      "official_player_count": 26,
+      "selectable_status_counts": {
+        "playing": 25,
+        "suspended": 1
+      },
+      "players_newly_injured_suspended_not_selectable": [
+        {
+          "official_fantasy_player_id": "203",
+          "name": "Sidny Lopes Cabral",
+          "position": "DEF",
+          "selectable_status": "suspended"
+        }
+      ]
     }
   ],
   "top_md3_form_players": [
     {
-      "official_fantasy_player_id": "1065",
-      "name": "Khuliso Mudau",
-      "team": "South Africa",
-      "team_id": "40",
-      "position": "DEF",
+      "official_fantasy_player_id": "501",
+      "name": "Ousmane Dembélé",
+      "team": "France",
+      "team_id": "19",
+      "position": "MID",
       "selectable_status": "playing",
       "match_status": "start",
-      "round3_points": 9
+      "round3_points": 20
     },
     {
-      "official_fantasy_player_id": "1067",
-      "name": "Mbekezeli Mbokazi",
-      "team": "South Africa",
-      "team_id": "40",
-      "position": "DEF",
+      "official_fantasy_player_id": "173",
+      "name": "Vinícius José Paixão de Oliveira Júnior",
+      "team": "Brazil",
+      "team_id": "7",
+      "position": "MID",
       "selectable_status": "playing",
       "match_status": "start",
-      "round3_points": 9
+      "round3_points": 15
     },
     {
-      "official_fantasy_player_id": "1069",
-      "name": "Ime Okon",
-      "team": "South Africa",
-      "team_id": "40",
-      "position": "DEF",
-      "selectable_status": "playing",
-      "match_status": "start",
-      "round3_points": 9
-    },
-    {
-      "official_fantasy_player_id": "1076",
-      "name": "Thapelo Maseko",
-      "team": "South Africa",
-      "team_id": "40",
+      "official_fantasy_player_id": "308",
+      "name": "Nicolas Pépé",
+      "team": "Côte d'Ivoire",
+      "team_id": "12",
       "position": "FWD",
       "selectable_status": "playing",
       "match_status": "start",
-      "round3_points": 9
+      "round3_points": 14
     },
     {
-      "official_fantasy_player_id": "1077",
-      "name": "Ronwen Williams",
-      "team": "South Africa",
-      "team_id": "40",
-      "position": "GK",
+      "official_fantasy_player_id": "1250",
+      "name": "Sebastian Berhalter",
+      "team": "USA",
+      "team_id": "47",
+      "position": "MID",
       "selectable_status": "playing",
       "match_status": "start",
-      "round3_points": 9
+      "round3_points": 13
     },
     {
-      "official_fantasy_player_id": "1970",
-      "name": "Promise David",
-      "team": "Canada",
-      "team_id": "9",
+      "official_fantasy_player_id": "1361",
+      "name": "Bruno Guimarães Rodriguez Moura",
+      "team": "Brazil",
+      "team_id": "7",
+      "position": "MID",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 12
+    },
+    {
+      "official_fantasy_player_id": "670",
+      "name": "Daizen Maeda",
+      "team": "Japan",
+      "team_id": "25",
+      "position": "MID",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 11
+    },
+    {
+      "official_fantasy_player_id": "802",
+      "name": "Jan Paul van Hecke",
+      "team": "Netherlands",
+      "team_id": "30",
+      "position": "DEF",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 11
+    },
+    {
+      "official_fantasy_player_id": "1682",
+      "name": "Thelo Aasgaard",
+      "team": "Norway",
+      "team_id": "32",
+      "position": "MID",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 11
+    },
+    {
+      "official_fantasy_player_id": "2012",
+      "name": "Achraf Hakimi",
+      "team": "Morocco",
+      "team_id": "29",
+      "position": "DEF",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 11
+    },
+    {
+      "official_fantasy_player_id": "2023",
+      "name": "Soufiane Rahimi",
+      "team": "Morocco",
+      "team_id": "29",
       "position": "FWD",
       "selectable_status": "playing",
       "match_status": "sub",
-      "round3_points": 9
+      "round3_points": 11
     },
     {
-      "official_fantasy_player_id": "1063",
-      "name": "Aubrey Modiba",
-      "team": "South Africa",
-      "team_id": "40",
-      "position": "DEF",
+      "official_fantasy_player_id": "174",
+      "name": "Matheus Santos Carneiro da Cunha",
+      "team": "Brazil",
+      "team_id": "7",
+      "position": "FWD",
       "selectable_status": "playing",
       "match_status": "start",
-      "round3_points": 8
+      "round3_points": 10
+    },
+    {
+      "official_fantasy_player_id": "214",
+      "name": "Josimar José Évora Dias",
+      "team": "Cabo Verde",
+      "team_id": "8",
+      "position": "GK",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 10
+    },
+    {
+      "official_fantasy_player_id": "505",
+      "name": "Désiré Doué",
+      "team": "France",
+      "team_id": "19",
+      "position": "MID",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 10
+    },
+    {
+      "official_fantasy_player_id": "529",
+      "name": "Leroy Sané",
+      "team": "Germany",
+      "team_id": "20",
+      "position": "MID",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 10
+    },
+    {
+      "official_fantasy_player_id": "910",
+      "name": "Orlando Gill",
+      "team": "Paraguay",
+      "team_id": "34",
+      "position": "GK",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 10
+    },
+    {
+      "official_fantasy_player_id": "1125",
+      "name": "Anthony Elanga",
+      "team": "Sweden",
+      "team_id": "42",
+      "position": "FWD",
+      "selectable_status": "playing",
+      "match_status": "start",
+      "round3_points": 10
     }
   ],
   "new_player_notes": [
     "Arjan Malic (official id 2079) is incorporated as zero role/projection coverage: no_active_public_projection_identity.",
-    "R32 staging impact today: no_direct_r32_staging_effect_today."
+    "R32 staging impact today: monitor_if_bosnia_r32_slot_remains_source_backed."
   ],
   "safeguards": [
     "No R32 public UI promotion.",

@@ -1,6 +1,6 @@
 {
   "schema_version": "live_fixture_mapping_qa_v1",
-  "generated_at": "2026-06-25T17:54:13.674Z",
+  "generated_at": "2026-06-27T16:48:29.982Z",
   "status": "passed",
   "files": {
     "localFixtures": "data/fixtures.json",
@@ -14,24 +14,24 @@
   },
   "summary": {
     "total_local_fixtures": 72,
-    "total_live_fixtures": 73,
+    "total_live_fixtures": 81,
     "group_stage_live_fixtures": 72,
-    "extra_live_fixtures": 1,
+    "extra_live_fixtures": 9,
     "total_score_prediction_fixtures": 72,
     "matched_fixtures": 72,
-    "final_fixtures_shown": 54,
+    "final_fixtures_shown": 66,
     "in_progress_fixtures_suppressed": 0,
-    "scheduled_fixtures": 19,
-    "unmatched_fixtures": 1,
+    "scheduled_fixtures": 15,
+    "unmatched_fixtures": 9,
     "ambiguous_fixtures": 0,
     "reversed_mappings": 0,
     "mapping_status_counts": {
       "matched": 72,
-      "unmatched": 1
+      "unmatched": 9
     },
     "mapping_orientation_counts": {
       "direct": 72,
-      "unknown": 1
+      "unknown": 9
     },
     "unsafe_fixture_player_point_leak_count": 0
   },
@@ -120,6 +120,78 @@
       "fixture_status": "scheduled",
       "score_status": "not_final_hidden",
       "teams": "South Africa vs Canada",
+      "safe_to_display_score": false
+    },
+    {
+      "source_fixture_id": "74",
+      "round_id": "4",
+      "round_stage": "R32",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "teams": "Brazil vs Japan",
+      "safe_to_display_score": false
+    },
+    {
+      "source_fixture_id": "78",
+      "round_id": "4",
+      "round_stage": "R32",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "teams": "Germany vs Paraguay",
+      "safe_to_display_score": false
+    },
+    {
+      "source_fixture_id": "75",
+      "round_id": "4",
+      "round_stage": "R32",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "teams": "Netherlands vs Morocco",
+      "safe_to_display_score": false
+    },
+    {
+      "source_fixture_id": "77",
+      "round_id": "4",
+      "round_stage": "R32",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "teams": "Côte d'Ivoire vs Norway",
+      "safe_to_display_score": false
+    },
+    {
+      "source_fixture_id": "79",
+      "round_id": "4",
+      "round_stage": "R32",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "teams": "France vs Sweden",
+      "safe_to_display_score": false
+    },
+    {
+      "source_fixture_id": "76",
+      "round_id": "4",
+      "round_stage": "R32",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "teams": "USA vs Bosnia and Herzegovina",
+      "safe_to_display_score": false
+    },
+    {
+      "source_fixture_id": "81",
+      "round_id": "4",
+      "round_stage": "R32",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "teams": "Australia vs Egypt",
+      "safe_to_display_score": false
+    },
+    {
+      "source_fixture_id": "80",
+      "round_id": "4",
+      "round_stage": "R32",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "teams": "Argentina vs Cabo Verde",
       "safe_to_display_score": false
     }
   ],

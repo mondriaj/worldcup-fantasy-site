@@ -1,6 +1,6 @@
 # Player Projection QA MD3 v5
 
-Generated: 2026-06-25T17:31:01.289Z
+Generated: 2026-06-27T16:47:18.045Z
 
 Status: **pass**
 
@@ -19,25 +19,25 @@ Status: **pass**
 | Rank | Player | Team | Pos | Opponent | Projected | Start |
 | ---: | --- | --- | --- | --- | ---: | ---: |
 | 1 | Lionel Messi | Argentina | FWD | Jordan | 9.074 | 0.865 |
-| 2 | Michael Olise | France | MID | Norway | 8.515 | 0.865 |
-| 3 | Kylian Mbappé | France | FWD | Norway | 8.228 | 0.865 |
-| 4 | Ousmane Dembélé | France | MID | Norway | 8.155 | 0.734 |
+| 2 | Michael Olise | France | MID | Norway | 8.576 | 0.892 |
+| 3 | Kylian Mbappé | France | FWD | Norway | 8.288 | 0.892 |
+| 4 | Ousmane Dembélé | France | MID | Norway | 8.204 | 0.752 |
 | 5 | Ismael Saibari | Morocco | MID | Haiti | 8.146 | 0.757 |
-| 6 | Sadio Mané | Senegal | MID | Iraq | 7.937 | 0.953 |
+| 6 | Sadio Mané | Senegal | MID | Iraq | 7.995 | 0.974 |
 | 7 | Harry Kane | England | FWD | Panama | 7.736 | 0.865 |
-| 8 | Jamal Musiala | Germany | MID | Ecuador | 7.564 | 0.734 |
+| 8 | Jamal Musiala | Germany | MID | Ecuador | 7.614 | 0.752 |
 | 9 | Vinícius José Paixão de Oliveira Júnior | Brazil | MID | Scotland | 7.538 | 0.892 |
-| 10 | Nicolas Jackson | Senegal | FWD | Iraq | 7.522 | 0.827 |
-| 11 | Lamine Yamal Nasraoui Ebana | Spain | MID | Uruguay | 7.385 | 0.61 |
-| 12 | Jude Bellingham | England | MID | Panama | 7.374 | 0.865 |
-| 13 | Wilfried Singo | Côte d'Ivoire | DEF | Curaçao | 7.313 | 0.811 |
-| 14 | Ayase Ueda | Japan | FWD | Sweden | 7.277 | 0.863 |
-| 15 | Achraf Hakimi | Morocco | DEF | Haiti | 7.124 | 0.86 |
-| 16 | Enzo Fernández | Argentina | MID | Jordan | 7.049 | 0.864 |
-| 17 | Kevin De Bruyne | Belgium | MID | New Zealand | 7.031 | 0.954 |
-| 18 | Yahia Fofana | Côte d'Ivoire | GK | Curaçao | 6.908 | 0.968 |
-| 19 | Emmanuel Agbadou | Côte d'Ivoire | DEF | Curaçao | 6.885 | 0.958 |
-| 20 | Julián Quiñones | Mexico | FWD | Czechia | 6.882 | 0.743 |
+| 10 | Lamine Yamal Nasraoui Ebana | Spain | MID | Uruguay | 7.436 | 0.629 |
+| 11 | Jude Bellingham | England | MID | Panama | 7.374 | 0.865 |
+| 12 | Ayase Ueda | Japan | FWD | Sweden | 7.329 | 0.882 |
+| 13 | Achraf Hakimi | Morocco | DEF | Haiti | 7.124 | 0.86 |
+| 14 | Kevin De Bruyne | Belgium | MID | New Zealand | 7.089 | 0.975 |
+| 15 | Enzo Fernández | Argentina | MID | Jordan | 7.049 | 0.864 |
+| 16 | Nicolas Jackson | Senegal | FWD | Iraq | 7.019 | 0.597 |
+| 17 | Yahia Fofana | Côte d'Ivoire | GK | Curaçao | 6.954 | 0.98 |
+| 18 | Julián Quiñones | Mexico | FWD | Czechia | 6.882 | 0.743 |
+| 19 | Wilfried Singo | Côte d'Ivoire | DEF | Curaçao | 6.83 | 0.597 |
+| 20 | Denzel Dumfries | Netherlands | DEF | Tunisia | 6.726 | 0.869 |
 
 ## Explicit Audits
 

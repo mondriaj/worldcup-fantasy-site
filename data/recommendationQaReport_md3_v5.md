@@ -1,6 +1,6 @@
 # Recommendation QA MD3 v5
 
-Generated: 2026-06-25T17:31:06.746Z
+Generated: 2026-06-27T16:47:23.282Z
 
 Status: **pass**
 
@@ -20,27 +20,27 @@ Status: **pass**
 | Rank | Player | Team | Pos | Opponent | Projected | Start |
 | ---: | --- | --- | --- | --- | ---: | ---: |
 | 1 | Lionel Messi | Argentina | FWD | Jordan | 9.074 | 0.865 |
-| 2 | Michael Olise | France | MID | Norway | 8.515 | 0.865 |
-| 3 | Kylian Mbappé | France | FWD | Norway | 8.228 | 0.865 |
-| 4 | Ousmane Dembélé | France | MID | Norway | 8.155 | 0.734 |
+| 2 | Michael Olise | France | MID | Norway | 8.576 | 0.892 |
+| 3 | Kylian Mbappé | France | FWD | Norway | 8.288 | 0.892 |
+| 4 | Ousmane Dembélé | France | MID | Norway | 8.204 | 0.752 |
 | 5 | Ismael Saibari | Morocco | MID | Haiti | 8.146 | 0.757 |
-| 6 | Sadio Mané | Senegal | MID | Iraq | 7.937 | 0.953 |
+| 6 | Sadio Mané | Senegal | MID | Iraq | 7.995 | 0.974 |
 | 7 | Harry Kane | England | FWD | Panama | 7.736 | 0.865 |
-| 8 | Jamal Musiala | Germany | MID | Ecuador | 7.564 | 0.734 |
+| 8 | Jamal Musiala | Germany | MID | Ecuador | 7.614 | 0.752 |
 | 9 | Vinícius José Paixão de Oliveira Júnior | Brazil | MID | Scotland | 7.538 | 0.892 |
-| 10 | Nicolas Jackson | Senegal | FWD | Iraq | 7.522 | 0.827 |
-| 11 | Lamine Yamal Nasraoui Ebana | Spain | MID | Uruguay | 7.385 | 0.61 |
-| 12 | Jude Bellingham | England | MID | Panama | 7.374 | 0.865 |
-| 13 | Wilfried Singo | Côte d'Ivoire | DEF | Curaçao | 7.313 | 0.811 |
-| 14 | Ayase Ueda | Japan | FWD | Sweden | 7.277 | 0.863 |
-| 15 | Achraf Hakimi | Morocco | DEF | Haiti | 7.124 | 0.86 |
-| 16 | Enzo Fernández | Argentina | MID | Jordan | 7.049 | 0.864 |
-| 17 | Kevin De Bruyne | Belgium | MID | New Zealand | 7.031 | 0.954 |
-| 18 | Yahia Fofana | Côte d'Ivoire | GK | Curaçao | 6.908 | 0.968 |
-| 19 | Emmanuel Agbadou | Côte d'Ivoire | DEF | Curaçao | 6.885 | 0.958 |
-| 20 | Julián Quiñones | Mexico | FWD | Czechia | 6.882 | 0.743 |
-| 21 | Bradley Barcola | France | MID | Norway | 6.841 | 0.639 |
-| 22 | Denzel Dumfries | Netherlands | DEF | Tunisia | 6.675 | 0.851 |
+| 10 | Lamine Yamal Nasraoui Ebana | Spain | MID | Uruguay | 7.436 | 0.629 |
+| 11 | Jude Bellingham | England | MID | Panama | 7.374 | 0.865 |
+| 12 | Ayase Ueda | Japan | FWD | Sweden | 7.329 | 0.882 |
+| 13 | Achraf Hakimi | Morocco | DEF | Haiti | 7.124 | 0.86 |
+| 14 | Kevin De Bruyne | Belgium | MID | New Zealand | 7.089 | 0.975 |
+| 15 | Enzo Fernández | Argentina | MID | Jordan | 7.049 | 0.864 |
+| 16 | Nicolas Jackson | Senegal | FWD | Iraq | 7.019 | 0.597 |
+| 17 | Yahia Fofana | Côte d'Ivoire | GK | Curaçao | 6.954 | 0.98 |
+| 18 | Julián Quiñones | Mexico | FWD | Czechia | 6.882 | 0.743 |
+| 19 | Wilfried Singo | Côte d'Ivoire | DEF | Curaçao | 6.83 | 0.597 |
+| 20 | Denzel Dumfries | Netherlands | DEF | Tunisia | 6.726 | 0.869 |
+| 21 | Bradley Barcola | France | MID | Norway | 6.685 | 0.534 |
+| 22 | Charles De Ketelaere | Belgium | MID | New Zealand | 6.499 | 0.912 |
 | 23 | Anthony Gordon | England | MID | Panama | 6.487 | 0.734 |
 | 24 | Petar Musa | Croatia | FWD | Ghana | 6.435 | 0.686 |
 | 25 | Luis Díaz | Colombia | MID | Portugal | 6.38 | 0.865 |
@@ -49,26 +49,26 @@ Status: **pass**
 
 | Rank | Player | Team | Pos | Opponent | Projected | Captain |
 | ---: | --- | --- | --- | --- | ---: | ---: |
-| 1 | Sadio Mané | Senegal | MID | Iraq | 7.937 | 23.538 |
-| 2 | Nicolas Jackson | Senegal | FWD | Iraq | 7.522 | 22.634 |
+| 1 | Sadio Mané | Senegal | MID | Iraq | 7.995 | 23.538 |
+| 2 | Nicolas Jackson | Senegal | FWD | Iraq | 7.019 | 22.634 |
 | 3 | Lionel Messi | Argentina | FWD | Jordan | 9.074 | 25.465 |
-| 4 | Kevin De Bruyne | Belgium | MID | New Zealand | 7.031 | 20.722 |
-| 5 | Wilfried Singo | Côte d'Ivoire | DEF | Curaçao | 7.313 | 20.326 |
-| 6 | Emmanuel Agbadou | Côte d'Ivoire | DEF | Curaçao | 6.885 | 19.913 |
-| 7 | Michael Olise | France | MID | Norway | 8.515 | 22.69 |
-| 8 | Yan Diomande | Côte d'Ivoire | FWD | Curaçao | 5.928 | 20.19 |
-| 9 | Cédric Bakambu | Congo DR | FWD | Uzbekistan | 6.156 | 18.937 |
-| 10 | Kylian Mbappé | France | FWD | Norway | 8.228 | 22.221 |
-| 11 | Ismaïla Sarr | Senegal | FWD | Iraq | 5.935 | 19.439 |
-| 12 | Nicolas Pépé | Côte d'Ivoire | FWD | Curaçao | 5.876 | 19.608 |
-| 13 | Franck Kessie | Côte d'Ivoire | MID | Curaçao | 5.89 | 19.494 |
-| 14 | Harry Kane | England | FWD | Panama | 7.736 | 22.318 |
-| 15 | Ermedin Demirovic | Bosnia and Herzegovina | FWD | Qatar | 5.78 | 18.761 |
-| 16 | Ousmane Dembélé | France | MID | Norway | 8.155 | 20.988 |
+| 4 | Kevin De Bruyne | Belgium | MID | New Zealand | 7.089 | 20.722 |
+| 5 | Michael Olise | France | MID | Norway | 8.576 | 22.69 |
+| 6 | Yan Diomande | Côte d'Ivoire | FWD | Curaçao | 5.984 | 20.19 |
+| 7 | Cédric Bakambu | Congo DR | FWD | Uzbekistan | 6.156 | 18.937 |
+| 8 | Wilfried Singo | Côte d'Ivoire | DEF | Curaçao | 6.83 | 20.326 |
+| 9 | Kylian Mbappé | France | FWD | Norway | 8.288 | 22.221 |
+| 10 | Ismaïla Sarr | Senegal | FWD | Iraq | 5.991 | 19.439 |
+| 11 | Nicolas Pépé | Côte d'Ivoire | FWD | Curaçao | 5.933 | 19.608 |
+| 12 | Franck Kessie | Côte d'Ivoire | MID | Curaçao | 5.945 | 19.494 |
+| 13 | Harry Kane | England | FWD | Panama | 7.736 | 22.318 |
+| 14 | Ermedin Demirovic | Bosnia and Herzegovina | FWD | Qatar | 5.78 | 18.761 |
+| 15 | Ousmane Dembélé | France | MID | Norway | 8.204 | 20.988 |
+| 16 | Emmanuel Agbadou | Côte d'Ivoire | DEF | Curaçao | 6.052 | 19.913 |
 | 17 | Esmir Bajraktarevic | Bosnia and Herzegovina | FWD | Qatar | 5.607 | 18.09 |
 | 18 | Romano Schmid | Austria | MID | Algeria | 6.328 | 17.586 |
 | 19 | Ismael Saibari | Morocco | MID | Haiti | 8.146 | 20.25 |
-| 20 | Elye Wahi | Côte d'Ivoire | FWD | Curaçao | 5.28 | 18.713 |
+| 20 | Guéla Doué | Côte d'Ivoire | DEF | Curaçao | 6.213 | 17.596 |
 
 ## Rotation-Suppressed Teams
 

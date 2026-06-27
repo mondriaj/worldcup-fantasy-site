@@ -1,6 +1,6 @@
 {
   "schema_version": "r32_qualified_teams_staging_v1",
-  "generated_at": "2026-06-25T17:53:54.578Z",
+  "generated_at": "2026-06-27T16:47:59.530Z",
   "status": "partial_official_source_staging_only",
   "public_promotion": "blocked_md3_public_default",
   "official_r32_fixtures": [
@@ -14,6 +14,110 @@
       "away_team": "Canada",
       "away_squad_id": "9",
       "date": "2026-06-28T20:00:00+01:00",
+      "safe_to_display_score": false,
+      "public_promotion": "blocked_md3_public_default"
+    },
+    {
+      "source_fixture_id": "74",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "fixture": "Brazil vs Japan",
+      "home_team": "Brazil",
+      "home_squad_id": "7",
+      "away_team": "Japan",
+      "away_squad_id": "25",
+      "date": "2026-06-29T18:00:00+01:00",
+      "safe_to_display_score": false,
+      "public_promotion": "blocked_md3_public_default"
+    },
+    {
+      "source_fixture_id": "78",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "fixture": "Germany vs Paraguay",
+      "home_team": "Germany",
+      "home_squad_id": "20",
+      "away_team": "Paraguay",
+      "away_squad_id": "34",
+      "date": "2026-06-29T21:30:00+01:00",
+      "safe_to_display_score": false,
+      "public_promotion": "blocked_md3_public_default"
+    },
+    {
+      "source_fixture_id": "75",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "fixture": "Netherlands vs Morocco",
+      "home_team": "Netherlands",
+      "home_squad_id": "30",
+      "away_team": "Morocco",
+      "away_squad_id": "29",
+      "date": "2026-06-30T02:00:00+01:00",
+      "safe_to_display_score": false,
+      "public_promotion": "blocked_md3_public_default"
+    },
+    {
+      "source_fixture_id": "77",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "fixture": "Côte d'Ivoire vs Norway",
+      "home_team": "Côte d'Ivoire",
+      "home_squad_id": "12",
+      "away_team": "Norway",
+      "away_squad_id": "32",
+      "date": "2026-06-30T18:00:00+01:00",
+      "safe_to_display_score": false,
+      "public_promotion": "blocked_md3_public_default"
+    },
+    {
+      "source_fixture_id": "79",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "fixture": "France vs Sweden",
+      "home_team": "France",
+      "home_squad_id": "19",
+      "away_team": "Sweden",
+      "away_squad_id": "42",
+      "date": "2026-06-30T22:00:00+01:00",
+      "safe_to_display_score": false,
+      "public_promotion": "blocked_md3_public_default"
+    },
+    {
+      "source_fixture_id": "76",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "fixture": "USA vs Bosnia and Herzegovina",
+      "home_team": "USA",
+      "home_squad_id": "47",
+      "away_team": "Bosnia and Herzegovina",
+      "away_squad_id": "6",
+      "date": "2026-07-02T01:00:00+01:00",
+      "safe_to_display_score": false,
+      "public_promotion": "blocked_md3_public_default"
+    },
+    {
+      "source_fixture_id": "81",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "fixture": "Australia vs Egypt",
+      "home_team": "Australia",
+      "home_squad_id": "3",
+      "away_team": "Egypt",
+      "away_squad_id": "17",
+      "date": "2026-07-03T19:00:00+01:00",
+      "safe_to_display_score": false,
+      "public_promotion": "blocked_md3_public_default"
+    },
+    {
+      "source_fixture_id": "80",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "fixture": "Argentina vs Cabo Verde",
+      "home_team": "Argentina",
+      "home_squad_id": "2",
+      "away_team": "Cabo Verde",
+      "away_squad_id": "8",
+      "date": "2026-07-03T23:00:00+01:00",
       "safe_to_display_score": false,
       "public_promotion": "blocked_md3_public_default"
     }
@@ -108,6 +212,186 @@
       "points": 7,
       "seed_type": "group_runner_up_or_tiebreaker_second",
       "basis": "complete_group_top_two_standings"
+    },
+    {
+      "team": "USA",
+      "team_id": "usa",
+      "group": "D",
+      "played": 3,
+      "wins": 2,
+      "draws": 0,
+      "losses": 1,
+      "goals_for": 8,
+      "goals_against": 4,
+      "goal_difference": 4,
+      "points": 6,
+      "seed_type": "group_winner_or_tiebreaker_leader",
+      "basis": "complete_group_top_two_standings"
+    },
+    {
+      "team": "Australia",
+      "team_id": "australia",
+      "group": "D",
+      "played": 3,
+      "wins": 1,
+      "draws": 1,
+      "losses": 1,
+      "goals_for": 2,
+      "goals_against": 2,
+      "goal_difference": 0,
+      "points": 4,
+      "seed_type": "group_runner_up_or_tiebreaker_second",
+      "basis": "complete_group_top_two_standings"
+    },
+    {
+      "team": "Germany",
+      "team_id": "germany",
+      "group": "E",
+      "played": 3,
+      "wins": 2,
+      "draws": 0,
+      "losses": 1,
+      "goals_for": 10,
+      "goals_against": 4,
+      "goal_difference": 6,
+      "points": 6,
+      "seed_type": "group_winner_or_tiebreaker_leader",
+      "basis": "complete_group_top_two_standings"
+    },
+    {
+      "team": "Côte d'Ivoire",
+      "team_id": "cote-d-ivoire",
+      "group": "E",
+      "played": 3,
+      "wins": 2,
+      "draws": 0,
+      "losses": 1,
+      "goals_for": 4,
+      "goals_against": 2,
+      "goal_difference": 2,
+      "points": 6,
+      "seed_type": "group_runner_up_or_tiebreaker_second",
+      "basis": "complete_group_top_two_standings"
+    },
+    {
+      "team": "Netherlands",
+      "team_id": "netherlands",
+      "group": "F",
+      "played": 3,
+      "wins": 2,
+      "draws": 1,
+      "losses": 0,
+      "goals_for": 10,
+      "goals_against": 4,
+      "goal_difference": 6,
+      "points": 7,
+      "seed_type": "group_winner_or_tiebreaker_leader",
+      "basis": "complete_group_top_two_standings"
+    },
+    {
+      "team": "Japan",
+      "team_id": "japan",
+      "group": "F",
+      "played": 3,
+      "wins": 1,
+      "draws": 2,
+      "losses": 0,
+      "goals_for": 7,
+      "goals_against": 3,
+      "goal_difference": 4,
+      "points": 5,
+      "seed_type": "group_runner_up_or_tiebreaker_second",
+      "basis": "complete_group_top_two_standings"
+    },
+    {
+      "team": "Belgium",
+      "team_id": "belgium",
+      "group": "G",
+      "played": 3,
+      "wins": 1,
+      "draws": 2,
+      "losses": 0,
+      "goals_for": 6,
+      "goals_against": 2,
+      "goal_difference": 4,
+      "points": 5,
+      "seed_type": "group_winner_or_tiebreaker_leader",
+      "basis": "complete_group_top_two_standings"
+    },
+    {
+      "team": "Egypt",
+      "team_id": "egypt",
+      "group": "G",
+      "played": 3,
+      "wins": 1,
+      "draws": 2,
+      "losses": 0,
+      "goals_for": 5,
+      "goals_against": 3,
+      "goal_difference": 2,
+      "points": 5,
+      "seed_type": "group_runner_up_or_tiebreaker_second",
+      "basis": "complete_group_top_two_standings"
+    },
+    {
+      "team": "Spain",
+      "team_id": "spain",
+      "group": "H",
+      "played": 3,
+      "wins": 2,
+      "draws": 1,
+      "losses": 0,
+      "goals_for": 5,
+      "goals_against": 0,
+      "goal_difference": 5,
+      "points": 7,
+      "seed_type": "group_winner_or_tiebreaker_leader",
+      "basis": "complete_group_top_two_standings"
+    },
+    {
+      "team": "Cabo Verde",
+      "team_id": "cabo-verde",
+      "group": "H",
+      "played": 3,
+      "wins": 0,
+      "draws": 3,
+      "losses": 0,
+      "goals_for": 2,
+      "goals_against": 2,
+      "goal_difference": 0,
+      "points": 3,
+      "seed_type": "group_runner_up_or_tiebreaker_second",
+      "basis": "complete_group_top_two_standings"
+    },
+    {
+      "team": "France",
+      "team_id": "france",
+      "group": "I",
+      "played": 3,
+      "wins": 3,
+      "draws": 0,
+      "losses": 0,
+      "goals_for": 10,
+      "goals_against": 2,
+      "goal_difference": 8,
+      "points": 9,
+      "seed_type": "group_winner_or_tiebreaker_leader",
+      "basis": "complete_group_top_two_standings"
+    },
+    {
+      "team": "Norway",
+      "team_id": "norway",
+      "group": "I",
+      "played": 3,
+      "wins": 2,
+      "draws": 0,
+      "losses": 1,
+      "goals_for": 8,
+      "goals_against": 7,
+      "goal_difference": 1,
+      "points": 6,
+      "seed_type": "group_runner_up_or_tiebreaker_second",
+      "basis": "complete_group_top_two_standings"
     }
   ],
   "safe_eliminated_teams": [
@@ -152,6 +436,90 @@
       "goal_difference": -6,
       "points": 0,
       "basis": "complete_group_fourth_place_not_in_best_third_pool"
+    },
+    {
+      "team": "Türkiye",
+      "team_id": "turkiye",
+      "group": "D",
+      "played": 3,
+      "wins": 1,
+      "draws": 0,
+      "losses": 2,
+      "goals_for": 3,
+      "goals_against": 5,
+      "goal_difference": -2,
+      "points": 3,
+      "basis": "complete_group_fourth_place_not_in_best_third_pool"
+    },
+    {
+      "team": "Curaçao",
+      "team_id": "curacao",
+      "group": "E",
+      "played": 3,
+      "wins": 0,
+      "draws": 1,
+      "losses": 2,
+      "goals_for": 1,
+      "goals_against": 9,
+      "goal_difference": -8,
+      "points": 1,
+      "basis": "complete_group_fourth_place_not_in_best_third_pool"
+    },
+    {
+      "team": "Tunisia",
+      "team_id": "tunisia",
+      "group": "F",
+      "played": 3,
+      "wins": 0,
+      "draws": 0,
+      "losses": 3,
+      "goals_for": 2,
+      "goals_against": 12,
+      "goal_difference": -10,
+      "points": 0,
+      "basis": "complete_group_fourth_place_not_in_best_third_pool"
+    },
+    {
+      "team": "New Zealand",
+      "team_id": "new-zealand",
+      "group": "G",
+      "played": 3,
+      "wins": 0,
+      "draws": 1,
+      "losses": 2,
+      "goals_for": 4,
+      "goals_against": 10,
+      "goal_difference": -6,
+      "points": 1,
+      "basis": "complete_group_fourth_place_not_in_best_third_pool"
+    },
+    {
+      "team": "Saudi Arabia",
+      "team_id": "saudi-arabia",
+      "group": "H",
+      "played": 3,
+      "wins": 0,
+      "draws": 2,
+      "losses": 1,
+      "goals_for": 1,
+      "goals_against": 5,
+      "goal_difference": -4,
+      "points": 2,
+      "basis": "complete_group_fourth_place_not_in_best_third_pool"
+    },
+    {
+      "team": "Iraq",
+      "team_id": "iraq",
+      "group": "I",
+      "played": 3,
+      "wins": 0,
+      "draws": 0,
+      "losses": 3,
+      "goals_for": 1,
+      "goals_against": 12,
+      "goal_difference": -11,
+      "points": 0,
+      "basis": "complete_group_fourth_place_not_in_best_third_pool"
     }
   ],
   "still_uncertain_teams": [
@@ -175,147 +543,39 @@
     },
     {
       "group": "D",
-      "team": "USA",
-      "points": 6,
-      "basis": "group_not_complete"
-    },
-    {
-      "group": "D",
-      "team": "Australia",
-      "points": 3,
-      "basis": "group_not_complete"
-    },
-    {
-      "group": "D",
       "team": "Paraguay",
-      "points": 3,
-      "basis": "group_not_complete"
-    },
-    {
-      "group": "D",
-      "team": "Türkiye",
-      "points": 0,
-      "basis": "group_not_complete"
-    },
-    {
-      "group": "E",
-      "team": "Germany",
-      "points": 6,
-      "basis": "group_not_complete"
-    },
-    {
-      "group": "E",
-      "team": "Côte d'Ivoire",
-      "points": 3,
-      "basis": "group_not_complete"
+      "points": 4,
+      "basis": "complete_group_third_place_best_third_unresolved"
     },
     {
       "group": "E",
       "team": "Ecuador",
-      "points": 1,
-      "basis": "group_not_complete"
-    },
-    {
-      "group": "E",
-      "team": "Curaçao",
-      "points": 1,
-      "basis": "group_not_complete"
-    },
-    {
-      "group": "F",
-      "team": "Netherlands",
       "points": 4,
-      "basis": "group_not_complete"
-    },
-    {
-      "group": "F",
-      "team": "Japan",
-      "points": 4,
-      "basis": "group_not_complete"
+      "basis": "complete_group_third_place_best_third_unresolved"
     },
     {
       "group": "F",
       "team": "Sweden",
-      "points": 3,
-      "basis": "group_not_complete"
-    },
-    {
-      "group": "F",
-      "team": "Tunisia",
-      "points": 0,
-      "basis": "group_not_complete"
-    },
-    {
-      "group": "G",
-      "team": "Egypt",
       "points": 4,
-      "basis": "group_not_complete"
+      "basis": "complete_group_third_place_best_third_unresolved"
     },
     {
       "group": "G",
       "team": "IR Iran",
-      "points": 2,
-      "basis": "group_not_complete"
-    },
-    {
-      "group": "G",
-      "team": "Belgium",
-      "points": 2,
-      "basis": "group_not_complete"
-    },
-    {
-      "group": "G",
-      "team": "New Zealand",
-      "points": 1,
-      "basis": "group_not_complete"
-    },
-    {
-      "group": "H",
-      "team": "Spain",
-      "points": 4,
-      "basis": "group_not_complete"
+      "points": 3,
+      "basis": "complete_group_third_place_best_third_unresolved"
     },
     {
       "group": "H",
       "team": "Uruguay",
       "points": 2,
-      "basis": "group_not_complete"
-    },
-    {
-      "group": "H",
-      "team": "Cabo Verde",
-      "points": 2,
-      "basis": "group_not_complete"
-    },
-    {
-      "group": "H",
-      "team": "Saudi Arabia",
-      "points": 1,
-      "basis": "group_not_complete"
-    },
-    {
-      "group": "I",
-      "team": "France",
-      "points": 6,
-      "basis": "group_not_complete"
-    },
-    {
-      "group": "I",
-      "team": "Norway",
-      "points": 6,
-      "basis": "group_not_complete"
+      "basis": "complete_group_third_place_best_third_unresolved"
     },
     {
       "group": "I",
       "team": "Senegal",
-      "points": 0,
-      "basis": "group_not_complete"
-    },
-    {
-      "group": "I",
-      "team": "Iraq",
-      "points": 0,
-      "basis": "group_not_complete"
+      "points": 3,
+      "basis": "complete_group_third_place_best_third_unresolved"
     },
     {
       "group": "J",
