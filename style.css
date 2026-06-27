@@ -2584,6 +2584,77 @@ html {
   text-transform: uppercase;
 }
 
+.knockout-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.85fr) minmax(420px, 1.35fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.knockout-toolbar {
+  grid-template-columns: repeat(2, minmax(160px, 1fr));
+}
+
+.knockout-prediction-card {
+  border: 1px solid rgba(24, 78, 119, 0.12);
+  border-radius: 8px;
+  padding: 16px;
+  background: #f8fbff;
+}
+
+.knockout-prediction-card h3 {
+  margin: 0 0 12px;
+  font-size: 1.08rem;
+}
+
+.knockout-result-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.knockout-result-grid span {
+  min-height: 66px;
+  border: 1px solid rgba(24, 78, 119, 0.12);
+  border-radius: 8px;
+  padding: 10px;
+  background: #ffffff;
+}
+
+.knockout-result-grid strong,
+.knockout-result-grid small {
+  display: block;
+}
+
+.knockout-result-grid strong {
+  font-size: 1.12rem;
+}
+
+.knockout-result-grid small {
+  margin-top: 4px;
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+.knockout-probability-line {
+  margin: 0 0 8px;
+  font-weight: 900;
+}
+
+.knockout-probability-line span {
+  margin: 0 8px;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.knockout-fixture-table-wrapper td small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
 .match-projected-xg,
 .match-compact-line {
   white-space: nowrap;
@@ -5263,6 +5334,7 @@ input[type="number"] {
   .builder-step-card,
   .builder-step-card__heading > div,
   .builder-controls,
+  .knockout-layout,
   .control-group,
   .strategy-comparison-panel,
   .strategy-comparison-panel__body,
@@ -5312,6 +5384,8 @@ input[type="number"] {
     .matchday-decision-grid,
     .matchday-decision-grid--bench,
     .matchday-decision-metrics,
+    .knockout-layout,
+    .knockout-toolbar,
     .captain-change-form,
     .decision-tool-row,
     .captain-change-actions,
@@ -5839,6 +5913,12 @@ input[type="number"] {
 
   .bench-panel__heading,
   .bench-players {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .knockout-result-grid {
     grid-template-columns: 1fr;
   }
 }

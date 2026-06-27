@@ -1,0 +1,7 @@
+{
+  "schema_version": "score_prediction_qa_r32_v1",
+  "generated_at": "2026-06-27T17:34:00.673Z",
+  "status": "pass",
+  "r32_fixture_count": 9,
+  "probability_bounds_valid": true
+}

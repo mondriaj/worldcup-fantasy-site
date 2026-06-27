@@ -1,6 +1,6 @@
 # Match Environment Live Scores QA v1
 
-Generated: 2026-06-27T16:48:29.998Z
+Generated: 2026-06-27T17:34:15.960Z
 
 Status: passed
 
@@ -8,7 +8,8 @@ Status: passed
 
 | Metric | Value |
 | --- | --- |
-| Score prediction fixtures | 72 |
+| Score prediction fixtures | 81 |
+| Group-stage score prediction fixtures | 72 |
 | Live fixtures | 81 |
 | Matched final score support | 66 / 66 |
 | Completed MD1 scores supported | 24 / 24 |
@@ -17,7 +18,7 @@ Status: passed
 | Playing fixtures shown final | 0 |
 | Non-final score leaks | 0 |
 | Reversed score/team errors | 0 |
-| MD3 default | yes |
+| R32 default | yes |
 | MD1/MD2 accessible | yes |
 
 ## Completed MD3 Checks

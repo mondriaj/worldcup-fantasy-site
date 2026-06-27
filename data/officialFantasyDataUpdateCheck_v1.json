@@ -1,10 +1,10 @@
 {
   "schema_version": "official_fantasy_data_update_check_v1",
-  "generated_at": "2026-06-27T16:46:02.006Z",
+  "generated_at": "2026-06-27T16:59:03.431Z",
   "monitor_status": "completed",
   "summary": {
-    "official_data_changed": false,
-    "rerun_decision": "no_change",
+    "official_data_changed": true,
+    "rerun_decision": "minor_change_no_model_rerun_needed",
     "fetch_failures": 0,
     "local_official_fantasy_players": 1489,
     "live_official_fantasy_players": 1489,
@@ -31,7 +31,7 @@
       "status": 200,
       "ok": true,
       "content_type": "application/json",
-      "last_modified": "2026-06-27T16:45:03Z",
+      "last_modified": "2026-06-27T16:50:03Z",
       "etag": "\"ce2b58ed97d5f159a772a01265d7a3f5\"",
       "bytes": 1270018,
       "sha256": "ac6795acaf726d3d8491dd7496677dd2f8be57751c4ee09cc143a3a0d600895b",
@@ -340,8 +340,10 @@
     }
   },
   "recommendation": {
-    "rerun_decision": "no_change",
-    "reasons": [],
+    "rerun_decision": "minor_change_no_model_rerun_needed",
+    "reasons": [
+      "Only non-model source headers or ownership-style values changed."
+    ],
     "player_import_needed": false,
     "squad_import_needed": false,
     "rules_import_needed": false,

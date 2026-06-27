@@ -1,0 +1,387 @@
+{
+  "schema_version": "team_builder_qa_r32_v1",
+  "generated_at": "2026-06-27T17:34:00.673Z",
+  "status": "pass",
+  "model_version": "team-builder-r32-v1",
+  "summary": {
+    "squad_players": 15,
+    "starters": 11,
+    "starterProjectedPoints": 64.265,
+    "greedyStarterProjectedPoints": 65.188,
+    "gapVsGreedy": -0.923,
+    "defaultMatchday": "r32"
+  },
+  "balanced_squad": [
+    {
+      "slot": "starter",
+      "name": "Emiliano Martínez",
+      "country": "Argentina",
+      "position": "GK",
+      "projectedPoints": 5.739,
+      "opponent": "Cabo Verde"
+    },
+    {
+      "slot": "starter",
+      "name": "Mike Maignan",
+      "country": "France",
+      "position": "GK",
+      "projectedPoints": 5.736,
+      "opponent": "Sweden"
+    },
+    {
+      "slot": "starter",
+      "name": "Dayot Upamecano",
+      "country": "France",
+      "position": "DEF",
+      "projectedPoints": 6.106,
+      "opponent": "Sweden"
+    },
+    {
+      "slot": "starter",
+      "name": "Joshua Kimmich",
+      "country": "Germany",
+      "position": "DEF",
+      "projectedPoints": 6.067,
+      "opponent": "Paraguay"
+    },
+    {
+      "slot": "starter",
+      "name": "Jules Koundé",
+      "country": "France",
+      "position": "DEF",
+      "projectedPoints": 5.985,
+      "opponent": "Sweden"
+    },
+    {
+      "slot": "starter",
+      "name": "Facundo Medina",
+      "country": "Argentina",
+      "position": "DEF",
+      "projectedPoints": 5.801,
+      "opponent": "Cabo Verde"
+    },
+    {
+      "slot": "starter",
+      "name": "Lisandro Martínez",
+      "country": "Argentina",
+      "position": "DEF",
+      "projectedPoints": 5.694,
+      "opponent": "Cabo Verde"
+    },
+    {
+      "slot": "starter",
+      "name": "Rodrigo De Paul",
+      "country": "Argentina",
+      "position": "MID",
+      "projectedPoints": 5.649,
+      "opponent": "Cabo Verde"
+    },
+    {
+      "slot": "starter",
+      "name": "Alexis Mac Allister",
+      "country": "Argentina",
+      "position": "MID",
+      "projectedPoints": 5.649,
+      "opponent": "Cabo Verde"
+    },
+    {
+      "slot": "starter",
+      "name": "Enzo Fernández",
+      "country": "Argentina",
+      "position": "MID",
+      "projectedPoints": 5.379,
+      "opponent": "Cabo Verde"
+    },
+    {
+      "slot": "starter",
+      "name": "Michael Olise",
+      "country": "France",
+      "position": "MID",
+      "projectedPoints": 5.253,
+      "opponent": "Sweden"
+    },
+    {
+      "slot": "bench",
+      "name": "Thiago Almada",
+      "country": "Argentina",
+      "position": "MID",
+      "projectedPoints": 5.18,
+      "opponent": "Cabo Verde"
+    },
+    {
+      "slot": "bench",
+      "name": "Lionel Messi",
+      "country": "Argentina",
+      "position": "FWD",
+      "projectedPoints": 6.797,
+      "opponent": "Cabo Verde"
+    },
+    {
+      "slot": "bench",
+      "name": "Lautaro Martínez",
+      "country": "Argentina",
+      "position": "FWD",
+      "projectedPoints": 5.84,
+      "opponent": "Cabo Verde"
+    },
+    {
+      "slot": "bench",
+      "name": "Kylian Mbappé",
+      "country": "France",
+      "position": "FWD",
+      "projectedPoints": 5.774,
+      "opponent": "Sweden"
+    }
+  ],
+  "top_r32_projected_players": [
+    {
+      "name": "Lionel Messi",
+      "country": "Argentina",
+      "position": "FWD",
+      "projectedPoints": 6.797,
+      "opponent": "Cabo Verde"
+    },
+    {
+      "name": "Dayot Upamecano",
+      "country": "France",
+      "position": "DEF",
+      "projectedPoints": 6.106,
+      "opponent": "Sweden"
+    },
+    {
+      "name": "Joshua Kimmich",
+      "country": "Germany",
+      "position": "DEF",
+      "projectedPoints": 6.067,
+      "opponent": "Paraguay"
+    },
+    {
+      "name": "Jules Koundé",
+      "country": "France",
+      "position": "DEF",
+      "projectedPoints": 5.985,
+      "opponent": "Sweden"
+    },
+    {
+      "name": "Lautaro Martínez",
+      "country": "Argentina",
+      "position": "FWD",
+      "projectedPoints": 5.84,
+      "opponent": "Cabo Verde"
+    },
+    {
+      "name": "Facundo Medina",
+      "country": "Argentina",
+      "position": "DEF",
+      "projectedPoints": 5.801,
+      "opponent": "Cabo Verde"
+    },
+    {
+      "name": "Kylian Mbappé",
+      "country": "France",
+      "position": "FWD",
+      "projectedPoints": 5.774,
+      "opponent": "Sweden"
+    },
+    {
+      "name": "Emiliano Martínez",
+      "country": "Argentina",
+      "position": "GK",
+      "projectedPoints": 5.739,
+      "opponent": "Cabo Verde"
+    },
+    {
+      "name": "Mike Maignan",
+      "country": "France",
+      "position": "GK",
+      "projectedPoints": 5.736,
+      "opponent": "Sweden"
+    },
+    {
+      "name": "Lisandro Martínez",
+      "country": "Argentina",
+      "position": "DEF",
+      "projectedPoints": 5.694,
+      "opponent": "Cabo Verde"
+    },
+    {
+      "name": "Rodrigo De Paul",
+      "country": "Argentina",
+      "position": "MID",
+      "projectedPoints": 5.649,
+      "opponent": "Cabo Verde"
+    },
+    {
+      "name": "Alexis Mac Allister",
+      "country": "Argentina",
+      "position": "MID",
+      "projectedPoints": 5.649,
+      "opponent": "Cabo Verde"
+    },
+    {
+      "name": "Virgil van Dijk",
+      "country": "Netherlands",
+      "position": "DEF",
+      "projectedPoints": 5.462,
+      "opponent": "Morocco"
+    },
+    {
+      "name": "Cristian Romero",
+      "country": "Argentina",
+      "position": "DEF",
+      "projectedPoints": 5.417,
+      "opponent": "Cabo Verde"
+    },
+    {
+      "name": "Enzo Fernández",
+      "country": "Argentina",
+      "position": "MID",
+      "projectedPoints": 5.379,
+      "opponent": "Cabo Verde"
+    },
+    {
+      "name": "Denzel Dumfries",
+      "country": "Netherlands",
+      "position": "DEF",
+      "projectedPoints": 5.293,
+      "opponent": "Morocco"
+    },
+    {
+      "name": "Alisson Ramsés Becker",
+      "country": "Brazil",
+      "position": "GK",
+      "projectedPoints": 5.285,
+      "opponent": "Japan"
+    },
+    {
+      "name": "Michael Olise",
+      "country": "France",
+      "position": "MID",
+      "projectedPoints": 5.253,
+      "opponent": "Sweden"
+    },
+    {
+      "name": "Jonathan Tah",
+      "country": "Germany",
+      "position": "DEF",
+      "projectedPoints": 5.198,
+      "opponent": "Paraguay"
+    },
+    {
+      "name": "Thiago Almada",
+      "country": "Argentina",
+      "position": "MID",
+      "projectedPoints": 5.18,
+      "opponent": "Cabo Verde"
+    }
+  ],
+  "top_captain_watchlist": [
+    {
+      "name": "Lionel Messi",
+      "country": "Argentina",
+      "opponent": "Cabo Verde",
+      "captainScore": 31.469,
+      "rank": 1
+    },
+    {
+      "name": "Lautaro Martínez",
+      "country": "Argentina",
+      "opponent": "Cabo Verde",
+      "captainScore": 29.405,
+      "rank": 2
+    },
+    {
+      "name": "Emiliano Martínez",
+      "country": "Argentina",
+      "opponent": "Cabo Verde",
+      "captainScore": 29.194,
+      "rank": 3
+    },
+    {
+      "name": "Rodrigo De Paul",
+      "country": "Argentina",
+      "opponent": "Cabo Verde",
+      "captainScore": 29,
+      "rank": 4
+    },
+    {
+      "name": "Alexis Mac Allister",
+      "country": "Argentina",
+      "opponent": "Cabo Verde",
+      "captainScore": 29,
+      "rank": 5
+    },
+    {
+      "name": "Facundo Medina",
+      "country": "Argentina",
+      "opponent": "Cabo Verde",
+      "captainScore": 29.047,
+      "rank": 6
+    },
+    {
+      "name": "Lisandro Martínez",
+      "country": "Argentina",
+      "opponent": "Cabo Verde",
+      "captainScore": 28.817,
+      "rank": 7
+    },
+    {
+      "name": "Enzo Fernández",
+      "country": "Argentina",
+      "opponent": "Cabo Verde",
+      "captainScore": 28.418,
+      "rank": 8
+    },
+    {
+      "name": "Cristian Romero",
+      "country": "Argentina",
+      "opponent": "Cabo Verde",
+      "captainScore": 28.26,
+      "rank": 9
+    },
+    {
+      "name": "Thiago Almada",
+      "country": "Argentina",
+      "opponent": "Cabo Verde",
+      "captainScore": 27.966,
+      "rank": 10
+    },
+    {
+      "name": "Dayot Upamecano",
+      "country": "France",
+      "opponent": "Sweden",
+      "captainScore": 26.52,
+      "rank": 11
+    },
+    {
+      "name": "Jules Koundé",
+      "country": "France",
+      "opponent": "Sweden",
+      "captainScore": 26.256,
+      "rank": 12
+    },
+    {
+      "name": "Kylian Mbappé",
+      "country": "France",
+      "opponent": "Sweden",
+      "captainScore": 25.858,
+      "rank": 13
+    },
+    {
+      "name": "Mike Maignan",
+      "country": "France",
+      "opponent": "Sweden",
+      "captainScore": 25.724,
+      "rank": 14
+    },
+    {
+      "name": "Joshua Kimmich",
+      "country": "Germany",
+      "opponent": "Paraguay",
+      "captainScore": 25.267,
+      "rank": 15
+    }
+  ],
+  "ownership_used_as_signal": false,
+  "final_squads_source_backed": false
+}

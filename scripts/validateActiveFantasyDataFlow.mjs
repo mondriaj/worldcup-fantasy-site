@@ -7,7 +7,9 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 
-const ACTIVE_VERSION = "20260623-md3-prep";
+const ACTIVE_VERSION = "20260627-r32-setup";
+const ACTIVE_MATCHDAY_ID = "r32";
+const ACTIVE_MATCHDAY_LABEL = "R32";
 const REQUIRED_SCRIPT_ORDER = [
   "playersData.js",
   "fantasyRulesData.js",
@@ -15,6 +17,7 @@ const REQUIRED_SCRIPT_ORDER = [
   "fantasyPoolMatchdayProjectionsData.js",
   "fantasyPoolFinanceMetricsData.js",
   "fantasyPoolScorePredictionsData.js",
+  "knockoutScorePredictorData.js",
   "fantasyPoolOfficialDataStatusData.js",
   "liveMatchdayStatusData.js",
   "livePlayerStatusData.js",
@@ -385,7 +388,7 @@ function verifyPublicScripts(report, indexHtml, scriptJs) {
   }
 
   if (!isRequiredOrderValid) {
-    addFailure(report, "required_scripts_order", "Required active browser scripts are not loaded in the MD3 active-path order.", {
+    addFailure(report, "required_scripts_order", "Required active browser scripts are not loaded in the R32 active-path order.", {
       expected: REQUIRED_SCRIPT_ORDER,
       actual_relevant_order: localOrder
     });
@@ -698,47 +701,47 @@ function verifyActiveIdentity(report, active, browserPlayers, activeIdentity) {
   return detail;
 }
 
-function verifyMd3Consistency(report, active, activeIdentity, browserPlayers) {
+function verifyActiveMatchdayConsistency(report, active, activeIdentity, browserPlayers) {
   const playersDataUniverse = identityUniverse(browserPlayers);
-  const md3Recommendations = active.recommendationRows.filter((row) => matchdayId(row) === "md3");
-  const md3Projections = active.projectionRows.filter((row) => matchdayId(row) === "md3");
-  const md3ProjectionResolvedKeys = new Set(md3Projections
+  const activeRecommendations = active.recommendationRows.filter((row) => matchdayId(row) === ACTIVE_MATCHDAY_ID);
+  const activeProjections = active.projectionRows.filter((row) => matchdayId(row) === ACTIVE_MATCHDAY_ID);
+  const activeProjectionResolvedKeys = new Set(activeProjections
     .map((row) => {
       const officialId = activeOfficialIdForRecord(row, activeIdentity);
       const md = matchdayId(row);
       return officialId && md ? `${officialId}|${md}` : "";
     })
     .filter(Boolean));
-  const recommendationActiveIdentityMissing = rowsMissingActiveIdentity(md3Recommendations, activeIdentity);
-  const projectionActiveIdentityMissing = rowsMissingActiveIdentity(md3Projections, activeIdentity);
+  const recommendationActiveIdentityMissing = rowsMissingActiveIdentity(activeRecommendations, activeIdentity);
+  const projectionActiveIdentityMissing = rowsMissingActiveIdentity(activeProjections, activeIdentity);
   const financeActiveIdentityMissing = rowsMissingActiveIdentity(active.financeRows, activeIdentity);
-  const recommendationProjectionMissing = md3Recommendations.filter((row) => {
+  const recommendationProjectionMissing = activeRecommendations.filter((row) => {
     const officialId = activeOfficialIdForRecord(row, activeIdentity);
-    return !officialId || !md3ProjectionResolvedKeys.has(`${officialId}|${matchdayId(row)}`);
+    return !officialId || !activeProjectionResolvedKeys.has(`${officialId}|${matchdayId(row)}`);
   });
-  const recommendationPlayersDataMissing = md3Recommendations.filter((row) => !resolvesToUniverse(row, playersDataUniverse));
-  const projectionPlayersDataMissing = md3Projections.filter((row) => !resolvesToUniverse(row, playersDataUniverse));
+  const recommendationPlayersDataMissing = activeRecommendations.filter((row) => !resolvesToUniverse(row, playersDataUniverse));
+  const projectionPlayersDataMissing = activeProjections.filter((row) => !resolvesToUniverse(row, playersDataUniverse));
   const financePlayersDataMissing = active.financeRows.filter((row) => !resolvesToUniverse(row, playersDataUniverse));
-  const md3ScoreRows = active.scoreRows.filter((row) => matchdayId(row) === "md3");
+  const activeScoreRows = active.scoreRows.filter((row) => matchdayId(row) === ACTIVE_MATCHDAY_ID);
   const scoreFixtureKeys = active.scoreRows.map((row) => String(row.fixture_id || row.match_id || "").trim()).filter(Boolean);
   const duplicateScoreFixtureKeys = sorted(scoreFixtureKeys.filter((key, index) => scoreFixtureKeys.indexOf(key) !== index));
   const invalidNumbers = [
-    ...validateFiniteNumbers(md3Recommendations, "md3_recommendation"),
-    ...validateFiniteNumbers(md3Projections, "md3_projection"),
+    ...validateFiniteNumbers(activeRecommendations, "active_matchday_recommendation"),
+    ...validateFiniteNumbers(activeProjections, "active_matchday_projection"),
     ...validateFiniteNumbers(active.financeRows, "finance_metric"),
     ...validateFiniteNumbers(active.scoreRows, "score_fixture")
   ];
 
-  if (!md3Recommendations.length) {
-    addFailure(report, "md3_recommendations_missing", "No MD3 recommendation candidates are present.", {});
+  if (!activeRecommendations.length) {
+    addFailure(report, "active_matchday_recommendations_missing", `No ${ACTIVE_MATCHDAY_LABEL} recommendation candidates are present.`, {});
   }
 
-  if (!md3Projections.length) {
-    addFailure(report, "md3_projections_missing", "No MD3 matchday projection rows are present.", {});
+  if (!activeProjections.length) {
+    addFailure(report, "active_matchday_projections_missing", `No ${ACTIVE_MATCHDAY_LABEL} matchday projection rows are present.`, {});
   }
 
   if (recommendationActiveIdentityMissing.length) {
-    addFailure(report, "md3_recommendations_missing_active_official_identity", "Some MD3 recommendation candidates do not resolve to the active official fantasy pool.", {
+    addFailure(report, "active_matchday_recommendations_missing_active_official_identity", `Some ${ACTIVE_MATCHDAY_LABEL} recommendation candidates do not resolve to the active official fantasy pool.`, {
       missing_count: recommendationActiveIdentityMissing.length,
       sample: sample(recommendationActiveIdentityMissing.map((row) => ({
         id: entityKey(row),
@@ -750,7 +753,7 @@ function verifyMd3Consistency(report, active, activeIdentity, browserPlayers) {
   }
 
   if (recommendationProjectionMissing.length) {
-    addFailure(report, "md3_recommendations_missing_projection", "Some MD3 recommendation candidates do not have matching MD3 projection rows after active official fantasy identity resolution.", {
+    addFailure(report, "active_matchday_recommendations_missing_projection", `Some ${ACTIVE_MATCHDAY_LABEL} recommendation candidates do not have matching ${ACTIVE_MATCHDAY_LABEL} projection rows after active official fantasy identity resolution.`, {
       missing_count: recommendationProjectionMissing.length,
       sample: sample(recommendationProjectionMissing.map((row) => ({
         id: activeOfficialIdForRecord(row, activeIdentity) || entityKey(row),
@@ -761,7 +764,7 @@ function verifyMd3Consistency(report, active, activeIdentity, browserPlayers) {
   }
 
   if (projectionActiveIdentityMissing.length) {
-    addFailure(report, "md3_projections_missing_active_official_identity", "Some MD3 projection rows do not resolve to the active official fantasy pool.", {
+    addFailure(report, "active_matchday_projections_missing_active_official_identity", `Some ${ACTIVE_MATCHDAY_LABEL} projection rows do not resolve to the active official fantasy pool.`, {
       missing_count: projectionActiveIdentityMissing.length,
       sample: sample(projectionActiveIdentityMissing.map((row) => ({ id: entityKey(row), name: row.name || null })))
     });
@@ -774,8 +777,8 @@ function verifyMd3Consistency(report, active, activeIdentity, browserPlayers) {
     });
   }
 
-  if (!md3ScoreRows.length) {
-    addFailure(report, "md3_score_fixture_coverage_missing", "Score prediction rows do not cover MD3 fixtures.", {});
+  if (!activeScoreRows.length) {
+    addFailure(report, "active_matchday_score_fixture_coverage_missing", `Score prediction rows do not cover ${ACTIVE_MATCHDAY_LABEL} fixtures.`, {});
   }
 
   if (duplicateScoreFixtureKeys.length) {
@@ -792,24 +795,26 @@ function verifyMd3Consistency(report, active, activeIdentity, browserPlayers) {
   }
 
   const consistency = {
-    md3_recommendation_rows: md3Recommendations.length,
-    md3_projection_rows: md3Projections.length,
-    md3_score_fixture_rows: md3ScoreRows.length,
-    md3_recommendations_resolving_active_identity_count: md3Recommendations.length - recommendationActiveIdentityMissing.length,
-    md3_recommendations_missing_active_identity_count: recommendationActiveIdentityMissing.length,
-    md3_projections_missing_active_identity_count: projectionActiveIdentityMissing.length,
+    active_matchday_id: ACTIVE_MATCHDAY_ID,
+    active_matchday_label: ACTIVE_MATCHDAY_LABEL,
+    active_recommendation_rows: activeRecommendations.length,
+    active_projection_rows: activeProjections.length,
+    active_score_fixture_rows: activeScoreRows.length,
+    active_recommendations_resolving_active_identity_count: activeRecommendations.length - recommendationActiveIdentityMissing.length,
+    active_recommendations_missing_active_identity_count: recommendationActiveIdentityMissing.length,
+    active_projections_missing_active_identity_count: projectionActiveIdentityMissing.length,
     finance_missing_active_identity_count: financeActiveIdentityMissing.length,
     recommendation_projection_missing_count: recommendationProjectionMissing.length,
-    md3_recommendations_missing_players_data_enrichment_count: recommendationPlayersDataMissing.length,
-    md3_projections_missing_players_data_enrichment_count: projectionPlayersDataMissing.length,
+    active_recommendations_missing_players_data_enrichment_count: recommendationPlayersDataMissing.length,
+    active_projections_missing_players_data_enrichment_count: projectionPlayersDataMissing.length,
     finance_missing_players_data_enrichment_count: financePlayersDataMissing.length,
     players_data_role: "supplemental_enrichment_only",
     duplicate_score_fixture_key_count: duplicateScoreFixtureKeys.length,
     invalid_numeric_value_count: invalidNumbers.length
   };
-  addCheck(report, "md3_recommendation_identity_and_projection_coverage", recommendationActiveIdentityMissing.length || recommendationProjectionMissing.length ? "fail" : "pass", consistency);
-  addCheck(report, "md3_score_fixture_coverage", md3ScoreRows.length && !duplicateScoreFixtureKeys.length ? "pass" : "fail", {
-    md3_score_fixture_rows: md3ScoreRows.length,
+  addCheck(report, "active_matchday_recommendation_identity_and_projection_coverage", recommendationActiveIdentityMissing.length || recommendationProjectionMissing.length ? "fail" : "pass", consistency);
+  addCheck(report, "active_matchday_score_fixture_coverage", activeScoreRows.length && !duplicateScoreFixtureKeys.length ? "pass" : "fail", {
+    active_score_fixture_rows: activeScoreRows.length,
     duplicate_score_fixture_key_count: duplicateScoreFixtureKeys.length
   });
   addCheck(report, "active_numeric_fields_finite", invalidNumbers.length ? "fail" : "pass", {
@@ -883,9 +888,9 @@ function buildMarkdownReport(report) {
   const activeIdentity = report.active_identity || {};
   const enrichment = report.enrichment_coverage || activeIdentity.players_data_enrichment || {};
   const staleBlock = report.public_stale_path_block || {};
-  const md3 = report.md3_consistency || {};
+  const activeMatchday = report.active_matchday_consistency || {};
   const lines = [];
-  lines.push("# Active MD3 Data Flow QA Report");
+  lines.push("# Active R32 Data Flow QA Report");
   lines.push("");
   lines.push(`Generated: ${report.generated_at}`);
   lines.push(`Status: **${report.status.toUpperCase()}**`);
@@ -931,16 +936,16 @@ function buildMarkdownReport(report) {
   lines.push(`- stale cache strings absent: ${staleBlock.stale_public_version_strings?.length ? "fail" : "pass"}`);
   lines.push(`- public fallback references absent: ${staleBlock.old_public_fallback_references?.length ? "fail" : "pass"}`);
   lines.push("");
-  lines.push("## MD3 Gate");
+  lines.push(`## ${ACTIVE_MATCHDAY_LABEL} Gate`);
   lines.push("");
-  lines.push(`- MD3 recommendations: ${md3.md3_recommendation_rows ?? "n/a"}`);
-  lines.push(`- MD3 recommendation active identity coverage: ${md3.md3_recommendations_resolving_active_identity_count ?? "n/a"} / ${md3.md3_recommendation_rows ?? "n/a"}`);
-  lines.push(`- MD3 recommendation projection misses: ${md3.recommendation_projection_missing_count ?? "n/a"}`);
-  lines.push(`- MD3 projections: ${md3.md3_projection_rows ?? "n/a"}`);
-  lines.push(`- MD3 score fixtures: ${md3.md3_score_fixture_rows ?? "n/a"}`);
-  lines.push(`- playersData.js MD3 recommendation enrichment misses: ${md3.md3_recommendations_missing_players_data_enrichment_count ?? "n/a"}`);
-  lines.push(`- playersData.js MD3 projection enrichment misses: ${md3.md3_projections_missing_players_data_enrichment_count ?? "n/a"}`);
-  lines.push(`- playersData.js finance enrichment misses: ${md3.finance_missing_players_data_enrichment_count ?? "n/a"}`);
+  lines.push(`- ${ACTIVE_MATCHDAY_LABEL} recommendations: ${activeMatchday.active_recommendation_rows ?? "n/a"}`);
+  lines.push(`- ${ACTIVE_MATCHDAY_LABEL} recommendation active identity coverage: ${activeMatchday.active_recommendations_resolving_active_identity_count ?? "n/a"} / ${activeMatchday.active_recommendation_rows ?? "n/a"}`);
+  lines.push(`- ${ACTIVE_MATCHDAY_LABEL} recommendation projection misses: ${activeMatchday.recommendation_projection_missing_count ?? "n/a"}`);
+  lines.push(`- ${ACTIVE_MATCHDAY_LABEL} projections: ${activeMatchday.active_projection_rows ?? "n/a"}`);
+  lines.push(`- ${ACTIVE_MATCHDAY_LABEL} score fixtures: ${activeMatchday.active_score_fixture_rows ?? "n/a"}`);
+  lines.push(`- playersData.js ${ACTIVE_MATCHDAY_LABEL} recommendation enrichment misses: ${activeMatchday.active_recommendations_missing_players_data_enrichment_count ?? "n/a"}`);
+  lines.push(`- playersData.js ${ACTIVE_MATCHDAY_LABEL} projection enrichment misses: ${activeMatchday.active_projections_missing_players_data_enrichment_count ?? "n/a"}`);
+  lines.push(`- playersData.js finance enrichment misses: ${activeMatchday.finance_missing_players_data_enrichment_count ?? "n/a"}`);
   lines.push("");
   lines.push("## Checks");
   lines.push("");
@@ -1010,7 +1015,7 @@ async function main() {
   report.rules_sync = sync.rulesSync;
   report.active_identity = verifyActiveIdentity(report, active, sync.browserPlayers, activeIdentity);
   report.enrichment_coverage = report.active_identity.players_data_enrichment;
-  report.md3_consistency = verifyMd3Consistency(report, active, activeIdentity, sync.browserPlayers);
+  report.active_matchday_consistency = verifyActiveMatchdayConsistency(report, active, activeIdentity, sync.browserPlayers);
   report.team_builder_minimum_data = verifyTeamBuilderMinimum(report, active, sync.browserRules);
 
   report.status = report.failures.length

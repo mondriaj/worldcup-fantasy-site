@@ -1,0 +1,7 @@
+{
+  "schema_version": "knockout_score_predictor_qa_v1",
+  "generated_at": "2026-06-27T17:34:00.673Z",
+  "status": "pass",
+  "known_r32_predictions": 9,
+  "arbitrary_matchup_predictions": 1128
+}

@@ -1,8 +1,8 @@
-# Active MD3 Data Flow QA Report
+# Active R32 Data Flow QA Report
 
-Generated: 2026-06-27T16:48:29.992Z
+Generated: 2026-06-27T17:34:31.939Z
 Status: **PASS**
-Active version: `20260623-md3-prep`
+Active version: `20260627-r32-setup`
 
 ## Summary
 
@@ -25,8 +25,8 @@ Active version: `20260623-md3-prep`
 - duplicate official fantasy player IDs: 0
 - selectable official records: 1240
 - selectable by position: GK 145, DEF 408, MID 418, FWD 269
-- recommendation identity coverage: 500 / 500 resolved
-- projection identity coverage: 3699 / 3699 resolved
+- recommendation identity coverage: 250 / 250 resolved
+- projection identity coverage: 1689 / 1689 resolved
 - finance identity coverage: 1233 / 1233 resolved
 - projection/finance active ID alignment: 0 projection-only, 0 finance-only
 
@@ -44,15 +44,15 @@ Active version: `20260623-md3-prep`
 - stale cache strings absent: pass
 - public fallback references absent: pass
 
-## MD3 Gate
+## R32 Gate
 
-- MD3 recommendations: 125
-- MD3 recommendation active identity coverage: 125 / 125
-- MD3 recommendation projection misses: 0
-- MD3 projections: 1233
-- MD3 score fixtures: 24
-- playersData.js MD3 recommendation enrichment misses: 102
-- playersData.js MD3 projection enrichment misses: 1122
+- R32 recommendations: 125
+- R32 recommendation active identity coverage: 125 / 125
+- R32 recommendation projection misses: 0
+- R32 projections: 456
+- R32 score fixtures: 9
+- playersData.js R32 recommendation enrichment misses: 97
+- playersData.js R32 projection enrichment misses: 403
 - playersData.js finance enrichment misses: 1122
 
 ## Checks
@@ -67,8 +67,8 @@ Active version: `20260623-md3-prep`
 - **PASS** `fantasy_pool_finance_identity_coverage`
 - **PASS** `projection_finance_id_system_alignment`
 - **PASS** `players_data_enrichment_coverage`
-- **PASS** `md3_recommendation_identity_and_projection_coverage`
-- **PASS** `md3_score_fixture_coverage`
+- **PASS** `active_matchday_recommendation_identity_and_projection_coverage`
+- **PASS** `active_matchday_score_fixture_coverage`
 - **PASS** `active_numeric_fields_finite`
 - **PASS** `team_builder_minimum_data`
 
@@ -89,6 +89,7 @@ fantasyPoolRecommendationsData.js
 fantasyPoolMatchdayProjectionsData.js
 fantasyPoolFinanceMetricsData.js
 fantasyPoolScorePredictionsData.js
+knockoutScorePredictorData.js
 fantasyPoolOfficialDataStatusData.js
 liveMatchdayStatusData.js
 livePlayerStatusData.js

@@ -1,0 +1,1509 @@
+{
+  "schema_version": "r32_bracket_path_model_v1",
+  "generated_at": "2026-06-27T17:34:00.673Z",
+  "model_version": "r32-v1-partial-official-fixtures",
+  "evidence_scope": "Completed group tables and official scheduled R32 fixtures only.",
+  "current_group_standings": [
+    {
+      "group": "A",
+      "completed_fixtures": 6,
+      "total_fixtures": 6,
+      "complete": true,
+      "standings": [
+        {
+          "team": "Mexico",
+          "team_id": "mexico",
+          "group": "A",
+          "played": 3,
+          "wins": 3,
+          "draws": 0,
+          "losses": 0,
+          "goals_for": 6,
+          "goals_against": 0,
+          "goal_difference": 6,
+          "points": 9,
+          "rank": 1
+        },
+        {
+          "team": "South Africa",
+          "team_id": "south-africa",
+          "group": "A",
+          "played": 3,
+          "wins": 1,
+          "draws": 1,
+          "losses": 1,
+          "goals_for": 2,
+          "goals_against": 3,
+          "goal_difference": -1,
+          "points": 4,
+          "rank": 2
+        },
+        {
+          "team": "Korea Republic",
+          "team_id": "korea-republic",
+          "group": "A",
+          "played": 3,
+          "wins": 1,
+          "draws": 0,
+          "losses": 2,
+          "goals_for": 2,
+          "goals_against": 3,
+          "goal_difference": -1,
+          "points": 3,
+          "rank": 3
+        },
+        {
+          "team": "Czechia",
+          "team_id": "czechia",
+          "group": "A",
+          "played": 3,
+          "wins": 0,
+          "draws": 1,
+          "losses": 2,
+          "goals_for": 2,
+          "goals_against": 6,
+          "goal_difference": -4,
+          "points": 1,
+          "rank": 4
+        }
+      ],
+      "safe_qualified_top_two": [
+        "Mexico",
+        "South Africa"
+      ],
+      "safe_eliminated": [
+        "Czechia"
+      ],
+      "still_uncertain": [
+        "Korea Republic"
+      ]
+    },
+    {
+      "group": "B",
+      "completed_fixtures": 6,
+      "total_fixtures": 6,
+      "complete": true,
+      "standings": [
+        {
+          "team": "Switzerland",
+          "team_id": "switzerland",
+          "group": "B",
+          "played": 3,
+          "wins": 2,
+          "draws": 1,
+          "losses": 0,
+          "goals_for": 7,
+          "goals_against": 3,
+          "goal_difference": 4,
+          "points": 7,
+          "rank": 1
+        },
+        {
+          "team": "Canada",
+          "team_id": "canada",
+          "group": "B",
+          "played": 3,
+          "wins": 1,
+          "draws": 1,
+          "losses": 1,
+          "goals_for": 8,
+          "goals_against": 3,
+          "goal_difference": 5,
+          "points": 4,
+          "rank": 2
+        },
+        {
+          "team": "Bosnia and Herzegovina",
+          "team_id": "bosnia-and-herzegovina",
+          "group": "B",
+          "played": 3,
+          "wins": 1,
+          "draws": 1,
+          "losses": 1,
+          "goals_for": 5,
+          "goals_against": 6,
+          "goal_difference": -1,
+          "points": 4,
+          "rank": 3
+        },
+        {
+          "team": "Qatar",
+          "team_id": "qatar",
+          "group": "B",
+          "played": 3,
+          "wins": 0,
+          "draws": 1,
+          "losses": 2,
+          "goals_for": 2,
+          "goals_against": 10,
+          "goal_difference": -8,
+          "points": 1,
+          "rank": 4
+        }
+      ],
+      "safe_qualified_top_two": [
+        "Switzerland",
+        "Canada"
+      ],
+      "safe_eliminated": [
+        "Qatar"
+      ],
+      "still_uncertain": [
+        "Bosnia and Herzegovina"
+      ]
+    },
+    {
+      "group": "C",
+      "completed_fixtures": 6,
+      "total_fixtures": 6,
+      "complete": true,
+      "standings": [
+        {
+          "team": "Brazil",
+          "team_id": "brazil",
+          "group": "C",
+          "played": 3,
+          "wins": 2,
+          "draws": 1,
+          "losses": 0,
+          "goals_for": 7,
+          "goals_against": 1,
+          "goal_difference": 6,
+          "points": 7,
+          "rank": 1
+        },
+        {
+          "team": "Morocco",
+          "team_id": "morocco",
+          "group": "C",
+          "played": 3,
+          "wins": 2,
+          "draws": 1,
+          "losses": 0,
+          "goals_for": 6,
+          "goals_against": 3,
+          "goal_difference": 3,
+          "points": 7,
+          "rank": 2
+        },
+        {
+          "team": "Scotland",
+          "team_id": "scotland",
+          "group": "C",
+          "played": 3,
+          "wins": 1,
+          "draws": 0,
+          "losses": 2,
+          "goals_for": 1,
+          "goals_against": 4,
+          "goal_difference": -3,
+          "points": 3,
+          "rank": 3
+        },
+        {
+          "team": "Haiti",
+          "team_id": "haiti",
+          "group": "C",
+          "played": 3,
+          "wins": 0,
+          "draws": 0,
+          "losses": 3,
+          "goals_for": 2,
+          "goals_against": 8,
+          "goal_difference": -6,
+          "points": 0,
+          "rank": 4
+        }
+      ],
+      "safe_qualified_top_two": [
+        "Brazil",
+        "Morocco"
+      ],
+      "safe_eliminated": [
+        "Haiti"
+      ],
+      "still_uncertain": [
+        "Scotland"
+      ]
+    },
+    {
+      "group": "D",
+      "completed_fixtures": 6,
+      "total_fixtures": 6,
+      "complete": true,
+      "standings": [
+        {
+          "team": "USA",
+          "team_id": "usa",
+          "group": "D",
+          "played": 3,
+          "wins": 2,
+          "draws": 0,
+          "losses": 1,
+          "goals_for": 8,
+          "goals_against": 4,
+          "goal_difference": 4,
+          "points": 6,
+          "rank": 1
+        },
+        {
+          "team": "Australia",
+          "team_id": "australia",
+          "group": "D",
+          "played": 3,
+          "wins": 1,
+          "draws": 1,
+          "losses": 1,
+          "goals_for": 2,
+          "goals_against": 2,
+          "goal_difference": 0,
+          "points": 4,
+          "rank": 2
+        },
+        {
+          "team": "Paraguay",
+          "team_id": "paraguay",
+          "group": "D",
+          "played": 3,
+          "wins": 1,
+          "draws": 1,
+          "losses": 1,
+          "goals_for": 2,
+          "goals_against": 4,
+          "goal_difference": -2,
+          "points": 4,
+          "rank": 3
+        },
+        {
+          "team": "Türkiye",
+          "team_id": "turkiye",
+          "group": "D",
+          "played": 3,
+          "wins": 1,
+          "draws": 0,
+          "losses": 2,
+          "goals_for": 3,
+          "goals_against": 5,
+          "goal_difference": -2,
+          "points": 3,
+          "rank": 4
+        }
+      ],
+      "safe_qualified_top_two": [
+        "USA",
+        "Australia"
+      ],
+      "safe_eliminated": [
+        "Türkiye"
+      ],
+      "still_uncertain": [
+        "Paraguay"
+      ]
+    },
+    {
+      "group": "E",
+      "completed_fixtures": 6,
+      "total_fixtures": 6,
+      "complete": true,
+      "standings": [
+        {
+          "team": "Germany",
+          "team_id": "germany",
+          "group": "E",
+          "played": 3,
+          "wins": 2,
+          "draws": 0,
+          "losses": 1,
+          "goals_for": 10,
+          "goals_against": 4,
+          "goal_difference": 6,
+          "points": 6,
+          "rank": 1
+        },
+        {
+          "team": "Côte d'Ivoire",
+          "team_id": "cote-d-ivoire",
+          "group": "E",
+          "played": 3,
+          "wins": 2,
+          "draws": 0,
+          "losses": 1,
+          "goals_for": 4,
+          "goals_against": 2,
+          "goal_difference": 2,
+          "points": 6,
+          "rank": 2
+        },
+        {
+          "team": "Ecuador",
+          "team_id": "ecuador",
+          "group": "E",
+          "played": 3,
+          "wins": 1,
+          "draws": 1,
+          "losses": 1,
+          "goals_for": 2,
+          "goals_against": 2,
+          "goal_difference": 0,
+          "points": 4,
+          "rank": 3
+        },
+        {
+          "team": "Curaçao",
+          "team_id": "curacao",
+          "group": "E",
+          "played": 3,
+          "wins": 0,
+          "draws": 1,
+          "losses": 2,
+          "goals_for": 1,
+          "goals_against": 9,
+          "goal_difference": -8,
+          "points": 1,
+          "rank": 4
+        }
+      ],
+      "safe_qualified_top_two": [
+        "Germany",
+        "Côte d'Ivoire"
+      ],
+      "safe_eliminated": [
+        "Curaçao"
+      ],
+      "still_uncertain": [
+        "Ecuador"
+      ]
+    },
+    {
+      "group": "F",
+      "completed_fixtures": 6,
+      "total_fixtures": 6,
+      "complete": true,
+      "standings": [
+        {
+          "team": "Netherlands",
+          "team_id": "netherlands",
+          "group": "F",
+          "played": 3,
+          "wins": 2,
+          "draws": 1,
+          "losses": 0,
+          "goals_for": 10,
+          "goals_against": 4,
+          "goal_difference": 6,
+          "points": 7,
+          "rank": 1
+        },
+        {
+          "team": "Japan",
+          "team_id": "japan",
+          "group": "F",
+          "played": 3,
+          "wins": 1,
+          "draws": 2,
+          "losses": 0,
+          "goals_for": 7,
+          "goals_against": 3,
+          "goal_difference": 4,
+          "points": 5,
+          "rank": 2
+        },
+        {
+          "team": "Sweden",
+          "team_id": "sweden",
+          "group": "F",
+          "played": 3,
+          "wins": 1,
+          "draws": 1,
+          "losses": 1,
+          "goals_for": 7,
+          "goals_against": 7,
+          "goal_difference": 0,
+          "points": 4,
+          "rank": 3
+        },
+        {
+          "team": "Tunisia",
+          "team_id": "tunisia",
+          "group": "F",
+          "played": 3,
+          "wins": 0,
+          "draws": 0,
+          "losses": 3,
+          "goals_for": 2,
+          "goals_against": 12,
+          "goal_difference": -10,
+          "points": 0,
+          "rank": 4
+        }
+      ],
+      "safe_qualified_top_two": [
+        "Netherlands",
+        "Japan"
+      ],
+      "safe_eliminated": [
+        "Tunisia"
+      ],
+      "still_uncertain": [
+        "Sweden"
+      ]
+    },
+    {
+      "group": "G",
+      "completed_fixtures": 6,
+      "total_fixtures": 6,
+      "complete": true,
+      "standings": [
+        {
+          "team": "Belgium",
+          "team_id": "belgium",
+          "group": "G",
+          "played": 3,
+          "wins": 1,
+          "draws": 2,
+          "losses": 0,
+          "goals_for": 6,
+          "goals_against": 2,
+          "goal_difference": 4,
+          "points": 5,
+          "rank": 1
+        },
+        {
+          "team": "Egypt",
+          "team_id": "egypt",
+          "group": "G",
+          "played": 3,
+          "wins": 1,
+          "draws": 2,
+          "losses": 0,
+          "goals_for": 5,
+          "goals_against": 3,
+          "goal_difference": 2,
+          "points": 5,
+          "rank": 2
+        },
+        {
+          "team": "IR Iran",
+          "team_id": "ir-iran",
+          "group": "G",
+          "played": 3,
+          "wins": 0,
+          "draws": 3,
+          "losses": 0,
+          "goals_for": 3,
+          "goals_against": 3,
+          "goal_difference": 0,
+          "points": 3,
+          "rank": 3
+        },
+        {
+          "team": "New Zealand",
+          "team_id": "new-zealand",
+          "group": "G",
+          "played": 3,
+          "wins": 0,
+          "draws": 1,
+          "losses": 2,
+          "goals_for": 4,
+          "goals_against": 10,
+          "goal_difference": -6,
+          "points": 1,
+          "rank": 4
+        }
+      ],
+      "safe_qualified_top_two": [
+        "Belgium",
+        "Egypt"
+      ],
+      "safe_eliminated": [
+        "New Zealand"
+      ],
+      "still_uncertain": [
+        "IR Iran"
+      ]
+    },
+    {
+      "group": "H",
+      "completed_fixtures": 6,
+      "total_fixtures": 6,
+      "complete": true,
+      "standings": [
+        {
+          "team": "Spain",
+          "team_id": "spain",
+          "group": "H",
+          "played": 3,
+          "wins": 2,
+          "draws": 1,
+          "losses": 0,
+          "goals_for": 5,
+          "goals_against": 0,
+          "goal_difference": 5,
+          "points": 7,
+          "rank": 1
+        },
+        {
+          "team": "Cabo Verde",
+          "team_id": "cabo-verde",
+          "group": "H",
+          "played": 3,
+          "wins": 0,
+          "draws": 3,
+          "losses": 0,
+          "goals_for": 2,
+          "goals_against": 2,
+          "goal_difference": 0,
+          "points": 3,
+          "rank": 2
+        },
+        {
+          "team": "Uruguay",
+          "team_id": "uruguay",
+          "group": "H",
+          "played": 3,
+          "wins": 0,
+          "draws": 2,
+          "losses": 1,
+          "goals_for": 3,
+          "goals_against": 4,
+          "goal_difference": -1,
+          "points": 2,
+          "rank": 3
+        },
+        {
+          "team": "Saudi Arabia",
+          "team_id": "saudi-arabia",
+          "group": "H",
+          "played": 3,
+          "wins": 0,
+          "draws": 2,
+          "losses": 1,
+          "goals_for": 1,
+          "goals_against": 5,
+          "goal_difference": -4,
+          "points": 2,
+          "rank": 4
+        }
+      ],
+      "safe_qualified_top_two": [
+        "Spain",
+        "Cabo Verde"
+      ],
+      "safe_eliminated": [
+        "Saudi Arabia"
+      ],
+      "still_uncertain": [
+        "Uruguay"
+      ]
+    },
+    {
+      "group": "I",
+      "completed_fixtures": 6,
+      "total_fixtures": 6,
+      "complete": true,
+      "standings": [
+        {
+          "team": "France",
+          "team_id": "france",
+          "group": "I",
+          "played": 3,
+          "wins": 3,
+          "draws": 0,
+          "losses": 0,
+          "goals_for": 10,
+          "goals_against": 2,
+          "goal_difference": 8,
+          "points": 9,
+          "rank": 1
+        },
+        {
+          "team": "Norway",
+          "team_id": "norway",
+          "group": "I",
+          "played": 3,
+          "wins": 2,
+          "draws": 0,
+          "losses": 1,
+          "goals_for": 8,
+          "goals_against": 7,
+          "goal_difference": 1,
+          "points": 6,
+          "rank": 2
+        },
+        {
+          "team": "Senegal",
+          "team_id": "senegal",
+          "group": "I",
+          "played": 3,
+          "wins": 1,
+          "draws": 0,
+          "losses": 2,
+          "goals_for": 8,
+          "goals_against": 6,
+          "goal_difference": 2,
+          "points": 3,
+          "rank": 3
+        },
+        {
+          "team": "Iraq",
+          "team_id": "iraq",
+          "group": "I",
+          "played": 3,
+          "wins": 0,
+          "draws": 0,
+          "losses": 3,
+          "goals_for": 1,
+          "goals_against": 12,
+          "goal_difference": -11,
+          "points": 0,
+          "rank": 4
+        }
+      ],
+      "safe_qualified_top_two": [
+        "France",
+        "Norway"
+      ],
+      "safe_eliminated": [
+        "Iraq"
+      ],
+      "still_uncertain": [
+        "Senegal"
+      ]
+    },
+    {
+      "group": "J",
+      "completed_fixtures": 4,
+      "total_fixtures": 6,
+      "complete": false,
+      "standings": [
+        {
+          "team": "Argentina",
+          "team_id": "argentina",
+          "group": "J",
+          "played": 2,
+          "wins": 2,
+          "draws": 0,
+          "losses": 0,
+          "goals_for": 5,
+          "goals_against": 0,
+          "goal_difference": 5,
+          "points": 6,
+          "rank": 1
+        },
+        {
+          "team": "Austria",
+          "team_id": "austria",
+          "group": "J",
+          "played": 2,
+          "wins": 1,
+          "draws": 0,
+          "losses": 1,
+          "goals_for": 3,
+          "goals_against": 3,
+          "goal_difference": 0,
+          "points": 3,
+          "rank": 2
+        },
+        {
+          "team": "Algeria",
+          "team_id": "algeria",
+          "group": "J",
+          "played": 2,
+          "wins": 1,
+          "draws": 0,
+          "losses": 1,
+          "goals_for": 2,
+          "goals_against": 4,
+          "goal_difference": -2,
+          "points": 3,
+          "rank": 3
+        },
+        {
+          "team": "Jordan",
+          "team_id": "jordan",
+          "group": "J",
+          "played": 2,
+          "wins": 0,
+          "draws": 0,
+          "losses": 2,
+          "goals_for": 2,
+          "goals_against": 5,
+          "goal_difference": -3,
+          "points": 0,
+          "rank": 4
+        }
+      ],
+      "safe_qualified_top_two": [],
+      "safe_eliminated": [],
+      "still_uncertain": [
+        "Argentina",
+        "Austria",
+        "Algeria",
+        "Jordan"
+      ]
+    },
+    {
+      "group": "K",
+      "completed_fixtures": 4,
+      "total_fixtures": 6,
+      "complete": false,
+      "standings": [
+        {
+          "team": "Colombia",
+          "team_id": "colombia",
+          "group": "K",
+          "played": 2,
+          "wins": 2,
+          "draws": 0,
+          "losses": 0,
+          "goals_for": 4,
+          "goals_against": 1,
+          "goal_difference": 3,
+          "points": 6,
+          "rank": 1
+        },
+        {
+          "team": "Portugal",
+          "team_id": "portugal",
+          "group": "K",
+          "played": 2,
+          "wins": 1,
+          "draws": 1,
+          "losses": 0,
+          "goals_for": 6,
+          "goals_against": 1,
+          "goal_difference": 5,
+          "points": 4,
+          "rank": 2
+        },
+        {
+          "team": "Congo DR",
+          "team_id": "congo-dr",
+          "group": "K",
+          "played": 2,
+          "wins": 0,
+          "draws": 1,
+          "losses": 1,
+          "goals_for": 1,
+          "goals_against": 2,
+          "goal_difference": -1,
+          "points": 1,
+          "rank": 3
+        },
+        {
+          "team": "Uzbekistan",
+          "team_id": "uzbekistan",
+          "group": "K",
+          "played": 2,
+          "wins": 0,
+          "draws": 0,
+          "losses": 2,
+          "goals_for": 1,
+          "goals_against": 8,
+          "goal_difference": -7,
+          "points": 0,
+          "rank": 4
+        }
+      ],
+      "safe_qualified_top_two": [],
+      "safe_eliminated": [],
+      "still_uncertain": [
+        "Colombia",
+        "Portugal",
+        "Congo DR",
+        "Uzbekistan"
+      ]
+    },
+    {
+      "group": "L",
+      "completed_fixtures": 4,
+      "total_fixtures": 6,
+      "complete": false,
+      "standings": [
+        {
+          "team": "England",
+          "team_id": "england",
+          "group": "L",
+          "played": 2,
+          "wins": 1,
+          "draws": 1,
+          "losses": 0,
+          "goals_for": 4,
+          "goals_against": 2,
+          "goal_difference": 2,
+          "points": 4,
+          "rank": 1
+        },
+        {
+          "team": "Ghana",
+          "team_id": "ghana",
+          "group": "L",
+          "played": 2,
+          "wins": 1,
+          "draws": 1,
+          "losses": 0,
+          "goals_for": 1,
+          "goals_against": 0,
+          "goal_difference": 1,
+          "points": 4,
+          "rank": 2
+        },
+        {
+          "team": "Croatia",
+          "team_id": "croatia",
+          "group": "L",
+          "played": 2,
+          "wins": 1,
+          "draws": 0,
+          "losses": 1,
+          "goals_for": 3,
+          "goals_against": 4,
+          "goal_difference": -1,
+          "points": 3,
+          "rank": 3
+        },
+        {
+          "team": "Panama",
+          "team_id": "panama",
+          "group": "L",
+          "played": 2,
+          "wins": 0,
+          "draws": 0,
+          "losses": 2,
+          "goals_for": 0,
+          "goals_against": 2,
+          "goal_difference": -2,
+          "points": 0,
+          "rank": 4
+        }
+      ],
+      "safe_qualified_top_two": [],
+      "safe_eliminated": [],
+      "still_uncertain": [
+        "England",
+        "Ghana",
+        "Croatia",
+        "Panama"
+      ]
+    }
+  ],
+  "known_r32_fixtures": [
+    {
+      "match_id": "73",
+      "fixture_id": "fwc2026-m073",
+      "match_number": 73,
+      "stage": "round_of_32",
+      "fixture_status": "scheduled",
+      "path_status": "known_official_fixture",
+      "bracket_path": "Group A runner-up v Group B runner-up",
+      "date": "2026-06-28T20:00:00+01:00",
+      "home_team": "South Africa",
+      "away_team": "Canada"
+    },
+    {
+      "match_id": "74",
+      "fixture_id": "fwc2026-m074",
+      "match_number": 74,
+      "stage": "round_of_32",
+      "fixture_status": "scheduled",
+      "path_status": "known_official_fixture",
+      "bracket_path": "Group E winner v third-place team from Group A/B/C/D/F",
+      "date": "2026-06-29T18:00:00+01:00",
+      "home_team": "Brazil",
+      "away_team": "Japan"
+    },
+    {
+      "match_id": "75",
+      "fixture_id": "fwc2026-m075",
+      "match_number": 75,
+      "stage": "round_of_32",
+      "fixture_status": "scheduled",
+      "path_status": "known_official_fixture",
+      "bracket_path": "Group F winner v Group C runner-up",
+      "date": "2026-06-30T02:00:00+01:00",
+      "home_team": "Netherlands",
+      "away_team": "Morocco"
+    },
+    {
+      "match_id": "76",
+      "fixture_id": "fwc2026-m076",
+      "match_number": 76,
+      "stage": "round_of_32",
+      "fixture_status": "scheduled",
+      "path_status": "known_official_fixture",
+      "bracket_path": "Group C winner v Group F runner-up",
+      "date": "2026-07-02T01:00:00+01:00",
+      "home_team": "USA",
+      "away_team": "Bosnia and Herzegovina"
+    },
+    {
+      "match_id": "77",
+      "fixture_id": "fwc2026-m077",
+      "match_number": 77,
+      "stage": "round_of_32",
+      "fixture_status": "scheduled",
+      "path_status": "known_official_fixture",
+      "bracket_path": "Group I winner v third-place team from Group C/D/F/G/H",
+      "date": "2026-06-30T18:00:00+01:00",
+      "home_team": "Côte d'Ivoire",
+      "away_team": "Norway"
+    },
+    {
+      "match_id": "78",
+      "fixture_id": "fwc2026-m078",
+      "match_number": 78,
+      "stage": "round_of_32",
+      "fixture_status": "scheduled",
+      "path_status": "known_official_fixture",
+      "bracket_path": "Group E runner-up v Group I runner-up",
+      "date": "2026-06-29T21:30:00+01:00",
+      "home_team": "Germany",
+      "away_team": "Paraguay"
+    },
+    {
+      "match_id": "79",
+      "fixture_id": "fwc2026-m079",
+      "match_number": 79,
+      "stage": "round_of_32",
+      "fixture_status": "scheduled",
+      "path_status": "known_official_fixture",
+      "bracket_path": "Group A winner v third-place team from Group C/E/F/H/I",
+      "date": "2026-06-30T22:00:00+01:00",
+      "home_team": "France",
+      "away_team": "Sweden"
+    },
+    {
+      "match_id": "80",
+      "fixture_id": "fwc2026-m080",
+      "match_number": 80,
+      "stage": "round_of_32",
+      "fixture_status": "scheduled",
+      "path_status": "known_official_fixture",
+      "bracket_path": "Group L winner v third-place team from Group E/H/I/J/K",
+      "date": "2026-07-03T23:00:00+01:00",
+      "home_team": "Argentina",
+      "away_team": "Cabo Verde"
+    },
+    {
+      "match_id": "81",
+      "fixture_id": "fwc2026-m081",
+      "match_number": 81,
+      "stage": "round_of_32",
+      "fixture_status": "scheduled",
+      "path_status": "known_official_fixture",
+      "bracket_path": "Group D winner v third-place team from Group B/E/F/I/J",
+      "date": "2026-07-03T19:00:00+01:00",
+      "home_team": "Australia",
+      "away_team": "Egypt"
+    }
+  ],
+  "unresolved_r32_matches": [
+    {
+      "match_id": "82",
+      "path": "Group G winner v third-place team from Group A/E/H/I/J",
+      "status": "unresolved_until_remaining_groups_finish"
+    },
+    {
+      "match_id": "83",
+      "path": "Group K runner-up v Group L runner-up",
+      "status": "unresolved_until_remaining_groups_finish"
+    },
+    {
+      "match_id": "84",
+      "path": "Group H winner v Group J runner-up",
+      "status": "unresolved_until_remaining_groups_finish"
+    },
+    {
+      "match_id": "85",
+      "path": "Group B winner v third-place team from Group E/F/G/I/J",
+      "status": "unresolved_until_remaining_groups_finish"
+    },
+    {
+      "match_id": "86",
+      "path": "Group J winner v Group H runner-up",
+      "status": "unresolved_until_remaining_groups_finish"
+    },
+    {
+      "match_id": "87",
+      "path": "Group K winner v third-place team from Group D/E/I/J/L",
+      "status": "unresolved_until_remaining_groups_finish"
+    },
+    {
+      "match_id": "88",
+      "path": "Group D runner-up v Group G runner-up",
+      "status": "unresolved_until_remaining_groups_finish"
+    }
+  ],
+  "teams_safely_qualified_top_two": [
+    {
+      "team": "Mexico",
+      "group": "A",
+      "source": "completed_group_table_top_two"
+    },
+    {
+      "team": "South Africa",
+      "group": "A",
+      "source": "completed_group_table_top_two"
+    },
+    {
+      "team": "Switzerland",
+      "group": "B",
+      "source": "completed_group_table_top_two"
+    },
+    {
+      "team": "Canada",
+      "group": "B",
+      "source": "completed_group_table_top_two"
+    },
+    {
+      "team": "Brazil",
+      "group": "C",
+      "source": "completed_group_table_top_two"
+    },
+    {
+      "team": "Morocco",
+      "group": "C",
+      "source": "completed_group_table_top_two"
+    },
+    {
+      "team": "USA",
+      "group": "D",
+      "source": "completed_group_table_top_two"
+    },
+    {
+      "team": "Australia",
+      "group": "D",
+      "source": "completed_group_table_top_two"
+    },
+    {
+      "team": "Germany",
+      "group": "E",
+      "source": "completed_group_table_top_two"
+    },
+    {
+      "team": "Côte d'Ivoire",
+      "group": "E",
+      "source": "completed_group_table_top_two"
+    },
+    {
+      "team": "Netherlands",
+      "group": "F",
+      "source": "completed_group_table_top_two"
+    },
+    {
+      "team": "Japan",
+      "group": "F",
+      "source": "completed_group_table_top_two"
+    },
+    {
+      "team": "Belgium",
+      "group": "G",
+      "source": "completed_group_table_top_two"
+    },
+    {
+      "team": "Egypt",
+      "group": "G",
+      "source": "completed_group_table_top_two"
+    },
+    {
+      "team": "Spain",
+      "group": "H",
+      "source": "completed_group_table_top_two"
+    },
+    {
+      "team": "Cabo Verde",
+      "group": "H",
+      "source": "completed_group_table_top_two"
+    },
+    {
+      "team": "France",
+      "group": "I",
+      "source": "completed_group_table_top_two"
+    },
+    {
+      "team": "Norway",
+      "group": "I",
+      "source": "completed_group_table_top_two"
+    }
+  ],
+  "teams_safely_eliminated": [
+    {
+      "team": "Czechia",
+      "group": "A",
+      "source": "completed_group_table_bottom"
+    },
+    {
+      "team": "Qatar",
+      "group": "B",
+      "source": "completed_group_table_bottom"
+    },
+    {
+      "team": "Haiti",
+      "group": "C",
+      "source": "completed_group_table_bottom"
+    },
+    {
+      "team": "Türkiye",
+      "group": "D",
+      "source": "completed_group_table_bottom"
+    },
+    {
+      "team": "Curaçao",
+      "group": "E",
+      "source": "completed_group_table_bottom"
+    },
+    {
+      "team": "Tunisia",
+      "group": "F",
+      "source": "completed_group_table_bottom"
+    },
+    {
+      "team": "New Zealand",
+      "group": "G",
+      "source": "completed_group_table_bottom"
+    },
+    {
+      "team": "Saudi Arabia",
+      "group": "H",
+      "source": "completed_group_table_bottom"
+    },
+    {
+      "team": "Iraq",
+      "group": "I",
+      "source": "completed_group_table_bottom"
+    }
+  ],
+  "teams_still_uncertain": [
+    {
+      "team": "Korea Republic",
+      "group": "A",
+      "reason": "third_place_path_not_set"
+    },
+    {
+      "team": "Bosnia and Herzegovina",
+      "group": "B",
+      "reason": "third_place_path_not_set"
+    },
+    {
+      "team": "Scotland",
+      "group": "C",
+      "reason": "third_place_path_not_set"
+    },
+    {
+      "team": "Paraguay",
+      "group": "D",
+      "reason": "third_place_path_not_set"
+    },
+    {
+      "team": "Ecuador",
+      "group": "E",
+      "reason": "third_place_path_not_set"
+    },
+    {
+      "team": "Sweden",
+      "group": "F",
+      "reason": "third_place_path_not_set"
+    },
+    {
+      "team": "IR Iran",
+      "group": "G",
+      "reason": "third_place_path_not_set"
+    },
+    {
+      "team": "Uruguay",
+      "group": "H",
+      "reason": "third_place_path_not_set"
+    },
+    {
+      "team": "Senegal",
+      "group": "I",
+      "reason": "third_place_path_not_set"
+    },
+    {
+      "team": "Argentina",
+      "group": "J",
+      "reason": "group_not_complete"
+    },
+    {
+      "team": "Austria",
+      "group": "J",
+      "reason": "group_not_complete"
+    },
+    {
+      "team": "Algeria",
+      "group": "J",
+      "reason": "group_not_complete"
+    },
+    {
+      "team": "Jordan",
+      "group": "J",
+      "reason": "group_not_complete"
+    },
+    {
+      "team": "Colombia",
+      "group": "K",
+      "reason": "group_not_complete"
+    },
+    {
+      "team": "Portugal",
+      "group": "K",
+      "reason": "group_not_complete"
+    },
+    {
+      "team": "Congo DR",
+      "group": "K",
+      "reason": "group_not_complete"
+    },
+    {
+      "team": "Uzbekistan",
+      "group": "K",
+      "reason": "group_not_complete"
+    },
+    {
+      "team": "England",
+      "group": "L",
+      "reason": "group_not_complete"
+    },
+    {
+      "team": "Ghana",
+      "group": "L",
+      "reason": "group_not_complete"
+    },
+    {
+      "team": "Croatia",
+      "group": "L",
+      "reason": "group_not_complete"
+    },
+    {
+      "team": "Panama",
+      "group": "L",
+      "reason": "group_not_complete"
+    }
+  ],
+  "team_paths": [
+    {
+      "team": "Canada",
+      "team_id": "canada",
+      "r32_match_id": 73,
+      "r32_opponent": "South Africa",
+      "r32_advance_probability": 0.7924,
+      "r16_match_id": "90",
+      "likely_r16_opponent_if_both_advance": "Netherlands",
+      "known_path_status": "known_r32_plus_projected_r16_from_bracket",
+      "path_difficulty_score": 66.1,
+      "hard_path_warning": null
+    },
+    {
+      "team": "Argentina",
+      "team_id": "argentina",
+      "r32_match_id": 80,
+      "r32_opponent": "Cabo Verde",
+      "r32_advance_probability": 0.9412,
+      "r16_match_id": "92",
+      "likely_r16_opponent_if_both_advance": "France",
+      "known_path_status": "known_r32_plus_projected_r16_from_bracket",
+      "path_difficulty_score": 70.12,
+      "hard_path_warning": "Likely R16 path is difficult if France advances."
+    },
+    {
+      "team": "USA",
+      "team_id": "usa",
+      "r32_match_id": 76,
+      "r32_opponent": "Bosnia and Herzegovina",
+      "r32_advance_probability": 0.8079,
+      "r16_match_id": "91",
+      "likely_r16_opponent_if_both_advance": "Germany",
+      "known_path_status": "known_r32_plus_projected_r16_from_bracket",
+      "path_difficulty_score": 75.34,
+      "hard_path_warning": "Likely R16 path is difficult if Germany advances."
+    },
+    {
+      "team": "Australia",
+      "team_id": "australia",
+      "r32_match_id": 81,
+      "r32_opponent": "Egypt",
+      "r32_advance_probability": 0.5759,
+      "r16_match_id": "94",
+      "likely_r16_opponent_if_both_advance": null,
+      "known_path_status": "known_r32_only",
+      "path_difficulty_score": 76.9,
+      "hard_path_warning": null
+    },
+    {
+      "team": "Germany",
+      "team_id": "germany",
+      "r32_match_id": 78,
+      "r32_opponent": "Paraguay",
+      "r32_advance_probability": 0.8514,
+      "r16_match_id": "91",
+      "likely_r16_opponent_if_both_advance": "USA",
+      "known_path_status": "known_r32_plus_projected_r16_from_bracket",
+      "path_difficulty_score": 82.41,
+      "hard_path_warning": null
+    },
+    {
+      "team": "Egypt",
+      "team_id": "egypt",
+      "r32_match_id": 81,
+      "r32_opponent": "Australia",
+      "r32_advance_probability": 0.4241,
+      "r16_match_id": "94",
+      "likely_r16_opponent_if_both_advance": null,
+      "known_path_status": "known_r32_only",
+      "path_difficulty_score": 83.15,
+      "hard_path_warning": null
+    },
+    {
+      "team": "Netherlands",
+      "team_id": "netherlands",
+      "r32_match_id": 75,
+      "r32_opponent": "Morocco",
+      "r32_advance_probability": 0.7098,
+      "r16_match_id": "90",
+      "likely_r16_opponent_if_both_advance": "Canada",
+      "known_path_status": "known_r32_plus_projected_r16_from_bracket",
+      "path_difficulty_score": 86.96,
+      "hard_path_warning": null
+    },
+    {
+      "team": "South Africa",
+      "team_id": "south-africa",
+      "r32_match_id": 73,
+      "r32_opponent": "Canada",
+      "r32_advance_probability": 0.2076,
+      "r16_match_id": "90",
+      "likely_r16_opponent_if_both_advance": "Netherlands",
+      "known_path_status": "known_r32_plus_projected_r16_from_bracket",
+      "path_difficulty_score": 91.41,
+      "hard_path_warning": null
+    },
+    {
+      "team": "Norway",
+      "team_id": "norway",
+      "r32_match_id": 77,
+      "r32_opponent": "Côte d'Ivoire",
+      "r32_advance_probability": 0.7826,
+      "r16_match_id": "89",
+      "likely_r16_opponent_if_both_advance": "Brazil",
+      "known_path_status": "known_r32_plus_projected_r16_from_bracket",
+      "path_difficulty_score": 92.45,
+      "hard_path_warning": "Likely R16 path is difficult if Brazil advances."
+    },
+    {
+      "team": "Brazil",
+      "team_id": "brazil",
+      "r32_match_id": 74,
+      "r32_opponent": "Japan",
+      "r32_advance_probability": 0.768,
+      "r16_match_id": "89",
+      "likely_r16_opponent_if_both_advance": "Norway",
+      "known_path_status": "known_r32_plus_projected_r16_from_bracket",
+      "path_difficulty_score": 97.15,
+      "hard_path_warning": null
+    },
+    {
+      "team": "Morocco",
+      "team_id": "morocco",
+      "r32_match_id": 75,
+      "r32_opponent": "Netherlands",
+      "r32_advance_probability": 0.2902,
+      "r16_match_id": "90",
+      "likely_r16_opponent_if_both_advance": "Canada",
+      "known_path_status": "known_r32_plus_projected_r16_from_bracket",
+      "path_difficulty_score": 100.5,
+      "hard_path_warning": null
+    },
+    {
+      "team": "Bosnia and Herzegovina",
+      "team_id": "bosnia-and-herzegovina",
+      "r32_match_id": 76,
+      "r32_opponent": "USA",
+      "r32_advance_probability": 0.1921,
+      "r16_match_id": "91",
+      "likely_r16_opponent_if_both_advance": "Germany",
+      "known_path_status": "known_r32_plus_projected_r16_from_bracket",
+      "path_difficulty_score": 102.75,
+      "hard_path_warning": "Likely R16 path is difficult if Germany advances."
+    },
+    {
+      "team": "France",
+      "team_id": "france",
+      "r32_match_id": 79,
+      "r32_opponent": "Sweden",
+      "r32_advance_probability": 0.8855,
+      "r16_match_id": "92",
+      "likely_r16_opponent_if_both_advance": "Argentina",
+      "known_path_status": "known_r32_plus_projected_r16_from_bracket",
+      "path_difficulty_score": 106.06,
+      "hard_path_warning": "Likely R16 path is difficult if Argentina advances."
+    },
+    {
+      "team": "Paraguay",
+      "team_id": "paraguay",
+      "r32_match_id": 78,
+      "r32_opponent": "Germany",
+      "r32_advance_probability": 0.1486,
+      "r16_match_id": "91",
+      "likely_r16_opponent_if_both_advance": "USA",
+      "known_path_status": "known_r32_plus_projected_r16_from_bracket",
+      "path_difficulty_score": 110.81,
+      "hard_path_warning": null
+    },
+    {
+      "team": "Côte d'Ivoire",
+      "team_id": "cote-d-ivoire",
+      "r32_match_id": 77,
+      "r32_opponent": "Norway",
+      "r32_advance_probability": 0.2174,
+      "r16_match_id": "89",
+      "likely_r16_opponent_if_both_advance": "Brazil",
+      "known_path_status": "known_r32_plus_projected_r16_from_bracket",
+      "path_difficulty_score": 113.06,
+      "hard_path_warning": "Likely R16 path is difficult if Brazil advances."
+    },
+    {
+      "team": "Japan",
+      "team_id": "japan",
+      "r32_match_id": 74,
+      "r32_opponent": "Brazil",
+      "r32_advance_probability": 0.232,
+      "r16_match_id": "89",
+      "likely_r16_opponent_if_both_advance": "Norway",
+      "known_path_status": "known_r32_plus_projected_r16_from_bracket",
+      "path_difficulty_score": 119.77,
+      "hard_path_warning": null
+    },
+    {
+      "team": "Sweden",
+      "team_id": "sweden",
+      "r32_match_id": 79,
+      "r32_opponent": "France",
+      "r32_advance_probability": 0.1145,
+      "r16_match_id": "92",
+      "likely_r16_opponent_if_both_advance": "Argentina",
+      "known_path_status": "known_r32_plus_projected_r16_from_bracket",
+      "path_difficulty_score": 146.76,
+      "hard_path_warning": "Likely R16 path is difficult if Argentina advances."
+    },
+    {
+      "team": "Cabo Verde",
+      "team_id": "cabo-verde",
+      "r32_match_id": 80,
+      "r32_opponent": "Argentina",
+      "r32_advance_probability": 0.0588,
+      "r16_match_id": "92",
+      "likely_r16_opponent_if_both_advance": "France",
+      "known_path_status": "known_r32_plus_projected_r16_from_bracket",
+      "path_difficulty_score": 148.76,
+      "hard_path_warning": "Likely R16 path is difficult if France advances."
+    }
+  ],
+  "qa_notes": [
+    "Known fixtures are read from the official live fixture feed.",
+    "Unresolved matches 82-88 are not invented.",
+    "R16 path warnings are computed from bracket winner paths and projected known R32 winners.",
+    "France/Germany/Argentina-style path examples are computed from current bracket data, not hardcoded."
+  ],
+  "ownership_used_as_signal": false,
+  "final_squads_source_backed": false
+}

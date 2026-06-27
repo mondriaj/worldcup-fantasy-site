@@ -40,7 +40,7 @@
       gtag('config', 'G-MSZET05H11');
     </script>
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="stylesheet" href="style.css?v=20260624-md3-final-md2-evidence" />
+    <link rel="stylesheet" href="style.css?v=20260627-r32-setup" />
   </head>
   <body>
     <header id="top" class="hero">
@@ -51,6 +51,7 @@
         <a href="#captain-change-advisor">Captain Switch Check</a>
         <a href="#substitution-advisor">Bench Switch Check</a>
         <a href="#match-environment">Score Prediction</a>
+        <a href="#knockout-predictor">Knockout Predictor</a>
         <a href="world-cup.html">World Cup Guide</a>
         <a href="#stats-notes">Stats Notes</a>
       </nav>
@@ -59,12 +60,13 @@
         <p class="eyebrow">Model-backed fantasy advice</p>
         <h1>The Fantasy Economist</h1>
         <p class="hero__text">
-          The Fantasy Economist is focused on Matchday 3, using full MD1 and MD2 evidence, current official fantasy status, two-game form, and group-incentive rotation caution to help you find good picks, build a squad, and manage captain and bench decisions.
+          The Fantasy Economist is set up for the Round of 32, using completed group-stage evidence, current official fantasy status, refreshed team-quality inputs, and known knockout paths to help you find good picks, build a squad, and compare matchup environments.
         </p>
 
         <div class="hero__actions" aria-label="Homepage actions">
-          <a class="primary-button primary-button--hero" href="#team-builder">Build MD3 Squad</a>
-          <a class="secondary-link" href="#match-environment">MD3 Score Prediction</a>
+          <a class="primary-button primary-button--hero" href="#team-builder">Build R32 Squad</a>
+          <a class="secondary-link" href="#match-environment">R32 Score Prediction</a>
+          <a class="secondary-link" href="#knockout-predictor">Knockout Predictor</a>
           <a class="secondary-link secondary-link--quiet" href="world-cup.html#group-stage">World Cup Fixtures</a>
         </div>
 
@@ -84,7 +86,7 @@
         <span id="quick-picks" class="anchor-offset" aria-hidden="true"></span>
         <div class="section-heading">
           <h2>Squad Builder Starter</h2>
-          <p>Start with a Matchday 3 curated pack built from full MD1+MD2 evidence, official fantasy status, two-game form, role caution, and group-incentive rotation risk, then complete the squad around budget, position limits, and country limits.</p>
+          <p>Start with a Round of 32 curated pack built from completed group-stage evidence, official fantasy status, role caution, and knockout-path value, then complete the squad around budget, position limits, and country limits.</p>
         </div>
 
         <div class="picks-control-row">
@@ -403,7 +405,7 @@
           <summary>How to use this timeline</summary>
           <ol>
             <li>Build or load a full Team Builder squad.</li>
-            <li>Choose MD1, MD2, or MD3 to see your saved players grouped by kickoff.</li>
+            <li>Choose R32, MD1, MD2, or MD3 to see your saved players grouped by kickoff.</li>
             <li>Use the quick-fill buttons to send players into Captain Switch Check or Bench Switch Check.</li>
             <li>Still enter actual points manually and confirm who has already played.</li>
           </ol>
@@ -430,7 +432,7 @@
         </summary>
 
         <div class="collapsible-body">
-          <p class="section-note">Pick cards show Matchday 3 projected points by default, with rotation and form cautions where teams may rotate or players have lost confidence. Verify official FIFA locks, deadlines, and lineups before acting.</p>
+          <p class="section-note">Pick cards show Round of 32 projected points by default, with role, form, and path cautions where the setup is fragile. Verify official FIFA locks, deadlines, and lineups before acting.</p>
 
           <div class="table-toolbar advice-toolbar">
             <label class="control-group" for="advice-measure-select">
@@ -453,7 +455,7 @@
             <label class="control-group" for="advice-matchday-select">
               <span>Matchday</span>
               <select id="advice-matchday-select"></select>
-              <small class="control-helper">Matchday 3 is the default. Use Full Group Stage for the broad ranking, or choose another matchday for opponent-specific lists.</small>
+              <small class="control-helper">Round of 32 is the default. Use Full Group Stage for historical context, or choose another matchday for opponent-specific lists.</small>
             </label>
 
             <p id="advice-style-note">Simple player notes using projected points, role, matchup, and downside context.</p>
@@ -519,7 +521,7 @@
         <summary class="collapsible-summary">
           <span>
             <h2>Score Prediction</h2>
-            <p>Matchday 3 opens by default with fixture-specific projected xG, scoreline, win/draw/win, clean-sheet, and uncertainty context from the score model.</p>
+            <p>Round of 32 opens by default with fixture-specific projected xG, scoreline, win/draw/win, clean-sheet, and uncertainty context from the score model.</p>
           </span>
           <span class="collapsible-action" aria-hidden="true"></span>
         </summary>
@@ -566,10 +568,54 @@
         </div>
       </details>
 
+      <section id="knockout-predictor" class="panel knockout-predictor-panel">
+        <div class="section-heading">
+          <h2>Knockout Predictor</h2>
+          <p>Round of 32 known fixtures and arbitrary team matchups from the refreshed PELE/team-quality knockout model.</p>
+        </div>
+
+        <div class="knockout-layout">
+          <div class="knockout-matchup-tool">
+            <div class="table-toolbar knockout-toolbar">
+              <label class="control-group" for="knockout-home-team-select">
+                <span>Team A</span>
+                <select id="knockout-home-team-select"></select>
+              </label>
+
+              <label class="control-group" for="knockout-away-team-select">
+                <span>Team B</span>
+                <select id="knockout-away-team-select"></select>
+              </label>
+            </div>
+
+            <div id="knockout-matchup-result" class="knockout-matchup-result" aria-live="polite"></div>
+          </div>
+
+          <div class="table-wrapper knockout-fixture-table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Known Fixture</th>
+                  <th>xG</th>
+                  <th>W / D / W</th>
+                  <th>Advance</th>
+                  <th>Uncertainty</th>
+                </tr>
+              </thead>
+              <tbody id="knockout-known-fixtures-body">
+                <tr class="fallback-table-row">
+                  <td colspan="5">Enable JavaScript to see Round of 32 knockout predictions.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
       <section id="team-builder" class="panel panel--team">
         <div class="section-heading">
           <h2>Team Builder</h2>
-          <p>Guided Matchday 3 squad builder for locking players, building a team, checking rotation/form risk, and saving your squad.</p>
+          <p>Guided Round of 32 squad builder for locking players, building a team, checking role/path risk, and saving your squad.</p>
         </div>
 
         <div class="method-note method-note--warning">
@@ -589,12 +635,12 @@
           <div class="builder-sidebar">
             <section class="builder-step-card builder-step-card--strategy" aria-labelledby="builder-step-strategy-title">
               <div class="builder-step-card__heading">
-                <span class="builder-step-number">1</span>
-                <div>
-                  <h3 id="builder-step-strategy-title">Choose Strategy</h3>
-                  <p>Balanced Squad and Matchday 3 are the defaults. Change squad strategy, formation, or matchday view before building.</p>
+                  <span class="builder-step-number">1</span>
+                  <div>
+                    <h3 id="builder-step-strategy-title">Choose Strategy</h3>
+                  <p>Balanced Squad and Round of 32 are the defaults. Change squad strategy, formation, or matchday view before building.</p>
+                  </div>
                 </div>
-              </div>
 
               <div class="builder-controls">
                 <label class="control-group" for="measure-select">
@@ -613,12 +659,12 @@
                 <label class="control-group" for="builder-matchday-select">
                   <span>Matchday View</span>
                   <select id="builder-matchday-select"></select>
-                  <small class="control-helper">Matchday 3 is the default. Use Full Group Stage for balance, or another matchday for opponent-specific squad planning.</small>
+                  <small class="control-helper">Round of 32 is the default. Use Full Group Stage for historical balance, or another matchday for opponent-specific squad planning.</small>
                 </label>
               </div>
 
               <button id="build-team-btn-top" class="primary-button builder-action-button builder-action-button--top" type="button">
-                Build MD3 Squad
+                Build R32 Squad
               </button>
 
               <details class="advanced-control-panel advanced-control-panel--measure">
@@ -714,15 +760,15 @@
 
             <section class="builder-step-card builder-step-card--build" aria-labelledby="builder-step-build-title">
               <div class="builder-step-card__heading">
-                <span class="builder-step-number">3</span>
-                <div>
-                  <h3 id="builder-step-build-title">Build Squad</h3>
-                  <p id="builder-build-guidance">Click Build MD3 Squad to fill 15 players from your strategy, locks, budget, and rules.</p>
+                  <span class="builder-step-number">3</span>
+                  <div>
+                    <h3 id="builder-step-build-title">Build Squad</h3>
+                  <p id="builder-build-guidance">Click Build R32 Squad to fill 15 players from your strategy, locks, budget, and rules.</p>
+                  </div>
                 </div>
-              </div>
 
               <button id="build-team-btn-bottom" class="primary-button builder-action-button">
-                Build MD3 Squad
+                Build R32 Squad
               </button>
             </section>
           </div>
@@ -767,7 +813,7 @@
               </p>
 
               <p id="team-message" class="team-message">
-                Lock a few players first, then click "Build MD3 Squad" to optimize the squad.
+                Lock a few players first, then click "Build R32 Squad" to optimize the squad.
               </p>
 
               <div class="builder-review-actions" aria-label="Squad field actions">
@@ -1279,7 +1325,7 @@
               <p><strong>Per 90:</strong> modeled fantasy upside if the player played a full 90 minutes.</p>
               <p><strong>Risk:</strong> a composite score from source risk, minutes uncertainty, volatility, downside risk, fixture risk, discipline, and bad-week probability. Lower is better.</p>
               <p><strong>Pick Strategy Score:</strong> the score for the selected public pick view: Projected Points, Core Picks, High-Floor Picks, Upside Picks, Value Picks, or Differential Picks.</p>
-              <p><strong>Projected Pts / Matchday:</strong> risk-adjusted expected fantasy points for one matchday. Pick cards highlight Matchday 3 unless you choose a specific matchday view.</p>
+              <p><strong>Projected Pts / Matchday:</strong> risk-adjusted expected fantasy points for one matchday. Pick cards highlight Round of 32 unless you choose a specific matchday view.</p>
               <p><strong>Advanced Bad-Week Floor Fields:</strong> deeper downside floor measures used by Model Notes and exports. They estimate bad-outcome cutoffs and worst-outcome averages.</p>
               <p><strong>Attack Heavy:</strong> tilts toward attacking players and attacking defenders with strong goal, assist, shot, and upside signals.</p>
               <p><strong>Very Risky Upside:</strong> intentionally searches for boom-or-bust players. It is useful for aggressive watchlists, not safe default picks.</p>
@@ -1492,6 +1538,7 @@
           <a href="#captain-change-advisor">Captain Switch Check</a>
           <a href="#substitution-advisor">Bench Switch Check</a>
           <a href="#match-environment">Score Prediction</a>
+          <a href="#knockout-predictor">Knockout Predictor</a>
           <a href="world-cup.html">World Cup Guide</a>
           <a href="#stats-notes">Stats Notes</a>
         </nav>
@@ -1515,15 +1562,16 @@
       </section>
     </div>
 
-    <script src="playersData.js?v=20260624-md3-final-md2-evidence"></script>
-    <script src="fantasyRulesData.js?v=20260624-md3-final-md2-evidence"></script>
-    <script src="fantasyPoolRecommendationsData.js?v=20260624-md3-final-md2-evidence"></script>
-    <script src="fantasyPoolMatchdayProjectionsData.js?v=20260624-md3-final-md2-evidence"></script>
-    <script src="fantasyPoolFinanceMetricsData.js?v=20260624-md3-final-md2-evidence"></script>
-    <script src="fantasyPoolScorePredictionsData.js?v=20260624-md3-final-md2-evidence"></script>
-    <script src="fantasyPoolOfficialDataStatusData.js?v=20260624-md3-final-md2-evidence"></script>
-    <script src="liveMatchdayStatusData.js?v=20260624-md3-final-md2-evidence"></script>
-    <script src="livePlayerStatusData.js?v=20260624-md3-final-md2-evidence"></script>
-    <script src="script.js?v=20260624-md3-final-md2-evidence"></script>
+    <script src="playersData.js?v=20260627-r32-setup"></script>
+    <script src="fantasyRulesData.js?v=20260627-r32-setup"></script>
+    <script src="fantasyPoolRecommendationsData.js?v=20260627-r32-setup"></script>
+    <script src="fantasyPoolMatchdayProjectionsData.js?v=20260627-r32-setup"></script>
+    <script src="fantasyPoolFinanceMetricsData.js?v=20260627-r32-setup"></script>
+    <script src="fantasyPoolScorePredictionsData.js?v=20260627-r32-setup"></script>
+    <script src="knockoutScorePredictorData.js?v=20260627-r32-setup"></script>
+    <script src="fantasyPoolOfficialDataStatusData.js?v=20260627-r32-setup"></script>
+    <script src="liveMatchdayStatusData.js?v=20260627-r32-setup"></script>
+    <script src="livePlayerStatusData.js?v=20260627-r32-setup"></script>
+    <script src="script.js?v=20260627-r32-setup"></script>
   </body>
 </html>

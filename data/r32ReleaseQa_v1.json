@@ -1,0 +1,36 @@
+{
+  "schema_version": "r32_release_qa_v1",
+  "generated_at": "2026-06-27T17:34:00.673Z",
+  "status": "pass",
+  "checks": [
+    {
+      "id": "known_r32_fixtures_available",
+      "status": "pass"
+    },
+    {
+      "id": "unfinished_md3_excluded",
+      "status": "pass"
+    },
+    {
+      "id": "knockout_predictor_built",
+      "status": "pass"
+    },
+    {
+      "id": "r32_player_projections_built",
+      "status": "pass"
+    },
+    {
+      "id": "r32_recommendations_built",
+      "status": "pass"
+    },
+    {
+      "id": "team_builder_r32_pass",
+      "status": "pass"
+    }
+  ],
+  "public_promotion": {
+    "promoted_to_r32_setup": true,
+    "public_default_matchday": "r32",
+    "partial_fixture_status": "9 known official R32 fixtures; unresolved matches remain staged/uncertain"
+  }
+}

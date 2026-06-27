@@ -1,12 +1,12 @@
 # Public Preview Browser QA Report v1
 
-Generated: 2026-06-27T16:49:43.813Z
+Generated: 2026-06-27T17:36:19.461Z
 
 ## Verdict
 
-**pass - safe_to_share_md3_public_preview**
+**pass - safe_to_share_r32_public_preview**
 
-The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. MD3 is the public default, MD1/MD2 remain accessible, live completed scores are shown only through the safe mapping path, and old public globals are absent.
+The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. R32 is the public default, MD1/MD2/MD3 remain accessible as historical views, live completed scores are shown only through the safe mapping path, and old public globals are absent.
 
 ## Run Context
 
@@ -23,16 +23,17 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 
 | Check | Result |
 | --- | --- |
-| Picks default to MD3 | pass |
-| Captain Watchlist opens on MD3 | pass |
-| Match Environment opens on MD3 | pass |
+| Picks default to R32 | pass |
+| Captain Watchlist opens on R32 | pass |
+| Match Environment opens on R32 | pass |
 | MD1 remains accessible | pass |
 | MD2 remains accessible | pass |
-| Team Builder opens on MD3 | pass |
+| Team Builder opens on R32 | pass |
+| Knockout predictor renders | pass |
 | Player Profile opens | pass |
 | Current data scripts loaded | pass |
 | Old globals absent | pass |
-| Live MD1/MD2/MD3 support data loaded | pass |
+| Live group-stage support data loaded | pass |
 | World Cup page renders | pass |
 
 ## Data Loaded
@@ -40,10 +41,11 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | Dataset | Rows |
 | --- | --- |
 | Players sample | 100 |
-| Recommendation candidates | 500 |
-| Projection rows | 3699 |
-| MD3 projection rows | 1233 |
-| Score fixtures | 72 |
+| Recommendation candidates | 250 |
+| Projection rows | 1689 |
+| R32 projection rows | 456 |
+| Known knockout predictions | 9 |
+| Score fixtures | 81 |
 | Official records | 1489 |
 | Live fixtures | 81 |
 | Live players | 1489 |
@@ -54,9 +56,9 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | --- | --- |
 | Console/page errors | 0 |
 | Console warnings | 0 |
-| Failed requests | 5 |
+| Failed requests | 6 |
 | Blocking failed requests | 0 |
-| Ignored non-blocking failed requests | 5 |
+| Ignored non-blocking failed requests | 6 |
 | Index overflow viewports | 0 |
 | World Cup overflow viewports | 0 |
 | Profile click failures | 0 |
@@ -78,7 +80,7 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 
 ## Remaining Limits
 
-- Browser QA confirms the public MD3 data path and live display plumbing.
+- Browser QA confirms the public R32 data path, knockout predictor, and live display plumbing.
 - Final squads remain not source-backed.
 - Team Builder remains planning help and must be checked inside the official FIFA game.
 - User-specific locks, substitutions, captain state, and boosters are not imported.

@@ -8,7 +8,7 @@ const baseUrl = process.env.PUBLIC_PREVIEW_BASE_URL || "http://127.0.0.1:8766";
 const outputPath = process.env.PUBLIC_PREVIEW_QA_OUTPUT || "/private/tmp/public_preview_browser_qa_result.json";
 const reportPath = process.env.PUBLIC_PREVIEW_QA_REPORT || "data/publicPreviewBrowserQaReport_v1.md";
 const screenshotDir = process.env.PUBLIC_PREVIEW_QA_SCREENSHOT_DIR || "/private/tmp/public_preview_browser_qa_screenshots";
-const activePublicMatchdayId = "md3";
+const activePublicMatchdayId = "r32";
 const executableCandidates = [
   process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE,
   "/Users/jordimondria/Library/Caches/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-mac-arm64/chrome-headless-shell",
@@ -23,6 +23,7 @@ const currentDataScripts = [
   "fantasyPoolMatchdayProjectionsData.js",
   "fantasyPoolFinanceMetricsData.js",
   "fantasyPoolScorePredictionsData.js",
+  "knockoutScorePredictorData.js",
   "fantasyPoolOfficialDataStatusData.js",
   "liveMatchdayStatusData.js",
   "livePlayerStatusData.js",
@@ -44,6 +45,8 @@ const activeGlobalChecks = {
   FANTASY_POOL_SCORE_CONTEXT: (_value, windowObject) =>
     Boolean(windowObject.FANTASY_POOL_SCORE_PREDICTIONS_DATA) ||
     Array.isArray(windowObject.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS),
+  KNOCKOUT_SCORE_PREDICTOR_DATA: (value) =>
+    Boolean(value && Array.isArray(value.known_r32_predictions) && value.known_r32_predictions.length > 0),
   FANTASY_POOL_OFFICIAL_DATA_STATUS: (value) =>
     Boolean(value && Array.isArray(value.official_position_records) && value.official_position_records.length > 0),
   LIVE_MATCHDAY_STATUS_DATA: (value) => Boolean(value && Array.isArray(value.fixtures)),
@@ -93,10 +96,10 @@ function buildMarkdownReport(result) {
     "## Verdict",
     "",
     summary.status === "pass"
-      ? "**pass - safe_to_share_md3_public_preview**"
+      ? "**pass - safe_to_share_r32_public_preview**"
       : "**fail - do_not_share_until_browser_qa_is_fixed**",
     "",
-    "The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. MD3 is the public default, MD1/MD2 remain accessible, live completed scores are shown only through the safe mapping path, and old public globals are absent.",
+    "The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. R32 is the public default, MD1/MD2/MD3 remain accessible as historical views, live completed scores are shown only through the safe mapping path, and old public globals are absent.",
     "",
     "## Run Context",
     "",
@@ -117,16 +120,17 @@ function buildMarkdownReport(result) {
     mdTable(
       ["Check", "Result"],
       [
-        ["Picks default to MD3", checks.picksDefaultMd3 ? "pass" : "fail"],
-        ["Captain Watchlist opens on MD3", checks.captainWatchlistDefaultMd3 ? "pass" : "fail"],
-        ["Match Environment opens on MD3", checks.matchEnvironmentDefaultMd3 ? "pass" : "fail"],
+        ["Picks default to R32", checks.picksDefaultR32 ? "pass" : "fail"],
+        ["Captain Watchlist opens on R32", checks.captainWatchlistDefaultR32 ? "pass" : "fail"],
+        ["Match Environment opens on R32", checks.matchEnvironmentDefaultR32 ? "pass" : "fail"],
         ["MD1 remains accessible", checks.matchEnvironmentMd1Accessible ? "pass" : "fail"],
         ["MD2 remains accessible", checks.matchEnvironmentMd2Accessible ? "pass" : "fail"],
-        ["Team Builder opens on MD3", checks.teamBuilderDefaultMd3 ? "pass" : "fail"],
+        ["Team Builder opens on R32", checks.teamBuilderDefaultR32 ? "pass" : "fail"],
+        ["Knockout predictor renders", checks.knockoutPredictorRenders ? "pass" : "fail"],
         ["Player Profile opens", checks.playerProfileOpens ? "pass" : "fail"],
         ["Current data scripts loaded", checks.currentScriptsLoaded ? "pass" : "fail"],
         ["Old globals absent", checks.oldGlobalsAbsent ? "pass" : "fail"],
-        ["Live MD1/MD2/MD3 support data loaded", checks.liveMd1SupportLoaded ? "pass" : "fail"],
+        ["Live group-stage support data loaded", checks.liveMd1SupportLoaded ? "pass" : "fail"],
         ["World Cup page renders", firstWorldCup?.failures?.length ? "fail" : "pass"]
       ]
     ),
@@ -139,7 +143,8 @@ function buildMarkdownReport(result) {
         ["Players sample", globals.players],
         ["Recommendation candidates", globals.recommendations],
         ["Projection rows", globals.projections],
-        ["MD3 projection rows", globals.md3Projections],
+        ["R32 projection rows", globals.r32Projections],
+        ["Known knockout predictions", globals.knownKnockoutPredictions],
         ["Score fixtures", globals.scoreFixtures],
         ["Official records", globals.officialRecords],
         ["Live fixtures", globals.liveFixtures],
@@ -171,7 +176,7 @@ function buildMarkdownReport(result) {
     "",
     "## Remaining Limits",
     "",
-    "- Browser QA confirms the public MD3 data path and live display plumbing.",
+    "- Browser QA confirms the public R32 data path, knockout predictor, and live display plumbing.",
     "- Final squads remain not source-backed.",
     "- Team Builder remains planning help and must be checked inside the official FIFA game.",
     "- User-specific locks, substitutions, captain state, and boosters are not imported.",
@@ -205,7 +210,7 @@ async function clickProfileAndClose(page, selector, label) {
     showsOfficialPrice: /Official fantasy price|Price/i.test(modalText),
     showsPosition: /Position|Defender|Midfielder|Forward|Goalkeeper|FWD|MID|DEF|GK/i.test(modalText),
     showsCurrentDataWarning: /Official Fantasy Picks|current FIFA fantasy|Confirm|verify|deadline/i.test(modalText),
-    showsMd3Context: /Matchday 3|MD3/i.test(modalText),
+    showsR32Context: /Round of 32|R32/i.test(modalText),
     modalTextSample: modalText.slice(0, 500)
   };
 
@@ -249,15 +254,16 @@ async function collectPageState(page) {
       players: Array.isArray(window.PLAYERS_DATA) ? window.PLAYERS_DATA.length : window.PLAYERS_DATA?.players?.length || 0,
       recommendations: window.FANTASY_POOL_RECOMMENDATION_CANDIDATES?.length || 0,
       projections: window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS?.length || 0,
-      md3Projections: (window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || []).filter((row) => row.matchday === "md3").length,
+      r32Projections: (window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || []).filter((row) => row.matchday === "r32").length,
       finance: window.FANTASY_POOL_PLAYER_FINANCE_METRICS?.length || 0,
       scoreFixtures: window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS?.length || window.FANTASY_POOL_SCORE_PREDICTIONS_DATA?.fixtureScorePredictions?.length || 0,
+      knownKnockoutPredictions: window.KNOCKOUT_SCORE_PREDICTOR_DATA?.known_r32_predictions?.length || 0,
       officialRecords: window.FANTASY_POOL_OFFICIAL_DATA_STATUS?.official_position_records?.length || 0,
       liveFixtures: window.LIVE_MATCHDAY_STATUS_DATA?.fixtures?.length || 0,
       livePlayers: window.LIVE_PLAYER_STATUS_DATA?.players?.length || 0
     };
-    const topMd3Projection = [...(window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || [])]
-      .filter((row) => row.matchday === "md3")
+    const topR32Projection = [...(window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || [])]
+      .filter((row) => row.matchday === "r32")
       .sort((a, b) => (b.projectedPoints || b.raw_expected_points || 0) - (a.projectedPoints || a.raw_expected_points || 0))[0] || null;
     const overflowingElements = Array.from(document.querySelectorAll("body *"))
       .filter((element) => {
@@ -300,10 +306,10 @@ async function collectPageState(page) {
         scoreModelVersion: window.FANTASY_POOL_SCORE_PREDICTIONS_DATA?.modelVersion || window.FANTASY_POOL_SCORE_PREDICTIONS_DATA?.model_version || null,
         projectionModelVersion: window.FANTASY_POOL_MATCHDAY_PROJECTIONS_DATA?.modelVersion || window.FANTASY_POOL_MATCHDAY_PROJECTIONS_DATA?.model_version || null,
         projectionDataStatus: window.FANTASY_POOL_MATCHDAY_PROJECTIONS_DATA?.data_status || null,
-        topMd3Projection: topMd3Projection ? {
-          name: topMd3Projection.name,
-          projectedPoints: topMd3Projection.projectedPoints || topMd3Projection.raw_expected_points || null,
-          captainUpsideScore: topMd3Projection.captainUpsideScore || topMd3Projection.captain_score || null
+        topR32Projection: topR32Projection ? {
+          name: topR32Projection.name,
+          projectedPoints: topR32Projection.projectedPoints || topR32Projection.raw_expected_points || null,
+          captainUpsideScore: topR32Projection.captainUpsideScore || topR32Projection.captain_score || null
         } : null
       },
       sections: {
@@ -312,6 +318,7 @@ async function collectPageState(page) {
         matchdayDesk: Boolean(document.querySelector("#matchday-desk")),
         teamBuilder: Boolean(document.querySelector("#team-builder")),
         matchEnvironment: Boolean(document.querySelector("#match-environment")),
+        knockoutPredictor: Boolean(document.querySelector("#knockout-predictor")),
         playerProfileModal: Boolean(document.querySelector("#player-detail-modal"))
       },
       ui: {
@@ -361,6 +368,15 @@ async function collectPageState(page) {
         },
         addToBuilderButtons: document.querySelectorAll("[data-lock-player-id]").length,
         picksBuilderTrayText: document.querySelector("#picks-builder-tray")?.textContent?.trim() || ""
+        ,
+        knockoutPredictor: {
+          homeTeam: selectValue("#knockout-home-team-select"),
+          awayTeam: selectValue("#knockout-away-team-select"),
+          homeOptions: selectOptionCount("#knockout-home-team-select"),
+          awayOptions: selectOptionCount("#knockout-away-team-select"),
+          resultText: textFrom("#knockout-matchup-result"),
+          knownRows: document.querySelectorAll("#knockout-known-fixtures-body tr").length
+        }
       },
       warnings: {
         manualConfirmation: bodyText.includes("Confirm locks") || bodyText.includes("confirm squad legality, locks, and deadlines"),
@@ -390,6 +406,7 @@ async function verifyActiveGlobals(page) {
       FANTASY_POOL_RECOMMENDATION_CANDIDATES: Array.isArray(window.FANTASY_POOL_RECOMMENDATION_CANDIDATES) && window.FANTASY_POOL_RECOMMENDATION_CANDIDATES.length > 0,
       FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS: Array.isArray(window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS) && window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS.length > 0,
       FANTASY_POOL_SCORE_CONTEXT: Boolean(window.FANTASY_POOL_SCORE_PREDICTIONS_DATA) || Array.isArray(window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS),
+      KNOCKOUT_SCORE_PREDICTOR_DATA: Boolean(window.KNOCKOUT_SCORE_PREDICTOR_DATA?.known_r32_predictions?.length),
       FANTASY_POOL_OFFICIAL_DATA_STATUS: Boolean(window.FANTASY_POOL_OFFICIAL_DATA_STATUS?.official_position_records?.length),
       LIVE_MATCHDAY_STATUS_DATA: Boolean(window.LIVE_MATCHDAY_STATUS_DATA?.fixtures?.length),
       LIVE_PLAYER_STATUS_DATA: Boolean(window.LIVE_PLAYER_STATUS_DATA?.players?.length)
@@ -479,12 +496,13 @@ async function testMainPage(browser, viewport) {
   await waitForVisibleActiveDataBadge(page);
   await openDetails(page, "#match-environment");
   await page.waitForSelector("#match-environment-table-body tr", { timeout: 60000 });
+  await page.waitForSelector("#knockout-known-fixtures-body tr", { timeout: 60000 });
 
   const activeGlobals = await verifyActiveGlobals(page);
   const stateBeforeClicks = await collectPageState(page);
   const md1MatchEnvironmentAccess = await testMatchEnvironmentMatchdayAccess(page, "md1");
   const md2MatchEnvironmentAccess = await testMatchEnvironmentMatchdayAccess(page, "md2");
-  const md3MatchEnvironmentAccess = await testMatchEnvironmentMatchdayAccess(page, activePublicMatchdayId);
+  const activeMatchEnvironmentAccess = await testMatchEnvironmentMatchdayAccess(page, activePublicMatchdayId);
   const quickPickProfile = await clickProfileAndClose(page, "#dashboard-grid .player-name-button", "Picks");
   const captainProfile = await clickProfileAndClose(page, "#captain-card-grid .player-name-button", "Captain Watchlist");
   const adviceProfile = await clickProfileAndClose(page, "#advice-card-grid .player-name-button, #advice-table-body .player-name-button", "Official Fantasy Picks");
@@ -519,29 +537,33 @@ async function testMainPage(browser, viewport) {
     homepageLoads: stateBeforeClicks.title.includes("Fantasy"),
     noConsoleOrPageErrors: consoleErrors.length === 0 && pageErrors.length === 0,
     activeDataBadgeVisible: stateBeforeClicks.ui.activeDataBadgeVisible,
-    scoreModelV5Loaded: activeGlobals.scoreModelVersion === "score-v5-md3-pele-md1-md2full-calibrated",
-    projectionModelV5Loaded: activeGlobals.projectionModelVersion === "player-projection-v5-md3-score-v5-role-v3-incentive-form",
+    scoreModelR32Loaded: activeGlobals.scoreModelVersion === "score-r32-v1-pele-group-stage-calibrated",
+    projectionModelR32Loaded: activeGlobals.projectionModelVersion === "player-projection-r32-v1",
     activeOfficialRecordsLoaded: stateBeforeClicks.globals.activeGlobalCounts.officialRecords > 0,
     activeGlobalsPresent: activeGlobals.missingActiveGlobals.length === 0,
     oldGlobalsAbsent: activeGlobals.oldGlobalsPresent.length === 0,
     currentScriptsLoaded: stateBeforeClicks.scripts.missingCurrentScripts.length === 0,
     oldScriptsAbsent: stateBeforeClicks.scripts.loadedLegacyScripts.length === 0,
     picksRender: stateBeforeClicks.ui.quickPickCards > 0 && stateBeforeClicks.ui.quickPickNames.length > 0,
-    picksDefaultMd3: stateBeforeClicks.ui.adviceMatchdaySelected === activePublicMatchdayId &&
-      /Matchday 3|MD3/i.test(`${stateBeforeClicks.ui.quickPickText} ${stateBeforeClicks.ui.adviceStyleNote}`),
+    picksDefaultR32: stateBeforeClicks.ui.adviceMatchdaySelected === activePublicMatchdayId &&
+      /Round of 32|R32/i.test(`${stateBeforeClicks.ui.quickPickText} ${stateBeforeClicks.ui.adviceStyleNote}`),
     captainWatchlistRenders: stateBeforeClicks.sections.captainWatchlist && stateBeforeClicks.ui.captainCards > 0,
-    captainWatchlistDefaultMd3: /Matchday 3|MD3/i.test(stateBeforeClicks.ui.captainCardText),
+    captainWatchlistDefaultR32: /Round of 32|R32/i.test(stateBeforeClicks.ui.captainCardText),
     playerProfileOpens: [quickPickProfile, captainProfile, adviceProfile].some((result) => result.status === "pass" && result.playerProfileOpened),
-    playerProfilePracticalMd3: [quickPickProfile, captainProfile, adviceProfile].some((result) => result.status === "pass" && result.showsMd3Context),
+    playerProfilePracticalR32: [quickPickProfile, captainProfile, adviceProfile].some((result) => result.status === "pass" && result.showsR32Context),
     teamBuilderControlsLoad: stateBeforeClicks.ui.teamBuilderControls.strategyOptions > 0 &&
       stateBeforeClicks.ui.teamBuilderControls.matchdayOptions > 0 &&
       stateBeforeClicks.ui.teamBuilderControls.buildButton,
-    teamBuilderDefaultMd3: stateBeforeClicks.ui.teamBuilderControls.selectedMatchday === activePublicMatchdayId &&
-      /MD3|Matchday 3/i.test(stateBeforeClicks.ui.teamBuilderControls.buildButtonText),
+    teamBuilderDefaultR32: stateBeforeClicks.ui.teamBuilderControls.selectedMatchday === activePublicMatchdayId &&
+      /R32|Round of 32/i.test(stateBeforeClicks.ui.teamBuilderControls.buildButtonText),
     addToBuilderWorksOrUnsupported: addToBuilder.status === "pass" || addToBuilder.status === "skip",
     matchEnvironmentLoads: stateBeforeClicks.ui.environmentRows.length > 0,
-    matchEnvironmentDefaultMd3: stateBeforeClicks.ui.matchEnvironmentControls.selectedMatchday === activePublicMatchdayId &&
-      stateBeforeClicks.ui.environmentRows.some((row) => /Matchday 3|MD3/i.test(row)),
+    matchEnvironmentDefaultR32: stateBeforeClicks.ui.matchEnvironmentControls.selectedMatchday === activePublicMatchdayId &&
+      stateBeforeClicks.ui.environmentRows.some((row) => /Round of 32|R32/i.test(row)),
+    knockoutPredictorRenders: stateBeforeClicks.sections.knockoutPredictor &&
+      stateBeforeClicks.ui.knockoutPredictor.homeOptions >= 48 &&
+      stateBeforeClicks.ui.knockoutPredictor.knownRows > 0 &&
+      /Projected advancer|advance|Extra time/i.test(stateBeforeClicks.ui.knockoutPredictor.resultText),
     matchEnvironmentMd1Accessible: md1MatchEnvironmentAccess.status === "pass" &&
       md1MatchEnvironmentAccess.selected === "md1" &&
       md1MatchEnvironmentAccess.rowCount > 0,
@@ -553,7 +575,7 @@ async function testMainPage(browser, viewport) {
       stateBeforeClicks.ui.matchdayDeskControls.strategyOptions > 0 &&
       stateBeforeClicks.ui.matchdayDeskContentBlocks > 0 &&
       stateBeforeClicks.ui.matchdayDeskContentText.length > 0,
-    matchdayDeskDefaultMd3: stateBeforeClicks.ui.matchdayDeskControls.selectedMatchday === activePublicMatchdayId,
+    matchdayDeskDefaultR32: stateBeforeClicks.ui.matchdayDeskControls.selectedMatchday === activePublicMatchdayId,
     liveMd1SupportLoaded: stateBeforeClicks.globals.activeGlobalCounts.liveFixtures > 0 &&
       stateBeforeClicks.globals.activeGlobalCounts.livePlayers > 0
   };
@@ -566,7 +588,7 @@ async function testMainPage(browser, viewport) {
     matchEnvironmentAccess: {
       md1: md1MatchEnvironmentAccess,
       md2: md2MatchEnvironmentAccess,
-      md3: md3MatchEnvironmentAccess
+      r32: activeMatchEnvironmentAccess
     },
     profileClicks: [quickPickProfile, captainProfile, adviceProfile],
     addToBuilder,
@@ -704,12 +726,13 @@ async function main() {
         "#match-environment-table-body tr"
       ],
       current_default_assertions: [
-        "Picks default to md3",
-        "Captain Watchlist renders Matchday 3 context",
-        "Player Profile shows Matchday 3 practical context",
-        "Team Builder selected matchday is md3",
-        "Match Environment selected matchday is md3 and MD1/MD2 remain selectable",
-        "Matchday Desk selected matchday is md3"
+        "Picks default to r32",
+        "Captain Watchlist renders Round of 32 context",
+        "Player Profile shows Round of 32 practical context",
+        "Team Builder selected matchday is r32",
+        "Match Environment selected matchday is r32 and MD1/MD2 remain selectable",
+        "Matchday Desk selected matchday is r32",
+        "Knockout predictor renders known fixtures and arbitrary matchup result"
       ],
       fallback_mode_removed: true
     },

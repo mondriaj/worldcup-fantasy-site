@@ -1,13 +1,13 @@
 # Official Fantasy Data Update Check v1
 
-Generated: 2026-06-27T16:46:02.006Z
+Generated: 2026-06-27T16:59:03.431Z
 
 ## Summary
 
 | Item | Result |
 | --- | --- |
-| Official data changed | no |
-| Rerun decision | no_change |
+| Official data changed | yes |
+| Rerun decision | minor_change_no_model_rerun_needed |
 | Model outputs updated | no |
 | Final squad status | still_blocked_no_source_backed_final_squads |
 | Fetch failures | 0 |
@@ -16,7 +16,7 @@ Generated: 2026-06-27T16:46:02.006Z
 
 | Source | HTTP | Parsed | Last-Modified | Bytes |
 | --- | --- | --- | --- | --- |
-| fifaFantasyPlayersJson | 200 | yes | 2026-06-27T16:45:03Z | 1270018 |
+| fifaFantasyPlayersJson | 200 | yes | 2026-06-27T16:50:03Z | 1270018 |
 | fifaFantasySquadsJson | 200 | yes | 2026-06-27T06:09:15Z | 6420 |
 | fifaFantasyHelpPagesJson | 200 | yes | 2026-06-25T11:05:16Z | 179312 |
 | fifaFantasyRoundsJson | 200 | yes | 2026-06-27T16:01:03Z | 117594 |
@@ -40,10 +40,10 @@ Generated: 2026-06-27T16:46:02.006Z
 
 ## Recommendation
 
-Decision: `no_change`
+Decision: `minor_change_no_model_rerun_needed`
 
 Reasons:
-- No tracked official-data changes were found.
+- Only non-model source headers or ownership-style values changed.
 
 This script is reporting-only. It does not import players, import squads, import rules, rerun models, update browser-ready files, or change Team Builder.
 

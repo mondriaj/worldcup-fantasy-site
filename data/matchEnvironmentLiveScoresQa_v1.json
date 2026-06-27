@@ -1,18 +1,19 @@
 {
   "schema_version": "match_environment_live_scores_qa_v1",
-  "generated_at": "2026-06-27T16:48:29.998Z",
+  "generated_at": "2026-06-27T17:34:15.960Z",
   "status": "passed",
   "files": {
     "html": "index.html",
     "script": "script.js",
-    "scorePredictions": "data/scorePredictions_fantasyPool_v5_md3.json",
+    "scorePredictions": "data/scorePredictions_fantasyPool_r32_v1.json",
     "liveMatchday": "data/liveMatchdayStatus_v1.json",
     "liveFixtureQa": "data/liveFixtureMappingQa_v1.json",
     "outputJson": "data/matchEnvironmentLiveScoresQa_v1.json",
     "outputReport": "data/matchEnvironmentLiveScoresQaReport_v1.md"
   },
   "summary": {
-    "score_prediction_fixture_count": 72,
+    "score_prediction_fixture_count": 81,
+    "group_stage_score_prediction_fixture_count": 72,
     "live_fixture_count": 81,
     "final_fixture_count": 66,
     "final_score_support_rows": 66,
@@ -25,7 +26,7 @@
     "non_final_score_leak_count": 0,
     "playing_fixture_final_leak_count": 0,
     "reversed_score_error_count": 0,
-    "md3_default": true,
+    "r32_default": true,
     "md1_md2_accessible": true,
     "live_script_loaded_before_app_script": true,
     "predicted_field_checks": {

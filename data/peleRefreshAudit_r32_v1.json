@@ -1,0 +1,85 @@
+{
+  "schema_version": "pele_refresh_audit_r32_v1",
+  "generated_at": "2026-06-27T17:27:39.264Z",
+  "status": "pass",
+  "source_checked": "2026-06-18",
+  "pele_refreshed": true,
+  "pele_source_urls": {
+    "article": "https://www.natesilver.net/p/pele-international-football-rankings-soccer-ratings-projections",
+    "methodology": "https://www.natesilver.net/p/pele-methodology",
+    "ratingsCsv": "https://datawrapper.dwcdn.net/4oVop/87/dataset.csv",
+    "fifaComparisonCsv": "https://datawrapper.dwcdn.net/4bcIB/1/dataset.csv",
+    "tiltCsv": "https://datawrapper.dwcdn.net/dxUJw/44/dataset.csv",
+    "offenseDefenseCsv": "https://datawrapper.dwcdn.net/DcqkH/46/dataset.csv"
+  },
+  "summary": {
+    "pele_rows": 211,
+    "world_cup_team_rows": 48,
+    "world_cup_pele_matches": 48,
+    "missing_pele_team_count": 0,
+    "duplicate_team_id_count": 0,
+    "invalid_numeric_team_count": 0,
+    "team_quality_generated_at": "2026-06-27T16:59:44.500Z",
+    "team_quality_formula": "team_quality_v2_pele_forward_2026-06-01",
+    "ownership_used_as_signal": false,
+    "final_squads_source_backed": false
+  },
+  "checks": [
+    {
+      "id": "pele_rows_available",
+      "status": "pass",
+      "detail": 211
+    },
+    {
+      "id": "world_cup_team_coverage",
+      "status": "pass",
+      "detail": "48/48"
+    },
+    {
+      "id": "no_duplicate_team_ids",
+      "status": "pass",
+      "detail": 0
+    },
+    {
+      "id": "numeric_pele_inputs",
+      "status": "pass",
+      "detail": 0
+    },
+    {
+      "id": "score_qa_available",
+      "status": "pass",
+      "detail": "pass"
+    },
+    {
+      "id": "recommendation_qa_available",
+      "status": "pass",
+      "detail": {
+        "top_overall_per_style_matchday": 25,
+        "audited_matchdays": [
+          "group_stage_full",
+          "md1",
+          "md2",
+          "md3"
+        ],
+        "audited_styles": [
+          "best_overall",
+          "expected_return",
+          "safe_floor",
+          "upside",
+          "attack_heavy",
+          "defensive_heavy",
+          "very_risky",
+          "minutes_floor",
+          "tail_risk_avoidance",
+          "captain"
+        ],
+        "note": "Audits the browser-ready matchday recommendation data after PELE-forward score prediction v2."
+      }
+    }
+  ],
+  "caveats": [
+    "Ownership is not used as a model signal.",
+    "Final squads remain not source-backed.",
+    "R32 outputs use known official knockout fixtures and keep unresolved slots uncertain."
+  ]
+}

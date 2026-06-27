@@ -1,7 +1,7 @@
 {
   "schema_version": "active_fantasy_data_flow_qa_v1",
-  "generated_at": "2026-06-27T16:48:29.992Z",
-  "active_version": "20260623-md3-prep",
+  "generated_at": "2026-06-27T17:34:31.939Z",
+  "active_version": "20260627-r32-setup",
   "status": "pass",
   "checks": [
     {
@@ -15,6 +15,7 @@
           "fantasyPoolMatchdayProjectionsData.js",
           "fantasyPoolFinanceMetricsData.js",
           "fantasyPoolScorePredictionsData.js",
+          "knockoutScorePredictorData.js",
           "fantasyPoolOfficialDataStatusData.js",
           "liveMatchdayStatusData.js",
           "livePlayerStatusData.js",
@@ -27,6 +28,7 @@
           "fantasyPoolMatchdayProjectionsData.js",
           "fantasyPoolFinanceMetricsData.js",
           "fantasyPoolScorePredictionsData.js",
+          "knockoutScorePredictorData.js",
           "fantasyPoolOfficialDataStatusData.js",
           "liveMatchdayStatusData.js",
           "livePlayerStatusData.js",
@@ -107,11 +109,11 @@
       "id": "active_browser_globals_loaded",
       "status": "pass",
       "detail": {
-        "recommendation_rows": 500,
-        "projection_rows": 3699,
+        "recommendation_rows": 250,
+        "projection_rows": 1689,
         "finance_rows": 1233,
-        "score_fixture_rows": 72,
-        "score_team_fixture_rows": 144,
+        "score_fixture_rows": 81,
+        "score_team_fixture_rows": 162,
         "official_position_records": 1489,
         "live_fixture_rows": 81,
         "live_player_rows": 1489
@@ -137,8 +139,8 @@
       "id": "fantasy_pool_recommendation_identity_coverage",
       "status": "pass",
       "detail": {
-        "resolved": 500,
-        "total": 500,
+        "resolved": 250,
+        "total": 250,
         "missing": 0
       }
     },
@@ -146,8 +148,8 @@
       "id": "fantasy_pool_projection_identity_coverage",
       "status": "pass",
       "detail": {
-        "resolved": 3699,
-        "total": 3699,
+        "resolved": 1689,
+        "total": 1689,
         "missing": 0,
         "unique_active_official_players": 1233
       }
@@ -185,19 +187,21 @@
       }
     },
     {
-      "id": "md3_recommendation_identity_and_projection_coverage",
+      "id": "active_matchday_recommendation_identity_and_projection_coverage",
       "status": "pass",
       "detail": {
-        "md3_recommendation_rows": 125,
-        "md3_projection_rows": 1233,
-        "md3_score_fixture_rows": 24,
-        "md3_recommendations_resolving_active_identity_count": 125,
-        "md3_recommendations_missing_active_identity_count": 0,
-        "md3_projections_missing_active_identity_count": 0,
+        "active_matchday_id": "r32",
+        "active_matchday_label": "R32",
+        "active_recommendation_rows": 125,
+        "active_projection_rows": 456,
+        "active_score_fixture_rows": 9,
+        "active_recommendations_resolving_active_identity_count": 125,
+        "active_recommendations_missing_active_identity_count": 0,
+        "active_projections_missing_active_identity_count": 0,
         "finance_missing_active_identity_count": 0,
         "recommendation_projection_missing_count": 0,
-        "md3_recommendations_missing_players_data_enrichment_count": 102,
-        "md3_projections_missing_players_data_enrichment_count": 1122,
+        "active_recommendations_missing_players_data_enrichment_count": 97,
+        "active_projections_missing_players_data_enrichment_count": 403,
         "finance_missing_players_data_enrichment_count": 1122,
         "players_data_role": "supplemental_enrichment_only",
         "duplicate_score_fixture_key_count": 0,
@@ -205,10 +209,10 @@
       }
     },
     {
-      "id": "md3_score_fixture_coverage",
+      "id": "active_matchday_score_fixture_coverage",
       "status": "pass",
       "detail": {
-        "md3_score_fixture_rows": 24,
+        "active_score_fixture_rows": 9,
         "duplicate_score_fixture_key_count": 0
       }
     },
@@ -252,6 +256,7 @@
       "fantasyPoolMatchdayProjectionsData.js",
       "fantasyPoolFinanceMetricsData.js",
       "fantasyPoolScorePredictionsData.js",
+      "knockoutScorePredictorData.js",
       "fantasyPoolOfficialDataStatusData.js",
       "liveMatchdayStatusData.js",
       "livePlayerStatusData.js",
@@ -264,6 +269,7 @@
       "fantasyPoolMatchdayProjectionsData.js",
       "fantasyPoolFinanceMetricsData.js",
       "fantasyPoolScorePredictionsData.js",
+      "knockoutScorePredictorData.js",
       "fantasyPoolOfficialDataStatusData.js",
       "liveMatchdayStatusData.js",
       "livePlayerStatusData.js",
@@ -276,11 +282,11 @@
     "passed": true
   },
   "active_counts": {
-    "recommendation_rows": 500,
-    "projection_rows": 3699,
+    "recommendation_rows": 250,
+    "projection_rows": 1689,
     "finance_rows": 1233,
-    "score_fixture_rows": 72,
-    "score_team_fixture_rows": 144,
+    "score_fixture_rows": 81,
+    "score_team_fixture_rows": 162,
     "official_position_records": 1489,
     "live_fixture_rows": 81,
     "live_player_rows": 1489
@@ -355,13 +361,13 @@
       "FWD": 269
     },
     "recommendation_identity_coverage": {
-      "resolved": 500,
-      "total": 500,
+      "resolved": 250,
+      "total": 250,
       "missing": 0
     },
     "projection_identity_coverage": {
-      "resolved": 3699,
-      "total": 3699,
+      "resolved": 1689,
+      "total": 1689,
       "missing": 0,
       "unique_active_official_players": 1233
     },
@@ -394,17 +400,19 @@
     "active_players_not_resolving_to_players_data": 1369,
     "coverage_percent": 8.06
   },
-  "md3_consistency": {
-    "md3_recommendation_rows": 125,
-    "md3_projection_rows": 1233,
-    "md3_score_fixture_rows": 24,
-    "md3_recommendations_resolving_active_identity_count": 125,
-    "md3_recommendations_missing_active_identity_count": 0,
-    "md3_projections_missing_active_identity_count": 0,
+  "active_matchday_consistency": {
+    "active_matchday_id": "r32",
+    "active_matchday_label": "R32",
+    "active_recommendation_rows": 125,
+    "active_projection_rows": 456,
+    "active_score_fixture_rows": 9,
+    "active_recommendations_resolving_active_identity_count": 125,
+    "active_recommendations_missing_active_identity_count": 0,
+    "active_projections_missing_active_identity_count": 0,
     "finance_missing_active_identity_count": 0,
     "recommendation_projection_missing_count": 0,
-    "md3_recommendations_missing_players_data_enrichment_count": 102,
-    "md3_projections_missing_players_data_enrichment_count": 1122,
+    "active_recommendations_missing_players_data_enrichment_count": 97,
+    "active_projections_missing_players_data_enrichment_count": 403,
     "finance_missing_players_data_enrichment_count": 1122,
     "players_data_role": "supplemental_enrichment_only",
     "duplicate_score_fixture_key_count": 0,

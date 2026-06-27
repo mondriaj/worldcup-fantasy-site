@@ -1,7 +1,7 @@
 // Static data scripts are loaded before this file. They expose player, rules,
 // score-projection, and official fantasy-pool data on window globals, so the
 // public site can run without fetching JSON at runtime.
-const ACTIVE_DATA_VERSION = "20260624-md3-final-md2-evidence";
+const ACTIVE_DATA_VERSION = "20260627-r32-setup";
 const ACTIVE_DATA = {
   version: ACTIVE_DATA_VERSION,
   players: Array.isArray(window.PLAYERS_DATA) ? window.PLAYERS_DATA : [],
@@ -31,7 +31,8 @@ const ACTIVE_DATA = {
   },
   officialStatus: window.FANTASY_POOL_OFFICIAL_DATA_STATUS || null,
   liveMatchday: window.LIVE_MATCHDAY_STATUS_DATA || null,
-  livePlayer: window.LIVE_PLAYER_STATUS_DATA || null
+  livePlayer: window.LIVE_PLAYER_STATUS_DATA || null,
+  knockout: window.KNOCKOUT_SCORE_PREDICTOR_DATA || null
 };
 
 function scorePredictionSourceFromWindow() {
@@ -57,10 +58,10 @@ function scorePredictionSourceFromWindow() {
     };
 
     return {
-      key: "fantasy_pool_score_predictions_v5_md3",
+      key: fantasyPoolData?.model_version || fantasyPoolData?.modelVersion || "fantasy_pool_score_predictions_r32_v1",
       label: "Current fantasy score projection context",
       browserFile: "fantasyPoolScorePredictionsData.js",
-      sourceFile: "data/scorePredictions_fantasyPool_v5_md3.json",
+      sourceFile: "data/scorePredictions_fantasyPool_r32_v1.json",
       rows: fantasyPoolRows,
       summary
     };
@@ -70,7 +71,7 @@ function scorePredictionSourceFromWindow() {
     key: "active_match_environment_unavailable",
     label: "Active Match Environment data unavailable",
     browserFile: "fantasyPoolScorePredictionsData.js",
-    sourceFile: "data/scorePredictions_fantasyPool_v5_md3.json",
+    sourceFile: "data/scorePredictions_fantasyPool_r32_v1.json",
     rows: [],
     summary: ACTIVE_DATA.score.summary || null
   };
@@ -342,18 +343,31 @@ const scorePredictionRows = activeScorePredictionSource.rows;
 const scorePredictionSummary = activeScorePredictionSource.summary;
 const liveMatchdayStatusData = ACTIVE_DATA.liveMatchday;
 const livePlayerStatusData = ACTIVE_DATA.livePlayer;
+const knockoutPredictorData = ACTIVE_DATA.knockout;
 const liveFixtureRows = Array.isArray(liveMatchdayStatusData?.fixtures) ? liveMatchdayStatusData.fixtures : [];
 const liveRoundRows = Array.isArray(liveMatchdayStatusData?.rounds) ? liveMatchdayStatusData.rounds : [];
 const livePlayerRows = Array.isArray(livePlayerStatusData?.players) ? livePlayerStatusData.players : [];
+const knockoutKnownPredictionRows = Array.isArray(knockoutPredictorData?.known_r32_predictions)
+  ? knockoutPredictorData.known_r32_predictions
+  : [];
+const knockoutArbitraryPredictionRows = Array.isArray(knockoutPredictorData?.arbitrary_matchup_predictions)
+  ? knockoutPredictorData.arbitrary_matchup_predictions
+  : [];
+const knockoutTeamRows = Array.isArray(knockoutPredictorData?.teams) ? knockoutPredictorData.teams : [];
+const knockoutArbitraryPredictionLookup = new Map(knockoutArbitraryPredictionRows.map((row) => [
+  `${row.home_team_id}|${row.away_team_id}`,
+  row
+]));
 const usingFantasyPoolPreview = Boolean(fantasyPoolPreviewStatus && fantasyPoolRecommendationRows.length);
 const defaultMatchdayOptions = [
+  { matchday_id: "r32", label: "Round of 32" },
   { matchday_id: "group_stage_full", label: "Full Group Stage" },
   { matchday_id: "md1", label: "Matchday 1" },
   { matchday_id: "md2", label: "Matchday 2" },
   { matchday_id: "md3", label: "Matchday 3" }
 ];
 const matchdayOptions = defaultMatchdayOptions;
-const defaultPublicMatchdayId = "md3";
+const defaultPublicMatchdayId = "r32";
 const defaultActiveMatchdayId = matchdayOptions.some((option) => option.matchday_id === defaultPublicMatchdayId)
   ? defaultPublicMatchdayId
   : matchdayOptions[0]?.matchday_id || "group_stage_full";
@@ -368,8 +382,8 @@ const browserSquadStorageKey = "worldCupFantasyHelper.teamExport.v1";
 
 function activeDataBadgeHtml() {
   return `
-    <span class="model-data-badge" title="Public MD3 page uses only the current active static data path.">
-      MD3 active data path · ${ACTIVE_DATA.version} · playersData.js · fantasyRulesData.js · fantasyPool recommendations/projections/finance/score · live display/support only
+    <span class="model-data-badge" title="Public R32 page uses only the current active static data path.">
+      R32 active data path · ${ACTIVE_DATA.version} · playersData.js · fantasyRulesData.js · fantasyPool recommendations/projections/finance/score · knockout predictor · live display/support only
     </span>
   `;
 }
@@ -860,7 +874,7 @@ function firstFiniteNumberOrMissing(...valuesToCheck) {
 }
 
 function fantasyPoolProjectionRowsForPlayer(projectionMap = {}) {
-  return ["md1", "md2", "md3"]
+  return Array.from(new Set([defaultPublicMatchdayId, "r32", "md1", "md2", "md3"]))
     .map((matchdayId) => projectionMap[matchdayId])
     .filter(Boolean);
 }
@@ -888,10 +902,12 @@ function averageFantasyPoolProjectionField(projectionMap, fieldName) {
 function bestFantasyPoolRecommendationForPlayer(officialFantasyPlayerId) {
   const recommendations = recommendationByPlayerId.get(String(officialFantasyPlayerId || "")) || [];
   const matchdayPriority = {
-    group_stage_full: 0,
-    [defaultPublicMatchdayId]: 1,
-    md1: 2,
-    md3: 3
+    [defaultPublicMatchdayId]: 0,
+    r32: 0,
+    md3: 1,
+    md2: 2,
+    md1: 3,
+    group_stage_full: 4
   };
   const modePriority = {
     balanced: 0,
@@ -925,6 +941,7 @@ function currentFantasyPoolPlayerFromOfficialRecord(record) {
   const projections = fantasyPoolProjectionRowsForPlayer(projectionMap);
   const firstProjection = projections[0] || {};
   const recommendation = bestFantasyPoolRecommendationForPlayer(officialFantasyPlayerId);
+  const activeProjectionRow = projectionMap[defaultPublicMatchdayId] || firstProjection;
   const supplementalPlayer = playersDataById.get(id) || playersDataById.get(officialFantasyPlayerId) || {};
   const positionCode = normalizeFantasyPositionCode(
     record?.official_fantasy_position ||
@@ -938,36 +955,47 @@ function currentFantasyPoolPlayerFromOfficialRecord(record) {
     recommendation?.official_price
   );
   const averageStartProbability = firstFiniteNumberOrMissing(
+    activeProjectionRow.start_probability,
+    recommendation?.start_probability,
     financeMetric.average_start_probability,
     averageFantasyPoolProjectionField(projectionMap, "start_probability")
   ) || 0;
   const averageExpectedMinutes = firstFiniteNumberOrMissing(
+    activeProjectionRow.expected_minutes,
+    recommendation?.expected_minutes,
     financeMetric.average_expected_minutes,
     averageFantasyPoolProjectionField(projectionMap, "expected_minutes")
   ) || 0;
   const groupStageExpectedPoints = firstFiniteNumberOrMissing(
+    activeProjectionRow.finance_expected_return_points,
+    activeProjectionRow.raw_expected_points,
+    recommendation?.raw_expected_points,
     financeMetric.group_stage_expected_points,
     sumFantasyPoolProjectionField(projectionMap, "finance_expected_return_points"),
-    sumFantasyPoolProjectionField(projectionMap, "raw_expected_points"),
-    recommendation?.raw_expected_points
+    sumFantasyPoolProjectionField(projectionMap, "raw_expected_points")
   ) || 0;
   const groupStageRiskAdjustedPoints = firstFiniteNumberOrMissing(
+    activeProjectionRow.finance_risk_adjusted_return_points,
+    activeProjectionRow.risk_adjusted_points,
+    recommendation?.risk_adjusted_points,
     financeMetric.group_stage_risk_adjusted_points,
     sumFantasyPoolProjectionField(projectionMap, "finance_risk_adjusted_return_points"),
-    sumFantasyPoolProjectionField(projectionMap, "risk_adjusted_points"),
-    recommendation?.risk_adjusted_points
+    sumFantasyPoolProjectionField(projectionMap, "risk_adjusted_points")
   ) || 0;
   const groupStageCeilingPoints = firstFiniteNumberOrMissing(
+    activeProjectionRow.finance_upside_p90_points,
+    activeProjectionRow.ceiling_points,
+    recommendation?.ceiling_points,
     financeMetric.group_stage_ceiling_points,
     sumFantasyPoolProjectionField(projectionMap, "finance_upside_p90_points"),
-    sumFantasyPoolProjectionField(projectionMap, "ceiling_points"),
-    recommendation?.ceiling_points
+    sumFantasyPoolProjectionField(projectionMap, "ceiling_points")
   ) || groupStageExpectedPoints;
   const groupStageFloorPoints = firstFiniteNumberOrMissing(
+    activeProjectionRow.floor_points,
+    recommendation?.floor_points,
     financeMetric.group_stage_floor_points,
     financeMetric.bad_week_floor,
-    sumFantasyPoolProjectionField(projectionMap, "floor_points"),
-    recommendation?.floor_points
+    sumFantasyPoolProjectionField(projectionMap, "floor_points")
   ) || 0;
   const financeContext = recommendation?.finance_context || {};
   const riskScore = Math.min(100, Math.max(0, firstFiniteNumberOrMissing(
@@ -2714,6 +2742,10 @@ const adviceStyleNote = document.getElementById("advice-style-note");
 const trustModeSummary = document.getElementById("trust-mode-summary");
 const matchEnvironmentSummary = document.getElementById("match-environment-summary");
 const matchEnvironmentTableBody = document.getElementById("match-environment-table-body");
+const knockoutKnownFixturesBody = document.getElementById("knockout-known-fixtures-body");
+const knockoutHomeTeamSelect = document.getElementById("knockout-home-team-select");
+const knockoutAwayTeamSelect = document.getElementById("knockout-away-team-select");
+const knockoutMatchupResult = document.getElementById("knockout-matchup-result");
 const trustModeSelects = [
   quickTrustModeSelect,
   captainTrustModeSelect,
@@ -3821,7 +3853,7 @@ function playerMatchdayProjections(player) {
     (key ? fantasyPoolPreviewProjectionLookup.get(key) : null) ||
     {};
 
-  return ["md1", "md2", "md3"]
+  return Array.from(new Set([defaultPublicMatchdayId, "r32", "md1", "md2", "md3"]))
     .map((matchdayId) => projectionMap[matchdayId])
     .filter(projectionIsAvailable);
 }
@@ -5678,6 +5710,158 @@ function renderMatchEnvironmentTable() {
   }).join("");
 }
 
+function knockoutPredictionForTeams(homeTeamId, awayTeamId) {
+  if (!homeTeamId || !awayTeamId || homeTeamId === awayTeamId) {
+    return null;
+  }
+
+  const direct = knockoutArbitraryPredictionLookup.get(`${homeTeamId}|${awayTeamId}`);
+  if (direct) {
+    return { row: direct, reversed: false };
+  }
+
+  const reverse = knockoutArbitraryPredictionLookup.get(`${awayTeamId}|${homeTeamId}`);
+  return reverse ? { row: reverse, reversed: true } : null;
+}
+
+function orientKnockoutPrediction(prediction) {
+  if (!prediction?.row) {
+    return null;
+  }
+
+  const row = prediction.row;
+  if (!prediction.reversed) {
+    return row;
+  }
+
+  return {
+    ...row,
+    home_team_id: row.away_team_id,
+    home_team: row.away_team,
+    away_team_id: row.home_team_id,
+    away_team: row.home_team,
+    home_expected_goals: row.away_expected_goals,
+    away_expected_goals: row.home_expected_goals,
+    home_win_probability: row.away_win_probability,
+    away_win_probability: row.home_win_probability,
+    home_advance_probability: row.away_advance_probability,
+    away_advance_probability: row.home_advance_probability,
+    top_scorelines: (row.top_scorelines || []).map((scoreline) => ({
+      ...scoreline,
+      home_goals: scoreline.away_goals,
+      away_goals: scoreline.home_goals,
+      scoreline: `${scoreline.away_goals}-${scoreline.home_goals}`
+    }))
+  };
+}
+
+function knockoutScorelineText(row) {
+  return (row.top_scorelines || [])
+    .slice(0, 3)
+    .map((scoreline) => `${scoreline.scoreline} ${compactPercentText(scoreline.probability)}`)
+    .join(" · ");
+}
+
+function knockoutPredictionCardHtml(row, options = {}) {
+  if (!row) {
+    return "";
+  }
+
+  const label = options.label || "Knockout Matchup";
+  return `
+    <article class="knockout-prediction-card">
+      <span class="info-card__label">${escapeHtml(label)}</span>
+      <h3>${escapeHtml(row.home_team)} vs ${escapeHtml(row.away_team)}</h3>
+      <div class="knockout-result-grid">
+        <span><strong>${displayNumber(row.home_expected_goals)}</strong><small>${escapeHtml(row.home_team)} xG</small></span>
+        <span><strong>${displayNumber(row.away_expected_goals)}</strong><small>${escapeHtml(row.away_team)} xG</small></span>
+        <span><strong>${compactPercentText(row.probability_extra_time)}</strong><small>Extra time</small></span>
+        <span><strong>${escapeHtml(row.projected_advancing_team || "Needs check")}</strong><small>Projected advancer</small></span>
+      </div>
+      <p class="knockout-probability-line">
+        ${escapeHtml(row.home_team)} ${compactPercentText(row.home_advance_probability)}
+        <span>vs</span>
+        ${escapeHtml(row.away_team)} ${compactPercentText(row.away_advance_probability)}
+      </p>
+      <p>${escapeHtml(knockoutScorelineText(row) || row.uncertainty_label || "Scoreline needs check")}</p>
+    </article>
+  `;
+}
+
+function renderKnockoutKnownFixtures() {
+  if (!knockoutKnownFixturesBody) {
+    return;
+  }
+
+  if (!knockoutKnownPredictionRows.length) {
+    knockoutKnownFixturesBody.innerHTML = `
+      <tr>
+        <td colspan="5">Known Round of 32 fixtures are not loaded.</td>
+      </tr>
+    `;
+    return;
+  }
+
+  knockoutKnownFixturesBody.innerHTML = knockoutKnownPredictionRows
+    .slice()
+    .sort((a, b) => value(a.match_number) - value(b.match_number))
+    .map((row) => `
+      <tr>
+        <td><strong>${escapeHtml(row.home_team)} vs ${escapeHtml(row.away_team)}</strong><small>${escapeHtml(row.bracket_path || "Round of 32")}</small></td>
+        <td>${displayNumber(row.home_expected_goals)}-${displayNumber(row.away_expected_goals)}</td>
+        <td>${compactPercentText(row.home_win_probability)} / ${compactPercentText(row.draw_probability)} / ${compactPercentText(row.away_win_probability)}</td>
+        <td>${escapeHtml(row.projected_advancing_team || "Needs check")} <small>${compactPercentText(row.favorite_win_probability)} advance</small></td>
+        <td>${escapeHtml(row.uncertainty_label || "Medium")}</td>
+      </tr>
+    `)
+    .join("");
+}
+
+function renderKnockoutMatchup() {
+  if (!knockoutMatchupResult || !knockoutHomeTeamSelect || !knockoutAwayTeamSelect) {
+    return;
+  }
+
+  const homeTeamId = knockoutHomeTeamSelect.value;
+  const awayTeamId = knockoutAwayTeamSelect.value;
+
+  if (!homeTeamId || !awayTeamId || homeTeamId === awayTeamId) {
+    knockoutMatchupResult.innerHTML = modelDataWarningHtml("Choose two different teams.", { title: "Knockout predictor" });
+    return;
+  }
+
+  const prediction = orientKnockoutPrediction(knockoutPredictionForTeams(homeTeamId, awayTeamId));
+  knockoutMatchupResult.innerHTML = prediction
+    ? knockoutPredictionCardHtml(prediction, { label: "Selected Matchup" })
+    : modelDataWarningHtml("This matchup is not available in the static knockout predictor.", { title: "Knockout predictor" });
+}
+
+function renderKnockoutPredictor() {
+  renderKnockoutKnownFixtures();
+
+  if (!knockoutHomeTeamSelect || !knockoutAwayTeamSelect) {
+    return;
+  }
+
+  if (!knockoutTeamRows.length) {
+    knockoutHomeTeamSelect.innerHTML = `<option value="">Teams unavailable</option>`;
+    knockoutAwayTeamSelect.innerHTML = `<option value="">Teams unavailable</option>`;
+    renderKnockoutMatchup();
+    return;
+  }
+
+  const optionsHtml = knockoutTeamRows
+    .map((team) => `<option value="${escapeHtml(team.team_id)}">${escapeHtml(team.team)}</option>`)
+    .join("");
+  knockoutHomeTeamSelect.innerHTML = optionsHtml;
+  knockoutAwayTeamSelect.innerHTML = optionsHtml;
+
+  const defaultFixture = knockoutKnownPredictionRows[0];
+  knockoutHomeTeamSelect.value = defaultFixture?.home_team_id || knockoutTeamRows[0]?.team_id || "";
+  knockoutAwayTeamSelect.value = defaultFixture?.away_team_id || knockoutTeamRows.find((team) => team.team_id !== knockoutHomeTeamSelect.value)?.team_id || "";
+  renderKnockoutMatchup();
+}
+
 function measureFromSelect(selectElement) {
   const selectedKey = selectElement?.value || "balanced";
   return measures[pickModelOptions[selectedKey]?.measureKey || selectedKey] || measures.balanced;
@@ -6023,7 +6207,7 @@ function playerById(playerId) {
 function captainChangeMatchdayIds() {
   return matchdayOptions
     .map((option) => option.matchday_id)
-    .filter((matchdayId) => ["md1", "md2", "md3"].includes(matchdayId));
+    .filter((matchdayId) => ["r32", "md1", "md2", "md3"].includes(matchdayId));
 }
 
 function defaultSingleMatchdayId() {
@@ -10561,6 +10745,7 @@ function exportModelMetadata() {
         "fantasyPoolMatchdayProjectionsData.js",
         "fantasyPoolFinanceMetricsData.js",
         "fantasyPoolScorePredictionsData.js",
+        "knockoutScorePredictorData.js",
         "fantasyPoolOfficialDataStatusData.js",
         "liveMatchdayStatusData.js",
         "livePlayerStatusData.js"
@@ -14419,6 +14604,7 @@ function setupBuilder() {
   renderCardStatOptions();
   renderMatchEnvironmentOptions();
   renderMatchEnvironmentTable();
+  renderKnockoutPredictor();
   renderMeasureInfo();
   renderDecisionToolStatuses();
   renderPlayerPicker();
@@ -14486,6 +14672,9 @@ function setupBuilder() {
   });
   environmentGroupSelect?.addEventListener("change", renderMatchEnvironmentTable);
   environmentFilterSelect?.addEventListener("change", renderMatchEnvironmentTable);
+  [knockoutHomeTeamSelect, knockoutAwayTeamSelect]
+    .filter(Boolean)
+    .forEach((select) => select.addEventListener("change", renderKnockoutMatchup));
   [matchdayDecisionMatchdaySelect, matchdayDecisionRiskSelect, matchdayDecisionStarterSelect]
     .filter(Boolean)
     .forEach((select) => select.addEventListener("change", renderMatchdayDecisionCenter));
