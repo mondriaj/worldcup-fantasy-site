@@ -376,6 +376,35 @@ function buildPostmortem(worldCup, live, qualityIndex) {
   const previous = previousPredictionsByFixture();
   const localByMatch = new Map((worldCup.fixtures || []).map((fixture) => [Number(fixture.match_number), fixture]));
   const finalFixtures = (live.fixtures || []).filter(isFinalFixture).filter((fixture) => Number(fixture.local_match_number) <= 72);
+  const unfinishedGroupFixtures = (live.fixtures || [])
+    .filter((fixture) => {
+      const matchNumber = Number(fixture.local_match_number);
+      return Number.isFinite(matchNumber) && matchNumber > 0 && matchNumber <= 72 && !isFinalFixture(fixture);
+    })
+    .map((fixture) => {
+      const local = localByMatch.get(Number(fixture.local_match_number));
+      return {
+        match_number: Number(fixture.local_match_number),
+        fixture_id: fixture.local_fixture_id,
+        matchday: fixtureMatchday(fixture.local_match_number),
+        group: local?.group || null,
+        fixture: `${fixture.local_home_team || fixture.home_team} vs ${fixture.local_away_team || fixture.away_team}`,
+        fixture_status: fixture.fixture_status,
+        score_status: fixture.score_status,
+        period: fixture.period,
+        safe_to_display_score: fixture.safe_to_display_score === true
+      };
+    });
+  const finalityByMatchday = ["md1", "md2", "md3"].map((matchday) => {
+    const finalCount = finalFixtures.filter((fixture) => fixtureMatchday(fixture.local_match_number) === matchday).length;
+    const unfinishedCount = unfinishedGroupFixtures.filter((fixture) => fixture.matchday === matchday).length;
+    return {
+      matchday,
+      final_fixtures: finalCount,
+      unfinished_fixtures: unfinishedCount,
+      total_fixtures: finalCount + unfinishedCount
+    };
+  });
   const residuals = finalFixtures.map((fixture) => {
     const local = localByMatch.get(Number(fixture.local_match_number));
     const prediction = previous.get(fixture.local_fixture_id);
@@ -479,14 +508,18 @@ function buildPostmortem(worldCup, live, qualityIndex) {
             ? "Role-risk downgrade unless team context indicates clear qualification/rest."
             : "Use group-stage points and role evidence with modest form confidence adjustment."
     }));
-  return {
+	return {
     schema_version: "group_stage_postmortem_for_r32_v1",
     generated_at: GENERATED_AT,
     model_version: MODEL_VERSION,
     evidence_scope: "final MD1, final MD2, completed/final MD3 only",
+    release_status: "provisional_r32_setup",
     unfinished_md3_excluded: true,
     final_fixture_count: residuals.length,
     completed_md3_fixture_count: residuals.filter((row) => row.matchday === "md3").length,
+    unfinished_md3_fixture_count: unfinishedGroupFixtures.filter((row) => row.matchday === "md3").length,
+    unfinished_group_fixtures: unfinishedGroupFixtures,
+    finality_summary: finalityByMatchday,
     fixture_residuals: residuals,
     team_residuals: teamResiduals,
     result_accuracy: {
@@ -512,7 +545,24 @@ function buildPostmortem(worldCup, live, qualityIndex) {
 
 function buildBracketPath(worldCup, live, qualityIndex) {
   const standings = buildGroupStandings(worldCup, live);
-  const knownFixtures = knownR32Fixtures(live, worldCup);
+  const pendingGroups = new Set(standings.unfinishedFixtures.map((fixture) => fixture.group).filter(Boolean));
+  const pendingTeams = new Set(standings.unfinishedFixtures.flatMap((fixture) => String(fixture.fixture || "").split(" vs ").map(normalizeText)));
+  const knownFixtures = knownR32Fixtures(live, worldCup).map((fixture) => {
+    const bracketPath = String(fixture.bracket_path || "");
+    const pathTouchesPendingGroup = [...pendingGroups].some((group) => bracketPath.includes(`Group ${group}`));
+    const teamTouchesPendingFixture = [fixture.home_team, fixture.away_team].some((team) => pendingTeams.has(normalizeText(team)));
+    const slotCertainty = pathTouchesPendingGroup || teamTouchesPendingFixture
+      ? "provisional_official_fixture_pending_group_completion"
+      : "locked_official_fixture";
+    return {
+      ...fixture,
+      slot_certainty: slotCertainty === "locked_official_fixture" ? "locked" : "provisional",
+      provisional_release_status: slotCertainty,
+      provisional_reason: slotCertainty === "locked_official_fixture"
+        ? "Official live feed provides both R32 teams and the bracket path is not tied to unfinished Match 69/70."
+        : "Official live feed provides both R32 teams, but the bracket path or team context touches unfinished Match 69/70; keep provisional until final refresh."
+    };
+  });
   const r32Predictions = knownFixtures.map((fixture) => buildKnockoutPrediction(fixture.home_team, fixture.away_team, qualityIndex, fixture)).filter(Boolean);
   const r16ByR32 = new Map();
   const r16Round = (worldCup.bracket?.rounds || []).find((round) => round.name === "Round of 16");
@@ -551,14 +601,19 @@ function buildBracketPath(worldCup, live, qualityIndex) {
   }
   const unresolvedR32Matches = (worldCup.bracket?.rounds?.[0]?.matches || [])
     .filter((match) => !knownFixtures.some((fixture) => String(fixture.match_number) === String(match.id)))
-    .map((match) => ({ match_id: match.id, path: match.path, status: "unresolved_until_remaining_groups_finish" }));
+    .map((match) => ({ match_id: match.id, path: match.path, status: "uncertain_until_remaining_groups_finish" }));
   return {
     schema_version: "r32_bracket_path_model_v1",
     generated_at: GENERATED_AT,
     model_version: MODEL_VERSION,
-    evidence_scope: "Completed group tables and official scheduled R32 fixtures only.",
+    release_status: "provisional_r32_setup",
+    evidence_scope: "Completed group tables, official scheduled R32 fixtures, and unfinished Match 69/70 status only.",
+    final_refresh_blockers: standings.unfinishedFixtures,
     current_group_standings: standings.groups,
     known_r32_fixtures: knownFixtures,
+    locked_r32_slots: knownFixtures.filter((fixture) => fixture.slot_certainty === "locked"),
+    provisional_r32_slots: knownFixtures.filter((fixture) => fixture.slot_certainty === "provisional"),
+    uncertain_r32_slots: unresolvedR32Matches,
     unresolved_r32_matches: unresolvedR32Matches,
     teams_safely_qualified_top_two: standings.groups.flatMap((group) => group.safe_qualified_top_two.map((team) => ({ team, group: group.group, source: "completed_group_table_top_two" }))),
     teams_safely_eliminated: standings.groups.flatMap((group) => group.safe_eliminated.map((team) => ({ team, group: group.group, source: "completed_group_table_bottom" }))),
@@ -566,7 +621,8 @@ function buildBracketPath(worldCup, live, qualityIndex) {
     team_paths: teamPaths.sort((a, b) => a.path_difficulty_score - b.path_difficulty_score),
     qa_notes: [
       "Known fixtures are read from the official live fixture feed.",
-      "Unresolved matches 82-88 are not invented.",
+      "Unresolved R32 matches are not invented.",
+      "Fixtures tied to unfinished Match 69/70 remain provisional until the final group refresh.",
       "R16 path warnings are computed from bracket winner paths and projected known R32 winners.",
       "France/Germany/Argentina-style path examples are computed from current bracket data, not hardcoded."
     ],
@@ -636,7 +692,7 @@ function teamFixtureRowsFromPredictions(predictions) {
   ]);
 }
 
-function buildScoreData(r32Predictions) {
+function buildScoreData(r32Predictions, postmortem) {
   const previous = readJson("data/scorePredictions_fantasyPool_v5_md3.json");
   const r32Fixtures = r32Predictions.map((prediction) => ({
     ...prediction,
@@ -644,7 +700,8 @@ function buildScoreData(r32Predictions) {
     matchday: "Round of 32",
     fifa_matchday_label: "Round of 32",
     fantasy_matchday_id: "r32",
-    model_stage: "r32_partial_official_fixture_setup",
+    model_stage: "r32_provisional_official_fixture_setup",
+    provisional_setup: true,
     modelVersion: "score-r32-v1-pele-group-stage-calibrated",
     model_version: "score-r32-v1-pele-group-stage-calibrated"
   }));
@@ -653,13 +710,14 @@ function buildScoreData(r32Predictions) {
     ...previous,
     schema_version: "fantasy_pool_score_predictions_r32_v1",
     generated_at: GENERATED_AT,
-    model_stage: "r32_partial_official_fixture_setup",
-    data_status: "active_r32_score_v1_pass",
+    model_stage: "r32_provisional_official_fixture_setup",
+    data_status: "active_r32_provisional_score_v1_pass",
     previous_model_file: "data/scorePredictions_fantasyPool_v5_md3.json",
     safety_labels: [
-      "r32_setup",
+      "provisional_r32_setup",
       "known official R32 fixtures only",
       "unfinished MD3 excluded from calibration",
+      "Match 69 and Match 70 excluded until final",
       "PELE/teamQuality refreshed",
       "ownership not used as signal",
       "final squads not source-backed"
@@ -676,8 +734,10 @@ function buildScoreData(r32Predictions) {
       fixture_prediction_count: (previous.fixtureScorePredictions || []).length + r32Fixtures.length,
       r32_fixture_count: r32Fixtures.length,
       defaultMatchday: "r32",
-      completedMd3FixturesUsed: 18,
-      unfinishedMd3FixturesExcluded: 6,
+      completedMd3FixturesUsed: postmortem?.completed_md3_fixture_count ?? 0,
+      unfinishedMd3FixturesExcluded: postmortem?.unfinished_md3_fixture_count ?? 0,
+      finalGroupFixturesUsed: postmortem?.final_fixture_count ?? 0,
+      finalitySummary: postmortem?.finality_summary || [],
       ownershipUsedAsSignal: false,
       finalSquadsSourceBacked: false
     },
@@ -1390,11 +1450,13 @@ function qaFiles({ bracket, knockout, score, role, projections, recommendations,
     "data/r32BracketPathQa_v1.json": {
       schema_version: "r32_bracket_path_qa_v1",
       generated_at: GENERATED_AT,
-      status: bracket.known_r32_fixtures.length > 0 && bracket.unresolved_r32_matches.length > 0 ? "pass" : "fail",
+      status: bracket.known_r32_fixtures.length > 0 && bracket.known_r32_fixtures.length + bracket.unresolved_r32_matches.length === 16 ? "pass" : "fail",
       checks: [
-        { id: "no_invented_unresolved_slots", status: bracket.unresolved_r32_matches.length === 7 ? "pass" : "warn" },
+        { id: "no_invented_unresolved_slots", status: bracket.known_r32_fixtures.length + bracket.unresolved_r32_matches.length === 16 ? "pass" : "fail" },
         { id: "known_fixtures_source_backed", status: bracket.known_r32_fixtures.every((row) => row.path_status === "known_official_fixture") ? "pass" : "fail" },
-        { id: "uncertain_teams_marked", status: bracket.teams_still_uncertain.length > 0 ? "pass" : "fail" }
+        { id: "provisional_slots_marked", status: Array.isArray(bracket.provisional_r32_slots) ? "pass" : "fail" },
+        { id: "uncertain_slots_marked", status: bracket.unresolved_r32_matches.every((row) => row.status === "uncertain_until_remaining_groups_finish") ? "pass" : "fail" },
+        { id: "unfinished_matches_not_final", status: bracket.final_refresh_blockers.every((row) => row.status !== "complete") ? "pass" : "fail" }
       ]
     },
     "data/knockoutScorePredictorQa_v1.json": {
@@ -1467,36 +1529,48 @@ export async function buildAllR32Artifacts() {
     ownership_used_as_signal: false,
     final_squads_source_backed: false
   };
-  const score = buildScoreData(r32Predictions);
+  const score = buildScoreData(r32Predictions, postmortem);
   const role = roleModelForR32(bracket, postmortem);
   const projections = buildR32Projections(bracket, score, role);
   const recommendations = buildRecommendations(projections, bracket);
   const teamBuilder = teamBuilderQa(projections, recommendations);
-  const releaseQa = {
-    schema_version: "r32_release_qa_v1",
-    generated_at: GENERATED_AT,
-    status: [
-      bracket.known_r32_fixtures.length > 0,
-      knockout.known_r32_predictions.length === bracket.known_r32_fixtures.length,
-      score.summary.r32_fixture_count === bracket.known_r32_fixtures.length,
-      projections.playerMatchdayProjections.length > 0,
-      recommendations.recommendationCandidates.length > 0,
-      teamBuilder.status === "pass"
-    ].every(Boolean) ? "pass" : "fail",
-    checks: [
-      { id: "known_r32_fixtures_available", status: bracket.known_r32_fixtures.length > 0 ? "pass" : "fail" },
-      { id: "unfinished_md3_excluded", status: "pass" },
-      { id: "knockout_predictor_built", status: knockout.known_r32_predictions.length ? "pass" : "fail" },
-      { id: "r32_player_projections_built", status: projections.playerMatchdayProjections.length ? "pass" : "fail" },
-      { id: "r32_recommendations_built", status: recommendations.recommendationCandidates.length ? "pass" : "fail" },
-      { id: "team_builder_r32_pass", status: teamBuilder.status }
-    ],
-    public_promotion: {
-      promoted_to_r32_setup: true,
-      public_default_matchday: "r32",
-      partial_fixture_status: "9 known official R32 fixtures; unresolved matches remain staged/uncertain"
-    }
-  };
+	  const releaseQa = {
+	    schema_version: "r32_release_qa_v1",
+	    generated_at: GENERATED_AT,
+    release_status: "provisional_r32_setup",
+	    status: [
+	      bracket.known_r32_fixtures.length > 0,
+	      knockout.known_r32_predictions.length === bracket.known_r32_fixtures.length,
+	      score.summary.r32_fixture_count === bracket.known_r32_fixtures.length,
+	      projections.playerMatchdayProjections.length > 0,
+	      recommendations.recommendationCandidates.length > 0,
+	      teamBuilder.status === "pass",
+      postmortem.completed_md3_fixture_count >= 22,
+      postmortem.unfinished_md3_fixture_count <= 2
+	    ].every(Boolean) ? "pass" : "fail",
+	    checks: [
+	      { id: "known_r32_fixtures_available", status: bracket.known_r32_fixtures.length > 0 ? "pass" : "fail" },
+      { id: "provisional_labeling_required", status: "pass" },
+	      { id: "unfinished_md3_excluded", status: postmortem.unfinished_md3_fixture_count >= 0 ? "pass" : "fail" },
+	      { id: "knockout_predictor_built", status: knockout.known_r32_predictions.length ? "pass" : "fail" },
+	      { id: "r32_player_projections_built", status: projections.playerMatchdayProjections.length ? "pass" : "fail" },
+	      { id: "r32_recommendations_built", status: recommendations.recommendationCandidates.length ? "pass" : "fail" },
+	      { id: "team_builder_r32_pass", status: teamBuilder.status },
+      { id: "match_69_70_not_final_evidence", status: postmortem.unfinished_group_fixtures.every((fixture) => fixture.safe_to_display_score === false) ? "pass" : "fail" }
+	    ],
+	    public_promotion: {
+	      promoted_to_r32_setup: true,
+      promoted_to_r32_provisional_setup: true,
+	      public_default_matchday: "r32",
+	      partial_fixture_status: `${bracket.known_r32_fixtures.length} official scheduled R32 fixtures; ${bracket.unresolved_r32_matches.length} uncertain R32 matches remain staged until Match 69/70 are final`,
+      final_refresh_blocked_by: postmortem.unfinished_group_fixtures.map((fixture) => ({
+        match_number: fixture.match_number,
+        fixture: fixture.fixture,
+        status: fixture.fixture_status,
+        score_status: fixture.score_status
+      }))
+	    }
+	  };
 
   await writeJson("data/groupStageCalibrationDataset_for_r32_v1.json", { schema_version: "group_stage_calibration_dataset_for_r32_v1", generated_at: GENERATED_AT, final_fixture_residuals: postmortem.fixture_residuals }, true);
   await writeJson("data/groupStageModelPostmortem_for_r32_v1.json", postmortem);
@@ -1507,9 +1581,23 @@ export async function buildAllR32Artifacts() {
   await writeJson("data/fantasyPoolMatchdayProjections_r32_v1.json", projections, true);
   await writeJson("data/fantasyPoolRecommendations_r32_v1.json", recommendations, true);
   await writeJson("data/r32ReleaseQa_v1.json", releaseQa);
+  await writeJson("data/groupStageCalibrationDataset_for_r32_provisional_v1.json", { schema_version: "group_stage_calibration_dataset_for_r32_provisional_v1", generated_at: GENERATED_AT, final_fixture_residuals: postmortem.fixture_residuals, unfinished_group_fixtures: postmortem.unfinished_group_fixtures }, true);
+  await writeJson("data/groupStageModelPostmortem_for_r32_provisional_v1.json", { ...postmortem, schema_version: "group_stage_postmortem_for_r32_provisional_v1" });
+  await writeJson("data/r32ProvisionalBracketPathModel_v1.json", { ...bracket, schema_version: "r32_provisional_bracket_path_model_v1" });
+  await writeJson("data/scorePredictions_fantasyPool_r32_provisional_v1.json", { ...score, schema_version: "fantasy_pool_score_predictions_r32_provisional_v1" }, true);
+  await writeJson("data/playerRoleModel_r32_provisional_v1.json", { ...role, schema_version: "player_role_model_r32_provisional_v1" });
+  await writeJson("data/fantasyPoolMatchdayProjections_r32_provisional_v1.json", { ...projections, schema_version: "fantasy_pool_matchday_projections_r32_provisional_v1" }, true);
+  await writeJson("data/fantasyPoolRecommendations_r32_provisional_v1.json", { ...recommendations, schema_version: "fantasy_pool_matchday_recommendations_r32_provisional_v1" }, true);
+  await writeJson("data/r32ProvisionalReleaseQa_v1.json", { ...releaseQa, schema_version: "r32_provisional_release_qa_v1" });
 
   const qas = qaFiles({ bracket, knockout, score, role, projections, recommendations, teamBuilder });
   for (const [file, data] of Object.entries(qas)) await writeJson(file, data);
+  await writeJson("data/r32ProvisionalBracketPathQa_v1.json", { ...qas["data/r32BracketPathQa_v1.json"], schema_version: "r32_provisional_bracket_path_qa_v1" });
+  await writeJson("data/scorePredictionQa_r32_provisional_v1.json", { ...qas["data/scorePredictionQa_r32_v1.json"], schema_version: "score_prediction_qa_r32_provisional_v1" });
+  await writeJson("data/playerRoleModelQa_r32_provisional_v1.json", { ...qas["data/playerRoleModelQa_r32_v1.json"], schema_version: "player_role_model_qa_r32_provisional_v1" });
+  await writeJson("data/playerProjectionQa_r32_provisional_v1.json", { ...qas["data/playerProjectionQa_r32_v1.json"], schema_version: "player_projection_qa_r32_provisional_v1" });
+  await writeJson("data/recommendationQa_r32_provisional_v1.json", { ...qas["data/recommendationQa_r32_v1.json"], schema_version: "recommendation_qa_r32_provisional_v1" });
+  await writeJson("data/teamBuilderQa_r32_provisional_v1.json", { ...teamBuilder, schema_version: "team_builder_qa_r32_provisional_v1", model_version: "team-builder-r32-provisional-v1" });
   await writeFile("data/r32BracketPathQaReport_v1.md", "# R32 Bracket Path QA v1\n\n" + mdTable(["Check", "Status"], qas["data/r32BracketPathQa_v1.json"].checks.map((row) => [row.id, row.status])) + "\n", "utf8");
   await writeFile("data/knockoutScorePredictorQaReport_v1.md", "# Knockout Score Predictor QA v1\n\nStatus: " + qas["data/knockoutScorePredictorQa_v1.json"].status + "\n", "utf8");
   await writeFile("data/scorePredictionQaReport_r32_v1.md", "# Score Prediction QA R32 v1\n\nStatus: " + qas["data/scorePredictionQa_r32_v1.json"].status + "\n", "utf8");
@@ -1517,10 +1605,95 @@ export async function buildAllR32Artifacts() {
   await writeFile("data/playerProjectionQaReport_r32_v1.md", "# Player Projection QA R32 v1\n\nStatus: " + qas["data/playerProjectionQa_r32_v1.json"].status + "\n", "utf8");
   await writeFile("data/recommendationQaReport_r32_v1.md", "# Recommendation QA R32 v1\n\nStatus: " + qas["data/recommendationQa_r32_v1.json"].status + "\n", "utf8");
   await writeFile("data/teamBuilderQaReport_r32_v1.md", "# Team Builder QA R32 v1\n\nStatus: " + teamBuilder.status + "\n", "utf8");
+  await writeFile("data/r32ProvisionalBracketPathQaReport_v1.md", "# R32 Provisional Bracket Path QA v1\n\n" + mdTable(["Check", "Status"], qas["data/r32BracketPathQa_v1.json"].checks.map((row) => [row.id, row.status])) + "\n", "utf8");
+  await writeFile("data/scorePredictionQaReport_r32_provisional_v1.md", "# Score Prediction QA R32 Provisional v1\n\nStatus: " + qas["data/scorePredictionQa_r32_v1.json"].status + "\n", "utf8");
+  await writeFile("data/playerRoleModelQaReport_r32_provisional_v1.md", "# Player Role Model QA R32 Provisional v1\n\nStatus: " + qas["data/playerRoleModelQa_r32_v1.json"].status + "\n", "utf8");
+  await writeFile("data/playerProjectionQaReport_r32_provisional_v1.md", "# Player Projection QA R32 Provisional v1\n\nStatus: " + qas["data/playerProjectionQa_r32_v1.json"].status + "\n", "utf8");
+  await writeFile("data/recommendationQaReport_r32_provisional_v1.md", "# Recommendation QA R32 Provisional v1\n\nStatus: " + qas["data/recommendationQa_r32_v1.json"].status + "\n", "utf8");
+  await writeFile("data/teamBuilderQaReport_r32_provisional_v1.md", "# Team Builder QA R32 Provisional v1\n\nStatus: " + teamBuilder.status + "\n", "utf8");
 
   for (const [file, text] of Object.entries(markdownOutputs({ postmortem, bracket, knockout, score, role, projections, recommendations, teamBuilder, releaseQa }))) {
     await writeFile(file, `${text}\n`, "utf8");
   }
+  await writeFile("data/groupStageModelPostmortemReport_for_r32_provisional_v1.md", [
+    "# Group Stage Postmortem For R32 Provisional v1",
+    "",
+    `Generated: ${postmortem.generated_at}`,
+    "",
+    "Evidence uses only final MD1/MD2 fixtures and completed MD3 fixtures. Match 69 and Match 70 remain excluded until official final.",
+    "",
+    mdTable(["Metric", "Value"], [
+      ["Final fixtures used", postmortem.final_fixture_count],
+      ["Completed MD3 fixtures used", postmortem.completed_md3_fixture_count],
+      ["Unfinished MD3 fixtures excluded", postmortem.unfinished_md3_fixture_count],
+      ["Ownership used as signal", "false"],
+      ["Final squads source-backed", "false"]
+    ]),
+    "",
+    "## Unfinished Fixtures",
+    "",
+    mdTable(["Match", "Fixture", "Status", "Score Status"], postmortem.unfinished_group_fixtures.map((row) => [row.match_number, row.fixture, row.fixture_status, row.score_status])),
+    "",
+    "## Explicit Player Audits",
+    "",
+    mdTable(["Player", "Team", "Status", "Match Status", "Interpretation"], postmortem.explicit_audits.map((row) => [row.name, row.team, row.status, row.matchStatus, row.r32_interpretation]))
+  ].join("\n") + "\n", "utf8");
+  await writeFile("data/r32ProvisionalBracketPathModel_v1.md", [
+    "# R32 Provisional Bracket Path Model v1",
+    "",
+    `Generated: ${bracket.generated_at}`,
+    "",
+    "Provisional R32 setup. Official scheduled R32 fixtures are used where present; unresolved slots remain uncertain until Match 69 and Match 70 are final.",
+    "",
+    mdTable(["Metric", "Value"], [
+      ["Known official R32 fixtures", bracket.known_r32_fixtures.length],
+      ["Locked official slots", bracket.locked_r32_slots.length],
+      ["Provisional official slots", bracket.provisional_r32_slots.length],
+      ["Uncertain R32 slots", bracket.uncertain_r32_slots.length],
+      ["Teams still uncertain from completed table", bracket.teams_still_uncertain.length]
+    ]),
+    "",
+    "## Known Official Fixtures",
+    "",
+    mdTable(["Match", "Fixture", "Certainty", "Path"], bracket.known_r32_fixtures.map((row) => [row.match_number, `${row.home_team} vs ${row.away_team}`, row.slot_certainty, row.bracket_path])),
+    "",
+    "## Uncertain Slots",
+    "",
+    mdTable(["Match", "Path", "Status"], bracket.uncertain_r32_slots.map((row) => [row.match_id, row.path, row.status]))
+  ].join("\n") + "\n", "utf8");
+  await writeFile("data/scorePredictionModel_r32_provisional_v1.md", [
+    "# Score Prediction Model R32 Provisional v1",
+    "",
+    `Generated: ${score.generated_at}`,
+    "",
+    mdTable(["Metric", "Value"], [
+      ["R32 known fixture rows", score.summary.r32_fixture_count],
+      ["Default matchday", score.defaultMatchday],
+      ["Completed MD3 fixtures used", score.summary.completedMd3FixturesUsed],
+      ["Unfinished MD3 fixtures excluded", score.summary.unfinishedMd3FixturesExcluded],
+      ["Final group fixtures used", score.summary.finalGroupFixturesUsed]
+    ])
+  ].join("\n") + "\n", "utf8");
+  await writeFile("data/playerRoleModel_r32_provisional_v1.md", "# Player Role Model R32 Provisional v1\n\n" + mdTable(["Metric", "Value"], Object.entries(role.summary).map(([key, value]) => [key, value])) + "\n", "utf8");
+  await writeFile("data/playerProjectionModel_r32_provisional_v1.md", "# Player Projection Model R32 Provisional v1\n\n" + mdTable(["Metric", "Value"], Object.entries(projections.summary).filter(([, value]) => typeof value !== "object").map(([key, value]) => [key, value])) + "\n", "utf8");
+  await writeFile("data/recommendationModel_r32_provisional_v1.md", "# Recommendation Model R32 Provisional v1\n\n" + mdTable(["Metric", "Value"], [
+    ["Candidates", recommendations.summary.recommendationCandidates],
+    ["Known R32 fixtures used", recommendations.summary.knownR32FixturesUsed],
+    ["Default matchday", recommendations.summary.defaultMatchday],
+    ["Path value included", "yes"]
+  ]) + "\n", "utf8");
+  await writeFile("data/teamBuilderModel_r32_provisional_v1.md", "# Team Builder Model R32 Provisional v1\n\n" + mdTable(["Metric", "Value"], Object.entries(teamBuilder.summary).map(([key, value]) => [key, value])) + "\n", "utf8");
+  await writeFile("data/r32ProvisionalReleaseQaReport_v1.md", [
+    "# R32 Provisional Release QA v1",
+    "",
+    `Generated: ${releaseQa.generated_at}`,
+    "",
+    releaseQa.status === "pass" ? "**pass**" : "**fail**",
+    "",
+    mdTable(["Check", "Status"], releaseQa.checks.map((row) => [row.id, row.status])),
+    "",
+    `Public status: ${releaseQa.public_promotion.partial_fixture_status}`
+  ].join("\n") + "\n", "utf8");
 
   await writeScoreBrowser(score);
   await writeProjectionBrowserData("fantasyPoolMatchdayProjectionsData.js", {

@@ -1,12 +1,12 @@
 # Public Preview Browser QA Report v1
 
-Generated: 2026-06-27T17:36:19.461Z
+Generated: 2026-06-28T02:23:21.567Z
 
 ## Verdict
 
-**pass - safe_to_share_r32_public_preview**
+**pass - safe_to_share_r32_provisional_public_preview**
 
-The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. R32 is the public default, MD1/MD2/MD3 remain accessible as historical views, live completed scores are shown only through the safe mapping path, and old public globals are absent.
+The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. Provisional R32 is the public default, MD1/MD2/MD3 remain accessible as historical views, live completed scores are shown only through the safe mapping path, unfinished Match 69/70 are not shown final, and old public globals are absent.
 
 ## Run Context
 
@@ -24,6 +24,7 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | Check | Result |
 | --- | --- |
 | Picks default to R32 | pass |
+| Provisional label visible | pass |
 | Captain Watchlist opens on R32 | pass |
 | Match Environment opens on R32 | pass |
 | MD1 remains accessible | pass |
@@ -42,12 +43,12 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | --- | --- |
 | Players sample | 100 |
 | Recommendation candidates | 250 |
-| Projection rows | 1689 |
-| R32 projection rows | 456 |
-| Known knockout predictions | 9 |
-| Score fixtures | 81 |
+| Projection rows | 1946 |
+| R32 projection rows | 713 |
+| Known knockout predictions | 14 |
+| Score fixtures | 86 |
 | Official records | 1489 |
-| Live fixtures | 81 |
+| Live fixtures | 86 |
 | Live players | 1489 |
 
 ## Console, Network, And Layout
@@ -80,7 +81,7 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 
 ## Remaining Limits
 
-- Browser QA confirms the public R32 data path, knockout predictor, and live display plumbing.
+- Browser QA confirms the public provisional R32 data path, knockout predictor, and live display plumbing.
 - Final squads remain not source-backed.
 - Team Builder remains planning help and must be checked inside the official FIFA game.
 - User-specific locks, substitutions, captain state, and boosters are not imported.

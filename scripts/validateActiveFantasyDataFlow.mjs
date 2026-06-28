@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 
-const ACTIVE_VERSION = "20260627-r32-setup";
+const ACTIVE_VERSION = "20260628-r32-provisional";
 const ACTIVE_MATCHDAY_ID = "r32";
 const ACTIVE_MATCHDAY_LABEL = "R32";
 const REQUIRED_SCRIPT_ORDER = [

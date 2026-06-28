@@ -1,6 +1,6 @@
 {
   "schema_version": "live_fixture_mapping_qa_v1",
-  "generated_at": "2026-06-27T17:32:06.428Z",
+  "generated_at": "2026-06-28T02:22:28.734Z",
   "status": "passed",
   "files": {
     "localFixtures": "data/fixtures.json",
@@ -14,24 +14,24 @@
   },
   "summary": {
     "total_local_fixtures": 72,
-    "total_live_fixtures": 81,
+    "total_live_fixtures": 86,
     "group_stage_live_fixtures": 72,
-    "extra_live_fixtures": 9,
+    "extra_live_fixtures": 14,
     "total_score_prediction_fixtures": 72,
     "matched_fixtures": 72,
-    "final_fixtures_shown": 66,
-    "in_progress_fixtures_suppressed": 0,
-    "scheduled_fixtures": 15,
-    "unmatched_fixtures": 9,
+    "final_fixtures_shown": 70,
+    "in_progress_fixtures_suppressed": 2,
+    "scheduled_fixtures": 14,
+    "unmatched_fixtures": 14,
     "ambiguous_fixtures": 0,
     "reversed_mappings": 0,
     "mapping_status_counts": {
       "matched": 72,
-      "unmatched": 9
+      "unmatched": 14
     },
     "mapping_orientation_counts": {
       "direct": 72,
-      "unknown": 9
+      "unknown": 14
     },
     "unsafe_fixture_player_point_leak_count": 0
   },
@@ -168,30 +168,39 @@
       "safe_to_display_score": false
     },
     {
+      "source_fixture_id": "82",
+      "round_id": "4",
+      "round_stage": "R32",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "teams": "Mexico vs Ecuador",
+      "safe_to_display_score": false
+    },
+    {
+      "source_fixture_id": "83",
+      "round_id": "4",
+      "round_stage": "R32",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "teams": "England vs Congo DR",
+      "safe_to_display_score": false
+    },
+    {
+      "source_fixture_id": "84",
+      "round_id": "4",
+      "round_stage": "R32",
+      "fixture_status": "scheduled",
+      "score_status": "not_final_hidden",
+      "teams": "Belgium vs Senegal",
+      "safe_to_display_score": false
+    },
+    {
       "source_fixture_id": "76",
       "round_id": "4",
       "round_stage": "R32",
       "fixture_status": "scheduled",
       "score_status": "not_final_hidden",
       "teams": "USA vs Bosnia and Herzegovina",
-      "safe_to_display_score": false
-    },
-    {
-      "source_fixture_id": "81",
-      "round_id": "4",
-      "round_stage": "R32",
-      "fixture_status": "scheduled",
-      "score_status": "not_final_hidden",
-      "teams": "Australia vs Egypt",
-      "safe_to_display_score": false
-    },
-    {
-      "source_fixture_id": "80",
-      "round_id": "4",
-      "round_stage": "R32",
-      "fixture_status": "scheduled",
-      "score_status": "not_final_hidden",
-      "teams": "Argentina vs Cabo Verde",
       "safe_to_display_score": false
     }
   ],

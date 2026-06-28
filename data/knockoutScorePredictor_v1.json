@@ -1,6 +1,6 @@
 {
   "schema_version": "knockout_score_predictor_v1",
-  "generated_at": "2026-06-27T17:34:00.673Z",
+  "generated_at": "2026-06-28T02:19:59.242Z",
   "model_version": "knockout-score-predictor-v1",
   "known_r32_predictions": [
     {
@@ -853,6 +853,486 @@
         }
       ],
       "explanation": "Australia 1.03 xG vs Egypt 0.77 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
+      "assumptions": [
+        "90-minute goals use the refreshed PELE-forward teamQuality prior plus conservative group-stage calibration.",
+        "Extra-time entry equals 90-minute draw probability.",
+        "Penalty edge is intentionally small and centered near 50/50.",
+        "No betting odds, lineups, injuries beyond official fantasy selectable status, or ownership are used."
+      ],
+      "qa_flags": [
+        "knockout_score_predictor_v1",
+        "pele_team_quality_prior",
+        "no_betting_odds",
+        "ownership_not_used_as_signal",
+        "final_squads_not_source_backed"
+      ]
+    },
+    {
+      "prediction_id": "ko-mexico-ecuador-r32-v1-partial-official-fixtures",
+      "match_id": "82",
+      "fixture_id": "fwc2026-m082",
+      "match_number": 82,
+      "matchday": "r32",
+      "fantasy_matchday_id": "r32",
+      "stage": "round_of_32",
+      "path_status": "known_official_fixture",
+      "bracket_path": "Group G winner v third-place team from Group A/E/H/I/J",
+      "date": "2026-07-01T02:00:00+01:00",
+      "home_team_id": "mexico",
+      "home_team": "Mexico",
+      "away_team_id": "ecuador",
+      "away_team": "Ecuador",
+      "home_expected_goals": 0.849,
+      "away_expected_goals": 1.041,
+      "home_projected_xg": 0.849,
+      "away_projected_xg": 1.041,
+      "total_expected_goals": 1.89,
+      "home_win_probability": 0.2901,
+      "draw_probability": 0.3172,
+      "away_win_probability": 0.3928,
+      "home_clean_sheet_probability": 0.3531,
+      "away_clean_sheet_probability": 0.4278,
+      "both_teams_to_score_probability": 0.3701,
+      "upset_risk_probability": 0.2901,
+      "probability_extra_time": 0.3172,
+      "home_advance_probability": 0.4499,
+      "away_advance_probability": 0.5501,
+      "home_advance_in_90_probability": 0.2901,
+      "away_advance_in_90_probability": 0.3928,
+      "home_advance_after_extra_time_probability": 0.061,
+      "away_advance_after_extra_time_probability": 0.0595,
+      "home_advance_on_penalties_probability": 0.0988,
+      "away_advance_on_penalties_probability": 0.0978,
+      "projected_advancing_team": "Ecuador",
+      "projected_final_advancing_team": "Ecuador",
+      "favorite_team": "Ecuador",
+      "favorite_team_id": "ecuador",
+      "favorite_win_probability": 0.5501,
+      "uncertainty_label": "High",
+      "matchUncertainty": "High",
+      "top_scorelines": [
+        {
+          "scoreline": "0-1",
+          "home_goals": 0,
+          "away_goals": 1,
+          "probability": 0.1573
+        },
+        {
+          "scoreline": "0-0",
+          "home_goals": 0,
+          "away_goals": 0,
+          "probability": 0.1511
+        },
+        {
+          "scoreline": "1-1",
+          "home_goals": 1,
+          "away_goals": 1,
+          "probability": 0.1335
+        },
+        {
+          "scoreline": "1-0",
+          "home_goals": 1,
+          "away_goals": 0,
+          "probability": 0.1283
+        },
+        {
+          "scoreline": "0-2",
+          "home_goals": 0,
+          "away_goals": 2,
+          "probability": 0.0819
+        },
+        {
+          "scoreline": "1-2",
+          "home_goals": 1,
+          "away_goals": 2,
+          "probability": 0.0695
+        }
+      ],
+      "explanation": "Mexico 0.85 xG vs Ecuador 1.04 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
+      "assumptions": [
+        "90-minute goals use the refreshed PELE-forward teamQuality prior plus conservative group-stage calibration.",
+        "Extra-time entry equals 90-minute draw probability.",
+        "Penalty edge is intentionally small and centered near 50/50.",
+        "No betting odds, lineups, injuries beyond official fantasy selectable status, or ownership are used."
+      ],
+      "qa_flags": [
+        "knockout_score_predictor_v1",
+        "pele_team_quality_prior",
+        "no_betting_odds",
+        "ownership_not_used_as_signal",
+        "final_squads_not_source_backed"
+      ]
+    },
+    {
+      "prediction_id": "ko-england-congo-dr-r32-v1-partial-official-fixtures",
+      "match_id": "83",
+      "fixture_id": "fwc2026-m083",
+      "match_number": 83,
+      "matchday": "r32",
+      "fantasy_matchday_id": "r32",
+      "stage": "round_of_32",
+      "path_status": "known_official_fixture",
+      "bracket_path": "Group K runner-up v Group L runner-up",
+      "date": "2026-07-01T17:00:00+01:00",
+      "home_team_id": "england",
+      "home_team": "England",
+      "away_team_id": "congo-dr",
+      "away_team": "Congo DR",
+      "home_expected_goals": 2.526,
+      "away_expected_goals": 0.35,
+      "home_projected_xg": 2.526,
+      "away_projected_xg": 0.35,
+      "total_expected_goals": 2.876,
+      "home_win_probability": 0.8465,
+      "draw_probability": 0.1185,
+      "away_win_probability": 0.035,
+      "home_clean_sheet_probability": 0.7047,
+      "away_clean_sheet_probability": 0.08,
+      "both_teams_to_score_probability": 0.2717,
+      "upset_risk_probability": 0.035,
+      "probability_extra_time": 0.1185,
+      "home_advance_probability": 0.9153,
+      "away_advance_probability": 0.0847,
+      "home_advance_in_90_probability": 0.8465,
+      "away_advance_in_90_probability": 0.035,
+      "home_advance_after_extra_time_probability": 0.0279,
+      "away_advance_after_extra_time_probability": 0.0171,
+      "home_advance_on_penalties_probability": 0.0408,
+      "away_advance_on_penalties_probability": 0.0326,
+      "projected_advancing_team": "England",
+      "projected_final_advancing_team": "England",
+      "favorite_team": "England",
+      "favorite_team_id": "england",
+      "favorite_win_probability": 0.9153,
+      "uncertainty_label": "Low",
+      "matchUncertainty": "Low",
+      "top_scorelines": [
+        {
+          "scoreline": "2-0",
+          "home_goals": 2,
+          "away_goals": 0,
+          "probability": 0.18
+        },
+        {
+          "scoreline": "3-0",
+          "home_goals": 3,
+          "away_goals": 0,
+          "probability": 0.1516
+        },
+        {
+          "scoreline": "1-0",
+          "home_goals": 1,
+          "away_goals": 0,
+          "probability": 0.1425
+        },
+        {
+          "scoreline": "4-0",
+          "home_goals": 4,
+          "away_goals": 0,
+          "probability": 0.0957
+        },
+        {
+          "scoreline": "2-1",
+          "home_goals": 2,
+          "away_goals": 1,
+          "probability": 0.063
+        },
+        {
+          "scoreline": "0-0",
+          "home_goals": 0,
+          "away_goals": 0,
+          "probability": 0.0564
+        }
+      ],
+      "explanation": "England 2.53 xG vs Congo DR 0.35 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
+      "assumptions": [
+        "90-minute goals use the refreshed PELE-forward teamQuality prior plus conservative group-stage calibration.",
+        "Extra-time entry equals 90-minute draw probability.",
+        "Penalty edge is intentionally small and centered near 50/50.",
+        "No betting odds, lineups, injuries beyond official fantasy selectable status, or ownership are used."
+      ],
+      "qa_flags": [
+        "knockout_score_predictor_v1",
+        "pele_team_quality_prior",
+        "no_betting_odds",
+        "ownership_not_used_as_signal",
+        "final_squads_not_source_backed"
+      ]
+    },
+    {
+      "prediction_id": "ko-belgium-senegal-r32-v1-partial-official-fixtures",
+      "match_id": "84",
+      "fixture_id": "fwc2026-m084",
+      "match_number": 84,
+      "matchday": "r32",
+      "fantasy_matchday_id": "r32",
+      "stage": "round_of_32",
+      "path_status": "known_official_fixture",
+      "bracket_path": "Group H winner v Group J runner-up",
+      "date": "2026-07-01T21:00:00+01:00",
+      "home_team_id": "belgium",
+      "home_team": "Belgium",
+      "away_team_id": "senegal",
+      "away_team": "Senegal",
+      "home_expected_goals": 1.191,
+      "away_expected_goals": 0.88,
+      "home_projected_xg": 1.191,
+      "away_projected_xg": 0.88,
+      "total_expected_goals": 2.071,
+      "home_win_probability": 0.4314,
+      "draw_probability": 0.2971,
+      "away_win_probability": 0.2715,
+      "home_clean_sheet_probability": 0.4148,
+      "away_clean_sheet_probability": 0.3039,
+      "both_teams_to_score_probability": 0.4074,
+      "upset_risk_probability": 0.2715,
+      "probability_extra_time": 0.2971,
+      "home_advance_probability": 0.5837,
+      "away_advance_probability": 0.4163,
+      "home_advance_in_90_probability": 0.4314,
+      "away_advance_in_90_probability": 0.2715,
+      "home_advance_after_extra_time_probability": 0.0587,
+      "away_advance_after_extra_time_probability": 0.0542,
+      "home_advance_on_penalties_probability": 0.0937,
+      "away_advance_on_penalties_probability": 0.0906,
+      "projected_advancing_team": "Belgium",
+      "projected_final_advancing_team": "Belgium",
+      "favorite_team": "Belgium",
+      "favorite_team_id": "belgium",
+      "favorite_win_probability": 0.5837,
+      "uncertainty_label": "High",
+      "matchUncertainty": "High",
+      "top_scorelines": [
+        {
+          "scoreline": "1-0",
+          "home_goals": 1,
+          "away_goals": 0,
+          "probability": 0.1501
+        },
+        {
+          "scoreline": "1-1",
+          "home_goals": 1,
+          "away_goals": 1,
+          "probability": 0.1321
+        },
+        {
+          "scoreline": "0-0",
+          "home_goals": 0,
+          "away_goals": 0,
+          "probability": 0.1261
+        },
+        {
+          "scoreline": "0-1",
+          "home_goals": 0,
+          "away_goals": 1,
+          "probability": 0.1109
+        },
+        {
+          "scoreline": "2-0",
+          "home_goals": 2,
+          "away_goals": 0,
+          "probability": 0.0894
+        },
+        {
+          "scoreline": "2-1",
+          "home_goals": 2,
+          "away_goals": 1,
+          "probability": 0.0787
+        }
+      ],
+      "explanation": "Belgium 1.19 xG vs Senegal 0.88 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
+      "assumptions": [
+        "90-minute goals use the refreshed PELE-forward teamQuality prior plus conservative group-stage calibration.",
+        "Extra-time entry equals 90-minute draw probability.",
+        "Penalty edge is intentionally small and centered near 50/50.",
+        "No betting odds, lineups, injuries beyond official fantasy selectable status, or ownership are used."
+      ],
+      "qa_flags": [
+        "knockout_score_predictor_v1",
+        "pele_team_quality_prior",
+        "no_betting_odds",
+        "ownership_not_used_as_signal",
+        "final_squads_not_source_backed"
+      ]
+    },
+    {
+      "prediction_id": "ko-portugal-croatia-r32-v1-partial-official-fixtures",
+      "match_id": "85",
+      "fixture_id": "fwc2026-m085",
+      "match_number": 85,
+      "matchday": "r32",
+      "fantasy_matchday_id": "r32",
+      "stage": "round_of_32",
+      "path_status": "known_official_fixture",
+      "bracket_path": "Group B winner v third-place team from Group E/F/G/I/J",
+      "date": "2026-07-03T00:00:00+01:00",
+      "home_team_id": "portugal",
+      "home_team": "Portugal",
+      "away_team_id": "croatia",
+      "away_team": "Croatia",
+      "home_expected_goals": 1.401,
+      "away_expected_goals": 0.745,
+      "home_projected_xg": 1.401,
+      "away_projected_xg": 0.745,
+      "total_expected_goals": 2.146,
+      "home_win_probability": 0.5261,
+      "draw_probability": 0.2748,
+      "away_win_probability": 0.1991,
+      "home_clean_sheet_probability": 0.4747,
+      "away_clean_sheet_probability": 0.2464,
+      "both_teams_to_score_probability": 0.3959,
+      "upset_risk_probability": 0.1991,
+      "probability_extra_time": 0.2748,
+      "home_advance_probability": 0.6707,
+      "away_advance_probability": 0.3293,
+      "home_advance_in_90_probability": 0.5261,
+      "away_advance_in_90_probability": 0.1991,
+      "home_advance_after_extra_time_probability": 0.0565,
+      "away_advance_after_extra_time_probability": 0.0479,
+      "home_advance_on_penalties_probability": 0.0881,
+      "away_advance_on_penalties_probability": 0.0822,
+      "projected_advancing_team": "Portugal",
+      "projected_final_advancing_team": "Portugal",
+      "favorite_team": "Portugal",
+      "favorite_team_id": "portugal",
+      "favorite_win_probability": 0.6707,
+      "uncertainty_label": "Medium",
+      "matchUncertainty": "Medium",
+      "top_scorelines": [
+        {
+          "scoreline": "1-0",
+          "home_goals": 1,
+          "away_goals": 0,
+          "probability": 0.1639
+        },
+        {
+          "scoreline": "1-1",
+          "home_goals": 1,
+          "away_goals": 1,
+          "probability": 0.1221
+        },
+        {
+          "scoreline": "0-0",
+          "home_goals": 0,
+          "away_goals": 0,
+          "probability": 0.117
+        },
+        {
+          "scoreline": "2-0",
+          "home_goals": 2,
+          "away_goals": 0,
+          "probability": 0.1148
+        },
+        {
+          "scoreline": "0-1",
+          "home_goals": 0,
+          "away_goals": 1,
+          "probability": 0.0871
+        },
+        {
+          "scoreline": "2-1",
+          "home_goals": 2,
+          "away_goals": 1,
+          "probability": 0.0855
+        }
+      ],
+      "explanation": "Portugal 1.40 xG vs Croatia 0.74 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
+      "assumptions": [
+        "90-minute goals use the refreshed PELE-forward teamQuality prior plus conservative group-stage calibration.",
+        "Extra-time entry equals 90-minute draw probability.",
+        "Penalty edge is intentionally small and centered near 50/50.",
+        "No betting odds, lineups, injuries beyond official fantasy selectable status, or ownership are used."
+      ],
+      "qa_flags": [
+        "knockout_score_predictor_v1",
+        "pele_team_quality_prior",
+        "no_betting_odds",
+        "ownership_not_used_as_signal",
+        "final_squads_not_source_backed"
+      ]
+    },
+    {
+      "prediction_id": "ko-colombia-ghana-r32-v1-partial-official-fixtures",
+      "match_id": "86",
+      "fixture_id": "fwc2026-m086",
+      "match_number": 86,
+      "matchday": "r32",
+      "fantasy_matchday_id": "r32",
+      "stage": "round_of_32",
+      "path_status": "known_official_fixture",
+      "bracket_path": "Group J winner v Group H runner-up",
+      "date": "2026-07-04T02:30:00+01:00",
+      "home_team_id": "colombia",
+      "home_team": "Colombia",
+      "away_team_id": "ghana",
+      "away_team": "Ghana",
+      "home_expected_goals": 2.113,
+      "away_expected_goals": 0.35,
+      "home_projected_xg": 2.113,
+      "away_projected_xg": 0.35,
+      "total_expected_goals": 2.463,
+      "home_win_probability": 0.7894,
+      "draw_probability": 0.1609,
+      "away_win_probability": 0.0497,
+      "home_clean_sheet_probability": 0.7047,
+      "away_clean_sheet_probability": 0.1209,
+      "both_teams_to_score_probability": 0.2596,
+      "upset_risk_probability": 0.0497,
+      "probability_extra_time": 0.1609,
+      "home_advance_probability": 0.8828,
+      "away_advance_probability": 0.1172,
+      "home_advance_in_90_probability": 0.7894,
+      "away_advance_in_90_probability": 0.0497,
+      "home_advance_after_extra_time_probability": 0.0379,
+      "away_advance_after_extra_time_probability": 0.0232,
+      "home_advance_on_penalties_probability": 0.0555,
+      "away_advance_on_penalties_probability": 0.0443,
+      "projected_advancing_team": "Colombia",
+      "projected_final_advancing_team": "Colombia",
+      "favorite_team": "Colombia",
+      "favorite_team_id": "colombia",
+      "favorite_win_probability": 0.8828,
+      "uncertainty_label": "Low",
+      "matchUncertainty": "Low",
+      "top_scorelines": [
+        {
+          "scoreline": "2-0",
+          "home_goals": 2,
+          "away_goals": 0,
+          "probability": 0.1902
+        },
+        {
+          "scoreline": "1-0",
+          "home_goals": 1,
+          "away_goals": 0,
+          "probability": 0.18
+        },
+        {
+          "scoreline": "3-0",
+          "home_goals": 3,
+          "away_goals": 0,
+          "probability": 0.134
+        },
+        {
+          "scoreline": "0-0",
+          "home_goals": 0,
+          "away_goals": 0,
+          "probability": 0.0852
+        },
+        {
+          "scoreline": "4-0",
+          "home_goals": 4,
+          "away_goals": 0,
+          "probability": 0.0708
+        },
+        {
+          "scoreline": "2-1",
+          "home_goals": 2,
+          "away_goals": 1,
+          "probability": 0.0666
+        }
+      ],
+      "explanation": "Colombia 2.11 xG vs Ghana 0.35 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
       "assumptions": [
         "90-minute goals use the refreshed PELE-forward teamQuality prior plus conservative group-stage calibration.",
         "Extra-time entry equals 90-minute draw probability.",

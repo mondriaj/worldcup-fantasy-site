@@ -1,17 +1,25 @@
 {
   "schema_version": "team_builder_qa_r32_v1",
-  "generated_at": "2026-06-27T17:34:00.673Z",
+  "generated_at": "2026-06-28T02:19:59.242Z",
   "status": "pass",
   "model_version": "team-builder-r32-v1",
   "summary": {
     "squad_players": 15,
     "starters": 11,
-    "starterProjectedPoints": 64.265,
-    "greedyStarterProjectedPoints": 65.188,
-    "gapVsGreedy": -0.923,
+    "starterProjectedPoints": 67.021,
+    "greedyStarterProjectedPoints": 68.964,
+    "gapVsGreedy": -1.943,
     "defaultMatchday": "r32"
   },
   "balanced_squad": [
+    {
+      "slot": "starter",
+      "name": "Camilo Vargas",
+      "country": "Colombia",
+      "position": "GK",
+      "projectedPoints": 5.867,
+      "opponent": "Ghana"
+    },
     {
       "slot": "starter",
       "name": "Emiliano Martínez",
@@ -22,11 +30,35 @@
     },
     {
       "slot": "starter",
-      "name": "Mike Maignan",
-      "country": "France",
-      "position": "GK",
-      "projectedPoints": 5.736,
-      "opponent": "Sweden"
+      "name": "Daniel Muñoz",
+      "country": "Colombia",
+      "position": "DEF",
+      "projectedPoints": 6.599,
+      "opponent": "Ghana"
+    },
+    {
+      "slot": "starter",
+      "name": "Dávinson Sánchez",
+      "country": "Colombia",
+      "position": "DEF",
+      "projectedPoints": 6.444,
+      "opponent": "Ghana"
+    },
+    {
+      "slot": "starter",
+      "name": "Ezri Konsa",
+      "country": "England",
+      "position": "DEF",
+      "projectedPoints": 6.441,
+      "opponent": "Congo DR"
+    },
+    {
+      "slot": "starter",
+      "name": "Jhon Lucumí",
+      "country": "Colombia",
+      "position": "DEF",
+      "projectedPoints": 6.39,
+      "opponent": "Ghana"
     },
     {
       "slot": "starter",
@@ -38,35 +70,11 @@
     },
     {
       "slot": "starter",
-      "name": "Joshua Kimmich",
-      "country": "Germany",
-      "position": "DEF",
-      "projectedPoints": 6.067,
-      "opponent": "Paraguay"
-    },
-    {
-      "slot": "starter",
-      "name": "Jules Koundé",
-      "country": "France",
-      "position": "DEF",
-      "projectedPoints": 5.985,
-      "opponent": "Sweden"
-    },
-    {
-      "slot": "starter",
-      "name": "Facundo Medina",
-      "country": "Argentina",
-      "position": "DEF",
-      "projectedPoints": 5.801,
-      "opponent": "Cabo Verde"
-    },
-    {
-      "slot": "starter",
-      "name": "Lisandro Martínez",
-      "country": "Argentina",
-      "position": "DEF",
-      "projectedPoints": 5.694,
-      "opponent": "Cabo Verde"
+      "name": "Jude Bellingham",
+      "country": "England",
+      "position": "MID",
+      "projectedPoints": 5.748,
+      "opponent": "Congo DR"
     },
     {
       "slot": "starter",
@@ -86,14 +94,6 @@
     },
     {
       "slot": "starter",
-      "name": "Enzo Fernández",
-      "country": "Argentina",
-      "position": "MID",
-      "projectedPoints": 5.379,
-      "opponent": "Cabo Verde"
-    },
-    {
-      "slot": "starter",
       "name": "Michael Olise",
       "country": "France",
       "position": "MID",
@@ -102,11 +102,11 @@
     },
     {
       "slot": "bench",
-      "name": "Thiago Almada",
-      "country": "Argentina",
+      "name": "Luis Díaz",
+      "country": "Colombia",
       "position": "MID",
-      "projectedPoints": 5.18,
-      "opponent": "Cabo Verde"
+      "projectedPoints": 5.134,
+      "opponent": "Ghana"
     },
     {
       "slot": "bench",
@@ -118,19 +118,19 @@
     },
     {
       "slot": "bench",
+      "name": "Harry Kane",
+      "country": "England",
+      "position": "FWD",
+      "projectedPoints": 6.184,
+      "opponent": "Congo DR"
+    },
+    {
+      "slot": "bench",
       "name": "Lautaro Martínez",
       "country": "Argentina",
       "position": "FWD",
       "projectedPoints": 5.84,
       "opponent": "Cabo Verde"
-    },
-    {
-      "slot": "bench",
-      "name": "Kylian Mbappé",
-      "country": "France",
-      "position": "FWD",
-      "projectedPoints": 5.774,
-      "opponent": "Sweden"
     }
   ],
   "top_r32_projected_players": [
@@ -142,6 +142,41 @@
       "opponent": "Cabo Verde"
     },
     {
+      "name": "Daniel Muñoz",
+      "country": "Colombia",
+      "position": "DEF",
+      "projectedPoints": 6.599,
+      "opponent": "Ghana"
+    },
+    {
+      "name": "Dávinson Sánchez",
+      "country": "Colombia",
+      "position": "DEF",
+      "projectedPoints": 6.444,
+      "opponent": "Ghana"
+    },
+    {
+      "name": "Ezri Konsa",
+      "country": "England",
+      "position": "DEF",
+      "projectedPoints": 6.441,
+      "opponent": "Congo DR"
+    },
+    {
+      "name": "Jhon Lucumí",
+      "country": "Colombia",
+      "position": "DEF",
+      "projectedPoints": 6.39,
+      "opponent": "Ghana"
+    },
+    {
+      "name": "Harry Kane",
+      "country": "England",
+      "position": "FWD",
+      "projectedPoints": 6.184,
+      "opponent": "Congo DR"
+    },
+    {
       "name": "Dayot Upamecano",
       "country": "France",
       "position": "DEF",
@@ -156,11 +191,39 @@
       "opponent": "Paraguay"
     },
     {
+      "name": "Facundo Medina",
+      "country": "Argentina",
+      "position": "DEF",
+      "projectedPoints": 6.01,
+      "opponent": "Cabo Verde"
+    },
+    {
       "name": "Jules Koundé",
       "country": "France",
       "position": "DEF",
       "projectedPoints": 5.985,
       "opponent": "Sweden"
+    },
+    {
+      "name": "Reece James",
+      "country": "England",
+      "position": "DEF",
+      "projectedPoints": 5.941,
+      "opponent": "Congo DR"
+    },
+    {
+      "name": "Lisandro Martínez",
+      "country": "Argentina",
+      "position": "DEF",
+      "projectedPoints": 5.904,
+      "opponent": "Cabo Verde"
+    },
+    {
+      "name": "Camilo Vargas",
+      "country": "Colombia",
+      "position": "GK",
+      "projectedPoints": 5.867,
+      "opponent": "Ghana"
     },
     {
       "name": "Lautaro Martínez",
@@ -170,18 +233,32 @@
       "opponent": "Cabo Verde"
     },
     {
-      "name": "Facundo Medina",
-      "country": "Argentina",
-      "position": "DEF",
-      "projectedPoints": 5.801,
-      "opponent": "Cabo Verde"
-    },
-    {
       "name": "Kylian Mbappé",
       "country": "France",
       "position": "FWD",
       "projectedPoints": 5.774,
       "opponent": "Sweden"
+    },
+    {
+      "name": "Johan Mojica",
+      "country": "Colombia",
+      "position": "DEF",
+      "projectedPoints": 5.77,
+      "opponent": "Ghana"
+    },
+    {
+      "name": "Jude Bellingham",
+      "country": "England",
+      "position": "MID",
+      "projectedPoints": 5.748,
+      "opponent": "Congo DR"
+    },
+    {
+      "name": "Jordan Pickford",
+      "country": "England",
+      "position": "GK",
+      "projectedPoints": 5.743,
+      "opponent": "Congo DR"
     },
     {
       "name": "Emiliano Martínez",
@@ -196,83 +273,6 @@
       "position": "GK",
       "projectedPoints": 5.736,
       "opponent": "Sweden"
-    },
-    {
-      "name": "Lisandro Martínez",
-      "country": "Argentina",
-      "position": "DEF",
-      "projectedPoints": 5.694,
-      "opponent": "Cabo Verde"
-    },
-    {
-      "name": "Rodrigo De Paul",
-      "country": "Argentina",
-      "position": "MID",
-      "projectedPoints": 5.649,
-      "opponent": "Cabo Verde"
-    },
-    {
-      "name": "Alexis Mac Allister",
-      "country": "Argentina",
-      "position": "MID",
-      "projectedPoints": 5.649,
-      "opponent": "Cabo Verde"
-    },
-    {
-      "name": "Virgil van Dijk",
-      "country": "Netherlands",
-      "position": "DEF",
-      "projectedPoints": 5.462,
-      "opponent": "Morocco"
-    },
-    {
-      "name": "Cristian Romero",
-      "country": "Argentina",
-      "position": "DEF",
-      "projectedPoints": 5.417,
-      "opponent": "Cabo Verde"
-    },
-    {
-      "name": "Enzo Fernández",
-      "country": "Argentina",
-      "position": "MID",
-      "projectedPoints": 5.379,
-      "opponent": "Cabo Verde"
-    },
-    {
-      "name": "Denzel Dumfries",
-      "country": "Netherlands",
-      "position": "DEF",
-      "projectedPoints": 5.293,
-      "opponent": "Morocco"
-    },
-    {
-      "name": "Alisson Ramsés Becker",
-      "country": "Brazil",
-      "position": "GK",
-      "projectedPoints": 5.285,
-      "opponent": "Japan"
-    },
-    {
-      "name": "Michael Olise",
-      "country": "France",
-      "position": "MID",
-      "projectedPoints": 5.253,
-      "opponent": "Sweden"
-    },
-    {
-      "name": "Jonathan Tah",
-      "country": "Germany",
-      "position": "DEF",
-      "projectedPoints": 5.198,
-      "opponent": "Paraguay"
-    },
-    {
-      "name": "Thiago Almada",
-      "country": "Argentina",
-      "position": "MID",
-      "projectedPoints": 5.18,
-      "opponent": "Cabo Verde"
     }
   ],
   "top_captain_watchlist": [
@@ -284,101 +284,101 @@
       "rank": 1
     },
     {
+      "name": "Facundo Medina",
+      "country": "Argentina",
+      "opponent": "Cabo Verde",
+      "captainScore": 29.566,
+      "rank": 2
+    },
+    {
+      "name": "Ezri Konsa",
+      "country": "England",
+      "opponent": "Congo DR",
+      "captainScore": 28.794,
+      "rank": 3
+    },
+    {
       "name": "Lautaro Martínez",
       "country": "Argentina",
       "opponent": "Cabo Verde",
       "captainScore": 29.405,
-      "rank": 2
+      "rank": 4
+    },
+    {
+      "name": "Lisandro Martínez",
+      "country": "Argentina",
+      "opponent": "Cabo Verde",
+      "captainScore": 29.339,
+      "rank": 5
     },
     {
       "name": "Emiliano Martínez",
       "country": "Argentina",
       "opponent": "Cabo Verde",
       "captainScore": 29.194,
-      "rank": 3
+      "rank": 6
     },
     {
       "name": "Rodrigo De Paul",
       "country": "Argentina",
       "opponent": "Cabo Verde",
       "captainScore": 29,
-      "rank": 4
+      "rank": 7
     },
     {
       "name": "Alexis Mac Allister",
       "country": "Argentina",
       "opponent": "Cabo Verde",
       "captainScore": 29,
-      "rank": 5
-    },
-    {
-      "name": "Facundo Medina",
-      "country": "Argentina",
-      "opponent": "Cabo Verde",
-      "captainScore": 29.047,
-      "rank": 6
-    },
-    {
-      "name": "Lisandro Martínez",
-      "country": "Argentina",
-      "opponent": "Cabo Verde",
-      "captainScore": 28.817,
-      "rank": 7
-    },
-    {
-      "name": "Enzo Fernández",
-      "country": "Argentina",
-      "opponent": "Cabo Verde",
-      "captainScore": 28.418,
       "rank": 8
+    },
+    {
+      "name": "Harry Kane",
+      "country": "England",
+      "opponent": "Congo DR",
+      "captainScore": 28.27,
+      "rank": 9
+    },
+    {
+      "name": "Daniel Muñoz",
+      "country": "Colombia",
+      "opponent": "Ghana",
+      "captainScore": 27.457,
+      "rank": 10
     },
     {
       "name": "Cristian Romero",
       "country": "Argentina",
       "opponent": "Cabo Verde",
-      "captainScore": 28.26,
-      "rank": 9
-    },
-    {
-      "name": "Thiago Almada",
-      "country": "Argentina",
-      "opponent": "Cabo Verde",
-      "captainScore": 27.966,
-      "rank": 10
-    },
-    {
-      "name": "Dayot Upamecano",
-      "country": "France",
-      "opponent": "Sweden",
-      "captainScore": 26.52,
+      "captainScore": 28.481,
       "rank": 11
     },
     {
-      "name": "Jules Koundé",
-      "country": "France",
-      "opponent": "Sweden",
-      "captainScore": 26.256,
+      "name": "Reece James",
+      "country": "England",
+      "opponent": "Congo DR",
+      "captainScore": 27.713,
       "rank": 12
     },
     {
-      "name": "Kylian Mbappé",
-      "country": "France",
-      "opponent": "Sweden",
-      "captainScore": 25.858,
+      "name": "Dávinson Sánchez",
+      "country": "Colombia",
+      "opponent": "Ghana",
+      "captainScore": 27.116,
       "rank": 13
     },
     {
-      "name": "Mike Maignan",
-      "country": "France",
-      "opponent": "Sweden",
-      "captainScore": 25.724,
+      "name": "Jhon Lucumí",
+      "country": "Colombia",
+      "opponent": "Ghana",
+      "captainScore": 27,
       "rank": 14
     },
     {
-      "name": "Joshua Kimmich",
-      "country": "Germany",
-      "opponent": "Paraguay",
-      "captainScore": 25.267,
+      "name": "Jude Bellingham",
+      "country": "England",
+      "opponent": "Congo DR",
+      "captainScore": 27.332,
       "rank": 15
     }
   ],

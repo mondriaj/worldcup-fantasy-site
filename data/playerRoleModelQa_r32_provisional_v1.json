@@ -1,0 +1,44 @@
+{
+  "schema_version": "player_role_model_qa_r32_provisional_v1",
+  "generated_at": "2026-06-28T02:19:59.242Z",
+  "status": "pass",
+  "summary": {
+    "roleRows": 1489,
+    "knownFixturePlayers": 896,
+    "uncertainOrUnavailablePlayers": 765,
+    "restedStarterPreserved": 10,
+    "ownershipUsedAsSignal": false,
+    "finalSquadsSourceBacked": false
+  },
+  "haaland_audit": {
+    "official_fantasy_player_id": "855",
+    "name": "Erling Haaland",
+    "country": "Norway",
+    "team_id": "norway",
+    "official_team_id": "32",
+    "official_fantasy_position": "FWD",
+    "selectable_status": "playing",
+    "matchStatus": "sub",
+    "r32KnownFixtureTeam": true,
+    "r32UncertainTeam": false,
+    "r32StartProb": 0.459,
+    "r32ExpectedMinutes": 42.7,
+    "roleTier": "rotation_risk",
+    "roleConfidence": "medium",
+    "group_stage_points": {
+      "md1": 17,
+      "md2": 13,
+      "md3": 0,
+      "total": 30
+    },
+    "r32_role_interpretation": "sub_role_caution",
+    "role_reasons": [
+      "sub_role_caution"
+    ],
+    "dataQualityFlags": [
+      "player_role_r32_v1",
+      "ownership_not_used_as_signal",
+      "final_squads_not_source_backed"
+    ]
+  }
+}

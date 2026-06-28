@@ -4,4 +4,6 @@
 | --- | --- |
 | no_invented_unresolved_slots | pass |
 | known_fixtures_source_backed | pass |
-| uncertain_teams_marked | pass |
+| provisional_slots_marked | pass |
+| uncertain_slots_marked | pass |
+| unfinished_matches_not_final | pass |

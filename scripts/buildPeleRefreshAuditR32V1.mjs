@@ -71,9 +71,12 @@ const audit = {
     "R32 outputs use known official knockout fixtures and keep unresolved slots uncertain."
   ]
 };
-
-await writeFile("data/peleRefreshAudit_r32_v1.json", `${JSON.stringify(audit, null, 2)}\n`, "utf8");
-await writeFile("data/peleRefreshAudit_r32_v1.md", [
+const provisionalAudit = {
+  ...audit,
+  schema_version: "pele_refresh_audit_r32_provisional_v1",
+  release_status: "provisional_r32_setup"
+};
+const markdown = [
   "# PELE Refresh Audit R32 v1",
   "",
   `Status: ${status}`,
@@ -90,7 +93,12 @@ await writeFile("data/peleRefreshAudit_r32_v1.md", [
   "",
   markdownTable(["Check", "Status", "Detail"], checks.map((check) => [check.id, check.status, String(check.detail)])),
   ""
-].join("\n"), "utf8");
+].join("\n");
+
+await writeFile("data/peleRefreshAudit_r32_v1.json", `${JSON.stringify(audit, null, 2)}\n`, "utf8");
+await writeFile("data/peleRefreshAudit_r32_v1.md", markdown, "utf8");
+await writeFile("data/peleRefreshAudit_r32_provisional_v1.json", `${JSON.stringify(provisionalAudit, null, 2)}\n`, "utf8");
+await writeFile("data/peleRefreshAudit_r32_provisional_v1.md", markdown.replace("# PELE Refresh Audit R32 v1", "# PELE Refresh Audit R32 Provisional v1"), "utf8");
 
 console.log(JSON.stringify({
   status,

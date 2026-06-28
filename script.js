@@ -1,7 +1,7 @@
 // Static data scripts are loaded before this file. They expose player, rules,
 // score-projection, and official fantasy-pool data on window globals, so the
 // public site can run without fetching JSON at runtime.
-const ACTIVE_DATA_VERSION = "20260627-r32-setup";
+const ACTIVE_DATA_VERSION = "20260628-r32-provisional";
 const ACTIVE_DATA = {
   version: ACTIVE_DATA_VERSION,
   players: Array.isArray(window.PLAYERS_DATA) ? window.PLAYERS_DATA : [],
@@ -51,7 +51,7 @@ function scorePredictionSourceFromWindow() {
       model_name: fantasyPoolData?.model?.model_name || null,
       formula_version: fantasyPoolData?.model?.formula_version || null,
       uncertainty_layer_version: fantasyPoolData?.model?.uncertainty_layer_version || null,
-      data_source_label: "Current fantasy score projection context",
+      data_source_label: "Provisional R32 fantasy score projection context",
       fallback_context_label: "Static score projection backup",
       fixture_prediction_count: fantasyPoolRows.length,
       team_fixture_prediction_count: fantasyPoolTeamRows.length || null
@@ -59,7 +59,7 @@ function scorePredictionSourceFromWindow() {
 
     return {
       key: fantasyPoolData?.model_version || fantasyPoolData?.modelVersion || "fantasy_pool_score_predictions_r32_v1",
-      label: "Current fantasy score projection context",
+      label: "Provisional R32 fantasy score projection context",
       browserFile: "fantasyPoolScorePredictionsData.js",
       sourceFile: "data/scorePredictions_fantasyPool_r32_v1.json",
       rows: fantasyPoolRows,
@@ -382,8 +382,8 @@ const browserSquadStorageKey = "worldCupFantasyHelper.teamExport.v1";
 
 function activeDataBadgeHtml() {
   return `
-    <span class="model-data-badge" title="Public R32 page uses only the current active static data path.">
-      R32 active data path · ${ACTIVE_DATA.version} · playersData.js · fantasyRulesData.js · fantasyPool recommendations/projections/finance/score · knockout predictor · live display/support only
+    <span class="model-data-badge" title="Public provisional R32 page uses only the current active static data path.">
+      Provisional R32 active data path · ${ACTIVE_DATA.version} · known fixtures and locked slots prioritized · final refresh after Match 69/70 · verify FIFA locks/deadlines/lineups
     </span>
   `;
 }

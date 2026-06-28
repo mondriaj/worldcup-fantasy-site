@@ -1,10 +1,10 @@
 # Recommendation Model R32 v1
 
-Generated: 2026-06-27T17:34:00.673Z
+Generated: 2026-06-28T02:19:59.242Z
 
 | Metric | Value |
 | --- | --- |
 | Candidates | 125 |
-| Known R32 fixtures used | 9 |
+| Known R32 fixtures used | 14 |
 | Default matchday | r32 |
 | Path value included | yes |

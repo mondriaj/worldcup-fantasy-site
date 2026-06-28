@@ -1,6 +1,6 @@
 {
   "schema_version": "match_environment_live_scores_qa_v1",
-  "generated_at": "2026-06-27T17:34:15.960Z",
+  "generated_at": "2026-06-28T02:22:28.761Z",
   "status": "passed",
   "files": {
     "html": "index.html",
@@ -12,17 +12,17 @@
     "outputReport": "data/matchEnvironmentLiveScoresQaReport_v1.md"
   },
   "summary": {
-    "score_prediction_fixture_count": 81,
+    "score_prediction_fixture_count": 86,
     "group_stage_score_prediction_fixture_count": 72,
-    "live_fixture_count": 81,
-    "final_fixture_count": 66,
-    "final_score_support_rows": 66,
+    "live_fixture_count": 86,
+    "final_fixture_count": 70,
+    "final_score_support_rows": 70,
     "completed_md1_fixture_count": 24,
     "completed_md1_final_scores_supported": 24,
     "completed_md2_fixture_count": 24,
     "completed_md2_final_scores_supported": 24,
-    "completed_md3_fixture_count": 18,
-    "completed_md3_final_scores_supported": 18,
+    "completed_md3_fixture_count": 22,
+    "completed_md3_final_scores_supported": 22,
     "non_final_score_leak_count": 0,
     "playing_fixture_final_leak_count": 0,
     "reversed_score_error_count": 0,
@@ -65,6 +65,15 @@
       "reversed": false
     },
     {
+      "match_number": 49,
+      "fixture_id": "fwc2026-m049",
+      "fixture": "Scotland vs Brazil",
+      "round_id": "3",
+      "score": "0-3",
+      "supported": true,
+      "reversed": false
+    },
+    {
       "match_number": 50,
       "fixture_id": "fwc2026-m050",
       "fixture": "Morocco vs Haiti",
@@ -74,9 +83,9 @@
       "reversed": false
     },
     {
-      "match_number": 49,
-      "fixture_id": "fwc2026-m049",
-      "fixture": "Scotland vs Brazil",
+      "match_number": 53,
+      "fixture_id": "fwc2026-m053",
+      "fixture": "Czechia vs Mexico",
       "round_id": "3",
       "score": "0-3",
       "supported": true,
@@ -92,11 +101,11 @@
       "reversed": false
     },
     {
-      "match_number": 53,
-      "fixture_id": "fwc2026-m053",
-      "fixture": "Czechia vs Mexico",
+      "match_number": 56,
+      "fixture_id": "fwc2026-m056",
+      "fixture": "Ecuador vs Germany",
       "round_id": "3",
-      "score": "0-3",
+      "score": "2-1",
       "supported": true,
       "reversed": false
     },
@@ -110,11 +119,11 @@
       "reversed": false
     },
     {
-      "match_number": 56,
-      "fixture_id": "fwc2026-m056",
-      "fixture": "Ecuador vs Germany",
+      "match_number": 58,
+      "fixture_id": "fwc2026-m058",
+      "fixture": "Tunisia vs Netherlands",
       "round_id": "3",
-      "score": "2-1",
+      "score": "1-3",
       "supported": true,
       "reversed": false
     },
@@ -124,15 +133,6 @@
       "fixture": "Japan vs Sweden",
       "round_id": "3",
       "score": "1-1",
-      "supported": true,
-      "reversed": false
-    },
-    {
-      "match_number": 58,
-      "fixture_id": "fwc2026-m058",
-      "fixture": "Tunisia vs Netherlands",
-      "round_id": "3",
-      "score": "1-3",
       "supported": true,
       "reversed": false
     },
@@ -173,20 +173,20 @@
       "reversed": false
     },
     {
-      "match_number": 65,
-      "fixture_id": "fwc2026-m065",
-      "fixture": "Cabo Verde vs Saudi Arabia",
-      "round_id": "3",
-      "score": "0-0",
-      "supported": true,
-      "reversed": false
-    },
-    {
       "match_number": 66,
       "fixture_id": "fwc2026-m066",
       "fixture": "Uruguay vs Spain",
       "round_id": "3",
       "score": "0-1",
+      "supported": true,
+      "reversed": false
+    },
+    {
+      "match_number": 65,
+      "fixture_id": "fwc2026-m065",
+      "fixture": "Cabo Verde vs Saudi Arabia",
+      "round_id": "3",
+      "score": "0-0",
       "supported": true,
       "reversed": false
     },
@@ -205,6 +205,42 @@
       "fixture": "Egypt vs IR Iran",
       "round_id": "3",
       "score": "1-1",
+      "supported": true,
+      "reversed": false
+    },
+    {
+      "match_number": 68,
+      "fixture_id": "fwc2026-m068",
+      "fixture": "Croatia vs Ghana",
+      "round_id": "3",
+      "score": "2-1",
+      "supported": true,
+      "reversed": false
+    },
+    {
+      "match_number": 67,
+      "fixture_id": "fwc2026-m067",
+      "fixture": "Panama vs England",
+      "round_id": "3",
+      "score": "0-2",
+      "supported": true,
+      "reversed": false
+    },
+    {
+      "match_number": 72,
+      "fixture_id": "fwc2026-m072",
+      "fixture": "Congo DR vs Uzbekistan",
+      "round_id": "3",
+      "score": "3-1",
+      "supported": true,
+      "reversed": false
+    },
+    {
+      "match_number": 71,
+      "fixture_id": "fwc2026-m071",
+      "fixture": "Colombia vs Portugal",
+      "round_id": "3",
+      "score": "0-0",
       "supported": true,
       "reversed": false
     }

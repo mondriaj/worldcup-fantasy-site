@@ -1,12 +1,12 @@
 {
   "schema_version": "public_performance_qa_r32_v1",
-  "generated_at": "2026-06-27T17:34:08.896Z",
+  "generated_at": "2026-06-28T02:22:15.106Z",
   "status": "pass",
   "public_payload_files": [
     {
       "file": "fantasyPoolMatchdayProjectionsData.js",
-      "size_bytes": 3393592,
-      "size_mb": 3.236,
+      "size_bytes": 3845914,
+      "size_mb": 3.668,
       "loaded_by_homepage": true,
       "public_browser_data": true
     },
@@ -19,22 +19,22 @@
     },
     {
       "file": "knockoutScorePredictorData.js",
-      "size_bytes": 1259340,
-      "size_mb": 1.201,
+      "size_bytes": 1271891,
+      "size_mb": 1.213,
       "loaded_by_homepage": true,
       "public_browser_data": true
     },
     {
       "file": "livePlayerStatusData.js",
-      "size_bytes": 938047,
-      "size_mb": 0.895,
+      "size_bytes": 950476,
+      "size_mb": 0.906,
       "loaded_by_homepage": true,
       "public_browser_data": true
     },
     {
       "file": "fantasyPoolRecommendationsData.js",
-      "size_bytes": 634409,
-      "size_mb": 0.605,
+      "size_bytes": 631018,
+      "size_mb": 0.602,
       "loaded_by_homepage": true,
       "public_browser_data": true
     },
@@ -54,15 +54,15 @@
     },
     {
       "file": "fantasyPoolScorePredictionsData.js",
-      "size_bytes": 335245,
-      "size_mb": 0.32,
+      "size_bytes": 352735,
+      "size_mb": 0.336,
       "loaded_by_homepage": true,
       "public_browser_data": true
     },
     {
       "file": "liveMatchdayStatusData.js",
-      "size_bytes": 168606,
-      "size_mb": 0.161,
+      "size_bytes": 178511,
+      "size_mb": 0.17,
       "loaded_by_homepage": true,
       "public_browser_data": true
     },
@@ -74,13 +74,13 @@
       "public_browser_data": true
     }
   ],
-  "total_homepage_public_payload_bytes": 10253113,
-  "total_homepage_public_payload_mb": 9.778,
+  "total_homepage_public_payload_bytes": 10754419,
+  "total_homepage_public_payload_mb": 10.256,
   "largest_public_files": [
     {
       "file": "fantasyPoolMatchdayProjectionsData.js",
-      "size_bytes": 3393592,
-      "size_mb": 3.236,
+      "size_bytes": 3845914,
+      "size_mb": 3.668,
       "loaded_by_homepage": true,
       "public_browser_data": true
     },
@@ -93,22 +93,22 @@
     },
     {
       "file": "knockoutScorePredictorData.js",
-      "size_bytes": 1259340,
-      "size_mb": 1.201,
+      "size_bytes": 1271891,
+      "size_mb": 1.213,
       "loaded_by_homepage": true,
       "public_browser_data": true
     },
     {
       "file": "livePlayerStatusData.js",
-      "size_bytes": 938047,
-      "size_mb": 0.895,
+      "size_bytes": 950476,
+      "size_mb": 0.906,
       "loaded_by_homepage": true,
       "public_browser_data": true
     },
     {
       "file": "fantasyPoolRecommendationsData.js",
-      "size_bytes": 634409,
-      "size_mb": 0.605,
+      "size_bytes": 631018,
+      "size_mb": 0.602,
       "loaded_by_homepage": true,
       "public_browser_data": true
     },
@@ -128,8 +128,8 @@
     },
     {
       "file": "fantasyPoolScorePredictionsData.js",
-      "size_bytes": 335245,
-      "size_mb": 0.32,
+      "size_bytes": 352735,
+      "size_mb": 0.336,
       "loaded_by_homepage": true,
       "public_browser_data": true
     }
@@ -207,13 +207,13 @@
   "compaction_actions": [
     {
       "file": "fantasyPoolMatchdayProjectionsData.js",
-      "before_mb": 7.381,
-      "after_mb": 3.236,
+      "before_mb": 7.812,
+      "after_mb": 3.668,
       "changed": true,
       "public_browser_data": true,
       "loaded_by_homepage": true,
       "needed_by_deployed_site": true,
-      "retained_projection_rows": 1689,
+      "retained_projection_rows": 1946,
       "action": "compacted_browser_payload"
     },
     {

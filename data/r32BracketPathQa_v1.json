@@ -1,6 +1,6 @@
 {
   "schema_version": "r32_bracket_path_qa_v1",
-  "generated_at": "2026-06-27T17:34:00.673Z",
+  "generated_at": "2026-06-28T02:19:59.242Z",
   "status": "pass",
   "checks": [
     {
@@ -12,7 +12,15 @@
       "status": "pass"
     },
     {
-      "id": "uncertain_teams_marked",
+      "id": "provisional_slots_marked",
+      "status": "pass"
+    },
+    {
+      "id": "uncertain_slots_marked",
+      "status": "pass"
+    },
+    {
+      "id": "unfinished_matches_not_final",
       "status": "pass"
     }
   ]

@@ -1,6 +1,6 @@
 # Public Performance QA R32 v1
 
-Generated: 2026-06-27T17:34:08.896Z
+Generated: 2026-06-28T02:22:15.106Z
 
 ## Verdict
 
@@ -10,18 +10,18 @@ Generated: 2026-06-27T17:34:08.896Z
 
 | File | MB | Loaded By Homepage | Public |
 | --- | --- | --- | --- |
-| fantasyPoolMatchdayProjectionsData.js | 3.236 | yes | yes |
+| fantasyPoolMatchdayProjectionsData.js | 3.668 | yes | yes |
 | fantasyPoolFinanceMetricsData.js | 2.354 | yes | yes |
-| knockoutScorePredictorData.js | 1.201 | yes | yes |
-| livePlayerStatusData.js | 0.895 | yes | yes |
-| fantasyPoolRecommendationsData.js | 0.605 | yes | yes |
+| knockoutScorePredictorData.js | 1.213 | yes | yes |
+| livePlayerStatusData.js | 0.906 | yes | yes |
+| fantasyPoolRecommendationsData.js | 0.602 | yes | yes |
 | fantasyPoolOfficialDataStatusData.js | 0.599 | yes | yes |
 | playersData.js | 0.391 | yes | yes |
-| fantasyPoolScorePredictionsData.js | 0.32 | yes | yes |
-| liveMatchdayStatusData.js | 0.161 | yes | yes |
+| fantasyPoolScorePredictionsData.js | 0.336 | yes | yes |
+| liveMatchdayStatusData.js | 0.17 | yes | yes |
 | fantasyRulesData.js | 0.017 | yes | yes |
 
-Total homepage public data payload: 9.778 MB
+Total homepage public data payload: 10.256 MB
 
 ## Large Generated Files
 
@@ -36,7 +36,7 @@ Total homepage public data payload: 9.778 MB
 
 ## Compaction Actions
 
-- fantasyPoolMatchdayProjectionsData.js: 7.381 MB -> 3.236 MB (compacted_browser_payload)
+- fantasyPoolMatchdayProjectionsData.js: 7.812 MB -> 3.668 MB (compacted_browser_payload)
 - fantasyPoolFinanceMetricsData.js: 2.354 MB -> 2.354 MB (compacted_finance_browser_payload)
 - data/fantasyPoolMatchdayProjections_md2_v4.json: 6.388 MB -> 6.388 MB (compacted_rows_in_place)
 - data/espnDetailedMatchPlayerStats.json: 0.002 MB -> 0.002 MB (replaced_raw_rows_with_compact_summary)

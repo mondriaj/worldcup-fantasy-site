@@ -1,6 +1,6 @@
 # Official Fantasy Data Update Check v1
 
-Generated: 2026-06-27T16:59:03.431Z
+Generated: 2026-06-28T02:12:58.767Z
 
 ## Summary
 
@@ -16,11 +16,11 @@ Generated: 2026-06-27T16:59:03.431Z
 
 | Source | HTTP | Parsed | Last-Modified | Bytes |
 | --- | --- | --- | --- | --- |
-| fifaFantasyPlayersJson | 200 | yes | 2026-06-27T16:50:03Z | 1270018 |
+| fifaFantasyPlayersJson | 200 | yes | 2026-06-28T02:04:22Z | 1275820 |
 | fifaFantasySquadsJson | 200 | yes | 2026-06-27T06:09:15Z | 6420 |
 | fifaFantasyHelpPagesJson | 200 | yes | 2026-06-25T11:05:16Z | 179312 |
-| fifaFantasyRoundsJson | 200 | yes | 2026-06-27T16:01:03Z | 117594 |
-| fifaFantasyLanguageJson | 200 | yes | 2026-06-26T10:57:14Z | 27459 |
+| fifaFantasyRoundsJson | 200 | yes | 2026-06-28T02:11:04Z | 124141 |
+| fifaFantasyLanguageJson | 200 | yes | 2026-06-26T15:00:23Z | 27459 |
 
 ## Change Counts
 
@@ -36,7 +36,7 @@ Generated: 2026-06-27T16:59:03.431Z
 | Rules source/header changes | 0 |
 | Deadline/round changes | 0 |
 | Clean Sheet Shield text changes | 0 |
-| Ownership percent changes | 0 |
+| Ownership percent changes | 98 |
 
 ## Recommendation
 
@@ -75,7 +75,7 @@ Candidate fields that may be useful for status auditing but do not prove final s
 
 - Help pages hash: `a9ae56a3a5d5ccdf26dbc70bfc6fd4b9bdea6a75b085d1356fd6b78d8a302cf3`
 - Language hash: `71e9748e99b99ed13cbf8be48287f63e3ec0be8e73e76c046edb77eceff15c62`
-- Rounds hash: `b545f8f5dd6b37727dd748e2cd1fd051811e5cb50579b7c57e8db5a4c855aba6`
+- Rounds hash: `b2875ca00caf30300539b944a66ee915b5dba9930797bf7ab1de8cb621653398`
 - Clean Sheet Shield text changed vs imported rules: no
 - Live Clean Sheet Shield header: Clean Sheet Shield
 - Live Clean Sheet Shield description: Activate the Clean Sheet Shield to gain an edge in any of the Knockout stages. Any goalkeeper, defender, or midfielder in your team will only lose their clean sheet after conceding 2 goals.

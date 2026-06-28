@@ -1,0 +1,27 @@
+{
+  "schema_version": "r32_provisional_bracket_path_qa_v1",
+  "generated_at": "2026-06-28T02:19:59.242Z",
+  "status": "pass",
+  "checks": [
+    {
+      "id": "no_invented_unresolved_slots",
+      "status": "pass"
+    },
+    {
+      "id": "known_fixtures_source_backed",
+      "status": "pass"
+    },
+    {
+      "id": "provisional_slots_marked",
+      "status": "pass"
+    },
+    {
+      "id": "uncertain_slots_marked",
+      "status": "pass"
+    },
+    {
+      "id": "unfinished_matches_not_final",
+      "status": "pass"
+    }
+  ]
+}

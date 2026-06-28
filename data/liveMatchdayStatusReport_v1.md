@@ -1,41 +1,41 @@
 # Live Matchday Status Report v1
 
-Generated: 2026-06-27T16:59:12.438Z
+Generated: 2026-06-28T02:12:18.935Z
 
 Status: static live/post-match support import. Model predictions, PELE data, recommendations, projections, finance metrics, Team Builder weights, and website formulas were not rerun by this script.
 
 ## Sources
 
-- fifaFantasyPlayersJson: ok, last modified 2026-06-27T16:50:03Z
+- fifaFantasyPlayersJson: ok, last modified 2026-06-28T02:04:22Z
 - fifaFantasySquadsJson: ok, last modified 2026-06-27T06:09:15Z
-- fifaFantasyRoundsJson: ok, last modified 2026-06-27T16:01:03Z
+- fifaFantasyRoundsJson: ok, last modified 2026-06-28T02:11:04Z
 
 Fetch failures: 0
 
 ## Round And Fixture Status
 
 Rounds imported: 8
-Fixtures imported: 81
+Fixtures imported: 86
 Group-stage fixtures mapped locally: 72
-Fixtures with score fields populated: 66
-Completed/played fixtures: 66
-Playing fixtures: 0
-Scheduled fixtures: 15
-In-progress fixture scores hidden until final: 0
-Safe final scores shown: 66
-Unmatched live fixtures: 9
+Fixtures with score fields populated: 70
+Completed/played fixtures: 70
+Playing fixtures: 2
+Scheduled fixtures: 14
+In-progress fixture scores hidden until final: 2
+Safe final scores shown: 70
+Unmatched live fixtures: 14
 Ambiguous live fixtures: 0
 Reversed mappings handled: 0
 
 Mapping status counts:
 
 - matched: 72
-- unmatched: 9
+- unmatched: 14
 
 Mapping orientation counts:
 
 - direct: 72
-- unknown: 9
+- unknown: 14
 
 Round status counts:
 
@@ -45,17 +45,18 @@ Round status counts:
 
 Fixture status counts:
 
-- complete: 66
-- scheduled: 15
+- complete: 70
+- playing: 2
+- scheduled: 14
 
 ## Player Live Fields
 
 Players imported: 1489
-Players with total points: 970
-Players with last-round points: 970
-Players with round-points maps: 970
-Players with unfinished-fixture points suppressed: 0
-Ownership changes >= 0.1 percentage points: 0
+Players with total points: 988
+Players with last-round points: 988
+Players with round-points maps: 988
+Players with unfinished-fixture points suppressed: 44
+Ownership changes >= 0.1 percentage points: 136
 
 Player status counts:
 
@@ -67,10 +68,10 @@ Player status counts:
 
 matchStatus counts:
 
-- none: 369
-- not_in_squad: 211
-- start: 396
-- sub: 513
+- none: 1
+- not_in_squad: 269
+- start: 528
+- sub: 691
 
 ## Material Change Check
 
@@ -81,7 +82,7 @@ Score prediction rerun needed now: no
 
 Reasons:
 
-- 211 players are marked not_in_squad; review before changing projections
+- 269 players are marked not_in_squad; review before changing projections
 
 Material change summary:
 
@@ -93,7 +94,7 @@ Validation status: passed_with_warnings
 
 Warnings:
 
-- 9 group-stage live fixtures did not map to local fixtures
+- 14 group-stage live fixtures did not map to local fixtures
 
 Errors:
 
