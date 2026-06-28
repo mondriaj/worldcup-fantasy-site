@@ -1,10 +1,11 @@
 {
   "schema_version": "bracket_pool_strategy_qa_v1",
-  "generated_at": "2026-06-28T11:52:42.227Z",
+  "generated_at": "2026-06-28T12:16:28.960Z",
   "model_version": "bracket-pool-strategy-v1",
   "source_files": [
     "data/knockoutScorePredictor_v1.json",
-    "data/r32BracketPathModel_v1.json"
+    "data/r32BracketPathModel_v1.json",
+    "worldCupData.js"
   ],
   "status": "pass",
   "checks": [
@@ -16,7 +17,7 @@
     {
       "id": "tournament_win_probabilities_sum_to_one",
       "status": "pass",
-      "detail": 0.9995
+      "detail": 1
     },
     {
       "id": "expected_points_nonnegative",
@@ -46,7 +47,7 @@
   ],
   "failures": [],
   "probability_summary": {
-    "tournament_win_probability_sum": 0.9995,
+    "tournament_win_probability_sum": 1,
     "team_count": 32,
     "strategy_count": 5
   }

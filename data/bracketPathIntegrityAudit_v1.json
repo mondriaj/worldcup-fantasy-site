@@ -1,0 +1,3666 @@
+{
+  "schema_version": "bracket_path_integrity_audit_v1",
+  "generated_at": "2026-06-28T12:16:32.086Z",
+  "status": "pass",
+  "source_files": {
+    "worldCupData": "worldCupData.js",
+    "r32BracketPath": "data/r32BracketPathModel_v1.json",
+    "bracketPoolStrategy": "data/bracketPoolStrategyModel_v1.json",
+    "bracketPoolStrategyQa": "data/bracketPoolStrategyQa_v1.json",
+    "knockoutScorePredictor": "data/knockoutScorePredictor_v1.json"
+  },
+  "bracket_source_truth": {
+    "propagation_based_on_official_bracket_slots": true,
+    "bracket_slot_source": "worldCupData.js",
+    "final_match_number": 104,
+    "third_place_match_excluded_from_champion_tree": true,
+    "france_argentina_r16_possible_under_source": true
+  },
+  "r32_slots": [
+    {
+      "match_number": 73,
+      "slot_id": "M73",
+      "fixture": "South Africa vs Canada",
+      "home_team": "South Africa",
+      "away_team": "Canada",
+      "bracket_path": "Group A runner-up v Group B runner-up",
+      "winner_slot": "W73",
+      "feeds_round": "R16",
+      "feeds_match_number": 90,
+      "feeds_slot": "left"
+    },
+    {
+      "match_number": 74,
+      "slot_id": "M74",
+      "fixture": "Brazil vs Japan",
+      "home_team": "Brazil",
+      "away_team": "Japan",
+      "bracket_path": "Group E winner v third-place team from Group A/B/C/D/F",
+      "winner_slot": "W74",
+      "feeds_round": "R16",
+      "feeds_match_number": 89,
+      "feeds_slot": "left"
+    },
+    {
+      "match_number": 75,
+      "slot_id": "M75",
+      "fixture": "Netherlands vs Morocco",
+      "home_team": "Netherlands",
+      "away_team": "Morocco",
+      "bracket_path": "Group F winner v Group C runner-up",
+      "winner_slot": "W75",
+      "feeds_round": "R16",
+      "feeds_match_number": 90,
+      "feeds_slot": "right"
+    },
+    {
+      "match_number": 76,
+      "slot_id": "M76",
+      "fixture": "USA vs Bosnia and Herzegovina",
+      "home_team": "USA",
+      "away_team": "Bosnia and Herzegovina",
+      "bracket_path": "Group C winner v Group F runner-up",
+      "winner_slot": "W76",
+      "feeds_round": "R16",
+      "feeds_match_number": 91,
+      "feeds_slot": "left"
+    },
+    {
+      "match_number": 77,
+      "slot_id": "M77",
+      "fixture": "Côte d'Ivoire vs Norway",
+      "home_team": "Côte d'Ivoire",
+      "away_team": "Norway",
+      "bracket_path": "Group I winner v third-place team from Group C/D/F/G/H",
+      "winner_slot": "W77",
+      "feeds_round": "R16",
+      "feeds_match_number": 89,
+      "feeds_slot": "right"
+    },
+    {
+      "match_number": 78,
+      "slot_id": "M78",
+      "fixture": "Germany vs Paraguay",
+      "home_team": "Germany",
+      "away_team": "Paraguay",
+      "bracket_path": "Group E runner-up v Group I runner-up",
+      "winner_slot": "W78",
+      "feeds_round": "R16",
+      "feeds_match_number": 91,
+      "feeds_slot": "right"
+    },
+    {
+      "match_number": 79,
+      "slot_id": "M79",
+      "fixture": "France vs Sweden",
+      "home_team": "France",
+      "away_team": "Sweden",
+      "bracket_path": "Group A winner v third-place team from Group C/E/F/H/I",
+      "winner_slot": "W79",
+      "feeds_round": "R16",
+      "feeds_match_number": 92,
+      "feeds_slot": "left"
+    },
+    {
+      "match_number": 80,
+      "slot_id": "M80",
+      "fixture": "Argentina vs Cabo Verde",
+      "home_team": "Argentina",
+      "away_team": "Cabo Verde",
+      "bracket_path": "Group L winner v third-place team from Group E/H/I/J/K",
+      "winner_slot": "W80",
+      "feeds_round": "R16",
+      "feeds_match_number": 92,
+      "feeds_slot": "right"
+    },
+    {
+      "match_number": 81,
+      "slot_id": "M81",
+      "fixture": "Australia vs Egypt",
+      "home_team": "Australia",
+      "away_team": "Egypt",
+      "bracket_path": "Group D winner v third-place team from Group B/E/F/I/J",
+      "winner_slot": "W81",
+      "feeds_round": "R16",
+      "feeds_match_number": 94,
+      "feeds_slot": "left"
+    },
+    {
+      "match_number": 82,
+      "slot_id": "M82",
+      "fixture": "Mexico vs Ecuador",
+      "home_team": "Mexico",
+      "away_team": "Ecuador",
+      "bracket_path": "Group G winner v third-place team from Group A/E/H/I/J",
+      "winner_slot": "W82",
+      "feeds_round": "R16",
+      "feeds_match_number": 94,
+      "feeds_slot": "right"
+    },
+    {
+      "match_number": 83,
+      "slot_id": "M83",
+      "fixture": "England vs Congo DR",
+      "home_team": "England",
+      "away_team": "Congo DR",
+      "bracket_path": "Group K runner-up v Group L runner-up",
+      "winner_slot": "W83",
+      "feeds_round": "R16",
+      "feeds_match_number": 93,
+      "feeds_slot": "left"
+    },
+    {
+      "match_number": 84,
+      "slot_id": "M84",
+      "fixture": "Belgium vs Senegal",
+      "home_team": "Belgium",
+      "away_team": "Senegal",
+      "bracket_path": "Group H winner v Group J runner-up",
+      "winner_slot": "W84",
+      "feeds_round": "R16",
+      "feeds_match_number": 93,
+      "feeds_slot": "right"
+    },
+    {
+      "match_number": 85,
+      "slot_id": "M85",
+      "fixture": "Portugal vs Croatia",
+      "home_team": "Portugal",
+      "away_team": "Croatia",
+      "bracket_path": "Group B winner v third-place team from Group E/F/G/I/J",
+      "winner_slot": "W85",
+      "feeds_round": "R16",
+      "feeds_match_number": 96,
+      "feeds_slot": "left"
+    },
+    {
+      "match_number": 86,
+      "slot_id": "M86",
+      "fixture": "Colombia vs Ghana",
+      "home_team": "Colombia",
+      "away_team": "Ghana",
+      "bracket_path": "Group J winner v Group H runner-up",
+      "winner_slot": "W86",
+      "feeds_round": "R16",
+      "feeds_match_number": 95,
+      "feeds_slot": "left"
+    },
+    {
+      "match_number": 87,
+      "slot_id": "M87",
+      "fixture": "Spain vs Austria",
+      "home_team": "Spain",
+      "away_team": "Austria",
+      "bracket_path": "Group K winner v third-place team from Group D/E/I/J/L",
+      "winner_slot": "W87",
+      "feeds_round": "R16",
+      "feeds_match_number": 96,
+      "feeds_slot": "right"
+    },
+    {
+      "match_number": 88,
+      "slot_id": "M88",
+      "fixture": "Switzerland vs Algeria",
+      "home_team": "Switzerland",
+      "away_team": "Algeria",
+      "bracket_path": "Group D runner-up v Group G runner-up",
+      "winner_slot": "W88",
+      "feeds_round": "R16",
+      "feeds_match_number": 95,
+      "feeds_slot": "right"
+    }
+  ],
+  "round_slots": [
+    {
+      "match_number": 89,
+      "round_id": "r16",
+      "round_label": "R16",
+      "bracket_path": "Winner Match 74 v Winner Match 77",
+      "left_source": "W74",
+      "right_source": "W77",
+      "left_source_r32_matches": [
+        74
+      ],
+      "right_source_r32_matches": [
+        77
+      ],
+      "left_possible_teams": [
+        "Brazil",
+        "Japan"
+      ],
+      "right_possible_teams": [
+        "Côte d'Ivoire",
+        "Norway"
+      ]
+    },
+    {
+      "match_number": 90,
+      "round_id": "r16",
+      "round_label": "R16",
+      "bracket_path": "Winner Match 73 v Winner Match 75",
+      "left_source": "W73",
+      "right_source": "W75",
+      "left_source_r32_matches": [
+        73
+      ],
+      "right_source_r32_matches": [
+        75
+      ],
+      "left_possible_teams": [
+        "Canada",
+        "South Africa"
+      ],
+      "right_possible_teams": [
+        "Morocco",
+        "Netherlands"
+      ]
+    },
+    {
+      "match_number": 91,
+      "round_id": "r16",
+      "round_label": "R16",
+      "bracket_path": "Winner Match 76 v Winner Match 78",
+      "left_source": "W76",
+      "right_source": "W78",
+      "left_source_r32_matches": [
+        76
+      ],
+      "right_source_r32_matches": [
+        78
+      ],
+      "left_possible_teams": [
+        "Bosnia and Herzegovina",
+        "USA"
+      ],
+      "right_possible_teams": [
+        "Germany",
+        "Paraguay"
+      ]
+    },
+    {
+      "match_number": 92,
+      "round_id": "r16",
+      "round_label": "R16",
+      "bracket_path": "Winner Match 79 v Winner Match 80",
+      "left_source": "W79",
+      "right_source": "W80",
+      "left_source_r32_matches": [
+        79
+      ],
+      "right_source_r32_matches": [
+        80
+      ],
+      "left_possible_teams": [
+        "France",
+        "Sweden"
+      ],
+      "right_possible_teams": [
+        "Argentina",
+        "Cabo Verde"
+      ]
+    },
+    {
+      "match_number": 93,
+      "round_id": "r16",
+      "round_label": "R16",
+      "bracket_path": "Winner Match 83 v Winner Match 84",
+      "left_source": "W83",
+      "right_source": "W84",
+      "left_source_r32_matches": [
+        83
+      ],
+      "right_source_r32_matches": [
+        84
+      ],
+      "left_possible_teams": [
+        "Congo DR",
+        "England"
+      ],
+      "right_possible_teams": [
+        "Belgium",
+        "Senegal"
+      ]
+    },
+    {
+      "match_number": 94,
+      "round_id": "r16",
+      "round_label": "R16",
+      "bracket_path": "Winner Match 81 v Winner Match 82",
+      "left_source": "W81",
+      "right_source": "W82",
+      "left_source_r32_matches": [
+        81
+      ],
+      "right_source_r32_matches": [
+        82
+      ],
+      "left_possible_teams": [
+        "Australia",
+        "Egypt"
+      ],
+      "right_possible_teams": [
+        "Ecuador",
+        "Mexico"
+      ]
+    },
+    {
+      "match_number": 95,
+      "round_id": "r16",
+      "round_label": "R16",
+      "bracket_path": "Winner Match 86 v Winner Match 88",
+      "left_source": "W86",
+      "right_source": "W88",
+      "left_source_r32_matches": [
+        86
+      ],
+      "right_source_r32_matches": [
+        88
+      ],
+      "left_possible_teams": [
+        "Colombia",
+        "Ghana"
+      ],
+      "right_possible_teams": [
+        "Algeria",
+        "Switzerland"
+      ]
+    },
+    {
+      "match_number": 96,
+      "round_id": "r16",
+      "round_label": "R16",
+      "bracket_path": "Winner Match 85 v Winner Match 87",
+      "left_source": "W85",
+      "right_source": "W87",
+      "left_source_r32_matches": [
+        85
+      ],
+      "right_source_r32_matches": [
+        87
+      ],
+      "left_possible_teams": [
+        "Croatia",
+        "Portugal"
+      ],
+      "right_possible_teams": [
+        "Austria",
+        "Spain"
+      ]
+    },
+    {
+      "match_number": 97,
+      "round_id": "qf",
+      "round_label": "QF",
+      "bracket_path": "Winner Match 89 v Winner Match 90",
+      "left_source": "W89",
+      "right_source": "W90",
+      "left_source_r32_matches": [
+        74,
+        77
+      ],
+      "right_source_r32_matches": [
+        73,
+        75
+      ],
+      "left_possible_teams": [
+        "Brazil",
+        "Côte d'Ivoire",
+        "Japan",
+        "Norway"
+      ],
+      "right_possible_teams": [
+        "Canada",
+        "Morocco",
+        "Netherlands",
+        "South Africa"
+      ]
+    },
+    {
+      "match_number": 98,
+      "round_id": "qf",
+      "round_label": "QF",
+      "bracket_path": "Winner Match 93 v Winner Match 94",
+      "left_source": "W93",
+      "right_source": "W94",
+      "left_source_r32_matches": [
+        83,
+        84
+      ],
+      "right_source_r32_matches": [
+        81,
+        82
+      ],
+      "left_possible_teams": [
+        "Belgium",
+        "Congo DR",
+        "England",
+        "Senegal"
+      ],
+      "right_possible_teams": [
+        "Australia",
+        "Ecuador",
+        "Egypt",
+        "Mexico"
+      ]
+    },
+    {
+      "match_number": 99,
+      "round_id": "qf",
+      "round_label": "QF",
+      "bracket_path": "Winner Match 91 v Winner Match 92",
+      "left_source": "W91",
+      "right_source": "W92",
+      "left_source_r32_matches": [
+        76,
+        78
+      ],
+      "right_source_r32_matches": [
+        79,
+        80
+      ],
+      "left_possible_teams": [
+        "Bosnia and Herzegovina",
+        "Germany",
+        "Paraguay",
+        "USA"
+      ],
+      "right_possible_teams": [
+        "Argentina",
+        "Cabo Verde",
+        "France",
+        "Sweden"
+      ]
+    },
+    {
+      "match_number": 100,
+      "round_id": "qf",
+      "round_label": "QF",
+      "bracket_path": "Winner Match 95 v Winner Match 96",
+      "left_source": "W95",
+      "right_source": "W96",
+      "left_source_r32_matches": [
+        86,
+        88
+      ],
+      "right_source_r32_matches": [
+        85,
+        87
+      ],
+      "left_possible_teams": [
+        "Algeria",
+        "Colombia",
+        "Ghana",
+        "Switzerland"
+      ],
+      "right_possible_teams": [
+        "Austria",
+        "Croatia",
+        "Portugal",
+        "Spain"
+      ]
+    },
+    {
+      "match_number": 101,
+      "round_id": "sf",
+      "round_label": "SF",
+      "bracket_path": "Winner Match 97 v Winner Match 98",
+      "left_source": "W97",
+      "right_source": "W98",
+      "left_source_r32_matches": [
+        73,
+        74,
+        75,
+        77
+      ],
+      "right_source_r32_matches": [
+        81,
+        82,
+        83,
+        84
+      ],
+      "left_possible_teams": [
+        "Brazil",
+        "Canada",
+        "Côte d'Ivoire",
+        "Japan",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "South Africa"
+      ],
+      "right_possible_teams": [
+        "Australia",
+        "Belgium",
+        "Congo DR",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Mexico",
+        "Senegal"
+      ]
+    },
+    {
+      "match_number": 102,
+      "round_id": "sf",
+      "round_label": "SF",
+      "bracket_path": "Winner Match 99 v Winner Match 100",
+      "left_source": "W99",
+      "right_source": "W100",
+      "left_source_r32_matches": [
+        76,
+        78,
+        79,
+        80
+      ],
+      "right_source_r32_matches": [
+        85,
+        86,
+        87,
+        88
+      ],
+      "left_possible_teams": [
+        "Argentina",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "France",
+        "Germany",
+        "Paraguay",
+        "Sweden",
+        "USA"
+      ],
+      "right_possible_teams": [
+        "Algeria",
+        "Austria",
+        "Colombia",
+        "Croatia",
+        "Ghana",
+        "Portugal",
+        "Spain",
+        "Switzerland"
+      ]
+    },
+    {
+      "match_number": 104,
+      "round_id": "final",
+      "round_label": "Final",
+      "bracket_path": "Winner Match 101 v Winner Match 102, final",
+      "left_source": "W101",
+      "right_source": "W102",
+      "left_source_r32_matches": [
+        73,
+        74,
+        75,
+        77,
+        81,
+        82,
+        83,
+        84
+      ],
+      "right_source_r32_matches": [
+        76,
+        78,
+        79,
+        80,
+        85,
+        86,
+        87,
+        88
+      ],
+      "left_possible_teams": [
+        "Australia",
+        "Belgium",
+        "Brazil",
+        "Canada",
+        "Congo DR",
+        "Côte d'Ivoire",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Japan",
+        "Mexico",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "Senegal",
+        "South Africa"
+      ],
+      "right_possible_teams": [
+        "Algeria",
+        "Argentina",
+        "Austria",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "Colombia",
+        "Croatia",
+        "France",
+        "Germany",
+        "Ghana",
+        "Paraguay",
+        "Portugal",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "USA"
+      ]
+    }
+  ],
+  "team_paths": [
+    {
+      "team": "Algeria",
+      "team_id": "algeria",
+      "bracket_half": "winner_m102",
+      "bracket_quarter": "winner_m100",
+      "r32_match_number": 88,
+      "r32_slot_id": "M88",
+      "r32_opponent": "Switzerland",
+      "possible_r16_opponents": [
+        "Colombia",
+        "Ghana"
+      ],
+      "possible_qf_opponents": [
+        "Austria",
+        "Croatia",
+        "Portugal",
+        "Spain"
+      ],
+      "possible_sf_opponents": [
+        "Argentina",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "France",
+        "Germany",
+        "Paraguay",
+        "Sweden",
+        "USA"
+      ],
+      "possible_final_opponents": [
+        "Australia",
+        "Belgium",
+        "Brazil",
+        "Canada",
+        "Congo DR",
+        "Côte d'Ivoire",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Japan",
+        "Mexico",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "Senegal",
+        "South Africa"
+      ],
+      "possible_r16_opponent_ids": [
+        "colombia",
+        "ghana"
+      ],
+      "possible_qf_opponent_ids": [
+        "austria",
+        "croatia",
+        "portugal",
+        "spain"
+      ],
+      "possible_sf_opponent_ids": [
+        "argentina",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "france",
+        "germany",
+        "paraguay",
+        "sweden",
+        "usa"
+      ],
+      "possible_final_opponent_ids": [
+        "australia",
+        "belgium",
+        "brazil",
+        "canada",
+        "congo-dr",
+        "cote-d-ivoire",
+        "ecuador",
+        "egypt",
+        "england",
+        "japan",
+        "mexico",
+        "morocco",
+        "netherlands",
+        "norway",
+        "senegal",
+        "south-africa"
+      ],
+      "r16_match_number": 95,
+      "qf_match_number": 100,
+      "sf_match_number": 102,
+      "final_match_number": 104
+    },
+    {
+      "team": "Argentina",
+      "team_id": "argentina",
+      "bracket_half": "winner_m102",
+      "bracket_quarter": "winner_m99",
+      "r32_match_number": 80,
+      "r32_slot_id": "M80",
+      "r32_opponent": "Cabo Verde",
+      "possible_r16_opponents": [
+        "France",
+        "Sweden"
+      ],
+      "possible_qf_opponents": [
+        "Bosnia and Herzegovina",
+        "Germany",
+        "Paraguay",
+        "USA"
+      ],
+      "possible_sf_opponents": [
+        "Algeria",
+        "Austria",
+        "Colombia",
+        "Croatia",
+        "Ghana",
+        "Portugal",
+        "Spain",
+        "Switzerland"
+      ],
+      "possible_final_opponents": [
+        "Australia",
+        "Belgium",
+        "Brazil",
+        "Canada",
+        "Congo DR",
+        "Côte d'Ivoire",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Japan",
+        "Mexico",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "Senegal",
+        "South Africa"
+      ],
+      "possible_r16_opponent_ids": [
+        "france",
+        "sweden"
+      ],
+      "possible_qf_opponent_ids": [
+        "bosnia-and-herzegovina",
+        "germany",
+        "paraguay",
+        "usa"
+      ],
+      "possible_sf_opponent_ids": [
+        "algeria",
+        "austria",
+        "colombia",
+        "croatia",
+        "ghana",
+        "portugal",
+        "spain",
+        "switzerland"
+      ],
+      "possible_final_opponent_ids": [
+        "australia",
+        "belgium",
+        "brazil",
+        "canada",
+        "congo-dr",
+        "cote-d-ivoire",
+        "ecuador",
+        "egypt",
+        "england",
+        "japan",
+        "mexico",
+        "morocco",
+        "netherlands",
+        "norway",
+        "senegal",
+        "south-africa"
+      ],
+      "r16_match_number": 92,
+      "qf_match_number": 99,
+      "sf_match_number": 102,
+      "final_match_number": 104
+    },
+    {
+      "team": "Australia",
+      "team_id": "australia",
+      "bracket_half": "winner_m101",
+      "bracket_quarter": "winner_m98",
+      "r32_match_number": 81,
+      "r32_slot_id": "M81",
+      "r32_opponent": "Egypt",
+      "possible_r16_opponents": [
+        "Ecuador",
+        "Mexico"
+      ],
+      "possible_qf_opponents": [
+        "Belgium",
+        "Congo DR",
+        "England",
+        "Senegal"
+      ],
+      "possible_sf_opponents": [
+        "Brazil",
+        "Canada",
+        "Côte d'Ivoire",
+        "Japan",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "South Africa"
+      ],
+      "possible_final_opponents": [
+        "Algeria",
+        "Argentina",
+        "Austria",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "Colombia",
+        "Croatia",
+        "France",
+        "Germany",
+        "Ghana",
+        "Paraguay",
+        "Portugal",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "USA"
+      ],
+      "possible_r16_opponent_ids": [
+        "ecuador",
+        "mexico"
+      ],
+      "possible_qf_opponent_ids": [
+        "belgium",
+        "congo-dr",
+        "england",
+        "senegal"
+      ],
+      "possible_sf_opponent_ids": [
+        "brazil",
+        "canada",
+        "cote-d-ivoire",
+        "japan",
+        "morocco",
+        "netherlands",
+        "norway",
+        "south-africa"
+      ],
+      "possible_final_opponent_ids": [
+        "algeria",
+        "argentina",
+        "austria",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "colombia",
+        "croatia",
+        "france",
+        "germany",
+        "ghana",
+        "paraguay",
+        "portugal",
+        "spain",
+        "sweden",
+        "switzerland",
+        "usa"
+      ],
+      "r16_match_number": 94,
+      "qf_match_number": 98,
+      "sf_match_number": 101,
+      "final_match_number": 104
+    },
+    {
+      "team": "Austria",
+      "team_id": "austria",
+      "bracket_half": "winner_m102",
+      "bracket_quarter": "winner_m100",
+      "r32_match_number": 87,
+      "r32_slot_id": "M87",
+      "r32_opponent": "Spain",
+      "possible_r16_opponents": [
+        "Croatia",
+        "Portugal"
+      ],
+      "possible_qf_opponents": [
+        "Algeria",
+        "Colombia",
+        "Ghana",
+        "Switzerland"
+      ],
+      "possible_sf_opponents": [
+        "Argentina",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "France",
+        "Germany",
+        "Paraguay",
+        "Sweden",
+        "USA"
+      ],
+      "possible_final_opponents": [
+        "Australia",
+        "Belgium",
+        "Brazil",
+        "Canada",
+        "Congo DR",
+        "Côte d'Ivoire",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Japan",
+        "Mexico",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "Senegal",
+        "South Africa"
+      ],
+      "possible_r16_opponent_ids": [
+        "croatia",
+        "portugal"
+      ],
+      "possible_qf_opponent_ids": [
+        "algeria",
+        "colombia",
+        "ghana",
+        "switzerland"
+      ],
+      "possible_sf_opponent_ids": [
+        "argentina",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "france",
+        "germany",
+        "paraguay",
+        "sweden",
+        "usa"
+      ],
+      "possible_final_opponent_ids": [
+        "australia",
+        "belgium",
+        "brazil",
+        "canada",
+        "congo-dr",
+        "cote-d-ivoire",
+        "ecuador",
+        "egypt",
+        "england",
+        "japan",
+        "mexico",
+        "morocco",
+        "netherlands",
+        "norway",
+        "senegal",
+        "south-africa"
+      ],
+      "r16_match_number": 96,
+      "qf_match_number": 100,
+      "sf_match_number": 102,
+      "final_match_number": 104
+    },
+    {
+      "team": "Belgium",
+      "team_id": "belgium",
+      "bracket_half": "winner_m101",
+      "bracket_quarter": "winner_m98",
+      "r32_match_number": 84,
+      "r32_slot_id": "M84",
+      "r32_opponent": "Senegal",
+      "possible_r16_opponents": [
+        "Congo DR",
+        "England"
+      ],
+      "possible_qf_opponents": [
+        "Australia",
+        "Ecuador",
+        "Egypt",
+        "Mexico"
+      ],
+      "possible_sf_opponents": [
+        "Brazil",
+        "Canada",
+        "Côte d'Ivoire",
+        "Japan",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "South Africa"
+      ],
+      "possible_final_opponents": [
+        "Algeria",
+        "Argentina",
+        "Austria",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "Colombia",
+        "Croatia",
+        "France",
+        "Germany",
+        "Ghana",
+        "Paraguay",
+        "Portugal",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "USA"
+      ],
+      "possible_r16_opponent_ids": [
+        "congo-dr",
+        "england"
+      ],
+      "possible_qf_opponent_ids": [
+        "australia",
+        "ecuador",
+        "egypt",
+        "mexico"
+      ],
+      "possible_sf_opponent_ids": [
+        "brazil",
+        "canada",
+        "cote-d-ivoire",
+        "japan",
+        "morocco",
+        "netherlands",
+        "norway",
+        "south-africa"
+      ],
+      "possible_final_opponent_ids": [
+        "algeria",
+        "argentina",
+        "austria",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "colombia",
+        "croatia",
+        "france",
+        "germany",
+        "ghana",
+        "paraguay",
+        "portugal",
+        "spain",
+        "sweden",
+        "switzerland",
+        "usa"
+      ],
+      "r16_match_number": 93,
+      "qf_match_number": 98,
+      "sf_match_number": 101,
+      "final_match_number": 104
+    },
+    {
+      "team": "Bosnia and Herzegovina",
+      "team_id": "bosnia-and-herzegovina",
+      "bracket_half": "winner_m102",
+      "bracket_quarter": "winner_m99",
+      "r32_match_number": 76,
+      "r32_slot_id": "M76",
+      "r32_opponent": "USA",
+      "possible_r16_opponents": [
+        "Germany",
+        "Paraguay"
+      ],
+      "possible_qf_opponents": [
+        "Argentina",
+        "Cabo Verde",
+        "France",
+        "Sweden"
+      ],
+      "possible_sf_opponents": [
+        "Algeria",
+        "Austria",
+        "Colombia",
+        "Croatia",
+        "Ghana",
+        "Portugal",
+        "Spain",
+        "Switzerland"
+      ],
+      "possible_final_opponents": [
+        "Australia",
+        "Belgium",
+        "Brazil",
+        "Canada",
+        "Congo DR",
+        "Côte d'Ivoire",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Japan",
+        "Mexico",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "Senegal",
+        "South Africa"
+      ],
+      "possible_r16_opponent_ids": [
+        "germany",
+        "paraguay"
+      ],
+      "possible_qf_opponent_ids": [
+        "argentina",
+        "cabo-verde",
+        "france",
+        "sweden"
+      ],
+      "possible_sf_opponent_ids": [
+        "algeria",
+        "austria",
+        "colombia",
+        "croatia",
+        "ghana",
+        "portugal",
+        "spain",
+        "switzerland"
+      ],
+      "possible_final_opponent_ids": [
+        "australia",
+        "belgium",
+        "brazil",
+        "canada",
+        "congo-dr",
+        "cote-d-ivoire",
+        "ecuador",
+        "egypt",
+        "england",
+        "japan",
+        "mexico",
+        "morocco",
+        "netherlands",
+        "norway",
+        "senegal",
+        "south-africa"
+      ],
+      "r16_match_number": 91,
+      "qf_match_number": 99,
+      "sf_match_number": 102,
+      "final_match_number": 104
+    },
+    {
+      "team": "Brazil",
+      "team_id": "brazil",
+      "bracket_half": "winner_m101",
+      "bracket_quarter": "winner_m97",
+      "r32_match_number": 74,
+      "r32_slot_id": "M74",
+      "r32_opponent": "Japan",
+      "possible_r16_opponents": [
+        "Côte d'Ivoire",
+        "Norway"
+      ],
+      "possible_qf_opponents": [
+        "Canada",
+        "Morocco",
+        "Netherlands",
+        "South Africa"
+      ],
+      "possible_sf_opponents": [
+        "Australia",
+        "Belgium",
+        "Congo DR",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Mexico",
+        "Senegal"
+      ],
+      "possible_final_opponents": [
+        "Algeria",
+        "Argentina",
+        "Austria",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "Colombia",
+        "Croatia",
+        "France",
+        "Germany",
+        "Ghana",
+        "Paraguay",
+        "Portugal",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "USA"
+      ],
+      "possible_r16_opponent_ids": [
+        "cote-d-ivoire",
+        "norway"
+      ],
+      "possible_qf_opponent_ids": [
+        "canada",
+        "morocco",
+        "netherlands",
+        "south-africa"
+      ],
+      "possible_sf_opponent_ids": [
+        "australia",
+        "belgium",
+        "congo-dr",
+        "ecuador",
+        "egypt",
+        "england",
+        "mexico",
+        "senegal"
+      ],
+      "possible_final_opponent_ids": [
+        "algeria",
+        "argentina",
+        "austria",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "colombia",
+        "croatia",
+        "france",
+        "germany",
+        "ghana",
+        "paraguay",
+        "portugal",
+        "spain",
+        "sweden",
+        "switzerland",
+        "usa"
+      ],
+      "r16_match_number": 89,
+      "qf_match_number": 97,
+      "sf_match_number": 101,
+      "final_match_number": 104
+    },
+    {
+      "team": "Cabo Verde",
+      "team_id": "cabo-verde",
+      "bracket_half": "winner_m102",
+      "bracket_quarter": "winner_m99",
+      "r32_match_number": 80,
+      "r32_slot_id": "M80",
+      "r32_opponent": "Argentina",
+      "possible_r16_opponents": [
+        "France",
+        "Sweden"
+      ],
+      "possible_qf_opponents": [
+        "Bosnia and Herzegovina",
+        "Germany",
+        "Paraguay",
+        "USA"
+      ],
+      "possible_sf_opponents": [
+        "Algeria",
+        "Austria",
+        "Colombia",
+        "Croatia",
+        "Ghana",
+        "Portugal",
+        "Spain",
+        "Switzerland"
+      ],
+      "possible_final_opponents": [
+        "Australia",
+        "Belgium",
+        "Brazil",
+        "Canada",
+        "Congo DR",
+        "Côte d'Ivoire",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Japan",
+        "Mexico",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "Senegal",
+        "South Africa"
+      ],
+      "possible_r16_opponent_ids": [
+        "france",
+        "sweden"
+      ],
+      "possible_qf_opponent_ids": [
+        "bosnia-and-herzegovina",
+        "germany",
+        "paraguay",
+        "usa"
+      ],
+      "possible_sf_opponent_ids": [
+        "algeria",
+        "austria",
+        "colombia",
+        "croatia",
+        "ghana",
+        "portugal",
+        "spain",
+        "switzerland"
+      ],
+      "possible_final_opponent_ids": [
+        "australia",
+        "belgium",
+        "brazil",
+        "canada",
+        "congo-dr",
+        "cote-d-ivoire",
+        "ecuador",
+        "egypt",
+        "england",
+        "japan",
+        "mexico",
+        "morocco",
+        "netherlands",
+        "norway",
+        "senegal",
+        "south-africa"
+      ],
+      "r16_match_number": 92,
+      "qf_match_number": 99,
+      "sf_match_number": 102,
+      "final_match_number": 104
+    },
+    {
+      "team": "Canada",
+      "team_id": "canada",
+      "bracket_half": "winner_m101",
+      "bracket_quarter": "winner_m97",
+      "r32_match_number": 73,
+      "r32_slot_id": "M73",
+      "r32_opponent": "South Africa",
+      "possible_r16_opponents": [
+        "Morocco",
+        "Netherlands"
+      ],
+      "possible_qf_opponents": [
+        "Brazil",
+        "Côte d'Ivoire",
+        "Japan",
+        "Norway"
+      ],
+      "possible_sf_opponents": [
+        "Australia",
+        "Belgium",
+        "Congo DR",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Mexico",
+        "Senegal"
+      ],
+      "possible_final_opponents": [
+        "Algeria",
+        "Argentina",
+        "Austria",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "Colombia",
+        "Croatia",
+        "France",
+        "Germany",
+        "Ghana",
+        "Paraguay",
+        "Portugal",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "USA"
+      ],
+      "possible_r16_opponent_ids": [
+        "morocco",
+        "netherlands"
+      ],
+      "possible_qf_opponent_ids": [
+        "brazil",
+        "cote-d-ivoire",
+        "japan",
+        "norway"
+      ],
+      "possible_sf_opponent_ids": [
+        "australia",
+        "belgium",
+        "congo-dr",
+        "ecuador",
+        "egypt",
+        "england",
+        "mexico",
+        "senegal"
+      ],
+      "possible_final_opponent_ids": [
+        "algeria",
+        "argentina",
+        "austria",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "colombia",
+        "croatia",
+        "france",
+        "germany",
+        "ghana",
+        "paraguay",
+        "portugal",
+        "spain",
+        "sweden",
+        "switzerland",
+        "usa"
+      ],
+      "r16_match_number": 90,
+      "qf_match_number": 97,
+      "sf_match_number": 101,
+      "final_match_number": 104
+    },
+    {
+      "team": "Colombia",
+      "team_id": "colombia",
+      "bracket_half": "winner_m102",
+      "bracket_quarter": "winner_m100",
+      "r32_match_number": 86,
+      "r32_slot_id": "M86",
+      "r32_opponent": "Ghana",
+      "possible_r16_opponents": [
+        "Algeria",
+        "Switzerland"
+      ],
+      "possible_qf_opponents": [
+        "Austria",
+        "Croatia",
+        "Portugal",
+        "Spain"
+      ],
+      "possible_sf_opponents": [
+        "Argentina",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "France",
+        "Germany",
+        "Paraguay",
+        "Sweden",
+        "USA"
+      ],
+      "possible_final_opponents": [
+        "Australia",
+        "Belgium",
+        "Brazil",
+        "Canada",
+        "Congo DR",
+        "Côte d'Ivoire",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Japan",
+        "Mexico",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "Senegal",
+        "South Africa"
+      ],
+      "possible_r16_opponent_ids": [
+        "algeria",
+        "switzerland"
+      ],
+      "possible_qf_opponent_ids": [
+        "austria",
+        "croatia",
+        "portugal",
+        "spain"
+      ],
+      "possible_sf_opponent_ids": [
+        "argentina",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "france",
+        "germany",
+        "paraguay",
+        "sweden",
+        "usa"
+      ],
+      "possible_final_opponent_ids": [
+        "australia",
+        "belgium",
+        "brazil",
+        "canada",
+        "congo-dr",
+        "cote-d-ivoire",
+        "ecuador",
+        "egypt",
+        "england",
+        "japan",
+        "mexico",
+        "morocco",
+        "netherlands",
+        "norway",
+        "senegal",
+        "south-africa"
+      ],
+      "r16_match_number": 95,
+      "qf_match_number": 100,
+      "sf_match_number": 102,
+      "final_match_number": 104
+    },
+    {
+      "team": "Congo DR",
+      "team_id": "congo-dr",
+      "bracket_half": "winner_m101",
+      "bracket_quarter": "winner_m98",
+      "r32_match_number": 83,
+      "r32_slot_id": "M83",
+      "r32_opponent": "England",
+      "possible_r16_opponents": [
+        "Belgium",
+        "Senegal"
+      ],
+      "possible_qf_opponents": [
+        "Australia",
+        "Ecuador",
+        "Egypt",
+        "Mexico"
+      ],
+      "possible_sf_opponents": [
+        "Brazil",
+        "Canada",
+        "Côte d'Ivoire",
+        "Japan",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "South Africa"
+      ],
+      "possible_final_opponents": [
+        "Algeria",
+        "Argentina",
+        "Austria",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "Colombia",
+        "Croatia",
+        "France",
+        "Germany",
+        "Ghana",
+        "Paraguay",
+        "Portugal",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "USA"
+      ],
+      "possible_r16_opponent_ids": [
+        "belgium",
+        "senegal"
+      ],
+      "possible_qf_opponent_ids": [
+        "australia",
+        "ecuador",
+        "egypt",
+        "mexico"
+      ],
+      "possible_sf_opponent_ids": [
+        "brazil",
+        "canada",
+        "cote-d-ivoire",
+        "japan",
+        "morocco",
+        "netherlands",
+        "norway",
+        "south-africa"
+      ],
+      "possible_final_opponent_ids": [
+        "algeria",
+        "argentina",
+        "austria",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "colombia",
+        "croatia",
+        "france",
+        "germany",
+        "ghana",
+        "paraguay",
+        "portugal",
+        "spain",
+        "sweden",
+        "switzerland",
+        "usa"
+      ],
+      "r16_match_number": 93,
+      "qf_match_number": 98,
+      "sf_match_number": 101,
+      "final_match_number": 104
+    },
+    {
+      "team": "Côte d'Ivoire",
+      "team_id": "cote-d-ivoire",
+      "bracket_half": "winner_m101",
+      "bracket_quarter": "winner_m97",
+      "r32_match_number": 77,
+      "r32_slot_id": "M77",
+      "r32_opponent": "Norway",
+      "possible_r16_opponents": [
+        "Brazil",
+        "Japan"
+      ],
+      "possible_qf_opponents": [
+        "Canada",
+        "Morocco",
+        "Netherlands",
+        "South Africa"
+      ],
+      "possible_sf_opponents": [
+        "Australia",
+        "Belgium",
+        "Congo DR",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Mexico",
+        "Senegal"
+      ],
+      "possible_final_opponents": [
+        "Algeria",
+        "Argentina",
+        "Austria",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "Colombia",
+        "Croatia",
+        "France",
+        "Germany",
+        "Ghana",
+        "Paraguay",
+        "Portugal",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "USA"
+      ],
+      "possible_r16_opponent_ids": [
+        "brazil",
+        "japan"
+      ],
+      "possible_qf_opponent_ids": [
+        "canada",
+        "morocco",
+        "netherlands",
+        "south-africa"
+      ],
+      "possible_sf_opponent_ids": [
+        "australia",
+        "belgium",
+        "congo-dr",
+        "ecuador",
+        "egypt",
+        "england",
+        "mexico",
+        "senegal"
+      ],
+      "possible_final_opponent_ids": [
+        "algeria",
+        "argentina",
+        "austria",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "colombia",
+        "croatia",
+        "france",
+        "germany",
+        "ghana",
+        "paraguay",
+        "portugal",
+        "spain",
+        "sweden",
+        "switzerland",
+        "usa"
+      ],
+      "r16_match_number": 89,
+      "qf_match_number": 97,
+      "sf_match_number": 101,
+      "final_match_number": 104
+    },
+    {
+      "team": "Croatia",
+      "team_id": "croatia",
+      "bracket_half": "winner_m102",
+      "bracket_quarter": "winner_m100",
+      "r32_match_number": 85,
+      "r32_slot_id": "M85",
+      "r32_opponent": "Portugal",
+      "possible_r16_opponents": [
+        "Austria",
+        "Spain"
+      ],
+      "possible_qf_opponents": [
+        "Algeria",
+        "Colombia",
+        "Ghana",
+        "Switzerland"
+      ],
+      "possible_sf_opponents": [
+        "Argentina",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "France",
+        "Germany",
+        "Paraguay",
+        "Sweden",
+        "USA"
+      ],
+      "possible_final_opponents": [
+        "Australia",
+        "Belgium",
+        "Brazil",
+        "Canada",
+        "Congo DR",
+        "Côte d'Ivoire",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Japan",
+        "Mexico",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "Senegal",
+        "South Africa"
+      ],
+      "possible_r16_opponent_ids": [
+        "austria",
+        "spain"
+      ],
+      "possible_qf_opponent_ids": [
+        "algeria",
+        "colombia",
+        "ghana",
+        "switzerland"
+      ],
+      "possible_sf_opponent_ids": [
+        "argentina",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "france",
+        "germany",
+        "paraguay",
+        "sweden",
+        "usa"
+      ],
+      "possible_final_opponent_ids": [
+        "australia",
+        "belgium",
+        "brazil",
+        "canada",
+        "congo-dr",
+        "cote-d-ivoire",
+        "ecuador",
+        "egypt",
+        "england",
+        "japan",
+        "mexico",
+        "morocco",
+        "netherlands",
+        "norway",
+        "senegal",
+        "south-africa"
+      ],
+      "r16_match_number": 96,
+      "qf_match_number": 100,
+      "sf_match_number": 102,
+      "final_match_number": 104
+    },
+    {
+      "team": "Ecuador",
+      "team_id": "ecuador",
+      "bracket_half": "winner_m101",
+      "bracket_quarter": "winner_m98",
+      "r32_match_number": 82,
+      "r32_slot_id": "M82",
+      "r32_opponent": "Mexico",
+      "possible_r16_opponents": [
+        "Australia",
+        "Egypt"
+      ],
+      "possible_qf_opponents": [
+        "Belgium",
+        "Congo DR",
+        "England",
+        "Senegal"
+      ],
+      "possible_sf_opponents": [
+        "Brazil",
+        "Canada",
+        "Côte d'Ivoire",
+        "Japan",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "South Africa"
+      ],
+      "possible_final_opponents": [
+        "Algeria",
+        "Argentina",
+        "Austria",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "Colombia",
+        "Croatia",
+        "France",
+        "Germany",
+        "Ghana",
+        "Paraguay",
+        "Portugal",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "USA"
+      ],
+      "possible_r16_opponent_ids": [
+        "australia",
+        "egypt"
+      ],
+      "possible_qf_opponent_ids": [
+        "belgium",
+        "congo-dr",
+        "england",
+        "senegal"
+      ],
+      "possible_sf_opponent_ids": [
+        "brazil",
+        "canada",
+        "cote-d-ivoire",
+        "japan",
+        "morocco",
+        "netherlands",
+        "norway",
+        "south-africa"
+      ],
+      "possible_final_opponent_ids": [
+        "algeria",
+        "argentina",
+        "austria",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "colombia",
+        "croatia",
+        "france",
+        "germany",
+        "ghana",
+        "paraguay",
+        "portugal",
+        "spain",
+        "sweden",
+        "switzerland",
+        "usa"
+      ],
+      "r16_match_number": 94,
+      "qf_match_number": 98,
+      "sf_match_number": 101,
+      "final_match_number": 104
+    },
+    {
+      "team": "Egypt",
+      "team_id": "egypt",
+      "bracket_half": "winner_m101",
+      "bracket_quarter": "winner_m98",
+      "r32_match_number": 81,
+      "r32_slot_id": "M81",
+      "r32_opponent": "Australia",
+      "possible_r16_opponents": [
+        "Ecuador",
+        "Mexico"
+      ],
+      "possible_qf_opponents": [
+        "Belgium",
+        "Congo DR",
+        "England",
+        "Senegal"
+      ],
+      "possible_sf_opponents": [
+        "Brazil",
+        "Canada",
+        "Côte d'Ivoire",
+        "Japan",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "South Africa"
+      ],
+      "possible_final_opponents": [
+        "Algeria",
+        "Argentina",
+        "Austria",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "Colombia",
+        "Croatia",
+        "France",
+        "Germany",
+        "Ghana",
+        "Paraguay",
+        "Portugal",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "USA"
+      ],
+      "possible_r16_opponent_ids": [
+        "ecuador",
+        "mexico"
+      ],
+      "possible_qf_opponent_ids": [
+        "belgium",
+        "congo-dr",
+        "england",
+        "senegal"
+      ],
+      "possible_sf_opponent_ids": [
+        "brazil",
+        "canada",
+        "cote-d-ivoire",
+        "japan",
+        "morocco",
+        "netherlands",
+        "norway",
+        "south-africa"
+      ],
+      "possible_final_opponent_ids": [
+        "algeria",
+        "argentina",
+        "austria",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "colombia",
+        "croatia",
+        "france",
+        "germany",
+        "ghana",
+        "paraguay",
+        "portugal",
+        "spain",
+        "sweden",
+        "switzerland",
+        "usa"
+      ],
+      "r16_match_number": 94,
+      "qf_match_number": 98,
+      "sf_match_number": 101,
+      "final_match_number": 104
+    },
+    {
+      "team": "England",
+      "team_id": "england",
+      "bracket_half": "winner_m101",
+      "bracket_quarter": "winner_m98",
+      "r32_match_number": 83,
+      "r32_slot_id": "M83",
+      "r32_opponent": "Congo DR",
+      "possible_r16_opponents": [
+        "Belgium",
+        "Senegal"
+      ],
+      "possible_qf_opponents": [
+        "Australia",
+        "Ecuador",
+        "Egypt",
+        "Mexico"
+      ],
+      "possible_sf_opponents": [
+        "Brazil",
+        "Canada",
+        "Côte d'Ivoire",
+        "Japan",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "South Africa"
+      ],
+      "possible_final_opponents": [
+        "Algeria",
+        "Argentina",
+        "Austria",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "Colombia",
+        "Croatia",
+        "France",
+        "Germany",
+        "Ghana",
+        "Paraguay",
+        "Portugal",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "USA"
+      ],
+      "possible_r16_opponent_ids": [
+        "belgium",
+        "senegal"
+      ],
+      "possible_qf_opponent_ids": [
+        "australia",
+        "ecuador",
+        "egypt",
+        "mexico"
+      ],
+      "possible_sf_opponent_ids": [
+        "brazil",
+        "canada",
+        "cote-d-ivoire",
+        "japan",
+        "morocco",
+        "netherlands",
+        "norway",
+        "south-africa"
+      ],
+      "possible_final_opponent_ids": [
+        "algeria",
+        "argentina",
+        "austria",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "colombia",
+        "croatia",
+        "france",
+        "germany",
+        "ghana",
+        "paraguay",
+        "portugal",
+        "spain",
+        "sweden",
+        "switzerland",
+        "usa"
+      ],
+      "r16_match_number": 93,
+      "qf_match_number": 98,
+      "sf_match_number": 101,
+      "final_match_number": 104
+    },
+    {
+      "team": "France",
+      "team_id": "france",
+      "bracket_half": "winner_m102",
+      "bracket_quarter": "winner_m99",
+      "r32_match_number": 79,
+      "r32_slot_id": "M79",
+      "r32_opponent": "Sweden",
+      "possible_r16_opponents": [
+        "Argentina",
+        "Cabo Verde"
+      ],
+      "possible_qf_opponents": [
+        "Bosnia and Herzegovina",
+        "Germany",
+        "Paraguay",
+        "USA"
+      ],
+      "possible_sf_opponents": [
+        "Algeria",
+        "Austria",
+        "Colombia",
+        "Croatia",
+        "Ghana",
+        "Portugal",
+        "Spain",
+        "Switzerland"
+      ],
+      "possible_final_opponents": [
+        "Australia",
+        "Belgium",
+        "Brazil",
+        "Canada",
+        "Congo DR",
+        "Côte d'Ivoire",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Japan",
+        "Mexico",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "Senegal",
+        "South Africa"
+      ],
+      "possible_r16_opponent_ids": [
+        "argentina",
+        "cabo-verde"
+      ],
+      "possible_qf_opponent_ids": [
+        "bosnia-and-herzegovina",
+        "germany",
+        "paraguay",
+        "usa"
+      ],
+      "possible_sf_opponent_ids": [
+        "algeria",
+        "austria",
+        "colombia",
+        "croatia",
+        "ghana",
+        "portugal",
+        "spain",
+        "switzerland"
+      ],
+      "possible_final_opponent_ids": [
+        "australia",
+        "belgium",
+        "brazil",
+        "canada",
+        "congo-dr",
+        "cote-d-ivoire",
+        "ecuador",
+        "egypt",
+        "england",
+        "japan",
+        "mexico",
+        "morocco",
+        "netherlands",
+        "norway",
+        "senegal",
+        "south-africa"
+      ],
+      "r16_match_number": 92,
+      "qf_match_number": 99,
+      "sf_match_number": 102,
+      "final_match_number": 104
+    },
+    {
+      "team": "Germany",
+      "team_id": "germany",
+      "bracket_half": "winner_m102",
+      "bracket_quarter": "winner_m99",
+      "r32_match_number": 78,
+      "r32_slot_id": "M78",
+      "r32_opponent": "Paraguay",
+      "possible_r16_opponents": [
+        "Bosnia and Herzegovina",
+        "USA"
+      ],
+      "possible_qf_opponents": [
+        "Argentina",
+        "Cabo Verde",
+        "France",
+        "Sweden"
+      ],
+      "possible_sf_opponents": [
+        "Algeria",
+        "Austria",
+        "Colombia",
+        "Croatia",
+        "Ghana",
+        "Portugal",
+        "Spain",
+        "Switzerland"
+      ],
+      "possible_final_opponents": [
+        "Australia",
+        "Belgium",
+        "Brazil",
+        "Canada",
+        "Congo DR",
+        "Côte d'Ivoire",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Japan",
+        "Mexico",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "Senegal",
+        "South Africa"
+      ],
+      "possible_r16_opponent_ids": [
+        "bosnia-and-herzegovina",
+        "usa"
+      ],
+      "possible_qf_opponent_ids": [
+        "argentina",
+        "cabo-verde",
+        "france",
+        "sweden"
+      ],
+      "possible_sf_opponent_ids": [
+        "algeria",
+        "austria",
+        "colombia",
+        "croatia",
+        "ghana",
+        "portugal",
+        "spain",
+        "switzerland"
+      ],
+      "possible_final_opponent_ids": [
+        "australia",
+        "belgium",
+        "brazil",
+        "canada",
+        "congo-dr",
+        "cote-d-ivoire",
+        "ecuador",
+        "egypt",
+        "england",
+        "japan",
+        "mexico",
+        "morocco",
+        "netherlands",
+        "norway",
+        "senegal",
+        "south-africa"
+      ],
+      "r16_match_number": 91,
+      "qf_match_number": 99,
+      "sf_match_number": 102,
+      "final_match_number": 104
+    },
+    {
+      "team": "Ghana",
+      "team_id": "ghana",
+      "bracket_half": "winner_m102",
+      "bracket_quarter": "winner_m100",
+      "r32_match_number": 86,
+      "r32_slot_id": "M86",
+      "r32_opponent": "Colombia",
+      "possible_r16_opponents": [
+        "Algeria",
+        "Switzerland"
+      ],
+      "possible_qf_opponents": [
+        "Austria",
+        "Croatia",
+        "Portugal",
+        "Spain"
+      ],
+      "possible_sf_opponents": [
+        "Argentina",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "France",
+        "Germany",
+        "Paraguay",
+        "Sweden",
+        "USA"
+      ],
+      "possible_final_opponents": [
+        "Australia",
+        "Belgium",
+        "Brazil",
+        "Canada",
+        "Congo DR",
+        "Côte d'Ivoire",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Japan",
+        "Mexico",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "Senegal",
+        "South Africa"
+      ],
+      "possible_r16_opponent_ids": [
+        "algeria",
+        "switzerland"
+      ],
+      "possible_qf_opponent_ids": [
+        "austria",
+        "croatia",
+        "portugal",
+        "spain"
+      ],
+      "possible_sf_opponent_ids": [
+        "argentina",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "france",
+        "germany",
+        "paraguay",
+        "sweden",
+        "usa"
+      ],
+      "possible_final_opponent_ids": [
+        "australia",
+        "belgium",
+        "brazil",
+        "canada",
+        "congo-dr",
+        "cote-d-ivoire",
+        "ecuador",
+        "egypt",
+        "england",
+        "japan",
+        "mexico",
+        "morocco",
+        "netherlands",
+        "norway",
+        "senegal",
+        "south-africa"
+      ],
+      "r16_match_number": 95,
+      "qf_match_number": 100,
+      "sf_match_number": 102,
+      "final_match_number": 104
+    },
+    {
+      "team": "Japan",
+      "team_id": "japan",
+      "bracket_half": "winner_m101",
+      "bracket_quarter": "winner_m97",
+      "r32_match_number": 74,
+      "r32_slot_id": "M74",
+      "r32_opponent": "Brazil",
+      "possible_r16_opponents": [
+        "Côte d'Ivoire",
+        "Norway"
+      ],
+      "possible_qf_opponents": [
+        "Canada",
+        "Morocco",
+        "Netherlands",
+        "South Africa"
+      ],
+      "possible_sf_opponents": [
+        "Australia",
+        "Belgium",
+        "Congo DR",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Mexico",
+        "Senegal"
+      ],
+      "possible_final_opponents": [
+        "Algeria",
+        "Argentina",
+        "Austria",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "Colombia",
+        "Croatia",
+        "France",
+        "Germany",
+        "Ghana",
+        "Paraguay",
+        "Portugal",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "USA"
+      ],
+      "possible_r16_opponent_ids": [
+        "cote-d-ivoire",
+        "norway"
+      ],
+      "possible_qf_opponent_ids": [
+        "canada",
+        "morocco",
+        "netherlands",
+        "south-africa"
+      ],
+      "possible_sf_opponent_ids": [
+        "australia",
+        "belgium",
+        "congo-dr",
+        "ecuador",
+        "egypt",
+        "england",
+        "mexico",
+        "senegal"
+      ],
+      "possible_final_opponent_ids": [
+        "algeria",
+        "argentina",
+        "austria",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "colombia",
+        "croatia",
+        "france",
+        "germany",
+        "ghana",
+        "paraguay",
+        "portugal",
+        "spain",
+        "sweden",
+        "switzerland",
+        "usa"
+      ],
+      "r16_match_number": 89,
+      "qf_match_number": 97,
+      "sf_match_number": 101,
+      "final_match_number": 104
+    },
+    {
+      "team": "Mexico",
+      "team_id": "mexico",
+      "bracket_half": "winner_m101",
+      "bracket_quarter": "winner_m98",
+      "r32_match_number": 82,
+      "r32_slot_id": "M82",
+      "r32_opponent": "Ecuador",
+      "possible_r16_opponents": [
+        "Australia",
+        "Egypt"
+      ],
+      "possible_qf_opponents": [
+        "Belgium",
+        "Congo DR",
+        "England",
+        "Senegal"
+      ],
+      "possible_sf_opponents": [
+        "Brazil",
+        "Canada",
+        "Côte d'Ivoire",
+        "Japan",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "South Africa"
+      ],
+      "possible_final_opponents": [
+        "Algeria",
+        "Argentina",
+        "Austria",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "Colombia",
+        "Croatia",
+        "France",
+        "Germany",
+        "Ghana",
+        "Paraguay",
+        "Portugal",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "USA"
+      ],
+      "possible_r16_opponent_ids": [
+        "australia",
+        "egypt"
+      ],
+      "possible_qf_opponent_ids": [
+        "belgium",
+        "congo-dr",
+        "england",
+        "senegal"
+      ],
+      "possible_sf_opponent_ids": [
+        "brazil",
+        "canada",
+        "cote-d-ivoire",
+        "japan",
+        "morocco",
+        "netherlands",
+        "norway",
+        "south-africa"
+      ],
+      "possible_final_opponent_ids": [
+        "algeria",
+        "argentina",
+        "austria",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "colombia",
+        "croatia",
+        "france",
+        "germany",
+        "ghana",
+        "paraguay",
+        "portugal",
+        "spain",
+        "sweden",
+        "switzerland",
+        "usa"
+      ],
+      "r16_match_number": 94,
+      "qf_match_number": 98,
+      "sf_match_number": 101,
+      "final_match_number": 104
+    },
+    {
+      "team": "Morocco",
+      "team_id": "morocco",
+      "bracket_half": "winner_m101",
+      "bracket_quarter": "winner_m97",
+      "r32_match_number": 75,
+      "r32_slot_id": "M75",
+      "r32_opponent": "Netherlands",
+      "possible_r16_opponents": [
+        "Canada",
+        "South Africa"
+      ],
+      "possible_qf_opponents": [
+        "Brazil",
+        "Côte d'Ivoire",
+        "Japan",
+        "Norway"
+      ],
+      "possible_sf_opponents": [
+        "Australia",
+        "Belgium",
+        "Congo DR",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Mexico",
+        "Senegal"
+      ],
+      "possible_final_opponents": [
+        "Algeria",
+        "Argentina",
+        "Austria",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "Colombia",
+        "Croatia",
+        "France",
+        "Germany",
+        "Ghana",
+        "Paraguay",
+        "Portugal",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "USA"
+      ],
+      "possible_r16_opponent_ids": [
+        "canada",
+        "south-africa"
+      ],
+      "possible_qf_opponent_ids": [
+        "brazil",
+        "cote-d-ivoire",
+        "japan",
+        "norway"
+      ],
+      "possible_sf_opponent_ids": [
+        "australia",
+        "belgium",
+        "congo-dr",
+        "ecuador",
+        "egypt",
+        "england",
+        "mexico",
+        "senegal"
+      ],
+      "possible_final_opponent_ids": [
+        "algeria",
+        "argentina",
+        "austria",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "colombia",
+        "croatia",
+        "france",
+        "germany",
+        "ghana",
+        "paraguay",
+        "portugal",
+        "spain",
+        "sweden",
+        "switzerland",
+        "usa"
+      ],
+      "r16_match_number": 90,
+      "qf_match_number": 97,
+      "sf_match_number": 101,
+      "final_match_number": 104
+    },
+    {
+      "team": "Netherlands",
+      "team_id": "netherlands",
+      "bracket_half": "winner_m101",
+      "bracket_quarter": "winner_m97",
+      "r32_match_number": 75,
+      "r32_slot_id": "M75",
+      "r32_opponent": "Morocco",
+      "possible_r16_opponents": [
+        "Canada",
+        "South Africa"
+      ],
+      "possible_qf_opponents": [
+        "Brazil",
+        "Côte d'Ivoire",
+        "Japan",
+        "Norway"
+      ],
+      "possible_sf_opponents": [
+        "Australia",
+        "Belgium",
+        "Congo DR",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Mexico",
+        "Senegal"
+      ],
+      "possible_final_opponents": [
+        "Algeria",
+        "Argentina",
+        "Austria",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "Colombia",
+        "Croatia",
+        "France",
+        "Germany",
+        "Ghana",
+        "Paraguay",
+        "Portugal",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "USA"
+      ],
+      "possible_r16_opponent_ids": [
+        "canada",
+        "south-africa"
+      ],
+      "possible_qf_opponent_ids": [
+        "brazil",
+        "cote-d-ivoire",
+        "japan",
+        "norway"
+      ],
+      "possible_sf_opponent_ids": [
+        "australia",
+        "belgium",
+        "congo-dr",
+        "ecuador",
+        "egypt",
+        "england",
+        "mexico",
+        "senegal"
+      ],
+      "possible_final_opponent_ids": [
+        "algeria",
+        "argentina",
+        "austria",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "colombia",
+        "croatia",
+        "france",
+        "germany",
+        "ghana",
+        "paraguay",
+        "portugal",
+        "spain",
+        "sweden",
+        "switzerland",
+        "usa"
+      ],
+      "r16_match_number": 90,
+      "qf_match_number": 97,
+      "sf_match_number": 101,
+      "final_match_number": 104
+    },
+    {
+      "team": "Norway",
+      "team_id": "norway",
+      "bracket_half": "winner_m101",
+      "bracket_quarter": "winner_m97",
+      "r32_match_number": 77,
+      "r32_slot_id": "M77",
+      "r32_opponent": "Côte d'Ivoire",
+      "possible_r16_opponents": [
+        "Brazil",
+        "Japan"
+      ],
+      "possible_qf_opponents": [
+        "Canada",
+        "Morocco",
+        "Netherlands",
+        "South Africa"
+      ],
+      "possible_sf_opponents": [
+        "Australia",
+        "Belgium",
+        "Congo DR",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Mexico",
+        "Senegal"
+      ],
+      "possible_final_opponents": [
+        "Algeria",
+        "Argentina",
+        "Austria",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "Colombia",
+        "Croatia",
+        "France",
+        "Germany",
+        "Ghana",
+        "Paraguay",
+        "Portugal",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "USA"
+      ],
+      "possible_r16_opponent_ids": [
+        "brazil",
+        "japan"
+      ],
+      "possible_qf_opponent_ids": [
+        "canada",
+        "morocco",
+        "netherlands",
+        "south-africa"
+      ],
+      "possible_sf_opponent_ids": [
+        "australia",
+        "belgium",
+        "congo-dr",
+        "ecuador",
+        "egypt",
+        "england",
+        "mexico",
+        "senegal"
+      ],
+      "possible_final_opponent_ids": [
+        "algeria",
+        "argentina",
+        "austria",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "colombia",
+        "croatia",
+        "france",
+        "germany",
+        "ghana",
+        "paraguay",
+        "portugal",
+        "spain",
+        "sweden",
+        "switzerland",
+        "usa"
+      ],
+      "r16_match_number": 89,
+      "qf_match_number": 97,
+      "sf_match_number": 101,
+      "final_match_number": 104
+    },
+    {
+      "team": "Paraguay",
+      "team_id": "paraguay",
+      "bracket_half": "winner_m102",
+      "bracket_quarter": "winner_m99",
+      "r32_match_number": 78,
+      "r32_slot_id": "M78",
+      "r32_opponent": "Germany",
+      "possible_r16_opponents": [
+        "Bosnia and Herzegovina",
+        "USA"
+      ],
+      "possible_qf_opponents": [
+        "Argentina",
+        "Cabo Verde",
+        "France",
+        "Sweden"
+      ],
+      "possible_sf_opponents": [
+        "Algeria",
+        "Austria",
+        "Colombia",
+        "Croatia",
+        "Ghana",
+        "Portugal",
+        "Spain",
+        "Switzerland"
+      ],
+      "possible_final_opponents": [
+        "Australia",
+        "Belgium",
+        "Brazil",
+        "Canada",
+        "Congo DR",
+        "Côte d'Ivoire",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Japan",
+        "Mexico",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "Senegal",
+        "South Africa"
+      ],
+      "possible_r16_opponent_ids": [
+        "bosnia-and-herzegovina",
+        "usa"
+      ],
+      "possible_qf_opponent_ids": [
+        "argentina",
+        "cabo-verde",
+        "france",
+        "sweden"
+      ],
+      "possible_sf_opponent_ids": [
+        "algeria",
+        "austria",
+        "colombia",
+        "croatia",
+        "ghana",
+        "portugal",
+        "spain",
+        "switzerland"
+      ],
+      "possible_final_opponent_ids": [
+        "australia",
+        "belgium",
+        "brazil",
+        "canada",
+        "congo-dr",
+        "cote-d-ivoire",
+        "ecuador",
+        "egypt",
+        "england",
+        "japan",
+        "mexico",
+        "morocco",
+        "netherlands",
+        "norway",
+        "senegal",
+        "south-africa"
+      ],
+      "r16_match_number": 91,
+      "qf_match_number": 99,
+      "sf_match_number": 102,
+      "final_match_number": 104
+    },
+    {
+      "team": "Portugal",
+      "team_id": "portugal",
+      "bracket_half": "winner_m102",
+      "bracket_quarter": "winner_m100",
+      "r32_match_number": 85,
+      "r32_slot_id": "M85",
+      "r32_opponent": "Croatia",
+      "possible_r16_opponents": [
+        "Austria",
+        "Spain"
+      ],
+      "possible_qf_opponents": [
+        "Algeria",
+        "Colombia",
+        "Ghana",
+        "Switzerland"
+      ],
+      "possible_sf_opponents": [
+        "Argentina",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "France",
+        "Germany",
+        "Paraguay",
+        "Sweden",
+        "USA"
+      ],
+      "possible_final_opponents": [
+        "Australia",
+        "Belgium",
+        "Brazil",
+        "Canada",
+        "Congo DR",
+        "Côte d'Ivoire",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Japan",
+        "Mexico",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "Senegal",
+        "South Africa"
+      ],
+      "possible_r16_opponent_ids": [
+        "austria",
+        "spain"
+      ],
+      "possible_qf_opponent_ids": [
+        "algeria",
+        "colombia",
+        "ghana",
+        "switzerland"
+      ],
+      "possible_sf_opponent_ids": [
+        "argentina",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "france",
+        "germany",
+        "paraguay",
+        "sweden",
+        "usa"
+      ],
+      "possible_final_opponent_ids": [
+        "australia",
+        "belgium",
+        "brazil",
+        "canada",
+        "congo-dr",
+        "cote-d-ivoire",
+        "ecuador",
+        "egypt",
+        "england",
+        "japan",
+        "mexico",
+        "morocco",
+        "netherlands",
+        "norway",
+        "senegal",
+        "south-africa"
+      ],
+      "r16_match_number": 96,
+      "qf_match_number": 100,
+      "sf_match_number": 102,
+      "final_match_number": 104
+    },
+    {
+      "team": "Senegal",
+      "team_id": "senegal",
+      "bracket_half": "winner_m101",
+      "bracket_quarter": "winner_m98",
+      "r32_match_number": 84,
+      "r32_slot_id": "M84",
+      "r32_opponent": "Belgium",
+      "possible_r16_opponents": [
+        "Congo DR",
+        "England"
+      ],
+      "possible_qf_opponents": [
+        "Australia",
+        "Ecuador",
+        "Egypt",
+        "Mexico"
+      ],
+      "possible_sf_opponents": [
+        "Brazil",
+        "Canada",
+        "Côte d'Ivoire",
+        "Japan",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "South Africa"
+      ],
+      "possible_final_opponents": [
+        "Algeria",
+        "Argentina",
+        "Austria",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "Colombia",
+        "Croatia",
+        "France",
+        "Germany",
+        "Ghana",
+        "Paraguay",
+        "Portugal",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "USA"
+      ],
+      "possible_r16_opponent_ids": [
+        "congo-dr",
+        "england"
+      ],
+      "possible_qf_opponent_ids": [
+        "australia",
+        "ecuador",
+        "egypt",
+        "mexico"
+      ],
+      "possible_sf_opponent_ids": [
+        "brazil",
+        "canada",
+        "cote-d-ivoire",
+        "japan",
+        "morocco",
+        "netherlands",
+        "norway",
+        "south-africa"
+      ],
+      "possible_final_opponent_ids": [
+        "algeria",
+        "argentina",
+        "austria",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "colombia",
+        "croatia",
+        "france",
+        "germany",
+        "ghana",
+        "paraguay",
+        "portugal",
+        "spain",
+        "sweden",
+        "switzerland",
+        "usa"
+      ],
+      "r16_match_number": 93,
+      "qf_match_number": 98,
+      "sf_match_number": 101,
+      "final_match_number": 104
+    },
+    {
+      "team": "South Africa",
+      "team_id": "south-africa",
+      "bracket_half": "winner_m101",
+      "bracket_quarter": "winner_m97",
+      "r32_match_number": 73,
+      "r32_slot_id": "M73",
+      "r32_opponent": "Canada",
+      "possible_r16_opponents": [
+        "Morocco",
+        "Netherlands"
+      ],
+      "possible_qf_opponents": [
+        "Brazil",
+        "Côte d'Ivoire",
+        "Japan",
+        "Norway"
+      ],
+      "possible_sf_opponents": [
+        "Australia",
+        "Belgium",
+        "Congo DR",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Mexico",
+        "Senegal"
+      ],
+      "possible_final_opponents": [
+        "Algeria",
+        "Argentina",
+        "Austria",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "Colombia",
+        "Croatia",
+        "France",
+        "Germany",
+        "Ghana",
+        "Paraguay",
+        "Portugal",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "USA"
+      ],
+      "possible_r16_opponent_ids": [
+        "morocco",
+        "netherlands"
+      ],
+      "possible_qf_opponent_ids": [
+        "brazil",
+        "cote-d-ivoire",
+        "japan",
+        "norway"
+      ],
+      "possible_sf_opponent_ids": [
+        "australia",
+        "belgium",
+        "congo-dr",
+        "ecuador",
+        "egypt",
+        "england",
+        "mexico",
+        "senegal"
+      ],
+      "possible_final_opponent_ids": [
+        "algeria",
+        "argentina",
+        "austria",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "colombia",
+        "croatia",
+        "france",
+        "germany",
+        "ghana",
+        "paraguay",
+        "portugal",
+        "spain",
+        "sweden",
+        "switzerland",
+        "usa"
+      ],
+      "r16_match_number": 90,
+      "qf_match_number": 97,
+      "sf_match_number": 101,
+      "final_match_number": 104
+    },
+    {
+      "team": "Spain",
+      "team_id": "spain",
+      "bracket_half": "winner_m102",
+      "bracket_quarter": "winner_m100",
+      "r32_match_number": 87,
+      "r32_slot_id": "M87",
+      "r32_opponent": "Austria",
+      "possible_r16_opponents": [
+        "Croatia",
+        "Portugal"
+      ],
+      "possible_qf_opponents": [
+        "Algeria",
+        "Colombia",
+        "Ghana",
+        "Switzerland"
+      ],
+      "possible_sf_opponents": [
+        "Argentina",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "France",
+        "Germany",
+        "Paraguay",
+        "Sweden",
+        "USA"
+      ],
+      "possible_final_opponents": [
+        "Australia",
+        "Belgium",
+        "Brazil",
+        "Canada",
+        "Congo DR",
+        "Côte d'Ivoire",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Japan",
+        "Mexico",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "Senegal",
+        "South Africa"
+      ],
+      "possible_r16_opponent_ids": [
+        "croatia",
+        "portugal"
+      ],
+      "possible_qf_opponent_ids": [
+        "algeria",
+        "colombia",
+        "ghana",
+        "switzerland"
+      ],
+      "possible_sf_opponent_ids": [
+        "argentina",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "france",
+        "germany",
+        "paraguay",
+        "sweden",
+        "usa"
+      ],
+      "possible_final_opponent_ids": [
+        "australia",
+        "belgium",
+        "brazil",
+        "canada",
+        "congo-dr",
+        "cote-d-ivoire",
+        "ecuador",
+        "egypt",
+        "england",
+        "japan",
+        "mexico",
+        "morocco",
+        "netherlands",
+        "norway",
+        "senegal",
+        "south-africa"
+      ],
+      "r16_match_number": 96,
+      "qf_match_number": 100,
+      "sf_match_number": 102,
+      "final_match_number": 104
+    },
+    {
+      "team": "Sweden",
+      "team_id": "sweden",
+      "bracket_half": "winner_m102",
+      "bracket_quarter": "winner_m99",
+      "r32_match_number": 79,
+      "r32_slot_id": "M79",
+      "r32_opponent": "France",
+      "possible_r16_opponents": [
+        "Argentina",
+        "Cabo Verde"
+      ],
+      "possible_qf_opponents": [
+        "Bosnia and Herzegovina",
+        "Germany",
+        "Paraguay",
+        "USA"
+      ],
+      "possible_sf_opponents": [
+        "Algeria",
+        "Austria",
+        "Colombia",
+        "Croatia",
+        "Ghana",
+        "Portugal",
+        "Spain",
+        "Switzerland"
+      ],
+      "possible_final_opponents": [
+        "Australia",
+        "Belgium",
+        "Brazil",
+        "Canada",
+        "Congo DR",
+        "Côte d'Ivoire",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Japan",
+        "Mexico",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "Senegal",
+        "South Africa"
+      ],
+      "possible_r16_opponent_ids": [
+        "argentina",
+        "cabo-verde"
+      ],
+      "possible_qf_opponent_ids": [
+        "bosnia-and-herzegovina",
+        "germany",
+        "paraguay",
+        "usa"
+      ],
+      "possible_sf_opponent_ids": [
+        "algeria",
+        "austria",
+        "colombia",
+        "croatia",
+        "ghana",
+        "portugal",
+        "spain",
+        "switzerland"
+      ],
+      "possible_final_opponent_ids": [
+        "australia",
+        "belgium",
+        "brazil",
+        "canada",
+        "congo-dr",
+        "cote-d-ivoire",
+        "ecuador",
+        "egypt",
+        "england",
+        "japan",
+        "mexico",
+        "morocco",
+        "netherlands",
+        "norway",
+        "senegal",
+        "south-africa"
+      ],
+      "r16_match_number": 92,
+      "qf_match_number": 99,
+      "sf_match_number": 102,
+      "final_match_number": 104
+    },
+    {
+      "team": "Switzerland",
+      "team_id": "switzerland",
+      "bracket_half": "winner_m102",
+      "bracket_quarter": "winner_m100",
+      "r32_match_number": 88,
+      "r32_slot_id": "M88",
+      "r32_opponent": "Algeria",
+      "possible_r16_opponents": [
+        "Colombia",
+        "Ghana"
+      ],
+      "possible_qf_opponents": [
+        "Austria",
+        "Croatia",
+        "Portugal",
+        "Spain"
+      ],
+      "possible_sf_opponents": [
+        "Argentina",
+        "Bosnia and Herzegovina",
+        "Cabo Verde",
+        "France",
+        "Germany",
+        "Paraguay",
+        "Sweden",
+        "USA"
+      ],
+      "possible_final_opponents": [
+        "Australia",
+        "Belgium",
+        "Brazil",
+        "Canada",
+        "Congo DR",
+        "Côte d'Ivoire",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Japan",
+        "Mexico",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "Senegal",
+        "South Africa"
+      ],
+      "possible_r16_opponent_ids": [
+        "colombia",
+        "ghana"
+      ],
+      "possible_qf_opponent_ids": [
+        "austria",
+        "croatia",
+        "portugal",
+        "spain"
+      ],
+      "possible_sf_opponent_ids": [
+        "argentina",
+        "bosnia-and-herzegovina",
+        "cabo-verde",
+        "france",
+        "germany",
+        "paraguay",
+        "sweden",
+        "usa"
+      ],
+      "possible_final_opponent_ids": [
+        "australia",
+        "belgium",
+        "brazil",
+        "canada",
+        "congo-dr",
+        "cote-d-ivoire",
+        "ecuador",
+        "egypt",
+        "england",
+        "japan",
+        "mexico",
+        "morocco",
+        "netherlands",
+        "norway",
+        "senegal",
+        "south-africa"
+      ],
+      "r16_match_number": 95,
+      "qf_match_number": 100,
+      "sf_match_number": 102,
+      "final_match_number": 104
+    },
+    {
+      "team": "USA",
+      "team_id": "usa",
+      "bracket_half": "winner_m102",
+      "bracket_quarter": "winner_m99",
+      "r32_match_number": 76,
+      "r32_slot_id": "M76",
+      "r32_opponent": "Bosnia and Herzegovina",
+      "possible_r16_opponents": [
+        "Germany",
+        "Paraguay"
+      ],
+      "possible_qf_opponents": [
+        "Argentina",
+        "Cabo Verde",
+        "France",
+        "Sweden"
+      ],
+      "possible_sf_opponents": [
+        "Algeria",
+        "Austria",
+        "Colombia",
+        "Croatia",
+        "Ghana",
+        "Portugal",
+        "Spain",
+        "Switzerland"
+      ],
+      "possible_final_opponents": [
+        "Australia",
+        "Belgium",
+        "Brazil",
+        "Canada",
+        "Congo DR",
+        "Côte d'Ivoire",
+        "Ecuador",
+        "Egypt",
+        "England",
+        "Japan",
+        "Mexico",
+        "Morocco",
+        "Netherlands",
+        "Norway",
+        "Senegal",
+        "South Africa"
+      ],
+      "possible_r16_opponent_ids": [
+        "germany",
+        "paraguay"
+      ],
+      "possible_qf_opponent_ids": [
+        "argentina",
+        "cabo-verde",
+        "france",
+        "sweden"
+      ],
+      "possible_sf_opponent_ids": [
+        "algeria",
+        "austria",
+        "colombia",
+        "croatia",
+        "ghana",
+        "portugal",
+        "spain",
+        "switzerland"
+      ],
+      "possible_final_opponent_ids": [
+        "australia",
+        "belgium",
+        "brazil",
+        "canada",
+        "congo-dr",
+        "cote-d-ivoire",
+        "ecuador",
+        "egypt",
+        "england",
+        "japan",
+        "mexico",
+        "morocco",
+        "netherlands",
+        "norway",
+        "senegal",
+        "south-africa"
+      ],
+      "r16_match_number": 91,
+      "qf_match_number": 99,
+      "sf_match_number": 102,
+      "final_match_number": 104
+    }
+  ],
+  "sanity": [
+    {
+      "team": "France",
+      "possible_r16_opponents": [
+        "Argentina",
+        "Cabo Verde"
+      ],
+      "possible_qf_opponents": [
+        "Bosnia and Herzegovina",
+        "Germany",
+        "Paraguay",
+        "USA"
+      ],
+      "bracket_half": "winner_m102"
+    },
+    {
+      "team": "Argentina",
+      "possible_r16_opponents": [
+        "France",
+        "Sweden"
+      ],
+      "possible_qf_opponents": [
+        "Bosnia and Herzegovina",
+        "Germany",
+        "Paraguay",
+        "USA"
+      ],
+      "bracket_half": "winner_m102"
+    },
+    {
+      "team": "Germany",
+      "possible_r16_opponents": [
+        "Bosnia and Herzegovina",
+        "USA"
+      ],
+      "possible_qf_opponents": [
+        "Argentina",
+        "Cabo Verde",
+        "France",
+        "Sweden"
+      ],
+      "bracket_half": "winner_m102"
+    },
+    {
+      "team": "Spain",
+      "possible_r16_opponents": [
+        "Croatia",
+        "Portugal"
+      ],
+      "possible_qf_opponents": [
+        "Algeria",
+        "Colombia",
+        "Ghana",
+        "Switzerland"
+      ],
+      "bracket_half": "winner_m102"
+    },
+    {
+      "team": "Portugal",
+      "possible_r16_opponents": [
+        "Austria",
+        "Spain"
+      ],
+      "possible_qf_opponents": [
+        "Algeria",
+        "Colombia",
+        "Ghana",
+        "Switzerland"
+      ],
+      "bracket_half": "winner_m102"
+    },
+    {
+      "team": "England",
+      "possible_r16_opponents": [
+        "Belgium",
+        "Senegal"
+      ],
+      "possible_qf_opponents": [
+        "Australia",
+        "Ecuador",
+        "Egypt",
+        "Mexico"
+      ],
+      "bracket_half": "winner_m101"
+    },
+    {
+      "team": "Colombia",
+      "possible_r16_opponents": [
+        "Algeria",
+        "Switzerland"
+      ],
+      "possible_qf_opponents": [
+        "Austria",
+        "Croatia",
+        "Portugal",
+        "Spain"
+      ],
+      "bracket_half": "winner_m102"
+    }
+  ],
+  "checks": [
+    {
+      "id": "known_r32_fixture_count",
+      "status": "pass",
+      "detail": 16
+    },
+    {
+      "id": "official_r32_nodes_available",
+      "status": "pass",
+      "detail": 16
+    },
+    {
+      "id": "no_duplicate_r32_fixtures",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "no_team_in_two_r32_fixtures",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "all_dependencies_resolve",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "single_winner_final_match",
+      "status": "pass",
+      "detail": [
+        104
+      ]
+    },
+    {
+      "id": "opposite_halves_do_not_meet_before_final",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "final_opponents_are_opposite_half_only",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "france_argentina_r16_matches_source_truth",
+      "status": "pass",
+      "detail": {
+        "france_possible_r16_opponents": [
+          "Argentina",
+          "Cabo Verde"
+        ],
+        "argentina_possible_r16_opponents": [
+          "France",
+          "Sweden"
+        ]
+      }
+    },
+    {
+      "id": "bracket_pool_tree_matches_official_slots",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "bracket_pool_strategies_use_valid_path_propagation",
+      "status": "pass",
+      "detail": []
+    }
+  ],
+  "failures": []
+}

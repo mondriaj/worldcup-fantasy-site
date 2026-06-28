@@ -132,6 +132,7 @@ function buildMarkdownReport(result) {
         ["Team Builder opens on R32", checks.teamBuilderDefaultR32 ? "pass" : "fail"],
         ["Knockout predictor renders", checks.knockoutPredictorRenders ? "pass" : "fail"],
         ["Bracket-pool selector renders", checks.bracketPoolStrategySwitches ? "pass" : "fail"],
+        ["Bracket-pool final/path source truth", checks.bracketPoolOfficialFinalRenders && checks.bracketPoolFranceR16MatchesSourceTruth ? "pass" : "fail"],
         ["Player Profile opens", checks.playerProfileOpens ? "pass" : "fail"],
         ["Current data scripts loaded", checks.currentScriptsLoaded ? "pass" : "fail"],
         ["Old globals absent", checks.oldGlobalsAbsent ? "pass" : "fail"],
@@ -394,7 +395,10 @@ async function collectPageState(page) {
           summaryText: compactText(textFrom("#bracket-pool-summary")),
           matchCards: document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match").length,
           roundHeaders: Array.from(document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-round h3")).map((heading) => heading.textContent.trim()),
-          pathWarningText: compactText(Array.from(document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match small")).map((node) => node.textContent).join(" ")).slice(0, 1000)
+          pathWarningText: compactText(Array.from(document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match small")).map((node) => node.textContent).join(" ")).slice(0, 1000),
+          finalCardText: compactText(Array.from(document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match")).find((card) => /M104\s.*Final/i.test(card.textContent || ""))?.textContent || ""),
+          hasM103FinalCard: Array.from(document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match")).some((card) => /M103\s.*Final/i.test(card.textContent || "")),
+          francePathText: compactText(Array.from(document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match")).filter((card) => /France/i.test(card.textContent || "")).map((card) => card.textContent).join(" ")).slice(0, 1000)
         }
       },
       warnings: {
@@ -640,6 +644,10 @@ async function testMainPage(browser, viewport) {
       /Finalists|Semifinalists|Spain|Argentina|England/i.test(stateBeforeClicks.ui.bracketPoolStrategy.summaryText),
     bracketPoolStrategyPathWarningsRender: /path|R16|QF|SF|Final|pool/i.test(stateBeforeClicks.ui.bracketPoolStrategy.pathWarningText),
     bracketPoolStrategySwitches: bracketPoolStrategyAccess.status === "pass",
+    bracketPoolOfficialFinalRenders: /M104\s.*Final/i.test(stateBeforeClicks.ui.bracketPoolStrategy.finalCardText) &&
+      !stateBeforeClicks.ui.bracketPoolStrategy.hasM103FinalCard,
+    bracketPoolFranceR16MatchesSourceTruth: /M79\s.*R32[\s\S]*France vs Sweden/i.test(stateBeforeClicks.ui.bracketPoolStrategy.francePathText) &&
+      /M92\s.*R16[\s\S]*France vs Argentina/i.test(stateBeforeClicks.ui.bracketPoolStrategy.francePathText),
     matchEnvironmentMd1Accessible: md1MatchEnvironmentAccess.status === "pass" &&
       md1MatchEnvironmentAccess.selected === "md1" &&
       md1MatchEnvironmentAccess.rowCount > 0,
@@ -810,7 +818,8 @@ async function main() {
         "Match Environment selected matchday is r32 and MD1/MD2 remain selectable",
         "Matchday Desk selected matchday is r32",
         "Knockout predictor renders known fixtures and arbitrary matchup result",
-        "Bracket-pool strategy selector renders Safe, Path Value, and Upside with full bracket picks"
+        "Bracket-pool strategy selector renders Safe, Path Value, and Upside with full bracket picks",
+        "Bracket-pool final renders as source-truth match 104, and France R16 path matches source truth"
       ],
       fallback_mode_removed: true
     },

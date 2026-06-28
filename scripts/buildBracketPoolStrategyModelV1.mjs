@@ -1,5 +1,6 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import vm from "node:vm";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -9,6 +10,7 @@ const generatedAt = new Date().toISOString();
 const modelVersion = "bracket-pool-strategy-v1";
 const sourceKnockoutPath = "data/knockoutScorePredictor_v1.json";
 const sourcePathModelPath = "data/r32BracketPathModel_v1.json";
+const sourceWorldCupDataPath = "worldCupData.js";
 
 const roundPoints = {
   r32: 1,
@@ -40,40 +42,6 @@ const roundDifficultyWeights = {
   sf: 1.9,
   final: 2.4
 };
-
-const bracketNodes = [
-  [73, "r32"],
-  [74, "r32"],
-  [75, "r32"],
-  [76, "r32"],
-  [77, "r32"],
-  [78, "r32"],
-  [79, "r32"],
-  [80, "r32"],
-  [81, "r32"],
-  [82, "r32"],
-  [83, "r32"],
-  [84, "r32"],
-  [85, "r32"],
-  [86, "r32"],
-  [87, "r32"],
-  [88, "r32"],
-  [89, "r16", 73, 74],
-  [90, "r16", 75, 76],
-  [91, "r16", 77, 78],
-  [92, "r16", 79, 80],
-  [93, "r16", 81, 82],
-  [94, "r16", 83, 84],
-  [95, "r16", 85, 86],
-  [96, "r16", 87, 88],
-  [97, "qf", 89, 90],
-  [98, "qf", 91, 92],
-  [99, "qf", 93, 94],
-  [100, "qf", 95, 96],
-  [101, "sf", 97, 98],
-  [102, "sf", 99, 100],
-  [103, "final", 101, 102]
-];
 
 const strategies = [
   {
@@ -119,6 +87,13 @@ function projectPath(...parts) {
 
 async function readJson(relativePath) {
   return JSON.parse(await readFile(projectPath(relativePath), "utf8"));
+}
+
+async function loadWorldCupData() {
+  const context = { window: {} };
+  vm.createContext(context);
+  vm.runInContext(await readFile(projectPath(sourceWorldCupDataPath), "utf8"), context, { filename: sourceWorldCupDataPath });
+  return context.window.WORLD_CUP_DATA;
 }
 
 async function writeJson(relativePath, value) {
@@ -193,6 +168,21 @@ function buildMatchupLookup(knockoutData) {
   return lookup;
 }
 
+function roundIdForWorldCupRound(roundName, matchPath) {
+  const normalized = String(roundName || "").toLowerCase();
+  const pathText = String(matchPath || "").toLowerCase();
+  if (normalized.includes("round of 32")) return "r32";
+  if (normalized.includes("round of 16")) return "r16";
+  if (normalized.includes("quarter")) return "qf";
+  if (normalized.includes("semi")) return "sf";
+  if (normalized.includes("final") && pathText.includes("winner match")) return "final";
+  return null;
+}
+
+function winnerDependencies(matchPath) {
+  return Array.from(String(matchPath || "").matchAll(/Winner Match (\d+)/g)).map((entry) => Number(entry[1]));
+}
+
 function orientedPrediction(lookup, teamAId, teamBId) {
   const direct = lookup.get(`${teamAId}|${teamBId}`);
   if (direct) {
@@ -257,39 +247,53 @@ function emptyTeamMetric(team, pathRow) {
   };
 }
 
-function buildTree(knockoutData) {
+function buildTree(knockoutData, worldCupData) {
   const knownByMatch = new Map(
     knockoutData.known_r32_predictions.map((row) => [Number(row.match_number), row])
   );
 
   const nodes = new Map();
-  bracketNodes.forEach(([matchNumber, roundId, leftSource, rightSource]) => {
-    if (roundId === "r32") {
-      const fixture = knownByMatch.get(matchNumber);
-      if (!fixture) throw new Error(`Missing known R32 fixture for match ${matchNumber}.`);
+  const bracketRounds = Array.isArray(worldCupData?.bracket?.rounds) ? worldCupData.bracket.rounds : [];
+  for (const round of bracketRounds) {
+    for (const match of round.matches || []) {
+      const matchNumber = Number(match.id);
+      const roundId = roundIdForWorldCupRound(round.name, match.path);
+      if (!roundId) continue;
+      if (roundId === "r32") {
+        const fixture = knownByMatch.get(matchNumber);
+        if (!fixture) throw new Error(`Missing known R32 fixture for match ${matchNumber}.`);
+        nodes.set(matchNumber, {
+          match_id: String(matchNumber),
+          match_number: matchNumber,
+          round_id: roundId,
+          round_label: roundLabels[roundId],
+          bracket_path: fixture.bracket_path || match.path || "Round of 32",
+          left: { type: "team", team_id: fixture.home_team_id },
+          right: { type: "team", team_id: fixture.away_team_id },
+          source_fixture: fixture
+        });
+        continue;
+      }
+
+      const dependencies = winnerDependencies(match.path);
+      if (dependencies.length !== 2) {
+        throw new Error(`Bracket match ${match.id} must have exactly two winner dependencies.`);
+      }
       nodes.set(matchNumber, {
         match_id: String(matchNumber),
         match_number: matchNumber,
         round_id: roundId,
         round_label: roundLabels[roundId],
-        bracket_path: fixture.bracket_path || "Round of 32",
-        left: { type: "team", team_id: fixture.home_team_id },
-        right: { type: "team", team_id: fixture.away_team_id },
-        source_fixture: fixture
+        bracket_path: match.path,
+        left: { type: "match", match_number: dependencies[0] },
+        right: { type: "match", match_number: dependencies[1] }
       });
-      return;
     }
+  }
 
-    nodes.set(matchNumber, {
-      match_id: String(matchNumber),
-      match_number: matchNumber,
-      round_id: roundId,
-      round_label: roundLabels[roundId],
-      bracket_path: `${roundLabels[roundId]} winner of ${leftSource} v winner of ${rightSource}`,
-      left: { type: "match", match_number: leftSource },
-      right: { type: "match", match_number: rightSource }
-    });
-  });
+  if (![...nodes.values()].some((node) => node.round_id === "final")) {
+    throw new Error("Official bracket tree did not include a Winner Match final.");
+  }
 
   return nodes;
 }
@@ -593,7 +597,7 @@ function buildStrategyBracket(strategy, nodes, teamMetrics, teamIndex, matchupLo
     });
   }
 
-  const finalMatch = matches.find((match) => match.match_number === 103);
+  const finalMatch = matches.find((match) => match.round_id === "final");
   const semifinalMatches = matches.filter((match) => match.round_id === "sf");
   const finalistIds = finalMatch ? [finalMatch.left_team_id, finalMatch.right_team_id] : [];
   const semifinalistIds = [...new Set(semifinalMatches.flatMap((match) => [match.left_team_id, match.right_team_id]))];
@@ -678,6 +682,7 @@ function validateStrategyBracket(strategy, nodes, r32TeamIds) {
   const failures = [];
   const matchByNumber = new Map(strategy.matches.map((match) => [match.match_number, match]));
   const winners = new Map();
+  const finalNode = [...nodes.values()].find((node) => node.round_id === "final");
 
   for (const [, sourceNode] of nodes) {
     const match = matchByNumber.get(sourceNode.match_number);
@@ -708,7 +713,9 @@ function validateStrategyBracket(strategy, nodes, r32TeamIds) {
     winners.set(sourceNode.match_number, match.model_pick_team_id);
   }
 
-  if (strategy.champion?.team_id !== winners.get(103)) {
+  if (!finalNode) {
+    failures.push(`Strategy ${strategy.strategy_id} official final node missing.`);
+  } else if (strategy.champion?.team_id !== winners.get(finalNode.match_number)) {
     failures.push(`Strategy ${strategy.strategy_id} champion does not match final winner.`);
   }
 
@@ -764,7 +771,7 @@ function buildQa(model, nodes, teamMetrics, r32TeamIds) {
     schema_version: "bracket_pool_strategy_qa_v1",
     generated_at: generatedAt,
     model_version: modelVersion,
-    source_files: [sourceKnockoutPath, sourcePathModelPath],
+    source_files: [sourceKnockoutPath, sourcePathModelPath, sourceWorldCupDataPath],
     status: failures.length ? "fail" : "pass",
     checks,
     failures,
@@ -810,8 +817,9 @@ Expected pool points are computed as:
 
 - \`${sourceKnockoutPath}\`
 - \`${sourcePathModelPath}\`
+- \`${sourceWorldCupDataPath}\`
 
-The model uses bracket propagation through the official final R32 tree and matchup advancement probabilities from the knockout score predictor. No betting odds, ownership, invented lineups, or final-squad assumptions are used.
+The model uses bracket propagation through the official final R32 tree in \`${sourceWorldCupDataPath}\` and matchup advancement probabilities from the knockout score predictor. No betting odds, ownership, invented lineups, or final-squad assumptions are used.
 
 ## Strategy Winners
 
@@ -880,10 +888,11 @@ ${mdTable(["Check", "Status", "Detail"], qa.checks.map((check) => [
 async function main() {
   const knockoutData = await readJson(sourceKnockoutPath);
   const pathModel = await readJson(sourcePathModelPath);
+  const worldCupData = await loadWorldCupData();
   const teamIndex = buildTeamIndex(knockoutData);
   const matchupLookup = buildMatchupLookup(knockoutData);
   const pathRowsByTeamId = new Map((pathModel.team_paths || []).map((row) => [row.team_id, row]));
-  const nodes = buildTree(knockoutData);
+  const nodes = buildTree(knockoutData, worldCupData);
 
   const r32TeamIds = new Set(
     knockoutData.known_r32_predictions.flatMap((row) => [row.home_team_id, row.away_team_id])
@@ -913,7 +922,7 @@ async function main() {
     generated_at: generatedAt,
     model_version: modelVersion,
     release_status: "final_r32_strategy_overlay",
-    source_files: [sourceKnockoutPath, sourcePathModelPath],
+    source_files: [sourceKnockoutPath, sourcePathModelPath, sourceWorldCupDataPath],
     scoring: {
       default_round_points: roundPoints,
       expected_points_formula: "P(R16)*1 + P(QF)*2 + P(SF)*4 + P(Final)*8 + P(Champion)*16"

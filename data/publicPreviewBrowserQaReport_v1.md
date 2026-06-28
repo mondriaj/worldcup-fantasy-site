@@ -1,6 +1,6 @@
 # Public Preview Browser QA Report v1
 
-Generated: 2026-06-28T11:54:50.681Z
+Generated: 2026-06-28T12:17:33.996Z
 
 ## Verdict
 
@@ -32,6 +32,7 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | Team Builder opens on R32 | pass |
 | Knockout predictor renders | pass |
 | Bracket-pool selector renders | pass |
+| Bracket-pool final/path source truth | pass |
 | Player Profile opens | pass |
 | Current data scripts loaded | pass |
 | Old globals absent | pass |
