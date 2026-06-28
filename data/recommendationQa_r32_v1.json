@@ -1,6 +1,6 @@
 {
   "schema_version": "recommendation_qa_r32_v1",
-  "generated_at": "2026-06-28T02:19:59.242Z",
+  "generated_at": "2026-06-28T11:30:15.005Z",
   "status": "pass",
   "summary": {
     "recommendationCandidates": 125,
@@ -12,7 +12,7 @@
       "differential",
       "captain"
     ],
-    "knownR32FixturesUsed": 14,
+    "knownR32FixturesUsed": 16,
     "defaultMatchday": "r32",
     "ownershipUsedAsSignal": false,
     "finalSquadsSourceBacked": false,
@@ -25,138 +25,131 @@
         "rank": 1
       },
       {
-        "name": "Facundo Medina",
+        "name": "Lautaro Martínez",
         "country": "Argentina",
         "opponent": "Cabo Verde",
-        "captainScore": 29.566,
+        "captainScore": 30.437,
         "rank": 2
+      },
+      {
+        "name": "Marc Cucurella",
+        "country": "Spain",
+        "opponent": "Austria",
+        "captainScore": 28.724,
+        "rank": 3
+      },
+      {
+        "name": "Aymeric Laporte",
+        "country": "Spain",
+        "opponent": "Austria",
+        "captainScore": 28.69,
+        "rank": 4
       },
       {
         "name": "Ezri Konsa",
         "country": "England",
         "opponent": "Congo DR",
-        "captainScore": 28.794,
-        "rank": 3
-      },
-      {
-        "name": "Lautaro Martínez",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "captainScore": 29.405,
-        "rank": 4
-      },
-      {
-        "name": "Lisandro Martínez",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "captainScore": 29.339,
+        "captainScore": 28.936,
         "rank": 5
       },
       {
         "name": "Emiliano Martínez",
         "country": "Argentina",
         "opponent": "Cabo Verde",
-        "captainScore": 29.194,
+        "captainScore": 29.495,
         "rank": 6
-      },
-      {
-        "name": "Rodrigo De Paul",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "captainScore": 29,
-        "rank": 7
       },
       {
         "name": "Alexis Mac Allister",
         "country": "Argentina",
         "opponent": "Cabo Verde",
-        "captainScore": 29,
+        "captainScore": 29.243,
+        "rank": 7
+      },
+      {
+        "name": "Rodrigo De Paul",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "captainScore": 29.015,
         "rank": 8
       },
       {
-        "name": "Harry Kane",
-        "country": "England",
-        "opponent": "Congo DR",
-        "captainScore": 28.27,
+        "name": "Facundo Medina",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "captainScore": 29.107,
         "rank": 9
       },
       {
         "name": "Daniel Muñoz",
         "country": "Colombia",
         "opponent": "Ghana",
-        "captainScore": 27.457,
+        "captainScore": 27.739,
         "rank": 10
       },
       {
-        "name": "Cristian Romero",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "captainScore": 28.481,
+        "name": "Harry Kane",
+        "country": "England",
+        "opponent": "Congo DR",
+        "captainScore": 28.27,
         "rank": 11
       },
       {
-        "name": "Reece James",
-        "country": "England",
-        "opponent": "Congo DR",
-        "captainScore": 27.713,
+        "name": "Lisandro Martínez",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "captainScore": 28.877,
         "rank": 12
+      },
+      {
+        "name": "Unai Simón",
+        "country": "Spain",
+        "opponent": "Austria",
+        "captainScore": 27.524,
+        "rank": 13
       },
       {
         "name": "Dávinson Sánchez",
         "country": "Colombia",
         "opponent": "Ghana",
-        "captainScore": 27.116,
-        "rank": 13
+        "captainScore": 27.395,
+        "rank": 14
       },
       {
         "name": "Jhon Lucumí",
         "country": "Colombia",
         "opponent": "Ghana",
-        "captainScore": 27,
-        "rank": 14
-      },
-      {
-        "name": "Jude Bellingham",
-        "country": "England",
-        "opponent": "Congo DR",
-        "captainScore": 27.332,
+        "captainScore": 27.281,
         "rank": 15
       }
     ],
     "topPathValue": [
       {
-        "name": "Lionel Messi",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "projectedPoints": 6.797,
-        "pathValue": 1.2
-      },
-      {
         "name": "Daniel Muñoz",
         "country": "Colombia",
         "opponent": "Ghana",
-        "projectedPoints": 6.599,
+        "projectedPoints": 6.73,
         "pathValue": 1.2
       },
       {
         "name": "Dávinson Sánchez",
         "country": "Colombia",
         "opponent": "Ghana",
-        "projectedPoints": 6.444,
+        "projectedPoints": 6.574,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Jhon Lucumí",
+        "country": "Colombia",
+        "opponent": "Ghana",
+        "projectedPoints": 6.521,
         "pathValue": 1.2
       },
       {
         "name": "Ezri Konsa",
         "country": "England",
         "opponent": "Congo DR",
-        "projectedPoints": 6.441,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Jhon Lucumí",
-        "country": "Colombia",
-        "opponent": "Ghana",
-        "projectedPoints": 6.39,
+        "projectedPoints": 6.507,
         "pathValue": 1.2
       },
       {
@@ -167,105 +160,266 @@
         "pathValue": 1.2
       },
       {
-        "name": "Dayot Upamecano",
-        "country": "France",
-        "opponent": "Sweden",
-        "projectedPoints": 6.106,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Joshua Kimmich",
-        "country": "Germany",
-        "opponent": "Paraguay",
-        "projectedPoints": 6.067,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Facundo Medina",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "projectedPoints": 6.01,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Jules Koundé",
-        "country": "France",
-        "opponent": "Sweden",
-        "projectedPoints": 5.985,
-        "pathValue": 1.2
-      },
-      {
         "name": "Reece James",
         "country": "England",
         "opponent": "Congo DR",
-        "projectedPoints": 5.941,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Lisandro Martínez",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "projectedPoints": 5.904,
+        "projectedPoints": 6.007,
         "pathValue": 1.2
       },
       {
         "name": "Camilo Vargas",
         "country": "Colombia",
         "opponent": "Ghana",
-        "projectedPoints": 5.867,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Lautaro Martínez",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "projectedPoints": 5.84,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Kylian Mbappé",
-        "country": "France",
-        "opponent": "Sweden",
-        "projectedPoints": 5.774,
+        "projectedPoints": 5.998,
         "pathValue": 1.2
       },
       {
         "name": "Johan Mojica",
         "country": "Colombia",
         "opponent": "Ghana",
-        "projectedPoints": 5.77,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Jude Bellingham",
-        "country": "England",
-        "opponent": "Congo DR",
-        "projectedPoints": 5.748,
+        "projectedPoints": 5.899,
         "pathValue": 1.2
       },
       {
         "name": "Jordan Pickford",
         "country": "England",
         "opponent": "Congo DR",
-        "projectedPoints": 5.743,
+        "projectedPoints": 5.809,
         "pathValue": 1.2
       },
       {
-        "name": "Emiliano Martínez",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "projectedPoints": 5.739,
+        "name": "Jude Bellingham",
+        "country": "England",
+        "opponent": "Congo DR",
+        "projectedPoints": 5.762,
         "pathValue": 1.2
       },
       {
-        "name": "Mike Maignan",
-        "country": "France",
-        "opponent": "Sweden",
-        "projectedPoints": 5.736,
+        "name": "Joshua Kimmich",
+        "country": "Germany",
+        "opponent": "Paraguay",
+        "projectedPoints": 5.65,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Noni Madueke",
+        "country": "England",
+        "opponent": "Congo DR",
+        "projectedPoints": 5.217,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Virgil van Dijk",
+        "country": "Netherlands",
+        "opponent": "Morocco",
+        "projectedPoints": 5.172,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Luis Díaz",
+        "country": "Colombia",
+        "opponent": "Ghana",
+        "projectedPoints": 5.16,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Willian Pacho",
+        "country": "Ecuador",
+        "opponent": "Mexico",
+        "projectedPoints": 5.067,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Piero Hincapié",
+        "country": "Ecuador",
+        "opponent": "Mexico",
+        "projectedPoints": 5.012,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Denzel Dumfries",
+        "country": "Netherlands",
+        "opponent": "Morocco",
+        "projectedPoints": 5.01,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Declan Rice",
+        "country": "England",
+        "opponent": "Congo DR",
+        "projectedPoints": 4.957,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Harry Souttar",
+        "country": "Australia",
+        "opponent": "Egypt",
+        "projectedPoints": 4.928,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Jordan Bos",
+        "country": "Australia",
+        "opponent": "Egypt",
+        "projectedPoints": 4.924,
+        "pathValue": 1.2
+      }
+    ],
+    "easyPathSupports": [
+      {
+        "name": "Daniel Muñoz",
+        "country": "Colombia",
+        "opponent": "Ghana",
+        "projectedPoints": 6.73,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Dávinson Sánchez",
+        "country": "Colombia",
+        "opponent": "Ghana",
+        "projectedPoints": 6.574,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Jhon Lucumí",
+        "country": "Colombia",
+        "opponent": "Ghana",
+        "projectedPoints": 6.521,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Ezri Konsa",
+        "country": "England",
+        "opponent": "Congo DR",
+        "projectedPoints": 6.507,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Harry Kane",
+        "country": "England",
+        "opponent": "Congo DR",
+        "projectedPoints": 6.184,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Reece James",
+        "country": "England",
+        "opponent": "Congo DR",
+        "projectedPoints": 6.007,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Camilo Vargas",
+        "country": "Colombia",
+        "opponent": "Ghana",
+        "projectedPoints": 5.998,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Johan Mojica",
+        "country": "Colombia",
+        "opponent": "Ghana",
+        "projectedPoints": 5.899,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Jordan Pickford",
+        "country": "England",
+        "opponent": "Congo DR",
+        "projectedPoints": 5.809,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Jude Bellingham",
+        "country": "England",
+        "opponent": "Congo DR",
+        "projectedPoints": 5.762,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Joshua Kimmich",
+        "country": "Germany",
+        "opponent": "Paraguay",
+        "projectedPoints": 5.65,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Noni Madueke",
+        "country": "England",
+        "opponent": "Congo DR",
+        "projectedPoints": 5.217,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Virgil van Dijk",
+        "country": "Netherlands",
+        "opponent": "Morocco",
+        "projectedPoints": 5.172,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Luis Díaz",
+        "country": "Colombia",
+        "opponent": "Ghana",
+        "projectedPoints": 5.16,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Willian Pacho",
+        "country": "Ecuador",
+        "opponent": "Mexico",
+        "projectedPoints": 5.067,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Piero Hincapié",
+        "country": "Ecuador",
+        "opponent": "Mexico",
+        "projectedPoints": 5.012,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Denzel Dumfries",
+        "country": "Netherlands",
+        "opponent": "Morocco",
+        "projectedPoints": 5.01,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Declan Rice",
+        "country": "England",
+        "opponent": "Congo DR",
+        "projectedPoints": 4.957,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Harry Souttar",
+        "country": "Australia",
+        "opponent": "Egypt",
+        "projectedPoints": 4.928,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Jordan Bos",
+        "country": "Australia",
+        "opponent": "Egypt",
+        "projectedPoints": 4.924,
         "pathValue": 1.2
       }
     ],
     "hardPathWarnings": [
+      {
+        "name": "Marc Cucurella",
+        "country": "Spain",
+        "opponent": "Austria",
+        "warning": "Likely R16 path is difficult if Portugal advances."
+      },
+      {
+        "name": "Aymeric Laporte",
+        "country": "Spain",
+        "opponent": "Austria",
+        "warning": "Likely R16 path is difficult if Portugal advances."
+      },
       {
         "name": "Lionel Messi",
         "country": "Argentina",
@@ -273,28 +427,10 @@
         "warning": "Likely R16 path is difficult if France advances."
       },
       {
-        "name": "Dayot Upamecano",
-        "country": "France",
-        "opponent": "Sweden",
-        "warning": "Likely R16 path is difficult if Argentina advances."
-      },
-      {
-        "name": "Facundo Medina",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "warning": "Likely R16 path is difficult if France advances."
-      },
-      {
-        "name": "Jules Koundé",
-        "country": "France",
-        "opponent": "Sweden",
-        "warning": "Likely R16 path is difficult if Argentina advances."
-      },
-      {
-        "name": "Lisandro Martínez",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "warning": "Likely R16 path is difficult if France advances."
+        "name": "Unai Simón",
+        "country": "Spain",
+        "opponent": "Austria",
+        "warning": "Likely R16 path is difficult if Portugal advances."
       },
       {
         "name": "Lautaro Martínez",
@@ -303,7 +439,25 @@
         "warning": "Likely R16 path is difficult if France advances."
       },
       {
-        "name": "Kylian Mbappé",
+        "name": "Pau Cubarsí",
+        "country": "Spain",
+        "opponent": "Austria",
+        "warning": "Likely R16 path is difficult if Portugal advances."
+      },
+      {
+        "name": "Dayot Upamecano",
+        "country": "France",
+        "opponent": "Sweden",
+        "warning": "Likely R16 path is difficult if Argentina advances."
+      },
+      {
+        "name": "Marcos Llorente",
+        "country": "Spain",
+        "opponent": "Austria",
+        "warning": "Likely R16 path is difficult if Portugal advances."
+      },
+      {
+        "name": "Jules Koundé",
         "country": "France",
         "opponent": "Sweden",
         "warning": "Likely R16 path is difficult if Argentina advances."
@@ -315,16 +469,16 @@
         "warning": "Likely R16 path is difficult if France advances."
       },
       {
-        "name": "Mike Maignan",
-        "country": "France",
-        "opponent": "Sweden",
-        "warning": "Likely R16 path is difficult if Argentina advances."
-      },
-      {
-        "name": "Rodrigo De Paul",
+        "name": "Facundo Medina",
         "country": "Argentina",
         "opponent": "Cabo Verde",
         "warning": "Likely R16 path is difficult if France advances."
+      },
+      {
+        "name": "Kylian Mbappé",
+        "country": "France",
+        "opponent": "Sweden",
+        "warning": "Likely R16 path is difficult if Argentina advances."
       },
       {
         "name": "Alexis Mac Allister",
@@ -333,43 +487,31 @@
         "warning": "Likely R16 path is difficult if France advances."
       },
       {
+        "name": "Lisandro Martínez",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "warning": "Likely R16 path is difficult if France advances."
+      },
+      {
+        "name": "Mikel Oyarzabal",
+        "country": "Spain",
+        "opponent": "Austria",
+        "warning": "Likely R16 path is difficult if Portugal advances."
+      },
+      {
+        "name": "Rodrigo De Paul",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "warning": "Likely R16 path is difficult if France advances."
+      },
+      {
+        "name": "Mike Maignan",
+        "country": "France",
+        "opponent": "Sweden",
+        "warning": "Likely R16 path is difficult if Argentina advances."
+      },
+      {
         "name": "Cristian Romero",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "warning": "Likely R16 path is difficult if France advances."
-      },
-      {
-        "name": "Michael Olise",
-        "country": "France",
-        "opponent": "Sweden",
-        "warning": "Likely R16 path is difficult if Argentina advances."
-      },
-      {
-        "name": "Julián Alvarez",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "warning": "Likely R16 path is difficult if France advances."
-      },
-      {
-        "name": "Ousmane Dembélé",
-        "country": "France",
-        "opponent": "Sweden",
-        "warning": "Likely R16 path is difficult if Argentina advances."
-      },
-      {
-        "name": "Nicolás Otamendi",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "warning": "Likely R16 path is difficult if France advances."
-      },
-      {
-        "name": "Auston Trusty",
-        "country": "USA",
-        "opponent": "Bosnia and Herzegovina",
-        "warning": "Likely R16 path is difficult if Germany advances."
-      },
-      {
-        "name": "Nicolás Tagliafico",
         "country": "Argentina",
         "opponent": "Cabo Verde",
         "warning": "Likely R16 path is difficult if France advances."
@@ -381,13 +523,678 @@
         "warning": "Likely R16 path is difficult if France advances."
       },
       {
-        "name": "Thibaut Courtois",
-        "country": "Belgium",
-        "opponent": "Senegal",
-        "warning": "Likely R16 path is difficult if England advances."
+        "name": "Nuno Alexandre Tavares Mendes",
+        "country": "Portugal",
+        "opponent": "Croatia",
+        "warning": "Likely R16 path is difficult if Spain advances."
       }
-    ]
+    ],
+    "topGkDefCleanSheetRecommendations": [
+      {
+        "name": "Marc Cucurella",
+        "country": "Spain",
+        "position": "DEF",
+        "opponent": "Austria",
+        "projectedPoints": 6.976,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "Aymeric Laporte",
+        "country": "Spain",
+        "position": "DEF",
+        "opponent": "Austria",
+        "projectedPoints": 6.962,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "Unai Simón",
+        "country": "Spain",
+        "position": "GK",
+        "opponent": "Austria",
+        "projectedPoints": 6.416,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "Pau Cubarsí",
+        "country": "Spain",
+        "position": "DEF",
+        "opponent": "Austria",
+        "projectedPoints": 6.015,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "Marcos Llorente",
+        "country": "Spain",
+        "position": "DEF",
+        "opponent": "Austria",
+        "projectedPoints": 6.007,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "Pedro Porro",
+        "country": "Spain",
+        "position": "DEF",
+        "opponent": "Austria",
+        "projectedPoints": 3.826,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "Alejandro Grimaldo",
+        "country": "Spain",
+        "position": "DEF",
+        "opponent": "Austria",
+        "projectedPoints": 1.963,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "Eric García",
+        "country": "Spain",
+        "position": "DEF",
+        "opponent": "Austria",
+        "projectedPoints": 0.825,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "David Raya",
+        "country": "Spain",
+        "position": "GK",
+        "opponent": "Austria",
+        "projectedPoints": 0.811,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "Marc Pubill",
+        "country": "Spain",
+        "position": "DEF",
+        "opponent": "Austria",
+        "projectedPoints": 0.755,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "Joan García",
+        "country": "Spain",
+        "position": "GK",
+        "opponent": "Austria",
+        "projectedPoints": 0.42,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "Daniel Muñoz",
+        "country": "Colombia",
+        "position": "DEF",
+        "opponent": "Ghana",
+        "projectedPoints": 6.73,
+        "cleanSheetProbability": 0.735,
+        "defensiveFormLabel": "neutral_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.043
+      },
+      {
+        "name": "Dávinson Sánchez",
+        "country": "Colombia",
+        "position": "DEF",
+        "opponent": "Ghana",
+        "projectedPoints": 6.574,
+        "cleanSheetProbability": 0.735,
+        "defensiveFormLabel": "neutral_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.043
+      },
+      {
+        "name": "Jhon Lucumí",
+        "country": "Colombia",
+        "position": "DEF",
+        "opponent": "Ghana",
+        "projectedPoints": 6.521,
+        "cleanSheetProbability": 0.735,
+        "defensiveFormLabel": "neutral_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.043
+      },
+      {
+        "name": "Camilo Vargas",
+        "country": "Colombia",
+        "position": "GK",
+        "opponent": "Ghana",
+        "projectedPoints": 5.998,
+        "cleanSheetProbability": 0.735,
+        "defensiveFormLabel": "neutral_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.043
+      },
+      {
+        "name": "Johan Mojica",
+        "country": "Colombia",
+        "position": "DEF",
+        "opponent": "Ghana",
+        "projectedPoints": 5.899,
+        "cleanSheetProbability": 0.735,
+        "defensiveFormLabel": "neutral_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.043
+      },
+      {
+        "name": "Déiver Machado",
+        "country": "Colombia",
+        "position": "DEF",
+        "opponent": "Ghana",
+        "projectedPoints": 4.919,
+        "cleanSheetProbability": 0.735,
+        "defensiveFormLabel": "neutral_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.043
+      },
+      {
+        "name": "Santiago Arias",
+        "country": "Colombia",
+        "position": "DEF",
+        "opponent": "Ghana",
+        "projectedPoints": 4.876,
+        "cleanSheetProbability": 0.735,
+        "defensiveFormLabel": "neutral_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.043
+      },
+      {
+        "name": "Yerry Mina",
+        "country": "Colombia",
+        "position": "DEF",
+        "opponent": "Ghana",
+        "projectedPoints": 4.494,
+        "cleanSheetProbability": 0.735,
+        "defensiveFormLabel": "neutral_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.043
+      },
+      {
+        "name": "Willer Ditta",
+        "country": "Colombia",
+        "position": "DEF",
+        "opponent": "Ghana",
+        "projectedPoints": 2.585,
+        "cleanSheetProbability": 0.735,
+        "defensiveFormLabel": "neutral_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.043
+      }
+    ],
+    "pathEffectAudits": [
+      {
+        "team": "Argentina",
+        "r32_opponent": "Cabo Verde",
+        "likely_r16_opponent_if_both_advance": "France",
+        "path_difficulty_score": 70.12,
+        "hard_path_warning": "Likely R16 path is difficult if France advances.",
+        "easy_path_support": false
+      },
+      {
+        "team": "England",
+        "r32_opponent": "Congo DR",
+        "likely_r16_opponent_if_both_advance": "Belgium",
+        "path_difficulty_score": 70.35,
+        "hard_path_warning": null,
+        "easy_path_support": true
+      },
+      {
+        "team": "Colombia",
+        "r32_opponent": "Ghana",
+        "likely_r16_opponent_if_both_advance": "Switzerland",
+        "path_difficulty_score": 59.76,
+        "hard_path_warning": null,
+        "easy_path_support": true
+      },
+      {
+        "team": "France",
+        "r32_opponent": "Sweden",
+        "likely_r16_opponent_if_both_advance": "Argentina",
+        "path_difficulty_score": 106.06,
+        "hard_path_warning": "Likely R16 path is difficult if Argentina advances.",
+        "easy_path_support": false
+      },
+      {
+        "team": "Germany",
+        "r32_opponent": "Paraguay",
+        "likely_r16_opponent_if_both_advance": "USA",
+        "path_difficulty_score": 82.41,
+        "hard_path_warning": null,
+        "easy_path_support": false
+      },
+      {
+        "team": "Spain",
+        "r32_opponent": "Austria",
+        "likely_r16_opponent_if_both_advance": "Portugal",
+        "path_difficulty_score": 98.49,
+        "hard_path_warning": "Likely R16 path is difficult if Portugal advances.",
+        "easy_path_support": false
+      },
+      {
+        "team": "Portugal",
+        "r32_opponent": "Croatia",
+        "likely_r16_opponent_if_both_advance": "Spain",
+        "path_difficulty_score": 120.1,
+        "hard_path_warning": "Likely R16 path is difficult if Spain advances.",
+        "easy_path_support": false
+      }
+    ],
+    "germanyDefensiveFormCheck": {
+      "goals_against": 4,
+      "clean_sheets": 0,
+      "conceded_in_every_group_game": true,
+      "clean_sheet_multiplier": 0.865,
+      "defender_gk_projection_points_adjustment": -0.675
+    },
+    "spainDefensiveFormCheck": {
+      "goals_against": 0,
+      "clean_sheets": 3,
+      "conceded_in_every_group_game": false,
+      "clean_sheet_multiplier": 1.067,
+      "defender_gk_projection_points_adjustment": 0.337
+    }
   },
   "haaland_audit": null,
-  "underperformer_cautions": []
+  "underperformer_cautions": [
+    {
+      "internal_player_id": "colombia-deiver-machado",
+      "playerId": "colombia-deiver-machado",
+      "official_fantasy_player_id": "251",
+      "name": "Déiver Machado",
+      "display_name": "Déiver Machado",
+      "country": "Colombia",
+      "team_id": "colombia",
+      "official_team_id": "10",
+      "official_fantasy_position": "DEF",
+      "position": "DEF",
+      "official_price": 3.9,
+      "price": 3.9,
+      "selectable_status": "playing",
+      "matchday": "r32",
+      "matchday_label": "Round of 32",
+      "opponent": "Ghana",
+      "fixture_id": "fwc2026-m086",
+      "mode": "differential",
+      "mode_label": "Differential Picks / Value Picks",
+      "pickType": "Differential Picks / Value Picks",
+      "recommendation_surface": "differential",
+      "rank": 21,
+      "raw_expected_points": 4.919,
+      "projectedPoints": 4.919,
+      "risk_adjusted_points": 4.428,
+      "floor_points": 1.377,
+      "ceiling_points": 9.209,
+      "captain_score": 23.617,
+      "captainUpsideScore": 23.617,
+      "start_probability": 0.751,
+      "startProb": 0.751,
+      "expected_minutes": 64,
+      "expectedMinutes": 64,
+      "roleTier": "likely_starter",
+      "role_label": "likely_starter",
+      "roleConfidence": "medium",
+      "role_confidence": "medium",
+      "fixture_context": {
+        "fixture_id": "fwc2026-m086",
+        "match_number": 86,
+        "opponent_team_id": "ghana",
+        "opponent": "Ghana",
+        "side": "home_listed",
+        "expected_goals": 2.113,
+        "expected_goals_against": 0.35,
+        "win_probability": 0.7894,
+        "draw_probability": 0.1609,
+        "loss_probability": 0.0497,
+        "clean_sheet_probability": 0.735,
+        "base_clean_sheet_probability": 0.7047,
+        "clean_sheet_form_multiplier": 1.043,
+        "clean_sheet_form_adjustment": 0.043,
+        "defensive_form_label": "neutral_clean_sheet_form",
+        "fixture_difficulty_score": 11.72,
+        "fixture_difficulty_band": "favorable",
+        "captain_environment_score": 104.9,
+        "matchUncertainty": "Low",
+        "known_or_projected_path_status": "known_r32_plus_projected_r16_from_bracket"
+      },
+      "path_context": {
+        "team": "Colombia",
+        "team_id": "colombia",
+        "r32_match_id": 86,
+        "r32_opponent": "Ghana",
+        "r32_advance_probability": 0.8828,
+        "r16_match_id": "95",
+        "likely_r16_opponent_if_both_advance": "Switzerland",
+        "known_path_status": "known_r32_plus_projected_r16_from_bracket",
+        "path_difficulty_score": 59.76,
+        "hard_path_warning": null
+      },
+      "path_value": 1.2,
+      "hard_path_warning": null,
+      "recommendation_score": 89.311,
+      "recommendation_tier": "strong_candidate",
+      "projectionReason": "R32 v1 uses known fixture vs Ghana, group-stage role/points, official selectable status, and path value.",
+      "roleReason": "md1_md2_underperformance_confidence_downgrade",
+      "fixtureReason": "R32 fixture vs Ghana; path status known_r32_plus_projected_r16_from_bracket.",
+      "caution": "Group-stage underperformance lowers confidence.",
+      "why_pick": [
+        "4.919 projected R32 points",
+        "75% start chance",
+        "positive path value"
+      ],
+      "why_careful": [
+        "Group-stage underperformance lowers confidence.",
+        "verify official locks/deadlines/lineups in FIFA"
+      ],
+      "dataQualityFlags": [
+        "player_projection_r32_v1",
+        "known_r32_fixture",
+        "path_value_included",
+        "group_stage_defensive_form_used",
+        "ownership_not_used_as_signal",
+        "final_squads_not_source_backed",
+        "player_role_r32_v1",
+        "ownership_not_used_as_signal",
+        "final_squads_not_source_backed",
+        "underperformance_confidence_downgrade"
+      ],
+      "data_quality_flags": [
+        "player_projection_r32_v1",
+        "known_r32_fixture",
+        "path_value_included",
+        "group_stage_defensive_form_used",
+        "ownership_not_used_as_signal",
+        "final_squads_not_source_backed",
+        "player_role_r32_v1",
+        "ownership_not_used_as_signal",
+        "final_squads_not_source_backed",
+        "underperformance_confidence_downgrade"
+      ],
+      "model_stage": "active_r32_recommendations",
+      "source_model_version": "recommendation-r32-v1"
+    }
+  ],
+  "germany_defensive_form_check": {
+    "goals_against": 4,
+    "clean_sheets": 0,
+    "conceded_in_every_group_game": true,
+    "clean_sheet_multiplier": 0.865,
+    "defender_gk_projection_points_adjustment": -0.675
+  },
+  "spain_defensive_form_check": {
+    "goals_against": 0,
+    "clean_sheets": 3,
+    "conceded_in_every_group_game": false,
+    "clean_sheet_multiplier": 1.067,
+    "defender_gk_projection_points_adjustment": 0.337
+  },
+  "path_effect_audits": [
+    {
+      "team": "Argentina",
+      "r32_opponent": "Cabo Verde",
+      "likely_r16_opponent_if_both_advance": "France",
+      "path_difficulty_score": 70.12,
+      "hard_path_warning": "Likely R16 path is difficult if France advances.",
+      "easy_path_support": false
+    },
+    {
+      "team": "England",
+      "r32_opponent": "Congo DR",
+      "likely_r16_opponent_if_both_advance": "Belgium",
+      "path_difficulty_score": 70.35,
+      "hard_path_warning": null,
+      "easy_path_support": true
+    },
+    {
+      "team": "Colombia",
+      "r32_opponent": "Ghana",
+      "likely_r16_opponent_if_both_advance": "Switzerland",
+      "path_difficulty_score": 59.76,
+      "hard_path_warning": null,
+      "easy_path_support": true
+    },
+    {
+      "team": "France",
+      "r32_opponent": "Sweden",
+      "likely_r16_opponent_if_both_advance": "Argentina",
+      "path_difficulty_score": 106.06,
+      "hard_path_warning": "Likely R16 path is difficult if Argentina advances.",
+      "easy_path_support": false
+    },
+    {
+      "team": "Germany",
+      "r32_opponent": "Paraguay",
+      "likely_r16_opponent_if_both_advance": "USA",
+      "path_difficulty_score": 82.41,
+      "hard_path_warning": null,
+      "easy_path_support": false
+    },
+    {
+      "team": "Spain",
+      "r32_opponent": "Austria",
+      "likely_r16_opponent_if_both_advance": "Portugal",
+      "path_difficulty_score": 98.49,
+      "hard_path_warning": "Likely R16 path is difficult if Portugal advances.",
+      "easy_path_support": false
+    },
+    {
+      "team": "Portugal",
+      "r32_opponent": "Croatia",
+      "likely_r16_opponent_if_both_advance": "Spain",
+      "path_difficulty_score": 120.1,
+      "hard_path_warning": "Likely R16 path is difficult if Spain advances.",
+      "easy_path_support": false
+    }
+  ],
+  "top_gk_def_clean_sheet_recommendations": [
+    {
+      "name": "Marc Cucurella",
+      "country": "Spain",
+      "position": "DEF",
+      "opponent": "Austria",
+      "projectedPoints": 6.976,
+      "cleanSheetProbability": 0.7519,
+      "defensiveFormLabel": "positive_clean_sheet_form",
+      "cleanSheetFormAdjustment": 0.067
+    },
+    {
+      "name": "Aymeric Laporte",
+      "country": "Spain",
+      "position": "DEF",
+      "opponent": "Austria",
+      "projectedPoints": 6.962,
+      "cleanSheetProbability": 0.7519,
+      "defensiveFormLabel": "positive_clean_sheet_form",
+      "cleanSheetFormAdjustment": 0.067
+    },
+    {
+      "name": "Unai Simón",
+      "country": "Spain",
+      "position": "GK",
+      "opponent": "Austria",
+      "projectedPoints": 6.416,
+      "cleanSheetProbability": 0.7519,
+      "defensiveFormLabel": "positive_clean_sheet_form",
+      "cleanSheetFormAdjustment": 0.067
+    },
+    {
+      "name": "Pau Cubarsí",
+      "country": "Spain",
+      "position": "DEF",
+      "opponent": "Austria",
+      "projectedPoints": 6.015,
+      "cleanSheetProbability": 0.7519,
+      "defensiveFormLabel": "positive_clean_sheet_form",
+      "cleanSheetFormAdjustment": 0.067
+    },
+    {
+      "name": "Marcos Llorente",
+      "country": "Spain",
+      "position": "DEF",
+      "opponent": "Austria",
+      "projectedPoints": 6.007,
+      "cleanSheetProbability": 0.7519,
+      "defensiveFormLabel": "positive_clean_sheet_form",
+      "cleanSheetFormAdjustment": 0.067
+    },
+    {
+      "name": "Pedro Porro",
+      "country": "Spain",
+      "position": "DEF",
+      "opponent": "Austria",
+      "projectedPoints": 3.826,
+      "cleanSheetProbability": 0.7519,
+      "defensiveFormLabel": "positive_clean_sheet_form",
+      "cleanSheetFormAdjustment": 0.067
+    },
+    {
+      "name": "Alejandro Grimaldo",
+      "country": "Spain",
+      "position": "DEF",
+      "opponent": "Austria",
+      "projectedPoints": 1.963,
+      "cleanSheetProbability": 0.7519,
+      "defensiveFormLabel": "positive_clean_sheet_form",
+      "cleanSheetFormAdjustment": 0.067
+    },
+    {
+      "name": "Eric García",
+      "country": "Spain",
+      "position": "DEF",
+      "opponent": "Austria",
+      "projectedPoints": 0.825,
+      "cleanSheetProbability": 0.7519,
+      "defensiveFormLabel": "positive_clean_sheet_form",
+      "cleanSheetFormAdjustment": 0.067
+    },
+    {
+      "name": "David Raya",
+      "country": "Spain",
+      "position": "GK",
+      "opponent": "Austria",
+      "projectedPoints": 0.811,
+      "cleanSheetProbability": 0.7519,
+      "defensiveFormLabel": "positive_clean_sheet_form",
+      "cleanSheetFormAdjustment": 0.067
+    },
+    {
+      "name": "Marc Pubill",
+      "country": "Spain",
+      "position": "DEF",
+      "opponent": "Austria",
+      "projectedPoints": 0.755,
+      "cleanSheetProbability": 0.7519,
+      "defensiveFormLabel": "positive_clean_sheet_form",
+      "cleanSheetFormAdjustment": 0.067
+    },
+    {
+      "name": "Joan García",
+      "country": "Spain",
+      "position": "GK",
+      "opponent": "Austria",
+      "projectedPoints": 0.42,
+      "cleanSheetProbability": 0.7519,
+      "defensiveFormLabel": "positive_clean_sheet_form",
+      "cleanSheetFormAdjustment": 0.067
+    },
+    {
+      "name": "Daniel Muñoz",
+      "country": "Colombia",
+      "position": "DEF",
+      "opponent": "Ghana",
+      "projectedPoints": 6.73,
+      "cleanSheetProbability": 0.735,
+      "defensiveFormLabel": "neutral_clean_sheet_form",
+      "cleanSheetFormAdjustment": 0.043
+    },
+    {
+      "name": "Dávinson Sánchez",
+      "country": "Colombia",
+      "position": "DEF",
+      "opponent": "Ghana",
+      "projectedPoints": 6.574,
+      "cleanSheetProbability": 0.735,
+      "defensiveFormLabel": "neutral_clean_sheet_form",
+      "cleanSheetFormAdjustment": 0.043
+    },
+    {
+      "name": "Jhon Lucumí",
+      "country": "Colombia",
+      "position": "DEF",
+      "opponent": "Ghana",
+      "projectedPoints": 6.521,
+      "cleanSheetProbability": 0.735,
+      "defensiveFormLabel": "neutral_clean_sheet_form",
+      "cleanSheetFormAdjustment": 0.043
+    },
+    {
+      "name": "Camilo Vargas",
+      "country": "Colombia",
+      "position": "GK",
+      "opponent": "Ghana",
+      "projectedPoints": 5.998,
+      "cleanSheetProbability": 0.735,
+      "defensiveFormLabel": "neutral_clean_sheet_form",
+      "cleanSheetFormAdjustment": 0.043
+    },
+    {
+      "name": "Johan Mojica",
+      "country": "Colombia",
+      "position": "DEF",
+      "opponent": "Ghana",
+      "projectedPoints": 5.899,
+      "cleanSheetProbability": 0.735,
+      "defensiveFormLabel": "neutral_clean_sheet_form",
+      "cleanSheetFormAdjustment": 0.043
+    },
+    {
+      "name": "Déiver Machado",
+      "country": "Colombia",
+      "position": "DEF",
+      "opponent": "Ghana",
+      "projectedPoints": 4.919,
+      "cleanSheetProbability": 0.735,
+      "defensiveFormLabel": "neutral_clean_sheet_form",
+      "cleanSheetFormAdjustment": 0.043
+    },
+    {
+      "name": "Santiago Arias",
+      "country": "Colombia",
+      "position": "DEF",
+      "opponent": "Ghana",
+      "projectedPoints": 4.876,
+      "cleanSheetProbability": 0.735,
+      "defensiveFormLabel": "neutral_clean_sheet_form",
+      "cleanSheetFormAdjustment": 0.043
+    },
+    {
+      "name": "Yerry Mina",
+      "country": "Colombia",
+      "position": "DEF",
+      "opponent": "Ghana",
+      "projectedPoints": 4.494,
+      "cleanSheetProbability": 0.735,
+      "defensiveFormLabel": "neutral_clean_sheet_form",
+      "cleanSheetFormAdjustment": 0.043
+    },
+    {
+      "name": "Willer Ditta",
+      "country": "Colombia",
+      "position": "DEF",
+      "opponent": "Ghana",
+      "projectedPoints": 2.585,
+      "cleanSheetProbability": 0.735,
+      "defensiveFormLabel": "neutral_clean_sheet_form",
+      "cleanSheetFormAdjustment": 0.043
+    }
+  ]
 }

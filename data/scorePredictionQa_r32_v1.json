@@ -1,7 +1,22 @@
 {
   "schema_version": "score_prediction_qa_r32_v1",
-  "generated_at": "2026-06-28T02:19:59.242Z",
+  "generated_at": "2026-06-28T11:30:15.005Z",
   "status": "pass",
-  "r32_fixture_count": 14,
+  "r32_fixture_count": 16,
+  "group_stage_defensive_form_used": true,
+  "germany_defensive_form": {
+    "goals_against": 4,
+    "clean_sheets": 0,
+    "conceded_in_every_group_game": true,
+    "clean_sheet_multiplier": 0.865,
+    "defender_gk_projection_points_adjustment": -0.675
+  },
+  "spain_defensive_form": {
+    "goals_against": 0,
+    "clean_sheets": 3,
+    "conceded_in_every_group_game": false,
+    "clean_sheet_multiplier": 1.067,
+    "defender_gk_projection_points_adjustment": 0.337
+  },
   "probability_bounds_valid": true
 }

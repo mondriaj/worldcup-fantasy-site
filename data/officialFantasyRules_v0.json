@@ -333,7 +333,7 @@
         {
           "matchday": 3,
           "stage": "group_stage",
-          "round_status": "playing",
+          "round_status": "complete",
           "round_start_local": "2026-06-24T20:00:00+01:00",
           "round_start_utc": "2026-06-24T19:00:00Z",
           "round_end_local": "2026-06-28T05:00:00+01:00",
@@ -405,8 +405,8 @@
       {
         "source_id": "fifaFantasyRoundsJson",
         "url": "https://play.fifa.com/json/fantasy/rounds.json",
-        "last_modified": "Sun, 28 Jun 2026 02:11:04 GMT",
-        "etag": "\"153a268f07366d1b25cdb45c6cad5fd2\"",
+        "last_modified": "Sun, 28 Jun 2026 10:01:02 GMT",
+        "etag": "\"88c1820acab10e3b49b239854b98fd24\"",
         "source_checked": "2026-06-28"
       }
     ]

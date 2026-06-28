@@ -1,16 +1,17 @@
 # R32 Release QA v1
 
-Generated: 2026-06-28T02:19:59.242Z
+Generated: 2026-06-28T11:30:15.005Z
 
 **pass**
 
 | Check | Status |
 | --- | --- |
-| known_r32_fixtures_available | pass |
-| provisional_labeling_required | pass |
-| unfinished_md3_excluded | pass |
+| final_r32_fixtures_available | pass |
+| no_provisional_r32_slots | pass |
+| no_uncertain_r32_slots | pass |
+| all_group_fixtures_final | pass |
+| group_stage_defensive_form_built | pass |
 | knockout_predictor_built | pass |
 | r32_player_projections_built | pass |
 | r32_recommendations_built | pass |
 | team_builder_r32_pass | pass |
-| match_69_70_not_final_evidence | pass |

@@ -1,19 +1,27 @@
 {
   "schema_version": "r32_release_qa_v1",
-  "generated_at": "2026-06-28T02:19:59.242Z",
-  "release_status": "provisional_r32_setup",
+  "generated_at": "2026-06-28T11:30:15.005Z",
+  "release_status": "final_r32_setup",
   "status": "pass",
   "checks": [
     {
-      "id": "known_r32_fixtures_available",
+      "id": "final_r32_fixtures_available",
       "status": "pass"
     },
     {
-      "id": "provisional_labeling_required",
+      "id": "no_provisional_r32_slots",
       "status": "pass"
     },
     {
-      "id": "unfinished_md3_excluded",
+      "id": "no_uncertain_r32_slots",
+      "status": "pass"
+    },
+    {
+      "id": "all_group_fixtures_final",
+      "status": "pass"
+    },
+    {
+      "id": "group_stage_defensive_form_built",
       "status": "pass"
     },
     {
@@ -31,30 +39,14 @@
     {
       "id": "team_builder_r32_pass",
       "status": "pass"
-    },
-    {
-      "id": "match_69_70_not_final_evidence",
-      "status": "pass"
     }
   ],
   "public_promotion": {
     "promoted_to_r32_setup": true,
-    "promoted_to_r32_provisional_setup": true,
+    "promoted_to_r32_provisional_setup": false,
+    "promoted_to_r32_final_setup": true,
     "public_default_matchday": "r32",
-    "partial_fixture_status": "14 official scheduled R32 fixtures; 2 uncertain R32 matches remain staged until Match 69/70 are final",
-    "final_refresh_blocked_by": [
-      {
-        "match_number": 69,
-        "fixture": "Algeria vs Austria",
-        "status": "playing",
-        "score_status": "not_final_hidden"
-      },
-      {
-        "match_number": 70,
-        "fixture": "Jordan vs Argentina",
-        "status": "playing",
-        "score_status": "not_final_hidden"
-      }
-    ]
+    "fixture_status": "16 final official R32 fixtures; 0 uncertain R32 slots",
+    "final_refresh_blocked_by": []
   }
 }

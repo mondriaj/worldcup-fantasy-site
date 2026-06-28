@@ -96,10 +96,10 @@ function buildMarkdownReport(result) {
     "## Verdict",
     "",
     summary.status === "pass"
-      ? "**pass - safe_to_share_r32_provisional_public_preview**"
+      ? "**pass - safe_to_share_r32_final_public_preview**"
       : "**fail - do_not_share_until_browser_qa_is_fixed**",
     "",
-    "The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. Provisional R32 is the public default, MD1/MD2/MD3 remain accessible as historical views, live completed scores are shown only through the safe mapping path, unfinished Match 69/70 are not shown final, and old public globals are absent.",
+    "The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. Final R32 is the public default, MD1/MD2/MD3 remain accessible as historical views, live completed scores are shown only through the safe mapping path, all group-stage fixtures are final, and old public globals are absent.",
     "",
     "## Run Context",
     "",
@@ -121,7 +121,7 @@ function buildMarkdownReport(result) {
       ["Check", "Result"],
       [
         ["Picks default to R32", checks.picksDefaultR32 ? "pass" : "fail"],
-        ["Provisional label visible", checks.provisionalLabelVisible ? "pass" : "fail"],
+        ["Final R32 label visible", checks.finalR32LabelVisible ? "pass" : "fail"],
         ["Captain Watchlist opens on R32", checks.captainWatchlistDefaultR32 ? "pass" : "fail"],
         ["Match Environment opens on R32", checks.matchEnvironmentDefaultR32 ? "pass" : "fail"],
         ["MD1 remains accessible", checks.matchEnvironmentMd1Accessible ? "pass" : "fail"],
@@ -177,7 +177,7 @@ function buildMarkdownReport(result) {
     "",
     "## Remaining Limits",
     "",
-    "- Browser QA confirms the public provisional R32 data path, knockout predictor, and live display plumbing.",
+    "- Browser QA confirms the public final R32 data path, knockout predictor, and live display plumbing.",
     "- Final squads remain not source-backed.",
     "- Team Builder remains planning help and must be checked inside the official FIFA game.",
     "- User-specific locks, substitutions, captain state, and boosters are not imported.",
@@ -331,7 +331,7 @@ async function collectPageState(page) {
           activeDataBadgeStyle?.visibility !== "hidden"
         ),
         activeDataBadgeText: activeDataBadge?.textContent?.trim() || "",
-        provisionalLabelVisible: /Provisional R32 setup|provisional Round of 32|final refresh after/i.test(bodyText),
+        finalR32LabelVisible: /Final R32 setup|R32 fantasy recommendations|path matters beyond R32|defensive form/i.test(bodyText),
         adviceMatchdaySelected: selectValue("#advice-matchday-select"),
         adviceStyleNote: textFrom("#advice-style-note"),
         quickPickCards: quickPickCards.length,
@@ -539,9 +539,9 @@ async function testMainPage(browser, viewport) {
     homepageLoads: stateBeforeClicks.title.includes("Fantasy"),
     noConsoleOrPageErrors: consoleErrors.length === 0 && pageErrors.length === 0,
     activeDataBadgeVisible: stateBeforeClicks.ui.activeDataBadgeVisible,
-    provisionalLabelVisible: stateBeforeClicks.ui.provisionalLabelVisible &&
-      /Provisional R32|final refresh/i.test(stateBeforeClicks.ui.activeDataBadgeText + " " + stateBeforeClicks.ui.quickPickText + " " + stateBeforeClicks.ui.matchEnvironmentSummary),
-    scoreModelR32Loaded: activeGlobals.scoreModelVersion === "score-r32-v1-pele-group-stage-calibrated",
+    finalR32LabelVisible: stateBeforeClicks.ui.finalR32LabelVisible &&
+      /Final R32|path matters|defensive form/i.test(stateBeforeClicks.ui.activeDataBadgeText + " " + stateBeforeClicks.ui.quickPickText + " " + stateBeforeClicks.ui.matchEnvironmentSummary),
+    scoreModelR32Loaded: activeGlobals.scoreModelVersion === "score-r32-v1-pele-group-stage-calibrated-defensive-form",
     projectionModelR32Loaded: activeGlobals.projectionModelVersion === "player-projection-r32-v1",
     activeOfficialRecordsLoaded: stateBeforeClicks.globals.activeGlobalCounts.officialRecords > 0,
     activeGlobalsPresent: activeGlobals.missingActiveGlobals.length === 0,

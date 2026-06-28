@@ -1,12 +1,12 @@
 {
   "schema_version": "player_role_model_qa_r32_v1",
-  "generated_at": "2026-06-28T02:19:59.242Z",
+  "generated_at": "2026-06-28T11:30:15.005Z",
   "status": "pass",
   "summary": {
     "roleRows": 1489,
-    "knownFixturePlayers": 896,
-    "uncertainOrUnavailablePlayers": 765,
-    "restedStarterPreserved": 10,
+    "knownFixturePlayers": 1008,
+    "uncertainOrUnavailablePlayers": 661,
+    "restedStarterPreserved": 0,
     "ownershipUsedAsSignal": false,
     "finalSquadsSourceBacked": false
   },
@@ -18,11 +18,11 @@
     "official_team_id": "32",
     "official_fantasy_position": "FWD",
     "selectable_status": "playing",
-    "matchStatus": "sub",
+    "matchStatus": null,
     "r32KnownFixtureTeam": true,
     "r32UncertainTeam": false,
-    "r32StartProb": 0.459,
-    "r32ExpectedMinutes": 42.7,
+    "r32StartProb": 0.534,
+    "r32ExpectedMinutes": 49.7,
     "roleTier": "rotation_risk",
     "roleConfidence": "medium",
     "group_stage_points": {
@@ -31,10 +31,8 @@
       "md3": 0,
       "total": 30
     },
-    "r32_role_interpretation": "sub_role_caution",
-    "role_reasons": [
-      "sub_role_caution"
-    ],
+    "r32_role_interpretation": "Prior role carried into R32 with group-stage evidence.",
+    "role_reasons": [],
     "dataQualityFlags": [
       "player_role_r32_v1",
       "ownership_not_used_as_signal",

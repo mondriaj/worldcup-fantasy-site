@@ -4,7 +4,9 @@ import vm from "node:vm";
 import { compactProjectionOutput, compactProjectionRow, writeProjectionBrowserData } from "./publicProjectionCompact.mjs";
 
 const GENERATED_AT = new Date().toISOString();
-const MODEL_VERSION = "r32-v1-partial-official-fixtures";
+const MODEL_VERSION = "r32-v1-final-official-fixtures";
+const FINAL_RELEASE_STATUS = "final_r32_setup";
+const PROVISIONAL_RELEASE_STATUS = "provisional_r32_setup";
 const TEAM_ORDER = ["GK", "DEF", "MID", "FWD"];
 
 function round(value, digits = 3) {
@@ -439,13 +441,33 @@ function buildPostmortem(worldCup, live, qualityIndex) {
   for (const row of residuals) {
     for (const side of ["home", "away"]) {
       const team = side === "home" ? row.home_team : row.away_team;
+      const opponent = side === "home" ? row.away_team : row.home_team;
+      const goalsFor = side === "home" ? row.actual_home_goals : row.actual_away_goals;
+      const goalsAgainst = side === "home" ? row.actual_away_goals : row.actual_home_goals;
       const gfResidual = side === "home" ? row.home_attack_residual : row.away_attack_residual;
       const gaResidual = side === "home" ? row.away_attack_residual : row.home_attack_residual;
+      const predictedAgainst = side === "home" ? row.predicted_away_xg : row.predicted_home_xg;
       const cleanSheet = side === "home" ? row.clean_sheet_home : row.clean_sheet_away;
-      const current = byTeam.get(team) || { team, matches: 0, attack_residuals: [], defense_residuals: [], clean_sheets: 0 };
+      const current = byTeam.get(team) || {
+        team,
+        matches: 0,
+        goals_for: 0,
+        goals_against: 0,
+        conceded_matches: 0,
+        attack_residuals: [],
+        defense_residuals: [],
+        expected_clean_sheet_probabilities: [],
+        opponent_quality_scores: [],
+        clean_sheets: 0
+      };
       current.matches += 1;
+      current.goals_for += goalsFor;
+      current.goals_against += goalsAgainst;
+      if (goalsAgainst > 0) current.conceded_matches += 1;
       if (Number.isFinite(gfResidual)) current.attack_residuals.push(gfResidual);
       if (Number.isFinite(gaResidual)) current.defense_residuals.push(gaResidual);
+      if (Number.isFinite(predictedAgainst)) current.expected_clean_sheet_probabilities.push(Math.exp(-predictedAgainst));
+      current.opponent_quality_scores.push(teamStrength(teamRowForName(qualityIndex, opponent)));
       if (cleanSheet) current.clean_sheets += 1;
       byTeam.set(team, current);
     }
@@ -454,10 +476,16 @@ function buildPostmortem(worldCup, live, qualityIndex) {
     team: row.team,
     team_id: slug(row.team),
     matches: row.matches,
+    goals_for: row.goals_for,
+    goals_against: row.goals_against,
+    conceded_matches: row.conceded_matches,
+    conceded_in_every_group_game: row.matches > 0 && row.conceded_matches === row.matches,
     average_attack_residual: round(sum(row.attack_residuals) / Math.max(1, row.attack_residuals.length)),
     average_defense_residual_allowed: round(sum(row.defense_residuals) / Math.max(1, row.defense_residuals.length)),
     clean_sheet_count: row.clean_sheets,
     clean_sheet_rate: round(row.clean_sheets / Math.max(1, row.matches)),
+    expected_clean_sheet_rate: round(sum(row.expected_clean_sheet_probabilities) / Math.max(1, row.expected_clean_sheet_probabilities.length)),
+    average_opponent_quality: round(sum(row.opponent_quality_scores) / Math.max(1, row.opponent_quality_scores.length), 2),
     team_quality_score: round(teamStrength(teamRowForName(qualityIndex, row.team)), 2)
   })).sort((a, b) => b.average_attack_residual - a.average_attack_residual);
   const livePlayers = readJson("data/livePlayerStatus_v1.json").players || [];
@@ -512,9 +540,11 @@ function buildPostmortem(worldCup, live, qualityIndex) {
     schema_version: "group_stage_postmortem_for_r32_v1",
     generated_at: GENERATED_AT,
     model_version: MODEL_VERSION,
-    evidence_scope: "final MD1, final MD2, completed/final MD3 only",
-    release_status: "provisional_r32_setup",
-    unfinished_md3_excluded: true,
+    evidence_scope: unfinishedGroupFixtures.length
+      ? "final MD1, final MD2, completed/final MD3 only"
+      : "final MD1, final MD2, and final MD3 fixtures",
+    release_status: unfinishedGroupFixtures.length ? PROVISIONAL_RELEASE_STATUS : FINAL_RELEASE_STATUS,
+    unfinished_md3_excluded: unfinishedGroupFixtures.length > 0,
     final_fixture_count: residuals.length,
     completed_md3_fixture_count: residuals.filter((row) => row.matchday === "md3").length,
     unfinished_md3_fixture_count: unfinishedGroupFixtures.filter((row) => row.matchday === "md3").length,
@@ -543,24 +573,133 @@ function buildPostmortem(worldCup, live, qualityIndex) {
   };
 }
 
+function buildTeamFormModel(postmortem) {
+  const rows = (postmortem.team_residuals || []).map((row) => {
+    const matches = Math.max(1, Number(row.matches || 0));
+    const actualCleanSheetRate = Number(row.clean_sheet_rate || 0);
+    const expectedCleanSheetRate = Number(row.expected_clean_sheet_rate || 0);
+    const opponentQuality = Number(row.average_opponent_quality || 50);
+    const opponentQualityAdjustment = clamp((opponentQuality - 50) / 100, -0.2, 0.2);
+    const rawDelta = actualCleanSheetRate - expectedCleanSheetRate;
+    const qualityWeightedDelta = rawDelta >= 0
+      ? rawDelta * (1 + opponentQualityAdjustment)
+      : rawDelta * (1 - opponentQualityAdjustment);
+    const shrinkage = matches / (matches + 4);
+    const repeatedCleanSheetBoost = Number(row.clean_sheet_count || 0) >= 2
+      ? 0.04 * (1 + opponentQualityAdjustment)
+      : 0;
+    const concededEveryGamePenalty = row.conceded_in_every_group_game
+      ? 0.06 * (1 - opponentQualityAdjustment)
+      : 0;
+    const adjustment = clamp(
+      (qualityWeightedDelta * 0.45 + repeatedCleanSheetBoost - concededEveryGamePenalty) * shrinkage,
+      -0.18,
+      0.18
+    );
+    const cleanSheetMultiplier = clamp(1 + adjustment, 0.82, 1.18);
+    const label = adjustment >= 0.055
+      ? "positive_clean_sheet_form"
+      : adjustment <= -0.055
+        ? "negative_clean_sheet_form"
+        : "neutral_clean_sheet_form";
+    return {
+      team: row.team,
+      team_id: row.team_id,
+      matches: row.matches,
+      goals_against: row.goals_against,
+      clean_sheets: row.clean_sheet_count,
+      conceded_matches: row.conceded_matches,
+      conceded_in_every_group_game: row.conceded_in_every_group_game,
+      actual_clean_sheet_rate: actualCleanSheetRate,
+      expected_clean_sheet_rate: expectedCleanSheetRate,
+      average_opponent_quality: row.average_opponent_quality,
+      clean_sheet_delta: round(rawDelta),
+      opponent_quality_adjustment: round(opponentQualityAdjustment),
+      shrinkage_factor: round(shrinkage),
+      clean_sheet_form_adjustment: round(adjustment),
+      clean_sheet_multiplier: round(cleanSheetMultiplier),
+      defender_gk_projection_points_adjustment: round(adjustment * 5),
+      defensive_form_label: label,
+      model_note: row.conceded_in_every_group_game
+        ? "Conceded in every group game; GK/DEF clean-sheet confidence reduced after shrinkage."
+        : Number(row.clean_sheet_count || 0) >= 2
+          ? "Repeated clean sheets; GK/DEF clean-sheet confidence improved after opponent-quality shrinkage."
+          : "Neutral defensive form after shrinkage."
+    };
+  }).sort((a, b) =>
+    b.clean_sheet_form_adjustment - a.clean_sheet_form_adjustment ||
+    a.team.localeCompare(b.team)
+  );
+  const byTeam = new Map(rows.map((row) => [row.team_id, row]));
+  const germany = byTeam.get("germany") || null;
+  const spain = byTeam.get("spain") || null;
+  return {
+    schema_version: "group_stage_team_form_model_r32_v1",
+    generated_at: GENERATED_AT,
+    model_version: "team-form-r32-v1-final-group-stage",
+    evidence_scope: postmortem.evidence_scope,
+    release_status: postmortem.release_status,
+    formula: {
+      shrinkage: "matches / (matches + 4)",
+      clean_sheet_delta: "actual clean-sheet rate minus prior expected clean-sheet rate from score model xG",
+      opponent_quality: "positive clean-sheet deltas are smaller against weak opponents and larger against strong opponents; negative deltas are harsher against weak opponents",
+      caps: "clean_sheet_form_adjustment clamped to [-0.18, 0.18]; clean_sheet_multiplier clamped to [0.82, 1.18]",
+      ownership_used_as_signal: false,
+      final_squads_source_backed: false
+    },
+    summary: {
+      team_rows: rows.length,
+      positive_form_teams: rows.filter((row) => row.clean_sheet_form_adjustment > 0.02).length,
+      negative_form_teams: rows.filter((row) => row.clean_sheet_form_adjustment < -0.02).length,
+      conceded_every_group_game_teams: rows.filter((row) => row.conceded_in_every_group_game).map((row) => row.team),
+      repeated_clean_sheet_teams: rows.filter((row) => row.clean_sheets >= 2).map((row) => row.team),
+      germany: germany ? {
+        goals_against: germany.goals_against,
+        clean_sheets: germany.clean_sheets,
+        conceded_in_every_group_game: germany.conceded_in_every_group_game,
+        clean_sheet_multiplier: germany.clean_sheet_multiplier,
+        defender_gk_projection_points_adjustment: germany.defender_gk_projection_points_adjustment
+      } : null,
+      spain: spain ? {
+        goals_against: spain.goals_against,
+        clean_sheets: spain.clean_sheets,
+        conceded_in_every_group_game: spain.conceded_in_every_group_game,
+        clean_sheet_multiplier: spain.clean_sheet_multiplier,
+        defender_gk_projection_points_adjustment: spain.defender_gk_projection_points_adjustment
+      } : null
+    },
+    team_form_rows: rows,
+    explicit_audits: {
+      germany,
+      spain
+    },
+    ownership_used_as_signal: false,
+    final_squads_source_backed: false
+  };
+}
+
 function buildBracketPath(worldCup, live, qualityIndex) {
   const standings = buildGroupStandings(worldCup, live);
+  const finalRefreshReady = standings.unfinishedFixtures.length === 0;
   const pendingGroups = new Set(standings.unfinishedFixtures.map((fixture) => fixture.group).filter(Boolean));
   const pendingTeams = new Set(standings.unfinishedFixtures.flatMap((fixture) => String(fixture.fixture || "").split(" vs ").map(normalizeText)));
   const knownFixtures = knownR32Fixtures(live, worldCup).map((fixture) => {
     const bracketPath = String(fixture.bracket_path || "");
     const pathTouchesPendingGroup = [...pendingGroups].some((group) => bracketPath.includes(`Group ${group}`));
     const teamTouchesPendingFixture = [fixture.home_team, fixture.away_team].some((team) => pendingTeams.has(normalizeText(team)));
-    const slotCertainty = pathTouchesPendingGroup || teamTouchesPendingFixture
+    const slotCertainty = finalRefreshReady
+      ? "locked_official_fixture"
+      : pathTouchesPendingGroup || teamTouchesPendingFixture
       ? "provisional_official_fixture_pending_group_completion"
       : "locked_official_fixture";
     return {
       ...fixture,
       slot_certainty: slotCertainty === "locked_official_fixture" ? "locked" : "provisional",
+      release_slot_status: slotCertainty,
       provisional_release_status: slotCertainty,
       provisional_reason: slotCertainty === "locked_official_fixture"
-        ? "Official live feed provides both R32 teams and the bracket path is not tied to unfinished Match 69/70."
-        : "Official live feed provides both R32 teams, but the bracket path or team context touches unfinished Match 69/70; keep provisional until final refresh."
+        ? "Official live feed provides both R32 teams and all group fixtures are final."
+        : "Official live feed provides both R32 teams, but the bracket path or team context touches unfinished group fixtures; keep provisional until final refresh."
     };
   });
   const r32Predictions = knownFixtures.map((fixture) => buildKnockoutPrediction(fixture.home_team, fixture.away_team, qualityIndex, fixture)).filter(Boolean);
@@ -583,6 +722,7 @@ function buildBracketPath(worldCup, live, qualityIndex) {
       const r32Difficulty = teamStrength(teamRowForName(qualityIndex, opponent));
       const r16Difficulty = possibleR16 ? teamStrength(teamRowForName(qualityIndex, possibleR16)) : null;
       const pathDifficulty = round(r32Difficulty + (r16Difficulty ?? 60) * 0.65, 2);
+      const hardPath = r16Difficulty !== null && (r16Difficulty >= 70 || pathDifficulty >= 95);
       teamPaths.push({
         team,
         team_id: slug(team),
@@ -593,7 +733,7 @@ function buildBracketPath(worldCup, live, qualityIndex) {
         likely_r16_opponent_if_both_advance: possibleR16,
         known_path_status: possibleR16 ? "known_r32_plus_projected_r16_from_bracket" : "known_r32_only",
         path_difficulty_score: pathDifficulty,
-        hard_path_warning: r16Difficulty !== null && r16Difficulty >= 75
+        hard_path_warning: hardPath
           ? `Likely R16 path is difficult if ${possibleR16} advances.`
           : null
       });
@@ -601,13 +741,18 @@ function buildBracketPath(worldCup, live, qualityIndex) {
   }
   const unresolvedR32Matches = (worldCup.bracket?.rounds?.[0]?.matches || [])
     .filter((match) => !knownFixtures.some((fixture) => String(fixture.match_number) === String(match.id)))
-    .map((match) => ({ match_id: match.id, path: match.path, status: "uncertain_until_remaining_groups_finish" }));
+    .map((match) => ({ match_id: match.id, path: match.path, status: finalRefreshReady ? "missing_from_live_feed_after_final_group_stage" : "uncertain_until_remaining_groups_finish" }));
+  const teamsStillUncertain = finalRefreshReady && unresolvedR32Matches.length === 0
+    ? []
+    : standings.groups.flatMap((group) => group.still_uncertain.map((team) => ({ team, group: group.group, reason: group.complete ? "third_place_path_not_set" : "group_not_complete" })));
   return {
     schema_version: "r32_bracket_path_model_v1",
     generated_at: GENERATED_AT,
     model_version: MODEL_VERSION,
-    release_status: "provisional_r32_setup",
-    evidence_scope: "Completed group tables, official scheduled R32 fixtures, and unfinished Match 69/70 status only.",
+    release_status: finalRefreshReady ? FINAL_RELEASE_STATUS : PROVISIONAL_RELEASE_STATUS,
+    evidence_scope: finalRefreshReady
+      ? "Final group tables and final official live R32 fixtures."
+      : "Completed group tables, official scheduled R32 fixtures, and unfinished group status only.",
     final_refresh_blockers: standings.unfinishedFixtures,
     current_group_standings: standings.groups,
     known_r32_fixtures: knownFixtures,
@@ -617,21 +762,33 @@ function buildBracketPath(worldCup, live, qualityIndex) {
     unresolved_r32_matches: unresolvedR32Matches,
     teams_safely_qualified_top_two: standings.groups.flatMap((group) => group.safe_qualified_top_two.map((team) => ({ team, group: group.group, source: "completed_group_table_top_two" }))),
     teams_safely_eliminated: standings.groups.flatMap((group) => group.safe_eliminated.map((team) => ({ team, group: group.group, source: "completed_group_table_bottom" }))),
-    teams_still_uncertain: standings.groups.flatMap((group) => group.still_uncertain.map((team) => ({ team, group: group.group, reason: group.complete ? "third_place_path_not_set" : "group_not_complete" }))),
+    teams_still_uncertain: teamsStillUncertain,
     team_paths: teamPaths.sort((a, b) => a.path_difficulty_score - b.path_difficulty_score),
     qa_notes: [
       "Known fixtures are read from the official live fixture feed.",
-      "Unresolved R32 matches are not invented.",
-      "Fixtures tied to unfinished Match 69/70 remain provisional until the final group refresh.",
+      finalRefreshReady
+        ? "All group-stage fixtures are final; known R32 fixtures are treated as final official fixtures."
+        : "Unresolved R32 matches are not invented.",
+      finalRefreshReady
+        ? "No staged/provisional R32 slots remain in the active final release."
+        : "Fixtures tied to unfinished groups remain provisional until the final group refresh.",
       "R16 path warnings are computed from bracket winner paths and projected known R32 winners.",
-      "France/Germany/Argentina-style path examples are computed from current bracket data, not hardcoded."
+      "Path examples are computed from current bracket data, not hardcoded."
     ],
     ownership_used_as_signal: false,
     final_squads_source_backed: false
   };
 }
 
-function teamFixtureRowsFromPredictions(predictions) {
+function teamFormFor(teamFormModel, teamId) {
+  return (teamFormModel?.team_form_rows || []).find((row) => row.team_id === teamId) || null;
+}
+
+function adjustedCleanSheetProbability(baseProbability, form) {
+  return round(clamp(Number(baseProbability || 0) * Number(form?.clean_sheet_multiplier || 1), 0.02, 0.92), 4);
+}
+
+function teamFixtureRowsFromPredictions(predictions, teamFormModel) {
   return predictions.flatMap((prediction) => [
     {
       team_fixture_prediction_id: `${prediction.fixture_id}-${prediction.home_team_id}-score-r32-v1`,
@@ -653,12 +810,16 @@ function teamFixtureRowsFromPredictions(predictions) {
       draw_probability: prediction.draw_probability,
       loss_probability: prediction.away_win_probability,
       advance_probability: prediction.home_advance_probability,
-      clean_sheet_probability: round(Math.exp(-prediction.away_expected_goals), 4),
+      clean_sheet_probability: adjustedCleanSheetProbability(Math.exp(-prediction.away_expected_goals), teamFormFor(teamFormModel, prediction.home_team_id)),
+      base_clean_sheet_probability: round(Math.exp(-prediction.away_expected_goals), 4),
+      clean_sheet_form_multiplier: teamFormFor(teamFormModel, prediction.home_team_id)?.clean_sheet_multiplier ?? 1,
+      clean_sheet_form_adjustment: teamFormFor(teamFormModel, prediction.home_team_id)?.clean_sheet_form_adjustment ?? 0,
+      defensive_form_label: teamFormFor(teamFormModel, prediction.home_team_id)?.defensive_form_label || "neutral_clean_sheet_form",
       fixture_difficulty_score: round(100 - prediction.home_advance_probability * 100, 2),
       fixture_difficulty_band: prediction.home_advance_probability >= 0.65 ? "favorable" : prediction.home_advance_probability >= 0.48 ? "neutral" : "difficult",
       captain_environment_score: round(prediction.home_expected_goals * 35 + prediction.home_advance_probability * 35, 1),
       matchUncertainty: prediction.uncertainty_label,
-      score_model_version: "score-r32-v1-pele-group-stage-calibrated",
+      score_model_version: "score-r32-v1-pele-group-stage-calibrated-defensive-form",
       qa_flags: prediction.qa_flags
     },
     {
@@ -681,18 +842,22 @@ function teamFixtureRowsFromPredictions(predictions) {
       draw_probability: prediction.draw_probability,
       loss_probability: prediction.home_win_probability,
       advance_probability: prediction.away_advance_probability,
-      clean_sheet_probability: round(Math.exp(-prediction.home_expected_goals), 4),
+      clean_sheet_probability: adjustedCleanSheetProbability(Math.exp(-prediction.home_expected_goals), teamFormFor(teamFormModel, prediction.away_team_id)),
+      base_clean_sheet_probability: round(Math.exp(-prediction.home_expected_goals), 4),
+      clean_sheet_form_multiplier: teamFormFor(teamFormModel, prediction.away_team_id)?.clean_sheet_multiplier ?? 1,
+      clean_sheet_form_adjustment: teamFormFor(teamFormModel, prediction.away_team_id)?.clean_sheet_form_adjustment ?? 0,
+      defensive_form_label: teamFormFor(teamFormModel, prediction.away_team_id)?.defensive_form_label || "neutral_clean_sheet_form",
       fixture_difficulty_score: round(100 - prediction.away_advance_probability * 100, 2),
       fixture_difficulty_band: prediction.away_advance_probability >= 0.65 ? "favorable" : prediction.away_advance_probability >= 0.48 ? "neutral" : "difficult",
       captain_environment_score: round(prediction.away_expected_goals * 35 + prediction.away_advance_probability * 35, 1),
       matchUncertainty: prediction.uncertainty_label,
-      score_model_version: "score-r32-v1-pele-group-stage-calibrated",
+      score_model_version: "score-r32-v1-pele-group-stage-calibrated-defensive-form",
       qa_flags: prediction.qa_flags
     }
   ]);
 }
 
-function buildScoreData(r32Predictions, postmortem) {
+function buildScoreData(r32Predictions, postmortem, teamFormModel) {
   const previous = readJson("data/scorePredictions_fantasyPool_v5_md3.json");
   const r32Fixtures = r32Predictions.map((prediction) => ({
     ...prediction,
@@ -700,31 +865,32 @@ function buildScoreData(r32Predictions, postmortem) {
     matchday: "Round of 32",
     fifa_matchday_label: "Round of 32",
     fantasy_matchday_id: "r32",
-    model_stage: "r32_provisional_official_fixture_setup",
-    provisional_setup: true,
-    modelVersion: "score-r32-v1-pele-group-stage-calibrated",
-    model_version: "score-r32-v1-pele-group-stage-calibrated"
+    model_stage: "r32_final_official_fixture_setup",
+    provisional_setup: false,
+    modelVersion: "score-r32-v1-pele-group-stage-calibrated-defensive-form",
+    model_version: "score-r32-v1-pele-group-stage-calibrated-defensive-form"
   }));
-  const r32TeamRows = teamFixtureRowsFromPredictions(r32Fixtures);
+  const r32TeamRows = teamFixtureRowsFromPredictions(r32Fixtures, teamFormModel);
   return {
     ...previous,
     schema_version: "fantasy_pool_score_predictions_r32_v1",
     generated_at: GENERATED_AT,
-    model_stage: "r32_provisional_official_fixture_setup",
-    data_status: "active_r32_provisional_score_v1_pass",
+    model_stage: "r32_final_official_fixture_setup",
+    data_status: "active_r32_final_score_v1_pass",
     previous_model_file: "data/scorePredictions_fantasyPool_v5_md3.json",
     safety_labels: [
-      "provisional_r32_setup",
-      "known official R32 fixtures only",
-      "unfinished MD3 excluded from calibration",
-      "Match 69 and Match 70 excluded until final",
+      "final_r32_setup",
+      "final official R32 fixtures",
+      "all final group-stage fixtures used for calibration",
+      "group-stage defensive form applied to clean-sheet confidence",
       "PELE/teamQuality refreshed",
       "ownership not used as signal",
       "final squads not source-backed"
     ],
     model: {
       model_name: "Fantasy Pool R32 Score Predictor v1",
-      formula_version: "score-r32-v1-pele-group-stage-calibrated",
+      formula_version: "score-r32-v1-pele-group-stage-calibrated-defensive-form",
+      team_defensive_form_model: "groupStageTeamFormModel_r32_v1",
       extra_time_penalty_model: "90-minute draw enters extra time; penalties close to 50/50 with small team-quality edge.",
       no_betting_odds: true,
       ownership_used_as_signal: false
@@ -738,13 +904,17 @@ function buildScoreData(r32Predictions, postmortem) {
       unfinishedMd3FixturesExcluded: postmortem?.unfinished_md3_fixture_count ?? 0,
       finalGroupFixturesUsed: postmortem?.final_fixture_count ?? 0,
       finalitySummary: postmortem?.finality_summary || [],
+      groupStageDefensiveFormUsed: true,
+      defensiveFormTeams: teamFormModel?.summary?.team_rows ?? 0,
+      germanyDefensiveForm: teamFormModel?.summary?.germany ?? null,
+      spainDefensiveForm: teamFormModel?.summary?.spain ?? null,
       ownershipUsedAsSignal: false,
       finalSquadsSourceBacked: false
     },
     fixtureScorePredictions: [...(previous.fixtureScorePredictions || []), ...r32Fixtures],
     teamFixturePredictions: [...(previous.teamFixturePredictions || []), ...r32TeamRows],
-    modelVersion: "score-r32-v1-pele-group-stage-calibrated",
-    model_version: "score-r32-v1-pele-group-stage-calibrated",
+    modelVersion: "score-r32-v1-pele-group-stage-calibrated-defensive-form",
+    model_version: "score-r32-v1-pele-group-stage-calibrated-defensive-form",
     defaultMatchday: "r32"
   };
 }
@@ -862,9 +1032,12 @@ function buildR32Projections(bracket, scoreData, roleModel) {
     const form = clamp(((actual.total || 0) / Math.max(1, ["1", "2", "3"].length)) * 0.16, -0.2, 1.2);
     const underPenalty = role.dataQualityFlags?.includes("underperformance_confidence_downgrade") ? -0.35 : 0;
     const path = pathByTeam.get(slug(role.country));
-    const pathValue = path ? clamp((145 - path.path_difficulty_score) / 30, -1.2, 1.2) : 0;
+    const basePathValue = path ? clamp((145 - path.path_difficulty_score) / 30, -1.2, 1.2) : 0;
+    const pathValue = clamp(basePathValue - (path?.hard_path_warning ? 0.65 : 0), -1.2, 1.2);
     const raw = round(clamp(appearance + attack + clean + form + underPenalty, 0, 24));
     const risk = round(clamp(raw * (0.9 + (start - 0.75) * 0.16), 0, raw));
+    const price = Number(prior.official_price || 0);
+    const valueScore = price > 0 ? round(risk / price, 4) : 0;
     rows.push({
       player_matchday_projection_id: `${id}-r32-fantasy-pool-v1`,
       internal_player_id: prior.internal_player_id,
@@ -876,6 +1049,7 @@ function buildR32Projections(bracket, scoreData, roleModel) {
       official_team_id: role.official_team_id,
       official_fantasy_position: position,
       official_price: prior.official_price,
+      value_score: valueScore,
       selectable_status: role.selectable_status,
       matchday: "r32",
       matchday_label: "Round of 32",
@@ -908,6 +1082,10 @@ function buildR32Projections(bracket, scoreData, roleModel) {
         draw_probability: teamScore.draw_probability,
         loss_probability: teamScore.loss_probability,
         clean_sheet_probability: teamScore.clean_sheet_probability,
+        base_clean_sheet_probability: teamScore.base_clean_sheet_probability,
+        clean_sheet_form_multiplier: teamScore.clean_sheet_form_multiplier,
+        clean_sheet_form_adjustment: teamScore.clean_sheet_form_adjustment,
+        defensive_form_label: teamScore.defensive_form_label,
         fixture_difficulty_score: teamScore.fixture_difficulty_score,
         fixture_difficulty_band: teamScore.fixture_difficulty_band,
         captain_environment_score: teamScore.captain_environment_score,
@@ -932,6 +1110,7 @@ function buildR32Projections(bracket, scoreData, roleModel) {
         "player_projection_r32_v1",
         "known_r32_fixture",
         "path_value_included",
+        "group_stage_defensive_form_used",
         "ownership_not_used_as_signal",
         "final_squads_not_source_backed",
         ...role.dataQualityFlags
@@ -953,8 +1132,9 @@ function buildR32Projections(bracket, scoreData, roleModel) {
     input_files: ["data/fantasyPoolMatchdayProjections_md3_v5.json", "data/playerRoleModel_r32_v1.json", "data/scorePredictions_fantasyPool_r32_v1.json", "data/r32BracketPathModel_v1.json"],
     model: {
       model_name: "R32 Player Projection v1",
-      formula_version: "player-projection-r32-v1-known-fixtures-path-value",
-      unfinished_md3_excluded: true
+      formula_version: "player-projection-r32-v1-known-fixtures-path-value-defensive-form",
+      group_stage_defensive_form_used: true,
+      unfinished_md3_excluded: false
     },
     summary: {
       projection_rows: rows.length,
@@ -971,7 +1151,24 @@ function buildR32Projections(bracket, scoreData, roleModel) {
         projectedPoints: row.raw_expected_points,
         captainScore: row.captain_score,
         pathValue: row.path_value
-      }))
+      })),
+      topGkDefCleanSheetRecommendations: rows
+        .filter((row) => ["GK", "DEF"].includes(row.official_fantasy_position))
+        .sort((a, b) =>
+          Number(b.fixture_context?.clean_sheet_probability || 0) - Number(a.fixture_context?.clean_sheet_probability || 0) ||
+          b.raw_expected_points - a.raw_expected_points
+        )
+        .slice(0, 20)
+        .map((row) => ({
+          name: row.name,
+          country: row.country,
+          position: row.official_fantasy_position,
+          opponent: row.opponent,
+          projectedPoints: row.raw_expected_points,
+          cleanSheetProbability: row.fixture_context?.clean_sheet_probability,
+          defensiveFormLabel: row.fixture_context?.defensive_form_label,
+          cleanSheetFormAdjustment: row.fixture_context?.clean_sheet_form_adjustment
+        }))
     },
     qa_status: "pass",
     playerMatchdayProjections: rows
@@ -1057,7 +1254,7 @@ function recCandidate(row, mode, rank, score) {
   };
 }
 
-function buildRecommendations(projections, bracket) {
+function buildRecommendations(projections, bracket, teamFormModel) {
   const rows = projections.playerMatchdayProjections || [];
   const modes = {
     balanced: (row) => row.risk_adjusted_points * 18 + row.start_probability * 18 + row.path_value * 7,
@@ -1073,7 +1270,23 @@ function buildRecommendations(projections, bracket) {
   }
   const topCaptain = candidates.filter((row) => row.mode === "captain").slice(0, 15);
   const topPathValue = [...rows].sort((a, b) => b.path_value - a.path_value || b.raw_expected_points - a.raw_expected_points).slice(0, 20);
+  const easyPath = rows
+    .filter((row) => row.path_value >= 0.8 && !row.path_context?.hard_path_warning)
+    .sort((a, b) => b.raw_expected_points - a.raw_expected_points)
+    .slice(0, 20);
   const hardPath = rows.filter((row) => row.path_context?.hard_path_warning).sort((a, b) => b.raw_expected_points - a.raw_expected_points).slice(0, 20);
+  const pathAuditTeams = ["Argentina", "England", "Colombia", "France", "Germany", "Spain", "Portugal"];
+  const pathEffectAudits = pathAuditTeams.map((team) => {
+    const path = bracket.team_paths.find((row) => normalizeText(row.team) === normalizeText(team));
+    return path ? {
+      team: path.team,
+      r32_opponent: path.r32_opponent,
+      likely_r16_opponent_if_both_advance: path.likely_r16_opponent_if_both_advance,
+      path_difficulty_score: path.path_difficulty_score,
+      hard_path_warning: path.hard_path_warning,
+      easy_path_support: !path.hard_path_warning && path.path_difficulty_score <= 75
+    } : { team, missing_from_final_r32_path: true };
+  });
   return {
     schema_version: "fantasy_pool_matchday_recommendations_r32_v1",
     generated_at: GENERATED_AT,
@@ -1087,8 +1300,9 @@ function buildRecommendations(projections, bracket) {
     model: {
       defaultMatchday: "r32",
       path_value_included: true,
+      group_stage_defensive_form_used: true,
       finance_secondary_only: true,
-      unfinished_md3_excluded: true
+      unfinished_md3_excluded: false
     },
     summary: {
       recommendationCandidates: candidates.length,
@@ -1100,7 +1314,12 @@ function buildRecommendations(projections, bracket) {
       finalSquadsSourceBacked: false,
       topCaptainWatchlist: topCaptain.map((row) => ({ name: row.name, country: row.country, opponent: row.opponent, captainScore: row.captain_score, rank: row.rank })),
       topPathValue: topPathValue.map((row) => ({ name: row.name, country: row.country, opponent: row.opponent, projectedPoints: row.raw_expected_points, pathValue: row.path_value })),
-      hardPathWarnings: hardPath.map((row) => ({ name: row.name, country: row.country, opponent: row.opponent, warning: row.path_context.hard_path_warning }))
+      easyPathSupports: easyPath.map((row) => ({ name: row.name, country: row.country, opponent: row.opponent, projectedPoints: row.raw_expected_points, pathValue: row.path_value })),
+      hardPathWarnings: hardPath.map((row) => ({ name: row.name, country: row.country, opponent: row.opponent, warning: row.path_context.hard_path_warning })),
+      topGkDefCleanSheetRecommendations: projections.summary.topGkDefCleanSheetRecommendations || [],
+      pathEffectAudits,
+      germanyDefensiveFormCheck: teamFormModel?.summary?.germany || null,
+      spainDefensiveFormCheck: teamFormModel?.summary?.spain || null
     },
     qa_status: "pass",
     recommendationCandidates: candidates
@@ -1121,6 +1340,10 @@ function compactRecommendation(row) {
     draw_probability: fixture.draw_probability,
     loss_probability: fixture.loss_probability,
     clean_sheet_probability: fixture.clean_sheet_probability,
+    base_clean_sheet_probability: fixture.base_clean_sheet_probability,
+    clean_sheet_form_multiplier: fixture.clean_sheet_form_multiplier,
+    clean_sheet_form_adjustment: fixture.clean_sheet_form_adjustment,
+    defensive_form_label: fixture.defensive_form_label,
     fixture_difficulty_score: fixture.fixture_difficulty_score,
     fixture_difficulty_band: fixture.fixture_difficulty_band,
     captain_environment_score: fixture.captain_environment_score,
@@ -1275,6 +1498,10 @@ async function writeScoreBrowser(scoreData) {
     loss_probability: row.loss_probability,
     advance_probability: row.advance_probability,
     clean_sheet_probability: row.clean_sheet_probability,
+    base_clean_sheet_probability: row.base_clean_sheet_probability,
+    clean_sheet_form_multiplier: row.clean_sheet_form_multiplier,
+    clean_sheet_form_adjustment: row.clean_sheet_form_adjustment,
+    defensive_form_label: row.defensive_form_label,
     fixture_difficulty_score: row.fixture_difficulty_score,
     fixture_difficulty_band: row.fixture_difficulty_band,
     captain_environment_score: row.captain_environment_score,
@@ -1317,6 +1544,28 @@ function teamBuilderQa(projections, recommendations) {
   const greedy = [...rows].sort((a, b) => b.raw_expected_points - a.raw_expected_points).slice(0, 11);
   const starterPoints = round(sum(starters.map((row) => row.raw_expected_points)));
   const greedyPoints = round(sum(greedy.map((row) => row.raw_expected_points)));
+  const squadSummary = (list) => list.map((row, index) => ({
+    slot: index < 11 ? "starter" : "bench",
+    name: row.name,
+    country: row.country,
+    position: row.official_fantasy_position,
+    projectedPoints: row.raw_expected_points,
+    opponent: row.opponent,
+    pathValue: row.path_value,
+    hardPathWarning: row.path_context?.hard_path_warning || null
+  }));
+  const diversified = [...rows]
+    .sort((a, b) => b.risk_adjusted_points - a.risk_adjusted_points)
+    .filter((row, index, list) => list.findIndex((candidate) => candidate.country === row.country) === index)
+    .slice(0, 15);
+  const concentratedUpside = [...rows]
+    .sort((a, b) => b.ceiling_points - a.ceiling_points || b.captain_score - a.captain_score)
+    .slice(0, 15);
+  const starsAndScrubs = [
+    ...rows.filter((row) => Number(row.official_price || 0) >= 7).sort((a, b) => b.raw_expected_points - a.raw_expected_points).slice(0, 7),
+    ...rows.filter((row) => Number(row.official_price || 0) < 5).sort((a, b) => b.value_score - a.value_score).slice(0, 8)
+  ].slice(0, 15);
+  const valueSquad = [...rows].sort((a, b) => b.value_score - a.value_score || b.risk_adjusted_points - a.risk_adjusted_points).slice(0, 15);
   return {
     schema_version: "team_builder_qa_r32_v1",
     generated_at: GENERATED_AT,
@@ -1330,7 +1579,24 @@ function teamBuilderQa(projections, recommendations) {
       gapVsGreedy: round(starterPoints - greedyPoints),
       defaultMatchday: "r32"
     },
-    balanced_squad: squad.map((row, index) => ({ slot: index < 11 ? "starter" : "bench", name: row.name, country: row.country, position: row.official_fantasy_position, projectedPoints: row.raw_expected_points, opponent: row.opponent })),
+    balanced_squad: squadSummary(squad),
+    strategy_variants: {
+      balanced: squadSummary(squad),
+      diversified: squadSummary(diversified),
+      concentrated_upside: squadSummary(concentratedUpside),
+      stars_and_scrubs: squadSummary(starsAndScrubs),
+      value_squad: squadSummary(valueSquad)
+    },
+    omitted_star_path_diagnostics: rows
+      .filter((row) => row.path_context?.hard_path_warning)
+      .sort((a, b) => b.raw_expected_points - a.raw_expected_points)
+      .slice(0, 15)
+      .map((row) => ({
+        name: row.name,
+        country: row.country,
+        projectedPoints: row.raw_expected_points,
+        warning: row.path_context.hard_path_warning
+      })),
     top_r32_projected_players: rows.slice().sort((a, b) => b.raw_expected_points - a.raw_expected_points).slice(0, 20).map((row) => ({ name: row.name, country: row.country, position: row.official_fantasy_position, projectedPoints: row.raw_expected_points, opponent: row.opponent })),
     top_captain_watchlist: recommendations.summary.topCaptainWatchlist,
     ownership_used_as_signal: false,
@@ -1338,7 +1604,7 @@ function teamBuilderQa(projections, recommendations) {
   };
 }
 
-function markdownOutputs({ postmortem, bracket, knockout, score, role, projections, recommendations, teamBuilder, releaseQa }) {
+function markdownOutputs({ postmortem, bracket, knockout, score, role, projections, recommendations, teamBuilder, releaseQa, teamForm }) {
   return {
     "data/groupStageModelPostmortemReport_for_r32_v1.md": [
       "# Group Stage Postmortem For R32 v1",
@@ -1350,7 +1616,7 @@ function markdownOutputs({ postmortem, bracket, knockout, score, role, projectio
       mdTable(["Metric", "Value"], [
         ["Final fixtures used", postmortem.final_fixture_count],
         ["Completed MD3 fixtures used", postmortem.completed_md3_fixture_count],
-        ["Unfinished MD3 excluded", "yes"],
+        ["Unfinished MD3 fixtures", postmortem.unfinished_md3_fixture_count],
         ["Ownership used as signal", "false"],
         ["Final squads source-backed", "false"]
       ]),
@@ -1358,6 +1624,33 @@ function markdownOutputs({ postmortem, bracket, knockout, score, role, projectio
       "## Explicit Player Audits",
       "",
       mdTable(["Player", "Team", "Status", "Match Status", "Interpretation"], postmortem.explicit_audits.map((row) => [row.name, row.team, row.status, row.matchStatus, row.r32_interpretation]))
+    ].join("\n"),
+    "data/groupStageTeamFormModel_r32_v1.md": [
+      "# Group Stage Team Form Model R32 v1",
+      "",
+      `Generated: ${teamForm.generated_at}`,
+      "",
+      "Defensive-form adjustment is computed from final group-stage goals conceded, clean sheets, expected clean-sheet rates, opponent quality, and shrinkage. It adjusts GK/DEF clean-sheet confidence without replacing PELE/teamQuality.",
+      "",
+      mdTable(["Metric", "Value"], [
+        ["Team rows", teamForm.summary.team_rows],
+        ["Positive form teams", teamForm.summary.positive_form_teams],
+        ["Negative form teams", teamForm.summary.negative_form_teams],
+        ["Germany GA / CS / multiplier", teamForm.summary.germany ? `${teamForm.summary.germany.goals_against} / ${teamForm.summary.germany.clean_sheets} / ${teamForm.summary.germany.clean_sheet_multiplier}` : ""],
+        ["Spain GA / CS / multiplier", teamForm.summary.spain ? `${teamForm.summary.spain.goals_against} / ${teamForm.summary.spain.clean_sheets} / ${teamForm.summary.spain.clean_sheet_multiplier}` : ""]
+      ]),
+      "",
+      "## Team Adjustments",
+      "",
+      mdTable(["Team", "GA", "CS", "Conceded Every Game", "Expected CS Rate", "Multiplier", "Label"], teamForm.team_form_rows.map((row) => [
+        row.team,
+        row.goals_against,
+        row.clean_sheets,
+        row.conceded_in_every_group_game,
+        row.expected_clean_sheet_rate,
+        row.clean_sheet_multiplier,
+        row.defensive_form_label
+      ]))
     ].join("\n"),
     "data/r32BracketPathModel_v1.md": [
       "# R32 Bracket Path Model v1",
@@ -1367,6 +1660,7 @@ function markdownOutputs({ postmortem, bracket, knockout, score, role, projectio
       mdTable(["Metric", "Value"], [
         ["Known R32 fixtures", bracket.known_r32_fixtures.length],
         ["Unresolved R32 matches", bracket.unresolved_r32_matches.length],
+        ["Provisional R32 slots", bracket.provisional_r32_slots.length],
         ["Safe top-two qualifiers", bracket.teams_safely_qualified_top_two.length],
         ["Teams still uncertain", bracket.teams_still_uncertain.length]
       ]),
@@ -1397,7 +1691,8 @@ function markdownOutputs({ postmortem, bracket, knockout, score, role, projectio
         ["R32 known fixture rows", score.summary.r32_fixture_count],
         ["Default matchday", score.defaultMatchday],
         ["Completed MD3 fixtures used", score.summary.completedMd3FixturesUsed],
-        ["Unfinished MD3 excluded", score.summary.unfinishedMd3FixturesExcluded]
+        ["Unfinished MD3 fixtures", score.summary.unfinishedMd3FixturesExcluded],
+        ["Group-stage defensive form used", score.summary.groupStageDefensiveFormUsed]
       ])
     ].join("\n"),
     "data/playerRoleModel_r32_v1.md": [
@@ -1423,7 +1718,8 @@ function markdownOutputs({ postmortem, bracket, knockout, score, role, projectio
         ["Candidates", recommendations.summary.recommendationCandidates],
         ["Known R32 fixtures used", recommendations.summary.knownR32FixturesUsed],
         ["Default matchday", recommendations.summary.defaultMatchday],
-        ["Path value included", "yes"]
+        ["Path value included", "yes"],
+        ["Group-stage defensive form used", "yes"]
       ])
     ].join("\n"),
     "data/teamBuilderModel_r32_v1.md": [
@@ -1445,7 +1741,7 @@ function markdownOutputs({ postmortem, bracket, knockout, score, role, projectio
   };
 }
 
-function qaFiles({ bracket, knockout, score, role, projections, recommendations, teamBuilder }) {
+function qaFiles({ bracket, knockout, score, role, projections, recommendations, teamBuilder, teamForm }) {
   const qas = {
     "data/r32BracketPathQa_v1.json": {
       schema_version: "r32_bracket_path_qa_v1",
@@ -1454,9 +1750,10 @@ function qaFiles({ bracket, knockout, score, role, projections, recommendations,
       checks: [
         { id: "no_invented_unresolved_slots", status: bracket.known_r32_fixtures.length + bracket.unresolved_r32_matches.length === 16 ? "pass" : "fail" },
         { id: "known_fixtures_source_backed", status: bracket.known_r32_fixtures.every((row) => row.path_status === "known_official_fixture") ? "pass" : "fail" },
-        { id: "provisional_slots_marked", status: Array.isArray(bracket.provisional_r32_slots) ? "pass" : "fail" },
-        { id: "uncertain_slots_marked", status: bracket.unresolved_r32_matches.every((row) => row.status === "uncertain_until_remaining_groups_finish") ? "pass" : "fail" },
-        { id: "unfinished_matches_not_final", status: bracket.final_refresh_blockers.every((row) => row.status !== "complete") ? "pass" : "fail" }
+        { id: "final_r32_fixture_count", status: bracket.known_r32_fixtures.length === 16 ? "pass" : "fail" },
+        { id: "no_provisional_slots_in_final_release", status: bracket.provisional_r32_slots.length === 0 ? "pass" : "fail" },
+        { id: "no_uncertain_slots_in_final_release", status: bracket.unresolved_r32_matches.length === 0 ? "pass" : "fail" },
+        { id: "no_final_refresh_blockers", status: bracket.final_refresh_blockers.length === 0 ? "pass" : "fail" }
       ]
     },
     "data/knockoutScorePredictorQa_v1.json": {
@@ -1471,6 +1768,9 @@ function qaFiles({ bracket, knockout, score, role, projections, recommendations,
       generated_at: GENERATED_AT,
       status: score.summary.r32_fixture_count > 0 ? "pass" : "fail",
       r32_fixture_count: score.summary.r32_fixture_count,
+      group_stage_defensive_form_used: score.summary.groupStageDefensiveFormUsed === true,
+      germany_defensive_form: score.summary.germanyDefensiveForm,
+      spain_defensive_form: score.summary.spainDefensiveForm,
       probability_bounds_valid: score.fixtureScorePredictions.every((row) => ["home_win_probability", "draw_probability", "away_win_probability"].every((field) => row[field] === undefined || (Number(row[field]) >= 0 && Number(row[field]) <= 1)))
     },
     "data/playerRoleModelQa_r32_v1.json": {
@@ -1492,7 +1792,11 @@ function qaFiles({ bracket, knockout, score, role, projections, recommendations,
       status: recommendations.recommendationCandidates.length > 0 ? "pass" : "fail",
       summary: recommendations.summary,
       haaland_audit: recommendations.recommendationCandidates.find((row) => /haaland/i.test(row.name)) || null,
-      underperformer_cautions: recommendations.recommendationCandidates.filter((row) => /underperformance/i.test(row.caution || "")).slice(0, 20)
+      underperformer_cautions: recommendations.recommendationCandidates.filter((row) => /underperformance/i.test(row.caution || "")).slice(0, 20),
+      germany_defensive_form_check: teamForm.summary.germany,
+      spain_defensive_form_check: teamForm.summary.spain,
+      path_effect_audits: recommendations.summary.pathEffectAudits,
+      top_gk_def_clean_sheet_recommendations: recommendations.summary.topGkDefCleanSheetRecommendations
     },
     "data/teamBuilderQa_r32_v1.json": teamBuilder
   };
@@ -1505,6 +1809,7 @@ export async function buildAllR32Artifacts() {
   const teamQuality = readJson("data/teamQuality.json");
   const qualityIndex = teamQualityIndex(teamQuality);
   const postmortem = buildPostmortem(worldCup, live, qualityIndex);
+  const teamForm = buildTeamFormModel(postmortem);
   const bracket = buildBracketPath(worldCup, live, qualityIndex);
   const r32Predictions = bracket.known_r32_fixtures.map((fixture) => buildKnockoutPrediction(fixture.home_team, fixture.away_team, qualityIndex, fixture)).filter(Boolean);
   const allTeams = (teamQuality.teams || []).map((row) => row.country);
@@ -1529,51 +1834,53 @@ export async function buildAllR32Artifacts() {
     ownership_used_as_signal: false,
     final_squads_source_backed: false
   };
-  const score = buildScoreData(r32Predictions, postmortem);
+  const score = buildScoreData(r32Predictions, postmortem, teamForm);
   const role = roleModelForR32(bracket, postmortem);
   const projections = buildR32Projections(bracket, score, role);
-  const recommendations = buildRecommendations(projections, bracket);
+  const recommendations = buildRecommendations(projections, bracket, teamForm);
   const teamBuilder = teamBuilderQa(projections, recommendations);
 	  const releaseQa = {
 	    schema_version: "r32_release_qa_v1",
 	    generated_at: GENERATED_AT,
-    release_status: "provisional_r32_setup",
+    release_status: FINAL_RELEASE_STATUS,
 	    status: [
-	      bracket.known_r32_fixtures.length > 0,
+	      bracket.known_r32_fixtures.length === 16,
+      bracket.unresolved_r32_matches.length === 0,
+      bracket.provisional_r32_slots.length === 0,
 	      knockout.known_r32_predictions.length === bracket.known_r32_fixtures.length,
 	      score.summary.r32_fixture_count === bracket.known_r32_fixtures.length,
+      postmortem.final_fixture_count === 72,
+      postmortem.completed_md3_fixture_count === 24,
+      postmortem.unfinished_md3_fixture_count === 0,
+      teamForm.summary.team_rows === 48,
 	      projections.playerMatchdayProjections.length > 0,
 	      recommendations.recommendationCandidates.length > 0,
-	      teamBuilder.status === "pass",
-      postmortem.completed_md3_fixture_count >= 22,
-      postmortem.unfinished_md3_fixture_count <= 2
+	      teamBuilder.status === "pass"
 	    ].every(Boolean) ? "pass" : "fail",
 	    checks: [
-	      { id: "known_r32_fixtures_available", status: bracket.known_r32_fixtures.length > 0 ? "pass" : "fail" },
-      { id: "provisional_labeling_required", status: "pass" },
-	      { id: "unfinished_md3_excluded", status: postmortem.unfinished_md3_fixture_count >= 0 ? "pass" : "fail" },
+	      { id: "final_r32_fixtures_available", status: bracket.known_r32_fixtures.length === 16 ? "pass" : "fail" },
+      { id: "no_provisional_r32_slots", status: bracket.provisional_r32_slots.length === 0 ? "pass" : "fail" },
+      { id: "no_uncertain_r32_slots", status: bracket.unresolved_r32_matches.length === 0 ? "pass" : "fail" },
+	      { id: "all_group_fixtures_final", status: postmortem.final_fixture_count === 72 && postmortem.completed_md3_fixture_count === 24 && postmortem.unfinished_md3_fixture_count === 0 ? "pass" : "fail" },
+      { id: "group_stage_defensive_form_built", status: teamForm.summary.team_rows === 48 ? "pass" : "fail" },
 	      { id: "knockout_predictor_built", status: knockout.known_r32_predictions.length ? "pass" : "fail" },
 	      { id: "r32_player_projections_built", status: projections.playerMatchdayProjections.length ? "pass" : "fail" },
 	      { id: "r32_recommendations_built", status: recommendations.recommendationCandidates.length ? "pass" : "fail" },
-	      { id: "team_builder_r32_pass", status: teamBuilder.status },
-      { id: "match_69_70_not_final_evidence", status: postmortem.unfinished_group_fixtures.every((fixture) => fixture.safe_to_display_score === false) ? "pass" : "fail" }
+	      { id: "team_builder_r32_pass", status: teamBuilder.status }
 	    ],
 	    public_promotion: {
 	      promoted_to_r32_setup: true,
-      promoted_to_r32_provisional_setup: true,
+      promoted_to_r32_provisional_setup: false,
+      promoted_to_r32_final_setup: true,
 	      public_default_matchday: "r32",
-	      partial_fixture_status: `${bracket.known_r32_fixtures.length} official scheduled R32 fixtures; ${bracket.unresolved_r32_matches.length} uncertain R32 matches remain staged until Match 69/70 are final`,
-      final_refresh_blocked_by: postmortem.unfinished_group_fixtures.map((fixture) => ({
-        match_number: fixture.match_number,
-        fixture: fixture.fixture,
-        status: fixture.fixture_status,
-        score_status: fixture.score_status
-      }))
+	      fixture_status: `${bracket.known_r32_fixtures.length} final official R32 fixtures; ${bracket.unresolved_r32_matches.length} uncertain R32 slots`,
+      final_refresh_blocked_by: []
 	    }
 	  };
 
   await writeJson("data/groupStageCalibrationDataset_for_r32_v1.json", { schema_version: "group_stage_calibration_dataset_for_r32_v1", generated_at: GENERATED_AT, final_fixture_residuals: postmortem.fixture_residuals }, true);
   await writeJson("data/groupStageModelPostmortem_for_r32_v1.json", postmortem);
+  await writeJson("data/groupStageTeamFormModel_r32_v1.json", teamForm);
   await writeJson("data/r32BracketPathModel_v1.json", bracket);
   await writeJson("data/knockoutScorePredictor_v1.json", knockout);
   await writeJson("data/scorePredictions_fantasyPool_r32_v1.json", score, true);
@@ -1581,6 +1888,7 @@ export async function buildAllR32Artifacts() {
   await writeJson("data/fantasyPoolMatchdayProjections_r32_v1.json", projections, true);
   await writeJson("data/fantasyPoolRecommendations_r32_v1.json", recommendations, true);
   await writeJson("data/r32ReleaseQa_v1.json", releaseQa);
+  if (postmortem.release_status !== FINAL_RELEASE_STATUS) {
   await writeJson("data/groupStageCalibrationDataset_for_r32_provisional_v1.json", { schema_version: "group_stage_calibration_dataset_for_r32_provisional_v1", generated_at: GENERATED_AT, final_fixture_residuals: postmortem.fixture_residuals, unfinished_group_fixtures: postmortem.unfinished_group_fixtures }, true);
   await writeJson("data/groupStageModelPostmortem_for_r32_provisional_v1.json", { ...postmortem, schema_version: "group_stage_postmortem_for_r32_provisional_v1" });
   await writeJson("data/r32ProvisionalBracketPathModel_v1.json", { ...bracket, schema_version: "r32_provisional_bracket_path_model_v1" });
@@ -1589,15 +1897,18 @@ export async function buildAllR32Artifacts() {
   await writeJson("data/fantasyPoolMatchdayProjections_r32_provisional_v1.json", { ...projections, schema_version: "fantasy_pool_matchday_projections_r32_provisional_v1" }, true);
   await writeJson("data/fantasyPoolRecommendations_r32_provisional_v1.json", { ...recommendations, schema_version: "fantasy_pool_matchday_recommendations_r32_provisional_v1" }, true);
   await writeJson("data/r32ProvisionalReleaseQa_v1.json", { ...releaseQa, schema_version: "r32_provisional_release_qa_v1" });
+  }
 
-  const qas = qaFiles({ bracket, knockout, score, role, projections, recommendations, teamBuilder });
+  const qas = qaFiles({ bracket, knockout, score, role, projections, recommendations, teamBuilder, teamForm });
   for (const [file, data] of Object.entries(qas)) await writeJson(file, data);
+  if (postmortem.release_status !== FINAL_RELEASE_STATUS) {
   await writeJson("data/r32ProvisionalBracketPathQa_v1.json", { ...qas["data/r32BracketPathQa_v1.json"], schema_version: "r32_provisional_bracket_path_qa_v1" });
   await writeJson("data/scorePredictionQa_r32_provisional_v1.json", { ...qas["data/scorePredictionQa_r32_v1.json"], schema_version: "score_prediction_qa_r32_provisional_v1" });
   await writeJson("data/playerRoleModelQa_r32_provisional_v1.json", { ...qas["data/playerRoleModelQa_r32_v1.json"], schema_version: "player_role_model_qa_r32_provisional_v1" });
   await writeJson("data/playerProjectionQa_r32_provisional_v1.json", { ...qas["data/playerProjectionQa_r32_v1.json"], schema_version: "player_projection_qa_r32_provisional_v1" });
   await writeJson("data/recommendationQa_r32_provisional_v1.json", { ...qas["data/recommendationQa_r32_v1.json"], schema_version: "recommendation_qa_r32_provisional_v1" });
   await writeJson("data/teamBuilderQa_r32_provisional_v1.json", { ...teamBuilder, schema_version: "team_builder_qa_r32_provisional_v1", model_version: "team-builder-r32-provisional-v1" });
+  }
   await writeFile("data/r32BracketPathQaReport_v1.md", "# R32 Bracket Path QA v1\n\n" + mdTable(["Check", "Status"], qas["data/r32BracketPathQa_v1.json"].checks.map((row) => [row.id, row.status])) + "\n", "utf8");
   await writeFile("data/knockoutScorePredictorQaReport_v1.md", "# Knockout Score Predictor QA v1\n\nStatus: " + qas["data/knockoutScorePredictorQa_v1.json"].status + "\n", "utf8");
   await writeFile("data/scorePredictionQaReport_r32_v1.md", "# Score Prediction QA R32 v1\n\nStatus: " + qas["data/scorePredictionQa_r32_v1.json"].status + "\n", "utf8");
@@ -1605,16 +1916,19 @@ export async function buildAllR32Artifacts() {
   await writeFile("data/playerProjectionQaReport_r32_v1.md", "# Player Projection QA R32 v1\n\nStatus: " + qas["data/playerProjectionQa_r32_v1.json"].status + "\n", "utf8");
   await writeFile("data/recommendationQaReport_r32_v1.md", "# Recommendation QA R32 v1\n\nStatus: " + qas["data/recommendationQa_r32_v1.json"].status + "\n", "utf8");
   await writeFile("data/teamBuilderQaReport_r32_v1.md", "# Team Builder QA R32 v1\n\nStatus: " + teamBuilder.status + "\n", "utf8");
+  if (postmortem.release_status !== FINAL_RELEASE_STATUS) {
   await writeFile("data/r32ProvisionalBracketPathQaReport_v1.md", "# R32 Provisional Bracket Path QA v1\n\n" + mdTable(["Check", "Status"], qas["data/r32BracketPathQa_v1.json"].checks.map((row) => [row.id, row.status])) + "\n", "utf8");
   await writeFile("data/scorePredictionQaReport_r32_provisional_v1.md", "# Score Prediction QA R32 Provisional v1\n\nStatus: " + qas["data/scorePredictionQa_r32_v1.json"].status + "\n", "utf8");
   await writeFile("data/playerRoleModelQaReport_r32_provisional_v1.md", "# Player Role Model QA R32 Provisional v1\n\nStatus: " + qas["data/playerRoleModelQa_r32_v1.json"].status + "\n", "utf8");
   await writeFile("data/playerProjectionQaReport_r32_provisional_v1.md", "# Player Projection QA R32 Provisional v1\n\nStatus: " + qas["data/playerProjectionQa_r32_v1.json"].status + "\n", "utf8");
   await writeFile("data/recommendationQaReport_r32_provisional_v1.md", "# Recommendation QA R32 Provisional v1\n\nStatus: " + qas["data/recommendationQa_r32_v1.json"].status + "\n", "utf8");
   await writeFile("data/teamBuilderQaReport_r32_provisional_v1.md", "# Team Builder QA R32 Provisional v1\n\nStatus: " + teamBuilder.status + "\n", "utf8");
+  }
 
-  for (const [file, text] of Object.entries(markdownOutputs({ postmortem, bracket, knockout, score, role, projections, recommendations, teamBuilder, releaseQa }))) {
+  for (const [file, text] of Object.entries(markdownOutputs({ postmortem, bracket, knockout, score, role, projections, recommendations, teamBuilder, releaseQa, teamForm }))) {
     await writeFile(file, `${text}\n`, "utf8");
   }
+  if (postmortem.release_status !== FINAL_RELEASE_STATUS) {
   await writeFile("data/groupStageModelPostmortemReport_for_r32_provisional_v1.md", [
     "# Group Stage Postmortem For R32 Provisional v1",
     "",
@@ -1692,8 +2006,9 @@ export async function buildAllR32Artifacts() {
     "",
     mdTable(["Check", "Status"], releaseQa.checks.map((row) => [row.id, row.status])),
     "",
-    `Public status: ${releaseQa.public_promotion.partial_fixture_status}`
+    `Public status: ${releaseQa.public_promotion.fixture_status || releaseQa.public_promotion.partial_fixture_status}`
   ].join("\n") + "\n", "utf8");
+  }
 
   await writeScoreBrowser(score);
   await writeProjectionBrowserData("fantasyPoolMatchdayProjectionsData.js", {
@@ -1735,5 +2050,5 @@ export async function buildAllR32Artifacts() {
     ""
   ].join("\n"), "utf8");
 
-  return { postmortem, bracket, knockout, score, role, projections, recommendations, teamBuilder, releaseQa };
+  return { postmortem, teamForm, bracket, knockout, score, role, projections, recommendations, teamBuilder, releaseQa };
 }

@@ -1,6 +1,6 @@
 {
   "schema_version": "pele_refresh_audit_r32_provisional_v1",
-  "generated_at": "2026-06-28T02:19:24.512Z",
+  "generated_at": "2026-06-28T11:28:25.321Z",
   "status": "pass",
   "source_checked": "2026-06-18",
   "pele_refreshed": true,
@@ -19,7 +19,7 @@
     "missing_pele_team_count": 0,
     "duplicate_team_id_count": 0,
     "invalid_numeric_team_count": 0,
-    "team_quality_generated_at": "2026-06-28T02:18:43.956Z",
+    "team_quality_generated_at": "2026-06-28T11:28:17.812Z",
     "team_quality_formula": "team_quality_v2_pele_forward_2026-06-01",
     "ownership_used_as_signal": false,
     "final_squads_source_backed": false

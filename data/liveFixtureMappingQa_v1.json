@@ -1,6 +1,6 @@
 {
   "schema_version": "live_fixture_mapping_qa_v1",
-  "generated_at": "2026-06-28T02:22:28.734Z",
+  "generated_at": "2026-06-28T11:30:14.974Z",
   "status": "passed",
   "files": {
     "localFixtures": "data/fixtures.json",
@@ -14,24 +14,24 @@
   },
   "summary": {
     "total_local_fixtures": 72,
-    "total_live_fixtures": 86,
+    "total_live_fixtures": 88,
     "group_stage_live_fixtures": 72,
-    "extra_live_fixtures": 14,
+    "extra_live_fixtures": 16,
     "total_score_prediction_fixtures": 72,
     "matched_fixtures": 72,
-    "final_fixtures_shown": 70,
-    "in_progress_fixtures_suppressed": 2,
-    "scheduled_fixtures": 14,
-    "unmatched_fixtures": 14,
+    "final_fixtures_shown": 72,
+    "in_progress_fixtures_suppressed": 0,
+    "scheduled_fixtures": 16,
+    "unmatched_fixtures": 16,
     "ambiguous_fixtures": 0,
     "reversed_mappings": 0,
     "mapping_status_counts": {
       "matched": 72,
-      "unmatched": 14
+      "unmatched": 16
     },
     "mapping_orientation_counts": {
       "direct": 72,
-      "unknown": 14
+      "unknown": 16
     },
     "unsafe_fixture_player_point_leak_count": 0
   },

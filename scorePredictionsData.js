@@ -2,9 +2,9 @@
 // Do not edit by hand; regenerate when score prediction inputs change.
 window.SCORE_PREDICTIONS_SUMMARY = {
   "schema_version": "score-predictions-browser-data-v2",
-  "generated_at": "2026-06-28T02:18:43.956Z",
+  "generated_at": "2026-06-28T11:28:17.812Z",
   "source_schema_version": "week6-score-predictions-v2",
-  "source_generated_at": "2026-06-28T02:18:43.956Z",
+  "source_generated_at": "2026-06-28T11:28:17.812Z",
   "source_checked": "2026-06-18",
   "fixture_prediction_count": 72,
   "source_files": [
@@ -156,7 +156,7 @@ window.SCORE_PREDICTIONS_SUMMARY = {
   "quality_checks": {
     "status": "pass",
     "label": "Pass",
-    "checked_at": "2026-06-28T02:18:43.956Z",
+    "checked_at": "2026-06-28T11:28:17.812Z",
     "checks_total": 11,
     "checks_passed": 11,
     "checks_failed": 0,

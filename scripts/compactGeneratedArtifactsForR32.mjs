@@ -467,6 +467,17 @@ async function main() {
   };
   await writeJson("data/publicPerformanceQa_r32_v1.json", report);
   await writeFile("data/publicPerformanceQaReport_r32_v1.md", performanceMarkdown(report), "utf8");
+  const finalReport = {
+    ...report,
+    schema_version: "public_performance_qa_r32_final_v1",
+    release_status: "final_r32_setup"
+  };
+  await writeJson("data/publicPerformanceQa_r32_final_v1.json", finalReport);
+  await writeFile(
+    "data/publicPerformanceQaReport_r32_final_v1.md",
+    performanceMarkdown(finalReport).replace("# Public Performance QA R32 v1", "# Public Performance QA R32 Final v1"),
+    "utf8"
+  );
   console.log(JSON.stringify({
     status: report.status,
     total_homepage_public_payload_mb: report.total_homepage_public_payload_mb,

@@ -1,6 +1,6 @@
 # Knockout Score Predictor v1
 
-Generated: 2026-06-28T02:19:59.242Z
+Generated: 2026-06-28T11:30:15.005Z
 
 90-minute xG/WDL is Poisson-based from refreshed PELE-forward teamQuality. Extra time is entered from the 90-minute draw probability, and penalty advancement remains close to 50/50 with a small team-strength edge.
 
@@ -20,3 +20,5 @@ Generated: 2026-06-28T02:19:59.242Z
 | Belgium vs Senegal | 1.191-0.88 | 0.2971 | Belgium | High |
 | Portugal vs Croatia | 1.401-0.745 | 0.2748 | Portugal | Medium |
 | Colombia vs Ghana | 2.113-0.35 | 0.1609 | Colombia | Low |
+| Spain vs Austria | 2.211-0.35 | 0.1497 | Spain | Low |
+| Switzerland vs Algeria | 1.36-0.658 | 0.2813 | Switzerland | Medium |

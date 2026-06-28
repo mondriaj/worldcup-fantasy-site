@@ -1,6 +1,6 @@
 {
   "schema_version": "r32_bracket_path_qa_v1",
-  "generated_at": "2026-06-28T02:19:59.242Z",
+  "generated_at": "2026-06-28T11:30:15.005Z",
   "status": "pass",
   "checks": [
     {
@@ -12,15 +12,19 @@
       "status": "pass"
     },
     {
-      "id": "provisional_slots_marked",
+      "id": "final_r32_fixture_count",
       "status": "pass"
     },
     {
-      "id": "uncertain_slots_marked",
+      "id": "no_provisional_slots_in_final_release",
       "status": "pass"
     },
     {
-      "id": "unfinished_matches_not_final",
+      "id": "no_uncertain_slots_in_final_release",
+      "status": "pass"
+    },
+    {
+      "id": "no_final_refresh_blockers",
       "status": "pass"
     }
   ]

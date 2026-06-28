@@ -4,6 +4,7 @@
 | --- | --- |
 | no_invented_unresolved_slots | pass |
 | known_fixtures_source_backed | pass |
-| provisional_slots_marked | pass |
-| uncertain_slots_marked | pass |
-| unfinished_matches_not_final | pass |
+| final_r32_fixture_count | pass |
+| no_provisional_slots_in_final_release | pass |
+| no_uncertain_slots_in_final_release | pass |
+| no_final_refresh_blockers | pass |

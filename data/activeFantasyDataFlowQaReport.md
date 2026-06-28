@@ -1,8 +1,8 @@
 # Active R32 Data Flow QA Report
 
-Generated: 2026-06-28T02:22:28.729Z
+Generated: 2026-06-28T11:30:14.953Z
 Status: **PASS**
-Active version: `20260628-r32-provisional`
+Active version: `20260628-r32-final`
 
 ## Summary
 
@@ -26,7 +26,7 @@ Active version: `20260628-r32-provisional`
 - selectable official records: 1240
 - selectable by position: GK 145, DEF 408, MID 418, FWD 269
 - recommendation identity coverage: 250 / 250 resolved
-- projection identity coverage: 1946 / 1946 resolved
+- projection identity coverage: 2049 / 2049 resolved
 - finance identity coverage: 1233 / 1233 resolved
 - projection/finance active ID alignment: 0 projection-only, 0 finance-only
 
@@ -49,10 +49,10 @@ Active version: `20260628-r32-provisional`
 - R32 recommendations: 125
 - R32 recommendation active identity coverage: 125 / 125
 - R32 recommendation projection misses: 0
-- R32 projections: 713
-- R32 score fixtures: 14
-- playersData.js R32 recommendation enrichment misses: 94
-- playersData.js R32 projection enrichment misses: 628
+- R32 projections: 816
+- R32 score fixtures: 16
+- playersData.js R32 recommendation enrichment misses: 99
+- playersData.js R32 projection enrichment misses: 722
 - playersData.js finance enrichment misses: 1122
 
 ## Checks

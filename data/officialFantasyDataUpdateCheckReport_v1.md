@@ -1,13 +1,13 @@
 # Official Fantasy Data Update Check v1
 
-Generated: 2026-06-28T02:12:58.767Z
+Generated: 2026-06-28T11:18:05.592Z
 
 ## Summary
 
 | Item | Result |
 | --- | --- |
-| Official data changed | yes |
-| Rerun decision | minor_change_no_model_rerun_needed |
+| Official data changed | no |
+| Rerun decision | no_change |
 | Model outputs updated | no |
 | Final squad status | still_blocked_no_source_backed_final_squads |
 | Fetch failures | 0 |
@@ -16,10 +16,10 @@ Generated: 2026-06-28T02:12:58.767Z
 
 | Source | HTTP | Parsed | Last-Modified | Bytes |
 | --- | --- | --- | --- | --- |
-| fifaFantasyPlayersJson | 200 | yes | 2026-06-28T02:04:22Z | 1275820 |
-| fifaFantasySquadsJson | 200 | yes | 2026-06-27T06:09:15Z | 6420 |
+| fifaFantasyPlayersJson | 200 | yes | 2026-06-28T11:04:23Z | 1271622 |
+| fifaFantasySquadsJson | 200 | yes | 2026-06-28T04:37:18Z | 6414 |
 | fifaFantasyHelpPagesJson | 200 | yes | 2026-06-25T11:05:16Z | 179312 |
-| fifaFantasyRoundsJson | 200 | yes | 2026-06-28T02:11:04Z | 124141 |
+| fifaFantasyRoundsJson | 200 | yes | 2026-06-28T10:01:02Z | 127885 |
 | fifaFantasyLanguageJson | 200 | yes | 2026-06-26T15:00:23Z | 27459 |
 
 ## Change Counts
@@ -36,14 +36,14 @@ Generated: 2026-06-28T02:12:58.767Z
 | Rules source/header changes | 0 |
 | Deadline/round changes | 0 |
 | Clean Sheet Shield text changes | 0 |
-| Ownership percent changes | 98 |
+| Ownership percent changes | 0 |
 
 ## Recommendation
 
-Decision: `minor_change_no_model_rerun_needed`
+Decision: `no_change`
 
 Reasons:
-- Only non-model source headers or ownership-style values changed.
+- No tracked official-data changes were found.
 
 This script is reporting-only. It does not import players, import squads, import rules, rerun models, update browser-ready files, or change Team Builder.
 
@@ -51,7 +51,7 @@ This script is reporting-only. It does not import players, import squads, import
 
 - Local official fantasy players: 1489
 - Live official fantasy players: 1489
-- Selectable status counts live: {"playing":984,"transferred":196,"suspended":4,"injured":1,"eliminated":304}
+- Selectable status counts live: {"playing":828,"transferred":175,"suspended":4,"injured":1,"eliminated":481}
 - Position counts live: {"DEF":486,"FWD":307,"MID":515,"GK":181}
 
 No player import-field changes found.
@@ -75,7 +75,7 @@ Candidate fields that may be useful for status auditing but do not prove final s
 
 - Help pages hash: `a9ae56a3a5d5ccdf26dbc70bfc6fd4b9bdea6a75b085d1356fd6b78d8a302cf3`
 - Language hash: `71e9748e99b99ed13cbf8be48287f63e3ec0be8e73e76c046edb77eceff15c62`
-- Rounds hash: `b2875ca00caf30300539b944a66ee915b5dba9930797bf7ab1de8cb621653398`
+- Rounds hash: `777cc2f90455ab5ad8ab7547aa6d82ffd2cf0e942f4e97a5c9c20debd2c0b5e8`
 - Clean Sheet Shield text changed vs imported rules: no
 - Live Clean Sheet Shield header: Clean Sheet Shield
 - Live Clean Sheet Shield description: Activate the Clean Sheet Shield to gain an edge in any of the Knockout stages. Any goalkeeper, defender, or midfielder in your team will only lose their clean sheet after conceding 2 goals.

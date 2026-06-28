@@ -76,6 +76,11 @@ const provisionalAudit = {
   schema_version: "pele_refresh_audit_r32_provisional_v1",
   release_status: "provisional_r32_setup"
 };
+const finalAudit = {
+  ...audit,
+  schema_version: "pele_refresh_audit_r32_final_v1",
+  release_status: "final_r32_setup"
+};
 const markdown = [
   "# PELE Refresh Audit R32 v1",
   "",
@@ -99,6 +104,8 @@ await writeFile("data/peleRefreshAudit_r32_v1.json", `${JSON.stringify(audit, nu
 await writeFile("data/peleRefreshAudit_r32_v1.md", markdown, "utf8");
 await writeFile("data/peleRefreshAudit_r32_provisional_v1.json", `${JSON.stringify(provisionalAudit, null, 2)}\n`, "utf8");
 await writeFile("data/peleRefreshAudit_r32_provisional_v1.md", markdown.replace("# PELE Refresh Audit R32 v1", "# PELE Refresh Audit R32 Provisional v1"), "utf8");
+await writeFile("data/peleRefreshAudit_r32_final_v1.json", `${JSON.stringify(finalAudit, null, 2)}\n`, "utf8");
+await writeFile("data/peleRefreshAudit_r32_final_v1.md", markdown.replace("# PELE Refresh Audit R32 v1", "# PELE Refresh Audit R32 Final v1"), "utf8");
 
 console.log(JSON.stringify({
   status,

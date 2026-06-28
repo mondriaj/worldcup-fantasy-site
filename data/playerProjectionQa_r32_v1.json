@@ -1,15 +1,33 @@
 {
   "schema_version": "player_projection_qa_r32_v1",
-  "generated_at": "2026-06-28T02:19:59.242Z",
+  "generated_at": "2026-06-28T11:30:15.005Z",
   "status": "pass",
   "summary": {
-    "projection_rows": 713,
-    "r32_projection_rows": 713,
-    "known_fixture_teams": 28,
+    "projection_rows": 816,
+    "r32_projection_rows": 816,
+    "known_fixture_teams": 32,
     "defaultMatchday": "r32",
     "ownershipUsedAsSignal": false,
     "finalSquadsSourceBacked": false,
     "topProjectedR32Players": [
+      {
+        "name": "Marc Cucurella",
+        "country": "Spain",
+        "position": "DEF",
+        "opponent": "Austria",
+        "projectedPoints": 6.976,
+        "captainScore": 28.724,
+        "pathValue": 0.55
+      },
+      {
+        "name": "Aymeric Laporte",
+        "country": "Spain",
+        "position": "DEF",
+        "opponent": "Austria",
+        "projectedPoints": 6.962,
+        "captainScore": 28.69,
+        "pathValue": 0.55
+      },
       {
         "name": "Lionel Messi",
         "country": "Argentina",
@@ -17,15 +35,15 @@
         "opponent": "Cabo Verde",
         "projectedPoints": 6.797,
         "captainScore": 31.469,
-        "pathValue": 1.2
+        "pathValue": 0.55
       },
       {
         "name": "Daniel Muñoz",
         "country": "Colombia",
         "position": "DEF",
         "opponent": "Ghana",
-        "projectedPoints": 6.599,
-        "captainScore": 27.457,
+        "projectedPoints": 6.73,
+        "captainScore": 27.739,
         "pathValue": 1.2
       },
       {
@@ -33,17 +51,8 @@
         "country": "Colombia",
         "position": "DEF",
         "opponent": "Ghana",
-        "projectedPoints": 6.444,
-        "captainScore": 27.116,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Ezri Konsa",
-        "country": "England",
-        "position": "DEF",
-        "opponent": "Congo DR",
-        "projectedPoints": 6.441,
-        "captainScore": 28.794,
+        "projectedPoints": 6.574,
+        "captainScore": 27.395,
         "pathValue": 1.2
       },
       {
@@ -51,9 +60,36 @@
         "country": "Colombia",
         "position": "DEF",
         "opponent": "Ghana",
-        "projectedPoints": 6.39,
-        "captainScore": 27,
+        "projectedPoints": 6.521,
+        "captainScore": 27.281,
         "pathValue": 1.2
+      },
+      {
+        "name": "Ezri Konsa",
+        "country": "England",
+        "position": "DEF",
+        "opponent": "Congo DR",
+        "projectedPoints": 6.507,
+        "captainScore": 28.936,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Unai Simón",
+        "country": "Spain",
+        "position": "GK",
+        "opponent": "Austria",
+        "projectedPoints": 6.416,
+        "captainScore": 27.524,
+        "pathValue": 0.55
+      },
+      {
+        "name": "Lautaro Martínez",
+        "country": "Argentina",
+        "position": "FWD",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 6.32,
+        "captainScore": 30.437,
+        "pathValue": 0.55
       },
       {
         "name": "Harry Kane",
@@ -65,57 +101,39 @@
         "pathValue": 1.2
       },
       {
+        "name": "Pau Cubarsí",
+        "country": "Spain",
+        "position": "DEF",
+        "opponent": "Austria",
+        "projectedPoints": 6.015,
+        "captainScore": 26.382,
+        "pathValue": 0.55
+      },
+      {
         "name": "Dayot Upamecano",
         "country": "France",
         "position": "DEF",
         "opponent": "Sweden",
-        "projectedPoints": 6.106,
-        "captainScore": 26.52,
-        "pathValue": 1.2
+        "projectedPoints": 6.008,
+        "captainScore": 26.309,
+        "pathValue": 0.55
       },
       {
-        "name": "Joshua Kimmich",
-        "country": "Germany",
+        "name": "Marcos Llorente",
+        "country": "Spain",
         "position": "DEF",
-        "opponent": "Paraguay",
-        "projectedPoints": 6.067,
-        "captainScore": 25.267,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Facundo Medina",
-        "country": "Argentina",
-        "position": "DEF",
-        "opponent": "Cabo Verde",
-        "projectedPoints": 6.01,
-        "captainScore": 29.566,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Jules Koundé",
-        "country": "France",
-        "position": "DEF",
-        "opponent": "Sweden",
-        "projectedPoints": 5.985,
-        "captainScore": 26.256,
-        "pathValue": 1.2
+        "opponent": "Austria",
+        "projectedPoints": 6.007,
+        "captainScore": 26.365,
+        "pathValue": 0.55
       },
       {
         "name": "Reece James",
         "country": "England",
         "position": "DEF",
         "opponent": "Congo DR",
-        "projectedPoints": 5.941,
-        "captainScore": 27.713,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Lisandro Martínez",
-        "country": "Argentina",
-        "position": "DEF",
-        "opponent": "Cabo Verde",
-        "projectedPoints": 5.904,
-        "captainScore": 29.339,
+        "projectedPoints": 6.007,
+        "captainScore": 27.855,
         "pathValue": 1.2
       },
       {
@@ -123,26 +141,8 @@
         "country": "Colombia",
         "position": "GK",
         "opponent": "Ghana",
-        "projectedPoints": 5.867,
-        "captainScore": 25.875,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Lautaro Martínez",
-        "country": "Argentina",
-        "position": "FWD",
-        "opponent": "Cabo Verde",
-        "projectedPoints": 5.84,
-        "captainScore": 29.405,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Kylian Mbappé",
-        "country": "France",
-        "position": "FWD",
-        "opponent": "Sweden",
-        "projectedPoints": 5.774,
-        "captainScore": 25.858,
+        "projectedPoints": 5.998,
+        "captainScore": 26.157,
         "pathValue": 1.2
       },
       {
@@ -150,45 +150,247 @@
         "country": "Colombia",
         "position": "DEF",
         "opponent": "Ghana",
-        "projectedPoints": 5.77,
-        "captainScore": 25.656,
+        "projectedPoints": 5.899,
+        "captainScore": 25.934,
         "pathValue": 1.2
       },
       {
-        "name": "Jude Bellingham",
-        "country": "England",
-        "position": "MID",
-        "opponent": "Congo DR",
-        "projectedPoints": 5.748,
-        "captainScore": 27.332,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Jordan Pickford",
-        "country": "England",
-        "position": "GK",
-        "opponent": "Congo DR",
-        "projectedPoints": 5.743,
-        "captainScore": 27.297,
-        "pathValue": 1.2
+        "name": "Jules Koundé",
+        "country": "France",
+        "position": "DEF",
+        "opponent": "Sweden",
+        "projectedPoints": 5.887,
+        "captainScore": 26.045,
+        "pathValue": 0.55
       },
       {
         "name": "Emiliano Martínez",
         "country": "Argentina",
         "position": "GK",
         "opponent": "Cabo Verde",
-        "projectedPoints": 5.739,
-        "captainScore": 29.194,
-        "pathValue": 1.2
+        "projectedPoints": 5.879,
+        "captainScore": 29.495,
+        "pathValue": 0.55
       },
       {
-        "name": "Mike Maignan",
-        "country": "France",
+        "name": "Facundo Medina",
+        "country": "Argentina",
+        "position": "DEF",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 5.829,
+        "captainScore": 29.107,
+        "pathValue": 0.55
+      },
+      {
+        "name": "Jordan Pickford",
+        "country": "England",
         "position": "GK",
-        "opponent": "Sweden",
-        "projectedPoints": 5.736,
-        "captainScore": 25.724,
+        "opponent": "Congo DR",
+        "projectedPoints": 5.809,
+        "captainScore": 27.439,
         "pathValue": 1.2
+      }
+    ],
+    "topGkDefCleanSheetRecommendations": [
+      {
+        "name": "Marc Cucurella",
+        "country": "Spain",
+        "position": "DEF",
+        "opponent": "Austria",
+        "projectedPoints": 6.976,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "Aymeric Laporte",
+        "country": "Spain",
+        "position": "DEF",
+        "opponent": "Austria",
+        "projectedPoints": 6.962,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "Unai Simón",
+        "country": "Spain",
+        "position": "GK",
+        "opponent": "Austria",
+        "projectedPoints": 6.416,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "Pau Cubarsí",
+        "country": "Spain",
+        "position": "DEF",
+        "opponent": "Austria",
+        "projectedPoints": 6.015,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "Marcos Llorente",
+        "country": "Spain",
+        "position": "DEF",
+        "opponent": "Austria",
+        "projectedPoints": 6.007,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "Pedro Porro",
+        "country": "Spain",
+        "position": "DEF",
+        "opponent": "Austria",
+        "projectedPoints": 3.826,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "Alejandro Grimaldo",
+        "country": "Spain",
+        "position": "DEF",
+        "opponent": "Austria",
+        "projectedPoints": 1.963,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "Eric García",
+        "country": "Spain",
+        "position": "DEF",
+        "opponent": "Austria",
+        "projectedPoints": 0.825,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "David Raya",
+        "country": "Spain",
+        "position": "GK",
+        "opponent": "Austria",
+        "projectedPoints": 0.811,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "Marc Pubill",
+        "country": "Spain",
+        "position": "DEF",
+        "opponent": "Austria",
+        "projectedPoints": 0.755,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "Joan García",
+        "country": "Spain",
+        "position": "GK",
+        "opponent": "Austria",
+        "projectedPoints": 0.42,
+        "cleanSheetProbability": 0.7519,
+        "defensiveFormLabel": "positive_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.067
+      },
+      {
+        "name": "Daniel Muñoz",
+        "country": "Colombia",
+        "position": "DEF",
+        "opponent": "Ghana",
+        "projectedPoints": 6.73,
+        "cleanSheetProbability": 0.735,
+        "defensiveFormLabel": "neutral_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.043
+      },
+      {
+        "name": "Dávinson Sánchez",
+        "country": "Colombia",
+        "position": "DEF",
+        "opponent": "Ghana",
+        "projectedPoints": 6.574,
+        "cleanSheetProbability": 0.735,
+        "defensiveFormLabel": "neutral_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.043
+      },
+      {
+        "name": "Jhon Lucumí",
+        "country": "Colombia",
+        "position": "DEF",
+        "opponent": "Ghana",
+        "projectedPoints": 6.521,
+        "cleanSheetProbability": 0.735,
+        "defensiveFormLabel": "neutral_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.043
+      },
+      {
+        "name": "Camilo Vargas",
+        "country": "Colombia",
+        "position": "GK",
+        "opponent": "Ghana",
+        "projectedPoints": 5.998,
+        "cleanSheetProbability": 0.735,
+        "defensiveFormLabel": "neutral_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.043
+      },
+      {
+        "name": "Johan Mojica",
+        "country": "Colombia",
+        "position": "DEF",
+        "opponent": "Ghana",
+        "projectedPoints": 5.899,
+        "cleanSheetProbability": 0.735,
+        "defensiveFormLabel": "neutral_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.043
+      },
+      {
+        "name": "Déiver Machado",
+        "country": "Colombia",
+        "position": "DEF",
+        "opponent": "Ghana",
+        "projectedPoints": 4.919,
+        "cleanSheetProbability": 0.735,
+        "defensiveFormLabel": "neutral_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.043
+      },
+      {
+        "name": "Santiago Arias",
+        "country": "Colombia",
+        "position": "DEF",
+        "opponent": "Ghana",
+        "projectedPoints": 4.876,
+        "cleanSheetProbability": 0.735,
+        "defensiveFormLabel": "neutral_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.043
+      },
+      {
+        "name": "Yerry Mina",
+        "country": "Colombia",
+        "position": "DEF",
+        "opponent": "Ghana",
+        "projectedPoints": 4.494,
+        "cleanSheetProbability": 0.735,
+        "defensiveFormLabel": "neutral_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.043
+      },
+      {
+        "name": "Willer Ditta",
+        "country": "Colombia",
+        "position": "DEF",
+        "opponent": "Ghana",
+        "projectedPoints": 2.585,
+        "cleanSheetProbability": 0.735,
+        "defensiveFormLabel": "neutral_clean_sheet_form",
+        "cleanSheetFormAdjustment": 0.043
       }
     ]
   }
