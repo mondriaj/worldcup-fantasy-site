@@ -18,6 +18,7 @@ const REQUIRED_SCRIPT_ORDER = [
   "fantasyPoolFinanceMetricsData.js",
   "fantasyPoolScorePredictionsData.js",
   "knockoutScorePredictorData.js",
+  "bracketPoolStrategyData.js",
   "fantasyPoolOfficialDataStatusData.js",
   "liveMatchdayStatusData.js",
   "livePlayerStatusData.js",
@@ -514,12 +515,14 @@ function verifyActiveGlobals(report, windowGlobals) {
   const officialRecords = activeOfficialRecordsFromStatus(officialStatus);
   const liveMatchday = windowGlobals.LIVE_MATCHDAY_STATUS_DATA || null;
   const livePlayer = windowGlobals.LIVE_PLAYER_STATUS_DATA || null;
+  const bracketPoolStrategyData = windowGlobals.BRACKET_POOL_STRATEGY_DATA || null;
 
   const requiredGlobals = [
     ["FANTASY_POOL_RECOMMENDATION_CANDIDATES", recommendationRows.length > 0],
     ["FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS", projectionRows.length > 0],
     ["FANTASY_POOL_PLAYER_FINANCE_METRICS", financeRows.length > 0],
     ["FANTASY_POOL_SCORE_PREDICTIONS", scoreRows.length > 0],
+    ["BRACKET_POOL_STRATEGY_DATA", Boolean(bracketPoolStrategyData?.strategies?.length)],
     ["FANTASY_POOL_OFFICIAL_DATA_STATUS", Boolean(officialStatus)],
     [`FANTASY_POOL_OFFICIAL_DATA_STATUS.${ACTIVE_OFFICIAL_UNIVERSE_FIELD}`, officialRecords.length > 0],
     ["LIVE_MATCHDAY_STATUS_DATA", Boolean(liveMatchday)],
@@ -538,6 +541,8 @@ function verifyActiveGlobals(report, windowGlobals) {
     finance_rows: financeRows.length,
     score_fixture_rows: scoreRows.length,
     score_team_fixture_rows: teamScoreRows.length,
+    bracket_pool_strategy_count: bracketPoolStrategyData?.strategies?.length || 0,
+    bracket_pool_team_metric_count: bracketPoolStrategyData?.team_metrics?.length || 0,
     [ACTIVE_OFFICIAL_UNIVERSE_FIELD]: officialRecords.length,
     live_fixture_rows: liveMatchday?.fixtures?.length || 0,
     live_player_rows: livePlayer?.players?.length || 0
@@ -554,6 +559,7 @@ function verifyActiveGlobals(report, windowGlobals) {
     officialRecords,
     liveMatchday,
     livePlayer,
+    bracketPoolStrategyData,
     activeCounts
   };
 }

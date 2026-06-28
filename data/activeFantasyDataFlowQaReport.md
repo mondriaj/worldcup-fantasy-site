@@ -1,6 +1,6 @@
 # Active R32 Data Flow QA Report
 
-Generated: 2026-06-28T11:30:14.953Z
+Generated: 2026-06-28T11:52:49.231Z
 Status: **PASS**
 Active version: `20260628-r32-final`
 
@@ -26,7 +26,7 @@ Active version: `20260628-r32-final`
 - selectable official records: 1240
 - selectable by position: GK 145, DEF 408, MID 418, FWD 269
 - recommendation identity coverage: 250 / 250 resolved
-- projection identity coverage: 2049 / 2049 resolved
+- projection identity coverage: 4515 / 4515 resolved
 - finance identity coverage: 1233 / 1233 resolved
 - projection/finance active ID alignment: 0 projection-only, 0 finance-only
 
@@ -90,6 +90,7 @@ fantasyPoolMatchdayProjectionsData.js
 fantasyPoolFinanceMetricsData.js
 fantasyPoolScorePredictionsData.js
 knockoutScorePredictorData.js
+bracketPoolStrategyData.js
 fantasyPoolOfficialDataStatusData.js
 liveMatchdayStatusData.js
 livePlayerStatusData.js

@@ -1,6 +1,6 @@
 # Public Preview Browser QA Report v1
 
-Generated: 2026-06-28T11:32:56.850Z
+Generated: 2026-06-28T11:54:50.681Z
 
 ## Verdict
 
@@ -31,6 +31,7 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | MD2 remains accessible | pass |
 | Team Builder opens on R32 | pass |
 | Knockout predictor renders | pass |
+| Bracket-pool selector renders | pass |
 | Player Profile opens | pass |
 | Current data scripts loaded | pass |
 | Old globals absent | pass |
@@ -46,6 +47,8 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | Projection rows | 4515 |
 | R32 projection rows | 816 |
 | Known knockout predictions | 16 |
+| Bracket-pool strategies | 5 |
+| Bracket-pool team metrics | 32 |
 | Score fixtures | 88 |
 | Official records | 1489 |
 | Live fixtures | 88 |
@@ -57,9 +60,9 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | --- | --- |
 | Console/page errors | 0 |
 | Console warnings | 0 |
-| Failed requests | 6 |
+| Failed requests | 5 |
 | Blocking failed requests | 0 |
-| Ignored non-blocking failed requests | 6 |
+| Ignored non-blocking failed requests | 5 |
 | Index overflow viewports | 0 |
 | World Cup overflow viewports | 0 |
 | Profile click failures | 0 |

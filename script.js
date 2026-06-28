@@ -32,7 +32,8 @@ const ACTIVE_DATA = {
   officialStatus: window.FANTASY_POOL_OFFICIAL_DATA_STATUS || null,
   liveMatchday: window.LIVE_MATCHDAY_STATUS_DATA || null,
   livePlayer: window.LIVE_PLAYER_STATUS_DATA || null,
-  knockout: window.KNOCKOUT_SCORE_PREDICTOR_DATA || null
+  knockout: window.KNOCKOUT_SCORE_PREDICTOR_DATA || null,
+  bracketPool: window.BRACKET_POOL_STRATEGY_DATA || null
 };
 
 function scorePredictionSourceFromWindow() {
@@ -344,6 +345,7 @@ const scorePredictionSummary = activeScorePredictionSource.summary;
 const liveMatchdayStatusData = ACTIVE_DATA.liveMatchday;
 const livePlayerStatusData = ACTIVE_DATA.livePlayer;
 const knockoutPredictorData = ACTIVE_DATA.knockout;
+const bracketPoolStrategyData = ACTIVE_DATA.bracketPool;
 const liveFixtureRows = Array.isArray(liveMatchdayStatusData?.fixtures) ? liveMatchdayStatusData.fixtures : [];
 const liveRoundRows = Array.isArray(liveMatchdayStatusData?.rounds) ? liveMatchdayStatusData.rounds : [];
 const livePlayerRows = Array.isArray(livePlayerStatusData?.players) ? livePlayerStatusData.players : [];
@@ -358,6 +360,15 @@ const knockoutArbitraryPredictionLookup = new Map(knockoutArbitraryPredictionRow
   `${row.home_team_id}|${row.away_team_id}`,
   row
 ]));
+const bracketPoolStrategies = Array.isArray(bracketPoolStrategyData?.strategies) ? bracketPoolStrategyData.strategies : [];
+const bracketPoolStrategyLookup = new Map(bracketPoolStrategies.map((strategy) => [strategy.strategy_id, strategy]));
+const bracketPoolRoundLabels = {
+  r32: "R32",
+  r16: "R16",
+  qf: "QF",
+  sf: "SF",
+  final: "Final"
+};
 const usingFantasyPoolPreview = Boolean(fantasyPoolPreviewStatus && fantasyPoolRecommendationRows.length);
 const defaultMatchdayOptions = [
   { matchday_id: "r32", label: "Round of 32" },
@@ -378,6 +389,7 @@ let activeTrustModeId = "balanced";
 let activeAdvicePoolModeId = "playable";
 let activeQuickPickModelKey = "expected";
 let activeQuickPickPosition = "All";
+let activeBracketPoolStrategyId = bracketPoolStrategies[0]?.strategy_id || "safe";
 const browserSquadStorageKey = "worldCupFantasyHelper.teamExport.v1";
 
 function activeDataBadgeHtml() {
@@ -2746,6 +2758,9 @@ const knockoutKnownFixturesBody = document.getElementById("knockout-known-fixtur
 const knockoutHomeTeamSelect = document.getElementById("knockout-home-team-select");
 const knockoutAwayTeamSelect = document.getElementById("knockout-away-team-select");
 const knockoutMatchupResult = document.getElementById("knockout-matchup-result");
+const bracketPoolStrategySelect = document.getElementById("bracket-pool-strategy-select");
+const bracketPoolSummary = document.getElementById("bracket-pool-summary");
+const bracketPoolMatchList = document.getElementById("bracket-pool-match-list");
 const trustModeSelects = [
   quickTrustModeSelect,
   captainTrustModeSelect,
@@ -5788,6 +5803,129 @@ function knockoutPredictionCardHtml(row, options = {}) {
   `;
 }
 
+function activeBracketPoolStrategy() {
+  return bracketPoolStrategyLookup.get(activeBracketPoolStrategyId) || bracketPoolStrategies[0] || null;
+}
+
+function bracketPoolTeamNames(rows, limit = 3) {
+  return (Array.isArray(rows) ? rows : [])
+    .slice(0, limit)
+    .map((row) => row.team)
+    .filter(Boolean)
+    .join(", ");
+}
+
+function bracketPoolSameAsSafeNote(strategy) {
+  const safeStrategy = bracketPoolStrategyLookup.get("safe");
+  if (!strategy || !safeStrategy || strategy.strategy_id === "safe") {
+    return "";
+  }
+
+  const changedMatches = (strategy.matches || []).filter((match, index) =>
+    match.model_pick_team_id !== safeStrategy.matches?.[index]?.model_pick_team_id
+  );
+
+  if (changedMatches.length) {
+    return `<p class="knockout-strategy-change-note">${escapeHtml(`${changedMatches.length} match pick${changedMatches.length === 1 ? "" : "s"} differ from Safe.`)}</p>`;
+  }
+
+  return `<p class="knockout-strategy-change-note">This strategy currently matches Safe because the propagated bracket gives the same highest-value picks.</p>`;
+}
+
+function bracketPoolSummaryHtml(strategy) {
+  if (!strategy) {
+    return modelDataWarningHtml("Bracket-pool strategy data is not loaded.", { title: "Bracket pool" });
+  }
+
+  const champion = strategy.champion?.team || "Needs check";
+  const finalists = (strategy.finalists || []).map((team) => team.team).join(" vs ") || "Needs check";
+  const semifinalists = (strategy.semifinalists || []).map((team) => team.team).join(", ") || "Needs check";
+  const topPathTeams = bracketPoolTeamNames(bracketPoolStrategyData?.strategy_summaries?.path_value_top_10);
+  const riskyTeams = bracketPoolTeamNames(bracketPoolStrategyData?.strategy_summaries?.risky_favorites);
+  const hardPathTeams = bracketPoolTeamNames(bracketPoolStrategyData?.strategy_summaries?.hard_path_warnings);
+
+  return `
+    <article class="knockout-strategy-summary-card">
+      <span class="info-card__label">${escapeHtml(strategy.label || "Bracket Strategy")}</span>
+      <h3>${escapeHtml(champion)}</h3>
+      <p>${escapeHtml(strategy.description || "Bracket-pool strategy overlay.")}</p>
+      ${bracketPoolSameAsSafeNote(strategy)}
+      <div class="knockout-result-grid knockout-strategy-metrics">
+        <span><strong>${escapeHtml(finalists)}</strong><small>Finalists</small></span>
+        <span><strong>${escapeHtml(semifinalists)}</strong><small>Semifinalists</small></span>
+        <span><strong>${escapeHtml(topPathTeams || "Needs check")}</strong><small>Best path value</small></span>
+        <span><strong>${escapeHtml(riskyTeams || hardPathTeams || "Needs check")}</strong><small>Path warnings</small></span>
+      </div>
+    </article>
+  `;
+}
+
+function bracketPoolMatchCardHtml(match) {
+  const pickText = `${match.model_pick || "Needs check"} · ${compactPercentText(match.model_pick_advance_probability)} advance`;
+  return `
+    <article class="knockout-strategy-match">
+      <span class="info-card__label">M${escapeHtml(match.match_number)} · ${escapeHtml(match.round_label)}</span>
+      <h4>${escapeHtml(match.left_team)} vs ${escapeHtml(match.right_team)}</h4>
+      <p><strong>${escapeHtml(pickText)}</strong></p>
+      <small>${escapeHtml(match.bracket_pool_value_note || "Bracket-pool value note unavailable.")}</small>
+      <small>${escapeHtml(match.path_note || "Path note unavailable.")}</small>
+    </article>
+  `;
+}
+
+function bracketPoolMatchListHtml(strategy) {
+  if (!strategy?.matches?.length) {
+    return modelDataWarningHtml("No bracket-pool strategy matches are available.", { title: "Bracket pool" });
+  }
+
+  const roundOrder = ["r32", "r16", "qf", "sf", "final"];
+  return roundOrder.map((roundId) => {
+    const matches = strategy.matches
+      .filter((match) => match.round_id === roundId)
+      .sort((a, b) => value(a.match_number) - value(b.match_number));
+    if (!matches.length) {
+      return "";
+    }
+
+    return `
+      <section class="knockout-strategy-round" aria-label="${escapeHtml(bracketPoolRoundLabels[roundId] || roundId)} strategy picks">
+        <h3>${escapeHtml(bracketPoolRoundLabels[roundId] || roundId)}</h3>
+        <div class="knockout-strategy-match-grid">
+          ${matches.map(bracketPoolMatchCardHtml).join("")}
+        </div>
+      </section>
+    `;
+  }).join("");
+}
+
+function renderBracketPoolStrategy() {
+  if (!bracketPoolStrategySelect || !bracketPoolSummary || !bracketPoolMatchList) {
+    return;
+  }
+
+  if (!bracketPoolStrategies.length) {
+    bracketPoolStrategySelect.innerHTML = `<option value="">Strategies unavailable</option>`;
+    bracketPoolSummary.innerHTML = modelDataWarningHtml("Bracket-pool strategy data is not loaded.", { title: "Bracket pool" });
+    bracketPoolMatchList.innerHTML = "";
+    return;
+  }
+
+  if (bracketPoolStrategySelect.options.length !== bracketPoolStrategies.length) {
+    bracketPoolStrategySelect.innerHTML = bracketPoolStrategies
+      .map((strategy) => `<option value="${escapeHtml(strategy.strategy_id)}">${escapeHtml(strategy.label)}</option>`)
+      .join("");
+  }
+
+  if (!bracketPoolStrategyLookup.has(activeBracketPoolStrategyId)) {
+    activeBracketPoolStrategyId = bracketPoolStrategies[0].strategy_id;
+  }
+
+  bracketPoolStrategySelect.value = activeBracketPoolStrategyId;
+  const strategy = activeBracketPoolStrategy();
+  bracketPoolSummary.innerHTML = bracketPoolSummaryHtml(strategy);
+  bracketPoolMatchList.innerHTML = bracketPoolMatchListHtml(strategy);
+}
+
 function renderKnockoutKnownFixtures() {
   if (!knockoutKnownFixturesBody) {
     return;
@@ -5838,6 +5976,7 @@ function renderKnockoutMatchup() {
 
 function renderKnockoutPredictor() {
   renderKnockoutKnownFixtures();
+  renderBracketPoolStrategy();
 
   if (!knockoutHomeTeamSelect || !knockoutAwayTeamSelect) {
     return;
@@ -14675,6 +14814,10 @@ function setupBuilder() {
   [knockoutHomeTeamSelect, knockoutAwayTeamSelect]
     .filter(Boolean)
     .forEach((select) => select.addEventListener("change", renderKnockoutMatchup));
+  bracketPoolStrategySelect?.addEventListener("change", (event) => {
+    activeBracketPoolStrategyId = event.target.value;
+    renderBracketPoolStrategy();
+  });
   [matchdayDecisionMatchdaySelect, matchdayDecisionRiskSelect, matchdayDecisionStarterSelect]
     .filter(Boolean)
     .forEach((select) => select.addEventListener("change", renderMatchdayDecisionCenter));

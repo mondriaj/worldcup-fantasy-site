@@ -1,6 +1,6 @@
 {
   "schema_version": "active_fantasy_data_flow_qa_v1",
-  "generated_at": "2026-06-28T11:30:14.953Z",
+  "generated_at": "2026-06-28T11:52:49.231Z",
   "active_version": "20260628-r32-final",
   "status": "pass",
   "checks": [
@@ -16,6 +16,7 @@
           "fantasyPoolFinanceMetricsData.js",
           "fantasyPoolScorePredictionsData.js",
           "knockoutScorePredictorData.js",
+          "bracketPoolStrategyData.js",
           "fantasyPoolOfficialDataStatusData.js",
           "liveMatchdayStatusData.js",
           "livePlayerStatusData.js",
@@ -29,6 +30,7 @@
           "fantasyPoolFinanceMetricsData.js",
           "fantasyPoolScorePredictionsData.js",
           "knockoutScorePredictorData.js",
+          "bracketPoolStrategyData.js",
           "fantasyPoolOfficialDataStatusData.js",
           "liveMatchdayStatusData.js",
           "livePlayerStatusData.js",
@@ -110,10 +112,12 @@
       "status": "pass",
       "detail": {
         "recommendation_rows": 250,
-        "projection_rows": 2049,
+        "projection_rows": 4515,
         "finance_rows": 1233,
         "score_fixture_rows": 88,
         "score_team_fixture_rows": 176,
+        "bracket_pool_strategy_count": 5,
+        "bracket_pool_team_metric_count": 32,
         "official_position_records": 1489,
         "live_fixture_rows": 88,
         "live_player_rows": 1489
@@ -148,8 +152,8 @@
       "id": "fantasy_pool_projection_identity_coverage",
       "status": "pass",
       "detail": {
-        "resolved": 2049,
-        "total": 2049,
+        "resolved": 4515,
+        "total": 4515,
         "missing": 0,
         "unique_active_official_players": 1233
       }
@@ -257,6 +261,7 @@
       "fantasyPoolFinanceMetricsData.js",
       "fantasyPoolScorePredictionsData.js",
       "knockoutScorePredictorData.js",
+      "bracketPoolStrategyData.js",
       "fantasyPoolOfficialDataStatusData.js",
       "liveMatchdayStatusData.js",
       "livePlayerStatusData.js",
@@ -270,6 +275,7 @@
       "fantasyPoolFinanceMetricsData.js",
       "fantasyPoolScorePredictionsData.js",
       "knockoutScorePredictorData.js",
+      "bracketPoolStrategyData.js",
       "fantasyPoolOfficialDataStatusData.js",
       "liveMatchdayStatusData.js",
       "livePlayerStatusData.js",
@@ -283,10 +289,12 @@
   },
   "active_counts": {
     "recommendation_rows": 250,
-    "projection_rows": 2049,
+    "projection_rows": 4515,
     "finance_rows": 1233,
     "score_fixture_rows": 88,
     "score_team_fixture_rows": 176,
+    "bracket_pool_strategy_count": 5,
+    "bracket_pool_team_metric_count": 32,
     "official_position_records": 1489,
     "live_fixture_rows": 88,
     "live_player_rows": 1489
@@ -366,8 +374,8 @@
       "missing": 0
     },
     "projection_identity_coverage": {
-      "resolved": 2049,
-      "total": 2049,
+      "resolved": 4515,
+      "total": 4515,
       "missing": 0,
       "unique_active_official_players": 1233
     },

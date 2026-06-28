@@ -591,6 +591,19 @@
             <div id="knockout-matchup-result" class="knockout-matchup-result" aria-live="polite"></div>
           </div>
 
+          <div class="knockout-strategy-tool" aria-labelledby="bracket-pool-strategy-title">
+            <div class="table-toolbar knockout-strategy-toolbar">
+              <label class="control-group" for="bracket-pool-strategy-select">
+                <span id="bracket-pool-strategy-title">Bracket Strategy</span>
+                <select id="bracket-pool-strategy-select"></select>
+              </label>
+            </div>
+
+            <p class="knockout-strategy-explainer">Bracket pools reward surviving rounds. A team with a slightly easier path can be a better pool pick than a slightly stronger team with a very hard path.</p>
+            <div id="bracket-pool-summary" class="knockout-strategy-summary" aria-live="polite"></div>
+            <div id="bracket-pool-match-list" class="knockout-strategy-match-list"></div>
+          </div>
+
           <div class="table-wrapper knockout-fixture-table-wrapper">
             <table>
               <thead>
@@ -1569,6 +1582,7 @@
     <script src="fantasyPoolFinanceMetricsData.js?v=20260628-r32-final"></script>
     <script src="fantasyPoolScorePredictionsData.js?v=20260628-r32-final"></script>
     <script src="knockoutScorePredictorData.js?v=20260628-r32-final"></script>
+    <script src="bracketPoolStrategyData.js?v=20260628-r32-final"></script>
     <script src="fantasyPoolOfficialDataStatusData.js?v=20260628-r32-final"></script>
     <script src="liveMatchdayStatusData.js?v=20260628-r32-final"></script>
     <script src="livePlayerStatusData.js?v=20260628-r32-final"></script>

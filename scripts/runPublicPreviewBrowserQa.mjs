@@ -24,6 +24,7 @@ const currentDataScripts = [
   "fantasyPoolFinanceMetricsData.js",
   "fantasyPoolScorePredictionsData.js",
   "knockoutScorePredictorData.js",
+  "bracketPoolStrategyData.js",
   "fantasyPoolOfficialDataStatusData.js",
   "liveMatchdayStatusData.js",
   "livePlayerStatusData.js",
@@ -47,6 +48,8 @@ const activeGlobalChecks = {
     Array.isArray(windowObject.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS),
   KNOCKOUT_SCORE_PREDICTOR_DATA: (value) =>
     Boolean(value && Array.isArray(value.known_r32_predictions) && value.known_r32_predictions.length > 0),
+  BRACKET_POOL_STRATEGY_DATA: (value) =>
+    Boolean(value && Array.isArray(value.strategies) && value.strategies.length >= 5),
   FANTASY_POOL_OFFICIAL_DATA_STATUS: (value) =>
     Boolean(value && Array.isArray(value.official_position_records) && value.official_position_records.length > 0),
   LIVE_MATCHDAY_STATUS_DATA: (value) => Boolean(value && Array.isArray(value.fixtures)),
@@ -128,6 +131,7 @@ function buildMarkdownReport(result) {
         ["MD2 remains accessible", checks.matchEnvironmentMd2Accessible ? "pass" : "fail"],
         ["Team Builder opens on R32", checks.teamBuilderDefaultR32 ? "pass" : "fail"],
         ["Knockout predictor renders", checks.knockoutPredictorRenders ? "pass" : "fail"],
+        ["Bracket-pool selector renders", checks.bracketPoolStrategySwitches ? "pass" : "fail"],
         ["Player Profile opens", checks.playerProfileOpens ? "pass" : "fail"],
         ["Current data scripts loaded", checks.currentScriptsLoaded ? "pass" : "fail"],
         ["Old globals absent", checks.oldGlobalsAbsent ? "pass" : "fail"],
@@ -146,6 +150,8 @@ function buildMarkdownReport(result) {
         ["Projection rows", globals.projections],
         ["R32 projection rows", globals.r32Projections],
         ["Known knockout predictions", globals.knownKnockoutPredictions],
+        ["Bracket-pool strategies", globals.bracketPoolStrategies],
+        ["Bracket-pool team metrics", globals.bracketPoolTeamMetrics],
         ["Score fixtures", globals.scoreFixtures],
         ["Official records", globals.officialRecords],
         ["Live fixtures", globals.liveFixtures],
@@ -259,6 +265,8 @@ async function collectPageState(page) {
       finance: window.FANTASY_POOL_PLAYER_FINANCE_METRICS?.length || 0,
       scoreFixtures: window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS?.length || window.FANTASY_POOL_SCORE_PREDICTIONS_DATA?.fixtureScorePredictions?.length || 0,
       knownKnockoutPredictions: window.KNOCKOUT_SCORE_PREDICTOR_DATA?.known_r32_predictions?.length || 0,
+      bracketPoolStrategies: window.BRACKET_POOL_STRATEGY_DATA?.strategies?.length || 0,
+      bracketPoolTeamMetrics: window.BRACKET_POOL_STRATEGY_DATA?.team_metrics?.length || 0,
       officialRecords: window.FANTASY_POOL_OFFICIAL_DATA_STATUS?.official_position_records?.length || 0,
       liveFixtures: window.LIVE_MATCHDAY_STATUS_DATA?.fixtures?.length || 0,
       livePlayers: window.LIVE_PLAYER_STATUS_DATA?.players?.length || 0
@@ -378,6 +386,15 @@ async function collectPageState(page) {
           awayOptions: selectOptionCount("#knockout-away-team-select"),
           resultText: textFrom("#knockout-matchup-result"),
           knownRows: document.querySelectorAll("#knockout-known-fixtures-body tr").length
+        },
+        bracketPoolStrategy: {
+          selected: selectValue("#bracket-pool-strategy-select"),
+          optionCount: selectOptionCount("#bracket-pool-strategy-select"),
+          optionValues: Array.from(document.querySelector("#bracket-pool-strategy-select")?.options || []).map((option) => option.value),
+          summaryText: compactText(textFrom("#bracket-pool-summary")),
+          matchCards: document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match").length,
+          roundHeaders: Array.from(document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-round h3")).map((heading) => heading.textContent.trim()),
+          pathWarningText: compactText(Array.from(document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match small")).map((node) => node.textContent).join(" ")).slice(0, 1000)
         }
       },
       warnings: {
@@ -409,6 +426,7 @@ async function verifyActiveGlobals(page) {
       FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS: Array.isArray(window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS) && window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS.length > 0,
       FANTASY_POOL_SCORE_CONTEXT: Boolean(window.FANTASY_POOL_SCORE_PREDICTIONS_DATA) || Array.isArray(window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS),
       KNOCKOUT_SCORE_PREDICTOR_DATA: Boolean(window.KNOCKOUT_SCORE_PREDICTOR_DATA?.known_r32_predictions?.length),
+      BRACKET_POOL_STRATEGY_DATA: Boolean(window.BRACKET_POOL_STRATEGY_DATA?.strategies?.length),
       FANTASY_POOL_OFFICIAL_DATA_STATUS: Boolean(window.FANTASY_POOL_OFFICIAL_DATA_STATUS?.official_position_records?.length),
       LIVE_MATCHDAY_STATUS_DATA: Boolean(window.LIVE_MATCHDAY_STATUS_DATA?.fixtures?.length),
       LIVE_PLAYER_STATUS_DATA: Boolean(window.LIVE_PLAYER_STATUS_DATA?.players?.length)
@@ -478,6 +496,50 @@ async function testAddToBuilder(page) {
   };
 }
 
+async function testBracketPoolStrategies(page) {
+  const selector = page.locator("#bracket-pool-strategy-select");
+  if (!(await selector.count())) {
+    return { status: "fail", reason: "Bracket-pool strategy selector missing", states: [] };
+  }
+
+  const requiredStrategyIds = ["safe", "path_value", "upside"];
+  const states = [];
+  for (const strategyId of requiredStrategyIds) {
+    await selector.selectOption(strategyId);
+    await page.waitForFunction((selectedStrategyId) => {
+      const selected = document.querySelector("#bracket-pool-strategy-select")?.value || null;
+      const summary = document.querySelector("#bracket-pool-summary")?.textContent || "";
+      const cards = document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match").length;
+      return selected === selectedStrategyId && /Champion|Finalists|Semifinalists|Spain|Argentina|England/i.test(summary) && cards >= 31;
+    }, strategyId, { timeout: 10000 });
+    states.push(await page.evaluate((selectedStrategyId) => ({
+      strategyId: selectedStrategyId,
+      selected: document.querySelector("#bracket-pool-strategy-select")?.value || null,
+      summaryText: document.querySelector("#bracket-pool-summary")?.textContent?.replace(/\s+/g, " ").trim() || "",
+      matchCards: document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match").length,
+      firstPick: document.querySelector("#bracket-pool-match-list .knockout-strategy-match")?.textContent?.replace(/\s+/g, " ").trim() || "",
+      pathWarnings: Array.from(document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match small"))
+        .map((node) => node.textContent.trim())
+        .filter((text) => /path|R16|QF|SF|Final|pool/i.test(text))
+        .slice(0, 5)
+    }), strategyId));
+  }
+
+  const safeText = states.find((state) => state.strategyId === "safe")?.summaryText || "";
+  const changedOrExplained = states.some((state) => state.summaryText !== safeText) ||
+    states.some((state) => /matches Safe|differ from Safe/i.test(state.summaryText));
+
+  return {
+    status: states.length === requiredStrategyIds.length &&
+      states.every((state) => state.selected === state.strategyId && state.matchCards >= 31) &&
+      changedOrExplained
+      ? "pass"
+      : "fail",
+    states,
+    changedOrExplained
+  };
+}
+
 async function testMainPage(browser, viewport) {
   const context = await browser.newContext({ viewport });
   const page = await context.newPage();
@@ -502,6 +564,7 @@ async function testMainPage(browser, viewport) {
 
   const activeGlobals = await verifyActiveGlobals(page);
   const stateBeforeClicks = await collectPageState(page);
+  const bracketPoolStrategyAccess = await testBracketPoolStrategies(page);
   const md1MatchEnvironmentAccess = await testMatchEnvironmentMatchdayAccess(page, "md1");
   const md2MatchEnvironmentAccess = await testMatchEnvironmentMatchdayAccess(page, "md2");
   const activeMatchEnvironmentAccess = await testMatchEnvironmentMatchdayAccess(page, activePublicMatchdayId);
@@ -568,6 +631,15 @@ async function testMainPage(browser, viewport) {
       stateBeforeClicks.ui.knockoutPredictor.homeOptions >= 48 &&
       stateBeforeClicks.ui.knockoutPredictor.knownRows > 0 &&
       /Projected advancer|advance|Extra time/i.test(stateBeforeClicks.ui.knockoutPredictor.resultText),
+    bracketPoolStrategySelectorRenders: stateBeforeClicks.ui.bracketPoolStrategy.optionCount >= 5 &&
+      stateBeforeClicks.ui.bracketPoolStrategy.optionValues.includes("safe") &&
+      stateBeforeClicks.ui.bracketPoolStrategy.optionValues.includes("path_value") &&
+      stateBeforeClicks.ui.bracketPoolStrategy.optionValues.includes("upside"),
+    bracketPoolStrategySafeRenders: stateBeforeClicks.ui.bracketPoolStrategy.selected === "safe" &&
+      stateBeforeClicks.ui.bracketPoolStrategy.matchCards >= 31 &&
+      /Finalists|Semifinalists|Spain|Argentina|England/i.test(stateBeforeClicks.ui.bracketPoolStrategy.summaryText),
+    bracketPoolStrategyPathWarningsRender: /path|R16|QF|SF|Final|pool/i.test(stateBeforeClicks.ui.bracketPoolStrategy.pathWarningText),
+    bracketPoolStrategySwitches: bracketPoolStrategyAccess.status === "pass",
     matchEnvironmentMd1Accessible: md1MatchEnvironmentAccess.status === "pass" &&
       md1MatchEnvironmentAccess.selected === "md1" &&
       md1MatchEnvironmentAccess.rowCount > 0,
@@ -594,6 +666,7 @@ async function testMainPage(browser, viewport) {
       md2: md2MatchEnvironmentAccess,
       r32: activeMatchEnvironmentAccess
     },
+    bracketPoolStrategyAccess,
     profileClicks: [quickPickProfile, captainProfile, adviceProfile],
     addToBuilder,
     filters: {
@@ -736,7 +809,8 @@ async function main() {
         "Team Builder selected matchday is r32",
         "Match Environment selected matchday is r32 and MD1/MD2 remain selectable",
         "Matchday Desk selected matchday is r32",
-        "Knockout predictor renders known fixtures and arbitrary matchup result"
+        "Knockout predictor renders known fixtures and arbitrary matchup result",
+        "Bracket-pool strategy selector renders Safe, Path Value, and Upside with full bracket picks"
       ],
       fallback_mode_removed: true
     },

@@ -2591,8 +2591,101 @@ html {
   align-items: start;
 }
 
+.knockout-matchup-tool,
+.knockout-strategy-tool {
+  min-width: 0;
+}
+
 .knockout-toolbar {
   grid-template-columns: repeat(2, minmax(160px, 1fr));
+}
+
+.knockout-strategy-toolbar {
+  grid-template-columns: minmax(220px, 1fr);
+}
+
+.knockout-strategy-explainer {
+  margin: 0 0 12px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.knockout-strategy-summary-card {
+  border: 1px solid rgba(24, 78, 119, 0.12);
+  border-radius: 8px;
+  padding: 16px;
+  background: #f8fbff;
+}
+
+.knockout-strategy-summary-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.18rem;
+}
+
+.knockout-strategy-summary-card p {
+  margin: 0 0 12px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.knockout-strategy-change-note {
+  font-weight: 800;
+  color: var(--accent-dark);
+}
+
+.knockout-strategy-metrics {
+  margin-bottom: 0;
+}
+
+.knockout-strategy-match-list {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.knockout-strategy-round {
+  display: grid;
+  gap: 10px;
+}
+
+.knockout-strategy-round h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.knockout-strategy-match-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.knockout-strategy-match {
+  min-width: 0;
+  border: 1px solid rgba(24, 78, 119, 0.12);
+  border-radius: 8px;
+  padding: 12px;
+  background: #ffffff;
+}
+
+.knockout-strategy-match h4 {
+  margin: 6px 0 8px;
+  font-size: 0.95rem;
+  line-height: 1.25;
+}
+
+.knockout-strategy-match p {
+  margin: 0 0 8px;
+}
+
+.knockout-strategy-match small {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.knockout-fixture-table-wrapper {
+  grid-column: 1 / -1;
 }
 
 .knockout-prediction-card {
