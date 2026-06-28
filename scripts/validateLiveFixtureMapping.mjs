@@ -181,6 +181,11 @@ function mdList(items, fallback = "None") {
 function sourceLookupChecks(scriptText, worldCupPageText) {
   const rawFixtureIdPattern = /source_fixture_id|source_fixture_order|fixture\??\.fixture_id/;
   const directNumericLookupPattern = /(?:fixture|row)\??\.match_number\s*,/;
+  const worldCupUsesSourceFixtureMetadata = /source_fixture_id|source_fixture_order/.test(worldCupPageText);
+  const worldCupSourceFixtureMetadataIsLabelled =
+    /Feed source ID/.test(worldCupPageText) &&
+    /data-source-fixture-id/.test(worldCupPageText) &&
+    /source IDs are metadata, not bracket match numbers/i.test(worldCupPageText);
   const scriptLiveLookupBlock = functionBlock(scriptText, "liveFixtureLookupKey");
   const scriptPredictionKeyBlock = functionBlock(scriptText, "scorePredictionFixtureKey");
   const scriptPredictionLookupBlock = functionBlock(scriptText, "liveFixtureForScorePrediction");
@@ -201,7 +206,8 @@ function sourceLookupChecks(scriptText, worldCupPageText) {
     script_lookup_block_uses_direct_numeric_key: directNumericLookupPattern.test(scriptLiveLookupBlock) || directNumericLookupPattern.test(scriptPredictionKeyBlock) || directNumericLookupPattern.test(scriptPredictionLookupBlock),
     world_cup_lookup_block_uses_direct_numeric_key: directNumericLookupPattern.test(worldCupLiveLookupBlock) || directNumericLookupPattern.test(worldCupFixtureKeyBlock) || directNumericLookupPattern.test(worldCupFixtureLookupBlock),
     script_uses_source_fixture_metadata: /source_fixture_id|source_fixture_order/.test(scriptText),
-    world_cup_uses_source_fixture_metadata: /source_fixture_id|source_fixture_order/.test(worldCupPageText)
+    world_cup_uses_source_fixture_metadata: worldCupUsesSourceFixtureMetadata,
+    world_cup_source_fixture_metadata_display_is_labelled: !worldCupUsesSourceFixtureMetadata || worldCupSourceFixtureMetadataIsLabelled
   };
   checks.passed = checks.script_uses_live_data_global &&
     checks.world_cup_uses_live_data_global &&
@@ -216,7 +222,7 @@ function sourceLookupChecks(scriptText, worldCupPageText) {
     !checks.script_lookup_block_uses_direct_numeric_key &&
     !checks.world_cup_lookup_block_uses_direct_numeric_key &&
     !checks.script_uses_source_fixture_metadata &&
-    !checks.world_cup_uses_source_fixture_metadata;
+    checks.world_cup_source_fixture_metadata_display_is_labelled;
   return checks;
 }
 

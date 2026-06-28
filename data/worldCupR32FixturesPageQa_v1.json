@@ -1,0 +1,319 @@
+{
+  "schema_version": "world_cup_r32_fixtures_page_qa_v1",
+  "generated_at": "2026-06-28T12:54:55.870Z",
+  "status": "pass",
+  "authority_fixture_count": 16,
+  "world_cup_group_fixture_count": 72,
+  "checks": [
+    {
+      "id": "authority_status_pass",
+      "status": "pass",
+      "detail": "pass"
+    },
+    {
+      "id": "authority_has_16_r32_fixtures",
+      "status": "pass",
+      "detail": 16
+    },
+    {
+      "id": "world_cup_data_has_72_group_fixtures",
+      "status": "pass",
+      "detail": 72
+    },
+    {
+      "id": "all_r32_bracket_slots_present",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "no_duplicate_r32_slots",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "no_duplicate_r32_teams",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "no_known_r32_tbd_teams",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "page_loads_authority_before_renderer",
+      "status": "pass",
+      "detail": {
+        "r32ScriptIndex": 6842,
+        "pageScriptIndex": 6918
+      }
+    },
+    {
+      "id": "page_renderer_reads_authority_global",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "id": "page_renderer_distinguishes_source_fixture_id",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "id": "france_slot_and_r16_path_correct",
+      "status": "pass",
+      "detail": {
+        "bracket_match_number": 77,
+        "bracket_slot_id": "M77",
+        "source_fixture_id": "79",
+        "source_fixture_order": 79,
+        "source_fixture_id_is_bracket_match_number": false,
+        "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+        "round": "R32",
+        "stage": "round_of_32",
+        "fixture_id": "fwc2026-m077",
+        "status": "scheduled",
+        "kickoff": {
+          "source_datetime": "2026-06-30T22:00:00+01:00",
+          "eastern_datetime_label": "Jun 30, 2026 · 5:00 PM ET"
+        },
+        "venue": {
+          "name": "Metlife Stadium",
+          "city": "East Rutherford, New Jersey"
+        },
+        "team_a": {
+          "team": "France",
+          "team_id": "france",
+          "code": "FRA",
+          "flag": "🇫🇷"
+        },
+        "team_b": {
+          "team": "Sweden",
+          "team_id": "sweden",
+          "code": "SWE",
+          "flag": "🇸🇪"
+        },
+        "winner_advances_to": {
+          "round": "R16",
+          "bracket_match_number": 89,
+          "bracket_slot_id": "M89",
+          "path": "Winner Match 74 v Winner Match 77"
+        },
+        "bracket_quarter": "winner_m97",
+        "bracket_half": "winner_m101",
+        "final_path": "winner_m104",
+        "bracket_path": "Group I winner v third-place team from Group C/D/F/G/H",
+        "derived_from": {
+          "mapping_basis": "group_rank_bracket_path",
+          "mapping_status": "mapped_by_group_rank_path",
+          "group_rank_path": "Group I winner v third-place team from Group C/D/F/G/H",
+          "team_a_group_rank": {
+            "group": "I",
+            "rank": 1,
+            "points": 9,
+            "goal_difference": 8
+          },
+          "team_b_group_rank": {
+            "group": "F",
+            "rank": 3,
+            "points": 4,
+            "goal_difference": 0
+          },
+          "candidate_match_ids": [
+            "77"
+          ]
+        },
+        "source_confidence": "locked_group_rank_bracket_slot"
+      }
+    },
+    {
+      "id": "argentina_slot_and_r16_path_correct",
+      "status": "pass",
+      "detail": {
+        "bracket_match_number": 86,
+        "bracket_slot_id": "M86",
+        "source_fixture_id": "80",
+        "source_fixture_order": 80,
+        "source_fixture_id_is_bracket_match_number": false,
+        "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+        "round": "R32",
+        "stage": "round_of_32",
+        "fixture_id": "fwc2026-m086",
+        "status": "scheduled",
+        "kickoff": {
+          "source_datetime": "2026-07-03T23:00:00+01:00",
+          "eastern_datetime_label": "Jul 3, 2026 · 6:00 PM ET"
+        },
+        "venue": {
+          "name": "Hard Rock Stadium",
+          "city": "Miami Gardens, Florida"
+        },
+        "team_a": {
+          "team": "Argentina",
+          "team_id": "argentina",
+          "code": "ARG",
+          "flag": "🇦🇷"
+        },
+        "team_b": {
+          "team": "Cabo Verde",
+          "team_id": "cabo-verde",
+          "code": "CPV",
+          "flag": "🇨🇻"
+        },
+        "winner_advances_to": {
+          "round": "R16",
+          "bracket_match_number": 95,
+          "bracket_slot_id": "M95",
+          "path": "Winner Match 86 v Winner Match 88"
+        },
+        "bracket_quarter": "winner_m100",
+        "bracket_half": "winner_m102",
+        "final_path": "winner_m104",
+        "bracket_path": "Group J winner v Group H runner-up",
+        "derived_from": {
+          "mapping_basis": "group_rank_bracket_path",
+          "mapping_status": "mapped_by_group_rank_path",
+          "group_rank_path": "Group J winner v Group H runner-up",
+          "team_a_group_rank": {
+            "group": "J",
+            "rank": 1,
+            "points": 9,
+            "goal_difference": 7
+          },
+          "team_b_group_rank": {
+            "group": "H",
+            "rank": 2,
+            "points": 3,
+            "goal_difference": 0
+          },
+          "candidate_match_ids": [
+            "86"
+          ]
+        },
+        "source_confidence": "locked_group_rank_bracket_slot"
+      }
+    },
+    {
+      "id": "france_argentina_not_same_r16",
+      "status": "pass",
+      "detail": {
+        "france_r16": 89,
+        "argentina_r16": 95
+      }
+    }
+  ],
+  "failures": [],
+  "fixture_slots": [
+    {
+      "slot": "M73",
+      "source_fixture_id": "73",
+      "fixture": "South Africa vs Canada",
+      "kickoff": "Jun 28, 2026 · 3:00 PM ET",
+      "advances_to": "M90"
+    },
+    {
+      "slot": "M74",
+      "source_fixture_id": "78",
+      "fixture": "Germany vs Paraguay",
+      "kickoff": "Jun 29, 2026 · 4:30 PM ET",
+      "advances_to": "M89"
+    },
+    {
+      "slot": "M75",
+      "source_fixture_id": "75",
+      "fixture": "Netherlands vs Morocco",
+      "kickoff": "Jun 29, 2026 · 9:00 PM ET",
+      "advances_to": "M90"
+    },
+    {
+      "slot": "M76",
+      "source_fixture_id": "74",
+      "fixture": "Brazil vs Japan",
+      "kickoff": "Jun 29, 2026 · 1:00 PM ET",
+      "advances_to": "M91"
+    },
+    {
+      "slot": "M77",
+      "source_fixture_id": "79",
+      "fixture": "France vs Sweden",
+      "kickoff": "Jun 30, 2026 · 5:00 PM ET",
+      "advances_to": "M89"
+    },
+    {
+      "slot": "M78",
+      "source_fixture_id": "77",
+      "fixture": "Côte d'Ivoire vs Norway",
+      "kickoff": "Jun 30, 2026 · 1:00 PM ET",
+      "advances_to": "M91"
+    },
+    {
+      "slot": "M79",
+      "source_fixture_id": "82",
+      "fixture": "Mexico vs Ecuador",
+      "kickoff": "Jun 30, 2026 · 9:00 PM ET",
+      "advances_to": "M92"
+    },
+    {
+      "slot": "M80",
+      "source_fixture_id": "83",
+      "fixture": "England vs Congo DR",
+      "kickoff": "Jul 1, 2026 · 12:00 PM ET",
+      "advances_to": "M92"
+    },
+    {
+      "slot": "M81",
+      "source_fixture_id": "76",
+      "fixture": "USA vs Bosnia and Herzegovina",
+      "kickoff": "Jul 1, 2026 · 8:00 PM ET",
+      "advances_to": "M94"
+    },
+    {
+      "slot": "M82",
+      "source_fixture_id": "84",
+      "fixture": "Belgium vs Senegal",
+      "kickoff": "Jul 1, 2026 · 4:00 PM ET",
+      "advances_to": "M94"
+    },
+    {
+      "slot": "M83",
+      "source_fixture_id": "85",
+      "fixture": "Portugal vs Croatia",
+      "kickoff": "Jul 2, 2026 · 7:00 PM ET",
+      "advances_to": "M93"
+    },
+    {
+      "slot": "M84",
+      "source_fixture_id": "87",
+      "fixture": "Spain vs Austria",
+      "kickoff": "Jul 2, 2026 · 3:00 PM ET",
+      "advances_to": "M93"
+    },
+    {
+      "slot": "M85",
+      "source_fixture_id": "88",
+      "fixture": "Switzerland vs Algeria",
+      "kickoff": "Jul 2, 2026 · 11:00 PM ET",
+      "advances_to": "M96"
+    },
+    {
+      "slot": "M86",
+      "source_fixture_id": "80",
+      "fixture": "Argentina vs Cabo Verde",
+      "kickoff": "Jul 3, 2026 · 6:00 PM ET",
+      "advances_to": "M95"
+    },
+    {
+      "slot": "M87",
+      "source_fixture_id": "86",
+      "fixture": "Colombia vs Ghana",
+      "kickoff": "Jul 3, 2026 · 9:30 PM ET",
+      "advances_to": "M96"
+    },
+    {
+      "slot": "M88",
+      "source_fixture_id": "81",
+      "fixture": "Australia vs Egypt",
+      "kickoff": "Jul 3, 2026 · 2:00 PM ET",
+      "advances_to": "M95"
+    }
+  ]
+}

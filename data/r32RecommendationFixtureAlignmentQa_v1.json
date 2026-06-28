@@ -1,0 +1,92 @@
+{
+  "schema_version": "r32_recommendation_fixture_alignment_qa_v1",
+  "generated_at": "2026-06-28T12:54:55.844Z",
+  "status": "pass",
+  "authority_fixture_count": 16,
+  "score_prediction_r32_fixture_count": 16,
+  "recommendation_count": 125,
+  "projection_count": 816,
+  "team_builder_captain_watchlist_count": 15,
+  "checks": [
+    {
+      "id": "authority_status_pass",
+      "status": "pass",
+      "detail": "pass"
+    },
+    {
+      "id": "score_predictions_cover_16_r32_fixtures",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "recommendations_align_to_authority",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "projections_align_to_authority",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "team_builder_captain_watchlist_aligns_to_authority",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "all_r32_authority_teams_have_projection_coverage",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "recommendations_only_use_r32_teams",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "france_argentina_impossible_r16_absent",
+      "status": "pass",
+      "detail": {
+        "france_r16": [
+          "Germany",
+          "Paraguay"
+        ],
+        "argentina_r16": [
+          "Australia",
+          "Egypt"
+        ]
+      }
+    },
+    {
+      "id": "france_germany_path_computed",
+      "status": "pass",
+      "detail": [
+        "Germany",
+        "Paraguay"
+      ]
+    },
+    {
+      "id": "argentina_path_computed",
+      "status": "pass",
+      "detail": [
+        "Australia",
+        "Egypt"
+      ]
+    },
+    {
+      "id": "spain_portugal_path_computed",
+      "status": "pass",
+      "detail": {
+        "spain_r16": [
+          "Croatia",
+          "Portugal"
+        ],
+        "portugal_r16": [
+          "Austria",
+          "Spain"
+        ]
+      }
+    }
+  ],
+  "failures": []
+}

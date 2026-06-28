@@ -1,0 +1,1027 @@
+{
+  "schema_version": "r32_fixture_authority_v1",
+  "generated_at": "2026-06-28T12:54:45.702Z",
+  "status": "pass",
+  "source_files": {
+    "worldCupData": "worldCupData.js",
+    "r32BracketPath": "data/r32BracketPathModel_v1.json",
+    "liveMatchdayStatus": "data/liveMatchdayStatus_v1.json"
+  },
+  "source_of_truth": {
+    "final_r32_fixtures": "data/r32BracketPathModel_v1.json",
+    "bracket_slots": "worldCupData.js",
+    "kickoff_and_feed_source_ids": "data/liveMatchdayStatus_v1.json",
+    "rule": "R32 bracket match numbers are resolved from completed group rank plus official bracket path. Raw FIFA fantasy source_fixture_id is retained only as feed metadata."
+  },
+  "fixture_count": 16,
+  "fixtures": [
+    {
+      "bracket_match_number": 73,
+      "bracket_slot_id": "M73",
+      "source_fixture_id": "73",
+      "source_fixture_order": 73,
+      "source_fixture_id_is_bracket_match_number": true,
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R32",
+      "stage": "round_of_32",
+      "fixture_id": "fwc2026-m073",
+      "status": "scheduled",
+      "kickoff": {
+        "source_datetime": "2026-06-28T20:00:00+01:00",
+        "eastern_datetime_label": "Jun 28, 2026 · 3:00 PM ET"
+      },
+      "venue": {
+        "name": "Sofi Stadium",
+        "city": "Inglewood, California"
+      },
+      "team_a": {
+        "team": "South Africa",
+        "team_id": "south-africa",
+        "code": "RSA",
+        "flag": "🇿🇦"
+      },
+      "team_b": {
+        "team": "Canada",
+        "team_id": "canada",
+        "code": "CAN",
+        "flag": "🇨🇦"
+      },
+      "winner_advances_to": {
+        "round": "R16",
+        "bracket_match_number": 90,
+        "bracket_slot_id": "M90",
+        "path": "Winner Match 73 v Winner Match 75"
+      },
+      "bracket_quarter": "winner_m97",
+      "bracket_half": "winner_m101",
+      "final_path": "winner_m104",
+      "bracket_path": "Group A runner-up v Group B runner-up",
+      "derived_from": {
+        "mapping_basis": "group_rank_bracket_path",
+        "mapping_status": "mapped_by_group_rank_path",
+        "group_rank_path": "Group A runner-up v Group B runner-up",
+        "team_a_group_rank": {
+          "group": "A",
+          "rank": 2,
+          "points": 4,
+          "goal_difference": -1
+        },
+        "team_b_group_rank": {
+          "group": "B",
+          "rank": 2,
+          "points": 4,
+          "goal_difference": 5
+        },
+        "candidate_match_ids": [
+          "73"
+        ]
+      },
+      "source_confidence": "locked_group_rank_bracket_slot"
+    },
+    {
+      "bracket_match_number": 74,
+      "bracket_slot_id": "M74",
+      "source_fixture_id": "78",
+      "source_fixture_order": 78,
+      "source_fixture_id_is_bracket_match_number": false,
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R32",
+      "stage": "round_of_32",
+      "fixture_id": "fwc2026-m074",
+      "status": "scheduled",
+      "kickoff": {
+        "source_datetime": "2026-06-29T21:30:00+01:00",
+        "eastern_datetime_label": "Jun 29, 2026 · 4:30 PM ET"
+      },
+      "venue": {
+        "name": "Gillette Stadium",
+        "city": "Foxborough, Massachusetts"
+      },
+      "team_a": {
+        "team": "Germany",
+        "team_id": "germany",
+        "code": "GER",
+        "flag": "🇩🇪"
+      },
+      "team_b": {
+        "team": "Paraguay",
+        "team_id": "paraguay",
+        "code": "PAR",
+        "flag": "🇵🇾"
+      },
+      "winner_advances_to": {
+        "round": "R16",
+        "bracket_match_number": 89,
+        "bracket_slot_id": "M89",
+        "path": "Winner Match 74 v Winner Match 77"
+      },
+      "bracket_quarter": "winner_m97",
+      "bracket_half": "winner_m101",
+      "final_path": "winner_m104",
+      "bracket_path": "Group E winner v third-place team from Group A/B/C/D/F",
+      "derived_from": {
+        "mapping_basis": "group_rank_bracket_path",
+        "mapping_status": "mapped_by_group_rank_path",
+        "group_rank_path": "Group E winner v third-place team from Group A/B/C/D/F",
+        "team_a_group_rank": {
+          "group": "E",
+          "rank": 1,
+          "points": 6,
+          "goal_difference": 6
+        },
+        "team_b_group_rank": {
+          "group": "D",
+          "rank": 3,
+          "points": 4,
+          "goal_difference": -2
+        },
+        "candidate_match_ids": [
+          "74"
+        ]
+      },
+      "source_confidence": "locked_group_rank_bracket_slot"
+    },
+    {
+      "bracket_match_number": 75,
+      "bracket_slot_id": "M75",
+      "source_fixture_id": "75",
+      "source_fixture_order": 75,
+      "source_fixture_id_is_bracket_match_number": true,
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R32",
+      "stage": "round_of_32",
+      "fixture_id": "fwc2026-m075",
+      "status": "scheduled",
+      "kickoff": {
+        "source_datetime": "2026-06-30T02:00:00+01:00",
+        "eastern_datetime_label": "Jun 29, 2026 · 9:00 PM ET"
+      },
+      "venue": {
+        "name": "Estadio Bbva",
+        "city": "Guadalupe"
+      },
+      "team_a": {
+        "team": "Netherlands",
+        "team_id": "netherlands",
+        "code": "NED",
+        "flag": "🇳🇱"
+      },
+      "team_b": {
+        "team": "Morocco",
+        "team_id": "morocco",
+        "code": "MAR",
+        "flag": "🇲🇦"
+      },
+      "winner_advances_to": {
+        "round": "R16",
+        "bracket_match_number": 90,
+        "bracket_slot_id": "M90",
+        "path": "Winner Match 73 v Winner Match 75"
+      },
+      "bracket_quarter": "winner_m97",
+      "bracket_half": "winner_m101",
+      "final_path": "winner_m104",
+      "bracket_path": "Group F winner v Group C runner-up",
+      "derived_from": {
+        "mapping_basis": "group_rank_bracket_path",
+        "mapping_status": "mapped_by_group_rank_path",
+        "group_rank_path": "Group F winner v Group C runner-up",
+        "team_a_group_rank": {
+          "group": "F",
+          "rank": 1,
+          "points": 7,
+          "goal_difference": 6
+        },
+        "team_b_group_rank": {
+          "group": "C",
+          "rank": 2,
+          "points": 7,
+          "goal_difference": 3
+        },
+        "candidate_match_ids": [
+          "75"
+        ]
+      },
+      "source_confidence": "locked_group_rank_bracket_slot"
+    },
+    {
+      "bracket_match_number": 76,
+      "bracket_slot_id": "M76",
+      "source_fixture_id": "74",
+      "source_fixture_order": 74,
+      "source_fixture_id_is_bracket_match_number": false,
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R32",
+      "stage": "round_of_32",
+      "fixture_id": "fwc2026-m076",
+      "status": "scheduled",
+      "kickoff": {
+        "source_datetime": "2026-06-29T18:00:00+01:00",
+        "eastern_datetime_label": "Jun 29, 2026 · 1:00 PM ET"
+      },
+      "venue": {
+        "name": "Nrg Stadium",
+        "city": "Houston, Texas"
+      },
+      "team_a": {
+        "team": "Brazil",
+        "team_id": "brazil",
+        "code": "BRA",
+        "flag": "🇧🇷"
+      },
+      "team_b": {
+        "team": "Japan",
+        "team_id": "japan",
+        "code": "JPN",
+        "flag": "🇯🇵"
+      },
+      "winner_advances_to": {
+        "round": "R16",
+        "bracket_match_number": 91,
+        "bracket_slot_id": "M91",
+        "path": "Winner Match 76 v Winner Match 78"
+      },
+      "bracket_quarter": "winner_m99",
+      "bracket_half": "winner_m102",
+      "final_path": "winner_m104",
+      "bracket_path": "Group C winner v Group F runner-up",
+      "derived_from": {
+        "mapping_basis": "group_rank_bracket_path",
+        "mapping_status": "mapped_by_group_rank_path",
+        "group_rank_path": "Group C winner v Group F runner-up",
+        "team_a_group_rank": {
+          "group": "C",
+          "rank": 1,
+          "points": 7,
+          "goal_difference": 6
+        },
+        "team_b_group_rank": {
+          "group": "F",
+          "rank": 2,
+          "points": 5,
+          "goal_difference": 4
+        },
+        "candidate_match_ids": [
+          "76"
+        ]
+      },
+      "source_confidence": "locked_group_rank_bracket_slot"
+    },
+    {
+      "bracket_match_number": 77,
+      "bracket_slot_id": "M77",
+      "source_fixture_id": "79",
+      "source_fixture_order": 79,
+      "source_fixture_id_is_bracket_match_number": false,
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R32",
+      "stage": "round_of_32",
+      "fixture_id": "fwc2026-m077",
+      "status": "scheduled",
+      "kickoff": {
+        "source_datetime": "2026-06-30T22:00:00+01:00",
+        "eastern_datetime_label": "Jun 30, 2026 · 5:00 PM ET"
+      },
+      "venue": {
+        "name": "Metlife Stadium",
+        "city": "East Rutherford, New Jersey"
+      },
+      "team_a": {
+        "team": "France",
+        "team_id": "france",
+        "code": "FRA",
+        "flag": "🇫🇷"
+      },
+      "team_b": {
+        "team": "Sweden",
+        "team_id": "sweden",
+        "code": "SWE",
+        "flag": "🇸🇪"
+      },
+      "winner_advances_to": {
+        "round": "R16",
+        "bracket_match_number": 89,
+        "bracket_slot_id": "M89",
+        "path": "Winner Match 74 v Winner Match 77"
+      },
+      "bracket_quarter": "winner_m97",
+      "bracket_half": "winner_m101",
+      "final_path": "winner_m104",
+      "bracket_path": "Group I winner v third-place team from Group C/D/F/G/H",
+      "derived_from": {
+        "mapping_basis": "group_rank_bracket_path",
+        "mapping_status": "mapped_by_group_rank_path",
+        "group_rank_path": "Group I winner v third-place team from Group C/D/F/G/H",
+        "team_a_group_rank": {
+          "group": "I",
+          "rank": 1,
+          "points": 9,
+          "goal_difference": 8
+        },
+        "team_b_group_rank": {
+          "group": "F",
+          "rank": 3,
+          "points": 4,
+          "goal_difference": 0
+        },
+        "candidate_match_ids": [
+          "77"
+        ]
+      },
+      "source_confidence": "locked_group_rank_bracket_slot"
+    },
+    {
+      "bracket_match_number": 78,
+      "bracket_slot_id": "M78",
+      "source_fixture_id": "77",
+      "source_fixture_order": 77,
+      "source_fixture_id_is_bracket_match_number": false,
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R32",
+      "stage": "round_of_32",
+      "fixture_id": "fwc2026-m078",
+      "status": "scheduled",
+      "kickoff": {
+        "source_datetime": "2026-06-30T18:00:00+01:00",
+        "eastern_datetime_label": "Jun 30, 2026 · 1:00 PM ET"
+      },
+      "venue": {
+        "name": "At&t Stadium",
+        "city": "Arlington, Texas"
+      },
+      "team_a": {
+        "team": "Côte d'Ivoire",
+        "team_id": "cote-d-ivoire",
+        "code": "CIV",
+        "flag": "🇨🇮"
+      },
+      "team_b": {
+        "team": "Norway",
+        "team_id": "norway",
+        "code": "NOR",
+        "flag": "🇳🇴"
+      },
+      "winner_advances_to": {
+        "round": "R16",
+        "bracket_match_number": 91,
+        "bracket_slot_id": "M91",
+        "path": "Winner Match 76 v Winner Match 78"
+      },
+      "bracket_quarter": "winner_m99",
+      "bracket_half": "winner_m102",
+      "final_path": "winner_m104",
+      "bracket_path": "Group E runner-up v Group I runner-up",
+      "derived_from": {
+        "mapping_basis": "group_rank_bracket_path",
+        "mapping_status": "mapped_by_group_rank_path",
+        "group_rank_path": "Group E runner-up v Group I runner-up",
+        "team_a_group_rank": {
+          "group": "E",
+          "rank": 2,
+          "points": 6,
+          "goal_difference": 2
+        },
+        "team_b_group_rank": {
+          "group": "I",
+          "rank": 2,
+          "points": 6,
+          "goal_difference": 1
+        },
+        "candidate_match_ids": [
+          "78"
+        ]
+      },
+      "source_confidence": "locked_group_rank_bracket_slot"
+    },
+    {
+      "bracket_match_number": 79,
+      "bracket_slot_id": "M79",
+      "source_fixture_id": "82",
+      "source_fixture_order": 82,
+      "source_fixture_id_is_bracket_match_number": false,
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R32",
+      "stage": "round_of_32",
+      "fixture_id": "fwc2026-m079",
+      "status": "scheduled",
+      "kickoff": {
+        "source_datetime": "2026-07-01T02:00:00+01:00",
+        "eastern_datetime_label": "Jun 30, 2026 · 9:00 PM ET"
+      },
+      "venue": {
+        "name": "Estadio Banorte",
+        "city": "Mexico City"
+      },
+      "team_a": {
+        "team": "Mexico",
+        "team_id": "mexico",
+        "code": "MEX",
+        "flag": "🇲🇽"
+      },
+      "team_b": {
+        "team": "Ecuador",
+        "team_id": "ecuador",
+        "code": "ECU",
+        "flag": "🇪🇨"
+      },
+      "winner_advances_to": {
+        "round": "R16",
+        "bracket_match_number": 92,
+        "bracket_slot_id": "M92",
+        "path": "Winner Match 79 v Winner Match 80"
+      },
+      "bracket_quarter": "winner_m99",
+      "bracket_half": "winner_m102",
+      "final_path": "winner_m104",
+      "bracket_path": "Group A winner v third-place team from Group C/E/F/H/I",
+      "derived_from": {
+        "mapping_basis": "group_rank_bracket_path",
+        "mapping_status": "mapped_by_group_rank_path",
+        "group_rank_path": "Group A winner v third-place team from Group C/E/F/H/I",
+        "team_a_group_rank": {
+          "group": "A",
+          "rank": 1,
+          "points": 9,
+          "goal_difference": 6
+        },
+        "team_b_group_rank": {
+          "group": "E",
+          "rank": 3,
+          "points": 4,
+          "goal_difference": 0
+        },
+        "candidate_match_ids": [
+          "79"
+        ]
+      },
+      "source_confidence": "locked_group_rank_bracket_slot"
+    },
+    {
+      "bracket_match_number": 80,
+      "bracket_slot_id": "M80",
+      "source_fixture_id": "83",
+      "source_fixture_order": 83,
+      "source_fixture_id_is_bracket_match_number": false,
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R32",
+      "stage": "round_of_32",
+      "fixture_id": "fwc2026-m080",
+      "status": "scheduled",
+      "kickoff": {
+        "source_datetime": "2026-07-01T17:00:00+01:00",
+        "eastern_datetime_label": "Jul 1, 2026 · 12:00 PM ET"
+      },
+      "venue": {
+        "name": "Mercedes-benz Stadium",
+        "city": "Atlanta, Georgia"
+      },
+      "team_a": {
+        "team": "England",
+        "team_id": "england",
+        "code": "ENG",
+        "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿"
+      },
+      "team_b": {
+        "team": "Congo DR",
+        "team_id": "congo-dr",
+        "code": "COD",
+        "flag": "🇨🇩"
+      },
+      "winner_advances_to": {
+        "round": "R16",
+        "bracket_match_number": 92,
+        "bracket_slot_id": "M92",
+        "path": "Winner Match 79 v Winner Match 80"
+      },
+      "bracket_quarter": "winner_m99",
+      "bracket_half": "winner_m102",
+      "final_path": "winner_m104",
+      "bracket_path": "Group L winner v third-place team from Group E/H/I/J/K",
+      "derived_from": {
+        "mapping_basis": "group_rank_bracket_path",
+        "mapping_status": "mapped_by_group_rank_path",
+        "group_rank_path": "Group L winner v third-place team from Group E/H/I/J/K",
+        "team_a_group_rank": {
+          "group": "L",
+          "rank": 1,
+          "points": 7,
+          "goal_difference": 4
+        },
+        "team_b_group_rank": {
+          "group": "K",
+          "rank": 3,
+          "points": 4,
+          "goal_difference": 1
+        },
+        "candidate_match_ids": [
+          "80"
+        ]
+      },
+      "source_confidence": "locked_group_rank_bracket_slot"
+    },
+    {
+      "bracket_match_number": 81,
+      "bracket_slot_id": "M81",
+      "source_fixture_id": "76",
+      "source_fixture_order": 76,
+      "source_fixture_id_is_bracket_match_number": false,
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R32",
+      "stage": "round_of_32",
+      "fixture_id": "fwc2026-m081",
+      "status": "scheduled",
+      "kickoff": {
+        "source_datetime": "2026-07-02T01:00:00+01:00",
+        "eastern_datetime_label": "Jul 1, 2026 · 8:00 PM ET"
+      },
+      "venue": {
+        "name": "Levi's Stadium",
+        "city": "Santa Clara, California"
+      },
+      "team_a": {
+        "team": "USA",
+        "team_id": "usa",
+        "code": "USA",
+        "flag": "🇺🇸"
+      },
+      "team_b": {
+        "team": "Bosnia and Herzegovina",
+        "team_id": "bosnia-and-herzegovina",
+        "code": "BIH",
+        "flag": "🇧🇦"
+      },
+      "winner_advances_to": {
+        "round": "R16",
+        "bracket_match_number": 94,
+        "bracket_slot_id": "M94",
+        "path": "Winner Match 81 v Winner Match 82"
+      },
+      "bracket_quarter": "winner_m98",
+      "bracket_half": "winner_m101",
+      "final_path": "winner_m104",
+      "bracket_path": "Group D winner v third-place team from Group B/E/F/I/J",
+      "derived_from": {
+        "mapping_basis": "group_rank_bracket_path",
+        "mapping_status": "mapped_by_group_rank_path",
+        "group_rank_path": "Group D winner v third-place team from Group B/E/F/I/J",
+        "team_a_group_rank": {
+          "group": "D",
+          "rank": 1,
+          "points": 6,
+          "goal_difference": 4
+        },
+        "team_b_group_rank": {
+          "group": "B",
+          "rank": 3,
+          "points": 4,
+          "goal_difference": -1
+        },
+        "candidate_match_ids": [
+          "81"
+        ]
+      },
+      "source_confidence": "locked_group_rank_bracket_slot"
+    },
+    {
+      "bracket_match_number": 82,
+      "bracket_slot_id": "M82",
+      "source_fixture_id": "84",
+      "source_fixture_order": 84,
+      "source_fixture_id_is_bracket_match_number": false,
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R32",
+      "stage": "round_of_32",
+      "fixture_id": "fwc2026-m082",
+      "status": "scheduled",
+      "kickoff": {
+        "source_datetime": "2026-07-01T21:00:00+01:00",
+        "eastern_datetime_label": "Jul 1, 2026 · 4:00 PM ET"
+      },
+      "venue": {
+        "name": "Lumen Field",
+        "city": "Seattle, Washington"
+      },
+      "team_a": {
+        "team": "Belgium",
+        "team_id": "belgium",
+        "code": "BEL",
+        "flag": "🇧🇪"
+      },
+      "team_b": {
+        "team": "Senegal",
+        "team_id": "senegal",
+        "code": "SEN",
+        "flag": "🇸🇳"
+      },
+      "winner_advances_to": {
+        "round": "R16",
+        "bracket_match_number": 94,
+        "bracket_slot_id": "M94",
+        "path": "Winner Match 81 v Winner Match 82"
+      },
+      "bracket_quarter": "winner_m98",
+      "bracket_half": "winner_m101",
+      "final_path": "winner_m104",
+      "bracket_path": "Group G winner v third-place team from Group A/E/H/I/J",
+      "derived_from": {
+        "mapping_basis": "group_rank_bracket_path",
+        "mapping_status": "mapped_by_group_rank_path",
+        "group_rank_path": "Group G winner v third-place team from Group A/E/H/I/J",
+        "team_a_group_rank": {
+          "group": "G",
+          "rank": 1,
+          "points": 5,
+          "goal_difference": 4
+        },
+        "team_b_group_rank": {
+          "group": "I",
+          "rank": 3,
+          "points": 3,
+          "goal_difference": 2
+        },
+        "candidate_match_ids": [
+          "82"
+        ]
+      },
+      "source_confidence": "locked_group_rank_bracket_slot"
+    },
+    {
+      "bracket_match_number": 83,
+      "bracket_slot_id": "M83",
+      "source_fixture_id": "85",
+      "source_fixture_order": 85,
+      "source_fixture_id_is_bracket_match_number": false,
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R32",
+      "stage": "round_of_32",
+      "fixture_id": "fwc2026-m083",
+      "status": "scheduled",
+      "kickoff": {
+        "source_datetime": "2026-07-03T00:00:00+01:00",
+        "eastern_datetime_label": "Jul 2, 2026 · 7:00 PM ET"
+      },
+      "venue": {
+        "name": "Bmo Field",
+        "city": "Toronto"
+      },
+      "team_a": {
+        "team": "Portugal",
+        "team_id": "portugal",
+        "code": "POR",
+        "flag": "🇵🇹"
+      },
+      "team_b": {
+        "team": "Croatia",
+        "team_id": "croatia",
+        "code": "CRO",
+        "flag": "🇭🇷"
+      },
+      "winner_advances_to": {
+        "round": "R16",
+        "bracket_match_number": 93,
+        "bracket_slot_id": "M93",
+        "path": "Winner Match 83 v Winner Match 84"
+      },
+      "bracket_quarter": "winner_m98",
+      "bracket_half": "winner_m101",
+      "final_path": "winner_m104",
+      "bracket_path": "Group K runner-up v Group L runner-up",
+      "derived_from": {
+        "mapping_basis": "group_rank_bracket_path",
+        "mapping_status": "mapped_by_group_rank_path",
+        "group_rank_path": "Group K runner-up v Group L runner-up",
+        "team_a_group_rank": {
+          "group": "K",
+          "rank": 2,
+          "points": 5,
+          "goal_difference": 5
+        },
+        "team_b_group_rank": {
+          "group": "L",
+          "rank": 2,
+          "points": 6,
+          "goal_difference": 0
+        },
+        "candidate_match_ids": [
+          "83"
+        ]
+      },
+      "source_confidence": "locked_group_rank_bracket_slot"
+    },
+    {
+      "bracket_match_number": 84,
+      "bracket_slot_id": "M84",
+      "source_fixture_id": "87",
+      "source_fixture_order": 87,
+      "source_fixture_id_is_bracket_match_number": false,
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R32",
+      "stage": "round_of_32",
+      "fixture_id": "fwc2026-m084",
+      "status": "scheduled",
+      "kickoff": {
+        "source_datetime": "2026-07-02T20:00:00+01:00",
+        "eastern_datetime_label": "Jul 2, 2026 · 3:00 PM ET"
+      },
+      "venue": {
+        "name": "Sofi Stadium",
+        "city": "Inglewood, California"
+      },
+      "team_a": {
+        "team": "Spain",
+        "team_id": "spain",
+        "code": "ESP",
+        "flag": "🇪🇸"
+      },
+      "team_b": {
+        "team": "Austria",
+        "team_id": "austria",
+        "code": "AUT",
+        "flag": "🇦🇹"
+      },
+      "winner_advances_to": {
+        "round": "R16",
+        "bracket_match_number": 93,
+        "bracket_slot_id": "M93",
+        "path": "Winner Match 83 v Winner Match 84"
+      },
+      "bracket_quarter": "winner_m98",
+      "bracket_half": "winner_m101",
+      "final_path": "winner_m104",
+      "bracket_path": "Group H winner v Group J runner-up",
+      "derived_from": {
+        "mapping_basis": "group_rank_bracket_path",
+        "mapping_status": "mapped_by_group_rank_path",
+        "group_rank_path": "Group H winner v Group J runner-up",
+        "team_a_group_rank": {
+          "group": "H",
+          "rank": 1,
+          "points": 7,
+          "goal_difference": 5
+        },
+        "team_b_group_rank": {
+          "group": "J",
+          "rank": 2,
+          "points": 4,
+          "goal_difference": 0
+        },
+        "candidate_match_ids": [
+          "84"
+        ]
+      },
+      "source_confidence": "locked_group_rank_bracket_slot"
+    },
+    {
+      "bracket_match_number": 85,
+      "bracket_slot_id": "M85",
+      "source_fixture_id": "88",
+      "source_fixture_order": 88,
+      "source_fixture_id_is_bracket_match_number": false,
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R32",
+      "stage": "round_of_32",
+      "fixture_id": "fwc2026-m085",
+      "status": "scheduled",
+      "kickoff": {
+        "source_datetime": "2026-07-03T04:00:00+01:00",
+        "eastern_datetime_label": "Jul 2, 2026 · 11:00 PM ET"
+      },
+      "venue": {
+        "name": "Bc Place",
+        "city": "Vancouver"
+      },
+      "team_a": {
+        "team": "Switzerland",
+        "team_id": "switzerland",
+        "code": "SUI",
+        "flag": "🇨🇭"
+      },
+      "team_b": {
+        "team": "Algeria",
+        "team_id": "algeria",
+        "code": "ALG",
+        "flag": "🇩🇿"
+      },
+      "winner_advances_to": {
+        "round": "R16",
+        "bracket_match_number": 96,
+        "bracket_slot_id": "M96",
+        "path": "Winner Match 85 v Winner Match 87"
+      },
+      "bracket_quarter": "winner_m100",
+      "bracket_half": "winner_m102",
+      "final_path": "winner_m104",
+      "bracket_path": "Group B winner v third-place team from Group E/F/G/I/J",
+      "derived_from": {
+        "mapping_basis": "group_rank_bracket_path",
+        "mapping_status": "mapped_by_group_rank_path",
+        "group_rank_path": "Group B winner v third-place team from Group E/F/G/I/J",
+        "team_a_group_rank": {
+          "group": "B",
+          "rank": 1,
+          "points": 7,
+          "goal_difference": 4
+        },
+        "team_b_group_rank": {
+          "group": "J",
+          "rank": 3,
+          "points": 4,
+          "goal_difference": -2
+        },
+        "candidate_match_ids": [
+          "85"
+        ]
+      },
+      "source_confidence": "locked_group_rank_bracket_slot"
+    },
+    {
+      "bracket_match_number": 86,
+      "bracket_slot_id": "M86",
+      "source_fixture_id": "80",
+      "source_fixture_order": 80,
+      "source_fixture_id_is_bracket_match_number": false,
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R32",
+      "stage": "round_of_32",
+      "fixture_id": "fwc2026-m086",
+      "status": "scheduled",
+      "kickoff": {
+        "source_datetime": "2026-07-03T23:00:00+01:00",
+        "eastern_datetime_label": "Jul 3, 2026 · 6:00 PM ET"
+      },
+      "venue": {
+        "name": "Hard Rock Stadium",
+        "city": "Miami Gardens, Florida"
+      },
+      "team_a": {
+        "team": "Argentina",
+        "team_id": "argentina",
+        "code": "ARG",
+        "flag": "🇦🇷"
+      },
+      "team_b": {
+        "team": "Cabo Verde",
+        "team_id": "cabo-verde",
+        "code": "CPV",
+        "flag": "🇨🇻"
+      },
+      "winner_advances_to": {
+        "round": "R16",
+        "bracket_match_number": 95,
+        "bracket_slot_id": "M95",
+        "path": "Winner Match 86 v Winner Match 88"
+      },
+      "bracket_quarter": "winner_m100",
+      "bracket_half": "winner_m102",
+      "final_path": "winner_m104",
+      "bracket_path": "Group J winner v Group H runner-up",
+      "derived_from": {
+        "mapping_basis": "group_rank_bracket_path",
+        "mapping_status": "mapped_by_group_rank_path",
+        "group_rank_path": "Group J winner v Group H runner-up",
+        "team_a_group_rank": {
+          "group": "J",
+          "rank": 1,
+          "points": 9,
+          "goal_difference": 7
+        },
+        "team_b_group_rank": {
+          "group": "H",
+          "rank": 2,
+          "points": 3,
+          "goal_difference": 0
+        },
+        "candidate_match_ids": [
+          "86"
+        ]
+      },
+      "source_confidence": "locked_group_rank_bracket_slot"
+    },
+    {
+      "bracket_match_number": 87,
+      "bracket_slot_id": "M87",
+      "source_fixture_id": "86",
+      "source_fixture_order": 86,
+      "source_fixture_id_is_bracket_match_number": false,
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R32",
+      "stage": "round_of_32",
+      "fixture_id": "fwc2026-m087",
+      "status": "scheduled",
+      "kickoff": {
+        "source_datetime": "2026-07-04T02:30:00+01:00",
+        "eastern_datetime_label": "Jul 3, 2026 · 9:30 PM ET"
+      },
+      "venue": {
+        "name": "Geha Field At Arrowhead Stadium",
+        "city": "Kansas City, Missouri"
+      },
+      "team_a": {
+        "team": "Colombia",
+        "team_id": "colombia",
+        "code": "COL",
+        "flag": "🇨🇴"
+      },
+      "team_b": {
+        "team": "Ghana",
+        "team_id": "ghana",
+        "code": "GHA",
+        "flag": "🇬🇭"
+      },
+      "winner_advances_to": {
+        "round": "R16",
+        "bracket_match_number": 96,
+        "bracket_slot_id": "M96",
+        "path": "Winner Match 85 v Winner Match 87"
+      },
+      "bracket_quarter": "winner_m100",
+      "bracket_half": "winner_m102",
+      "final_path": "winner_m104",
+      "bracket_path": "Group K winner v third-place team from Group D/E/I/J/L",
+      "derived_from": {
+        "mapping_basis": "group_rank_bracket_path",
+        "mapping_status": "mapped_by_group_rank_path",
+        "group_rank_path": "Group K winner v third-place team from Group D/E/I/J/L",
+        "team_a_group_rank": {
+          "group": "K",
+          "rank": 1,
+          "points": 7,
+          "goal_difference": 3
+        },
+        "team_b_group_rank": {
+          "group": "L",
+          "rank": 3,
+          "points": 4,
+          "goal_difference": 0
+        },
+        "candidate_match_ids": [
+          "87"
+        ]
+      },
+      "source_confidence": "locked_group_rank_bracket_slot"
+    },
+    {
+      "bracket_match_number": 88,
+      "bracket_slot_id": "M88",
+      "source_fixture_id": "81",
+      "source_fixture_order": 81,
+      "source_fixture_id_is_bracket_match_number": false,
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R32",
+      "stage": "round_of_32",
+      "fixture_id": "fwc2026-m088",
+      "status": "scheduled",
+      "kickoff": {
+        "source_datetime": "2026-07-03T19:00:00+01:00",
+        "eastern_datetime_label": "Jul 3, 2026 · 2:00 PM ET"
+      },
+      "venue": {
+        "name": "At&t Stadium",
+        "city": "Arlington, Texas"
+      },
+      "team_a": {
+        "team": "Australia",
+        "team_id": "australia",
+        "code": "AUS",
+        "flag": "🇦🇺"
+      },
+      "team_b": {
+        "team": "Egypt",
+        "team_id": "egypt",
+        "code": "EGY",
+        "flag": "🇪🇬"
+      },
+      "winner_advances_to": {
+        "round": "R16",
+        "bracket_match_number": 95,
+        "bracket_slot_id": "M95",
+        "path": "Winner Match 86 v Winner Match 88"
+      },
+      "bracket_quarter": "winner_m100",
+      "bracket_half": "winner_m102",
+      "final_path": "winner_m104",
+      "bracket_path": "Group D runner-up v Group G runner-up",
+      "derived_from": {
+        "mapping_basis": "group_rank_bracket_path",
+        "mapping_status": "mapped_by_group_rank_path",
+        "group_rank_path": "Group D runner-up v Group G runner-up",
+        "team_a_group_rank": {
+          "group": "D",
+          "rank": 2,
+          "points": 4,
+          "goal_difference": 0
+        },
+        "team_b_group_rank": {
+          "group": "G",
+          "rank": 2,
+          "points": 5,
+          "goal_difference": 2
+        },
+        "candidate_match_ids": [
+          "88"
+        ]
+      },
+      "source_confidence": "locked_group_rank_bracket_slot"
+    }
+  ]
+}

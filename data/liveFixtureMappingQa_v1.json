@@ -1,6 +1,6 @@
 {
   "schema_version": "live_fixture_mapping_qa_v1",
-  "generated_at": "2026-06-28T11:30:14.974Z",
+  "generated_at": "2026-06-28T12:53:34.484Z",
   "status": "passed",
   "files": {
     "localFixtures": "data/fixtures.json",
@@ -49,7 +49,8 @@
     "script_lookup_block_uses_direct_numeric_key": false,
     "world_cup_lookup_block_uses_direct_numeric_key": false,
     "script_uses_source_fixture_metadata": false,
-    "world_cup_uses_source_fixture_metadata": false,
+    "world_cup_uses_source_fixture_metadata": true,
+    "world_cup_source_fixture_metadata_display_is_labelled": true,
     "passed": true
   },
   "display_lookup_audit": [

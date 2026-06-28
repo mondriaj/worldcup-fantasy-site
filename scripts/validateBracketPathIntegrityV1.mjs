@@ -274,7 +274,37 @@ function buildTeamPathRows(nodes) {
       });
     }
   }
-  return rows.sort((a, b) => a.team.localeCompare(b.team));
+  const allTeams = rows.map((row) => ({ team: row.team, team_id: row.team_id }));
+  return rows.map((row) => {
+    const possibleBeforeFinalIds = new Set([
+      row.r32_opponent ? allTeams.find((team) => team.team === row.r32_opponent)?.team_id : null,
+      ...(row.possible_r16_opponent_ids || []),
+      ...(row.possible_qf_opponent_ids || []),
+      ...(row.possible_sf_opponent_ids || [])
+    ].filter(Boolean));
+    const impossibleBeforeFinal = allTeams
+      .filter((team) => team.team_id !== row.team_id && !possibleBeforeFinalIds.has(team.team_id))
+      .sort((a, b) => a.team.localeCompare(b.team));
+    return {
+      ...row,
+      impossible_opponents_before_final: impossibleBeforeFinal.map((team) => team.team),
+      impossible_opponent_ids_before_final: impossibleBeforeFinal.map((team) => team.team_id)
+    };
+  }).sort((a, b) => a.team.localeCompare(b.team));
+}
+
+function buildPlacementMatchRows(worldCupData) {
+  return (worldCupData.bracket?.rounds || [])
+    .flatMap((round) => (round.matches || []).map((match) => ({ round_name: round.name, match })))
+    .filter(({ match }) => /Loser Match/i.test(String(match.path || "")))
+    .map(({ round_name, match }) => ({
+      match_number: Number(match.id),
+      round_label: "Third place",
+      round_name,
+      bracket_path: match.path,
+      loser_sources: Array.from(String(match.path || "").matchAll(/Loser Match (\d+)/g)).map((entry) => `L${entry[1]}`)
+    }))
+    .sort((a, b) => a.match_number - b.match_number);
 }
 
 function buildRoundSlotRows(nodes) {
@@ -486,7 +516,8 @@ function buildReport(audit) {
     row.possible_r16_opponents.join(", "),
     row.possible_qf_opponents.join(", "),
     row.possible_sf_opponents.join(", "),
-    row.possible_final_opponents.join(", ")
+    row.possible_final_opponents.join(", "),
+    row.impossible_opponents_before_final.join(", ")
   ]);
   const sanityRows = audit.sanity.map((row) => [
     row.team,
@@ -521,9 +552,18 @@ ${mdTable(["Match", "Round", "Left source", "Right source", "Left possible teams
   row.right_possible_teams.join(", ")
 ]))}
 
+## Placement Matches
+
+${audit.placement_matches.length ? mdTable(["Match", "Round", "Sources", "Path"], audit.placement_matches.map((row) => [
+  row.match_number,
+  row.round_label,
+  row.loser_sources.join(", "),
+  row.bracket_path
+])) : "- None"}
+
 ## Team Path Table
 
-${mdTable(["Team", "R32 opponent", "Possible R16", "Possible QF", "Possible SF", "Opposite-side finalists only"], pathRows)}
+${mdTable(["Team", "R32 opponent", "Possible R16", "Possible QF", "Possible SF", "Opposite-side finalists only", "Impossible before Final"], pathRows)}
 
 ## Sanity Section
 
@@ -553,6 +593,7 @@ async function main() {
   const teamPaths = buildTeamPathRows(nodes);
   const r32Slots = buildR32SlotRows(nodes);
   const roundSlots = buildRoundSlotRows(nodes);
+  const placementMatches = buildPlacementMatchRows(worldCupData);
   const officialChecks = validateOfficialTree(nodes, r32BracketPath, teamPaths);
   const bracketPoolChecks = validateBracketPoolTree(nodes, bracketPool);
   const checks = [...officialChecks.checks, ...bracketPoolChecks.checks];
@@ -571,6 +612,7 @@ async function main() {
     },
     r32_slots: r32Slots,
     round_slots: roundSlots,
+    placement_matches: placementMatches,
     team_paths: teamPaths,
     sanity: buildSanitySection(teamPaths),
     checks,

@@ -1,0 +1,37 @@
+{
+  "schema_version": "knockout_bracket_prediction_qa_v1",
+  "generated_at": "2026-06-28T12:54:55.857Z",
+  "status": "pass",
+  "knockout_bracket_prediction_present": false,
+  "authority_fixture_count": 16,
+  "knockout_score_known_r32_count": 16,
+  "bracket_pool_r32_count": 16,
+  "checks": [
+    {
+      "id": "r32_fixture_authority_pass",
+      "status": "pass",
+      "detail": "pass"
+    },
+    {
+      "id": "knockout_score_predictor_uses_authority_r32",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "bracket_pool_uses_authority_r32",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "knockout_bracket_prediction_artifact_absent_or_reviewed",
+      "status": "pass",
+      "detail": "not present in repo"
+    },
+    {
+      "id": "france_argentina_not_r16_in_active_pool",
+      "status": "pass",
+      "detail": null
+    }
+  ],
+  "failures": []
+}

@@ -711,6 +711,11 @@ async function testWorldCupPage(browser, viewport) {
     title: document.title,
     textSample: document.body.innerText.slice(0, 1000),
     hasGroupsOrFixtures: /Group|Fixture|World Cup/i.test(document.body.innerText),
+    r32AuthorityFixtureCount: window.R32_FIXTURE_AUTHORITY_DATA?.fixtures?.length || 0,
+    renderedR32CardCount: document.querySelectorAll('#bracket .bracket-match[data-bracket-slot^="M"]').length,
+    bracketText: document.querySelector("#bracket")?.innerText?.replace(/\s+/g, " ").trim().slice(0, 3000) || "",
+    hasKnownR32Tbd: Array.from(document.querySelectorAll('#bracket .bracket-match[data-bracket-slot^="M"]'))
+      .some((node) => /TBD|to be decided|pending/i.test(node.textContent || "")),
     scroll: {
       clientWidth: document.documentElement.clientWidth,
       scrollWidth: document.documentElement.scrollWidth,
@@ -733,6 +738,12 @@ async function testWorldCupPage(browser, viewport) {
     pageErrors,
     failures: [
       ...(!state.hasGroupsOrFixtures ? ["worldCupContentMissing"] : []),
+      ...(state.r32AuthorityFixtureCount !== 16 ? ["worldCupR32AuthorityMissing"] : []),
+      ...(state.renderedR32CardCount < 16 ? ["worldCupR32CardsMissing"] : []),
+      ...(!/M77[\s\S]*France.*Sweden/i.test(state.bracketText) ? ["worldCupFranceR32Missing"] : []),
+      ...(!/M86[\s\S]*Argentina.*Cabo Verde/i.test(state.bracketText) ? ["worldCupArgentinaR32Missing"] : []),
+      ...(/France[\s\S]*Argentina|Argentina[\s\S]*France/i.test(state.bracketText) && /R16/i.test(state.bracketText) ? ["worldCupImpossibleFranceArgentinaR16"] : []),
+      ...(state.hasKnownR32Tbd ? ["worldCupKnownR32Tbd"] : []),
       ...(pageErrors.length ? ["worldCupPageErrors"] : [])
     ],
     screenshotPath
