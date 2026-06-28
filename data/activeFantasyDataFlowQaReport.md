@@ -1,6 +1,6 @@
 # Active R32 Data Flow QA Report
 
-Generated: 2026-06-28T11:52:49.231Z
+Generated: 2026-06-28T12:32:03.936Z
 Status: **PASS**
 Active version: `20260628-r32-final`
 
@@ -51,7 +51,7 @@ Active version: `20260628-r32-final`
 - R32 recommendation projection misses: 0
 - R32 projections: 816
 - R32 score fixtures: 16
-- playersData.js R32 recommendation enrichment misses: 99
+- playersData.js R32 recommendation enrichment misses: 100
 - playersData.js R32 projection enrichment misses: 722
 - playersData.js finance enrichment misses: 1122
 

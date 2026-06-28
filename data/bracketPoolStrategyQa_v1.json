@@ -1,6 +1,6 @@
 {
   "schema_version": "bracket_pool_strategy_qa_v1",
-  "generated_at": "2026-06-28T12:16:28.960Z",
+  "generated_at": "2026-06-28T12:31:04.249Z",
   "model_version": "bracket-pool-strategy-v1",
   "source_files": [
     "data/knockoutScorePredictor_v1.json",

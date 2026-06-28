@@ -1,6 +1,6 @@
 {
   "schema_version": "recommendation_qa_r32_v1",
-  "generated_at": "2026-06-28T11:30:15.005Z",
+  "generated_at": "2026-06-28T12:32:04.029Z",
   "status": "pass",
   "summary": {
     "recommendationCandidates": 125,
@@ -125,6 +125,13 @@
     ],
     "topPathValue": [
       {
+        "name": "Lionel Messi",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 6.797,
+        "pathValue": 1.2
+      },
+      {
         "name": "Daniel Muñoz",
         "country": "Colombia",
         "opponent": "Ghana",
@@ -150,6 +157,13 @@
         "country": "England",
         "opponent": "Congo DR",
         "projectedPoints": 6.507,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Lautaro Martínez",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 6.32,
         "pathValue": 1.2
       },
       {
@@ -181,10 +195,31 @@
         "pathValue": 1.2
       },
       {
+        "name": "Emiliano Martínez",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 5.879,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Facundo Medina",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 5.829,
+        "pathValue": 1.2
+      },
+      {
         "name": "Jordan Pickford",
         "country": "England",
         "opponent": "Congo DR",
         "projectedPoints": 5.809,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Alexis Mac Allister",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 5.762,
         "pathValue": 1.2
       },
       {
@@ -195,78 +230,50 @@
         "pathValue": 1.2
       },
       {
-        "name": "Joshua Kimmich",
-        "country": "Germany",
-        "opponent": "Paraguay",
-        "projectedPoints": 5.65,
+        "name": "Lisandro Martínez",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 5.722,
         "pathValue": 1.2
       },
       {
-        "name": "Noni Madueke",
-        "country": "England",
-        "opponent": "Congo DR",
-        "projectedPoints": 5.217,
+        "name": "Rodrigo De Paul",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 5.656,
         "pathValue": 1.2
       },
       {
-        "name": "Virgil van Dijk",
-        "country": "Netherlands",
-        "opponent": "Morocco",
-        "projectedPoints": 5.172,
+        "name": "Cristian Romero",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 5.445,
         "pathValue": 1.2
       },
       {
-        "name": "Luis Díaz",
-        "country": "Colombia",
-        "opponent": "Ghana",
-        "projectedPoints": 5.16,
+        "name": "Enzo Fernández",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 5.386,
         "pathValue": 1.2
       },
       {
-        "name": "Willian Pacho",
-        "country": "Ecuador",
-        "opponent": "Mexico",
-        "projectedPoints": 5.067,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Piero Hincapié",
-        "country": "Ecuador",
-        "opponent": "Mexico",
-        "projectedPoints": 5.012,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Denzel Dumfries",
-        "country": "Netherlands",
-        "opponent": "Morocco",
-        "projectedPoints": 5.01,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Declan Rice",
-        "country": "England",
-        "opponent": "Congo DR",
-        "projectedPoints": 4.957,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Harry Souttar",
-        "country": "Australia",
-        "opponent": "Egypt",
-        "projectedPoints": 4.928,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Jordan Bos",
-        "country": "Australia",
-        "opponent": "Egypt",
-        "projectedPoints": 4.924,
+        "name": "Thiago Almada",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 5.24,
         "pathValue": 1.2
       }
     ],
     "easyPathSupports": [
       {
+        "name": "Lionel Messi",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 6.797,
+        "pathValue": 1.2
+      },
+      {
         "name": "Daniel Muñoz",
         "country": "Colombia",
         "opponent": "Ghana",
@@ -292,6 +299,13 @@
         "country": "England",
         "opponent": "Congo DR",
         "projectedPoints": 6.507,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Lautaro Martínez",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 6.32,
         "pathValue": 1.2
       },
       {
@@ -323,10 +337,31 @@
         "pathValue": 1.2
       },
       {
+        "name": "Emiliano Martínez",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 5.879,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Facundo Medina",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 5.829,
+        "pathValue": 1.2
+      },
+      {
         "name": "Jordan Pickford",
         "country": "England",
         "opponent": "Congo DR",
         "projectedPoints": 5.809,
+        "pathValue": 1.2
+      },
+      {
+        "name": "Alexis Mac Allister",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 5.762,
         "pathValue": 1.2
       },
       {
@@ -337,73 +372,38 @@
         "pathValue": 1.2
       },
       {
-        "name": "Joshua Kimmich",
-        "country": "Germany",
-        "opponent": "Paraguay",
-        "projectedPoints": 5.65,
+        "name": "Lisandro Martínez",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 5.722,
         "pathValue": 1.2
       },
       {
-        "name": "Noni Madueke",
-        "country": "England",
-        "opponent": "Congo DR",
-        "projectedPoints": 5.217,
+        "name": "Rodrigo De Paul",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 5.656,
         "pathValue": 1.2
       },
       {
-        "name": "Virgil van Dijk",
-        "country": "Netherlands",
-        "opponent": "Morocco",
-        "projectedPoints": 5.172,
+        "name": "Cristian Romero",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 5.445,
         "pathValue": 1.2
       },
       {
-        "name": "Luis Díaz",
-        "country": "Colombia",
-        "opponent": "Ghana",
-        "projectedPoints": 5.16,
+        "name": "Enzo Fernández",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 5.386,
         "pathValue": 1.2
       },
       {
-        "name": "Willian Pacho",
-        "country": "Ecuador",
-        "opponent": "Mexico",
-        "projectedPoints": 5.067,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Piero Hincapié",
-        "country": "Ecuador",
-        "opponent": "Mexico",
-        "projectedPoints": 5.012,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Denzel Dumfries",
-        "country": "Netherlands",
-        "opponent": "Morocco",
-        "projectedPoints": 5.01,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Declan Rice",
-        "country": "England",
-        "opponent": "Congo DR",
-        "projectedPoints": 4.957,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Harry Souttar",
-        "country": "Australia",
-        "opponent": "Egypt",
-        "projectedPoints": 4.928,
-        "pathValue": 1.2
-      },
-      {
-        "name": "Jordan Bos",
-        "country": "Australia",
-        "opponent": "Egypt",
-        "projectedPoints": 4.924,
+        "name": "Thiago Almada",
+        "country": "Argentina",
+        "opponent": "Cabo Verde",
+        "projectedPoints": 5.24,
         "pathValue": 1.2
       }
     ],
@@ -421,22 +421,10 @@
         "warning": "Likely R16 path is difficult if Portugal advances."
       },
       {
-        "name": "Lionel Messi",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "warning": "Likely R16 path is difficult if France advances."
-      },
-      {
         "name": "Unai Simón",
         "country": "Spain",
         "opponent": "Austria",
         "warning": "Likely R16 path is difficult if Portugal advances."
-      },
-      {
-        "name": "Lautaro Martínez",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "warning": "Likely R16 path is difficult if France advances."
       },
       {
         "name": "Pau Cubarsí",
@@ -448,7 +436,7 @@
         "name": "Dayot Upamecano",
         "country": "France",
         "opponent": "Sweden",
-        "warning": "Likely R16 path is difficult if Argentina advances."
+        "warning": "Likely R16 path is difficult if Germany advances."
       },
       {
         "name": "Marcos Llorente",
@@ -460,37 +448,13 @@
         "name": "Jules Koundé",
         "country": "France",
         "opponent": "Sweden",
-        "warning": "Likely R16 path is difficult if Argentina advances."
-      },
-      {
-        "name": "Emiliano Martínez",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "warning": "Likely R16 path is difficult if France advances."
-      },
-      {
-        "name": "Facundo Medina",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "warning": "Likely R16 path is difficult if France advances."
+        "warning": "Likely R16 path is difficult if Germany advances."
       },
       {
         "name": "Kylian Mbappé",
         "country": "France",
         "opponent": "Sweden",
-        "warning": "Likely R16 path is difficult if Argentina advances."
-      },
-      {
-        "name": "Alexis Mac Allister",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "warning": "Likely R16 path is difficult if France advances."
-      },
-      {
-        "name": "Lisandro Martínez",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "warning": "Likely R16 path is difficult if France advances."
+        "warning": "Likely R16 path is difficult if Germany advances."
       },
       {
         "name": "Mikel Oyarzabal",
@@ -499,34 +463,70 @@
         "warning": "Likely R16 path is difficult if Portugal advances."
       },
       {
-        "name": "Rodrigo De Paul",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
+        "name": "Joshua Kimmich",
+        "country": "Germany",
+        "opponent": "Paraguay",
         "warning": "Likely R16 path is difficult if France advances."
       },
       {
         "name": "Mike Maignan",
         "country": "France",
         "opponent": "Sweden",
-        "warning": "Likely R16 path is difficult if Argentina advances."
-      },
-      {
-        "name": "Cristian Romero",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "warning": "Likely R16 path is difficult if France advances."
-      },
-      {
-        "name": "Enzo Fernández",
-        "country": "Argentina",
-        "opponent": "Cabo Verde",
-        "warning": "Likely R16 path is difficult if France advances."
+        "warning": "Likely R16 path is difficult if Germany advances."
       },
       {
         "name": "Nuno Alexandre Tavares Mendes",
         "country": "Portugal",
         "opponent": "Croatia",
         "warning": "Likely R16 path is difficult if Spain advances."
+      },
+      {
+        "name": "Alisson Ramsés Becker",
+        "country": "Brazil",
+        "opponent": "Japan",
+        "warning": "Likely R16 path is difficult if Norway advances."
+      },
+      {
+        "name": "Michael Olise",
+        "country": "France",
+        "opponent": "Sweden",
+        "warning": "Likely R16 path is difficult if Germany advances."
+      },
+      {
+        "name": "Richie Laryea",
+        "country": "Canada",
+        "opponent": "South Africa",
+        "warning": "Likely R16 path is difficult if Netherlands advances."
+      },
+      {
+        "name": "Willian Pacho",
+        "country": "Ecuador",
+        "opponent": "Mexico",
+        "warning": "Likely R16 path is difficult if England advances."
+      },
+      {
+        "name": "Douglas dos Santos Justino de Melo",
+        "country": "Brazil",
+        "opponent": "Japan",
+        "warning": "Likely R16 path is difficult if Norway advances."
+      },
+      {
+        "name": "Vinícius José Paixão de Oliveira Júnior",
+        "country": "Brazil",
+        "opponent": "Japan",
+        "warning": "Likely R16 path is difficult if Norway advances."
+      },
+      {
+        "name": "Bruno Guimarães Rodriguez Moura",
+        "country": "Brazil",
+        "opponent": "Japan",
+        "warning": "Likely R16 path is difficult if Norway advances."
+      },
+      {
+        "name": "Piero Hincapié",
+        "country": "Ecuador",
+        "opponent": "Mexico",
+        "warning": "Likely R16 path is difficult if England advances."
       }
     ],
     "topGkDefCleanSheetRecommendations": [
@@ -735,16 +735,16 @@
       {
         "team": "Argentina",
         "r32_opponent": "Cabo Verde",
-        "likely_r16_opponent_if_both_advance": "France",
-        "path_difficulty_score": 70.12,
-        "hard_path_warning": "Likely R16 path is difficult if France advances.",
-        "easy_path_support": false
+        "likely_r16_opponent_if_both_advance": "Australia",
+        "path_difficulty_score": 42.47,
+        "hard_path_warning": null,
+        "easy_path_support": true
       },
       {
         "team": "England",
         "r32_opponent": "Congo DR",
-        "likely_r16_opponent_if_both_advance": "Belgium",
-        "path_difficulty_score": 70.35,
+        "likely_r16_opponent_if_both_advance": "Ecuador",
+        "path_difficulty_score": 68.23,
         "hard_path_warning": null,
         "easy_path_support": true
       },
@@ -759,17 +759,17 @@
       {
         "team": "France",
         "r32_opponent": "Sweden",
-        "likely_r16_opponent_if_both_advance": "Argentina",
-        "path_difficulty_score": 106.06,
-        "hard_path_warning": "Likely R16 path is difficult if Argentina advances.",
+        "likely_r16_opponent_if_both_advance": "Germany",
+        "path_difficulty_score": 95.53,
+        "hard_path_warning": "Likely R16 path is difficult if Germany advances.",
         "easy_path_support": false
       },
       {
         "team": "Germany",
         "r32_opponent": "Paraguay",
-        "likely_r16_opponent_if_both_advance": "USA",
-        "path_difficulty_score": 82.41,
-        "hard_path_warning": null,
+        "likely_r16_opponent_if_both_advance": "France",
+        "path_difficulty_score": 104.17,
+        "hard_path_warning": "Likely R16 path is difficult if France advances.",
         "easy_path_support": false
       },
       {
@@ -823,7 +823,7 @@
       "matchday": "r32",
       "matchday_label": "Round of 32",
       "opponent": "Ghana",
-      "fixture_id": "fwc2026-m086",
+      "fixture_id": "fwc2026-m087",
       "mode": "differential",
       "mode_label": "Differential Picks / Value Picks",
       "pickType": "Differential Picks / Value Picks",
@@ -845,8 +845,8 @@
       "roleConfidence": "medium",
       "role_confidence": "medium",
       "fixture_context": {
-        "fixture_id": "fwc2026-m086",
-        "match_number": 86,
+        "fixture_id": "fwc2026-m087",
+        "match_number": 87,
         "opponent_team_id": "ghana",
         "opponent": "Ghana",
         "side": "home_listed",
@@ -869,10 +869,10 @@
       "path_context": {
         "team": "Colombia",
         "team_id": "colombia",
-        "r32_match_id": 86,
+        "r32_match_id": 87,
         "r32_opponent": "Ghana",
         "r32_advance_probability": 0.8828,
-        "r16_match_id": "95",
+        "r16_match_id": "96",
         "likely_r16_opponent_if_both_advance": "Switzerland",
         "known_path_status": "known_r32_plus_projected_r16_from_bracket",
         "path_difficulty_score": 59.76,
@@ -941,16 +941,16 @@
     {
       "team": "Argentina",
       "r32_opponent": "Cabo Verde",
-      "likely_r16_opponent_if_both_advance": "France",
-      "path_difficulty_score": 70.12,
-      "hard_path_warning": "Likely R16 path is difficult if France advances.",
-      "easy_path_support": false
+      "likely_r16_opponent_if_both_advance": "Australia",
+      "path_difficulty_score": 42.47,
+      "hard_path_warning": null,
+      "easy_path_support": true
     },
     {
       "team": "England",
       "r32_opponent": "Congo DR",
-      "likely_r16_opponent_if_both_advance": "Belgium",
-      "path_difficulty_score": 70.35,
+      "likely_r16_opponent_if_both_advance": "Ecuador",
+      "path_difficulty_score": 68.23,
       "hard_path_warning": null,
       "easy_path_support": true
     },
@@ -965,17 +965,17 @@
     {
       "team": "France",
       "r32_opponent": "Sweden",
-      "likely_r16_opponent_if_both_advance": "Argentina",
-      "path_difficulty_score": 106.06,
-      "hard_path_warning": "Likely R16 path is difficult if Argentina advances.",
+      "likely_r16_opponent_if_both_advance": "Germany",
+      "path_difficulty_score": 95.53,
+      "hard_path_warning": "Likely R16 path is difficult if Germany advances.",
       "easy_path_support": false
     },
     {
       "team": "Germany",
       "r32_opponent": "Paraguay",
-      "likely_r16_opponent_if_both_advance": "USA",
-      "path_difficulty_score": 82.41,
-      "hard_path_warning": null,
+      "likely_r16_opponent_if_both_advance": "France",
+      "path_difficulty_score": 104.17,
+      "hard_path_warning": "Likely R16 path is difficult if France advances.",
       "easy_path_support": false
     },
     {

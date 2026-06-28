@@ -345,26 +345,89 @@ function buildGroupStandings(worldCup, live) {
   return { groups: groupRows.sort((a, b) => a.group.localeCompare(b.group)), finalFixtures, unfinishedFixtures };
 }
 
-function knownR32Fixtures(live, worldCup) {
+function parseBracketSideDescriptor(value) {
+  const text = String(value || "");
+  let match = text.match(/Group ([A-L]) winner/i);
+  if (match) return { type: "rank", group: match[1], rank: 1 };
+  match = text.match(/Group ([A-L]) runner-up/i);
+  if (match) return { type: "rank", group: match[1], rank: 2 };
+  match = text.match(/third-place team from Group ([A-L/]+)/i);
+  if (match) return { type: "third_place", groups: match[1].split("/") };
+  return null;
+}
+
+function parseR32BracketMatch(match) {
+  const [leftText, rightText] = String(match.path || "").split(" v ");
+  return {
+    ...match,
+    left_descriptor: parseBracketSideDescriptor(leftText),
+    right_descriptor: parseBracketSideDescriptor(rightText)
+  };
+}
+
+function teamFitsBracketDescriptor(team, descriptor, placementByTeam) {
+  const placement = placementByTeam.get(normalizeText(team));
+  if (!placement || !descriptor) return false;
+  if (descriptor.type === "rank") {
+    return placement.group === descriptor.group && placement.rank === descriptor.rank;
+  }
+  return placement.rank === 3 && descriptor.groups.includes(placement.group);
+}
+
+function resolveR32BracketSlot(fixture, r32BracketMatches, placementByTeam) {
+  const candidates = r32BracketMatches.filter((match) => {
+    const direct = teamFitsBracketDescriptor(fixture.home_team, match.left_descriptor, placementByTeam) &&
+      teamFitsBracketDescriptor(fixture.away_team, match.right_descriptor, placementByTeam);
+    const reversed = teamFitsBracketDescriptor(fixture.home_team, match.right_descriptor, placementByTeam) &&
+      teamFitsBracketDescriptor(fixture.away_team, match.left_descriptor, placementByTeam);
+    return direct || reversed;
+  });
+  return {
+    status: candidates.length === 1 ? "mapped_by_group_rank_path" : candidates.length ? "ambiguous_group_rank_path" : "unmapped_group_rank_path",
+    match: candidates.length === 1 ? candidates[0] : null,
+    candidate_match_ids: candidates.map((match) => String(match.id))
+  };
+}
+
+function knownR32Fixtures(live, worldCup, standings) {
   const pathsById = new Map();
   for (const round of worldCup.bracket?.rounds || []) {
     for (const match of round.matches || []) pathsById.set(String(match.id), match.path);
   }
+  const placementByTeam = new Map(
+    standings.groups.flatMap((group) => group.standings.map((team) => [normalizeText(team.team), team]))
+  );
+  const r32BracketMatches = (worldCup.bracket?.rounds || [])
+    .find((round) => round.name === "Round of 32")
+    ?.matches
+    ?.map(parseR32BracketMatch) || [];
+
   return (live.fixtures || [])
     .filter((fixture) => String(fixture.round_id) === "4" || Number(fixture.source_fixture_order) >= 73)
     .filter((fixture) => Number(fixture.source_fixture_order || fixture.source_fixture_id) >= 73)
-    .map((fixture) => ({
-      match_id: String(fixture.source_fixture_id || fixture.source_fixture_order),
-      fixture_id: `fwc2026-m${String(fixture.source_fixture_id || fixture.source_fixture_order).padStart(3, "0")}`,
-      match_number: Number(fixture.source_fixture_id || fixture.source_fixture_order),
-      stage: "round_of_32",
-      fixture_status: fixture.fixture_status,
-      path_status: "known_official_fixture",
-      bracket_path: pathsById.get(String(fixture.source_fixture_id || fixture.source_fixture_order)) || null,
-      date: fixture.date,
-      home_team: fixture.home_team,
-      away_team: fixture.away_team
-    }))
+    .map((fixture) => {
+      const rawSourceId = String(fixture.source_fixture_id || fixture.source_fixture_order);
+      const slot = resolveR32BracketSlot(fixture, r32BracketMatches, placementByTeam);
+      const matchNumber = Number(slot.match?.id || rawSourceId);
+      return {
+        match_id: String(matchNumber),
+        fixture_id: `fwc2026-m${String(matchNumber).padStart(3, "0")}`,
+        match_number: matchNumber,
+        stage: "round_of_32",
+        fixture_status: fixture.fixture_status,
+        path_status: "known_official_fixture",
+        bracket_path: slot.match?.path || pathsById.get(String(matchNumber)) || null,
+        date: fixture.date,
+        home_team: fixture.home_team,
+        away_team: fixture.away_team,
+        source_fixture_id: rawSourceId,
+        source_fixture_order: Number(fixture.source_fixture_order || rawSourceId),
+        r32_slot_mapping_status: slot.status,
+        r32_slot_mapping_basis: "group_rank_bracket_path",
+        r32_slot_mapping_candidate_match_ids: slot.candidate_match_ids,
+        source_fixture_id_matches_official_match_number: Number(rawSourceId) === matchNumber
+      };
+    })
     .filter((fixture) => fixture.home_team && fixture.away_team)
     .sort((a, b) => a.match_number - b.match_number);
 }
@@ -683,7 +746,7 @@ function buildBracketPath(worldCup, live, qualityIndex) {
   const finalRefreshReady = standings.unfinishedFixtures.length === 0;
   const pendingGroups = new Set(standings.unfinishedFixtures.map((fixture) => fixture.group).filter(Boolean));
   const pendingTeams = new Set(standings.unfinishedFixtures.flatMap((fixture) => String(fixture.fixture || "").split(" vs ").map(normalizeText)));
-  const knownFixtures = knownR32Fixtures(live, worldCup).map((fixture) => {
+  const knownFixtures = knownR32Fixtures(live, worldCup, standings).map((fixture) => {
     const bracketPath = String(fixture.bracket_path || "");
     const pathTouchesPendingGroup = [...pendingGroups].some((group) => bracketPath.includes(`Group ${group}`));
     const teamTouchesPendingFixture = [fixture.home_team, fixture.away_team].some((team) => pendingTeams.has(normalizeText(team)));
@@ -766,6 +829,7 @@ function buildBracketPath(worldCup, live, qualityIndex) {
     team_paths: teamPaths.sort((a, b) => a.path_difficulty_score - b.path_difficulty_score),
     qa_notes: [
       "Known fixtures are read from the official live fixture feed.",
+      "R32 live fixtures are assigned to official bracket slots by completed group rank and bracket path; raw fantasy source fixture IDs are retained only as audit metadata.",
       finalRefreshReady
         ? "All group-stage fixtures are final; known R32 fixtures are treated as final official fixtures."
         : "Unresolved R32 matches are not invented.",
@@ -1742,14 +1806,16 @@ function markdownOutputs({ postmortem, bracket, knockout, score, role, projectio
 }
 
 function qaFiles({ bracket, knockout, score, role, projections, recommendations, teamBuilder, teamForm }) {
+  const r32SlotMapped = bracket.known_r32_fixtures.every((row) => row.r32_slot_mapping_status === "mapped_by_group_rank_path");
   const qas = {
     "data/r32BracketPathQa_v1.json": {
       schema_version: "r32_bracket_path_qa_v1",
       generated_at: GENERATED_AT,
-      status: bracket.known_r32_fixtures.length > 0 && bracket.known_r32_fixtures.length + bracket.unresolved_r32_matches.length === 16 ? "pass" : "fail",
+      status: bracket.known_r32_fixtures.length > 0 && bracket.known_r32_fixtures.length + bracket.unresolved_r32_matches.length === 16 && r32SlotMapped ? "pass" : "fail",
       checks: [
         { id: "no_invented_unresolved_slots", status: bracket.known_r32_fixtures.length + bracket.unresolved_r32_matches.length === 16 ? "pass" : "fail" },
         { id: "known_fixtures_source_backed", status: bracket.known_r32_fixtures.every((row) => row.path_status === "known_official_fixture") ? "pass" : "fail" },
+        { id: "r32_fixtures_mapped_by_group_rank_path", status: r32SlotMapped ? "pass" : "fail" },
         { id: "final_r32_fixture_count", status: bracket.known_r32_fixtures.length === 16 ? "pass" : "fail" },
         { id: "no_provisional_slots_in_final_release", status: bracket.provisional_r32_slots.length === 0 ? "pass" : "fail" },
         { id: "no_uncertain_slots_in_final_release", status: bracket.unresolved_r32_matches.length === 0 ? "pass" : "fail" },
@@ -1839,12 +1905,14 @@ export async function buildAllR32Artifacts() {
   const projections = buildR32Projections(bracket, score, role);
   const recommendations = buildRecommendations(projections, bracket, teamForm);
   const teamBuilder = teamBuilderQa(projections, recommendations);
+  const r32SlotMapped = bracket.known_r32_fixtures.every((row) => row.r32_slot_mapping_status === "mapped_by_group_rank_path");
 	  const releaseQa = {
 	    schema_version: "r32_release_qa_v1",
 	    generated_at: GENERATED_AT,
     release_status: FINAL_RELEASE_STATUS,
 	    status: [
 	      bracket.known_r32_fixtures.length === 16,
+      r32SlotMapped,
       bracket.unresolved_r32_matches.length === 0,
       bracket.provisional_r32_slots.length === 0,
 	      knockout.known_r32_predictions.length === bracket.known_r32_fixtures.length,
@@ -1859,6 +1927,7 @@ export async function buildAllR32Artifacts() {
 	    ].every(Boolean) ? "pass" : "fail",
 	    checks: [
 	      { id: "final_r32_fixtures_available", status: bracket.known_r32_fixtures.length === 16 ? "pass" : "fail" },
+      { id: "r32_fixtures_mapped_by_group_rank_path", status: r32SlotMapped ? "pass" : "fail" },
       { id: "no_provisional_r32_slots", status: bracket.provisional_r32_slots.length === 0 ? "pass" : "fail" },
       { id: "no_uncertain_r32_slots", status: bracket.unresolved_r32_matches.length === 0 ? "pass" : "fail" },
 	      { id: "all_group_fixtures_final", status: postmortem.final_fixture_count === 72 && postmortem.completed_md3_fixture_count === 24 && postmortem.unfinished_md3_fixture_count === 0 ? "pass" : "fail" },

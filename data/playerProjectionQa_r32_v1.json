@@ -1,6 +1,6 @@
 {
   "schema_version": "player_projection_qa_r32_v1",
-  "generated_at": "2026-06-28T11:30:15.005Z",
+  "generated_at": "2026-06-28T12:32:04.029Z",
   "status": "pass",
   "summary": {
     "projection_rows": 816,
@@ -35,7 +35,7 @@
         "opponent": "Cabo Verde",
         "projectedPoints": 6.797,
         "captainScore": 31.469,
-        "pathValue": 0.55
+        "pathValue": 1.2
       },
       {
         "name": "Daniel Muñoz",
@@ -89,7 +89,7 @@
         "opponent": "Cabo Verde",
         "projectedPoints": 6.32,
         "captainScore": 30.437,
-        "pathValue": 0.55
+        "pathValue": 1.2
       },
       {
         "name": "Harry Kane",
@@ -170,7 +170,7 @@
         "opponent": "Cabo Verde",
         "projectedPoints": 5.879,
         "captainScore": 29.495,
-        "pathValue": 0.55
+        "pathValue": 1.2
       },
       {
         "name": "Facundo Medina",
@@ -179,7 +179,7 @@
         "opponent": "Cabo Verde",
         "projectedPoints": 5.829,
         "captainScore": 29.107,
-        "pathValue": 0.55
+        "pathValue": 1.2
       },
       {
         "name": "Jordan Pickford",

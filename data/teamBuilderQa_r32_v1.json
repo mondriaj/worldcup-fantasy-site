@@ -1,6 +1,6 @@
 {
   "schema_version": "team_builder_qa_r32_v1",
-  "generated_at": "2026-06-28T11:30:15.005Z",
+  "generated_at": "2026-06-28T12:32:04.029Z",
   "status": "pass",
   "model_version": "team-builder-r32-v1",
   "summary": {
@@ -89,8 +89,8 @@
       "position": "MID",
       "projectedPoints": 5.762,
       "opponent": "Cabo Verde",
-      "pathValue": 0.55,
-      "hardPathWarning": "Likely R16 path is difficult if France advances."
+      "pathValue": 1.2,
+      "hardPathWarning": null
     },
     {
       "slot": "starter",
@@ -109,8 +109,8 @@
       "position": "MID",
       "projectedPoints": 5.656,
       "opponent": "Cabo Verde",
-      "pathValue": 0.55,
-      "hardPathWarning": "Likely R16 path is difficult if France advances."
+      "pathValue": 1.2,
+      "hardPathWarning": null
     },
     {
       "slot": "starter",
@@ -119,8 +119,8 @@
       "position": "MID",
       "projectedPoints": 5.386,
       "opponent": "Cabo Verde",
-      "pathValue": 0.55,
-      "hardPathWarning": "Likely R16 path is difficult if France advances."
+      "pathValue": 1.2,
+      "hardPathWarning": null
     },
     {
       "slot": "bench",
@@ -130,7 +130,7 @@
       "projectedPoints": 5.232,
       "opponent": "Sweden",
       "pathValue": 0.55,
-      "hardPathWarning": "Likely R16 path is difficult if Argentina advances."
+      "hardPathWarning": "Likely R16 path is difficult if Germany advances."
     },
     {
       "slot": "bench",
@@ -139,8 +139,8 @@
       "position": "FWD",
       "projectedPoints": 6.797,
       "opponent": "Cabo Verde",
-      "pathValue": 0.55,
-      "hardPathWarning": "Likely R16 path is difficult if France advances."
+      "pathValue": 1.2,
+      "hardPathWarning": null
     },
     {
       "slot": "bench",
@@ -149,8 +149,8 @@
       "position": "FWD",
       "projectedPoints": 6.32,
       "opponent": "Cabo Verde",
-      "pathValue": 0.55,
-      "hardPathWarning": "Likely R16 path is difficult if France advances."
+      "pathValue": 1.2,
+      "hardPathWarning": null
     },
     {
       "slot": "bench",
@@ -242,8 +242,8 @@
         "position": "MID",
         "projectedPoints": 5.762,
         "opponent": "Cabo Verde",
-        "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if France advances."
+        "pathValue": 1.2,
+        "hardPathWarning": null
       },
       {
         "slot": "starter",
@@ -262,8 +262,8 @@
         "position": "MID",
         "projectedPoints": 5.656,
         "opponent": "Cabo Verde",
-        "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if France advances."
+        "pathValue": 1.2,
+        "hardPathWarning": null
       },
       {
         "slot": "starter",
@@ -272,8 +272,8 @@
         "position": "MID",
         "projectedPoints": 5.386,
         "opponent": "Cabo Verde",
-        "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if France advances."
+        "pathValue": 1.2,
+        "hardPathWarning": null
       },
       {
         "slot": "bench",
@@ -283,7 +283,7 @@
         "projectedPoints": 5.232,
         "opponent": "Sweden",
         "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if Argentina advances."
+        "hardPathWarning": "Likely R16 path is difficult if Germany advances."
       },
       {
         "slot": "bench",
@@ -292,8 +292,8 @@
         "position": "FWD",
         "projectedPoints": 6.797,
         "opponent": "Cabo Verde",
-        "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if France advances."
+        "pathValue": 1.2,
+        "hardPathWarning": null
       },
       {
         "slot": "bench",
@@ -302,8 +302,8 @@
         "position": "FWD",
         "projectedPoints": 6.32,
         "opponent": "Cabo Verde",
-        "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if France advances."
+        "pathValue": 1.2,
+        "hardPathWarning": null
       },
       {
         "slot": "bench",
@@ -334,8 +334,8 @@
         "position": "FWD",
         "projectedPoints": 6.797,
         "opponent": "Cabo Verde",
-        "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if France advances."
+        "pathValue": 1.2,
+        "hardPathWarning": null
       },
       {
         "slot": "starter",
@@ -365,7 +365,7 @@
         "projectedPoints": 6.008,
         "opponent": "Sweden",
         "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if Argentina advances."
+        "hardPathWarning": "Likely R16 path is difficult if Germany advances."
       },
       {
         "slot": "starter",
@@ -374,8 +374,8 @@
         "position": "DEF",
         "projectedPoints": 5.65,
         "opponent": "Paraguay",
-        "pathValue": 1.2,
-        "hardPathWarning": null
+        "pathValue": 0.55,
+        "hardPathWarning": "Likely R16 path is difficult if France advances."
       },
       {
         "slot": "starter",
@@ -414,8 +414,8 @@
         "position": "DEF",
         "projectedPoints": 5.067,
         "opponent": "Mexico",
-        "pathValue": 1.2,
-        "hardPathWarning": null
+        "pathValue": 0.322,
+        "hardPathWarning": "Likely R16 path is difficult if England advances."
       },
       {
         "slot": "starter",
@@ -434,8 +434,8 @@
         "position": "DEF",
         "projectedPoints": 4.928,
         "opponent": "Egypt",
-        "pathValue": 1.2,
-        "hardPathWarning": null
+        "pathValue": 0.55,
+        "hardPathWarning": "Likely R16 path is difficult if Argentina advances."
       },
       {
         "slot": "bench",
@@ -454,8 +454,8 @@
         "position": "GK",
         "projectedPoints": 4.578,
         "opponent": "Senegal",
-        "pathValue": 0.441,
-        "hardPathWarning": "Likely R16 path is difficult if England advances."
+        "pathValue": 1.2,
+        "hardPathWarning": null
       },
       {
         "slot": "bench",
@@ -464,8 +464,8 @@
         "position": "FWD",
         "projectedPoints": 4.418,
         "opponent": "Belgium",
-        "pathValue": 0.266,
-        "hardPathWarning": "Likely R16 path is difficult if England advances."
+        "pathValue": 0.55,
+        "hardPathWarning": "Likely R16 path is difficult if USA advances."
       }
     ],
     "concentrated_upside": [
@@ -476,8 +476,8 @@
         "position": "FWD",
         "projectedPoints": 6.797,
         "opponent": "Cabo Verde",
-        "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if France advances."
+        "pathValue": 1.2,
+        "hardPathWarning": null
       },
       {
         "slot": "starter",
@@ -486,8 +486,8 @@
         "position": "FWD",
         "projectedPoints": 6.32,
         "opponent": "Cabo Verde",
-        "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if France advances."
+        "pathValue": 1.2,
+        "hardPathWarning": null
       },
       {
         "slot": "starter",
@@ -506,8 +506,8 @@
         "position": "MID",
         "projectedPoints": 5.762,
         "opponent": "Cabo Verde",
-        "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if France advances."
+        "pathValue": 1.2,
+        "hardPathWarning": null
       },
       {
         "slot": "starter",
@@ -527,7 +527,7 @@
         "projectedPoints": 5.774,
         "opponent": "Sweden",
         "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if Argentina advances."
+        "hardPathWarning": "Likely R16 path is difficult if Germany advances."
       },
       {
         "slot": "starter",
@@ -536,8 +536,8 @@
         "position": "MID",
         "projectedPoints": 5.656,
         "opponent": "Cabo Verde",
-        "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if France advances."
+        "pathValue": 1.2,
+        "hardPathWarning": null
       },
       {
         "slot": "starter",
@@ -576,8 +576,8 @@
         "position": "MID",
         "projectedPoints": 5.386,
         "opponent": "Cabo Verde",
-        "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if France advances."
+        "pathValue": 1.2,
+        "hardPathWarning": null
       },
       {
         "slot": "bench",
@@ -596,8 +596,8 @@
         "position": "MID",
         "projectedPoints": 5.24,
         "opponent": "Cabo Verde",
-        "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if France advances."
+        "pathValue": 1.2,
+        "hardPathWarning": null
       },
       {
         "slot": "bench",
@@ -628,8 +628,8 @@
         "position": "FWD",
         "projectedPoints": 6.797,
         "opponent": "Cabo Verde",
-        "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if France advances."
+        "pathValue": 1.2,
+        "hardPathWarning": null
       },
       {
         "slot": "starter",
@@ -638,8 +638,8 @@
         "position": "FWD",
         "projectedPoints": 6.32,
         "opponent": "Cabo Verde",
-        "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if France advances."
+        "pathValue": 1.2,
+        "hardPathWarning": null
       },
       {
         "slot": "starter",
@@ -659,7 +659,7 @@
         "projectedPoints": 5.774,
         "opponent": "Sweden",
         "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if Argentina advances."
+        "hardPathWarning": "Likely R16 path is difficult if Germany advances."
       },
       {
         "slot": "starter",
@@ -688,8 +688,8 @@
         "position": "MID",
         "projectedPoints": 5.386,
         "opponent": "Cabo Verde",
-        "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if France advances."
+        "pathValue": 1.2,
+        "hardPathWarning": null
       },
       {
         "slot": "starter",
@@ -738,8 +738,8 @@
         "position": "DEF",
         "projectedPoints": 5.829,
         "opponent": "Cabo Verde",
-        "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if France advances."
+        "pathValue": 1.2,
+        "hardPathWarning": null
       },
       {
         "slot": "bench",
@@ -768,8 +768,8 @@
         "position": "GK",
         "projectedPoints": 4.868,
         "opponent": "Egypt",
-        "pathValue": 1.2,
-        "hardPathWarning": null
+        "pathValue": 0.55,
+        "hardPathWarning": "Likely R16 path is difficult if Argentina advances."
       }
     ],
     "value_squad": [
@@ -820,8 +820,8 @@
         "position": "DEF",
         "projectedPoints": 5.829,
         "opponent": "Cabo Verde",
-        "pathValue": 0.55,
-        "hardPathWarning": "Likely R16 path is difficult if France advances."
+        "pathValue": 1.2,
+        "hardPathWarning": null
       },
       {
         "slot": "starter",
@@ -850,8 +850,8 @@
         "position": "GK",
         "projectedPoints": 4.868,
         "opponent": "Egypt",
-        "pathValue": 1.2,
-        "hardPathWarning": null
+        "pathValue": 0.55,
+        "hardPathWarning": "Likely R16 path is difficult if Argentina advances."
       },
       {
         "slot": "starter",
@@ -910,8 +910,8 @@
         "position": "DEF",
         "projectedPoints": 4.924,
         "opponent": "Egypt",
-        "pathValue": 1.2,
-        "hardPathWarning": null
+        "pathValue": 0.55,
+        "hardPathWarning": "Likely R16 path is difficult if Argentina advances."
       },
       {
         "slot": "bench",
@@ -939,22 +939,10 @@
       "warning": "Likely R16 path is difficult if Portugal advances."
     },
     {
-      "name": "Lionel Messi",
-      "country": "Argentina",
-      "projectedPoints": 6.797,
-      "warning": "Likely R16 path is difficult if France advances."
-    },
-    {
       "name": "Unai Simón",
       "country": "Spain",
       "projectedPoints": 6.416,
       "warning": "Likely R16 path is difficult if Portugal advances."
-    },
-    {
-      "name": "Lautaro Martínez",
-      "country": "Argentina",
-      "projectedPoints": 6.32,
-      "warning": "Likely R16 path is difficult if France advances."
     },
     {
       "name": "Pau Cubarsí",
@@ -966,7 +954,7 @@
       "name": "Dayot Upamecano",
       "country": "France",
       "projectedPoints": 6.008,
-      "warning": "Likely R16 path is difficult if Argentina advances."
+      "warning": "Likely R16 path is difficult if Germany advances."
     },
     {
       "name": "Marcos Llorente",
@@ -978,43 +966,55 @@
       "name": "Jules Koundé",
       "country": "France",
       "projectedPoints": 5.887,
-      "warning": "Likely R16 path is difficult if Argentina advances."
-    },
-    {
-      "name": "Emiliano Martínez",
-      "country": "Argentina",
-      "projectedPoints": 5.879,
-      "warning": "Likely R16 path is difficult if France advances."
-    },
-    {
-      "name": "Facundo Medina",
-      "country": "Argentina",
-      "projectedPoints": 5.829,
-      "warning": "Likely R16 path is difficult if France advances."
+      "warning": "Likely R16 path is difficult if Germany advances."
     },
     {
       "name": "Kylian Mbappé",
       "country": "France",
       "projectedPoints": 5.774,
-      "warning": "Likely R16 path is difficult if Argentina advances."
-    },
-    {
-      "name": "Alexis Mac Allister",
-      "country": "Argentina",
-      "projectedPoints": 5.762,
-      "warning": "Likely R16 path is difficult if France advances."
-    },
-    {
-      "name": "Lisandro Martínez",
-      "country": "Argentina",
-      "projectedPoints": 5.722,
-      "warning": "Likely R16 path is difficult if France advances."
+      "warning": "Likely R16 path is difficult if Germany advances."
     },
     {
       "name": "Mikel Oyarzabal",
       "country": "Spain",
       "projectedPoints": 5.663,
       "warning": "Likely R16 path is difficult if Portugal advances."
+    },
+    {
+      "name": "Joshua Kimmich",
+      "country": "Germany",
+      "projectedPoints": 5.65,
+      "warning": "Likely R16 path is difficult if France advances."
+    },
+    {
+      "name": "Mike Maignan",
+      "country": "France",
+      "projectedPoints": 5.638,
+      "warning": "Likely R16 path is difficult if Germany advances."
+    },
+    {
+      "name": "Nuno Alexandre Tavares Mendes",
+      "country": "Portugal",
+      "projectedPoints": 5.381,
+      "warning": "Likely R16 path is difficult if Spain advances."
+    },
+    {
+      "name": "Alisson Ramsés Becker",
+      "country": "Brazil",
+      "projectedPoints": 5.322,
+      "warning": "Likely R16 path is difficult if Norway advances."
+    },
+    {
+      "name": "Michael Olise",
+      "country": "France",
+      "projectedPoints": 5.232,
+      "warning": "Likely R16 path is difficult if Germany advances."
+    },
+    {
+      "name": "Richie Laryea",
+      "country": "Canada",
+      "projectedPoints": 5.106,
+      "warning": "Likely R16 path is difficult if Netherlands advances."
     }
   ],
   "top_r32_projected_players": [

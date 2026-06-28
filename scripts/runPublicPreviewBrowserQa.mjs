@@ -646,8 +646,9 @@ async function testMainPage(browser, viewport) {
     bracketPoolStrategySwitches: bracketPoolStrategyAccess.status === "pass",
     bracketPoolOfficialFinalRenders: /M104\s.*Final/i.test(stateBeforeClicks.ui.bracketPoolStrategy.finalCardText) &&
       !stateBeforeClicks.ui.bracketPoolStrategy.hasM103FinalCard,
-    bracketPoolFranceR16MatchesSourceTruth: /M79\s.*R32[\s\S]*France vs Sweden/i.test(stateBeforeClicks.ui.bracketPoolStrategy.francePathText) &&
-      /M92\s.*R16[\s\S]*France vs Argentina/i.test(stateBeforeClicks.ui.bracketPoolStrategy.francePathText),
+    bracketPoolFranceR16MatchesSourceTruth: /M77\s.*R32[\s\S]*France vs Sweden/i.test(stateBeforeClicks.ui.bracketPoolStrategy.francePathText) &&
+      /M89\s.*R16[\s\S]*(France vs Germany|Germany vs France)/i.test(stateBeforeClicks.ui.bracketPoolStrategy.francePathText) &&
+      !/M9[0-9]\s.*R16[\s\S]*(France vs Argentina|Argentina vs France)/i.test(stateBeforeClicks.ui.bracketPoolStrategy.francePathText),
     matchEnvironmentMd1Accessible: md1MatchEnvironmentAccess.status === "pass" &&
       md1MatchEnvironmentAccess.selected === "md1" &&
       md1MatchEnvironmentAccess.rowCount > 0,

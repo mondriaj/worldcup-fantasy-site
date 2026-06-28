@@ -1,6 +1,6 @@
 # Bracket Pool Strategy QA v1
 
-Generated: 2026-06-28T12:16:28.960Z
+Generated: 2026-06-28T12:31:04.249Z
 
 Status: **PASS**
 

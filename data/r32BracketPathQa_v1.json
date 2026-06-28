@@ -1,6 +1,6 @@
 {
   "schema_version": "r32_bracket_path_qa_v1",
-  "generated_at": "2026-06-28T11:30:15.005Z",
+  "generated_at": "2026-06-28T12:32:04.029Z",
   "status": "pass",
   "checks": [
     {
@@ -9,6 +9,10 @@
     },
     {
       "id": "known_fixtures_source_backed",
+      "status": "pass"
+    },
+    {
+      "id": "r32_fixtures_mapped_by_group_rank_path",
       "status": "pass"
     },
     {

@@ -1,6 +1,6 @@
 {
   "schema_version": "active_fantasy_data_flow_qa_v1",
-  "generated_at": "2026-06-28T11:52:49.231Z",
+  "generated_at": "2026-06-28T12:32:03.936Z",
   "active_version": "20260628-r32-final",
   "status": "pass",
   "checks": [
@@ -204,7 +204,7 @@
         "active_projections_missing_active_identity_count": 0,
         "finance_missing_active_identity_count": 0,
         "recommendation_projection_missing_count": 0,
-        "active_recommendations_missing_players_data_enrichment_count": 99,
+        "active_recommendations_missing_players_data_enrichment_count": 100,
         "active_projections_missing_players_data_enrichment_count": 722,
         "finance_missing_players_data_enrichment_count": 1122,
         "players_data_role": "supplemental_enrichment_only",
@@ -419,7 +419,7 @@
     "active_projections_missing_active_identity_count": 0,
     "finance_missing_active_identity_count": 0,
     "recommendation_projection_missing_count": 0,
-    "active_recommendations_missing_players_data_enrichment_count": 99,
+    "active_recommendations_missing_players_data_enrichment_count": 100,
     "active_projections_missing_players_data_enrichment_count": 722,
     "finance_missing_players_data_enrichment_count": 1122,
     "players_data_role": "supplemental_enrichment_only",

@@ -88,6 +88,43 @@ function winnerDependencies(matchPath) {
   return Array.from(String(matchPath || "").matchAll(/Winner Match (\d+)/g)).map((entry) => Number(entry[1]));
 }
 
+function parseBracketSideDescriptor(value) {
+  const text = String(value || "");
+  let match = text.match(/Group ([A-L]) winner/i);
+  if (match) return { type: "rank", group: match[1], rank: 1 };
+  match = text.match(/Group ([A-L]) runner-up/i);
+  if (match) return { type: "rank", group: match[1], rank: 2 };
+  match = text.match(/third-place team from Group ([A-L/]+)/i);
+  if (match) return { type: "third_place", groups: match[1].split("/") };
+  return null;
+}
+
+function parseR32BracketPath(bracketPath) {
+  const [leftText, rightText] = String(bracketPath || "").split(" v ");
+  return {
+    left: parseBracketSideDescriptor(leftText),
+    right: parseBracketSideDescriptor(rightText)
+  };
+}
+
+function teamFitsBracketDescriptor(team, descriptor, placementByTeam) {
+  const placement = placementByTeam.get(normalizeText(team));
+  if (!placement || !descriptor) return false;
+  if (descriptor.type === "rank") {
+    return placement.group === descriptor.group && placement.rank === descriptor.rank;
+  }
+  return placement.rank === 3 && descriptor.groups.includes(placement.group);
+}
+
+function fixtureFitsR32Path(fixture, placementByTeam) {
+  const descriptors = parseR32BracketPath(fixture?.bracket_path);
+  const direct = teamFitsBracketDescriptor(fixture?.home_team, descriptors.left, placementByTeam) &&
+    teamFitsBracketDescriptor(fixture?.away_team, descriptors.right, placementByTeam);
+  const reversed = teamFitsBracketDescriptor(fixture?.home_team, descriptors.right, placementByTeam) &&
+    teamFitsBracketDescriptor(fixture?.away_team, descriptors.left, placementByTeam);
+  return direct || reversed;
+}
+
 function teamRecord(team, fixture, side) {
   return {
     team,
@@ -291,10 +328,20 @@ function validateOfficialTree(nodes, r32BracketPath, teamRows) {
   const checks = [];
   const failures = [];
   const knownFixtures = r32BracketPath.known_r32_fixtures || [];
+  const placementByTeam = new Map(
+    (r32BracketPath.current_group_standings || [])
+      .flatMap((group) => (group.standings || []).map((team) => [normalizeText(team.team), team]))
+  );
   const fixtureMatchNumbers = knownFixtures.map((fixture) => Number(fixture.match_number));
   const duplicateFixtures = fixtureMatchNumbers.filter((matchNumber, index) => fixtureMatchNumbers.indexOf(matchNumber) !== index);
   const fixtureTeams = knownFixtures.flatMap((fixture) => [fixture.home_team, fixture.away_team].map(slug));
   const duplicateTeams = fixtureTeams.filter((teamId, index) => fixtureTeams.indexOf(teamId) !== index);
+  const slotFitFailures = knownFixtures
+    .filter((fixture) => !fixtureFitsR32Path(fixture, placementByTeam))
+    .map((fixture) => `M${fixture.match_number}: ${fixture.home_team} vs ${fixture.away_team} does not fit ${fixture.bracket_path}`);
+  const rawSourceIdAssumptions = knownFixtures
+    .filter((fixture) => fixture.r32_slot_mapping_status !== "mapped_by_group_rank_path")
+    .map((fixture) => `M${fixture.match_number}: ${fixture.home_team} vs ${fixture.away_team} mapping=${fixture.r32_slot_mapping_status || "missing"}`);
   const r32Nodes = [...nodes.values()].filter((node) => node.round_id === "r32");
   const finalNodes = [...nodes.values()].filter((node) => node.round_id === "final");
   const missingDependencies = [...nodes.values()].flatMap((node) =>
@@ -333,11 +380,13 @@ function validateOfficialTree(nodes, r32BracketPath, teamRows) {
   addCheck(checks, failures, "official_r32_nodes_available", r32Nodes.length === 16, r32Nodes.length);
   addCheck(checks, failures, "no_duplicate_r32_fixtures", duplicateFixtures.length === 0, duplicateFixtures);
   addCheck(checks, failures, "no_team_in_two_r32_fixtures", duplicateTeams.length === 0, duplicateTeams);
+  addCheck(checks, failures, "r32_fixtures_fit_official_group_rank_slots", slotFitFailures.length === 0, slotFitFailures);
+  addCheck(checks, failures, "r32_fixtures_not_mapped_by_raw_source_fixture_id", rawSourceIdAssumptions.length === 0, rawSourceIdAssumptions);
   addCheck(checks, failures, "all_dependencies_resolve", missingDependencies.length === 0, missingDependencies);
   addCheck(checks, failures, "single_winner_final_match", finalNodes.length === 1 && finalNodes[0].match_number === 104, finalNodes.map((node) => node.match_number));
   addCheck(checks, failures, "opposite_halves_do_not_meet_before_final", oppositeHalfBeforeFinal.length === 0, oppositeHalfBeforeFinal.slice(0, 20));
   addCheck(checks, failures, "final_opponents_are_opposite_half_only", finalOpponentsFromSameHalf.length === 0, finalOpponentsFromSameHalf.slice(0, 20));
-  addCheck(checks, failures, "france_argentina_r16_matches_source_truth", franceArgentinaR16Possible === true, {
+  addCheck(checks, failures, "france_argentina_not_r16_after_slot_mapping", franceArgentinaR16Possible === false, {
     france_possible_r16_opponents: france?.possible_r16_opponents || [],
     argentina_possible_r16_opponents: argentina?.possible_r16_opponents || []
   });
