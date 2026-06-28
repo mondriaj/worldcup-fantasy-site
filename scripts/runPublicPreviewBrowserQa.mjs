@@ -25,6 +25,7 @@ const currentDataScripts = [
   "fantasyPoolScorePredictionsData.js",
   "knockoutScorePredictorData.js",
   "bracketPoolStrategyData.js",
+  "knockoutBracketPredictionData.js",
   "fantasyPoolOfficialDataStatusData.js",
   "liveMatchdayStatusData.js",
   "livePlayerStatusData.js",
@@ -50,6 +51,8 @@ const activeGlobalChecks = {
     Boolean(value && Array.isArray(value.known_r32_predictions) && value.known_r32_predictions.length > 0),
   BRACKET_POOL_STRATEGY_DATA: (value) =>
     Boolean(value && Array.isArray(value.strategies) && value.strategies.length >= 5),
+  KNOCKOUT_BRACKET_PREDICTION_DATA: (value) =>
+    Boolean(value && Array.isArray(value.matches) && value.matches.length >= 31),
   FANTASY_POOL_OFFICIAL_DATA_STATUS: (value) =>
     Boolean(value && Array.isArray(value.official_position_records) && value.official_position_records.length > 0),
   LIVE_MATCHDAY_STATUS_DATA: (value) => Boolean(value && Array.isArray(value.fixtures)),
@@ -133,6 +136,8 @@ function buildMarkdownReport(result) {
         ["Knockout predictor renders", checks.knockoutPredictorRenders ? "pass" : "fail"],
         ["Bracket-pool selector renders", checks.bracketPoolStrategySwitches ? "pass" : "fail"],
         ["Bracket-pool final/path source truth", checks.bracketPoolOfficialFinalRenders && checks.bracketPoolFranceR16MatchesSourceTruth ? "pass" : "fail"],
+        ["Visual bracket prediction renders", checks.knockoutBracketPredictionRenders ? "pass" : "fail"],
+        ["Visual bracket prediction path guard", checks.knockoutBracketNoFranceArgentinaR16 ? "pass" : "fail"],
         ["Player Profile opens", checks.playerProfileOpens ? "pass" : "fail"],
         ["Current data scripts loaded", checks.currentScriptsLoaded ? "pass" : "fail"],
         ["Old globals absent", checks.oldGlobalsAbsent ? "pass" : "fail"],
@@ -151,6 +156,7 @@ function buildMarkdownReport(result) {
         ["Projection rows", globals.projections],
         ["R32 projection rows", globals.r32Projections],
         ["Known knockout predictions", globals.knownKnockoutPredictions],
+        ["Bracket prediction matches", globals.knockoutBracketMatches],
         ["Bracket-pool strategies", globals.bracketPoolStrategies],
         ["Bracket-pool team metrics", globals.bracketPoolTeamMetrics],
         ["Score fixtures", globals.scoreFixtures],
@@ -266,6 +272,8 @@ async function collectPageState(page) {
       finance: window.FANTASY_POOL_PLAYER_FINANCE_METRICS?.length || 0,
       scoreFixtures: window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS?.length || window.FANTASY_POOL_SCORE_PREDICTIONS_DATA?.fixtureScorePredictions?.length || 0,
       knownKnockoutPredictions: window.KNOCKOUT_SCORE_PREDICTOR_DATA?.known_r32_predictions?.length || 0,
+      knockoutBracketMatches: window.KNOCKOUT_BRACKET_PREDICTION_DATA?.matches?.length || 0,
+      knockoutBracketR32Matches: (window.KNOCKOUT_BRACKET_PREDICTION_DATA?.matches || []).filter((match) => match.round === "r32").length,
       bracketPoolStrategies: window.BRACKET_POOL_STRATEGY_DATA?.strategies?.length || 0,
       bracketPoolTeamMetrics: window.BRACKET_POOL_STRATEGY_DATA?.team_metrics?.length || 0,
       officialRecords: window.FANTASY_POOL_OFFICIAL_DATA_STATUS?.official_position_records?.length || 0,
@@ -328,6 +336,7 @@ async function collectPageState(page) {
         matchdayDesk: Boolean(document.querySelector("#matchday-desk")),
         teamBuilder: Boolean(document.querySelector("#team-builder")),
         matchEnvironment: Boolean(document.querySelector("#match-environment")),
+        knockoutBracketPrediction: Boolean(document.querySelector("#knockout-bracket-prediction")),
         knockoutPredictor: Boolean(document.querySelector("#knockout-predictor")),
         playerProfileModal: Boolean(document.querySelector("#player-detail-modal"))
       },
@@ -399,6 +408,28 @@ async function collectPageState(page) {
           finalCardText: compactText(Array.from(document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match")).find((card) => /M104\s.*Final/i.test(card.textContent || ""))?.textContent || ""),
           hasM103FinalCard: Array.from(document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match")).some((card) => /M103\s.*Final/i.test(card.textContent || "")),
           francePathText: compactText(Array.from(document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match")).filter((card) => /France/i.test(card.textContent || "")).map((card) => card.textContent).join(" ")).slice(0, 1000)
+        },
+        knockoutBracketPrediction: {
+          summaryCards: document.querySelectorAll("#knockout-bracket-summary .knockout-bracket-summary-card").length,
+          roundColumns: document.querySelectorAll("#knockout-bracket-board .knockout-bracket-round-column").length,
+          r32Cards: document.querySelectorAll("#knockout-bracket-board .knockout-bracket-match[data-round='r32']").length,
+          r16Cards: document.querySelectorAll("#knockout-bracket-board .knockout-bracket-match[data-round='r16']").length,
+          qfCards: document.querySelectorAll("#knockout-bracket-board .knockout-bracket-match[data-round='qf']").length,
+          sfCards: document.querySelectorAll("#knockout-bracket-board .knockout-bracket-match[data-round='sf']").length,
+          finalCards: document.querySelectorAll("#knockout-bracket-board .knockout-bracket-match[data-round='final']").length,
+          thirdPlaceCards: document.querySelectorAll("#knockout-bracket-board .knockout-bracket-match[data-round='third_place']").length,
+          flagOrFallbackCount: Array.from(document.querySelectorAll("#knockout-bracket-board .knockout-bracket-flag"))
+            .filter((node) => node.textContent.trim()).length,
+          modelPickLabels: Array.from(document.querySelectorAll("#knockout-bracket-board .knockout-bracket-pick-row span"))
+            .filter((node) => /Model pick/i.test(node.textContent || "")).length,
+          actualLabels: Array.from(document.querySelectorAll("#knockout-bracket-board .knockout-bracket-detail-row--actual span"))
+            .filter((node) => /Actual/i.test(node.textContent || "")).length,
+          resultBadges: document.querySelectorAll("#knockout-bracket-board .knockout-bracket-badge--pending, #knockout-bracket-board .knockout-bracket-badge--correct, #knockout-bracket-board .knockout-bracket-badge--wrong").length,
+          predictedChampionText: compactText(document.querySelector("#knockout-bracket-summary")?.textContent || ""),
+          boardText: compactText(document.querySelector("#knockout-bracket-board")?.textContent || "").slice(0, 5000),
+          impossibleFranceArgentinaR16: Array.from(document.querySelectorAll("#knockout-bracket-board .knockout-bracket-match[data-round='r16']"))
+            .some((card) => /France/i.test(card.textContent || "") && /Argentina/i.test(card.textContent || "")),
+          hasDocumentLink: Boolean(document.querySelector("a[href='#knockout-bracket-prediction']"))
         }
       },
       warnings: {
@@ -431,6 +462,7 @@ async function verifyActiveGlobals(page) {
       FANTASY_POOL_SCORE_CONTEXT: Boolean(window.FANTASY_POOL_SCORE_PREDICTIONS_DATA) || Array.isArray(window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS),
       KNOCKOUT_SCORE_PREDICTOR_DATA: Boolean(window.KNOCKOUT_SCORE_PREDICTOR_DATA?.known_r32_predictions?.length),
       BRACKET_POOL_STRATEGY_DATA: Boolean(window.BRACKET_POOL_STRATEGY_DATA?.strategies?.length),
+      KNOCKOUT_BRACKET_PREDICTION_DATA: Boolean(window.KNOCKOUT_BRACKET_PREDICTION_DATA?.matches?.length),
       FANTASY_POOL_OFFICIAL_DATA_STATUS: Boolean(window.FANTASY_POOL_OFFICIAL_DATA_STATUS?.official_position_records?.length),
       LIVE_MATCHDAY_STATUS_DATA: Boolean(window.LIVE_MATCHDAY_STATUS_DATA?.fixtures?.length),
       LIVE_PLAYER_STATUS_DATA: Boolean(window.LIVE_PLAYER_STATUS_DATA?.players?.length)
@@ -565,6 +597,7 @@ async function testMainPage(browser, viewport) {
   await openDetails(page, "#match-environment");
   await page.waitForSelector("#match-environment-table-body tr", { timeout: 60000 });
   await page.waitForSelector("#knockout-known-fixtures-body tr", { timeout: 60000 });
+  await page.waitForSelector("#knockout-bracket-board .knockout-bracket-match", { timeout: 60000 });
 
   const activeGlobals = await verifyActiveGlobals(page);
   const stateBeforeClicks = await collectPageState(page);
@@ -649,6 +682,22 @@ async function testMainPage(browser, viewport) {
     bracketPoolFranceR16MatchesSourceTruth: /M77\s.*R32[\s\S]*France vs Sweden/i.test(stateBeforeClicks.ui.bracketPoolStrategy.francePathText) &&
       /M89\s.*R16[\s\S]*(France vs Germany|Germany vs France)/i.test(stateBeforeClicks.ui.bracketPoolStrategy.francePathText) &&
       !/M9[0-9]\s.*R16[\s\S]*(France vs Argentina|Argentina vs France)/i.test(stateBeforeClicks.ui.bracketPoolStrategy.francePathText),
+    knockoutBracketPredictionRenders: stateBeforeClicks.sections.knockoutBracketPrediction &&
+      stateBeforeClicks.ui.knockoutBracketPrediction.summaryCards >= 5 &&
+      stateBeforeClicks.ui.knockoutBracketPrediction.roundColumns >= 5 &&
+      stateBeforeClicks.ui.knockoutBracketPrediction.r32Cards === 16 &&
+      stateBeforeClicks.ui.knockoutBracketPrediction.r16Cards === 8 &&
+      stateBeforeClicks.ui.knockoutBracketPrediction.qfCards === 4 &&
+      stateBeforeClicks.ui.knockoutBracketPrediction.sfCards === 2 &&
+      stateBeforeClicks.ui.knockoutBracketPrediction.finalCards === 1 &&
+      stateBeforeClicks.ui.knockoutBracketPrediction.flagOrFallbackCount >= 62 &&
+      stateBeforeClicks.ui.knockoutBracketPrediction.modelPickLabels >= 31 &&
+      stateBeforeClicks.ui.knockoutBracketPrediction.actualLabels >= 31 &&
+      stateBeforeClicks.ui.knockoutBracketPrediction.resultBadges >= 31 &&
+      /Predicted Champion[\s\S]*Argentina/i.test(stateBeforeClicks.ui.knockoutBracketPrediction.predictedChampionText),
+    knockoutBracketPredictionReachable: stateBeforeClicks.ui.knockoutBracketPrediction.hasDocumentLink,
+    knockoutBracketNoFranceArgentinaR16: !stateBeforeClicks.ui.knockoutBracketPrediction.impossibleFranceArgentinaR16,
+    knockoutBracketShowsPendingActuals: /Actual path pending|pending result|Actual/i.test(stateBeforeClicks.ui.knockoutBracketPrediction.boardText),
     matchEnvironmentMd1Accessible: md1MatchEnvironmentAccess.status === "pass" &&
       md1MatchEnvironmentAccess.selected === "md1" &&
       md1MatchEnvironmentAccess.rowCount > 0,
@@ -831,7 +880,8 @@ async function main() {
         "Matchday Desk selected matchday is r32",
         "Knockout predictor renders known fixtures and arbitrary matchup result",
         "Bracket-pool strategy selector renders Safe, Path Value, and Upside with full bracket picks",
-        "Bracket-pool final renders as source-truth match 104, and France R16 path matches source truth"
+        "Bracket-pool final renders as source-truth match 104, and France R16 path matches source truth",
+        "Visual Knockout Bracket Prediction renders summary cards, round columns, flags/fallbacks, model picks, actual labels, and prediction-result badges"
       ],
       fallback_mode_removed: true
     },

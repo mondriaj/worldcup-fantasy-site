@@ -33,7 +33,8 @@ const ACTIVE_DATA = {
   liveMatchday: window.LIVE_MATCHDAY_STATUS_DATA || null,
   livePlayer: window.LIVE_PLAYER_STATUS_DATA || null,
   knockout: window.KNOCKOUT_SCORE_PREDICTOR_DATA || null,
-  bracketPool: window.BRACKET_POOL_STRATEGY_DATA || null
+  bracketPool: window.BRACKET_POOL_STRATEGY_DATA || null,
+  knockoutBracketPrediction: window.KNOCKOUT_BRACKET_PREDICTION_DATA || null
 };
 
 function scorePredictionSourceFromWindow() {
@@ -346,6 +347,7 @@ const liveMatchdayStatusData = ACTIVE_DATA.liveMatchday;
 const livePlayerStatusData = ACTIVE_DATA.livePlayer;
 const knockoutPredictorData = ACTIVE_DATA.knockout;
 const bracketPoolStrategyData = ACTIVE_DATA.bracketPool;
+const knockoutBracketPredictionData = ACTIVE_DATA.knockoutBracketPrediction;
 const liveFixtureRows = Array.isArray(liveMatchdayStatusData?.fixtures) ? liveMatchdayStatusData.fixtures : [];
 const liveRoundRows = Array.isArray(liveMatchdayStatusData?.rounds) ? liveMatchdayStatusData.rounds : [];
 const livePlayerRows = Array.isArray(livePlayerStatusData?.players) ? livePlayerStatusData.players : [];
@@ -2761,6 +2763,8 @@ const knockoutMatchupResult = document.getElementById("knockout-matchup-result")
 const bracketPoolStrategySelect = document.getElementById("bracket-pool-strategy-select");
 const bracketPoolSummary = document.getElementById("bracket-pool-summary");
 const bracketPoolMatchList = document.getElementById("bracket-pool-match-list");
+const knockoutBracketSummary = document.getElementById("knockout-bracket-summary");
+const knockoutBracketBoard = document.getElementById("knockout-bracket-board");
 const trustModeSelects = [
   quickTrustModeSelect,
   captainTrustModeSelect,
@@ -5999,6 +6003,197 @@ function renderKnockoutPredictor() {
   knockoutHomeTeamSelect.value = defaultFixture?.home_team_id || knockoutTeamRows[0]?.team_id || "";
   knockoutAwayTeamSelect.value = defaultFixture?.away_team_id || knockoutTeamRows.find((team) => team.team_id !== knockoutHomeTeamSelect.value)?.team_id || "";
   renderKnockoutMatchup();
+}
+
+function knockoutBracketTeamId(team) {
+  return team?.teamId || team?.team_id || "";
+}
+
+function knockoutBracketTeamLabel(team) {
+  if (!team) {
+    return "Pending";
+  }
+
+  const name = team.name || team.team || "Pending";
+  const code = team.code && team.code !== "TBD" ? ` ${team.code}` : "";
+  const flag = team.flag || "";
+  return `${flag ? `${flag} ` : ""}${name}${code ? ` (${code.trim()})` : ""}`;
+}
+
+function knockoutBracketCompactTeamLabel(team) {
+  if (!team) {
+    return "Pending";
+  }
+
+  return [team.flag, team.name || team.team || team.code || "Pending"].filter(Boolean).join(" ");
+}
+
+function knockoutBracketBadge(label, kind = "neutral") {
+  return `<span class="knockout-bracket-badge knockout-bracket-badge--${escapeHtml(kind)}">${escapeHtml(label)}</span>`;
+}
+
+function knockoutBracketResultBadge(match) {
+  const labels = {
+    correct: ["Correct", "correct"],
+    wrong: ["Wrong", "wrong"],
+    pending: ["Pending", "pending"],
+    not_available: ["Prediction unavailable", "pending"]
+  };
+  const [label, kind] = labels[match?.predictionResult] || labels.pending;
+  return knockoutBracketBadge(label, kind);
+}
+
+function knockoutBracketStatusBadge(match) {
+  if (match?.status === "final") return knockoutBracketBadge("Final", "final");
+  if (match?.status === "playing") return knockoutBracketBadge("Live", "live");
+  return knockoutBracketBadge("Prediction", "prediction");
+}
+
+function knockoutBracketProbabilityText(valueToDisplay) {
+  return valueToDisplay === null || valueToDisplay === undefined ? "pending" : compactPercentText(valueToDisplay);
+}
+
+function knockoutBracketSummaryCard(label, valueToDisplay, note = "") {
+  return `
+    <article class="knockout-bracket-summary-card">
+      <span class="info-card__label">${escapeHtml(label)}</span>
+      <strong>${escapeHtml(valueToDisplay)}</strong>
+      ${note ? `<p>${escapeHtml(note)}</p>` : ""}
+    </article>
+  `;
+}
+
+function renderKnockoutBracketSummary() {
+  if (!knockoutBracketSummary) {
+    return;
+  }
+
+  const data = knockoutBracketPredictionData;
+  if (!data?.summary) {
+    knockoutBracketSummary.innerHTML = modelDataWarningHtml("Bracket prediction data is not loaded.", { title: "Bracket Prediction" });
+    return;
+  }
+
+  const summary = data.summary;
+  const accuracyText = summary.accuracyPct === null || summary.accuracyPct === undefined
+    ? "Pending"
+    : `${displayNumber(summary.accuracyPct)}%`;
+  const finalists = (summary.predictedFinalists || []).map(knockoutBracketCompactTeamLabel).join(" vs ") || "Pending";
+  const semifinalists = (summary.predictedSemifinalists || []).map(knockoutBracketCompactTeamLabel).join(", ") || "Pending";
+  const statusNote = `${summary.correctWinnerPredictions || 0} correct, ${summary.wrongWinnerPredictions || 0} wrong, ${summary.pendingPredictions || 0} pending`;
+
+  knockoutBracketSummary.innerHTML = [
+    knockoutBracketSummaryCard("Predicted Champion", knockoutBracketCompactTeamLabel(summary.predictedChampion), data.defaultStrategy?.label || "Default strategy"),
+    knockoutBracketSummaryCard("Predicted Finalists", finalists),
+    knockoutBracketSummaryCard("Predicted Semifinalists", semifinalists),
+    knockoutBracketSummaryCard("Accuracy So Far", accuracyText, statusNote),
+    knockoutBracketSummaryCard("Bracket Status", titleFromSnake(data.predictionStatus || "pending"), "Actual results will be tracked as matches finish.")
+  ].join("");
+}
+
+function knockoutBracketTeamRow(match, team, side) {
+  const probability = side === "A" ? match.teamAAdvanceProb : match.teamBAdvanceProb;
+  const isModelPick = knockoutBracketTeamId(match.predictedWinner) && knockoutBracketTeamId(match.predictedWinner) === knockoutBracketTeamId(team);
+  const isActualWinner = knockoutBracketTeamId(match.actualWinner) && knockoutBracketTeamId(match.actualWinner) === knockoutBracketTeamId(team);
+  const rowClasses = [
+    "knockout-bracket-team-row",
+    isModelPick ? "is-model-pick" : "",
+    isActualWinner ? "is-actual-winner" : ""
+  ].filter(Boolean).join(" ");
+
+  return `
+    <div class="${rowClasses}">
+      <span class="knockout-bracket-flag">${escapeHtml(team?.flag || team?.code || "TBD")}</span>
+      <span class="knockout-bracket-team-name">${escapeHtml(team?.name || team?.team || "Pending")}</span>
+      <span class="knockout-bracket-team-prob">${escapeHtml(knockoutBracketProbabilityText(probability))}</span>
+    </div>
+  `;
+}
+
+function knockoutBracketActualPathText(match) {
+  if (match.status === "final" && match.actualWinner) {
+    return `${knockoutBracketCompactTeamLabel(match.actualWinner)} · ${match.actualScore || "score pending"}`;
+  }
+
+  const actualTeams = [match.actualTeamA, match.actualTeamB].filter(Boolean);
+  if (actualTeams.length === 2) {
+    return `${actualTeams.map(knockoutBracketCompactTeamLabel).join(" vs ")} · pending result`;
+  }
+
+  return "Actual path pending";
+}
+
+function knockoutBracketMatchCard(match) {
+  const resultBadge = knockoutBracketResultBadge(match);
+  const statusBadge = knockoutBracketStatusBadge(match);
+  const sourceLabel = match.sourceFixtureId ? `Source fixture ID ${match.sourceFixtureId}` : match.sourceConfidence;
+  const actualWinnerBadge = match.actualWinner
+    ? `<span class="knockout-bracket-inline-badge knockout-bracket-inline-badge--actual">Actual ${escapeHtml(knockoutBracketCompactTeamLabel(match.actualWinner))}</span>`
+    : "";
+
+  return `
+    <article class="knockout-bracket-match" data-bracket-slot="${escapeHtml(match.bracketSlotId)}" data-round="${escapeHtml(match.round)}" data-prediction-result="${escapeHtml(match.predictionResult)}">
+      <div class="knockout-bracket-match__topline">
+        <span>${escapeHtml(match.bracketSlotId)}</span>
+        <div>${statusBadge}${resultBadge}</div>
+      </div>
+      <div class="knockout-bracket-teams">
+        ${knockoutBracketTeamRow(match, match.teamA, "A")}
+        ${knockoutBracketTeamRow(match, match.teamB, "B")}
+      </div>
+      <div class="knockout-bracket-pick-row">
+        <span>Model pick</span>
+        <strong>${escapeHtml(knockoutBracketCompactTeamLabel(match.predictedWinner))}</strong>
+      </div>
+      <div class="knockout-bracket-detail-row">
+        <span>Projected score</span>
+        <strong>${escapeHtml(match.predictedScoreLabel || "Projected score unavailable")}</strong>
+      </div>
+      <div class="knockout-bracket-detail-row knockout-bracket-detail-row--actual">
+        <span>Actual</span>
+        <strong>${escapeHtml(knockoutBracketActualPathText(match))}</strong>
+        ${actualWinnerBadge}
+      </div>
+      <p>${escapeHtml(match.pathNote || match.bracketPath || "Path note pending.")}</p>
+      <small>${escapeHtml(sourceLabel || "prediction source pending")}</small>
+    </article>
+  `;
+}
+
+function renderKnockoutBracketPrediction() {
+  renderKnockoutBracketSummary();
+
+  if (!knockoutBracketBoard) {
+    return;
+  }
+
+  const data = knockoutBracketPredictionData;
+  const matches = Array.isArray(data?.matches) ? data.matches : [];
+  if (!matches.length) {
+    knockoutBracketBoard.innerHTML = modelDataWarningHtml("Bracket prediction data is not loaded.", { title: "Bracket Prediction" });
+    return;
+  }
+
+  knockoutBracketBoard.innerHTML = (data.rounds || [])
+    .map((round) => {
+      const roundMatches = matches
+        .filter((match) => match.round === round.round)
+        .sort((a, b) => value(a.matchId) - value(b.matchId));
+
+      if (!roundMatches.length) {
+        return "";
+      }
+
+      return `
+        <section class="knockout-bracket-round-column" data-bracket-round="${escapeHtml(round.round)}" aria-label="${escapeHtml(round.label)}">
+          <h3>${escapeHtml(round.label)}</h3>
+          <div class="knockout-bracket-round-stack">
+            ${roundMatches.map(knockoutBracketMatchCard).join("")}
+          </div>
+        </section>
+      `;
+    })
+    .join("");
 }
 
 function measureFromSelect(selectElement) {
@@ -14744,6 +14939,7 @@ function setupBuilder() {
   renderMatchEnvironmentOptions();
   renderMatchEnvironmentTable();
   renderKnockoutPredictor();
+  renderKnockoutBracketPrediction();
   renderMeasureInfo();
   renderDecisionToolStatuses();
   renderPlayerPicker();

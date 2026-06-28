@@ -1,6 +1,6 @@
 # Public Preview Browser QA Report v1
 
-Generated: 2026-06-28T12:55:14.961Z
+Generated: 2026-06-28T17:16:26.887Z
 
 ## Verdict
 
@@ -33,6 +33,8 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | Knockout predictor renders | pass |
 | Bracket-pool selector renders | pass |
 | Bracket-pool final/path source truth | pass |
+| Visual bracket prediction renders | pass |
+| Visual bracket prediction path guard | pass |
 | Player Profile opens | pass |
 | Current data scripts loaded | pass |
 | Old globals absent | pass |
@@ -48,6 +50,7 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | Projection rows | 4515 |
 | R32 projection rows | 816 |
 | Known knockout predictions | 16 |
+| Bracket prediction matches | 32 |
 | Bracket-pool strategies | 5 |
 | Bracket-pool team metrics | 32 |
 | Score fixtures | 88 |

@@ -51,6 +51,7 @@
         <a href="#captain-change-advisor">Captain Switch Check</a>
         <a href="#substitution-advisor">Bench Switch Check</a>
         <a href="#match-environment">Score Prediction</a>
+        <a href="#knockout-bracket-prediction">Bracket Prediction</a>
         <a href="#knockout-predictor">Knockout Predictor</a>
         <a href="world-cup.html">World Cup Guide</a>
         <a href="#stats-notes">Stats Notes</a>
@@ -66,6 +67,7 @@
         <div class="hero__actions" aria-label="Homepage actions">
           <a class="primary-button primary-button--hero" href="#team-builder">Build R32 Squad</a>
           <a class="secondary-link" href="#match-environment">R32 Score Prediction</a>
+          <a class="secondary-link" href="#knockout-bracket-prediction">Bracket Prediction</a>
           <a class="secondary-link" href="#knockout-predictor">Knockout Predictor</a>
           <a class="secondary-link secondary-link--quiet" href="world-cup.html#group-stage">World Cup Fixtures</a>
         </div>
@@ -622,6 +624,33 @@
               </tbody>
             </table>
           </div>
+        </div>
+      </section>
+
+      <section id="knockout-bracket-prediction" class="panel knockout-bracket-prediction-panel">
+        <div class="section-heading">
+          <h2>Knockout Bracket Prediction</h2>
+          <p>Model path for the knockout rounds. Actual results will replace predictions as games finish.</p>
+        </div>
+
+        <div class="method-note">
+          <strong>Independent model prediction.</strong>
+          Verify official fixtures, locks, and lineups in FIFA.
+        </div>
+
+        <div id="knockout-bracket-summary" class="knockout-bracket-summary" aria-live="polite">
+          <article class="info-card info-card--fallback">
+            <span class="info-card__label">Bracket Status</span>
+            <strong>Enable JavaScript</strong>
+            <p>The visual knockout bracket loads from the active prediction dataset.</p>
+          </article>
+        </div>
+
+        <div id="knockout-bracket-board" class="knockout-bracket-board" aria-live="polite">
+          <article class="knockout-bracket-match knockout-bracket-match--fallback">
+            <span class="info-card__label">Bracket Prediction</span>
+            <strong>Enable JavaScript to see the model path.</strong>
+          </article>
         </div>
       </section>
 
@@ -1583,6 +1612,7 @@
     <script src="fantasyPoolScorePredictionsData.js?v=20260628-r32-final"></script>
     <script src="knockoutScorePredictorData.js?v=20260628-r32-final"></script>
     <script src="bracketPoolStrategyData.js?v=20260628-r32-final"></script>
+    <script src="knockoutBracketPredictionData.js?v=20260628-r32-final"></script>
     <script src="fantasyPoolOfficialDataStatusData.js?v=20260628-r32-final"></script>
     <script src="liveMatchdayStatusData.js?v=20260628-r32-final"></script>
     <script src="livePlayerStatusData.js?v=20260628-r32-final"></script>

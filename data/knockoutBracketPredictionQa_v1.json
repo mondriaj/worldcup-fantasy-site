@@ -1,11 +1,49 @@
 {
   "schema_version": "knockout_bracket_prediction_qa_v1",
-  "generated_at": "2026-06-28T12:54:55.857Z",
+  "generated_at": "2026-06-28T17:19:16.961Z",
   "status": "pass",
-  "knockout_bracket_prediction_present": false,
-  "authority_fixture_count": 16,
-  "knockout_score_known_r32_count": 16,
-  "bracket_pool_r32_count": 16,
+  "source_files": {
+    "bracketPrediction": "data/knockoutBracketPrediction_v1.json",
+    "browserData": "knockoutBracketPredictionData.js",
+    "fixtureAuthority": "data/r32FixtureAuthority_v1.json",
+    "knockoutScorePredictor": "data/knockoutScorePredictor_v1.json",
+    "bracketPoolStrategy": "data/bracketPoolStrategyModel_v1.json",
+    "index": "index.html",
+    "script": "script.js",
+    "style": "style.css",
+    "qaJson": "data/knockoutBracketPredictionQa_v1.json",
+    "qaReport": "data/knockoutBracketPredictionQaReport_v1.md"
+  },
+  "match_counts_by_round": {
+    "r32": 16,
+    "r16": 8,
+    "qf": 4,
+    "sf": 2,
+    "final": 1,
+    "third_place": 1
+  },
+  "result_counts": {
+    "pending": 32
+  },
+  "summary": {
+    "predictedChampion": "Argentina",
+    "predictedFinalists": [
+      "Spain",
+      "Argentina"
+    ],
+    "predictedSemifinalists": [
+      "France",
+      "Spain",
+      "England",
+      "Argentina"
+    ],
+    "decidedKnockoutMatches": 0,
+    "correctWinnerPredictions": 0,
+    "wrongWinnerPredictions": 0,
+    "pendingPredictions": 32,
+    "accuracyPct": null,
+    "flagsMissingFallbackCount": 0
+  },
   "checks": [
     {
       "id": "r32_fixture_authority_pass",
@@ -13,24 +51,138 @@
       "detail": "pass"
     },
     {
-      "id": "knockout_score_predictor_uses_authority_r32",
-      "status": "pass",
-      "detail": []
-    },
-    {
-      "id": "bracket_pool_uses_authority_r32",
-      "status": "pass",
-      "detail": []
-    },
-    {
-      "id": "knockout_bracket_prediction_artifact_absent_or_reviewed",
-      "status": "pass",
-      "detail": "not present in repo"
-    },
-    {
-      "id": "france_argentina_not_r16_in_active_pool",
+      "id": "browser_data_global_present",
       "status": "pass",
       "detail": null
+    },
+    {
+      "id": "index_loads_browser_data_before_script",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "id": "script_reads_active_bracket_prediction_data",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "id": "styles_include_visual_bracket",
+      "status": "pass",
+      "detail": null
+    },
+    {
+      "id": "r32_match_count",
+      "status": "pass",
+      "detail": 16
+    },
+    {
+      "id": "r16_match_count",
+      "status": "pass",
+      "detail": 8
+    },
+    {
+      "id": "qf_match_count",
+      "status": "pass",
+      "detail": 4
+    },
+    {
+      "id": "sf_match_count",
+      "status": "pass",
+      "detail": 2
+    },
+    {
+      "id": "final_match_count",
+      "status": "pass",
+      "detail": 1
+    },
+    {
+      "id": "third_place_supported_or_absent",
+      "status": "pass",
+      "detail": 1
+    },
+    {
+      "id": "summary_predicted_champion_present",
+      "status": "pass",
+      "detail": "Argentina"
+    },
+    {
+      "id": "summary_predicted_finalists_present",
+      "status": "pass",
+      "detail": [
+        "Spain",
+        "Argentina"
+      ]
+    },
+    {
+      "id": "summary_predicted_semifinalists_present",
+      "status": "pass",
+      "detail": [
+        "France",
+        "Spain",
+        "England",
+        "Argentina"
+      ]
+    },
+    {
+      "id": "france_argentina_not_before_final",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "france_argentina_not_r16",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "france_path_feeds_m89",
+      "status": "pass",
+      "detail": {
+        "franceSlot": "M77",
+        "franceR16": "Germany vs France"
+      }
+    },
+    {
+      "id": "argentina_path_feeds_m95",
+      "status": "pass",
+      "detail": {
+        "argentinaSlot": "M86",
+        "argentinaR16": "Argentina vs Australia"
+      }
+    },
+    {
+      "id": "predicted_winners_are_participants",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "actual_winners_are_actual_participants",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "non_final_matches_do_not_show_actual_scores",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "final_matches_have_prediction_result",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "known_teams_have_flags_or_code_fallback",
+      "status": "pass",
+      "detail": []
+    },
+    {
+      "id": "knockout_score_predictor_r32_coverage",
+      "status": "pass",
+      "detail": 16
+    },
+    {
+      "id": "default_strategy_has_full_tree",
+      "status": "pass",
+      "detail": "safe: 31"
     }
   ],
   "failures": []
