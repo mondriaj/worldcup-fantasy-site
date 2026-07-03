@@ -351,9 +351,18 @@ const knockoutBracketPredictionData = ACTIVE_DATA.knockoutBracketPrediction;
 const liveFixtureRows = Array.isArray(liveMatchdayStatusData?.fixtures) ? liveMatchdayStatusData.fixtures : [];
 const liveRoundRows = Array.isArray(liveMatchdayStatusData?.rounds) ? liveMatchdayStatusData.rounds : [];
 const livePlayerRows = Array.isArray(livePlayerStatusData?.players) ? livePlayerStatusData.players : [];
-const knockoutKnownPredictionRows = Array.isArray(knockoutPredictorData?.known_r32_predictions)
-  ? knockoutPredictorData.known_r32_predictions
-  : [];
+const knockoutKnownPredictionRows = scorePredictionRows.filter((row) => {
+  const matchdayId = String(row?.fantasy_matchday_id || row?.matchday_id || "").toLowerCase();
+  const status = String(row?.fixture_authority_status || "").toLowerCase();
+  const homeTeam = normalizeText(row?.home_team);
+  const awayTeam = normalizeText(row?.away_team);
+  return matchdayId === "r16_provisional" &&
+    status === "final_known" &&
+    homeTeam &&
+    awayTeam &&
+    homeTeam !== "tbd" &&
+    awayTeam !== "tbd";
+});
 const knockoutArbitraryPredictionRows = Array.isArray(knockoutPredictorData?.arbitrary_matchup_predictions)
   ? knockoutPredictorData.arbitrary_matchup_predictions
   : [];
@@ -5943,7 +5952,7 @@ function renderKnockoutKnownFixtures() {
   if (!knockoutKnownPredictionRows.length) {
     knockoutKnownFixturesBody.innerHTML = `
       <tr>
-        <td colspan="5">Known Round of 32 fixtures are not loaded.</td>
+        <td colspan="5">Known R16 fixtures are not loaded yet.</td>
       </tr>
     `;
     return;
@@ -5952,15 +5961,33 @@ function renderKnockoutKnownFixtures() {
   knockoutKnownFixturesBody.innerHTML = knockoutKnownPredictionRows
     .slice()
     .sort((a, b) => value(a.match_number) - value(b.match_number))
-    .map((row) => `
-      <tr>
-        <td><strong>${escapeHtml(row.home_team)} vs ${escapeHtml(row.away_team)}</strong><small>${escapeHtml(row.bracket_path || "Round of 32")}</small></td>
-        <td>${displayNumber(row.home_expected_goals)}-${displayNumber(row.away_expected_goals)}</td>
-        <td>${compactPercentText(row.home_win_probability)} / ${compactPercentText(row.draw_probability)} / ${compactPercentText(row.away_win_probability)}</td>
-        <td>${escapeHtml(row.projected_advancing_team || "Needs check")} <small>${compactPercentText(row.favorite_win_probability)} advance</small></td>
-        <td>${escapeHtml(row.uncertainty_label || "Medium")}</td>
-      </tr>
-    `)
+    .map((row) => {
+      const projectedAdvancer = row.projected_advancing_team || row.favorite_team || "Needs check";
+      const projectedAdvancerKey = normalizeText(projectedAdvancer);
+      const homeAdvance = Number(row.home_advance_probability);
+      const awayAdvance = Number(row.away_advance_probability);
+      const advanceProbability = projectedAdvancerKey === normalizeText(row.home_team)
+        ? homeAdvance
+        : projectedAdvancerKey === normalizeText(row.away_team)
+          ? awayAdvance
+          : Number(row.favorite_win_probability);
+      const advanceText = Number.isFinite(advanceProbability) ? compactPercentText(advanceProbability) : "needs check";
+      const fixtureLabel = [
+        row.match_number ? `M${row.match_number}` : "",
+        row.public_label || "Known",
+        "R16"
+      ].filter(Boolean).join(" · ");
+
+      return `
+        <tr>
+          <td><strong>${escapeHtml(row.home_team)} vs ${escapeHtml(row.away_team)}</strong><small>${escapeHtml(fixtureLabel)}</small></td>
+          <td>${displayNumber(row.home_expected_goals)}-${displayNumber(row.away_expected_goals)}</td>
+          <td>${compactPercentText(row.home_win_probability)} / ${compactPercentText(row.probability_extra_time || row.draw_probability)} / ${compactPercentText(row.away_win_probability)}</td>
+          <td>${escapeHtml(projectedAdvancer)} <small>${escapeHtml(advanceText)} advance</small></td>
+          <td>${escapeHtml(row.uncertainty_label || row.matchUncertainty || "Medium")}</td>
+        </tr>
+      `;
+    })
     .join("");
 }
 
