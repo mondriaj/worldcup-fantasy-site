@@ -584,31 +584,13 @@
         <div class="knockout-layout">
           <div class="knockout-matchup-tool">
             <div class="table-toolbar knockout-toolbar">
-              <label class="control-group" for="knockout-home-team-select">
-                <span>Team A</span>
-                <select id="knockout-home-team-select"></select>
-              </label>
-
-              <label class="control-group" for="knockout-away-team-select">
-                <span>Team B</span>
-                <select id="knockout-away-team-select"></select>
+              <label class="control-group" for="knockout-fixture-select">
+                <span>R16 Fixture</span>
+                <select id="knockout-fixture-select"></select>
               </label>
             </div>
 
             <div id="knockout-matchup-result" class="knockout-matchup-result" aria-live="polite"></div>
-          </div>
-
-          <div class="knockout-strategy-tool" aria-labelledby="bracket-pool-strategy-title">
-            <div class="table-toolbar knockout-strategy-toolbar">
-              <label class="control-group" for="bracket-pool-strategy-select">
-                <span id="bracket-pool-strategy-title">Bracket Strategy</span>
-                <select id="bracket-pool-strategy-select"></select>
-              </label>
-            </div>
-
-            <p class="knockout-strategy-explainer">Bracket pools reward surviving rounds. A team with a slightly easier path can be a better pool pick than a slightly stronger team with a very hard path.</p>
-            <div id="bracket-pool-summary" class="knockout-strategy-summary" aria-live="polite"></div>
-            <div id="bracket-pool-match-list" class="knockout-strategy-match-list"></div>
           </div>
 
           <div class="table-wrapper knockout-fixture-table-wrapper">
@@ -1622,8 +1604,6 @@
     <script src="fantasyPoolMatchdayProjectionsData.js?v=20260703-r16-provisional"></script>
     <script src="fantasyPoolFinanceMetricsData.js?v=20260703-r16-provisional"></script>
     <script src="fantasyPoolScorePredictionsData.js?v=20260703-r16-provisional"></script>
-    <script src="knockoutScorePredictorData.js?v=20260703-r16-provisional"></script>
-    <script src="bracketPoolStrategyData.js?v=20260703-r16-provisional"></script>
     <script src="knockoutBracketPredictionData.js?v=20260703-r16-provisional"></script>
     <script src="fantasyPoolOfficialDataStatusData.js?v=20260703-r16-provisional"></script>
     <script src="liveMatchdayStatusData.js?v=20260703-r16-provisional"></script>

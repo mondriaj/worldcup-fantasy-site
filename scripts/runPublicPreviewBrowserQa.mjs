@@ -23,8 +23,6 @@ const currentDataScripts = [
   "fantasyPoolMatchdayProjectionsData.js",
   "fantasyPoolFinanceMetricsData.js",
   "fantasyPoolScorePredictionsData.js",
-  "knockoutScorePredictorData.js",
-  "bracketPoolStrategyData.js",
   "knockoutBracketPredictionData.js",
   "fantasyPoolOfficialDataStatusData.js",
   "liveMatchdayStatusData.js",
@@ -48,10 +46,6 @@ const activeGlobalChecks = {
   FANTASY_POOL_SCORE_CONTEXT: (_value, windowObject) =>
     Boolean(windowObject.FANTASY_POOL_SCORE_PREDICTIONS_DATA) ||
     Array.isArray(windowObject.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS),
-  KNOCKOUT_SCORE_PREDICTOR_DATA: (value) =>
-    Boolean(value && Array.isArray(value.known_r32_predictions) && value.known_r32_predictions.length > 0),
-  BRACKET_POOL_STRATEGY_DATA: (value) =>
-    Boolean(value && Array.isArray(value.strategies) && value.strategies.length >= 5),
   KNOCKOUT_BRACKET_PREDICTION_DATA: (value) =>
     Boolean(value && Array.isArray(value.matches) && value.matches.length >= 31),
   FANTASY_POOL_OFFICIAL_DATA_STATUS: (value) =>
@@ -136,9 +130,7 @@ function buildMarkdownReport(result) {
         ["MD1 remains accessible", checks.matchEnvironmentMd1Accessible ? "pass" : "fail"],
         ["MD2 remains accessible", checks.matchEnvironmentMd2Accessible ? "pass" : "fail"],
         ["Team Builder opens on R16", checks.teamBuilderDefaultR16 ? "pass" : "fail"],
-        ["Knockout predictor renders", checks.knockoutPredictorRenders ? "pass" : "fail"],
-        ["Bracket-pool selector renders", checks.bracketPoolStrategySwitches ? "pass" : "fail"],
-        ["Bracket-pool final/path source truth", checks.bracketPoolOfficialFinalRenders && checks.bracketPoolFranceR16MatchesSourceTruth ? "pass" : "fail"],
+        ["Knockout predictor renders actual R16 games", checks.knockoutPredictorRenders ? "pass" : "fail"],
         ["Visual bracket prediction renders", checks.knockoutBracketPredictionRenders ? "pass" : "fail"],
         ["Visual bracket prediction path guard", checks.knockoutBracketNoFranceArgentinaR16 ? "pass" : "fail"],
         ["Player Profile opens", checks.playerProfileOpens ? "pass" : "fail"],
@@ -159,10 +151,7 @@ function buildMarkdownReport(result) {
         ["Projection rows", globals.projections],
         ["R16 projection rows", globals.r16Projections],
         ["R32 projection rows", globals.r32Projections],
-        ["Known knockout predictions", globals.knownKnockoutPredictions],
         ["Bracket prediction matches", globals.knockoutBracketMatches],
-        ["Bracket-pool strategies", globals.bracketPoolStrategies],
-        ["Bracket-pool team metrics", globals.bracketPoolTeamMetrics],
         ["Score fixtures", globals.scoreFixtures],
         ["Official records", globals.officialRecords],
         ["Live fixtures", globals.liveFixtures],
@@ -276,11 +265,8 @@ async function collectPageState(page) {
       r32Projections: (window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || []).filter((row) => row.matchday === "r32").length,
       finance: window.FANTASY_POOL_PLAYER_FINANCE_METRICS?.length || 0,
       scoreFixtures: window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS?.length || window.FANTASY_POOL_SCORE_PREDICTIONS_DATA?.fixtureScorePredictions?.length || 0,
-      knownKnockoutPredictions: window.KNOCKOUT_SCORE_PREDICTOR_DATA?.known_r32_predictions?.length || 0,
       knockoutBracketMatches: window.KNOCKOUT_BRACKET_PREDICTION_DATA?.matches?.length || 0,
       knockoutBracketR32Matches: (window.KNOCKOUT_BRACKET_PREDICTION_DATA?.matches || []).filter((match) => match.round === "r32").length,
-      bracketPoolStrategies: window.BRACKET_POOL_STRATEGY_DATA?.strategies?.length || 0,
-      bracketPoolTeamMetrics: window.BRACKET_POOL_STRATEGY_DATA?.team_metrics?.length || 0,
       officialRecords: window.FANTASY_POOL_OFFICIAL_DATA_STATUS?.official_position_records?.length || 0,
       liveFixtures: window.LIVE_MATCHDAY_STATUS_DATA?.fixtures?.length || 0,
       livePlayers: window.LIVE_PLAYER_STATUS_DATA?.players?.length || 0,
@@ -396,24 +382,11 @@ async function collectPageState(page) {
         picksBuilderTrayText: document.querySelector("#picks-builder-tray")?.textContent?.trim() || ""
         ,
         knockoutPredictor: {
-          homeTeam: selectValue("#knockout-home-team-select"),
-          awayTeam: selectValue("#knockout-away-team-select"),
-          homeOptions: selectOptionCount("#knockout-home-team-select"),
-          awayOptions: selectOptionCount("#knockout-away-team-select"),
+          selectedFixture: selectValue("#knockout-fixture-select"),
+          fixtureOptions: selectOptionCount("#knockout-fixture-select"),
           resultText: textFrom("#knockout-matchup-result"),
-          knownRows: document.querySelectorAll("#knockout-known-fixtures-body tr").length
-        },
-        bracketPoolStrategy: {
-          selected: selectValue("#bracket-pool-strategy-select"),
-          optionCount: selectOptionCount("#bracket-pool-strategy-select"),
-          optionValues: Array.from(document.querySelector("#bracket-pool-strategy-select")?.options || []).map((option) => option.value),
-          summaryText: compactText(textFrom("#bracket-pool-summary")),
-          matchCards: document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match").length,
-          roundHeaders: Array.from(document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-round h3")).map((heading) => heading.textContent.trim()),
-          pathWarningText: compactText(Array.from(document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match small")).map((node) => node.textContent).join(" ")).slice(0, 1000),
-          finalCardText: compactText(Array.from(document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match")).find((card) => /M104\s.*Final/i.test(card.textContent || ""))?.textContent || ""),
-          hasM103FinalCard: Array.from(document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match")).some((card) => /M103\s.*Final/i.test(card.textContent || "")),
-          francePathText: compactText(Array.from(document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match")).filter((card) => /France/i.test(card.textContent || "")).map((card) => card.textContent).join(" ")).slice(0, 1000)
+          knownRows: document.querySelectorAll("#knockout-known-fixtures-body tr").length,
+          knownRowsText: compactText(Array.from(document.querySelectorAll("#knockout-known-fixtures-body tr")).map((row) => row.textContent).join(" ")).slice(0, 2000)
         },
         knockoutBracketPrediction: {
           summaryCards: document.querySelectorAll("#knockout-bracket-summary .knockout-bracket-summary-card").length,
@@ -466,8 +439,6 @@ async function verifyActiveGlobals(page) {
       FANTASY_POOL_RECOMMENDATION_CANDIDATES: Array.isArray(window.FANTASY_POOL_RECOMMENDATION_CANDIDATES) && window.FANTASY_POOL_RECOMMENDATION_CANDIDATES.length > 0,
       FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS: Array.isArray(window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS) && window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS.length > 0,
       FANTASY_POOL_SCORE_CONTEXT: Boolean(window.FANTASY_POOL_SCORE_PREDICTIONS_DATA) || Array.isArray(window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS),
-      KNOCKOUT_SCORE_PREDICTOR_DATA: Boolean(window.KNOCKOUT_SCORE_PREDICTOR_DATA?.known_r32_predictions?.length),
-      BRACKET_POOL_STRATEGY_DATA: Boolean(window.BRACKET_POOL_STRATEGY_DATA?.strategies?.length),
       KNOCKOUT_BRACKET_PREDICTION_DATA: Boolean(window.KNOCKOUT_BRACKET_PREDICTION_DATA?.matches?.length),
       FANTASY_POOL_OFFICIAL_DATA_STATUS: Boolean(window.FANTASY_POOL_OFFICIAL_DATA_STATUS?.official_position_records?.length),
       LIVE_MATCHDAY_STATUS_DATA: Boolean(window.LIVE_MATCHDAY_STATUS_DATA?.fixtures?.length),
@@ -539,50 +510,6 @@ async function testAddToBuilder(page) {
   };
 }
 
-async function testBracketPoolStrategies(page) {
-  const selector = page.locator("#bracket-pool-strategy-select");
-  if (!(await selector.count())) {
-    return { status: "fail", reason: "Bracket-pool strategy selector missing", states: [] };
-  }
-
-  const requiredStrategyIds = ["safe", "path_value", "upside"];
-  const states = [];
-  for (const strategyId of requiredStrategyIds) {
-    await selector.selectOption(strategyId);
-    await page.waitForFunction((selectedStrategyId) => {
-      const selected = document.querySelector("#bracket-pool-strategy-select")?.value || null;
-      const summary = document.querySelector("#bracket-pool-summary")?.textContent || "";
-      const cards = document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match").length;
-      return selected === selectedStrategyId && /Champion|Finalists|Semifinalists|Spain|Argentina|England/i.test(summary) && cards >= 31;
-    }, strategyId, { timeout: 10000 });
-    states.push(await page.evaluate((selectedStrategyId) => ({
-      strategyId: selectedStrategyId,
-      selected: document.querySelector("#bracket-pool-strategy-select")?.value || null,
-      summaryText: document.querySelector("#bracket-pool-summary")?.textContent?.replace(/\s+/g, " ").trim() || "",
-      matchCards: document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match").length,
-      firstPick: document.querySelector("#bracket-pool-match-list .knockout-strategy-match")?.textContent?.replace(/\s+/g, " ").trim() || "",
-      pathWarnings: Array.from(document.querySelectorAll("#bracket-pool-match-list .knockout-strategy-match small"))
-        .map((node) => node.textContent.trim())
-        .filter((text) => /path|R16|QF|SF|Final|pool/i.test(text))
-        .slice(0, 5)
-    }), strategyId));
-  }
-
-  const safeText = states.find((state) => state.strategyId === "safe")?.summaryText || "";
-  const changedOrExplained = states.some((state) => state.summaryText !== safeText) ||
-    states.some((state) => /matches Safe|differ from Safe/i.test(state.summaryText));
-
-  return {
-    status: states.length === requiredStrategyIds.length &&
-      states.every((state) => state.selected === state.strategyId && state.matchCards >= 31) &&
-      changedOrExplained
-      ? "pass"
-      : "fail",
-    states,
-    changedOrExplained
-  };
-}
-
 async function testMainPage(browser, viewport) {
   const context = await browser.newContext({ viewport });
   const page = await context.newPage();
@@ -610,7 +537,6 @@ async function testMainPage(browser, viewport) {
 
   const activeGlobals = await verifyActiveGlobals(page);
   const stateBeforeClicks = await collectPageState(page);
-  const bracketPoolStrategyAccess = await testBracketPoolStrategies(page);
   const md1MatchEnvironmentAccess = await testMatchEnvironmentMatchdayAccess(page, "md1");
   const md2MatchEnvironmentAccess = await testMatchEnvironmentMatchdayAccess(page, "md2");
   const activeMatchEnvironmentAccess = await testMatchEnvironmentMatchdayAccess(page, activePublicMatchdayId);
@@ -674,23 +600,12 @@ async function testMainPage(browser, viewport) {
     matchEnvironmentDefaultR16: stateBeforeClicks.ui.matchEnvironmentControls.selectedMatchday === activePublicMatchdayId &&
       stateBeforeClicks.ui.environmentRows.length > 0,
     knockoutPredictorRenders: stateBeforeClicks.sections.knockoutPredictor &&
-      stateBeforeClicks.ui.knockoutPredictor.homeOptions >= 48 &&
-      stateBeforeClicks.ui.knockoutPredictor.knownRows > 0 &&
-      /Projected advancer|advance|Extra time/i.test(stateBeforeClicks.ui.knockoutPredictor.resultText),
-    bracketPoolStrategySelectorRenders: stateBeforeClicks.ui.bracketPoolStrategy.optionCount >= 5 &&
-      stateBeforeClicks.ui.bracketPoolStrategy.optionValues.includes("safe") &&
-      stateBeforeClicks.ui.bracketPoolStrategy.optionValues.includes("path_value") &&
-      stateBeforeClicks.ui.bracketPoolStrategy.optionValues.includes("upside"),
-    bracketPoolStrategySafeRenders: stateBeforeClicks.ui.bracketPoolStrategy.selected === "safe" &&
-      stateBeforeClicks.ui.bracketPoolStrategy.matchCards >= 31 &&
-      /Finalists|Semifinalists|Spain|Argentina|England/i.test(stateBeforeClicks.ui.bracketPoolStrategy.summaryText),
-    bracketPoolStrategyPathWarningsRender: /path|R16|QF|SF|Final|pool/i.test(stateBeforeClicks.ui.bracketPoolStrategy.pathWarningText),
-    bracketPoolStrategySwitches: bracketPoolStrategyAccess.status === "pass",
-    bracketPoolOfficialFinalRenders: /M104\s.*Final/i.test(stateBeforeClicks.ui.bracketPoolStrategy.finalCardText) &&
-      !stateBeforeClicks.ui.bracketPoolStrategy.hasM103FinalCard,
-    bracketPoolFranceR16MatchesSourceTruth: /M77\s.*R32[\s\S]*France vs Sweden/i.test(stateBeforeClicks.ui.bracketPoolStrategy.francePathText) &&
-      /M89\s.*R16[\s\S]*(France vs Germany|Germany vs France)/i.test(stateBeforeClicks.ui.bracketPoolStrategy.francePathText) &&
-      !/M9[0-9]\s.*R16[\s\S]*(France vs Argentina|Argentina vs France)/i.test(stateBeforeClicks.ui.bracketPoolStrategy.francePathText),
+      stateBeforeClicks.ui.knockoutPredictor.fixtureOptions === 6 &&
+      stateBeforeClicks.ui.knockoutPredictor.knownRows === 6 &&
+      /M89|M90|M91|M92|M93|M94/.test(stateBeforeClicks.ui.knockoutPredictor.knownRowsText) &&
+      /Paraguay vs France|USA vs Belgium|Portugal vs Spain/i.test(stateBeforeClicks.ui.knockoutPredictor.knownRowsText) &&
+      !/South Africa|Japan|Sweden/i.test(stateBeforeClicks.ui.knockoutPredictor.knownRowsText) &&
+      /Projected advancer|advance|Extra time|R16 Fixture/i.test(stateBeforeClicks.ui.knockoutPredictor.resultText),
     knockoutBracketPredictionRenders: stateBeforeClicks.sections.knockoutBracketPrediction &&
       stateBeforeClicks.ui.knockoutBracketPrediction.summaryCards >= 5 &&
       stateBeforeClicks.ui.knockoutBracketPrediction.roundColumns >= 5 &&
@@ -733,7 +648,6 @@ async function testMainPage(browser, viewport) {
       md2: md2MatchEnvironmentAccess,
       r16_provisional: activeMatchEnvironmentAccess
     },
-    bracketPoolStrategyAccess,
     profileClicks: [quickPickProfile, captainProfile, adviceProfile],
     addToBuilder,
     filters: {
@@ -897,9 +811,7 @@ async function main() {
         "Team Builder selected matchday is r16_provisional",
         "Match Environment selected matchday is r16_provisional and MD1/MD2 remain selectable",
         "Matchday Desk selected matchday is r16_provisional",
-        "Knockout predictor renders known fixtures and arbitrary matchup result",
-        "Bracket-pool strategy selector renders Safe, Path Value, and Upside with full bracket picks",
-        "Bracket-pool final renders as source-truth match 104, and France R16 path matches source truth",
+        "Knockout predictor renders actual known R16 fixtures with no arbitrary matchup selector",
         "Visual Knockout Bracket Prediction renders summary cards, round columns, flags/fallbacks, model picks, actual labels, and prediction-result badges"
       ],
       fallback_mode_removed: true
