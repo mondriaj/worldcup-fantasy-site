@@ -1,14 +1,14 @@
-# Active R32 Data Flow QA Report
+# Active Provisional R16 Data Flow QA Report
 
-Generated: 2026-06-28T12:32:03.936Z
+Generated: 2026-07-03T20:51:27.519Z
 Status: **PASS**
-Active version: `20260628-r32-final`
+Active version: `20260703-r16-provisional`
 
 ## Summary
 
 - Failures: 0
 - Warnings: 0
-- Checks: 14
+- Checks: 15
 
 ## A. Static Source Sync
 
@@ -26,9 +26,9 @@ Active version: `20260628-r32-final`
 - selectable official records: 1240
 - selectable by position: GK 145, DEF 408, MID 418, FWD 269
 - recommendation identity coverage: 250 / 250 resolved
-- projection identity coverage: 4515 / 4515 resolved
+- projection identity coverage: 1119 / 1119 resolved
 - finance identity coverage: 1233 / 1233 resolved
-- projection/finance active ID alignment: 0 projection-only, 0 finance-only
+- projection/finance active ID alignment: 0 projection-only, 417 finance-only
 
 ## C. Enrichment Coverage
 
@@ -44,15 +44,15 @@ Active version: `20260628-r32-final`
 - stale cache strings absent: pass
 - public fallback references absent: pass
 
-## R32 Gate
+## Provisional R16 Gate
 
-- R32 recommendations: 125
-- R32 recommendation active identity coverage: 125 / 125
-- R32 recommendation projection misses: 0
-- R32 projections: 816
-- R32 score fixtures: 16
-- playersData.js R32 recommendation enrichment misses: 100
-- playersData.js R32 projection enrichment misses: 722
+- Provisional R16 recommendations: 125
+- Provisional R16 recommendation active identity coverage: 125 / 125
+- Provisional R16 recommendation projection misses: 0
+- Provisional R16 projections: 303
+- Provisional R16 score fixtures: 8
+- playersData.js Provisional R16 recommendation enrichment misses: 94
+- playersData.js Provisional R16 projection enrichment misses: 266
 - playersData.js finance enrichment misses: 1122
 
 ## Checks
@@ -61,6 +61,7 @@ Active version: `20260628-r32-final`
 - **PASS** `players_json_players_data_sync`
 - **PASS** `fantasy_rules_json_browser_sync`
 - **PASS** `active_browser_globals_loaded`
+- **PASS** `finance_pool_superset_for_active_projection`
 - **PASS** `active_official_fantasy_identity_universe`
 - **PASS** `fantasy_pool_recommendation_identity_coverage`
 - **PASS** `fantasy_pool_projection_identity_coverage`
@@ -94,6 +95,7 @@ bracketPoolStrategyData.js
 fantasyPoolOfficialDataStatusData.js
 liveMatchdayStatusData.js
 livePlayerStatusData.js
+r16ProvisionalFixtureAuthorityData.js
 script.js
 ```
 

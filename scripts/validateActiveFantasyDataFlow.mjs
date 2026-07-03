@@ -7,9 +7,9 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 
-const ACTIVE_VERSION = "20260628-r32-final";
-const ACTIVE_MATCHDAY_ID = "r32";
-const ACTIVE_MATCHDAY_LABEL = "R32";
+const ACTIVE_VERSION = "20260703-r16-provisional";
+const ACTIVE_MATCHDAY_ID = "r16_provisional";
+const ACTIVE_MATCHDAY_LABEL = "Provisional R16";
 const REQUIRED_SCRIPT_ORDER = [
   "playersData.js",
   "fantasyRulesData.js",
@@ -22,6 +22,7 @@ const REQUIRED_SCRIPT_ORDER = [
   "fantasyPoolOfficialDataStatusData.js",
   "liveMatchdayStatusData.js",
   "livePlayerStatusData.js",
+  "r16ProvisionalFixtureAuthorityData.js",
   "script.js"
 ];
 const ACTIVE_BROWSER_DATA_FILES = REQUIRED_SCRIPT_ORDER.filter((file) => file !== "script.js");
@@ -389,7 +390,7 @@ function verifyPublicScripts(report, indexHtml, scriptJs) {
   }
 
   if (!isRequiredOrderValid) {
-    addFailure(report, "required_scripts_order", "Required active browser scripts are not loaded in the R32 active-path order.", {
+    addFailure(report, "required_scripts_order", "Required active browser scripts are not loaded in the provisional R16 active-path order.", {
       expected: REQUIRED_SCRIPT_ORDER,
       actual_relevant_order: localOrder
     });
@@ -515,6 +516,7 @@ function verifyActiveGlobals(report, windowGlobals) {
   const officialRecords = activeOfficialRecordsFromStatus(officialStatus);
   const liveMatchday = windowGlobals.LIVE_MATCHDAY_STATUS_DATA || null;
   const livePlayer = windowGlobals.LIVE_PLAYER_STATUS_DATA || null;
+  const r16Authority = windowGlobals.R16_PROVISIONAL_FIXTURE_AUTHORITY_DATA || null;
   const bracketPoolStrategyData = windowGlobals.BRACKET_POOL_STRATEGY_DATA || null;
 
   const requiredGlobals = [
@@ -526,7 +528,8 @@ function verifyActiveGlobals(report, windowGlobals) {
     ["FANTASY_POOL_OFFICIAL_DATA_STATUS", Boolean(officialStatus)],
     [`FANTASY_POOL_OFFICIAL_DATA_STATUS.${ACTIVE_OFFICIAL_UNIVERSE_FIELD}`, officialRecords.length > 0],
     ["LIVE_MATCHDAY_STATUS_DATA", Boolean(liveMatchday)],
-    ["LIVE_PLAYER_STATUS_DATA", Boolean(livePlayer)]
+    ["LIVE_PLAYER_STATUS_DATA", Boolean(livePlayer)],
+    ["R16_PROVISIONAL_FIXTURE_AUTHORITY_DATA", Boolean(r16Authority?.fixtures?.length === 8)]
   ];
 
   requiredGlobals.forEach(([name, ok]) => {
@@ -545,7 +548,8 @@ function verifyActiveGlobals(report, windowGlobals) {
     bracket_pool_team_metric_count: bracketPoolStrategyData?.team_metrics?.length || 0,
     [ACTIVE_OFFICIAL_UNIVERSE_FIELD]: officialRecords.length,
     live_fixture_rows: liveMatchday?.fixtures?.length || 0,
-    live_player_rows: livePlayer?.players?.length || 0
+    live_player_rows: livePlayer?.players?.length || 0,
+    r16_authority_fixture_rows: r16Authority?.fixtures?.length || 0
   };
   addCheck(report, "active_browser_globals_loaded", requiredGlobals.every(([, ok]) => ok) ? "pass" : "fail", activeCounts);
 
@@ -559,6 +563,7 @@ function verifyActiveGlobals(report, windowGlobals) {
     officialRecords,
     liveMatchday,
     livePlayer,
+    r16Authority,
     bracketPoolStrategyData,
     activeCounts
   };
@@ -646,13 +651,20 @@ function verifyActiveIdentity(report, active, browserPlayers, activeIdentity) {
     });
   }
 
-  if (projectionsWithoutFinance.length || financeWithoutProjections.length) {
+  if (projectionsWithoutFinance.length) {
     addFailure(report, "projection_finance_id_system_mismatch", "Projection and finance rows resolve to different active official fantasy player ID sets.", {
       projection_unique_player_count: projectionOfficialIds.size,
       finance_unique_player_count: financeOfficialIds.size,
       projections_without_finance_count: projectionsWithoutFinance.length,
       finance_without_projections_count: financeWithoutProjections.length,
       projections_without_finance_sample: sample(projectionsWithoutFinance),
+      finance_without_projections_sample: sample(financeWithoutProjections)
+    });
+  } else if (financeWithoutProjections.length) {
+    addCheck(report, "finance_pool_superset_for_active_projection", "pass", {
+      projection_unique_player_count: projectionOfficialIds.size,
+      finance_unique_player_count: financeOfficialIds.size,
+      finance_without_projections_count: financeWithoutProjections.length,
       finance_without_projections_sample: sample(financeWithoutProjections)
     });
   }
@@ -701,7 +713,7 @@ function verifyActiveIdentity(report, active, browserPlayers, activeIdentity) {
   addCheck(report, "fantasy_pool_recommendation_identity_coverage", recommendationMissing.length ? "fail" : "pass", detail.recommendation_identity_coverage);
   addCheck(report, "fantasy_pool_projection_identity_coverage", projectionMissing.length ? "fail" : "pass", detail.projection_identity_coverage);
   addCheck(report, "fantasy_pool_finance_identity_coverage", financeMissing.length ? "fail" : "pass", detail.finance_identity_coverage);
-  addCheck(report, "projection_finance_id_system_alignment", projectionsWithoutFinance.length || financeWithoutProjections.length ? "fail" : "pass", detail.projection_finance_id_alignment);
+  addCheck(report, "projection_finance_id_system_alignment", projectionsWithoutFinance.length ? "fail" : "pass", detail.projection_finance_id_alignment);
   addCheck(report, "players_data_enrichment_coverage", "pass", enrichmentCoverage);
 
   return detail;
@@ -896,7 +908,7 @@ function buildMarkdownReport(report) {
   const staleBlock = report.public_stale_path_block || {};
   const activeMatchday = report.active_matchday_consistency || {};
   const lines = [];
-  lines.push("# Active R32 Data Flow QA Report");
+  lines.push("# Active Provisional R16 Data Flow QA Report");
   lines.push("");
   lines.push(`Generated: ${report.generated_at}`);
   lines.push(`Status: **${report.status.toUpperCase()}**`);

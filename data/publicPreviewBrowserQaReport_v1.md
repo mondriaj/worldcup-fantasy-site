@@ -1,12 +1,12 @@
 # Public Preview Browser QA Report v1
 
-Generated: 2026-06-28T17:16:26.887Z
+Generated: 2026-07-03T20:56:22.800Z
 
 ## Verdict
 
-**pass - safe_to_share_r32_final_public_preview**
+**pass - safe_to_share_r16_provisional_public_preview**
 
-The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. Final R32 is the public default, MD1/MD2/MD3 remain accessible as historical views, live completed scores are shown only through the safe mapping path, all group-stage fixtures are final, and old public globals are absent.
+The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. Provisional R16 is the public default, R32 and MD1/MD2/MD3 remain accessible as historical views, live completed scores are shown only through the safe mapping path, all group-stage fixtures are final, and old public globals are absent.
 
 ## Run Context
 
@@ -23,13 +23,13 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 
 | Check | Result |
 | --- | --- |
-| Picks default to R32 | pass |
-| Final R32 label visible | pass |
-| Captain Watchlist opens on R32 | pass |
-| Match Environment opens on R32 | pass |
+| Picks default to provisional R16 | pass |
+| Provisional R16 label visible | pass |
+| Captain Watchlist opens on R16 | pass |
+| Match Environment opens on R16 | pass |
 | MD1 remains accessible | pass |
 | MD2 remains accessible | pass |
-| Team Builder opens on R32 | pass |
+| Team Builder opens on R16 | pass |
 | Knockout predictor renders | pass |
 | Bracket-pool selector renders | pass |
 | Bracket-pool final/path source truth | pass |
@@ -47,15 +47,16 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | --- | --- |
 | Players sample | 100 |
 | Recommendation candidates | 250 |
-| Projection rows | 4515 |
+| Projection rows | 1119 |
+| R16 projection rows | 303 |
 | R32 projection rows | 816 |
 | Known knockout predictions | 16 |
 | Bracket prediction matches | 32 |
 | Bracket-pool strategies | 5 |
 | Bracket-pool team metrics | 32 |
-| Score fixtures | 88 |
+| Score fixtures | 96 |
 | Official records | 1489 |
-| Live fixtures | 88 |
+| Live fixtures | 94 |
 | Live players | 1489 |
 
 ## Console, Network, And Layout
@@ -64,9 +65,9 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | --- | --- |
 | Console/page errors | 0 |
 | Console warnings | 0 |
-| Failed requests | 5 |
+| Failed requests | 6 |
 | Blocking failed requests | 0 |
-| Ignored non-blocking failed requests | 5 |
+| Ignored non-blocking failed requests | 6 |
 | Index overflow viewports | 0 |
 | World Cup overflow viewports | 0 |
 | Profile click failures | 0 |
@@ -88,7 +89,7 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 
 ## Remaining Limits
 
-- Browser QA confirms the public final R32 data path, knockout predictor, and live display plumbing.
+- Browser QA confirms the public provisional R16 data path, knockout predictor, and live display plumbing.
 - Final squads remain not source-backed.
 - Team Builder remains planning help and must be checked inside the official FIFA game.
 - User-specific locks, substitutions, captain state, and boosters are not imported.

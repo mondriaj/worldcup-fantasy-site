@@ -1,0 +1,130 @@
+{
+  "schema_version": "score_prediction_qa_r16_provisional_v1",
+  "generated_at": "2026-07-03T20:51:27.909Z",
+  "status": "pass",
+  "summary": {
+    "fixture_prediction_count": 8,
+    "final_known_fixture_predictions": 6,
+    "partial_or_pending_fixture_rows": 2,
+    "defaultMatchday": "r16_provisional",
+    "ownershipUsedAsSignal": false,
+    "finalSquadsSourceBacked": false,
+    "completedR32FixturesUsed": 13,
+    "remainingR32FixturesPending": 3
+  },
+  "pending_or_conditional_fixtures": [
+    {
+      "official_bracket_slot": "M95",
+      "bracket_match_number": 95,
+      "bracket_slot_id": "M95",
+      "fixture_id": "fwc2026-m095",
+      "source_fixture_id": null,
+      "source_fixture_id_role": null,
+      "round": "R16",
+      "stage": "round_of_16",
+      "classification": "pending",
+      "status": "pending",
+      "public_label": "Pending",
+      "team_a": null,
+      "team_b": null,
+      "pending_sources": [
+        {
+          "source_match": "M86",
+          "fixture_status": "scheduled",
+          "score_status": "not_final_hidden"
+        },
+        {
+          "source_match": "M88",
+          "fixture_status": "playing",
+          "score_status": "not_final_hidden"
+        }
+      ],
+      "source_matches": [
+        {
+          "source_match": "M86",
+          "winner": null,
+          "status": "scheduled",
+          "score_status": "not_final_hidden",
+          "score": null
+        },
+        {
+          "source_match": "M88",
+          "winner": null,
+          "status": "playing",
+          "score_status": "not_final_hidden",
+          "score": null
+        }
+      ],
+      "kickoff": {
+        "source_datetime": null,
+        "eastern_datetime_label": null
+      },
+      "venue": null,
+      "bracket_path": "Winner Match 86 v Winner Match 88",
+      "source_confidence": "pending_r32_source_match_not_final",
+      "public_note": "Do not treat this slot as final until all source R32 fixtures are complete."
+    },
+    {
+      "official_bracket_slot": "M96",
+      "bracket_match_number": 96,
+      "bracket_slot_id": "M96",
+      "fixture_id": "fwc2026-m096",
+      "source_fixture_id": null,
+      "source_fixture_id_role": null,
+      "round": "R16",
+      "stage": "round_of_16",
+      "classification": "partial_known",
+      "status": "partial_known",
+      "public_label": "Conditional",
+      "team_a": {
+        "team": "Switzerland",
+        "team_id": "switzerland",
+        "code": "SUI",
+        "flag": "🇨🇭"
+      },
+      "team_b": null,
+      "pending_sources": [
+        {
+          "source_match": "M87",
+          "fixture_status": "scheduled",
+          "score_status": "not_final_hidden"
+        }
+      ],
+      "source_matches": [
+        {
+          "source_match": "M85",
+          "winner": {
+            "team": "Switzerland",
+            "team_id": "switzerland",
+            "code": "SUI",
+            "flag": "🇨🇭"
+          },
+          "status": "complete",
+          "score_status": "final",
+          "score": {
+            "home_score": 2,
+            "away_score": 0,
+            "home_penalty_score": null,
+            "away_penalty_score": null,
+            "label": "SUI 2-0 ALG"
+          }
+        },
+        {
+          "source_match": "M87",
+          "winner": null,
+          "status": "scheduled",
+          "score_status": "not_final_hidden",
+          "score": null
+        }
+      ],
+      "kickoff": {
+        "source_datetime": null,
+        "eastern_datetime_label": null
+      },
+      "venue": null,
+      "bracket_path": "Winner Match 85 v Winner Match 87",
+      "source_confidence": "pending_r32_source_match_not_final",
+      "public_note": "Do not treat this slot as final until all source R32 fixtures are complete."
+    }
+  ]
+}

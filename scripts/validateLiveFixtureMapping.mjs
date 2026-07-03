@@ -6,9 +6,12 @@ const CHECKED_AT = new Date().toISOString();
 
 const FILES = {
   localFixtures: "data/fixtures.json",
+  r32FixtureAuthority: "data/r32FixtureAuthority_v1.json",
+  r16FixtureAuthority: "data/r16ProvisionalFixtureAuthority_v1.json",
   liveMatchday: "data/liveMatchdayStatus_v1.json",
   livePlayers: "data/livePlayerStatus_v1.json",
-  scorePredictions: "data/scorePredictions_fantasyPool_v5_md3.json",
+  r32ScorePredictions: "data/scorePredictions_fantasyPool_r32_v1.json",
+  r16ScorePredictions: "data/scorePredictions_fantasyPool_r16_provisional_v1.json",
   script: "script.js",
   worldCupPage: "worldCupPage.js",
   qaJson: "data/liveFixtureMappingQa_v1.json",
@@ -118,8 +121,7 @@ function resolvedLiveFixtureKey(fixture) {
 }
 
 function isGroupStageLiveFixture(fixture) {
-  return GROUP_STAGE_ROUND_IDS.has(String(fixture?.round_id || "")) ||
-    Boolean(resolvedLiveFixtureKey(fixture));
+  return GROUP_STAGE_ROUND_IDS.has(String(fixture?.round_id || ""));
 }
 
 function countBy(rows, keyFn) {
@@ -129,6 +131,23 @@ function countBy(rows, keyFn) {
     counts[label] = (counts[label] || 0) + 1;
     return counts;
   }, {});
+}
+
+function fixtureRowFromAuthority(fixture, localFixtureSource) {
+  const matchNumber = Number(fixture?.bracket_match_number || fixture?.match_number);
+  if (!Number.isFinite(matchNumber)) return null;
+  const homeTeam = fixture?.team_a?.team;
+  const awayTeam = fixture?.team_b?.team;
+  if (!homeTeam || !awayTeam) return null;
+  return {
+    match_id: fixture.fixture_id || localFixtureIdFromMatchNumber(matchNumber),
+    match_number: matchNumber,
+    home_team: homeTeam,
+    away_team: awayTeam,
+    home_team_id: fixture.team_a?.team_id || null,
+    away_team_id: fixture.team_b?.team_id || null,
+    local_fixture_source: localFixtureSource
+  };
 }
 
 function scoreText(fixture) {
@@ -318,10 +337,15 @@ Status: ${qa.status}
 ## Summary
 
 - Total local fixtures: ${qa.summary.total_local_fixtures}
+- Group-stage local fixtures: ${qa.summary.group_stage_local_fixtures}
+- R32 authority fixtures: ${qa.summary.r32_authority_fixtures}
+- R16 final-known authority fixtures: ${qa.summary.r16_authority_fixtures}
 - Total live fixtures: ${qa.summary.total_live_fixtures}
 - Group-stage live fixtures: ${qa.summary.group_stage_live_fixtures}
 - Extra non-group live fixtures: ${qa.summary.extra_live_fixtures}
 - Total score-prediction fixtures: ${qa.summary.total_score_prediction_fixtures}
+- R32 score-prediction fixtures: ${qa.summary.r32_score_prediction_fixtures}
+- R16 score-prediction fixtures: ${qa.summary.r16_score_prediction_fixtures}
 - Matched fixtures: ${qa.summary.matched_fixtures}
 - Final fixtures shown: ${qa.summary.final_fixtures_shown}
 - In-progress fixtures suppressed: ${qa.summary.in_progress_fixtures_suppressed}
@@ -376,26 +400,42 @@ ${mdList(qa.manual_spot_checks)}
 async function main() {
   const [
     localFixturesData,
+    r32AuthorityData,
+    r16AuthorityData,
     liveMatchdayData,
     livePlayerData,
-    scorePredictionData,
+    r32ScorePredictionData,
+    r16ScorePredictionData,
     scriptText,
     worldCupPageText
   ] = await Promise.all([
     readJson(FILES.localFixtures),
+    readJson(FILES.r32FixtureAuthority),
+    readJson(FILES.r16FixtureAuthority),
     readJson(FILES.liveMatchday),
     readJson(FILES.livePlayers),
-    readJson(FILES.scorePredictions),
+    readJson(FILES.r32ScorePredictions),
+    readJson(FILES.r16ScorePredictions),
     readText(FILES.script),
     readText(FILES.worldCupPage)
   ]);
 
-  const localFixtures = rowsFromJson(localFixturesData, ["fixtures"]);
+  const groupStageFixtures = rowsFromJson(localFixturesData, ["fixtures"]);
+  const r32Fixtures = rowsFromJson(r32AuthorityData, ["fixtures"])
+    .map((fixture) => fixtureRowFromAuthority(fixture, "r32_fixture_authority"))
+    .filter(Boolean);
+  const r16Fixtures = rowsFromJson(r16AuthorityData, ["fixtures"])
+    .filter((fixture) => fixture.classification === "final_known" || fixture.status === "final_known")
+    .map((fixture) => fixtureRowFromAuthority(fixture, "r16_provisional_fixture_authority"))
+    .filter(Boolean);
+  const localFixtures = [...groupStageFixtures, ...r32Fixtures, ...r16Fixtures];
   const liveFixtures = rowsFromJson(liveMatchdayData, ["fixtures"]);
   const groupStageLiveFixtures = liveFixtures.filter(isGroupStageLiveFixture);
   const extraLiveFixtures = liveFixtures.filter((fixture) => !isGroupStageLiveFixture(fixture));
   const livePlayers = rowsFromJson(livePlayerData, ["players"]);
-  const scorePredictions = rowsFromJson(scorePredictionData, ["fixtureScorePredictions"]);
+  const r32ScorePredictions = rowsFromJson(r32ScorePredictionData, ["fixtureScorePredictions"]);
+  const r16ScorePredictions = rowsFromJson(r16ScorePredictionData, ["fixtureScorePredictions"]);
+  const scorePredictions = [...r32ScorePredictions, ...r16ScorePredictions];
   const localFixturesById = new Map(localFixtures
     .map((fixture) => [validLocalFixtureKey(fixture.match_id || localFixtureIdFromMatchNumber(fixture.match_number)), fixture])
     .filter(([key]) => key));
@@ -412,16 +452,28 @@ async function main() {
   const unsafeFixturePointLeaks = [];
   const browserChecks = sourceLookupChecks(scriptText, worldCupPageText);
 
-  if (localFixtures.length !== 72) {
-    errors.push(`Expected 72 local fixtures, found ${localFixtures.length}`);
+  if (groupStageFixtures.length !== 72) {
+    errors.push(`Expected 72 group-stage local fixtures, found ${groupStageFixtures.length}`);
+  }
+
+  if (r32Fixtures.length !== 16) {
+    errors.push(`Expected 16 R32 authority fixtures, found ${r32Fixtures.length}`);
+  }
+
+  if (r16Fixtures.length !== 6) {
+    errors.push(`Expected 6 final-known R16 authority fixtures, found ${r16Fixtures.length}`);
   }
 
   if (groupStageLiveFixtures.length !== 72) {
     errors.push(`Expected 72 group-stage live fixtures, found ${groupStageLiveFixtures.length}`);
   }
 
-  if (scorePredictions.length !== 72) {
-    errors.push(`Expected 72 score prediction fixtures, found ${scorePredictions.length}`);
+  if (r32ScorePredictions.length !== 88) {
+    errors.push(`Expected 88 R32 score prediction fixtures, found ${r32ScorePredictions.length}`);
+  }
+
+  if (r16ScorePredictions.length !== 8) {
+    errors.push(`Expected 8 provisional R16 score prediction fixtures, found ${r16ScorePredictions.length}`);
   }
 
   if (liveFixtures.some((fixture) => Object.prototype.hasOwnProperty.call(fixture, "fixture_id"))) {
@@ -541,10 +593,15 @@ async function main() {
     files: FILES,
     summary: {
       total_local_fixtures: localFixtures.length,
+      group_stage_local_fixtures: groupStageFixtures.length,
+      r32_authority_fixtures: r32Fixtures.length,
+      r16_authority_fixtures: r16Fixtures.length,
       total_live_fixtures: liveFixtures.length,
       group_stage_live_fixtures: groupStageLiveFixtures.length,
       extra_live_fixtures: extraLiveFixtures.length,
       total_score_prediction_fixtures: scorePredictions.length,
+      r32_score_prediction_fixtures: r32ScorePredictions.length,
+      r16_score_prediction_fixtures: r16ScorePredictions.length,
       matched_fixtures: liveFixtures.filter((fixture) => SAFE_MAPPING_STATUS_VALUES.has(String(fixture.mapping_status || "").toLowerCase())).length,
       final_fixtures_shown: liveFixtures.filter(safeFinalScoreIsShown).length,
       in_progress_fixtures_suppressed: inProgressSuppressed.length,

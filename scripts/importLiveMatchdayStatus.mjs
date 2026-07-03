@@ -33,7 +33,9 @@ const OUTPUTS = {
 
 const LOCAL_FILES = {
   officialPlayers: "data/officialFantasyPlayers_v0.json",
-  fixtures: "data/fixtures.json"
+  fixtures: "data/fixtures.json",
+  r32FixtureAuthority: "data/r32FixtureAuthority_v1.json",
+  r16ProvisionalFixtureAuthority: "data/r16ProvisionalFixtureAuthority_v1.json"
 };
 
 const EXPECTED_MATCH_STATUS_VALUES = new Set(["", "start", "sub", "not_in_squad"]);
@@ -466,6 +468,11 @@ function matchdayRoundId(fixture) {
   if (matchNumber && matchNumber >= 1 && matchNumber <= 24) return "1";
   if (matchNumber && matchNumber >= 25 && matchNumber <= 48) return "2";
   if (matchNumber && matchNumber >= 49 && matchNumber <= 72) return "3";
+  if (matchNumber && matchNumber >= 73 && matchNumber <= 88) return "4";
+  if (matchNumber && matchNumber >= 89 && matchNumber <= 96) return "5";
+  if (matchNumber && matchNumber >= 97 && matchNumber <= 100) return "6";
+  if (matchNumber && matchNumber >= 101 && matchNumber <= 102) return "7";
+  if (matchNumber && matchNumber >= 103 && matchNumber <= 104) return "8";
 
   const label = String(fixture.matchday || fixture.fifa_matchday_label || "").toLowerCase();
   const labelMatch = label.match(/matchday\s*(\d+)/i) || label.match(/md\s*(\d+)/i);
@@ -474,6 +481,45 @@ function matchdayRoundId(fixture) {
   }
 
   return null;
+}
+
+function localFixtureIdFromMatchNumber(matchNumber) {
+  const number = integerOrNull(matchNumber);
+  return number ? `fwc2026-m${String(number).padStart(3, "0")}` : null;
+}
+
+function fixtureRowFromAuthority(fixture, source) {
+  const matchNumber = integerOrNull(fixture.bracket_match_number || fixture.match_number);
+  const teamA = fixture.team_a || fixture.home_team || null;
+  const teamB = fixture.team_b || fixture.away_team || null;
+  const homeTeam = typeof teamA === "string" ? teamA : teamA?.team;
+  const awayTeam = typeof teamB === "string" ? teamB : teamB?.team;
+
+  if (!matchNumber || !homeTeam || !awayTeam) {
+    return null;
+  }
+
+  return {
+    match_id: fixture.fixture_id || localFixtureIdFromMatchNumber(matchNumber),
+    match_number: matchNumber,
+    home_team: homeTeam,
+    away_team: awayTeam,
+    home_team_id: typeof teamA === "string" ? null : teamA?.team_id || null,
+    away_team_id: typeof teamB === "string" ? null : teamB?.team_id || null,
+    local_fixture_source: source
+  };
+}
+
+function knockoutAuthorityFixtureRows({ r32AuthorityData, r16AuthorityData }) {
+  const r32Rows = rowsFromJson(r32AuthorityData, ["fixtures"])
+    .map((fixture) => fixtureRowFromAuthority(fixture, "r32_fixture_authority"))
+    .filter(Boolean);
+  const r16Rows = rowsFromJson(r16AuthorityData, ["fixtures"])
+    .filter((fixture) => fixture.classification === "final_known" || fixture.status === "final_known")
+    .map((fixture) => fixtureRowFromAuthority(fixture, "r16_provisional_fixture_authority"))
+    .filter(Boolean);
+
+  return [...r32Rows, ...r16Rows];
 }
 
 function liveFixtureTeamKeys(fixture) {
@@ -587,6 +633,13 @@ function normalizeFixture(round, fixture, localMaps) {
   const localAwayScorers = isReversed ? liveHomeScorers : liveAwayScorers;
   const localHomeTeam = localFixture?.home_team || localFixture?.team_1 || null;
   const localAwayTeam = localFixture?.away_team || localFixture?.team_2 || null;
+  const localFixtureMatchStatus = localFixture
+    ? localFixture.local_fixture_source === "r32_fixture_authority"
+      ? "mapped_to_r32_fixture_authority"
+      : localFixture.local_fixture_source === "r16_provisional_fixture_authority"
+        ? "mapped_to_r16_provisional_fixture_authority"
+        : "mapped_to_group_stage_fixture"
+    : mapping.status;
 
   return {
     round_id: hasValue(round.id) ? String(round.id) : null,
@@ -606,7 +659,7 @@ function normalizeFixture(round, fixture, localMaps) {
     mapping_candidate_match_numbers: mapping.candidate_match_numbers || [],
     safe_to_display_score: canExposeFinalScore,
     local_fixture_mapping_method: mapping.basis,
-    local_fixture_match_status: localFixture ? "mapped_to_group_stage_fixture" : mapping.status,
+    local_fixture_match_status: localFixtureMatchStatus,
     fixture_status: fixture.status || null,
     score_status: canExposeFinalScore ? "final" : isFinal ? hasFinalScoreValues ? "mapping_not_safe_hidden" : "final_score_missing_hidden" : "not_final_hidden",
     period: fixture.period || null,
@@ -783,7 +836,7 @@ function validateLiveData({ livePlayers, fixtures, localPlayers, parseWarnings }
   const errors = [];
   const unexpectedMatchStatuses = [];
   const unexpectedFixtureStatuses = [];
-  const unmappedGroupFixtures = [];
+  const unmappedRequiredFixtures = [];
   const ambiguousFixtures = [];
   const unsafeFinalScores = [];
   const nonFinalScores = [];
@@ -818,9 +871,13 @@ function validateLiveData({ livePlayers, fixtures, localPlayers, parseWarnings }
         errors.push(`Fixture ${fixture.local_fixture_id || fixture.source_fixture_id || "unknown"} has non-numeric ${field}`);
       }
     });
-    if (fixture.mapping_status === "unmatched") {
-      unmappedGroupFixtures.push({
+    const shouldRequireMapping = ["1", "2", "3", "4"].includes(String(fixture.round_id || "")) ||
+      fixtureIsFinal(fixture.fixture_status);
+    if (fixture.mapping_status === "unmatched" && shouldRequireMapping) {
+      unmappedRequiredFixtures.push({
         source_fixture_id: fixture.source_fixture_id,
+        round_id: fixture.round_id,
+        round_stage: fixture.round_stage,
         match_number: fixture.match_number,
         live_home_team: fixture.live_home_team,
         live_away_team: fixture.live_away_team
@@ -862,8 +919,8 @@ function validateLiveData({ livePlayers, fixtures, localPlayers, parseWarnings }
   if (unexpectedFixtureStatuses.length) {
     warnings.push(`${unexpectedFixtureStatuses.length} fixtures have unexpected status values`);
   }
-  if (unmappedGroupFixtures.length) {
-    warnings.push(`${unmappedGroupFixtures.length} group-stage live fixtures did not map to local fixtures`);
+  if (unmappedRequiredFixtures.length) {
+    warnings.push(`${unmappedRequiredFixtures.length} live fixtures that should map did not map to local fixtures`);
   }
   if (ambiguousFixtures.length) {
     warnings.push(`${ambiguousFixtures.length} live fixtures have ambiguous local fixture mappings`);
@@ -886,8 +943,8 @@ function validateLiveData({ livePlayers, fixtures, localPlayers, parseWarnings }
     unexpected_fixture_status_count: unexpectedFixtureStatuses.length,
     unmapped_live_player_count: unmappedPlayers.length,
     unmapped_live_players_sample: unmappedPlayers.slice(0, 20),
-    unmapped_group_fixture_count: unmappedGroupFixtures.length,
-    unmapped_group_fixtures_sample: unmappedGroupFixtures.slice(0, 20),
+    unmapped_required_fixture_count: unmappedRequiredFixtures.length,
+    unmapped_required_fixtures_sample: unmappedRequiredFixtures.slice(0, 20),
     ambiguous_fixture_count: ambiguousFixtures.length,
     ambiguous_fixtures_sample: ambiguousFixtures.slice(0, 20),
     unsafe_final_score_count: unsafeFinalScores.length,
@@ -1072,6 +1129,8 @@ Fetch failures: ${fetchFailures.length}
 Rounds imported: ${matchdayData.summary.round_count}
 Fixtures imported: ${matchdayData.summary.fixture_count}
 Group-stage fixtures mapped locally: ${matchdayData.summary.group_stage_mapped_fixture_count}
+R32 fixtures mapped locally: ${matchdayData.summary.r32_mapped_fixture_count}
+R16 fixtures mapped locally: ${matchdayData.summary.r16_mapped_fixture_count}
 Fixtures with score fields populated: ${matchdayData.summary.fixtures_with_scores}
 Completed/played fixtures: ${matchdayData.summary.completed_fixture_count}
 Playing fixtures: ${matchdayData.summary.playing_fixture_count}
@@ -1163,12 +1222,22 @@ async function main() {
   const inputPlayers = argValue("--players");
   const inputSquads = argValue("--squads");
   const inputRounds = argValue("--rounds");
-  const [playersSource, squadsSource, roundsSource, localOfficialPlayersData, localFixturesData] = await Promise.all([
+  const [
+    playersSource,
+    squadsSource,
+    roundsSource,
+    localOfficialPlayersData,
+    localFixturesData,
+    r32AuthorityData,
+    r16AuthorityData
+  ] = await Promise.all([
     fetchJsonSource(SOURCES.players, inputPlayers),
     fetchJsonSource(SOURCES.squads, inputSquads),
     fetchJsonSource(SOURCES.rounds, inputRounds),
     readJson(LOCAL_FILES.officialPlayers, {}),
-    readJson(LOCAL_FILES.fixtures, {})
+    readJson(LOCAL_FILES.fixtures, {}),
+    readJson(LOCAL_FILES.r32FixtureAuthority, {}),
+    readJson(LOCAL_FILES.r16ProvisionalFixtureAuthority, {})
   ]);
   const sourceResults = { players: playersSource, squads: squadsSource, rounds: roundsSource };
   const fetchFailures = Object.values(sourceResults).filter((source) => !source.ok);
@@ -1182,7 +1251,9 @@ async function main() {
   const rawSquads = rowsFromJson(squadsSource.json, ["squads", "teams", "data"]);
   const rawRounds = rowsFromJson(roundsSource.json, ["rounds", "data"]);
   const localOfficialPlayers = rowsFromJson(localOfficialPlayersData, ["officialFantasyPlayers", "players", "official_fantasy_players"]);
-  const localFixtures = rowsFromJson(localFixturesData, ["fixtures"]);
+  const groupStageFixtures = rowsFromJson(localFixturesData, ["fixtures"]);
+  const knockoutFixtures = knockoutAuthorityFixtureRows({ r32AuthorityData, r16AuthorityData });
+  const localFixtures = [...groupStageFixtures, ...knockoutFixtures];
   const parseWarnings = [];
   const teamsById = squadMap(rawSquads);
   const localMaps = localFixtureMaps(localFixtures);
@@ -1228,6 +1299,8 @@ async function main() {
       round_count: rounds.length,
       fixture_count: fixtures.length,
       group_stage_mapped_fixture_count: fixtures.filter((fixture) => fixture.local_fixture_match_status === "mapped_to_group_stage_fixture").length,
+      r32_mapped_fixture_count: fixtures.filter((fixture) => fixture.local_fixture_match_status === "mapped_to_r32_fixture_authority").length,
+      r16_mapped_fixture_count: fixtures.filter((fixture) => fixture.local_fixture_match_status === "mapped_to_r16_provisional_fixture_authority").length,
       fixtures_with_scores: fixtures.filter((fixture) => fixture.home_score !== null || fixture.away_score !== null).length,
       completed_fixture_count: fixtures.filter((fixture) => completedStatuses.has(String(fixture.fixture_status || "").toLowerCase())).length,
       playing_fixture_count: fixtures.filter((fixture) => playingStatuses.has(String(fixture.fixture_status || "").toLowerCase())).length,
@@ -1306,6 +1379,8 @@ async function main() {
     outputs: OUTPUTS,
     fixture_count: matchdayData.summary.fixture_count,
     group_stage_mapped_fixture_count: matchdayData.summary.group_stage_mapped_fixture_count,
+    r32_mapped_fixture_count: matchdayData.summary.r32_mapped_fixture_count,
+    r16_mapped_fixture_count: matchdayData.summary.r16_mapped_fixture_count,
     fixtures_with_scores: matchdayData.summary.fixtures_with_scores,
     player_count: playerData.summary.player_count,
     match_status_counts: playerData.summary.match_status_counts,

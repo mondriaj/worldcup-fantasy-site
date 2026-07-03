@@ -1,95 +1,100 @@
 # Live Matchday Status Report v1
 
-Generated: 2026-06-28T11:17:00.994Z
+Generated: 2026-07-03T20:38:04.792Z
 
 Status: static live/post-match support import. Model predictions, PELE data, recommendations, projections, finance metrics, Team Builder weights, and website formulas were not rerun by this script.
 
 ## Sources
 
-- fifaFantasyPlayersJson: ok, last modified 2026-06-28T11:04:23Z
-- fifaFantasySquadsJson: ok, last modified 2026-06-28T04:37:18Z
-- fifaFantasyRoundsJson: ok, last modified 2026-06-28T10:01:02Z
+- fifaFantasyPlayersJson: ok, last modified 2026-07-03T20:37:04Z
+- fifaFantasySquadsJson: ok, last modified 2026-07-03T07:59:04Z
+- fifaFantasyRoundsJson: ok, last modified 2026-07-03T20:37:03Z
 
 Fetch failures: 0
 
 ## Round And Fixture Status
 
 Rounds imported: 8
-Fixtures imported: 88
+Fixtures imported: 94
 Group-stage fixtures mapped locally: 72
-Fixtures with score fields populated: 72
-Completed/played fixtures: 72
-Playing fixtures: 0
-Scheduled fixtures: 16
-In-progress fixture scores hidden until final: 0
-Safe final scores shown: 72
-Unmatched live fixtures: 16
+R32 fixtures mapped locally: 16
+R16 fixtures mapped locally: 6
+Fixtures with score fields populated: 85
+Completed/played fixtures: 85
+Playing fixtures: 1
+Scheduled fixtures: 8
+In-progress fixture scores hidden until final: 1
+Safe final scores shown: 85
+Unmatched live fixtures: 0
 Ambiguous live fixtures: 0
 Reversed mappings handled: 0
 
 Mapping status counts:
 
-- matched: 72
-- unmatched: 16
+- matched: 94
 
 Mapping orientation counts:
 
-- direct: 72
-- unknown: 16
+- direct: 94
 
 Round status counts:
 
 - complete: 3
-- scheduled: 5
+- playing: 1
+- scheduled: 4
 
 Fixture status counts:
 
-- complete: 72
-- scheduled: 16
+- complete: 85
+- playing: 1
+- scheduled: 8
 
 ## Player Live Fields
 
 Players imported: 1489
-Players with total points: 999
-Players with last-round points: 999
-Players with round-points maps: 999
-Players with unfinished-fixture points suppressed: 0
-Ownership changes >= 0.1 percentage points: 334
+Players with total points: 1016
+Players with last-round points: 1016
+Players with round-points maps: 1016
+Players with unfinished-fixture points suppressed: 33
+Ownership changes >= 0.1 percentage points: 0
 
 Player status counts:
 
-- eliminated: 481
+- eliminated: 864
 - injured: 1
-- playing: 828
-- suspended: 4
-- transferred: 175
+- playing: 491
+- suspended: 2
+- transferred: 131
 
 matchStatus counts:
 
-- none: 1489
+- none: 618
+- not_in_squad: 161
+- start: 308
+- sub: 402
 
 ## Material Change Check
 
-Update recommendation: `official_player_import_needed`
-Secondary recommendations: `projection_rebuild_needed`, `recommendation_rerun_needed`
+Update recommendation: `manual_review_needed`
+Secondary recommendations: none
 Model rerun needed now: no
 Score prediction rerun needed now: no
 
 Reasons:
 
-- player pool/status/price/position/team fields changed compared with local official import
+- 161 players are marked not_in_squad; review before changing projections
 
 Material change summary:
 
-- Selectable status changes: 177, first sample Amir Mohammad Razzaghinia
+None
 
 ## Validation
 
-Validation status: passed_with_warnings
+Validation status: passed
 
 Warnings:
 
-- 16 group-stage live fixtures did not map to local fixtures
+None
 
 Errors:
 

@@ -3,7 +3,8 @@ import { readFile, writeFile } from "node:fs/promises";
 const PATHS = {
   html: "index.html",
   script: "script.js",
-  scorePredictions: "data/scorePredictions_fantasyPool_r32_v1.json",
+  r32ScorePredictions: "data/scorePredictions_fantasyPool_r32_v1.json",
+  r16ScorePredictions: "data/scorePredictions_fantasyPool_r16_provisional_v1.json",
   liveMatchday: "data/liveMatchdayStatus_v1.json",
   liveFixtureQa: "data/liveFixtureMappingQa_v1.json",
   outputJson: "data/matchEnvironmentLiveScoresQa_v1.json",
@@ -121,8 +122,8 @@ function buildReport(qa) {
         ["Playing fixtures shown final", qa.summary.playing_fixture_final_leak_count],
         ["Non-final score leaks", qa.summary.non_final_score_leak_count],
         ["Reversed score/team errors", qa.summary.reversed_score_error_count],
-        ["R32 default", qa.summary.r32_default ? "yes" : "no"],
-        ["MD1/MD2 accessible", qa.summary.md1_md2_accessible ? "yes" : "no"]
+        ["Provisional R16 default", qa.summary.r16_provisional_default ? "yes" : "no"],
+        ["R16/R32/MD views accessible", qa.summary.active_matchdays_accessible ? "yes" : "no"]
       ]
     ),
     "",
@@ -149,21 +150,24 @@ function buildReport(qa) {
   ].join("\n");
 }
 
-const [html, scriptText, scorePredictionData, liveMatchdayData, liveFixtureQa] = await Promise.all([
+const [html, scriptText, r32ScorePredictionData, r16ScorePredictionData, liveMatchdayData, liveFixtureQa] = await Promise.all([
   readFile(PATHS.html, "utf8"),
   readFile(PATHS.script, "utf8"),
-  readJson(PATHS.scorePredictions),
+  readJson(PATHS.r32ScorePredictions),
+  readJson(PATHS.r16ScorePredictions),
   readJson(PATHS.liveMatchday),
   readJson(PATHS.liveFixtureQa)
 ]);
 
-const scoreRows = rowsFromJson(scorePredictionData, ["fixtureScorePredictions"]);
+const r32ScoreRows = rowsFromJson(r32ScorePredictionData, ["fixtureScorePredictions"]);
+const r16ScoreRows = rowsFromJson(r16ScorePredictionData, ["fixtureScorePredictions"]);
+const scoreRows = [...r32ScoreRows, ...r16ScoreRows];
 const groupScoreRows = scoreRows.filter((row) => {
   const matchNumber = Number(row.match_number || String(row.fixture_id || row.match_id || "").match(/m(\d{3})/i)?.[1]);
   return Number.isFinite(matchNumber) && matchNumber <= 72;
 });
 const liveFixtures = rowsFromJson(liveMatchdayData, ["fixtures"]);
-const predictionsByFixtureId = new Map(groupScoreRows
+const predictionsByFixtureId = new Map(scoreRows
   .map((row) => [predictionFixtureKey(row), row])
   .filter(([key]) => key));
 const finalFixtures = liveFixtures.filter(isSafeFinalFixture);
@@ -195,16 +199,24 @@ const playingFinalLeaks = liveFixtures.filter((fixture) =>
   (fixture.safe_to_display_score === true || String(fixture.score_status || "").toLowerCase() === "final")
 );
 
+const completePredictionRows = scoreRows.filter((row) => {
+  const status = String(row.fixture_authority_status || "final_known").toLowerCase();
+  return !["pending", "partial_known"].includes(status) &&
+    row.home_team &&
+    row.away_team &&
+    normalizeText(row.home_team) !== "tbd" &&
+    normalizeText(row.away_team) !== "tbd";
+});
 const predictedFieldChecks = {
-  projected_xg: scoreRows.every((row) => row.home_expected_goals !== undefined && row.away_expected_goals !== undefined),
-  wdl: scoreRows.every((row) => row.home_win_probability !== undefined && row.draw_probability !== undefined && row.away_win_probability !== undefined),
-  top_scoreline: scoreRows.every((row) =>
+  projected_xg: completePredictionRows.every((row) => row.home_expected_goals !== undefined && row.away_expected_goals !== undefined),
+  wdl: completePredictionRows.every((row) => row.home_win_probability !== undefined && row.draw_probability !== undefined && row.away_win_probability !== undefined),
+  top_scoreline: completePredictionRows.every((row) =>
     (Array.isArray(row.top_scorelines) && row.top_scorelines[0]?.scoreline) ||
     row.top_scoreline ||
     row.most_likely_score
   ),
-  uncertainty: scoreRows.every((row) => row.uncertaintyLabel || row.uncertainty_label || row.matchUncertainty || row.match_uncertainty),
-  clean_sheet: scoreRows.every((row) => row.home_clean_sheet_probability !== undefined && row.away_clean_sheet_probability !== undefined)
+  uncertainty: completePredictionRows.every((row) => row.uncertaintyLabel || row.uncertainty_label || row.matchUncertainty || row.match_uncertainty),
+  clean_sheet: completePredictionRows.every((row) => row.home_clean_sheet_probability !== undefined && row.away_clean_sheet_probability !== undefined)
 };
 
 const requiredScriptHooks = {
@@ -220,12 +232,13 @@ const requiredScriptHooks = {
 const liveBeforeScript = html.indexOf("liveMatchdayStatusData.js") >= 0 &&
   html.indexOf("script.js") >= 0 &&
   html.indexOf("liveMatchdayStatusData.js") < html.indexOf("script.js");
-const r32Default = /defaultPublicMatchdayId\s*=\s*"r32"/.test(scriptText) &&
+const r16ProvisionalDefault = /defaultPublicMatchdayId\s*=\s*"r16_provisional"/.test(scriptText) &&
   /let activeEnvironmentMatchdayId\s*=\s*defaultActiveMatchdayId/.test(scriptText);
-const md1Md2Accessible = /matchday_id:\s*"md1"/.test(scriptText) &&
+const activeMatchdaysAccessible = /matchday_id:\s*"r16_provisional"/.test(scriptText) &&
+  /matchday_id:\s*"r32"/.test(scriptText) &&
+  /matchday_id:\s*"md1"/.test(scriptText) &&
   /matchday_id:\s*"md2"/.test(scriptText) &&
-  /matchday_id:\s*"md3"/.test(scriptText) &&
-  /matchday_id:\s*"r32"/.test(scriptText);
+  /matchday_id:\s*"md3"/.test(scriptText);
 
 const errors = [];
 const warnings = [];
@@ -233,8 +246,8 @@ const warnings = [];
 if (!liveBeforeScript) errors.push("index.html must load liveMatchdayStatusData.js before script.js.");
 if (liveFixtureQa.status !== "passed") errors.push(`Live fixture mapping QA status is ${liveFixtureQa.status}.`);
 if (groupScoreRows.length !== 72) errors.push(`Expected 72 group-stage score-prediction fixtures, found ${groupScoreRows.length}.`);
-if ((liveFixtureQa.summary?.matched_fixtures || 0) !== 72) {
-  errors.push(`Expected 72 matched group-stage live fixtures, found ${liveFixtureQa.summary?.matched_fixtures}.`);
+if ((liveFixtureQa.summary?.matched_fixtures || 0) !== 94) {
+  errors.push(`Expected 94 matched live fixtures, found ${liveFixtureQa.summary?.matched_fixtures}.`);
 }
 if ((liveFixtureQa.summary?.unsafe_fixture_player_point_leak_count || 0) !== 0) {
   errors.push(`Live fixture QA reports ${liveFixtureQa.summary.unsafe_fixture_player_point_leak_count} unsafe fixture/player point leaks.`);
@@ -253,8 +266,8 @@ if (unsupportedFinals.length) errors.push(`Final fixtures without Match Environm
 if (reversedErrors.length) errors.push(`Possible reversed Match Environment mappings: ${reversedErrors.map((row) => row.match_number).join(", ")}.`);
 if (nonFinalScoreLeaks.length) errors.push(`Non-final fixtures exposing final score state: ${nonFinalScoreLeaks.map((fixture) => fixture.match_number || fixture.source_fixture_id).join(", ")}.`);
 if (playingFinalLeaks.length) errors.push(`Playing fixtures shown as final: ${playingFinalLeaks.map((fixture) => fixture.match_number || fixture.source_fixture_id).join(", ")}.`);
-if (!r32Default) errors.push("Match Environment does not default to R32.");
-if (!md1Md2Accessible) errors.push("R32, MD1, MD2, and MD3 are not all available in matchday options.");
+if (!r16ProvisionalDefault) errors.push("Match Environment does not default to provisional R16.");
+if (!activeMatchdaysAccessible) errors.push("R16, R32, MD1, MD2, and MD3 are not all available in matchday options.");
 
 const completedMd1 = finalSupportChecks.filter((row) => row.round_id === "1");
 const completedMd2 = finalSupportChecks.filter((row) => row.round_id === "2");
@@ -267,6 +280,9 @@ const qa = {
   files: PATHS,
   summary: {
     score_prediction_fixture_count: scoreRows.length,
+    r32_score_prediction_fixture_count: r32ScoreRows.length,
+    r16_score_prediction_fixture_count: r16ScoreRows.length,
+    complete_prediction_fixture_count: completePredictionRows.length,
     group_stage_score_prediction_fixture_count: groupScoreRows.length,
     live_fixture_count: liveFixtures.length,
     final_fixture_count: finalFixtures.length,
@@ -280,8 +296,8 @@ const qa = {
     non_final_score_leak_count: nonFinalScoreLeaks.length,
     playing_fixture_final_leak_count: playingFinalLeaks.length,
     reversed_score_error_count: reversedErrors.length,
-    r32_default: r32Default,
-    md1_md2_accessible: md1Md2Accessible,
+    r16_provisional_default: r16ProvisionalDefault,
+    active_matchdays_accessible: activeMatchdaysAccessible,
     live_script_loaded_before_app_script: liveBeforeScript,
     predicted_field_checks: predictedFieldChecks,
     script_hook_checks: requiredScriptHooks

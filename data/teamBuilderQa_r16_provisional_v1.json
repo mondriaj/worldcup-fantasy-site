@@ -1,0 +1,205 @@
+{
+  "schema_version": "team_builder_qa_r16_provisional_v1",
+  "generated_at": "2026-07-03T20:51:27.909Z",
+  "model_version": "team-builder-r16-provisional-v1",
+  "status": "pass",
+  "summary": {
+    "projection_rows": 303,
+    "recommendation_rows": 125,
+    "by_position": {
+      "DEF": 95,
+      "GK": 36,
+      "FWD": 57,
+      "MID": 115
+    },
+    "defaultMatchday": "r16_provisional",
+    "balanced_projected_points": 77.16,
+    "greedy_projected_points": 77.16,
+    "known_qualified_teams_preferred": true,
+    "eliminated_and_unavailable_excluded": true
+  },
+  "balanced_sample": [
+    {
+      "name": "Ezri Konsa",
+      "country": "England",
+      "position": "DEF",
+      "points": 5.687
+    },
+    {
+      "name": "Dayot Upamecano",
+      "country": "France",
+      "position": "DEF",
+      "points": 5.668
+    },
+    {
+      "name": "Kylian Mbappé",
+      "country": "France",
+      "position": "FWD",
+      "points": 5.56
+    },
+    {
+      "name": "Jules Koundé",
+      "country": "France",
+      "position": "DEF",
+      "points": 5.551
+    },
+    {
+      "name": "Mike Maignan",
+      "country": "France",
+      "position": "GK",
+      "points": 5.319
+    },
+    {
+      "name": "Marc Cucurella",
+      "country": "Spain",
+      "position": "DEF",
+      "points": 5.195
+    },
+    {
+      "name": "Aymeric Laporte",
+      "country": "Spain",
+      "position": "DEF",
+      "points": 5.182
+    },
+    {
+      "name": "Harry Kane",
+      "country": "England",
+      "position": "FWD",
+      "points": 5.06
+    },
+    {
+      "name": "Jordan Pickford",
+      "country": "England",
+      "position": "GK",
+      "points": 5.077
+    },
+    {
+      "name": "Michael Olise",
+      "country": "France",
+      "position": "MID",
+      "points": 4.854
+    },
+    {
+      "name": "Thibaut Courtois",
+      "country": "Belgium",
+      "position": "GK",
+      "points": 4.761
+    },
+    {
+      "name": "Jude Bellingham",
+      "country": "England",
+      "position": "MID",
+      "points": 4.827
+    },
+    {
+      "name": "Mikel Oyarzabal",
+      "country": "Spain",
+      "position": "FWD",
+      "points": 4.796
+    },
+    {
+      "name": "Achraf Hakimi",
+      "country": "Morocco",
+      "position": "DEF",
+      "points": 4.847
+    },
+    {
+      "name": "Unai Simón",
+      "country": "Spain",
+      "position": "GK",
+      "points": 4.779
+    }
+  ],
+  "greedy_sample": [
+    {
+      "name": "Ezri Konsa",
+      "country": "England",
+      "position": "DEF",
+      "points": 5.687
+    },
+    {
+      "name": "Dayot Upamecano",
+      "country": "France",
+      "position": "DEF",
+      "points": 5.668
+    },
+    {
+      "name": "Kylian Mbappé",
+      "country": "France",
+      "position": "FWD",
+      "points": 5.56
+    },
+    {
+      "name": "Jules Koundé",
+      "country": "France",
+      "position": "DEF",
+      "points": 5.551
+    },
+    {
+      "name": "Mike Maignan",
+      "country": "France",
+      "position": "GK",
+      "points": 5.319
+    },
+    {
+      "name": "Marc Cucurella",
+      "country": "Spain",
+      "position": "DEF",
+      "points": 5.195
+    },
+    {
+      "name": "Aymeric Laporte",
+      "country": "Spain",
+      "position": "DEF",
+      "points": 5.182
+    },
+    {
+      "name": "Jordan Pickford",
+      "country": "England",
+      "position": "GK",
+      "points": 5.077
+    },
+    {
+      "name": "Harry Kane",
+      "country": "England",
+      "position": "FWD",
+      "points": 5.06
+    },
+    {
+      "name": "Michael Olise",
+      "country": "France",
+      "position": "MID",
+      "points": 4.854
+    },
+    {
+      "name": "Achraf Hakimi",
+      "country": "Morocco",
+      "position": "DEF",
+      "points": 4.847
+    },
+    {
+      "name": "Jude Bellingham",
+      "country": "England",
+      "position": "MID",
+      "points": 4.827
+    },
+    {
+      "name": "Mikel Oyarzabal",
+      "country": "Spain",
+      "position": "FWD",
+      "points": 4.796
+    },
+    {
+      "name": "Unai Simón",
+      "country": "Spain",
+      "position": "GK",
+      "points": 4.779
+    },
+    {
+      "name": "Thibaut Courtois",
+      "country": "Belgium",
+      "position": "GK",
+      "points": 4.761
+    }
+  ]
+}

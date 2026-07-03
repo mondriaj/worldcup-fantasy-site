@@ -1,0 +1,595 @@
+{
+  "schema_version": "r16_provisional_fixture_authority_v1",
+  "generated_at": "2026-07-03T20:51:27.909Z",
+  "status": "pass",
+  "release_status": "provisional_r16_setup",
+  "evidence_scope": "Completed/final R32 fixtures only; in-progress and scheduled R32 fixtures remain pending.",
+  "source_files": {
+    "r32FixtureAuthority": "data/r32FixtureAuthority_v1.json",
+    "liveMatchdayStatus": "data/liveMatchdayStatus_v1.json",
+    "worldCupData": "worldCupData.js"
+  },
+  "summary": {
+    "total_r16_fixtures": 8,
+    "final_known": 6,
+    "partial_known": 1,
+    "pending": 1,
+    "blocked": 0,
+    "completed_r32_fixtures_used": 13,
+    "in_progress_r32_fixtures_excluded": 1,
+    "scheduled_r32_fixtures_pending": 2
+  },
+  "fixtures": [
+    {
+      "official_bracket_slot": "M89",
+      "bracket_match_number": 89,
+      "bracket_slot_id": "M89",
+      "fixture_id": "fwc2026-m089",
+      "source_fixture_id": "91",
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R16",
+      "stage": "round_of_16",
+      "classification": "final_known",
+      "status": "final_known",
+      "public_label": "Known",
+      "team_a": {
+        "team": "Paraguay",
+        "team_id": "paraguay",
+        "code": "PAR",
+        "flag": "🇵🇾"
+      },
+      "team_b": {
+        "team": "France",
+        "team_id": "france",
+        "code": "FRA",
+        "flag": "🇫🇷"
+      },
+      "pending_sources": [],
+      "source_matches": [
+        {
+          "source_match": "M74",
+          "winner": {
+            "team": "Paraguay",
+            "team_id": "paraguay",
+            "code": "PAR",
+            "flag": "🇵🇾"
+          },
+          "status": "complete",
+          "score_status": "final",
+          "score": {
+            "home_score": 1,
+            "away_score": 1,
+            "home_penalty_score": 3,
+            "away_penalty_score": 4,
+            "label": "GER 1-1 PAR, 3-4 pens"
+          }
+        },
+        {
+          "source_match": "M77",
+          "winner": {
+            "team": "France",
+            "team_id": "france",
+            "code": "FRA",
+            "flag": "🇫🇷"
+          },
+          "status": "complete",
+          "score_status": "final",
+          "score": {
+            "home_score": 3,
+            "away_score": 0,
+            "home_penalty_score": null,
+            "away_penalty_score": null,
+            "label": "FRA 3-0 SWE"
+          }
+        }
+      ],
+      "kickoff": {
+        "source_datetime": "2026-07-04T22:00:00+01:00",
+        "eastern_datetime_label": "Jul 4, 2026 · 5:00 PM ET"
+      },
+      "venue": {
+        "name": "Lincoln Financial Field",
+        "city": "Philadelphia, Pennsylvania"
+      },
+      "bracket_path": "Winner Match 74 v Winner Match 77",
+      "source_confidence": "completed_r32_winners_mapped_to_official_bracket_slot",
+      "public_note": "Both participants are known from completed R32 fixtures."
+    },
+    {
+      "official_bracket_slot": "M90",
+      "bracket_match_number": 90,
+      "bracket_slot_id": "M90",
+      "fixture_id": "fwc2026-m090",
+      "source_fixture_id": "89",
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R16",
+      "stage": "round_of_16",
+      "classification": "final_known",
+      "status": "final_known",
+      "public_label": "Known",
+      "team_a": {
+        "team": "Canada",
+        "team_id": "canada",
+        "code": "CAN",
+        "flag": "🇨🇦"
+      },
+      "team_b": {
+        "team": "Morocco",
+        "team_id": "morocco",
+        "code": "MAR",
+        "flag": "🇲🇦"
+      },
+      "pending_sources": [],
+      "source_matches": [
+        {
+          "source_match": "M73",
+          "winner": {
+            "team": "Canada",
+            "team_id": "canada",
+            "code": "CAN",
+            "flag": "🇨🇦"
+          },
+          "status": "complete",
+          "score_status": "final",
+          "score": {
+            "home_score": 0,
+            "away_score": 1,
+            "home_penalty_score": null,
+            "away_penalty_score": null,
+            "label": "RSA 0-1 CAN"
+          }
+        },
+        {
+          "source_match": "M75",
+          "winner": {
+            "team": "Morocco",
+            "team_id": "morocco",
+            "code": "MAR",
+            "flag": "🇲🇦"
+          },
+          "status": "complete",
+          "score_status": "final",
+          "score": {
+            "home_score": 1,
+            "away_score": 1,
+            "home_penalty_score": 2,
+            "away_penalty_score": 3,
+            "label": "NED 1-1 MAR, 2-3 pens"
+          }
+        }
+      ],
+      "kickoff": {
+        "source_datetime": "2026-07-04T18:00:00+01:00",
+        "eastern_datetime_label": "Jul 4, 2026 · 1:00 PM ET"
+      },
+      "venue": {
+        "name": "Nrg Stadium",
+        "city": "Houston, Texas"
+      },
+      "bracket_path": "Winner Match 73 v Winner Match 75",
+      "source_confidence": "completed_r32_winners_mapped_to_official_bracket_slot",
+      "public_note": "Both participants are known from completed R32 fixtures."
+    },
+    {
+      "official_bracket_slot": "M91",
+      "bracket_match_number": 91,
+      "bracket_slot_id": "M91",
+      "fixture_id": "fwc2026-m091",
+      "source_fixture_id": "90",
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R16",
+      "stage": "round_of_16",
+      "classification": "final_known",
+      "status": "final_known",
+      "public_label": "Known",
+      "team_a": {
+        "team": "Brazil",
+        "team_id": "brazil",
+        "code": "BRA",
+        "flag": "🇧🇷"
+      },
+      "team_b": {
+        "team": "Norway",
+        "team_id": "norway",
+        "code": "NOR",
+        "flag": "🇳🇴"
+      },
+      "pending_sources": [],
+      "source_matches": [
+        {
+          "source_match": "M76",
+          "winner": {
+            "team": "Brazil",
+            "team_id": "brazil",
+            "code": "BRA",
+            "flag": "🇧🇷"
+          },
+          "status": "complete",
+          "score_status": "final",
+          "score": {
+            "home_score": 2,
+            "away_score": 1,
+            "home_penalty_score": null,
+            "away_penalty_score": null,
+            "label": "BRA 2-1 JPN"
+          }
+        },
+        {
+          "source_match": "M78",
+          "winner": {
+            "team": "Norway",
+            "team_id": "norway",
+            "code": "NOR",
+            "flag": "🇳🇴"
+          },
+          "status": "complete",
+          "score_status": "final",
+          "score": {
+            "home_score": 1,
+            "away_score": 2,
+            "home_penalty_score": null,
+            "away_penalty_score": null,
+            "label": "CIV 1-2 NOR"
+          }
+        }
+      ],
+      "kickoff": {
+        "source_datetime": "2026-07-05T21:00:00+01:00",
+        "eastern_datetime_label": "Jul 5, 2026 · 4:00 PM ET"
+      },
+      "venue": {
+        "name": "Metlife Stadium",
+        "city": "East Rutherford, New Jersey"
+      },
+      "bracket_path": "Winner Match 76 v Winner Match 78",
+      "source_confidence": "completed_r32_winners_mapped_to_official_bracket_slot",
+      "public_note": "Both participants are known from completed R32 fixtures."
+    },
+    {
+      "official_bracket_slot": "M92",
+      "bracket_match_number": 92,
+      "bracket_slot_id": "M92",
+      "fixture_id": "fwc2026-m092",
+      "source_fixture_id": "92",
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R16",
+      "stage": "round_of_16",
+      "classification": "final_known",
+      "status": "final_known",
+      "public_label": "Known",
+      "team_a": {
+        "team": "Mexico",
+        "team_id": "mexico",
+        "code": "MEX",
+        "flag": "🇲🇽"
+      },
+      "team_b": {
+        "team": "England",
+        "team_id": "england",
+        "code": "ENG",
+        "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿"
+      },
+      "pending_sources": [],
+      "source_matches": [
+        {
+          "source_match": "M79",
+          "winner": {
+            "team": "Mexico",
+            "team_id": "mexico",
+            "code": "MEX",
+            "flag": "🇲🇽"
+          },
+          "status": "complete",
+          "score_status": "final",
+          "score": {
+            "home_score": 2,
+            "away_score": 0,
+            "home_penalty_score": null,
+            "away_penalty_score": null,
+            "label": "MEX 2-0 ECU"
+          }
+        },
+        {
+          "source_match": "M80",
+          "winner": {
+            "team": "England",
+            "team_id": "england",
+            "code": "ENG",
+            "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿"
+          },
+          "status": "complete",
+          "score_status": "final",
+          "score": {
+            "home_score": 2,
+            "away_score": 1,
+            "home_penalty_score": null,
+            "away_penalty_score": null,
+            "label": "ENG 2-1 COD"
+          }
+        }
+      ],
+      "kickoff": {
+        "source_datetime": "2026-07-06T01:00:00+01:00",
+        "eastern_datetime_label": "Jul 5, 2026 · 8:00 PM ET"
+      },
+      "venue": {
+        "name": "Estadio Banorte",
+        "city": "Mexico City"
+      },
+      "bracket_path": "Winner Match 79 v Winner Match 80",
+      "source_confidence": "completed_r32_winners_mapped_to_official_bracket_slot",
+      "public_note": "Both participants are known from completed R32 fixtures."
+    },
+    {
+      "official_bracket_slot": "M93",
+      "bracket_match_number": 93,
+      "bracket_slot_id": "M93",
+      "fixture_id": "fwc2026-m093",
+      "source_fixture_id": "94",
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R16",
+      "stage": "round_of_16",
+      "classification": "final_known",
+      "status": "final_known",
+      "public_label": "Known",
+      "team_a": {
+        "team": "Portugal",
+        "team_id": "portugal",
+        "code": "POR",
+        "flag": "🇵🇹"
+      },
+      "team_b": {
+        "team": "Spain",
+        "team_id": "spain",
+        "code": "ESP",
+        "flag": "🇪🇸"
+      },
+      "pending_sources": [],
+      "source_matches": [
+        {
+          "source_match": "M83",
+          "winner": {
+            "team": "Portugal",
+            "team_id": "portugal",
+            "code": "POR",
+            "flag": "🇵🇹"
+          },
+          "status": "complete",
+          "score_status": "final",
+          "score": {
+            "home_score": 2,
+            "away_score": 1,
+            "home_penalty_score": null,
+            "away_penalty_score": null,
+            "label": "POR 2-1 CRO"
+          }
+        },
+        {
+          "source_match": "M84",
+          "winner": {
+            "team": "Spain",
+            "team_id": "spain",
+            "code": "ESP",
+            "flag": "🇪🇸"
+          },
+          "status": "complete",
+          "score_status": "final",
+          "score": {
+            "home_score": 3,
+            "away_score": 0,
+            "home_penalty_score": null,
+            "away_penalty_score": null,
+            "label": "ESP 3-0 AUT"
+          }
+        }
+      ],
+      "kickoff": {
+        "source_datetime": "2026-07-06T20:00:00+01:00",
+        "eastern_datetime_label": "Jul 6, 2026 · 3:00 PM ET"
+      },
+      "venue": {
+        "name": "At&t Stadium",
+        "city": "Arlington, Texas"
+      },
+      "bracket_path": "Winner Match 83 v Winner Match 84",
+      "source_confidence": "completed_r32_winners_mapped_to_official_bracket_slot",
+      "public_note": "Both participants are known from completed R32 fixtures."
+    },
+    {
+      "official_bracket_slot": "M94",
+      "bracket_match_number": 94,
+      "bracket_slot_id": "M94",
+      "fixture_id": "fwc2026-m094",
+      "source_fixture_id": "93",
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot",
+      "round": "R16",
+      "stage": "round_of_16",
+      "classification": "final_known",
+      "status": "final_known",
+      "public_label": "Known",
+      "team_a": {
+        "team": "USA",
+        "team_id": "usa",
+        "code": "USA",
+        "flag": "🇺🇸"
+      },
+      "team_b": {
+        "team": "Belgium",
+        "team_id": "belgium",
+        "code": "BEL",
+        "flag": "🇧🇪"
+      },
+      "pending_sources": [],
+      "source_matches": [
+        {
+          "source_match": "M81",
+          "winner": {
+            "team": "USA",
+            "team_id": "usa",
+            "code": "USA",
+            "flag": "🇺🇸"
+          },
+          "status": "complete",
+          "score_status": "final",
+          "score": {
+            "home_score": 2,
+            "away_score": 0,
+            "home_penalty_score": null,
+            "away_penalty_score": null,
+            "label": "USA 2-0 BIH"
+          }
+        },
+        {
+          "source_match": "M82",
+          "winner": {
+            "team": "Belgium",
+            "team_id": "belgium",
+            "code": "BEL",
+            "flag": "🇧🇪"
+          },
+          "status": "complete",
+          "score_status": "final",
+          "score": {
+            "home_score": 3,
+            "away_score": 2,
+            "home_penalty_score": null,
+            "away_penalty_score": null,
+            "label": "BEL 3-2 SEN"
+          }
+        }
+      ],
+      "kickoff": {
+        "source_datetime": "2026-07-07T01:00:00+01:00",
+        "eastern_datetime_label": "Jul 6, 2026 · 8:00 PM ET"
+      },
+      "venue": {
+        "name": "Lumen Field",
+        "city": "Seattle, Washington"
+      },
+      "bracket_path": "Winner Match 81 v Winner Match 82",
+      "source_confidence": "completed_r32_winners_mapped_to_official_bracket_slot",
+      "public_note": "Both participants are known from completed R32 fixtures."
+    },
+    {
+      "official_bracket_slot": "M95",
+      "bracket_match_number": 95,
+      "bracket_slot_id": "M95",
+      "fixture_id": "fwc2026-m095",
+      "source_fixture_id": null,
+      "source_fixture_id_role": null,
+      "round": "R16",
+      "stage": "round_of_16",
+      "classification": "pending",
+      "status": "pending",
+      "public_label": "Pending",
+      "team_a": null,
+      "team_b": null,
+      "pending_sources": [
+        {
+          "source_match": "M86",
+          "fixture_status": "scheduled",
+          "score_status": "not_final_hidden"
+        },
+        {
+          "source_match": "M88",
+          "fixture_status": "playing",
+          "score_status": "not_final_hidden"
+        }
+      ],
+      "source_matches": [
+        {
+          "source_match": "M86",
+          "winner": null,
+          "status": "scheduled",
+          "score_status": "not_final_hidden",
+          "score": null
+        },
+        {
+          "source_match": "M88",
+          "winner": null,
+          "status": "playing",
+          "score_status": "not_final_hidden",
+          "score": null
+        }
+      ],
+      "kickoff": {
+        "source_datetime": null,
+        "eastern_datetime_label": null
+      },
+      "venue": null,
+      "bracket_path": "Winner Match 86 v Winner Match 88",
+      "source_confidence": "pending_r32_source_match_not_final",
+      "public_note": "Do not treat this slot as final until all source R32 fixtures are complete."
+    },
+    {
+      "official_bracket_slot": "M96",
+      "bracket_match_number": 96,
+      "bracket_slot_id": "M96",
+      "fixture_id": "fwc2026-m096",
+      "source_fixture_id": null,
+      "source_fixture_id_role": null,
+      "round": "R16",
+      "stage": "round_of_16",
+      "classification": "partial_known",
+      "status": "partial_known",
+      "public_label": "Conditional",
+      "team_a": {
+        "team": "Switzerland",
+        "team_id": "switzerland",
+        "code": "SUI",
+        "flag": "🇨🇭"
+      },
+      "team_b": null,
+      "pending_sources": [
+        {
+          "source_match": "M87",
+          "fixture_status": "scheduled",
+          "score_status": "not_final_hidden"
+        }
+      ],
+      "source_matches": [
+        {
+          "source_match": "M85",
+          "winner": {
+            "team": "Switzerland",
+            "team_id": "switzerland",
+            "code": "SUI",
+            "flag": "🇨🇭"
+          },
+          "status": "complete",
+          "score_status": "final",
+          "score": {
+            "home_score": 2,
+            "away_score": 0,
+            "home_penalty_score": null,
+            "away_penalty_score": null,
+            "label": "SUI 2-0 ALG"
+          }
+        },
+        {
+          "source_match": "M87",
+          "winner": null,
+          "status": "scheduled",
+          "score_status": "not_final_hidden",
+          "score": null
+        }
+      ],
+      "kickoff": {
+        "source_datetime": null,
+        "eastern_datetime_label": null
+      },
+      "venue": null,
+      "bracket_path": "Winner Match 85 v Winner Match 87",
+      "source_confidence": "pending_r32_source_match_not_final",
+      "public_note": "Do not treat this slot as final until all source R32 fixtures are complete."
+    }
+  ],
+  "qa": {
+    "status": "pass",
+    "errors": [],
+    "warnings": [
+      "M95 remains pending.",
+      "M96 remains partial_known."
+    ]
+  }
+}

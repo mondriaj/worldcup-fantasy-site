@@ -480,6 +480,27 @@ html {
   content: "Close";
 }
 
+.collapsible-action--knockout-predictions,
+.collapsible-action--bracket-prediction {
+  min-width: 178px;
+}
+
+.collapsible-action--knockout-predictions::before {
+  content: "Open Knockout Predictions";
+}
+
+.collapsible-panel[open] .collapsible-action--knockout-predictions::before {
+  content: "Close Knockout Predictions";
+}
+
+.collapsible-action--bracket-prediction::before {
+  content: "Open Bracket Prediction";
+}
+
+.collapsible-panel[open] .collapsible-action--bracket-prediction::before {
+  content: "Close Bracket Prediction";
+}
+
 .collapsible-body {
   padding: 0 24px 24px;
 }
@@ -6238,6 +6259,19 @@ input[type="number"] {
 }
 
 @media (max-width: 520px) {
+  .collapsible-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .collapsible-action,
+  .collapsible-action--knockout-predictions,
+  .collapsible-action--bracket-prediction {
+    justify-self: start;
+    min-width: 0;
+    max-width: 100%;
+    white-space: normal;
+  }
+
   .knockout-result-grid {
     grid-template-columns: 1fr;
   }

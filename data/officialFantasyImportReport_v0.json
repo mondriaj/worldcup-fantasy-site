@@ -1,7 +1,7 @@
 {
   "schema_version": "official_fantasy_import_report_v0",
-  "generated_at": "2026-06-28",
-  "source_checked": "2026-06-28",
+  "generated_at": "2026-07-03",
+  "source_checked": "2026-07-03",
   "status": "imported_needs_manual_review",
   "input_file": "data/imports/officialFantasyPlayers_live_v1.json",
   "current_player_rows_checked": 1339,
@@ -14,11 +14,11 @@
     "official_price_rows": 1489,
     "official_position_rows": 1489,
     "selectable_status_counts": {
-      "playing": 828,
-      "transferred": 175,
-      "suspended": 4,
+      "eliminated": 864,
+      "playing": 491,
+      "transferred": 131,
       "injured": 1,
-      "eliminated": 481
+      "suspended": 2
     },
     "match_method_counts": {
       "country_and_normalized_name": 996,

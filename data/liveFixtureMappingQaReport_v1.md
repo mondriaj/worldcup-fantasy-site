@@ -1,33 +1,36 @@
 # Live Fixture Mapping QA v1
 
-Generated: 2026-06-28T12:53:34.484Z
+Generated: 2026-07-03T20:51:27.662Z
 
 Status: passed
 
 ## Summary
 
-- Total local fixtures: 72
-- Total live fixtures: 88
+- Total local fixtures: 94
+- Group-stage local fixtures: 72
+- R32 authority fixtures: 16
+- R16 final-known authority fixtures: 6
+- Total live fixtures: 94
 - Group-stage live fixtures: 72
-- Extra non-group live fixtures: 16
-- Total score-prediction fixtures: 72
-- Matched fixtures: 72
-- Final fixtures shown: 72
-- In-progress fixtures suppressed: 0
-- Scheduled fixtures: 16
-- Unmatched fixtures: 16
+- Extra non-group live fixtures: 22
+- Total score-prediction fixtures: 96
+- R32 score-prediction fixtures: 88
+- R16 score-prediction fixtures: 8
+- Matched fixtures: 94
+- Final fixtures shown: 85
+- In-progress fixtures suppressed: 1
+- Scheduled fixtures: 8
+- Unmatched fixtures: 0
 - Ambiguous fixtures: 0
 - Reversed mappings: 0
 
 Mapping status counts:
 
-- matched: 72
-- unmatched: 16
+- matched: 94
 
 Mapping orientation counts:
 
-- direct: 72
-- unknown: 16
+- direct: 94
 
 ## Regression Examples
 

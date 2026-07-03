@@ -1,7 +1,7 @@
 {
   "schema_version": "knockout_bracket_prediction_v1",
-  "generatedAt": "2026-06-28T17:12:35.333Z",
-  "generated_at": "2026-06-28T17:12:35.333Z",
+  "generatedAt": "2026-07-03T20:25:47.216Z",
+  "generated_at": "2026-07-03T20:25:47.216Z",
   "modelVersion": "knockout-bracket-prediction-v1",
   "model_version": "knockout-bracket-prediction-v1",
   "bracketSource": {
@@ -144,11 +144,11 @@
         "teamId": "argentina"
       }
     ],
-    "decidedKnockoutMatches": 0,
-    "correctWinnerPredictions": 0,
-    "wrongWinnerPredictions": 0,
-    "pendingPredictions": 32,
-    "accuracyPct": null,
+    "decidedKnockoutMatches": 13,
+    "correctWinnerPredictions": 10,
+    "wrongWinnerPredictions": 3,
+    "pendingPredictions": 19,
+    "accuracyPct": 76.9,
     "flagsMissingFallbackCount": 0
   },
   "matches": [
@@ -191,7 +191,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "canada"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "CAN",
         "name": "Canada",
@@ -210,12 +210,22 @@
       "predictedScoreLabel": "RSA 0-1 CAN",
       "teamAAdvanceProb": 0.2076,
       "teamBAdvanceProb": 0.7924,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Canada",
+        "team_id": "canada",
+        "code": "CAN",
+        "flag": "🇨🇦"
+      },
+      "actualLoser": {
+        "team": "South Africa",
+        "team_id": "south-africa",
+        "code": "RSA",
+        "flag": "🇿🇦"
+      },
+      "actualScore": "RSA 0-1 CAN",
+      "predictionResult": "correct",
       "modelNote": "South Africa 0.35 xG vs Canada 1.41 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Likely R16 path runs through Netherlands (71% if both sides advance).",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": 73
@@ -259,7 +269,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "paraguay"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "GER",
         "name": "Germany",
@@ -278,12 +288,22 @@
       "predictedScoreLabel": "GER 1-0 PAR",
       "teamAAdvanceProb": 0.8514,
       "teamBAdvanceProb": 0.1486,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Paraguay",
+        "team_id": "paraguay",
+        "code": "PAR",
+        "flag": "🇵🇾"
+      },
+      "actualLoser": {
+        "team": "Germany",
+        "team_id": "germany",
+        "code": "GER",
+        "flag": "🇩🇪"
+      },
+      "actualScore": "GER 1-1 PAR, 3-4 pens",
+      "predictionResult": "wrong",
       "modelNote": "Germany 1.86 xG vs Paraguay 0.37 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Likely R16 path runs through France (88.6% if both sides advance).",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": 78
@@ -327,7 +347,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "morocco"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "NED",
         "name": "Netherlands",
@@ -346,12 +366,22 @@
       "predictedScoreLabel": "NED 1-0 MAR",
       "teamAAdvanceProb": 0.7098,
       "teamBAdvanceProb": 0.2902,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Morocco",
+        "team_id": "morocco",
+        "code": "MAR",
+        "flag": "🇲🇦"
+      },
+      "actualLoser": {
+        "team": "Netherlands",
+        "team_id": "netherlands",
+        "code": "NED",
+        "flag": "🇳🇱"
+      },
+      "actualScore": "NED 1-1 MAR, 2-3 pens",
+      "predictionResult": "wrong",
       "modelNote": "Netherlands 1.38 xG vs Morocco 0.59 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Toughest pre-final pocket projects as QF against France.",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": 75
@@ -395,7 +425,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "japan"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "BRA",
         "name": "Brazil",
@@ -414,12 +444,22 @@
       "predictedScoreLabel": "BRA 1-0 JPN",
       "teamAAdvanceProb": 0.768,
       "teamBAdvanceProb": 0.232,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Brazil",
+        "team_id": "brazil",
+        "code": "BRA",
+        "flag": "🇧🇷"
+      },
+      "actualLoser": {
+        "team": "Japan",
+        "team_id": "japan",
+        "code": "JPN",
+        "flag": "🇯🇵"
+      },
+      "actualScore": "BRA 2-1 JPN",
+      "predictionResult": "correct",
       "modelNote": "Brazil 1.66 xG vs Japan 0.58 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Toughest pre-final pocket projects as SF against Argentina.",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": 74
@@ -463,7 +503,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "sweden"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "FRA",
         "name": "France",
@@ -482,12 +522,22 @@
       "predictedScoreLabel": "FRA 2-0 SWE",
       "teamAAdvanceProb": 0.8855,
       "teamBAdvanceProb": 0.1145,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "France",
+        "team_id": "france",
+        "code": "FRA",
+        "flag": "🇫🇷"
+      },
+      "actualLoser": {
+        "team": "Sweden",
+        "team_id": "sweden",
+        "code": "SWE",
+        "flag": "🇸🇪"
+      },
+      "actualScore": "FRA 3-0 SWE",
+      "predictionResult": "correct",
       "modelNote": "France 2.14 xG vs Sweden 0.35 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Likely R16 path runs through Germany (85.1% if both sides advance).",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": 79
@@ -531,7 +581,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "norway"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "NOR",
         "name": "Norway",
@@ -550,12 +600,22 @@
       "predictedScoreLabel": "CIV 0-1 NOR",
       "teamAAdvanceProb": 0.2174,
       "teamBAdvanceProb": 0.7826,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Norway",
+        "team_id": "norway",
+        "code": "NOR",
+        "flag": "🇳🇴"
+      },
+      "actualLoser": {
+        "team": "Côte d'Ivoire",
+        "team_id": "cote-d-ivoire",
+        "code": "CIV",
+        "flag": "🇨🇮"
+      },
+      "actualScore": "CIV 1-2 NOR",
+      "predictionResult": "correct",
       "modelNote": "Côte d'Ivoire 0.50 xG vs Norway 1.63 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Likely R16 path runs through Brazil (76.8% if both sides advance).",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": 77
@@ -599,7 +659,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "ecuador"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "ECU",
         "name": "Ecuador",
@@ -618,12 +678,22 @@
       "predictedScoreLabel": "MEX 0-1 ECU",
       "teamAAdvanceProb": 0.4499,
       "teamBAdvanceProb": 0.5501,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Mexico",
+        "team_id": "mexico",
+        "code": "MEX",
+        "flag": "🇲🇽"
+      },
+      "actualLoser": {
+        "team": "Ecuador",
+        "team_id": "ecuador",
+        "code": "ECU",
+        "flag": "🇪🇨"
+      },
+      "actualScore": "MEX 2-0 ECU",
+      "predictionResult": "wrong",
       "modelNote": "Mexico 0.85 xG vs Ecuador 1.04 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Likely R16 path runs through England (91.5% if both sides advance).",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": 82
@@ -667,7 +737,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "congo-dr"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "ENG",
         "name": "England",
@@ -686,12 +756,22 @@
       "predictedScoreLabel": "ENG 2-0 COD",
       "teamAAdvanceProb": 0.9153,
       "teamBAdvanceProb": 0.0847,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "England",
+        "team_id": "england",
+        "code": "ENG",
+        "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿"
+      },
+      "actualLoser": {
+        "team": "Congo DR",
+        "team_id": "congo-dr",
+        "code": "COD",
+        "flag": "🇨🇩"
+      },
+      "actualScore": "ENG 2-1 COD",
+      "predictionResult": "correct",
       "modelNote": "England 2.53 xG vs Congo DR 0.35 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Toughest pre-final pocket projects as SF against Argentina.",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": 83
@@ -735,7 +815,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "bosnia-and-herzegovina"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "USA",
         "name": "USA",
@@ -754,12 +834,22 @@
       "predictedScoreLabel": "USA 1-0 BIH",
       "teamAAdvanceProb": 0.8079,
       "teamBAdvanceProb": 0.1921,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "USA",
+        "team_id": "usa",
+        "code": "USA",
+        "flag": "🇺🇸"
+      },
+      "actualLoser": {
+        "team": "Bosnia and Herzegovina",
+        "team_id": "bosnia-and-herzegovina",
+        "code": "BIH",
+        "flag": "🇧🇦"
+      },
+      "actualScore": "USA 2-0 BIH",
+      "predictionResult": "correct",
       "modelNote": "USA 1.60 xG vs Bosnia and Herzegovina 0.41 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Toughest pre-final pocket projects as QF against Spain.",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": 76
@@ -803,7 +893,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "senegal"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "BEL",
         "name": "Belgium",
@@ -822,12 +912,22 @@
       "predictedScoreLabel": "BEL 1-0 SEN",
       "teamAAdvanceProb": 0.5837,
       "teamBAdvanceProb": 0.4163,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Belgium",
+        "team_id": "belgium",
+        "code": "BEL",
+        "flag": "🇧🇪"
+      },
+      "actualLoser": {
+        "team": "Senegal",
+        "team_id": "senegal",
+        "code": "SEN",
+        "flag": "🇸🇳"
+      },
+      "actualScore": "BEL 3-2 SEN",
+      "predictionResult": "correct",
       "modelNote": "Belgium 1.19 xG vs Senegal 0.88 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Toughest pre-final pocket projects as QF against Spain.",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": 84
@@ -871,7 +971,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "croatia"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "POR",
         "name": "Portugal",
@@ -890,12 +990,22 @@
       "predictedScoreLabel": "POR 1-0 CRO",
       "teamAAdvanceProb": 0.6707,
       "teamBAdvanceProb": 0.3293,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Portugal",
+        "team_id": "portugal",
+        "code": "POR",
+        "flag": "🇵🇹"
+      },
+      "actualLoser": {
+        "team": "Croatia",
+        "team_id": "croatia",
+        "code": "CRO",
+        "flag": "🇭🇷"
+      },
+      "actualScore": "POR 2-1 CRO",
+      "predictionResult": "correct",
       "modelNote": "Portugal 1.40 xG vs Croatia 0.74 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Likely R16 path runs through Spain (89.1% if both sides advance).",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": 85
@@ -939,7 +1049,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "austria"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "ESP",
         "name": "Spain",
@@ -958,12 +1068,22 @@
       "predictedScoreLabel": "ESP 2-0 AUT",
       "teamAAdvanceProb": 0.8914,
       "teamBAdvanceProb": 0.1086,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Spain",
+        "team_id": "spain",
+        "code": "ESP",
+        "flag": "🇪🇸"
+      },
+      "actualLoser": {
+        "team": "Austria",
+        "team_id": "austria",
+        "code": "AUT",
+        "flag": "🇦🇹"
+      },
+      "actualScore": "ESP 3-0 AUT",
+      "predictionResult": "correct",
       "modelNote": "Spain 2.21 xG vs Austria 0.35 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Likely R16 path runs through Portugal (67.1% if both sides advance).",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": 87
@@ -1007,7 +1127,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "algeria"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "SUI",
         "name": "Switzerland",
@@ -1026,12 +1146,22 @@
       "predictedScoreLabel": "SUI 1-0 ALG",
       "teamAAdvanceProb": 0.689,
       "teamBAdvanceProb": 0.311,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Switzerland",
+        "team_id": "switzerland",
+        "code": "SUI",
+        "flag": "🇨🇭"
+      },
+      "actualLoser": {
+        "team": "Algeria",
+        "team_id": "algeria",
+        "code": "ALG",
+        "flag": "🇩🇿"
+      },
+      "actualScore": "SUI 2-0 ALG",
+      "predictionResult": "correct",
       "modelNote": "Switzerland 1.36 xG vs Algeria 0.66 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Toughest pre-final pocket projects as QF against Argentina.",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": 88
@@ -1211,7 +1341,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "egypt"
       },
-      "status": "scheduled",
+      "status": "playing",
       "predictedWinner": {
         "code": "AUS",
         "name": "Australia",
@@ -1268,8 +1398,18 @@
         "sourceConfidence": "predicted",
         "teamId": "france"
       },
-      "actualTeamA": null,
-      "actualTeamB": null,
+      "actualTeamA": {
+        "team": "Paraguay",
+        "team_id": "paraguay",
+        "code": "PAR",
+        "flag": "🇵🇾"
+      },
+      "actualTeamB": {
+        "team": "France",
+        "team_id": "france",
+        "code": "FRA",
+        "flag": "🇫🇷"
+      },
       "status": "pending",
       "predictedWinner": {
         "code": "FRA",
@@ -1327,8 +1467,18 @@
         "sourceConfidence": "predicted",
         "teamId": "netherlands"
       },
-      "actualTeamA": null,
-      "actualTeamB": null,
+      "actualTeamA": {
+        "team": "Canada",
+        "team_id": "canada",
+        "code": "CAN",
+        "flag": "🇨🇦"
+      },
+      "actualTeamB": {
+        "team": "Morocco",
+        "team_id": "morocco",
+        "code": "MAR",
+        "flag": "🇲🇦"
+      },
       "status": "pending",
       "predictedWinner": {
         "code": "NED",
@@ -1386,8 +1536,18 @@
         "sourceConfidence": "predicted",
         "teamId": "norway"
       },
-      "actualTeamA": null,
-      "actualTeamB": null,
+      "actualTeamA": {
+        "team": "Brazil",
+        "team_id": "brazil",
+        "code": "BRA",
+        "flag": "🇧🇷"
+      },
+      "actualTeamB": {
+        "team": "Norway",
+        "team_id": "norway",
+        "code": "NOR",
+        "flag": "🇳🇴"
+      },
       "status": "pending",
       "predictedWinner": {
         "code": "BRA",
@@ -1445,8 +1605,18 @@
         "sourceConfidence": "predicted",
         "teamId": "england"
       },
-      "actualTeamA": null,
-      "actualTeamB": null,
+      "actualTeamA": {
+        "team": "Mexico",
+        "team_id": "mexico",
+        "code": "MEX",
+        "flag": "🇲🇽"
+      },
+      "actualTeamB": {
+        "team": "England",
+        "team_id": "england",
+        "code": "ENG",
+        "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿"
+      },
       "status": "pending",
       "predictedWinner": {
         "code": "ENG",
@@ -1504,8 +1674,18 @@
         "sourceConfidence": "predicted",
         "teamId": "spain"
       },
-      "actualTeamA": null,
-      "actualTeamB": null,
+      "actualTeamA": {
+        "team": "Portugal",
+        "team_id": "portugal",
+        "code": "POR",
+        "flag": "🇵🇹"
+      },
+      "actualTeamB": {
+        "team": "Spain",
+        "team_id": "spain",
+        "code": "ESP",
+        "flag": "🇪🇸"
+      },
       "status": "pending",
       "predictedWinner": {
         "code": "ESP",
@@ -1563,8 +1743,18 @@
         "sourceConfidence": "predicted",
         "teamId": "belgium"
       },
-      "actualTeamA": null,
-      "actualTeamB": null,
+      "actualTeamA": {
+        "team": "USA",
+        "team_id": "usa",
+        "code": "USA",
+        "flag": "🇺🇸"
+      },
+      "actualTeamB": {
+        "team": "Belgium",
+        "team_id": "belgium",
+        "code": "BEL",
+        "flag": "🇧🇪"
+      },
       "status": "pending",
       "predictedWinner": {
         "code": "BEL",
@@ -1681,7 +1871,12 @@
         "sourceConfidence": "predicted",
         "teamId": "colombia"
       },
-      "actualTeamA": null,
+      "actualTeamA": {
+        "team": "Switzerland",
+        "team_id": "switzerland",
+        "code": "SUI",
+        "flag": "🇨🇭"
+      },
       "actualTeamB": null,
       "status": "pending",
       "predictedWinner": {

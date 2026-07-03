@@ -1,7 +1,7 @@
 // Static data scripts are loaded before this file. They expose player, rules,
 // score-projection, and official fantasy-pool data on window globals, so the
 // public site can run without fetching JSON at runtime.
-const ACTIVE_DATA_VERSION = "20260628-r32-final";
+const ACTIVE_DATA_VERSION = "20260703-r16-provisional";
 const ACTIVE_DATA = {
   version: ACTIVE_DATA_VERSION,
   players: Array.isArray(window.PLAYERS_DATA) ? window.PLAYERS_DATA : [],
@@ -53,17 +53,17 @@ function scorePredictionSourceFromWindow() {
       model_name: fantasyPoolData?.model?.model_name || null,
       formula_version: fantasyPoolData?.model?.formula_version || null,
       uncertainty_layer_version: fantasyPoolData?.model?.uncertainty_layer_version || null,
-      data_source_label: "Final R32 fantasy score projection context",
+      data_source_label: "Provisional R16 fantasy score projection context",
       fallback_context_label: "Static score projection backup",
       fixture_prediction_count: fantasyPoolRows.length,
       team_fixture_prediction_count: fantasyPoolTeamRows.length || null
     };
 
     return {
-      key: fantasyPoolData?.model_version || fantasyPoolData?.modelVersion || "fantasy_pool_score_predictions_r32_v1",
-      label: "Final R32 fantasy score projection context",
+      key: fantasyPoolData?.model_version || fantasyPoolData?.modelVersion || "fantasy_pool_score_predictions_r16_provisional_v1",
+      label: "Provisional R16 fantasy score projection context",
       browserFile: "fantasyPoolScorePredictionsData.js",
-      sourceFile: "data/scorePredictions_fantasyPool_r32_v1.json",
+      sourceFile: "data/scorePredictions_fantasyPool_r16_provisional_v1.json",
       rows: fantasyPoolRows,
       summary
     };
@@ -73,7 +73,7 @@ function scorePredictionSourceFromWindow() {
     key: "active_match_environment_unavailable",
     label: "Active Match Environment data unavailable",
     browserFile: "fantasyPoolScorePredictionsData.js",
-    sourceFile: "data/scorePredictions_fantasyPool_r32_v1.json",
+    sourceFile: "data/scorePredictions_fantasyPool_r16_provisional_v1.json",
     rows: [],
     summary: ACTIVE_DATA.score.summary || null
   };
@@ -373,6 +373,7 @@ const bracketPoolRoundLabels = {
 };
 const usingFantasyPoolPreview = Boolean(fantasyPoolPreviewStatus && fantasyPoolRecommendationRows.length);
 const defaultMatchdayOptions = [
+  { matchday_id: "r16_provisional", label: "Provisional R16" },
   { matchday_id: "r32", label: "Round of 32" },
   { matchday_id: "group_stage_full", label: "Full Group Stage" },
   { matchday_id: "md1", label: "Matchday 1" },
@@ -380,7 +381,7 @@ const defaultMatchdayOptions = [
   { matchday_id: "md3", label: "Matchday 3" }
 ];
 const matchdayOptions = defaultMatchdayOptions;
-const defaultPublicMatchdayId = "r32";
+const defaultPublicMatchdayId = "r16_provisional";
 const defaultActiveMatchdayId = matchdayOptions.some((option) => option.matchday_id === defaultPublicMatchdayId)
   ? defaultPublicMatchdayId
   : matchdayOptions[0]?.matchday_id || "group_stage_full";
@@ -396,8 +397,8 @@ const browserSquadStorageKey = "worldCupFantasyHelper.teamExport.v1";
 
 function activeDataBadgeHtml() {
   return `
-    <span class="model-data-badge" title="Public final R32 page uses only the current active static data path.">
-      Final R32 active data path · ${ACTIVE_DATA.version} · final fixtures · path value and defensive form included · verify FIFA locks/deadlines/lineups
+    <span class="model-data-badge" title="Public provisional R16 page uses only the current active static data path.">
+      Provisional R16 active data path · ${ACTIVE_DATA.version} · completed R32 winners only · remaining slots conditional · verify FIFA locks/deadlines/lineups
     </span>
   `;
 }
@@ -917,11 +918,12 @@ function bestFantasyPoolRecommendationForPlayer(officialFantasyPlayerId) {
   const recommendations = recommendationByPlayerId.get(String(officialFantasyPlayerId || "")) || [];
   const matchdayPriority = {
     [defaultPublicMatchdayId]: 0,
-    r32: 0,
-    md3: 1,
-    md2: 2,
-    md1: 3,
-    group_stage_full: 4
+    r16_provisional: 0,
+    r32: 1,
+    md3: 2,
+    md2: 3,
+    md1: 4,
+    group_stage_full: 5
   };
   const modePriority = {
     balanced: 0,
@@ -3462,7 +3464,10 @@ function liveFixtureContextHtml(fixture) {
 }
 
 function liveRoundIdFromMatchdayId(matchdayId) {
-  const match = String(matchdayId || "").match(/md(\d+)/i);
+  const normalizedMatchdayId = String(matchdayId || "").toLowerCase();
+  if (normalizedMatchdayId === "r16" || normalizedMatchdayId === "r16_provisional") return "5";
+  if (normalizedMatchdayId === "r32") return "4";
+  const match = normalizedMatchdayId.match(/md(\d+)/i);
   return match ? match[1] : null;
 }
 
@@ -6541,7 +6546,7 @@ function playerById(playerId) {
 function captainChangeMatchdayIds() {
   return matchdayOptions
     .map((option) => option.matchday_id)
-    .filter((matchdayId) => ["r32", "md1", "md2", "md3"].includes(matchdayId));
+    .filter((matchdayId) => ["r16_provisional", "r32", "md1", "md2", "md3"].includes(matchdayId));
 }
 
 function defaultSingleMatchdayId() {
@@ -15117,4 +15122,15 @@ function initializeBuilder() {
   }
 }
 
+function openDetailsForCurrentHash() {
+  const hashId = window.location.hash ? window.location.hash.slice(1) : "";
+  if (!hashId) return;
+  const target = document.getElementById(hashId);
+  if (target?.tagName?.toLowerCase() === "details") {
+    target.open = true;
+  }
+}
+
+window.addEventListener("hashchange", openDetailsForCurrentHash);
 initializeBuilder();
+openDetailsForCurrentHash();
