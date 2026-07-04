@@ -8,7 +8,7 @@ const baseUrl = process.env.PUBLIC_PREVIEW_BASE_URL || "http://127.0.0.1:8766";
 const outputPath = process.env.PUBLIC_PREVIEW_QA_OUTPUT || "/private/tmp/public_preview_browser_qa_result.json";
 const reportPath = process.env.PUBLIC_PREVIEW_QA_REPORT || "data/publicPreviewBrowserQaReport_v1.md";
 const screenshotDir = process.env.PUBLIC_PREVIEW_QA_SCREENSHOT_DIR || "/private/tmp/public_preview_browser_qa_screenshots";
-const activePublicMatchdayId = "r16_provisional";
+const activePublicMatchdayId = "r16";
 const executableCandidates = [
   process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE,
   "/Users/jordimondria/Library/Caches/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-mac-arm64/chrome-headless-shell",
@@ -27,7 +27,7 @@ const currentDataScripts = [
   "fantasyPoolOfficialDataStatusData.js",
   "liveMatchdayStatusData.js",
   "livePlayerStatusData.js",
-  "r16ProvisionalFixtureAuthorityData.js",
+  "r16FixtureAuthorityData.js",
   "script.js"
 ];
 const oldGlobalNames = [
@@ -52,7 +52,7 @@ const activeGlobalChecks = {
     Boolean(value && Array.isArray(value.official_position_records) && value.official_position_records.length > 0),
   LIVE_MATCHDAY_STATUS_DATA: (value) => Boolean(value && Array.isArray(value.fixtures)),
   LIVE_PLAYER_STATUS_DATA: (value) => Boolean(value && Array.isArray(value.players)),
-  R16_PROVISIONAL_FIXTURE_AUTHORITY_DATA: (value) =>
+  R16_FIXTURE_AUTHORITY_DATA: (value) =>
     Boolean(value && Array.isArray(value.fixtures) && value.fixtures.length === 8)
 };
 
@@ -99,10 +99,10 @@ function buildMarkdownReport(result) {
     "## Verdict",
     "",
     summary.status === "pass"
-      ? "**pass - safe_to_share_r16_provisional_public_preview**"
+      ? "**pass - safe_to_share_r16_public_preview**"
       : "**fail - do_not_share_until_browser_qa_is_fixed**",
     "",
-    "The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. Provisional R16 is the public default, R32 and MD1/MD2/MD3 remain accessible as historical views, live completed scores are shown only through the safe mapping path, all group-stage fixtures are final, and old public globals are absent.",
+    "The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. R16 is the public default, R32 and MD1/MD2/MD3 remain accessible as historical views, live completed scores are shown only through the safe mapping path, all group-stage fixtures are final, and old public globals are absent.",
     "",
     "## Run Context",
     "",
@@ -123,8 +123,8 @@ function buildMarkdownReport(result) {
     mdTable(
       ["Check", "Result"],
       [
-        ["Picks default to provisional R16", checks.picksDefaultR16 ? "pass" : "fail"],
-        ["Provisional R16 label visible", checks.provisionalR16LabelVisible ? "pass" : "fail"],
+        ["Picks default to final R16", checks.picksDefaultR16 ? "pass" : "fail"],
+        ["Final R16 label visible", checks.finalR16LabelVisible ? "pass" : "fail"],
         ["Captain Watchlist opens on R16", checks.captainWatchlistDefaultR16 ? "pass" : "fail"],
         ["Match Environment opens on R16", checks.matchEnvironmentDefaultR16 ? "pass" : "fail"],
         ["MD1 remains accessible", checks.matchEnvironmentMd1Accessible ? "pass" : "fail"],
@@ -183,7 +183,7 @@ function buildMarkdownReport(result) {
     "",
     "## Remaining Limits",
     "",
-    "- Browser QA confirms the public provisional R16 data path, knockout predictor, and live display plumbing.",
+    "- Browser QA confirms the public final R16 data path, knockout predictor, and live display plumbing.",
     "- Final squads remain not source-backed.",
     "- Team Builder remains planning help and must be checked inside the official FIFA game.",
     "- User-specific locks, substitutions, captain state, and boosters are not imported.",
@@ -217,7 +217,7 @@ async function clickProfileAndClose(page, selector, label) {
     showsOfficialPrice: /Official fantasy price|Price/i.test(modalText),
     showsPosition: /Position|Defender|Midfielder|Forward|Goalkeeper|FWD|MID|DEF|GK/i.test(modalText),
     showsCurrentDataWarning: /Official Fantasy Picks|current FIFA fantasy|Confirm|verify|deadline/i.test(modalText),
-    showsR16Context: /Provisional R16|Round of 16|R16/i.test(modalText),
+    showsR16Context: /R16|Round of 16|R16/i.test(modalText),
     modalTextSample: modalText.slice(0, 500)
   };
 
@@ -261,7 +261,7 @@ async function collectPageState(page) {
       players: Array.isArray(window.PLAYERS_DATA) ? window.PLAYERS_DATA.length : window.PLAYERS_DATA?.players?.length || 0,
       recommendations: window.FANTASY_POOL_RECOMMENDATION_CANDIDATES?.length || 0,
       projections: window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS?.length || 0,
-      r16Projections: (window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || []).filter((row) => row.matchday === "r16_provisional").length,
+      r16Projections: (window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || []).filter((row) => row.matchday === "r16").length,
       r32Projections: (window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || []).filter((row) => row.matchday === "r32").length,
       finance: window.FANTASY_POOL_PLAYER_FINANCE_METRICS?.length || 0,
       scoreFixtures: window.FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS?.length || window.FANTASY_POOL_SCORE_PREDICTIONS_DATA?.fixtureScorePredictions?.length || 0,
@@ -270,10 +270,10 @@ async function collectPageState(page) {
       officialRecords: window.FANTASY_POOL_OFFICIAL_DATA_STATUS?.official_position_records?.length || 0,
       liveFixtures: window.LIVE_MATCHDAY_STATUS_DATA?.fixtures?.length || 0,
       livePlayers: window.LIVE_PLAYER_STATUS_DATA?.players?.length || 0,
-      r16AuthorityFixtures: window.R16_PROVISIONAL_FIXTURE_AUTHORITY_DATA?.fixtures?.length || 0
+      r16AuthorityFixtures: window.R16_FIXTURE_AUTHORITY_DATA?.fixtures?.length || 0
     };
     const topActiveProjection = [...(window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || [])]
-      .filter((row) => row.matchday === "r16_provisional")
+      .filter((row) => row.matchday === "r16")
       .sort((a, b) => (b.projectedPoints || b.raw_expected_points || 0) - (a.projectedPoints || a.raw_expected_points || 0))[0] || null;
     const overflowingElements = Array.from(document.querySelectorAll("body *"))
       .filter((element) => {
@@ -341,7 +341,7 @@ async function collectPageState(page) {
           activeDataBadgeStyle?.visibility !== "hidden"
         ),
         activeDataBadgeText: activeDataBadge?.textContent?.trim() || "",
-        provisionalR16LabelVisible: /Provisional R16 setup|provisional Round of 16|completed R32 winners/i.test(bodyText),
+        finalR16LabelVisible: /R16 setup|Round of 16|all 16 R32 winners|final R16/i.test(bodyText),
         adviceMatchdaySelected: selectValue("#advice-matchday-select"),
         adviceStyleNote: textFrom("#advice-style-note"),
         quickPickCards: quickPickCards.length,
@@ -443,7 +443,7 @@ async function verifyActiveGlobals(page) {
       FANTASY_POOL_OFFICIAL_DATA_STATUS: Boolean(window.FANTASY_POOL_OFFICIAL_DATA_STATUS?.official_position_records?.length),
       LIVE_MATCHDAY_STATUS_DATA: Boolean(window.LIVE_MATCHDAY_STATUS_DATA?.fixtures?.length),
       LIVE_PLAYER_STATUS_DATA: Boolean(window.LIVE_PLAYER_STATUS_DATA?.players?.length),
-      R16_PROVISIONAL_FIXTURE_AUTHORITY_DATA: Boolean(window.R16_PROVISIONAL_FIXTURE_AUTHORITY_DATA?.fixtures?.length === 8)
+      R16_FIXTURE_AUTHORITY_DATA: Boolean(window.R16_FIXTURE_AUTHORITY_DATA?.fixtures?.length === 8)
     };
     const oldGlobalsPresent = oldGlobals.filter((name) => window[name] !== undefined);
     return {
@@ -574,10 +574,10 @@ async function testMainPage(browser, viewport) {
     homepageLoads: stateBeforeClicks.title.includes("Fantasy"),
     noConsoleOrPageErrors: consoleErrors.length === 0 && pageErrors.length === 0,
     activeDataBadgeVisible: stateBeforeClicks.ui.activeDataBadgeVisible,
-    provisionalR16LabelVisible: stateBeforeClicks.ui.provisionalR16LabelVisible &&
-      /Provisional R16|completed R32 winners|remaining slots conditional/i.test(stateBeforeClicks.ui.activeDataBadgeText + " " + stateBeforeClicks.ui.quickPickText + " " + stateBeforeClicks.ui.matchEnvironmentSummary),
-    scoreModelR16Loaded: activeGlobals.scoreModelVersion === "score-r16-provisional-v1",
-    projectionModelR16Loaded: activeGlobals.projectionModelVersion === "player-projection-r16-provisional-v1",
+    finalR16LabelVisible: stateBeforeClicks.ui.finalR16LabelVisible &&
+      /R16|all 16 R32 winners|final R16/i.test(stateBeforeClicks.ui.activeDataBadgeText + " " + stateBeforeClicks.ui.quickPickText + " " + stateBeforeClicks.ui.matchEnvironmentSummary),
+    scoreModelR16Loaded: activeGlobals.scoreModelVersion === "score-r16-v1",
+    projectionModelR16Loaded: activeGlobals.projectionModelVersion === "player-projection-r16-v1",
     activeOfficialRecordsLoaded: stateBeforeClicks.globals.activeGlobalCounts.officialRecords > 0,
     activeGlobalsPresent: activeGlobals.missingActiveGlobals.length === 0,
     oldGlobalsAbsent: activeGlobals.oldGlobalsPresent.length === 0,
@@ -585,9 +585,9 @@ async function testMainPage(browser, viewport) {
     oldScriptsAbsent: stateBeforeClicks.scripts.loadedLegacyScripts.length === 0,
     picksRender: stateBeforeClicks.ui.quickPickCards > 0 && stateBeforeClicks.ui.quickPickNames.length > 0,
     picksDefaultR16: stateBeforeClicks.ui.adviceMatchdaySelected === activePublicMatchdayId &&
-      /Provisional R16|Round of 16|R16/i.test(`${stateBeforeClicks.ui.quickPickText} ${stateBeforeClicks.ui.adviceStyleNote}`),
+      /R16|Round of 16|R16/i.test(`${stateBeforeClicks.ui.quickPickText} ${stateBeforeClicks.ui.adviceStyleNote}`),
     captainWatchlistRenders: stateBeforeClicks.sections.captainWatchlist && stateBeforeClicks.ui.captainCards > 0,
-    captainWatchlistDefaultR16: /Provisional R16|Round of 16|R16/i.test(stateBeforeClicks.ui.captainCardText),
+    captainWatchlistDefaultR16: /R16|Round of 16|R16/i.test(stateBeforeClicks.ui.captainCardText),
     playerProfileOpens: [quickPickProfile, captainProfile, adviceProfile].some((result) => result.status === "pass" && result.playerProfileOpened),
     playerProfilePracticalR16: [quickPickProfile, captainProfile, adviceProfile].some((result) => result.status === "pass" && result.showsR16Context),
     teamBuilderControlsLoad: stateBeforeClicks.ui.teamBuilderControls.strategyOptions > 0 &&
@@ -600,10 +600,10 @@ async function testMainPage(browser, viewport) {
     matchEnvironmentDefaultR16: stateBeforeClicks.ui.matchEnvironmentControls.selectedMatchday === activePublicMatchdayId &&
       stateBeforeClicks.ui.environmentRows.length > 0,
     knockoutPredictorRenders: stateBeforeClicks.sections.knockoutPredictor &&
-      stateBeforeClicks.ui.knockoutPredictor.fixtureOptions === 6 &&
-      stateBeforeClicks.ui.knockoutPredictor.knownRows === 6 &&
-      /M89|M90|M91|M92|M93|M94/.test(stateBeforeClicks.ui.knockoutPredictor.knownRowsText) &&
-      /Paraguay vs France|USA vs Belgium|Portugal vs Spain/i.test(stateBeforeClicks.ui.knockoutPredictor.knownRowsText) &&
+      stateBeforeClicks.ui.knockoutPredictor.fixtureOptions === 8 &&
+      stateBeforeClicks.ui.knockoutPredictor.knownRows === 8 &&
+      /M89|M90|M91|M92|M93|M94|M95|M96/.test(stateBeforeClicks.ui.knockoutPredictor.knownRowsText) &&
+      /Paraguay vs France|USA vs Belgium|Portugal vs Spain|Argentina vs Egypt|Switzerland vs Colombia/i.test(stateBeforeClicks.ui.knockoutPredictor.knownRowsText) &&
       !/South Africa|Japan|Sweden/i.test(stateBeforeClicks.ui.knockoutPredictor.knownRowsText) &&
       /Projected advancer|advance|Extra time|R16 Fixture/i.test(stateBeforeClicks.ui.knockoutPredictor.resultText),
     knockoutBracketPredictionRenders: stateBeforeClicks.sections.knockoutBracketPrediction &&
@@ -646,7 +646,7 @@ async function testMainPage(browser, viewport) {
     matchEnvironmentAccess: {
       md1: md1MatchEnvironmentAccess,
       md2: md2MatchEnvironmentAccess,
-      r16_provisional: activeMatchEnvironmentAccess
+      r16: activeMatchEnvironmentAccess
     },
     profileClicks: [quickPickProfile, captainProfile, adviceProfile],
     addToBuilder,
@@ -684,7 +684,7 @@ async function testWorldCupPage(browser, viewport) {
     textSample: document.body.innerText.slice(0, 1000),
     hasGroupsOrFixtures: /Group|Fixture|World Cup/i.test(document.body.innerText),
     r32AuthorityFixtureCount: window.R32_FIXTURE_AUTHORITY_DATA?.fixtures?.length || 0,
-    r16AuthorityFixtureCount: window.R16_PROVISIONAL_FIXTURE_AUTHORITY_DATA?.fixtures?.length || 0,
+    r16AuthorityFixtureCount: window.R16_FIXTURE_AUTHORITY_DATA?.fixtures?.length || 0,
     renderedR32CardCount: Array.from(document.querySelectorAll('#bracket .bracket-match[data-bracket-slot^="M"]'))
       .filter((node) => /·\s*R32/i.test(node.textContent || "")).length,
     renderedR16CardCount: Array.from(document.querySelectorAll('#bracket .bracket-match[data-bracket-slot^="M"]'))
@@ -805,12 +805,12 @@ async function main() {
         "#match-environment-table-body tr"
       ],
       current_default_assertions: [
-        "Picks default to r16_provisional",
-        "Captain Watchlist renders provisional R16 context",
-        "Player Profile shows provisional R16 practical context",
-        "Team Builder selected matchday is r16_provisional",
-        "Match Environment selected matchday is r16_provisional and MD1/MD2 remain selectable",
-        "Matchday Desk selected matchday is r16_provisional",
+        "Picks default to r16",
+        "Captain Watchlist renders final R16 context",
+        "Player Profile shows final R16 practical context",
+        "Team Builder selected matchday is r16",
+        "Match Environment selected matchday is r16 and MD1/MD2 remain selectable",
+        "Matchday Desk selected matchday is r16",
         "Knockout predictor renders actual known R16 fixtures with no arbitrary matchup selector",
         "Visual Knockout Bracket Prediction renders summary cards, round columns, flags/fallbacks, model picks, actual labels, and prediction-result badges"
       ],

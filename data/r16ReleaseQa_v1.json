@@ -1,0 +1,36 @@
+{
+  "schema_version": "r16_release_qa_v1",
+  "generated_at": "2026-07-04T12:12:54.861Z",
+  "status": "pass",
+  "public_site_promoted_to_r16": true,
+  "completed_r32_fixtures_used": 16,
+  "incomplete_r32_fixtures": 0,
+  "in_progress_r32_fixtures_excluded": 0,
+  "scheduled_r32_fixtures_pending": 0,
+  "checks": [
+    {
+      "id": "r16_fixture_authority_pass",
+      "status": "pass"
+    },
+    {
+      "id": "r16_role_model_pass",
+      "status": "pass"
+    },
+    {
+      "id": "r16_score_prediction_pass",
+      "status": "pass"
+    },
+    {
+      "id": "r16_projection_pass",
+      "status": "pass"
+    },
+    {
+      "id": "r16_recommendation_pass",
+      "status": "pass"
+    },
+    {
+      "id": "r16_team_builder_pass",
+      "status": "pass"
+    }
+  ]
+}

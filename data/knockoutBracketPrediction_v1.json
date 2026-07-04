@@ -1,7 +1,7 @@
 {
   "schema_version": "knockout_bracket_prediction_v1",
-  "generatedAt": "2026-07-03T20:25:47.216Z",
-  "generated_at": "2026-07-03T20:25:47.216Z",
+  "generatedAt": "2026-07-04T12:10:47.429Z",
+  "generated_at": "2026-07-04T12:10:47.429Z",
   "modelVersion": "knockout-bracket-prediction-v1",
   "model_version": "knockout-bracket-prediction-v1",
   "bracketSource": {
@@ -144,11 +144,11 @@
         "teamId": "argentina"
       }
     ],
-    "decidedKnockoutMatches": 13,
-    "correctWinnerPredictions": 10,
-    "wrongWinnerPredictions": 3,
-    "pendingPredictions": 19,
-    "accuracyPct": 76.9,
+    "decidedKnockoutMatches": 16,
+    "correctWinnerPredictions": 12,
+    "wrongWinnerPredictions": 4,
+    "pendingPredictions": 16,
+    "accuracyPct": 75,
     "flagsMissingFallbackCount": 0
   },
   "matches": [
@@ -1205,7 +1205,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "cabo-verde"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "ARG",
         "name": "Argentina",
@@ -1224,12 +1224,22 @@
       "predictedScoreLabel": "ARG 2-0 CPV",
       "teamAAdvanceProb": 0.9412,
       "teamBAdvanceProb": 0.0588,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Argentina",
+        "team_id": "argentina",
+        "code": "ARG",
+        "flag": "🇦🇷"
+      },
+      "actualLoser": {
+        "team": "Cabo Verde",
+        "team_id": "cabo-verde",
+        "code": "CPV",
+        "flag": "🇨🇻"
+      },
+      "actualScore": "ARG 3-2 CPV",
+      "predictionResult": "correct",
       "modelNote": "Argentina 2.99 xG vs Cabo Verde 0.35 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Toughest pre-final pocket projects as SF against England.",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": 80
@@ -1273,7 +1283,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "ghana"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "COL",
         "name": "Colombia",
@@ -1292,12 +1302,22 @@
       "predictedScoreLabel": "COL 2-0 GHA",
       "teamAAdvanceProb": 0.8828,
       "teamBAdvanceProb": 0.1172,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Colombia",
+        "team_id": "colombia",
+        "code": "COL",
+        "flag": "🇨🇴"
+      },
+      "actualLoser": {
+        "team": "Ghana",
+        "team_id": "ghana",
+        "code": "GHA",
+        "flag": "🇬🇭"
+      },
+      "actualScore": "COL 1-0 GHA",
+      "predictionResult": "correct",
       "modelNote": "Colombia 2.11 xG vs Ghana 0.35 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Toughest pre-final pocket projects as QF against Argentina.",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": 86
@@ -1341,7 +1361,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "egypt"
       },
-      "status": "playing",
+      "status": "final",
       "predictedWinner": {
         "code": "AUS",
         "name": "Australia",
@@ -1360,12 +1380,22 @@
       "predictedScoreLabel": "AUS 1-0 EGY",
       "teamAAdvanceProb": 0.5759,
       "teamBAdvanceProb": 0.4241,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Egypt",
+        "team_id": "egypt",
+        "code": "EGY",
+        "flag": "🇪🇬"
+      },
+      "actualLoser": {
+        "team": "Australia",
+        "team_id": "australia",
+        "code": "AUS",
+        "flag": "🇦🇺"
+      },
+      "actualScore": "AUS 1-1 EGY, 2-4 pens",
+      "predictionResult": "wrong",
       "modelNote": "Australia 1.03 xG vs Egypt 0.77 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Likely R16 path runs through Argentina (94.1% if both sides advance).",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": 81
@@ -1812,8 +1842,18 @@
         "sourceConfidence": "predicted",
         "teamId": "australia"
       },
-      "actualTeamA": null,
-      "actualTeamB": null,
+      "actualTeamA": {
+        "team": "Argentina",
+        "team_id": "argentina",
+        "code": "ARG",
+        "flag": "🇦🇷"
+      },
+      "actualTeamB": {
+        "team": "Egypt",
+        "team_id": "egypt",
+        "code": "EGY",
+        "flag": "🇪🇬"
+      },
       "status": "pending",
       "predictedWinner": {
         "code": "ARG",
@@ -1877,7 +1917,12 @@
         "code": "SUI",
         "flag": "🇨🇭"
       },
-      "actualTeamB": null,
+      "actualTeamB": {
+        "team": "Colombia",
+        "team_id": "colombia",
+        "code": "COL",
+        "flag": "🇨🇴"
+      },
       "status": "pending",
       "predictedWinner": {
         "code": "COL",

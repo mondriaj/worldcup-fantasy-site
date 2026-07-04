@@ -1,6 +1,6 @@
 {
   "schema_version": "world_cup_fixtures_page_live_scores_qa_v1",
-  "generated_at": "2026-07-03T20:55:46.952Z",
+  "generated_at": "2026-07-04T12:15:27.099Z",
   "status": "passed",
   "files": {
     "html": "world-cup.html",
@@ -15,9 +15,9 @@
   "summary": {
     "world_cup_fixture_count": 72,
     "rendered_fixture_rows": 72,
-    "live_fixture_count": 94,
+    "live_fixture_count": 96,
     "group_stage_live_fixture_count": 72,
-    "extra_live_fixture_count": 22,
+    "extra_live_fixture_count": 24,
     "completed_md1_fixture_count": 24,
     "completed_md1_final_scores_visible": 24,
     "completed_md2_fixture_count": 24,
@@ -230,14 +230,6 @@
   ],
   "completed_md3_score_checks": [
     {
-      "match_number": 51,
-      "fixture": "Switzerland vs Canada",
-      "round_id": "3",
-      "expected_score_text": "SUI 2 - 1 CAN",
-      "visible": true,
-      "reversed": false
-    },
-    {
       "match_number": 52,
       "fixture": "Bosnia and Herzegovina vs Qatar",
       "round_id": "3",
@@ -246,10 +238,10 @@
       "reversed": false
     },
     {
-      "match_number": 49,
-      "fixture": "Scotland vs Brazil",
+      "match_number": 51,
+      "fixture": "Switzerland vs Canada",
       "round_id": "3",
-      "expected_score_text": "SCO 0 - 3 BRA",
+      "expected_score_text": "SUI 2 - 1 CAN",
       "visible": true,
       "reversed": false
     },
@@ -258,6 +250,14 @@
       "fixture": "Morocco vs Haiti",
       "round_id": "3",
       "expected_score_text": "MAR 4 - 2 HAI",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 49,
+      "fixture": "Scotland vs Brazil",
+      "round_id": "3",
+      "expected_score_text": "SCO 0 - 3 BRA",
       "visible": true,
       "reversed": false
     },
@@ -278,14 +278,6 @@
       "reversed": false
     },
     {
-      "match_number": 56,
-      "fixture": "Ecuador vs Germany",
-      "round_id": "3",
-      "expected_score_text": "ECU 2 - 1 GER",
-      "visible": true,
-      "reversed": false
-    },
-    {
       "match_number": 55,
       "fixture": "Curaçao vs Côte d'Ivoire",
       "round_id": "3",
@@ -294,10 +286,10 @@
       "reversed": false
     },
     {
-      "match_number": 57,
-      "fixture": "Japan vs Sweden",
+      "match_number": 56,
+      "fixture": "Ecuador vs Germany",
       "round_id": "3",
-      "expected_score_text": "JPN 1 - 1 SWE",
+      "expected_score_text": "ECU 2 - 1 GER",
       "visible": true,
       "reversed": false
     },
@@ -306,6 +298,14 @@
       "fixture": "Tunisia vs Netherlands",
       "round_id": "3",
       "expected_score_text": "TUN 1 - 3 NED",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 57,
+      "fixture": "Japan vs Sweden",
+      "round_id": "3",
+      "expected_score_text": "JPN 1 - 1 SWE",
       "visible": true,
       "reversed": false
     },
@@ -342,14 +342,6 @@
       "reversed": false
     },
     {
-      "match_number": 66,
-      "fixture": "Uruguay vs Spain",
-      "round_id": "3",
-      "expected_score_text": "URU 0 - 1 ESP",
-      "visible": true,
-      "reversed": false
-    },
-    {
       "match_number": 65,
       "fixture": "Cabo Verde vs Saudi Arabia",
       "round_id": "3",
@@ -358,10 +350,10 @@
       "reversed": false
     },
     {
-      "match_number": 63,
-      "fixture": "Egypt vs IR Iran",
+      "match_number": 66,
+      "fixture": "Uruguay vs Spain",
       "round_id": "3",
-      "expected_score_text": "EGY 1 - 1 IRN",
+      "expected_score_text": "URU 0 - 1 ESP",
       "visible": true,
       "reversed": false
     },
@@ -370,6 +362,14 @@
       "fixture": "New Zealand vs Belgium",
       "round_id": "3",
       "expected_score_text": "NZL 1 - 5 BEL",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 63,
+      "fixture": "Egypt vs IR Iran",
+      "round_id": "3",
+      "expected_score_text": "EGY 1 - 1 IRN",
       "visible": true,
       "reversed": false
     },

@@ -1,6 +1,6 @@
 {
   "schema_version": "world_cup_r32_fixtures_page_qa_v1",
-  "generated_at": "2026-07-03T20:55:46.926Z",
+  "generated_at": "2026-07-04T12:12:32.815Z",
   "status": "pass",
   "authority_fixture_count": 16,
   "world_cup_group_fixture_count": 72,
@@ -44,8 +44,8 @@
       "id": "page_loads_authority_before_renderer",
       "status": "pass",
       "detail": {
-        "r32ScriptIndex": 7257,
-        "pageScriptIndex": 7432
+        "r32ScriptIndex": 7139,
+        "pageScriptIndex": 7291
       }
     },
     {

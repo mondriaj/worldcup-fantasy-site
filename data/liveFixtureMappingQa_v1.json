@@ -1,43 +1,43 @@
 {
   "schema_version": "live_fixture_mapping_qa_v1",
-  "generated_at": "2026-07-03T20:51:27.662Z",
+  "generated_at": "2026-07-04T12:15:27.099Z",
   "status": "passed",
   "files": {
     "localFixtures": "data/fixtures.json",
     "r32FixtureAuthority": "data/r32FixtureAuthority_v1.json",
-    "r16FixtureAuthority": "data/r16ProvisionalFixtureAuthority_v1.json",
+    "r16FixtureAuthority": "data/r16FixtureAuthority_v1.json",
     "liveMatchday": "data/liveMatchdayStatus_v1.json",
     "livePlayers": "data/livePlayerStatus_v1.json",
     "r32ScorePredictions": "data/scorePredictions_fantasyPool_r32_v1.json",
-    "r16ScorePredictions": "data/scorePredictions_fantasyPool_r16_provisional_v1.json",
+    "r16ScorePredictions": "data/scorePredictions_fantasyPool_r16_v1.json",
     "script": "script.js",
     "worldCupPage": "worldCupPage.js",
     "qaJson": "data/liveFixtureMappingQa_v1.json",
     "qaReport": "data/liveFixtureMappingQaReport_v1.md"
   },
   "summary": {
-    "total_local_fixtures": 94,
+    "total_local_fixtures": 96,
     "group_stage_local_fixtures": 72,
     "r32_authority_fixtures": 16,
-    "r16_authority_fixtures": 6,
-    "total_live_fixtures": 94,
+    "r16_authority_fixtures": 8,
+    "total_live_fixtures": 96,
     "group_stage_live_fixtures": 72,
-    "extra_live_fixtures": 22,
+    "extra_live_fixtures": 24,
     "total_score_prediction_fixtures": 96,
     "r32_score_prediction_fixtures": 88,
     "r16_score_prediction_fixtures": 8,
-    "matched_fixtures": 94,
-    "final_fixtures_shown": 85,
-    "in_progress_fixtures_suppressed": 1,
+    "matched_fixtures": 96,
+    "final_fixtures_shown": 88,
+    "in_progress_fixtures_suppressed": 0,
     "scheduled_fixtures": 8,
     "unmatched_fixtures": 0,
     "ambiguous_fixtures": 0,
     "reversed_mappings": 0,
     "mapping_status_counts": {
-      "matched": 94
+      "matched": 96
     },
     "mapping_orientation_counts": {
-      "direct": 94
+      "direct": 96
     },
     "unsafe_fixture_player_point_leak_count": 0
   },

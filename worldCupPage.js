@@ -2,7 +2,7 @@
   const data = window.WORLD_CUP_DATA || {};
   const liveData = window.LIVE_MATCHDAY_STATUS_DATA || {};
   const r32Authority = window.R32_FIXTURE_AUTHORITY_DATA || {};
-  const r16Authority = window.R16_PROVISIONAL_FIXTURE_AUTHORITY_DATA || {};
+  const r16Authority = window.R16_FIXTURE_AUTHORITY_DATA || {};
   const liveFixtures = Array.isArray(liveData.fixtures) ? liveData.fixtures : [];
   const r32AuthorityFixtures = Array.isArray(r32Authority.fixtures) ? r32Authority.fixtures : [];
   const r16AuthorityFixtures = Array.isArray(r16Authority.fixtures) ? r16Authority.fixtures : [];
@@ -446,7 +446,7 @@
 
     if (bracketNote) {
       bracketNote.textContent = r32AuthorityFixtures.length
-        ? "Round of 32 teams are shown from the locked R32 fixture authority; known Round of 16 slots use the provisional R16 authority. Feed source IDs are metadata, not bracket match numbers."
+        ? "Round of 32 teams are shown from the locked R32 fixture authority; known Round of 16 slots use the final R16 authority. Feed source IDs are metadata, not bracket match numbers."
         : data.bracket?.note || "";
     }
 

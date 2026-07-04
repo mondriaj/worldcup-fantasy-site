@@ -1,0 +1,205 @@
+{
+  "schema_version": "team_builder_qa_r16_v1",
+  "generated_at": "2026-07-04T12:12:54.861Z",
+  "model_version": "team-builder-r16-v1",
+  "status": "pass",
+  "summary": {
+    "projection_rows": 406,
+    "recommendation_rows": 125,
+    "by_position": {
+      "DEF": 126,
+      "FWD": 74,
+      "GK": 49,
+      "MID": 157
+    },
+    "defaultMatchday": "r16",
+    "balanced_projected_points": 81.56,
+    "greedy_projected_points": 81.56,
+    "known_qualified_teams_preferred": true,
+    "eliminated_and_unavailable_excluded": true
+  },
+  "balanced_sample": [
+    {
+      "name": "Lionel Messi",
+      "country": "Argentina",
+      "position": "FWD",
+      "points": 5.852
+    },
+    {
+      "name": "Facundo Medina",
+      "country": "Argentina",
+      "position": "DEF",
+      "points": 5.898
+    },
+    {
+      "name": "Lisandro Martínez",
+      "country": "Argentina",
+      "position": "DEF",
+      "points": 5.79
+    },
+    {
+      "name": "Ezri Konsa",
+      "country": "England",
+      "position": "DEF",
+      "points": 5.687
+    },
+    {
+      "name": "Dayot Upamecano",
+      "country": "France",
+      "position": "DEF",
+      "points": 5.668
+    },
+    {
+      "name": "Jules Koundé",
+      "country": "France",
+      "position": "DEF",
+      "points": 5.551
+    },
+    {
+      "name": "Lautaro Martínez",
+      "country": "Argentina",
+      "position": "FWD",
+      "points": 5.463
+    },
+    {
+      "name": "Kylian Mbappé",
+      "country": "France",
+      "position": "FWD",
+      "points": 5.405
+    },
+    {
+      "name": "Emiliano Martínez",
+      "country": "Argentina",
+      "position": "GK",
+      "points": 5.325
+    },
+    {
+      "name": "Mike Maignan",
+      "country": "France",
+      "position": "GK",
+      "points": 5.319
+    },
+    {
+      "name": "Marc Cucurella",
+      "country": "Spain",
+      "position": "DEF",
+      "points": 5.195
+    },
+    {
+      "name": "Cristian Romero",
+      "country": "Argentina",
+      "position": "DEF",
+      "points": 5.195
+    },
+    {
+      "name": "Aymeric Laporte",
+      "country": "Spain",
+      "position": "DEF",
+      "points": 5.182
+    },
+    {
+      "name": "Jordan Pickford",
+      "country": "England",
+      "position": "GK",
+      "points": 5.077
+    },
+    {
+      "name": "Alexis Mac Allister",
+      "country": "Argentina",
+      "position": "MID",
+      "points": 4.955
+    }
+  ],
+  "greedy_sample": [
+    {
+      "name": "Facundo Medina",
+      "country": "Argentina",
+      "position": "DEF",
+      "points": 5.898
+    },
+    {
+      "name": "Lionel Messi",
+      "country": "Argentina",
+      "position": "FWD",
+      "points": 5.852
+    },
+    {
+      "name": "Lisandro Martínez",
+      "country": "Argentina",
+      "position": "DEF",
+      "points": 5.79
+    },
+    {
+      "name": "Ezri Konsa",
+      "country": "England",
+      "position": "DEF",
+      "points": 5.687
+    },
+    {
+      "name": "Dayot Upamecano",
+      "country": "France",
+      "position": "DEF",
+      "points": 5.668
+    },
+    {
+      "name": "Jules Koundé",
+      "country": "France",
+      "position": "DEF",
+      "points": 5.551
+    },
+    {
+      "name": "Lautaro Martínez",
+      "country": "Argentina",
+      "position": "FWD",
+      "points": 5.463
+    },
+    {
+      "name": "Kylian Mbappé",
+      "country": "France",
+      "position": "FWD",
+      "points": 5.405
+    },
+    {
+      "name": "Emiliano Martínez",
+      "country": "Argentina",
+      "position": "GK",
+      "points": 5.325
+    },
+    {
+      "name": "Mike Maignan",
+      "country": "France",
+      "position": "GK",
+      "points": 5.319
+    },
+    {
+      "name": "Marc Cucurella",
+      "country": "Spain",
+      "position": "DEF",
+      "points": 5.195
+    },
+    {
+      "name": "Cristian Romero",
+      "country": "Argentina",
+      "position": "DEF",
+      "points": 5.195
+    },
+    {
+      "name": "Aymeric Laporte",
+      "country": "Spain",
+      "position": "DEF",
+      "points": 5.182
+    },
+    {
+      "name": "Jordan Pickford",
+      "country": "England",
+      "position": "GK",
+      "points": 5.077
+    },
+    {
+      "name": "Alexis Mac Allister",
+      "country": "Argentina",
+      "position": "MID",
+      "points": 4.955
+    }
+  ]
+}

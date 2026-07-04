@@ -1,16 +1,16 @@
 # Official Fantasy Round Status Refresh v1
 
-Generated: 2026-07-03T20:19:53.192Z
+Generated: 2026-07-04T11:59:06.012Z
 
 ## Source
 
-- https://play.fifa.com/json/fantasy/rounds.json (200, Last-Modified Fri, 03 Jul 2026 20:19:04 GMT)
+- https://play.fifa.com/json/fantasy/rounds.json (200, Last-Modified Sat, 04 Jul 2026 11:01:04 GMT)
 
 ## Changes
 
 | Matchday | Field | Before | After |
 | --- | --- | --- | --- |
-| 4 | round_status | scheduled | playing |
+| 4 | round_status | playing | complete |
 
 ## Safeguards
 

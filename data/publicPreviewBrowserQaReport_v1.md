@@ -1,12 +1,12 @@
 # Public Preview Browser QA Report v1
 
-Generated: 2026-07-03T22:11:49.490Z
+Generated: 2026-07-04T12:16:25.999Z
 
 ## Verdict
 
-**pass - safe_to_share_r16_provisional_public_preview**
+**pass - safe_to_share_r16_public_preview**
 
-The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. Provisional R16 is the public default, R32 and MD1/MD2/MD3 remain accessible as historical views, live completed scores are shown only through the safe mapping path, all group-stage fixtures are final, and old public globals are absent.
+The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. R16 is the public default, R32 and MD1/MD2/MD3 remain accessible as historical views, live completed scores are shown only through the safe mapping path, all group-stage fixtures are final, and old public globals are absent.
 
 ## Run Context
 
@@ -23,8 +23,8 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 
 | Check | Result |
 | --- | --- |
-| Picks default to provisional R16 | pass |
-| Provisional R16 label visible | pass |
+| Picks default to final R16 | pass |
+| Final R16 label visible | pass |
 | Captain Watchlist opens on R16 | pass |
 | Match Environment opens on R16 | pass |
 | MD1 remains accessible | pass |
@@ -45,13 +45,13 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | --- | --- |
 | Players sample | 100 |
 | Recommendation candidates | 250 |
-| Projection rows | 1119 |
-| R16 projection rows | 303 |
+| Projection rows | 1222 |
+| R16 projection rows | 406 |
 | R32 projection rows | 816 |
 | Bracket prediction matches | 32 |
 | Score fixtures | 96 |
 | Official records | 1489 |
-| Live fixtures | 94 |
+| Live fixtures | 96 |
 | Live players | 1489 |
 
 ## Console, Network, And Layout
@@ -84,7 +84,7 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 
 ## Remaining Limits
 
-- Browser QA confirms the public provisional R16 data path, knockout predictor, and live display plumbing.
+- Browser QA confirms the public final R16 data path, knockout predictor, and live display plumbing.
 - Final squads remain not source-backed.
 - Team Builder remains planning help and must be checked inside the official FIFA game.
 - User-specific locks, substitutions, captain state, and boosters are not imported.

@@ -1,0 +1,11 @@
+{
+  "schema_version": "r16_fixture_authority_qa_v1",
+  "generated_at": "2026-07-04T12:13:25.552Z",
+  "status": "pass",
+  "summary": {
+    "fixture_count": 8,
+    "completed_r32_fixtures_used": 16,
+    "incomplete_r32_fixtures": 0
+  },
+  "errors": []
+}

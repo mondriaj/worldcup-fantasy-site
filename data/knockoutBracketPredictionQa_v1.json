@@ -1,6 +1,6 @@
 {
   "schema_version": "knockout_bracket_prediction_qa_v1",
-  "generated_at": "2026-07-03T20:51:27.870Z",
+  "generated_at": "2026-07-04T12:13:25.548Z",
   "status": "pass",
   "source_files": {
     "bracketPrediction": "data/knockoutBracketPrediction_v1.json",
@@ -23,9 +23,9 @@
     "third_place": 1
   },
   "result_counts": {
-    "correct": 10,
-    "wrong": 3,
-    "pending": 19
+    "correct": 12,
+    "wrong": 4,
+    "pending": 16
   },
   "summary": {
     "predictedChampion": "Argentina",
@@ -39,11 +39,11 @@
       "England",
       "Argentina"
     ],
-    "decidedKnockoutMatches": 13,
-    "correctWinnerPredictions": 10,
-    "wrongWinnerPredictions": 3,
-    "pendingPredictions": 19,
-    "accuracyPct": 76.9,
+    "decidedKnockoutMatches": 16,
+    "correctWinnerPredictions": 12,
+    "wrongWinnerPredictions": 4,
+    "pendingPredictions": 16,
+    "accuracyPct": 75,
     "flagsMissingFallbackCount": 0
   },
   "checks": [

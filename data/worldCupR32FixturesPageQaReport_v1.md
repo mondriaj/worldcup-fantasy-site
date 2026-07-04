@@ -1,6 +1,6 @@
 # World Cup R32 Fixtures Page QA v1
 
-Generated: 2026-07-03T20:55:46.926Z
+Generated: 2026-07-04T12:12:32.815Z
 
 Status: **PASS**
 
@@ -13,7 +13,7 @@ Status: **PASS**
 | no_duplicate_r32_slots | pass |  |
 | no_duplicate_r32_teams | pass |  |
 | no_known_r32_tbd_teams | pass |  |
-| page_loads_authority_before_renderer | pass | {"r32ScriptIndex":7257,"pageScriptIndex":7432} |
+| page_loads_authority_before_renderer | pass | {"r32ScriptIndex":7139,"pageScriptIndex":7291} |
 | page_renderer_reads_authority_global | pass |  |
 | page_renderer_distinguishes_source_fixture_id | pass |  |
 | france_slot_and_r16_path_correct | pass | {"bracket_match_number":77,"bracket_slot_id":"M77","source_fixture_id":"79","source_fixture_order":79,"source_fixture_id_is_bracket_match_number":false,"source_fixture_id_role":"feed_source_id_only_not_bracket_slot","round":"R32","stage":"round_of_32","fixture_id":"fwc2026-m077","status":"scheduled","kickoff":{"source_datetime":"2026-06-30T22:00:00+01:00","eastern_datetime_label":"Jun 30, 2026 · 5:00 PM ET"},"venue":{"name":"Metlife Stadium","city":"East Rutherford, New Jersey"},"team_a":{"team":"France","team_id":"france","code":"FRA","flag":"🇫🇷"},"team_b":{"team":"Sweden","team_id":"sweden","code":"SWE","flag":"🇸🇪"},"winner_advances_to":{"round":"R16","bracket_match_number":89,"bracket_slot_id":"M89","path":"Winner Match 74 v Winner Match 77"},"bracket_quarter":"winner_m97","bracket_half":"winner_m101","final_path":"winner_m104","bracket_path":"Group I winner v third-place team from Group C/D/F/G/H","derived_from":{"mapping_basis":"group_rank_bracket_path","mapping_status":"mapped_by_group_rank_path","group_rank_path":"Group I winner v third-place team from Group C/D/F/G/H","team_a_group_rank":{"group":"I","rank":1,"points":9,"goal_difference":8},"team_b_group_rank":{"group":"F","rank":3,"points":4,"goal_difference":0},"candidate_match_ids":["77"]},"source_confidence":"locked_group_rank_bracket_slot"} |

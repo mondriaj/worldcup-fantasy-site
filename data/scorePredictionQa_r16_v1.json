@@ -1,0 +1,16 @@
+{
+  "schema_version": "score_prediction_qa_r16_v1",
+  "generated_at": "2026-07-04T12:12:54.861Z",
+  "status": "pass",
+  "summary": {
+    "fixture_prediction_count": 8,
+    "final_known_fixture_predictions": 8,
+    "partial_or_pending_fixture_rows": 0,
+    "defaultMatchday": "r16",
+    "ownershipUsedAsSignal": false,
+    "finalSquadsSourceBacked": false,
+    "completedR32FixturesUsed": 16,
+    "incompleteR32Fixtures": 0
+  },
+  "pending_or_conditional_fixtures": []
+}

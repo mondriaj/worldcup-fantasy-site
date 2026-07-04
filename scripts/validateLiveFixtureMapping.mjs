@@ -7,11 +7,11 @@ const CHECKED_AT = new Date().toISOString();
 const FILES = {
   localFixtures: "data/fixtures.json",
   r32FixtureAuthority: "data/r32FixtureAuthority_v1.json",
-  r16FixtureAuthority: "data/r16ProvisionalFixtureAuthority_v1.json",
+  r16FixtureAuthority: "data/r16FixtureAuthority_v1.json",
   liveMatchday: "data/liveMatchdayStatus_v1.json",
   livePlayers: "data/livePlayerStatus_v1.json",
   r32ScorePredictions: "data/scorePredictions_fantasyPool_r32_v1.json",
-  r16ScorePredictions: "data/scorePredictions_fantasyPool_r16_provisional_v1.json",
+  r16ScorePredictions: "data/scorePredictions_fantasyPool_r16_v1.json",
   script: "script.js",
   worldCupPage: "worldCupPage.js",
   qaJson: "data/liveFixtureMappingQa_v1.json",
@@ -426,7 +426,7 @@ async function main() {
     .filter(Boolean);
   const r16Fixtures = rowsFromJson(r16AuthorityData, ["fixtures"])
     .filter((fixture) => fixture.classification === "final_known" || fixture.status === "final_known")
-    .map((fixture) => fixtureRowFromAuthority(fixture, "r16_provisional_fixture_authority"))
+    .map((fixture) => fixtureRowFromAuthority(fixture, "r16_fixture_authority"))
     .filter(Boolean);
   const localFixtures = [...groupStageFixtures, ...r32Fixtures, ...r16Fixtures];
   const liveFixtures = rowsFromJson(liveMatchdayData, ["fixtures"]);
@@ -460,8 +460,8 @@ async function main() {
     errors.push(`Expected 16 R32 authority fixtures, found ${r32Fixtures.length}`);
   }
 
-  if (r16Fixtures.length !== 6) {
-    errors.push(`Expected 6 final-known R16 authority fixtures, found ${r16Fixtures.length}`);
+  if (r16Fixtures.length !== 8) {
+    errors.push(`Expected 8 final-known R16 authority fixtures, found ${r16Fixtures.length}`);
   }
 
   if (groupStageLiveFixtures.length !== 72) {
@@ -473,7 +473,7 @@ async function main() {
   }
 
   if (r16ScorePredictions.length !== 8) {
-    errors.push(`Expected 8 provisional R16 score prediction fixtures, found ${r16ScorePredictions.length}`);
+    errors.push(`Expected 8 final R16 score prediction fixtures, found ${r16ScorePredictions.length}`);
   }
 
   if (liveFixtures.some((fixture) => Object.prototype.hasOwnProperty.call(fixture, "fixture_id"))) {

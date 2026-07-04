@@ -1,7 +1,7 @@
 {
   "schema_version": "active_fantasy_data_flow_qa_v1",
-  "generated_at": "2026-07-03T20:51:27.519Z",
-  "active_version": "20260703-r16-provisional",
+  "generated_at": "2026-07-04T12:16:13.914Z",
+  "active_version": "20260704-r16-final",
   "status": "pass",
   "checks": [
     {
@@ -15,12 +15,11 @@
           "fantasyPoolMatchdayProjectionsData.js",
           "fantasyPoolFinanceMetricsData.js",
           "fantasyPoolScorePredictionsData.js",
-          "knockoutScorePredictorData.js",
-          "bracketPoolStrategyData.js",
+          "knockoutBracketPredictionData.js",
           "fantasyPoolOfficialDataStatusData.js",
           "liveMatchdayStatusData.js",
           "livePlayerStatusData.js",
-          "r16ProvisionalFixtureAuthorityData.js",
+          "r16FixtureAuthorityData.js",
           "script.js"
         ],
         "actual_relevant_order": [
@@ -30,12 +29,11 @@
           "fantasyPoolMatchdayProjectionsData.js",
           "fantasyPoolFinanceMetricsData.js",
           "fantasyPoolScorePredictionsData.js",
-          "knockoutScorePredictorData.js",
-          "bracketPoolStrategyData.js",
+          "knockoutBracketPredictionData.js",
           "fantasyPoolOfficialDataStatusData.js",
           "liveMatchdayStatusData.js",
           "livePlayerStatusData.js",
-          "r16ProvisionalFixtureAuthorityData.js",
+          "r16FixtureAuthorityData.js",
           "script.js"
         ],
         "loaded_legacy_files": [],
@@ -114,14 +112,14 @@
       "status": "pass",
       "detail": {
         "recommendation_rows": 250,
-        "projection_rows": 1119,
+        "projection_rows": 1222,
         "finance_rows": 1233,
         "score_fixture_rows": 96,
-        "score_team_fixture_rows": 188,
-        "bracket_pool_strategy_count": 5,
-        "bracket_pool_team_metric_count": 32,
+        "score_team_fixture_rows": 192,
+        "knockout_bracket_prediction_match_count": 32,
+        "knockout_bracket_prediction_round_count": 6,
         "official_position_records": 1489,
-        "live_fixture_rows": 94,
+        "live_fixture_rows": 96,
         "live_player_rows": 1489,
         "r16_authority_fixture_rows": 8
       }
@@ -158,10 +156,10 @@
         "missing_official_fantasy_player_id_count": 0,
         "duplicate_official_fantasy_player_id_count": 0,
         "selectable_position_counts": {
-          "GK": 145,
-          "DEF": 408,
-          "MID": 418,
-          "FWD": 269
+          "GK": 49,
+          "DEF": 130,
+          "MID": 161,
+          "FWD": 74
         }
       }
     },
@@ -178,8 +176,8 @@
       "id": "fantasy_pool_projection_identity_coverage",
       "status": "pass",
       "detail": {
-        "resolved": 1119,
-        "total": 1119,
+        "resolved": 1222,
+        "total": 1222,
         "missing": 0,
         "unique_active_official_players": 816
       }
@@ -220,18 +218,18 @@
       "id": "active_matchday_recommendation_identity_and_projection_coverage",
       "status": "pass",
       "detail": {
-        "active_matchday_id": "r16_provisional",
-        "active_matchday_label": "Provisional R16",
+        "active_matchday_id": "r16",
+        "active_matchday_label": "R16",
         "active_recommendation_rows": 125,
-        "active_projection_rows": 303,
+        "active_projection_rows": 406,
         "active_score_fixture_rows": 8,
         "active_recommendations_resolving_active_identity_count": 125,
         "active_recommendations_missing_active_identity_count": 0,
         "active_projections_missing_active_identity_count": 0,
         "finance_missing_active_identity_count": 0,
         "recommendation_projection_missing_count": 0,
-        "active_recommendations_missing_players_data_enrichment_count": 94,
-        "active_projections_missing_players_data_enrichment_count": 266,
+        "active_recommendations_missing_players_data_enrichment_count": 110,
+        "active_projections_missing_players_data_enrichment_count": 360,
         "finance_missing_players_data_enrichment_count": 1122,
         "players_data_role": "supplemental_enrichment_only",
         "duplicate_score_fixture_key_count": 0,
@@ -257,12 +255,12 @@
       "id": "team_builder_minimum_data",
       "status": "pass",
       "detail": {
-        "selectable_official_records": 1240,
+        "selectable_official_records": 414,
         "selectable_position_counts": {
-          "GK": 145,
-          "DEF": 408,
-          "MID": 418,
-          "FWD": 269
+          "GK": 49,
+          "DEF": 130,
+          "MID": 161,
+          "FWD": 74
         },
         "required_positions": {
           "GK": 2,
@@ -286,12 +284,11 @@
       "fantasyPoolMatchdayProjectionsData.js",
       "fantasyPoolFinanceMetricsData.js",
       "fantasyPoolScorePredictionsData.js",
-      "knockoutScorePredictorData.js",
-      "bracketPoolStrategyData.js",
+      "knockoutBracketPredictionData.js",
       "fantasyPoolOfficialDataStatusData.js",
       "liveMatchdayStatusData.js",
       "livePlayerStatusData.js",
-      "r16ProvisionalFixtureAuthorityData.js",
+      "r16FixtureAuthorityData.js",
       "script.js"
     ],
     "actual_relevant_order": [
@@ -301,12 +298,11 @@
       "fantasyPoolMatchdayProjectionsData.js",
       "fantasyPoolFinanceMetricsData.js",
       "fantasyPoolScorePredictionsData.js",
-      "knockoutScorePredictorData.js",
-      "bracketPoolStrategyData.js",
+      "knockoutBracketPredictionData.js",
       "fantasyPoolOfficialDataStatusData.js",
       "liveMatchdayStatusData.js",
       "livePlayerStatusData.js",
-      "r16ProvisionalFixtureAuthorityData.js",
+      "r16FixtureAuthorityData.js",
       "script.js"
     ],
     "loaded_legacy_files": [],
@@ -317,14 +313,14 @@
   },
   "active_counts": {
     "recommendation_rows": 250,
-    "projection_rows": 1119,
+    "projection_rows": 1222,
     "finance_rows": 1233,
     "score_fixture_rows": 96,
-    "score_team_fixture_rows": 188,
-    "bracket_pool_strategy_count": 5,
-    "bracket_pool_team_metric_count": 32,
+    "score_team_fixture_rows": 192,
+    "knockout_bracket_prediction_match_count": 32,
+    "knockout_bracket_prediction_round_count": 6,
     "official_position_records": 1489,
-    "live_fixture_rows": 94,
+    "live_fixture_rows": 96,
     "live_player_rows": 1489,
     "r16_authority_fixture_rows": 8
   },
@@ -390,12 +386,12 @@
     "missing_official_fantasy_player_id_count": 0,
     "duplicate_official_fantasy_player_id_count": 0,
     "duplicate_official_fantasy_player_ids": [],
-    "selectable_official_records": 1240,
+    "selectable_official_records": 414,
     "selectable_position_counts": {
-      "GK": 145,
-      "DEF": 408,
-      "MID": 418,
-      "FWD": 269
+      "GK": 49,
+      "DEF": 130,
+      "MID": 161,
+      "FWD": 74
     },
     "recommendation_identity_coverage": {
       "resolved": 250,
@@ -403,8 +399,8 @@
       "missing": 0
     },
     "projection_identity_coverage": {
-      "resolved": 1119,
-      "total": 1119,
+      "resolved": 1222,
+      "total": 1222,
       "missing": 0,
       "unique_active_official_players": 816
     },
@@ -438,30 +434,30 @@
     "coverage_percent": 8.06
   },
   "active_matchday_consistency": {
-    "active_matchday_id": "r16_provisional",
-    "active_matchday_label": "Provisional R16",
+    "active_matchday_id": "r16",
+    "active_matchday_label": "R16",
     "active_recommendation_rows": 125,
-    "active_projection_rows": 303,
+    "active_projection_rows": 406,
     "active_score_fixture_rows": 8,
     "active_recommendations_resolving_active_identity_count": 125,
     "active_recommendations_missing_active_identity_count": 0,
     "active_projections_missing_active_identity_count": 0,
     "finance_missing_active_identity_count": 0,
     "recommendation_projection_missing_count": 0,
-    "active_recommendations_missing_players_data_enrichment_count": 94,
-    "active_projections_missing_players_data_enrichment_count": 266,
+    "active_recommendations_missing_players_data_enrichment_count": 110,
+    "active_projections_missing_players_data_enrichment_count": 360,
     "finance_missing_players_data_enrichment_count": 1122,
     "players_data_role": "supplemental_enrichment_only",
     "duplicate_score_fixture_key_count": 0,
     "invalid_numeric_value_count": 0
   },
   "team_builder_minimum_data": {
-    "selectable_official_records": 1240,
+    "selectable_official_records": 414,
     "selectable_position_counts": {
-      "GK": 145,
-      "DEF": 408,
-      "MID": 418,
-      "FWD": 269
+      "GK": 49,
+      "DEF": 130,
+      "MID": 161,
+      "FWD": 74
     },
     "required_positions": {
       "GK": 2,

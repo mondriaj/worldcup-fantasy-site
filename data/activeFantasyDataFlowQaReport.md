@@ -1,8 +1,8 @@
-# Active Provisional R16 Data Flow QA Report
+# Active Final R16 Data Flow QA Report
 
-Generated: 2026-07-03T20:51:27.519Z
+Generated: 2026-07-04T12:16:13.914Z
 Status: **PASS**
-Active version: `20260703-r16-provisional`
+Active version: `20260704-r16-final`
 
 ## Summary
 
@@ -23,10 +23,10 @@ Active version: `20260703-r16-provisional`
 - active official fantasy players: 1489
 - missing official fantasy player IDs: 0
 - duplicate official fantasy player IDs: 0
-- selectable official records: 1240
-- selectable by position: GK 145, DEF 408, MID 418, FWD 269
+- selectable official records: 414
+- selectable by position: GK 49, DEF 130, MID 161, FWD 74
 - recommendation identity coverage: 250 / 250 resolved
-- projection identity coverage: 1119 / 1119 resolved
+- projection identity coverage: 1222 / 1222 resolved
 - finance identity coverage: 1233 / 1233 resolved
 - projection/finance active ID alignment: 0 projection-only, 417 finance-only
 
@@ -44,15 +44,15 @@ Active version: `20260703-r16-provisional`
 - stale cache strings absent: pass
 - public fallback references absent: pass
 
-## Provisional R16 Gate
+## R16 Gate
 
-- Provisional R16 recommendations: 125
-- Provisional R16 recommendation active identity coverage: 125 / 125
-- Provisional R16 recommendation projection misses: 0
-- Provisional R16 projections: 303
-- Provisional R16 score fixtures: 8
-- playersData.js Provisional R16 recommendation enrichment misses: 94
-- playersData.js Provisional R16 projection enrichment misses: 266
+- R16 recommendations: 125
+- R16 recommendation active identity coverage: 125 / 125
+- R16 recommendation projection misses: 0
+- R16 projections: 406
+- R16 score fixtures: 8
+- playersData.js R16 recommendation enrichment misses: 110
+- playersData.js R16 projection enrichment misses: 360
 - playersData.js finance enrichment misses: 1122
 
 ## Checks
@@ -90,12 +90,11 @@ fantasyPoolRecommendationsData.js
 fantasyPoolMatchdayProjectionsData.js
 fantasyPoolFinanceMetricsData.js
 fantasyPoolScorePredictionsData.js
-knockoutScorePredictorData.js
-bracketPoolStrategyData.js
+knockoutBracketPredictionData.js
 fantasyPoolOfficialDataStatusData.js
 liveMatchdayStatusData.js
 livePlayerStatusData.js
-r16ProvisionalFixtureAuthorityData.js
+r16FixtureAuthorityData.js
 script.js
 ```
 

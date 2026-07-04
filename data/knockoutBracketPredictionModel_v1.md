@@ -1,6 +1,6 @@
 # Knockout Bracket Prediction Model v1
 
-Generated: 2026-07-03T20:25:47.216Z
+Generated: 2026-07-04T12:10:47.429Z
 
 Status: **FINAL**
 
@@ -25,11 +25,11 @@ No ownership signal is used. Final squads are not source-backed.
 | Predicted champion | Argentina |
 | Predicted finalists | Spain, Argentina |
 | Predicted semifinalists | France, Spain, England, Argentina |
-| Decided knockout matches | 13 |
-| Correct predictions | 10 |
-| Wrong predictions | 3 |
-| Pending predictions | 19 |
-| Accuracy | 76.9% |
+| Decided knockout matches | 16 |
+| Correct predictions | 12 |
+| Wrong predictions | 4 |
+| Pending predictions | 16 |
+| Accuracy | 75% |
 | Flags missing with no code fallback | 0 |
 
 ## Round Counts

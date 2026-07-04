@@ -7,9 +7,9 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 
-const ACTIVE_VERSION = "20260703-r16-provisional";
-const ACTIVE_MATCHDAY_ID = "r16_provisional";
-const ACTIVE_MATCHDAY_LABEL = "Provisional R16";
+const ACTIVE_VERSION = "20260704-r16-final";
+const ACTIVE_MATCHDAY_ID = "r16";
+const ACTIVE_MATCHDAY_LABEL = "R16";
 const REQUIRED_SCRIPT_ORDER = [
   "playersData.js",
   "fantasyRulesData.js",
@@ -17,12 +17,11 @@ const REQUIRED_SCRIPT_ORDER = [
   "fantasyPoolMatchdayProjectionsData.js",
   "fantasyPoolFinanceMetricsData.js",
   "fantasyPoolScorePredictionsData.js",
-  "knockoutScorePredictorData.js",
-  "bracketPoolStrategyData.js",
+  "knockoutBracketPredictionData.js",
   "fantasyPoolOfficialDataStatusData.js",
   "liveMatchdayStatusData.js",
   "livePlayerStatusData.js",
-  "r16ProvisionalFixtureAuthorityData.js",
+  "r16FixtureAuthorityData.js",
   "script.js"
 ];
 const ACTIVE_BROWSER_DATA_FILES = REQUIRED_SCRIPT_ORDER.filter((file) => file !== "script.js");
@@ -390,7 +389,7 @@ function verifyPublicScripts(report, indexHtml, scriptJs) {
   }
 
   if (!isRequiredOrderValid) {
-    addFailure(report, "required_scripts_order", "Required active browser scripts are not loaded in the provisional R16 active-path order.", {
+    addFailure(report, "required_scripts_order", "Required active browser scripts are not loaded in the final R16 active-path order.", {
       expected: REQUIRED_SCRIPT_ORDER,
       actual_relevant_order: localOrder
     });
@@ -516,20 +515,20 @@ function verifyActiveGlobals(report, windowGlobals) {
   const officialRecords = activeOfficialRecordsFromStatus(officialStatus);
   const liveMatchday = windowGlobals.LIVE_MATCHDAY_STATUS_DATA || null;
   const livePlayer = windowGlobals.LIVE_PLAYER_STATUS_DATA || null;
-  const r16Authority = windowGlobals.R16_PROVISIONAL_FIXTURE_AUTHORITY_DATA || null;
-  const bracketPoolStrategyData = windowGlobals.BRACKET_POOL_STRATEGY_DATA || null;
+  const r16Authority = windowGlobals.R16_FIXTURE_AUTHORITY_DATA || null;
+  const knockoutBracketPredictionData = windowGlobals.KNOCKOUT_BRACKET_PREDICTION_DATA || null;
 
   const requiredGlobals = [
     ["FANTASY_POOL_RECOMMENDATION_CANDIDATES", recommendationRows.length > 0],
     ["FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS", projectionRows.length > 0],
     ["FANTASY_POOL_PLAYER_FINANCE_METRICS", financeRows.length > 0],
     ["FANTASY_POOL_SCORE_PREDICTIONS", scoreRows.length > 0],
-    ["BRACKET_POOL_STRATEGY_DATA", Boolean(bracketPoolStrategyData?.strategies?.length)],
+    ["KNOCKOUT_BRACKET_PREDICTION_DATA", Boolean(knockoutBracketPredictionData?.matches?.length)],
     ["FANTASY_POOL_OFFICIAL_DATA_STATUS", Boolean(officialStatus)],
     [`FANTASY_POOL_OFFICIAL_DATA_STATUS.${ACTIVE_OFFICIAL_UNIVERSE_FIELD}`, officialRecords.length > 0],
     ["LIVE_MATCHDAY_STATUS_DATA", Boolean(liveMatchday)],
     ["LIVE_PLAYER_STATUS_DATA", Boolean(livePlayer)],
-    ["R16_PROVISIONAL_FIXTURE_AUTHORITY_DATA", Boolean(r16Authority?.fixtures?.length === 8)]
+    ["R16_FIXTURE_AUTHORITY_DATA", Boolean(r16Authority?.fixtures?.length === 8)]
   ];
 
   requiredGlobals.forEach(([name, ok]) => {
@@ -544,8 +543,8 @@ function verifyActiveGlobals(report, windowGlobals) {
     finance_rows: financeRows.length,
     score_fixture_rows: scoreRows.length,
     score_team_fixture_rows: teamScoreRows.length,
-    bracket_pool_strategy_count: bracketPoolStrategyData?.strategies?.length || 0,
-    bracket_pool_team_metric_count: bracketPoolStrategyData?.team_metrics?.length || 0,
+    knockout_bracket_prediction_match_count: knockoutBracketPredictionData?.matches?.length || 0,
+    knockout_bracket_prediction_round_count: knockoutBracketPredictionData?.rounds?.length || 0,
     [ACTIVE_OFFICIAL_UNIVERSE_FIELD]: officialRecords.length,
     live_fixture_rows: liveMatchday?.fixtures?.length || 0,
     live_player_rows: livePlayer?.players?.length || 0,
@@ -564,7 +563,7 @@ function verifyActiveGlobals(report, windowGlobals) {
     liveMatchday,
     livePlayer,
     r16Authority,
-    bracketPoolStrategyData,
+    knockoutBracketPredictionData,
     activeCounts
   };
 }
@@ -908,7 +907,7 @@ function buildMarkdownReport(report) {
   const staleBlock = report.public_stale_path_block || {};
   const activeMatchday = report.active_matchday_consistency || {};
   const lines = [];
-  lines.push("# Active Provisional R16 Data Flow QA Report");
+  lines.push("# Active Final R16 Data Flow QA Report");
   lines.push("");
   lines.push(`Generated: ${report.generated_at}`);
   lines.push(`Status: **${report.status.toUpperCase()}**`);
