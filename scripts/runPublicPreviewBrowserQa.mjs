@@ -135,6 +135,10 @@ function buildMarkdownReport(result) {
         ["Balanced Squad is visible", checks.balancedSquadVisible ? "pass" : "fail"],
         ["France Player Profile opens", checks.francePlayerProfileOpens ? "pass" : "fail"],
         ["Belgium Player Profile opens", checks.belgiumPlayerProfileOpens ? "pass" : "fail"],
+        ["Colombia Player Profile opens", checks.colombiaPlayerProfileOpens ? "pass" : "fail"],
+        ["Morocco Player Profile opens", checks.moroccoPlayerProfileOpens ? "pass" : "fail"],
+        ["Hakimi Player Profile opens", checks.hakimiPlayerProfileOpensOrNotSelectable ? "pass" : "fail"],
+        ["Saibari Player Profile opens", checks.saibariPlayerProfileOpensOrNotSelectable ? "pass" : "fail"],
         ["Knockout predictor renders actual R16 games", checks.knockoutPredictorRenders ? "pass" : "fail"],
         ["Visual bracket prediction renders", checks.knockoutBracketPredictionRenders ? "pass" : "fail"],
         ["Visual bracket prediction path guard", checks.knockoutBracketNoFranceArgentinaR16 ? "pass" : "fail"],
@@ -157,6 +161,8 @@ function buildMarkdownReport(result) {
         ["Starters / Bench", `${teamBuilderBuild.starterCount ?? "n/a"} / ${teamBuilderBuild.benchCount ?? "n/a"}`],
         ["France selected / starters / bench", `${teamBuilderBuild.countryCounts?.france ?? "n/a"} / ${teamBuilderBuild.starterCountryCounts?.france ?? "n/a"} / ${teamBuilderBuild.benchCountryCounts?.france ?? "n/a"}`],
         ["Belgium selected / starters / bench", `${teamBuilderBuild.countryCounts?.belgium ?? "n/a"} / ${teamBuilderBuild.starterCountryCounts?.belgium ?? "n/a"} / ${teamBuilderBuild.benchCountryCounts?.belgium ?? "n/a"}`],
+        ["Colombia selected / starters / bench", `${teamBuilderBuild.countryCounts?.colombia ?? "n/a"} / ${teamBuilderBuild.starterCountryCounts?.colombia ?? "n/a"} / ${teamBuilderBuild.benchCountryCounts?.colombia ?? "n/a"}`],
+        ["Morocco selected / starters / bench", `${teamBuilderBuild.countryCounts?.morocco ?? "n/a"} / ${teamBuilderBuild.starterCountryCounts?.morocco ?? "n/a"} / ${teamBuilderBuild.benchCountryCounts?.morocco ?? "n/a"}`],
         ["Top country", teamBuilderBuild.topCountryText || "n/a"]
       ]
     ),
@@ -620,6 +626,112 @@ async function clickCountryProfileAndClose(page, countryLabel) {
   };
 }
 
+async function clickNamedProfileAndClose(page, label, aliases) {
+  const aliasList = Array.isArray(aliases) && aliases.length ? aliases : [label];
+  const availability = await page.evaluate((names) => {
+    const normalize = (value) => String(value || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim();
+    const normalizedNames = names.map(normalize);
+    const nameMatches = (value) => normalizedNames.some((name) => normalize(value).includes(name));
+    const rows = [
+      ...(window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || []),
+      ...(window.FANTASY_POOL_RECOMMENDATION_CANDIDATES || [])
+    ].filter((row) => nameMatches(row.name));
+    const selectableRows = rows.filter((row) => {
+      const status = normalize(row.selectable_status || row.player_status || "playing");
+      const points = Number(row.risk_adjusted_points ?? row.projectedPoints ?? row.raw_expected_points ?? 0);
+      return points > 0 && !["injured", "suspended", "unavailable"].includes(status);
+    });
+
+    return {
+      exists: rows.length > 0,
+      selectable: selectableRows.length > 0,
+      rows: rows.slice(0, 3).map((row) => ({
+        name: row.name,
+        country: row.country || row.team,
+        selectable_status: row.selectable_status || null,
+        projected_points: row.risk_adjusted_points ?? row.projectedPoints ?? row.raw_expected_points ?? null
+      }))
+    };
+  }, aliasList);
+
+  if (!availability.selectable) {
+    return {
+      label: `${label} Player Profile`,
+      status: "skip",
+      exists: availability.exists,
+      selectable: availability.selectable,
+      reason: availability.exists ? "player exists but is not selectable with a positive R16 projection" : "player not found in active R16 data",
+      rows: availability.rows
+    };
+  }
+
+  const markProfileTrigger = () => page.evaluate(({ label: markerLabel, names }) => {
+    const normalize = (value) => String(value || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim();
+    const normalizedNames = names.map(normalize);
+    const nameMatches = (value) => normalizedNames.some((name) => normalize(value).includes(name));
+    const buttons = Array.from(document.querySelectorAll(
+      "#dashboard-grid .player-name-button, #captain-card-grid .player-name-button, #advice-card-grid .player-name-button, #advice-table-body .player-name-button, #player-picker .player-name-button"
+    ));
+    const match = buttons.find((button) => nameMatches(button.textContent));
+
+    if (!match) return null;
+
+    const marker = `named-${normalize(markerLabel)}`;
+    match.setAttribute("data-browser-qa-named-profile", marker);
+    return `[data-browser-qa-named-profile="${marker}"]`;
+  }, { label, names: aliasList });
+  let selector = await markProfileTrigger();
+
+  if (!selector) {
+    await openDetails(page, "#team-builder");
+    await page.evaluate((searchText) => {
+      const search = document.querySelector("#player-search");
+      if (!search) return;
+      search.value = searchText;
+      search.dispatchEvent(new Event("input", { bubbles: true }));
+    }, aliasList[0]);
+    await page.waitForFunction((names) => {
+      const normalize = (value) => String(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim();
+      const normalizedNames = names.map(normalize);
+      return Array.from(document.querySelectorAll("#player-picker .player-name-button"))
+        .some((button) => normalizedNames.some((name) => normalize(button.textContent).includes(name)));
+    }, aliasList, { timeout: 10000 });
+    selector = await markProfileTrigger();
+  }
+
+  if (!selector) {
+    return {
+      label: `${label} Player Profile`,
+      status: "fail",
+      reason: "selectable player exists but no visible profile trigger was found",
+      rows: availability.rows
+    };
+  }
+
+  return {
+    playerLabel: label,
+    exists: availability.exists,
+    selectable: availability.selectable,
+    rows: availability.rows,
+    ...(await clickProfileAndClose(page, selector, `${label} Player Profile`))
+  };
+}
+
 async function testTeamBuilderBuildsR16(page) {
   await openDetails(page, "#team-builder");
   const matchdaySelect = page.locator("#builder-matchday-select");
@@ -658,13 +770,29 @@ async function testTeamBuilderBuildsR16(page) {
   }, null, { timeout: 60000 });
 
   return page.evaluate(() => {
+    const normalize = (value) => String(value || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim();
+    const selectedCardInfo = (card) => {
+      const text = card.textContent.trim().replace(/\s+/g, " ");
+      const metaText = card.querySelector(".player-card__meta, p")?.textContent?.trim() || "";
+      const country = metaText.split("·")[0]?.trim() || "";
+      return { text, country: normalize(country) };
+    };
     const starters = Array.from(document.querySelectorAll("#team-players .player-card:not(.player-card--placeholder)"))
-      .map((card) => card.textContent.trim().replace(/\s+/g, " "));
+      .map(selectedCardInfo);
     const bench = Array.from(document.querySelectorAll("#bench-players .bench-card:not(.bench-card--placeholder), #bench-players .player-card"))
-      .map((card) => card.textContent.trim().replace(/\s+/g, " "));
+      .map(selectedCardInfo);
     const message = document.querySelector("#team-message")?.textContent?.trim() || "";
     const topCountryText = document.querySelector("#portfolio-summary")?.textContent?.trim() || "";
-    const countCountry = (items, country) => items.filter((text) => new RegExp(`\\b${country}\\b`, "i").test(text)).length;
+    const countCountry = (items, country) => items.filter((entry) => entry.country === normalize(country)).length;
+    const auditedCountries = ["Argentina", "France", "England", "Spain", "Brazil", "Colombia", "Belgium", "Morocco", "Norway", "USA", "Portugal", "Switzerland", "Canada", "Mexico", "Paraguay", "Egypt"];
+    const countryCounts = Object.fromEntries(auditedCountries.map((country) => [country.toLowerCase(), countCountry([...starters, ...bench], country)]));
+    const starterCountryCounts = Object.fromEntries(auditedCountries.map((country) => [country.toLowerCase(), countCountry(starters, country)]));
+    const benchCountryCounts = Object.fromEntries(auditedCountries.map((country) => [country.toLowerCase(), countCountry(bench, country)]));
 
     return {
       status: starters.length >= 11 && bench.length >= 4 ? "pass" : "fail",
@@ -675,20 +803,11 @@ async function testTeamBuilderBuildsR16(page) {
       benchCount: bench.length,
       message,
       topCountryText,
-      countryCounts: {
-        france: countCountry([...starters, ...bench], "France"),
-        belgium: countCountry([...starters, ...bench], "Belgium")
-      },
-      starterCountryCounts: {
-        france: countCountry(starters, "France"),
-        belgium: countCountry(starters, "Belgium")
-      },
-      benchCountryCounts: {
-        france: countCountry(bench, "France"),
-        belgium: countCountry(bench, "Belgium")
-      },
-      starterSample: starters.slice(0, 5),
-      benchSample: bench.slice(0, 4)
+      countryCounts,
+      starterCountryCounts,
+      benchCountryCounts,
+      starterSample: starters.map((entry) => entry.text).slice(0, 5),
+      benchSample: bench.map((entry) => entry.text).slice(0, 4)
     };
   });
 }
@@ -730,6 +849,10 @@ async function testMainPage(browser, viewport) {
   const adviceProfile = await clickProfileAndClose(page, "#advice-card-grid .player-name-button, #advice-table-body .player-name-button", "Official Fantasy Picks");
   const franceProfile = await clickCountryProfileAndClose(page, "France");
   const belgiumProfile = await clickCountryProfileAndClose(page, "Belgium");
+  const colombiaProfile = await clickCountryProfileAndClose(page, "Colombia");
+  const moroccoProfile = await clickCountryProfileAndClose(page, "Morocco");
+  const hakimiProfile = await clickNamedProfileAndClose(page, "Hakimi", ["hakimi", "achraf hakimi"]);
+  const saibariProfile = await clickNamedProfileAndClose(page, "Saibari", ["saibari", "ismael saibari"]);
   const teamBuilderBuild = await testTeamBuilderBuildsR16(page);
   const addToBuilder = await testAddToBuilder(page);
 
@@ -796,6 +919,16 @@ async function testMainPage(browser, viewport) {
     belgiumPlayerProfileOpens: belgiumProfile.status === "pass" &&
       belgiumProfile.playerProfileOpened &&
       belgiumProfile.showsR16Context,
+    colombiaPlayerProfileOpens: colombiaProfile.status === "pass" &&
+      colombiaProfile.playerProfileOpened &&
+      colombiaProfile.showsR16Context,
+    moroccoPlayerProfileOpens: moroccoProfile.status === "pass" &&
+      moroccoProfile.playerProfileOpened &&
+      moroccoProfile.showsR16Context,
+    hakimiPlayerProfileOpensOrNotSelectable: hakimiProfile.status === "skip" ||
+      hakimiProfile.status === "pass" && hakimiProfile.playerProfileOpened && hakimiProfile.showsR16Context,
+    saibariPlayerProfileOpensOrNotSelectable: saibariProfile.status === "skip" ||
+      saibariProfile.status === "pass" && saibariProfile.playerProfileOpened && saibariProfile.showsR16Context,
     addToBuilderWorksOrUnsupported: addToBuilder.status === "pass" || addToBuilder.status === "skip",
     matchEnvironmentLoads: stateBeforeClicks.ui.environmentRows.length > 0,
     matchEnvironmentDefaultR16: stateBeforeClicks.ui.matchEnvironmentControls.selectedMatchday === activePublicMatchdayId &&
@@ -849,7 +982,7 @@ async function testMainPage(browser, viewport) {
       md2: md2MatchEnvironmentAccess,
       r16: activeMatchEnvironmentAccess
     },
-    profileClicks: [quickPickProfile, captainProfile, adviceProfile, franceProfile, belgiumProfile],
+    profileClicks: [quickPickProfile, captainProfile, adviceProfile, franceProfile, belgiumProfile, colombiaProfile, moroccoProfile, hakimiProfile, saibariProfile],
     teamBuilderBuild,
     addToBuilder,
     filters: {
@@ -972,7 +1105,7 @@ async function main() {
     worldCupFailures: worldCupResults.flatMap((entry) => entry.failures.map((failure) => ({ viewport: entry.viewport.width, failure }))),
     profileClickFailures: indexResults.flatMap((entry) =>
       entry.profileClicks
-        .filter((click) => click.status !== "pass")
+        .filter((click) => !["pass", "skip"].includes(click.status))
         .map((click) => ({ viewport: entry.viewport.width, label: click.label, reason: click.reason }))
     ),
     oldGlobalsPresent: indexResults.flatMap((entry) =>

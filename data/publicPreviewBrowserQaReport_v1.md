@@ -1,6 +1,6 @@
 # Public Preview Browser QA Report v1
 
-Generated: 2026-07-04T12:47:09.181Z
+Generated: 2026-07-04T13:11:18.115Z
 
 ## Verdict
 
@@ -34,6 +34,10 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | Balanced Squad is visible | pass |
 | France Player Profile opens | pass |
 | Belgium Player Profile opens | pass |
+| Colombia Player Profile opens | pass |
+| Morocco Player Profile opens | pass |
+| Hakimi Player Profile opens | pass |
+| Saibari Player Profile opens | pass |
 | Knockout predictor renders actual R16 games | pass |
 | Visual bracket prediction renders | pass |
 | Visual bracket prediction path guard | pass |
@@ -53,6 +57,8 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | Starters / Bench | 11 / 4 |
 | France selected / starters / bench | 4 / 4 / 0 |
 | Belgium selected / starters / bench | 2 / 1 / 1 |
+| Colombia selected / starters / bench | 0 / 0 / 0 |
+| Morocco selected / starters / bench | 0 / 0 / 0 |
 | Top country | Balanced Squad, Balanced safety, R16. Top country: Argentina 4/4. Fixture spread: R16: 0 hard, 10 favorable, 0 high-uncertainty. |
 
 ## Data Loaded
