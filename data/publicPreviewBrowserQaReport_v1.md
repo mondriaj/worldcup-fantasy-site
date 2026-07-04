@@ -1,6 +1,6 @@
 # Public Preview Browser QA Report v1
 
-Generated: 2026-07-04T12:16:25.999Z
+Generated: 2026-07-04T12:47:09.181Z
 
 ## Verdict
 
@@ -30,6 +30,10 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | MD1 remains accessible | pass |
 | MD2 remains accessible | pass |
 | Team Builder opens on R16 | pass |
+| Team Builder builds R16 squad | pass |
+| Balanced Squad is visible | pass |
+| France Player Profile opens | pass |
+| Belgium Player Profile opens | pass |
 | Knockout predictor renders actual R16 games | pass |
 | Visual bracket prediction renders | pass |
 | Visual bracket prediction path guard | pass |
@@ -38,6 +42,18 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | Old globals absent | pass |
 | Live group-stage support data loaded | pass |
 | World Cup page renders | pass |
+
+## Team Builder Build
+
+| Item | Result |
+| --- | --- |
+| Build status | pass |
+| Matchday | r16 |
+| Strategy | balancedSquad |
+| Starters / Bench | 11 / 4 |
+| France selected / starters / bench | 4 / 4 / 0 |
+| Belgium selected / starters / bench | 2 / 1 / 1 |
+| Top country | Balanced Squad, Balanced safety, R16. Top country: Argentina 4/4. Fixture spread: R16: 0 hard, 10 favorable, 0 high-uncertainty. |
 
 ## Data Loaded
 

@@ -1,6 +1,6 @@
 {
   "schema_version": "bracket_path_integrity_audit_v1",
-  "generated_at": "2026-07-04T12:13:25.548Z",
+  "generated_at": "2026-07-04T12:42:51.963Z",
   "status": "pass",
   "source_files": {
     "worldCupData": "worldCupData.js",

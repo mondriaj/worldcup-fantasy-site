@@ -1,6 +1,6 @@
 # Official Fantasy Data Update Check v1
 
-Generated: 2026-07-04T12:12:06.291Z
+Generated: 2026-07-04T12:36:59.099Z
 
 ## Summary
 
@@ -19,7 +19,7 @@ Generated: 2026-07-04T12:12:06.291Z
 | fifaFantasyPlayersJson | 200 | yes | 2026-07-04T12:04:23Z | 1317709 |
 | fifaFantasySquadsJson | 200 | yes | 2026-07-04T03:33:04Z | 6398 |
 | fifaFantasyHelpPagesJson | 200 | yes | 2026-06-29T10:15:41Z | 181977 |
-| fifaFantasyRoundsJson | 200 | yes | 2026-07-04T11:01:04Z | 143756 |
+| fifaFantasyRoundsJson | 200 | yes | 2026-07-04T12:01:02Z | 143756 |
 | fifaFantasyLanguageJson | 200 | yes | 2026-06-28T19:17:42Z | 27453 |
 
 ## Change Counts

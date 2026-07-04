@@ -1,6 +1,6 @@
 {
   "schema_version": "official_fantasy_data_update_check_v1",
-  "generated_at": "2026-07-04T12:12:06.291Z",
+  "generated_at": "2026-07-04T12:36:59.099Z",
   "monitor_status": "completed",
   "summary": {
     "official_data_changed": false,
@@ -70,7 +70,7 @@
       "status": 200,
       "ok": true,
       "content_type": "application/json",
-      "last_modified": "2026-07-04T11:01:04Z",
+      "last_modified": "2026-07-04T12:01:02Z",
       "etag": "\"b2943833ddcc303615224916eaf6bc0c\"",
       "bytes": 143756,
       "sha256": "357a92b9fcd997a078f706d71aeaf97653e098928f55280a0083873413d00169",

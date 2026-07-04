@@ -1,6 +1,6 @@
 {
   "schema_version": "knockout_bracket_prediction_qa_v1",
-  "generated_at": "2026-07-04T12:13:25.548Z",
+  "generated_at": "2026-07-04T12:42:51.971Z",
   "status": "pass",
   "source_files": {
     "bracketPrediction": "data/knockoutBracketPrediction_v1.json",

@@ -1267,6 +1267,41 @@ function loadFantasyRules() {
   return ACTIVE_DATA.rules;
 }
 
+function countryLimitForMatchday(rules, matchdayId = activeMatchdayId) {
+  const groupLimit = Number(rules?.country_limits?.group_stage_max_per_country);
+  const fallbackLimit = Number.isFinite(groupLimit) ? groupLimit : 0;
+  const knockoutLimits = rules?.country_limits?.knockout_limits || {};
+  const id = String(matchdayId || "").toLowerCase();
+  const knockoutKeyByMatchday = {
+    r32: "round_of_32",
+    r16: "round_of_16",
+    qf: "quarter_final",
+    quarter_final: "quarter_final",
+    sf: "semi_final",
+    semi_final: "semi_final",
+    final: "final"
+  };
+  const knockoutKey = knockoutKeyByMatchday[id];
+
+  if (knockoutKey) {
+    const knockoutLimit = Number(knockoutLimits[knockoutKey]);
+
+    if (Number.isFinite(knockoutLimit)) {
+      return knockoutLimit;
+    }
+  }
+
+  return fallbackLimit;
+}
+
+function refreshActiveCountryLimit() {
+  groupStageCountryLimit = countryLimitForMatchday(fantasyRules, activeMatchdayId);
+}
+
+function activeCountryLimitLabel() {
+  return activeMatchdayLabel();
+}
+
 function applyFantasyRules(rules) {
   const totalPlayers = Number(rules?.squad?.total_players);
   const starterTotal = Number(rules?.starting_lineup?.total_players);
@@ -1314,7 +1349,7 @@ function applyFantasyRules(rules) {
   benchTotalPlayers = Math.max(0, squadTotalPlayers - startingLineupTotal);
   initialBudget = budgetLimit;
   budgetCurrencyLabel = rules?.budget?.currency_label || "fantasy units";
-  groupStageCountryLimit = countryLimit;
+  groupStageCountryLimit = countryLimitForMatchday(rules, activeMatchdayId);
   positionOrder = Object.values(positionCodeLabels);
 }
 
@@ -8285,11 +8320,14 @@ function projectionForMatchday(player, matchdayId) {
 
 function withTemporaryMatchday(matchdayId, callback) {
   const previousMatchdayId = activeMatchdayId;
+  const previousCountryLimit = groupStageCountryLimit;
   activeMatchdayId = matchdayId;
+  refreshActiveCountryLimit();
   try {
     return callback();
   } finally {
     activeMatchdayId = previousMatchdayId;
+    groupStageCountryLimit = previousCountryLimit;
   }
 }
 
@@ -9828,7 +9866,7 @@ function portfolioWarningsForAnalytics(analytics) {
     warnings.push({
       kind: "watch",
       label: "Country Stack Risk",
-      detail: `${topCountryLabel} is at the group-stage country limit with ${topCountryCount}/${groupStageCountryLimit} players.`
+      detail: `${topCountryLabel} is at the ${activeCountryLimitLabel()} country limit with ${topCountryCount}/${groupStageCountryLimit} players.`
     });
   }
 
@@ -10955,7 +10993,10 @@ function exportModelMetadata() {
         starting_lineup_total_players: startingLineupTotal,
         initial_budget: initialBudget,
         budget_currency_label: budgetCurrencyLabel,
-        group_stage_country_limit: groupStageCountryLimit,
+        active_country_limit: groupStageCountryLimit,
+        active_country_limit_matchday: activeMatchdayId,
+        group_stage_country_limit: Number(fantasyRules?.country_limits?.group_stage_max_per_country) || null,
+        knockout_country_limits: fantasyRules?.country_limits?.knockout_limits || null,
         allowed_formations: Object.keys(tactics)
       }
     },
@@ -11462,6 +11503,7 @@ function setImportedBuilderSettings(payload) {
 
   if (matchdayId && matchdayOptions.some((option) => option.matchday_id === matchdayId)) {
     activeMatchdayId = matchdayId;
+    refreshActiveCountryLimit();
     [adviceMatchdaySelect, builderMatchdaySelect].filter(Boolean).forEach((select) => {
       select.value = activeMatchdayId;
     });
@@ -12215,6 +12257,7 @@ function updateMatchdayView(nextMatchdayId) {
   activeMatchdayId = matchdayOptions.some((option) => option.matchday_id === nextMatchdayId)
     ? nextMatchdayId
     : defaultActiveMatchdayId;
+  refreshActiveCountryLimit();
 
   [adviceMatchdaySelect, builderMatchdaySelect].filter(Boolean).forEach((select) => {
     select.value = activeMatchdayId;
@@ -13010,7 +13053,7 @@ function renderWarning(tacticName, ignoredLockedPlayers, missingStarterSlots, mi
   }
 
   if (countryInfo.countryLimitCouldNotFit) {
-    messages.push(`The builder could not add more players from one country because the official fantasy rule allows only ${groupStageCountryLimit} per country.`);
+    messages.push(`The builder could not add more players from one country because the ${activeCountryLimitLabel()} fantasy rule allows only ${groupStageCountryLimit} per country.`);
   }
 
   if (optimizerInfo.ran && !optimizerInfo.foundValidSquad) {
