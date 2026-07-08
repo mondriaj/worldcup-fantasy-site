@@ -1,0 +1,326 @@
+{
+  "schema_version": "qf_core_pick_lineup_evidence_qa_v1",
+  "generated_at": "2026-07-08T14:58:41.004Z",
+  "status": "pass",
+  "summary": {
+    "core_pick_rows": 25,
+    "unsafe_core_pick_rows": 0,
+    "medina_core_pick_rows": 0,
+    "medina_role_rows": 1,
+    "legacy_points_start_flag_rows": 0,
+    "team_builder_unsafe_sample_rows": 0,
+    "lineup_evidence_qa_status": "pass",
+    "role_explicit_r16_starter_rows": 88,
+    "points_can_imply_starter": false
+  },
+  "errors": [],
+  "unsafe_core_rows": [],
+  "medina_core_rows": [],
+  "medina_role_rows": [
+    {
+      "official_fantasy_player_id": "1320",
+      "internal_player_id": "argentina-facundo-medina",
+      "name": "Facundo Medina",
+      "display_name": "Facundo Medina",
+      "country": "Argentina",
+      "team_id": "argentina",
+      "official_team_id": "2",
+      "official_fantasy_position": "DEF",
+      "official_price": 4,
+      "selectable_status": "playing",
+      "matchStatus": null,
+      "qf_fixture_status": "known_fixture",
+      "public_pool": "main",
+      "prior_start_probability": 0.86,
+      "start_probability": 0.524,
+      "startProb": 0.524,
+      "expected_minutes": 41,
+      "expectedMinutes": 41,
+      "roleTier": "rotation_or_sub_risk",
+      "role_label": "rotation_or_sub_risk",
+      "roleConfidence": "medium",
+      "role_confidence": "medium",
+      "evidenceStrength": "explicit_r16_substitute_non_starter",
+      "lineupEvidenceType": "explicit_r16_non_starter",
+      "role_interpretation": "Source-backed R16 non-starter evidence caps QF starter confidence; prior role can only keep a cautious watchlist case.",
+      "roleCaution": "Did not start R16; substitute appearance only. Core Pick blocked without new lineup confirmation.",
+      "role_caution": "Did not start R16; substitute appearance only. Core Pick blocked without new lineup confirmation.",
+      "r16_round_points": 1,
+      "r32_round_points": 2,
+      "r16_participated": true,
+      "r32_participated": true,
+      "r16Started": false,
+      "r16Substitute": true,
+      "r16Minutes": null,
+      "r16LineupSource": "https://www.theguardian.com/football/live/2026/jul/07/argentina-v-egypt-world-cup-2026-last-16-live",
+      "r16LineupEvidenceId": "guardian-r16-95-argentina-medina",
+      "r32Started": null,
+      "r32Substitute": null,
+      "r32LineupSource": null,
+      "r32LineupEvidenceId": null,
+      "data_quality_flags": [
+        "player_role_qf_v1",
+        "ownership_not_used_as_signal",
+        "final_squads_not_source_backed",
+        "lineup_evidence_separated_from_points",
+        "explicit_r16_non_starter_evidence",
+        "r16_points_not_used_for_lineup_inference",
+        "explicit_r16_non_starter_capped",
+        "role_volatility_penalty_applied"
+      ],
+      "dataQualityFlags": [
+        "player_role_qf_v1",
+        "ownership_not_used_as_signal",
+        "final_squads_not_source_backed",
+        "lineup_evidence_separated_from_points",
+        "explicit_r16_non_starter_evidence",
+        "r16_points_not_used_for_lineup_inference",
+        "explicit_r16_non_starter_capped",
+        "role_volatility_penalty_applied"
+      ],
+      "team_role_volatility": {
+        "team_id": "argentina",
+        "team": "Argentina",
+        "volatility_score": 0.215,
+        "volatility_level": "medium",
+        "eligible_players": 26,
+        "high_prior_without_explicit_r16_start": 3,
+        "explicit_r16_non_starters": 14,
+        "r32_r16_start_continuity": 0
+      },
+      "role_volatility_score": 0.215,
+      "role_volatility_level": "medium",
+      "allowedCorePick": false,
+      "coreEligibilityReason": "missing_explicit_r16_start",
+      "coreEligibilityWarning": "Core Pick blocked: no source-backed R16 start."
+    }
+  ],
+  "legacy_points_start_flag_rows": [],
+  "core_pick_sample": [
+    {
+      "rank": 1,
+      "name": "Marc Cucurella",
+      "country": "Spain",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.885,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 2,
+      "name": "Aymeric Laporte",
+      "country": "Spain",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.883,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 3,
+      "name": "Pau Cubarsí",
+      "country": "Spain",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.875,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 4,
+      "name": "Unai Simón",
+      "country": "Spain",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.887,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 5,
+      "name": "Lisandro Martínez",
+      "country": "Argentina",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.851,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 6,
+      "name": "Dayot Upamecano",
+      "country": "France",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.873,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 7,
+      "name": "Jules Koundé",
+      "country": "France",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.873,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 8,
+      "name": "Mikel Oyarzabal",
+      "country": "Spain",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.875,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 9,
+      "name": "Kylian Mbappé",
+      "country": "France",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.885,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 10,
+      "name": "Lionel Messi",
+      "country": "Argentina",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.856,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 11,
+      "name": "Mike Maignan",
+      "country": "France",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.873,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 12,
+      "name": "Emiliano Martínez",
+      "country": "Argentina",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.856,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 13,
+      "name": "Cristian Romero",
+      "country": "Argentina",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.851,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 14,
+      "name": "Ousmane Dembélé",
+      "country": "France",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.873,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 15,
+      "name": "Harry Kane",
+      "country": "England",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.874,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 16,
+      "name": "Michael Olise",
+      "country": "France",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.885,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 17,
+      "name": "Ezri Konsa",
+      "country": "England",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.874,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 18,
+      "name": "Alexis Mac Allister",
+      "country": "Argentina",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.856,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 19,
+      "name": "Rodrigo De Paul",
+      "country": "Argentina",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.856,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 20,
+      "name": "Rodrigo Hernández Cascante",
+      "country": "Spain",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.875,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 21,
+      "name": "Jude Bellingham",
+      "country": "England",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.874,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 22,
+      "name": "Nahuel Molina",
+      "country": "Argentina",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.771,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 23,
+      "name": "Pedro González López",
+      "country": "Spain",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.875,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 24,
+      "name": "Enzo Fernández",
+      "country": "Argentina",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.855,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "rank": 25,
+      "name": "William Saliba",
+      "country": "France",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "start_probability": 0.773,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    }
+  ]
+}

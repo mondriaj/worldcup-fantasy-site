@@ -1,91 +1,91 @@
 {
   "schema_version": "knockout_model_postmortem_for_qf_v1",
-  "generated_at": "2026-07-08T12:35:43.868Z",
+  "generated_at": "2026-07-08T14:58:22.971Z",
   "status": "pass",
   "summary": {
     "r16_fixtures_checked": 8,
     "r16_final_scores_used": 8,
-    "explicit_starting_xi_available": false,
+    "explicit_starting_xi_available": true,
     "role_volatility_teams": [
       {
-        "team_id": "belgium",
-        "team": "Belgium",
-        "volatility_score": 0.1,
+        "team_id": "argentina",
+        "team": "Argentina",
+        "volatility_score": 0.215,
         "volatility_level": "medium",
         "eligible_players": 26,
-        "high_prior_without_r16_points": 1,
-        "r16_points_without_r32_points": 4,
-        "r32_r16_participation_continuity": 12
-      },
-      {
-        "team_id": "morocco",
-        "team": "Morocco",
-        "volatility_score": 0.083,
-        "volatility_level": "low",
-        "eligible_players": 26,
-        "high_prior_without_r16_points": 1,
-        "r16_points_without_r32_points": 3,
-        "r32_r16_participation_continuity": 13
+        "high_prior_without_explicit_r16_start": 3,
+        "explicit_r16_non_starters": 14,
+        "r32_r16_start_continuity": 0
       },
       {
         "team_id": "france",
         "team": "France",
-        "volatility_score": 0.079,
-        "volatility_level": "low",
+        "volatility_score": 0.179,
+        "volatility_level": "medium",
         "eligible_players": 26,
-        "high_prior_without_r16_points": 2,
-        "r16_points_without_r32_points": 1,
-        "r32_r16_participation_continuity": 12
+        "high_prior_without_explicit_r16_start": 2,
+        "explicit_r16_non_starters": 13,
+        "r32_r16_start_continuity": 10
       },
       {
-        "team_id": "england",
-        "team": "England",
-        "volatility_score": 0.068,
-        "volatility_level": "low",
-        "eligible_players": 25,
-        "high_prior_without_r16_points": 1,
-        "r16_points_without_r32_points": 2,
-        "r32_r16_participation_continuity": 10
-      },
-      {
-        "team_id": "argentina",
-        "team": "Argentina",
-        "volatility_score": 0.065,
-        "volatility_level": "low",
+        "team_id": "morocco",
+        "team": "Morocco",
+        "volatility_score": 0.152,
+        "volatility_level": "medium",
         "eligible_players": 26,
-        "high_prior_without_r16_points": 1,
-        "r16_points_without_r32_points": 2,
-        "r32_r16_participation_continuity": 14
-      },
-      {
-        "team_id": "switzerland",
-        "team": "Switzerland",
-        "volatility_score": 0.052,
-        "volatility_level": "low",
-        "eligible_players": 26,
-        "high_prior_without_r16_points": 0,
-        "r16_points_without_r32_points": 3,
-        "r32_r16_participation_continuity": 13
+        "high_prior_without_explicit_r16_start": 1,
+        "explicit_r16_non_starters": 13,
+        "r32_r16_start_continuity": 10
       },
       {
         "team_id": "norway",
         "team": "Norway",
-        "volatility_score": 0.017,
-        "volatility_level": "low",
+        "volatility_score": 0.142,
+        "volatility_level": "medium",
         "eligible_players": 26,
-        "high_prior_without_r16_points": 0,
-        "r16_points_without_r32_points": 1,
-        "r32_r16_participation_continuity": 13
+        "high_prior_without_explicit_r16_start": 1,
+        "explicit_r16_non_starters": 12,
+        "r32_r16_start_continuity": 10
+      },
+      {
+        "team_id": "england",
+        "team": "England",
+        "volatility_score": 0.138,
+        "volatility_level": "medium",
+        "eligible_players": 25,
+        "high_prior_without_explicit_r16_start": 1,
+        "explicit_r16_non_starters": 11,
+        "r32_r16_start_continuity": 8
       },
       {
         "team_id": "spain",
         "team": "Spain",
-        "volatility_score": 0.017,
+        "volatility_score": 0.135,
+        "volatility_level": "medium",
+        "eligible_players": 26,
+        "high_prior_without_explicit_r16_start": 0,
+        "explicit_r16_non_starters": 14,
+        "r32_r16_start_continuity": 11
+      },
+      {
+        "team_id": "switzerland",
+        "team": "Switzerland",
+        "volatility_score": 0.133,
+        "volatility_level": "medium",
+        "eligible_players": 26,
+        "high_prior_without_explicit_r16_start": 1,
+        "explicit_r16_non_starters": 11,
+        "r32_r16_start_continuity": 9
+      },
+      {
+        "team_id": "belgium",
+        "team": "Belgium",
+        "volatility_score": 0.073,
         "volatility_level": "low",
         "eligible_players": 26,
-        "high_prior_without_r16_points": 0,
-        "r16_points_without_r32_points": 1,
-        "r32_r16_participation_continuity": 14
+        "high_prior_without_explicit_r16_start": 2,
+        "explicit_r16_non_starters": 2,
+        "r32_r16_start_continuity": 7
       }
     ]
   },

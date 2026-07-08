@@ -1,0 +1,53 @@
+{
+  "schema_version": "world_cup_lineup_evidence_qa_v1",
+  "generated_at": "2026-07-08T14:58:27.790Z",
+  "status": "pass",
+  "summary": {
+    "evidence_rows": 4572,
+    "explicit_starter_rows": 1562,
+    "r16_qf_team_explicit_starter_rows": 88,
+    "r16_qf_teams_with_11_starters": 8,
+    "unmatched_explicit_starters": 0,
+    "unmatched_r16_bench_rows": 13,
+    "impossible_starter_team_rows": 0,
+    "fantasy_points_used_as_start_evidence": false
+  },
+  "r16_qf_starter_counts": [
+    {
+      "team_id": "france",
+      "starter_count": 11
+    },
+    {
+      "team_id": "morocco",
+      "starter_count": 11
+    },
+    {
+      "team_id": "norway",
+      "starter_count": 11
+    },
+    {
+      "team_id": "england",
+      "starter_count": 11
+    },
+    {
+      "team_id": "spain",
+      "starter_count": 11
+    },
+    {
+      "team_id": "belgium",
+      "starter_count": 11
+    },
+    {
+      "team_id": "argentina",
+      "starter_count": 11
+    },
+    {
+      "team_id": "switzerland",
+      "starter_count": 11
+    }
+  ],
+  "errors": [],
+  "warnings": [
+    "13 R16 bench row(s) were not matched to official fantasy players; they are retained as source-only evidence."
+  ]
+}

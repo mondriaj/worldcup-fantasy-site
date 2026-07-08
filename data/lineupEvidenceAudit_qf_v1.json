@@ -1,0 +1,287 @@
+{
+  "schema_version": "lineup_evidence_audit_qf_v1",
+  "generated_at": "2026-07-08T14:58:27.790Z",
+  "status": "pass",
+  "audit_scope": [
+    "QF role model",
+    "QF projections",
+    "QF recommendations",
+    "QF Team Builder QA",
+    "starting XI lineage evidence"
+  ],
+  "findings": [
+    {
+      "id": "legacy_points_only_start_inference",
+      "severity": "high",
+      "summary": "Legacy QF role logic used R16 fantasy round points as participation evidence and lifted start probability from that signal.",
+      "affected_outputs_before_repair": {
+        "role_rows": 118,
+        "projections": 203,
+        "core_picks": 25
+      }
+    },
+    {
+      "id": "facundo_medina_core_pick",
+      "severity": "high",
+      "summary": "Facundo Medina appeared in the legacy QF recommendation surface despite being source-backed as an R16 non-starter.",
+      "affected_rows_before_repair": [
+        {
+          "mode": "balanced",
+          "pickType": "Core Picks",
+          "rank": 3,
+          "start_probability": 0.855,
+          "data_quality_flags": [
+            "player_projection_qf_v1",
+            "completed_r16_only",
+            "r16_participation_evidence_weighted",
+            "known_qf_fixture",
+            "path_beyond_qf_included",
+            "ownership_not_used_as_signal",
+            "final_squads_not_source_backed",
+            "player_role_qf_v1",
+            "ownership_not_used_as_signal",
+            "final_squads_not_source_backed",
+            "explicit_starting_xi_unavailable",
+            "r16_r32_continuity_preserved",
+            "r16_participation_points_weighted"
+          ]
+        },
+        {
+          "mode": "safe",
+          "pickType": "High-Floor Picks",
+          "rank": 3,
+          "start_probability": 0.855,
+          "data_quality_flags": [
+            "player_projection_qf_v1",
+            "completed_r16_only",
+            "r16_participation_evidence_weighted",
+            "known_qf_fixture",
+            "path_beyond_qf_included",
+            "ownership_not_used_as_signal",
+            "final_squads_not_source_backed",
+            "player_role_qf_v1",
+            "ownership_not_used_as_signal",
+            "final_squads_not_source_backed",
+            "explicit_starting_xi_unavailable",
+            "r16_r32_continuity_preserved",
+            "r16_participation_points_weighted"
+          ]
+        },
+        {
+          "mode": "upside",
+          "pickType": "Upside Picks",
+          "rank": 7,
+          "start_probability": 0.855,
+          "data_quality_flags": [
+            "player_projection_qf_v1",
+            "completed_r16_only",
+            "r16_participation_evidence_weighted",
+            "known_qf_fixture",
+            "path_beyond_qf_included",
+            "ownership_not_used_as_signal",
+            "final_squads_not_source_backed",
+            "player_role_qf_v1",
+            "ownership_not_used_as_signal",
+            "final_squads_not_source_backed",
+            "explicit_starting_xi_unavailable",
+            "r16_r32_continuity_preserved",
+            "r16_participation_points_weighted"
+          ]
+        },
+        {
+          "mode": "differential",
+          "pickType": "Differential Picks",
+          "rank": 6,
+          "start_probability": 0.855,
+          "data_quality_flags": [
+            "player_projection_qf_v1",
+            "completed_r16_only",
+            "r16_participation_evidence_weighted",
+            "known_qf_fixture",
+            "path_beyond_qf_included",
+            "ownership_not_used_as_signal",
+            "final_squads_not_source_backed",
+            "player_role_qf_v1",
+            "ownership_not_used_as_signal",
+            "final_squads_not_source_backed",
+            "explicit_starting_xi_unavailable",
+            "r16_r32_continuity_preserved",
+            "r16_participation_points_weighted"
+          ]
+        },
+        {
+          "mode": "captain",
+          "pickType": "Captain Watchlist",
+          "rank": 4,
+          "start_probability": 0.855,
+          "data_quality_flags": [
+            "player_projection_qf_v1",
+            "completed_r16_only",
+            "r16_participation_evidence_weighted",
+            "known_qf_fixture",
+            "path_beyond_qf_included",
+            "ownership_not_used_as_signal",
+            "final_squads_not_source_backed",
+            "player_role_qf_v1",
+            "ownership_not_used_as_signal",
+            "final_squads_not_source_backed",
+            "explicit_starting_xi_unavailable",
+            "r16_r32_continuity_preserved",
+            "r16_participation_points_weighted"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "current_core_pick_gate",
+      "severity": "none",
+      "summary": "Current Core Picks must have explicit R16 starter evidence and must not rely on points-only appearance evidence.",
+      "affected_rows_current": 0
+    }
+  ],
+  "pre_repair_snapshot": {
+    "captured_at": "2026-07-08T14:48:08.003Z",
+    "role_rows": 1489,
+    "projection_rows": 203,
+    "recommendation_rows": 125,
+    "role_points_only_or_participation_rows": 118,
+    "projections_points_only_or_participation_rows": 203,
+    "core_pick_points_only_or_participation_rows": 25,
+    "core_pick_rows": 25,
+    "facundo_medina_recommendation_rows": [
+      {
+        "mode": "balanced",
+        "pickType": "Core Picks",
+        "rank": 3,
+        "start_probability": 0.855,
+        "data_quality_flags": [
+          "player_projection_qf_v1",
+          "completed_r16_only",
+          "r16_participation_evidence_weighted",
+          "known_qf_fixture",
+          "path_beyond_qf_included",
+          "ownership_not_used_as_signal",
+          "final_squads_not_source_backed",
+          "player_role_qf_v1",
+          "ownership_not_used_as_signal",
+          "final_squads_not_source_backed",
+          "explicit_starting_xi_unavailable",
+          "r16_r32_continuity_preserved",
+          "r16_participation_points_weighted"
+        ]
+      },
+      {
+        "mode": "safe",
+        "pickType": "High-Floor Picks",
+        "rank": 3,
+        "start_probability": 0.855,
+        "data_quality_flags": [
+          "player_projection_qf_v1",
+          "completed_r16_only",
+          "r16_participation_evidence_weighted",
+          "known_qf_fixture",
+          "path_beyond_qf_included",
+          "ownership_not_used_as_signal",
+          "final_squads_not_source_backed",
+          "player_role_qf_v1",
+          "ownership_not_used_as_signal",
+          "final_squads_not_source_backed",
+          "explicit_starting_xi_unavailable",
+          "r16_r32_continuity_preserved",
+          "r16_participation_points_weighted"
+        ]
+      },
+      {
+        "mode": "upside",
+        "pickType": "Upside Picks",
+        "rank": 7,
+        "start_probability": 0.855,
+        "data_quality_flags": [
+          "player_projection_qf_v1",
+          "completed_r16_only",
+          "r16_participation_evidence_weighted",
+          "known_qf_fixture",
+          "path_beyond_qf_included",
+          "ownership_not_used_as_signal",
+          "final_squads_not_source_backed",
+          "player_role_qf_v1",
+          "ownership_not_used_as_signal",
+          "final_squads_not_source_backed",
+          "explicit_starting_xi_unavailable",
+          "r16_r32_continuity_preserved",
+          "r16_participation_points_weighted"
+        ]
+      },
+      {
+        "mode": "differential",
+        "pickType": "Differential Picks",
+        "rank": 6,
+        "start_probability": 0.855,
+        "data_quality_flags": [
+          "player_projection_qf_v1",
+          "completed_r16_only",
+          "r16_participation_evidence_weighted",
+          "known_qf_fixture",
+          "path_beyond_qf_included",
+          "ownership_not_used_as_signal",
+          "final_squads_not_source_backed",
+          "player_role_qf_v1",
+          "ownership_not_used_as_signal",
+          "final_squads_not_source_backed",
+          "explicit_starting_xi_unavailable",
+          "r16_r32_continuity_preserved",
+          "r16_participation_points_weighted"
+        ]
+      },
+      {
+        "mode": "captain",
+        "pickType": "Captain Watchlist",
+        "rank": 4,
+        "start_probability": 0.855,
+        "data_quality_flags": [
+          "player_projection_qf_v1",
+          "completed_r16_only",
+          "r16_participation_evidence_weighted",
+          "known_qf_fixture",
+          "path_beyond_qf_included",
+          "ownership_not_used_as_signal",
+          "final_squads_not_source_backed",
+          "player_role_qf_v1",
+          "ownership_not_used_as_signal",
+          "final_squads_not_source_backed",
+          "explicit_starting_xi_unavailable",
+          "r16_r32_continuity_preserved",
+          "r16_participation_points_weighted"
+        ]
+      }
+    ],
+    "unsafe_code_signals": {
+      "has_r16_participated_boolean": true,
+      "has_round_points_start_lift": true,
+      "has_participation_points_weighted_flag": true
+    }
+  },
+  "current_snapshot": {
+    "captured_at": "2026-07-08T14:58:27.790Z",
+    "role_rows": 1489,
+    "projection_rows": 203,
+    "recommendation_rows": 125,
+    "role_points_only_or_participation_rows": 5,
+    "projections_points_only_or_participation_rows": 5,
+    "core_pick_points_only_or_participation_rows": 0,
+    "core_pick_rows": 25,
+    "facundo_medina_recommendation_rows": [],
+    "unsafe_code_signals": {
+      "has_r16_participated_boolean": false,
+      "has_round_points_start_lift": false,
+      "has_participation_points_weighted_flag": false
+    }
+  },
+  "lineup_evidence_qa_status": "pass",
+  "controls_added": [
+    "Normalized worldCupLineupEvidence_v1 lineage file.",
+    "QF model consumes explicit R16 starter/non-starter rows separately from fantasy points.",
+    "Core Pick eligibility requires source-backed R16 starter evidence.",
+    "Points-only R16 appearances are capped and flagged as non-starter evidence."
+  ]
+}

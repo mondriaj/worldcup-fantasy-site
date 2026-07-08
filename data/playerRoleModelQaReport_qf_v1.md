@@ -2,4 +2,5 @@
 
 Status: pass
 
-- Explicit R16 starting XI/minutes are unavailable in the current official fantasy feed; R16 fantasy points are used as weaker participation evidence.
+- R16 QF starter evidence comes from normalized external liveblog lineup rows because the current official fantasy feed no longer preserves post-match matchStatus.
+- Fantasy points are treated as appearance-only evidence and cannot set started=true.

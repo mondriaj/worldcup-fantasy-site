@@ -1,6 +1,6 @@
 # Public Preview Browser QA Report v1
 
-Generated: 2026-07-08T12:56:12.221Z
+Generated: 2026-07-08T14:59:49.043Z
 
 ## Verdict
 
@@ -55,7 +55,7 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | Matchday | qf |
 | Strategy | balancedSquad |
 | Starters / Bench | 11 / 4 |
-| France selected / starters / bench | 4 / 2 / 2 |
+| France selected / starters / bench | 3 / 2 / 1 |
 | Belgium selected / starters / bench | 0 / 0 / 0 |
 | Switzerland selected / starters / bench | 0 / 0 / 0 |
 | Morocco selected / starters / bench | 0 / 0 / 0 |
@@ -83,9 +83,9 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | --- | --- |
 | Console/page errors | 0 |
 | Console warnings | 0 |
-| Failed requests | 7 |
+| Failed requests | 5 |
 | Blocking failed requests | 0 |
-| Ignored non-blocking failed requests | 7 |
+| Ignored non-blocking failed requests | 5 |
 | Index overflow viewports | 0 |
 | World Cup overflow viewports | 0 |
 | Profile click failures | 0 |

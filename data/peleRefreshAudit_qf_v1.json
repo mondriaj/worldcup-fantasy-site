@@ -1,6 +1,6 @@
 {
   "schema_version": "pele_refresh_audit_qf_v1",
-  "generated_at": "2026-07-08T12:35:43.868Z",
+  "generated_at": "2026-07-08T14:58:22.971Z",
   "status": "pass",
   "refresh_result": "no_source_change_documented_current_team_quality_used",
   "summary": {

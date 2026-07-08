@@ -1,6 +1,6 @@
 {
   "schema_version": "knockout_calibration_dataset_for_qf_v1",
-  "generated_at": "2026-07-08T12:35:43.868Z",
+  "generated_at": "2026-07-08T14:58:22.971Z",
   "evidence_rounds": [
     "group_stage",
     "r32",
@@ -88,326 +88,446 @@
       "actual_winner": "decided on penalties"
     }
   ],
-  "r16_player_participation_examples": [
+  "r16_player_lineup_evidence_examples": [
+    {
+      "name": "Thibaut Courtois",
+      "country": "Belgium",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 2,
+      "r32_round_points": 2,
+      "start_probability": 0.95,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
     {
       "name": "Charles De Ketelaere",
       "country": "Belgium",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
       "r16_round_points": 19,
       "r32_round_points": 1,
-      "start_probability": 0.904,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
-    },
-    {
-      "name": "Azzedine Ounahi",
-      "country": "Morocco",
-      "r16_round_points": 16,
-      "r32_round_points": 2,
-      "start_probability": 0.713,
-      "evidenceStrength": "r16_participation_points"
-    },
-    {
-      "name": "Jude Bellingham",
-      "country": "England",
-      "r16_round_points": 15,
-      "r32_round_points": 1,
-      "start_probability": 0.86,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
-    },
-    {
-      "name": "Erling Haaland",
-      "country": "Norway",
-      "r16_round_points": 13,
-      "r32_round_points": 8,
-      "start_probability": 0.719,
-      "evidenceStrength": "r16_participation_points"
-    },
-    {
-      "name": "Hans Vanaken",
-      "country": "Belgium",
-      "r16_round_points": 13,
-      "r32_round_points": 2,
-      "start_probability": 0.712,
-      "evidenceStrength": "r16_participation_points"
-    },
-    {
-      "name": "Brahim Díaz",
-      "country": "Morocco",
-      "r16_round_points": 12,
-      "r32_round_points": 2,
-      "start_probability": 0.877,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
-    },
-    {
-      "name": "Lionel Messi",
-      "country": "Argentina",
-      "r16_round_points": 11,
-      "r32_round_points": 10,
-      "start_probability": 0.86,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
-    },
-    {
-      "name": "Enzo Fernández",
-      "country": "Argentina",
-      "r16_round_points": 10,
-      "r32_round_points": 2,
-      "start_probability": 0.859,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
-    },
-    {
-      "name": "Gregor Kobel",
-      "country": "Switzerland",
-      "r16_round_points": 10,
-      "r32_round_points": 9,
-      "start_probability": 0.856,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
-    },
-    {
-      "name": "Soufiane Rahimi",
-      "country": "Morocco",
-      "r16_round_points": 10,
-      "r32_round_points": 1,
-      "start_probability": 0.713,
-      "evidenceStrength": "r16_participation_points"
-    },
-    {
-      "name": "Harry Kane",
-      "country": "England",
-      "r16_round_points": 9,
-      "r32_round_points": 13,
-      "start_probability": 0.86,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
-    },
-    {
-      "name": "Lucas Digne",
-      "country": "France",
-      "r16_round_points": 9,
-      "r32_round_points": 9,
-      "start_probability": 0.714,
-      "evidenceStrength": "r16_participation_points"
-    },
-    {
-      "name": "Kylian Mbappé",
-      "country": "France",
-      "r16_round_points": 9,
-      "r32_round_points": 14,
-      "start_probability": 0.886,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
-    },
-    {
-      "name": "Julian Ryerson",
-      "country": "Norway",
-      "r16_round_points": 9,
-      "r32_round_points": null,
-      "start_probability": 0.719,
-      "evidenceStrength": "r16_participation_points"
-    },
-    {
-      "name": "David Møller Wolfe",
-      "country": "Norway",
-      "r16_round_points": 9,
-      "r32_round_points": 2,
-      "start_probability": 0.719,
-      "evidenceStrength": "r16_participation_points"
-    },
-    {
-      "name": "Andreas Schjelderup",
-      "country": "Norway",
-      "r16_round_points": 9,
-      "r32_round_points": 1,
-      "start_probability": 0.719,
-      "evidenceStrength": "r16_participation_points"
-    },
-    {
-      "name": "Pedro Porro",
-      "country": "Spain",
-      "r16_round_points": 9,
-      "r32_round_points": 16,
-      "start_probability": 0.719,
-      "evidenceStrength": "r16_participation_points"
-    },
-    {
-      "name": "Manuel Akanji",
-      "country": "Switzerland",
-      "r16_round_points": 9,
-      "r32_round_points": 9,
-      "start_probability": 0.856,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
-    },
-    {
-      "name": "Ricardo Rodríguez",
-      "country": "Switzerland",
-      "r16_round_points": 9,
-      "r32_round_points": 9,
-      "start_probability": 0.877,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
-    },
-    {
-      "name": "Nico Elvedi",
-      "country": "Switzerland",
-      "r16_round_points": 9,
-      "r32_round_points": 9,
-      "start_probability": 0.856,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
-    },
-    {
-      "name": "Mikel Merino",
-      "country": "Spain",
-      "r16_round_points": 9,
-      "r32_round_points": 1,
-      "start_probability": 0.719,
-      "evidenceStrength": "r16_participation_points"
-    },
-    {
-      "name": "Achraf Hakimi",
-      "country": "Morocco",
-      "r16_round_points": 9,
-      "r32_round_points": 2,
-      "start_probability": 0.853,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
-    },
-    {
-      "name": "Noussair Mazraoui",
-      "country": "Morocco",
-      "r16_round_points": 9,
-      "r32_round_points": 2,
-      "start_probability": 0.713,
-      "evidenceStrength": "r16_participation_points"
-    },
-    {
-      "name": "Issa Diop",
-      "country": "Morocco",
-      "r16_round_points": 9,
-      "r32_round_points": 10,
-      "start_probability": 0.713,
-      "evidenceStrength": "r16_participation_points"
-    },
-    {
-      "name": "Cristian Romero",
-      "country": "Argentina",
-      "r16_round_points": 8,
-      "r32_round_points": 4,
-      "start_probability": 0.855,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
-    },
-    {
-      "name": "Romelu Lukaku",
-      "country": "Belgium",
-      "r16_round_points": 8,
-      "r32_round_points": 9,
-      "start_probability": 0.712,
-      "evidenceStrength": "r16_participation_points"
-    },
-    {
-      "name": "Nicolas Raskin",
-      "country": "Belgium",
-      "r16_round_points": 8,
-      "r32_round_points": 3,
-      "start_probability": 0.712,
-      "evidenceStrength": "r16_participation_points"
-    },
-    {
-      "name": "Ørjan Nyland",
-      "country": "Norway",
-      "r16_round_points": 8,
-      "r32_round_points": 3,
-      "start_probability": 0.719,
-      "evidenceStrength": "r16_participation_points"
-    },
-    {
-      "name": "Yassine Bounou",
-      "country": "Morocco",
-      "r16_round_points": 8,
-      "r32_round_points": 2,
-      "start_probability": 0.853,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
-    },
-    {
-      "name": "Redouane Halhal",
-      "country": "Morocco",
-      "r16_round_points": 8,
-      "r32_round_points": null,
-      "start_probability": 0.713,
-      "evidenceStrength": "r16_participation_points"
-    },
-    {
-      "name": "Bukayo Saka",
-      "country": "England",
-      "r16_round_points": 7,
-      "r32_round_points": 1,
-      "start_probability": 0.715,
-      "evidenceStrength": "r16_participation_points"
-    },
-    {
-      "name": "Anthony Gordon",
-      "country": "England",
-      "r16_round_points": 7,
-      "r32_round_points": 9,
-      "start_probability": 0.855,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
-    },
-    {
-      "name": "Dayot Upamecano",
-      "country": "France",
-      "r16_round_points": 7,
-      "r32_round_points": 7,
-      "start_probability": 0.86,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
-    },
-    {
-      "name": "Mike Maignan",
-      "country": "France",
-      "r16_round_points": 7,
-      "r32_round_points": 8,
-      "start_probability": 0.86,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
-    },
-    {
-      "name": "Aymeric Laporte",
-      "country": "Spain",
-      "r16_round_points": 7,
-      "r32_round_points": 7,
-      "start_probability": 0.887,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
-    },
-    {
-      "name": "Marc Cucurella",
-      "country": "Spain",
-      "r16_round_points": 7,
-      "r32_round_points": 13,
-      "start_probability": 0.889,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
-    },
-    {
-      "name": "Pau Cubarsí",
-      "country": "Spain",
-      "r16_round_points": 7,
-      "r32_round_points": 7,
-      "start_probability": 0.859,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
+      "start_probability": 0.909,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
     },
     {
       "name": "Unai Simón",
       "country": "Spain",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
       "r16_round_points": 7,
       "r32_round_points": 7,
-      "start_probability": 0.891,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
+      "start_probability": 0.887,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
     },
     {
-      "name": "William Saliba",
+      "name": "Kylian Mbappé",
       "country": "France",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 9,
+      "r32_round_points": 14,
+      "start_probability": 0.885,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Michael Olise",
+      "country": "France",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 2,
+      "r32_round_points": 10,
+      "start_probability": 0.885,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Marc Cucurella",
+      "country": "Spain",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 7,
+      "r32_round_points": 13,
+      "start_probability": 0.885,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Breel Embolo",
+      "country": "Switzerland",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 2,
+      "r32_round_points": 9,
+      "start_probability": 0.884,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Aymeric Laporte",
+      "country": "Spain",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
       "r16_round_points": 7,
       "r32_round_points": 7,
-      "start_probability": 0.714,
-      "evidenceStrength": "r16_participation_points"
+      "start_probability": 0.883,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Brahim Díaz",
+      "country": "Morocco",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 12,
+      "r32_round_points": 2,
+      "start_probability": 0.878,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Timothy Castagne",
+      "country": "Belgium",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 2,
+      "r32_round_points": 1,
+      "start_probability": 0.877,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Youri Tielemans",
+      "country": "Belgium",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 3,
+      "r32_round_points": 18,
+      "start_probability": 0.877,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Remo Freuler",
+      "country": "Switzerland",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 3,
+      "r32_round_points": 3,
+      "start_probability": 0.877,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Leandro Trossard",
+      "country": "Belgium",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 5,
+      "r32_round_points": 7,
+      "start_probability": 0.877,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Ricardo Rodríguez",
+      "country": "Switzerland",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 9,
+      "r32_round_points": 9,
+      "start_probability": 0.876,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Pau Cubarsí",
+      "country": "Spain",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 7,
+      "r32_round_points": 7,
+      "start_probability": 0.875,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Mikel Oyarzabal",
+      "country": "Spain",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 2,
+      "r32_round_points": 14,
+      "start_probability": 0.875,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Rodrigo Hernández Cascante",
+      "country": "Spain",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 4,
+      "r32_round_points": 4,
+      "start_probability": 0.875,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Pedro González López",
+      "country": "Spain",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 3,
+      "r32_round_points": 4,
+      "start_probability": 0.875,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Granit Xhaka",
+      "country": "Switzerland",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 2,
+      "r32_round_points": 3,
+      "start_probability": 0.875,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Manuel Akanji",
+      "country": "Switzerland",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 9,
+      "r32_round_points": 9,
+      "start_probability": 0.875,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Nico Elvedi",
+      "country": "Switzerland",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 9,
+      "r32_round_points": 9,
+      "start_probability": 0.875,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Gregor Kobel",
+      "country": "Switzerland",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 10,
+      "r32_round_points": 9,
+      "start_probability": 0.875,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Ezri Konsa",
+      "country": "England",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 1,
+      "r32_round_points": 2,
+      "start_probability": 0.874,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Harry Kane",
+      "country": "England",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 9,
+      "r32_round_points": 13,
+      "start_probability": 0.874,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Jordan Pickford",
+      "country": "England",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 2,
+      "r32_round_points": 2,
+      "start_probability": 0.874,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Elliot Anderson",
+      "country": "England",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 3,
+      "r32_round_points": 2,
+      "start_probability": 0.874,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Declan Rice",
+      "country": "England",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 1,
+      "r32_round_points": 3,
+      "start_probability": 0.874,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Jude Bellingham",
+      "country": "England",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 15,
+      "r32_round_points": 1,
+      "start_probability": 0.874,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Ismael Saibari",
+      "country": "Morocco",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 1,
+      "r32_round_points": 2,
+      "start_probability": 0.874,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Yassine Bounou",
+      "country": "Morocco",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 8,
+      "r32_round_points": 2,
+      "start_probability": 0.874,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Achraf Hakimi",
+      "country": "Morocco",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 9,
+      "r32_round_points": 2,
+      "start_probability": 0.874,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Neil El Aynaoui",
+      "country": "Morocco",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 3,
+      "r32_round_points": 3,
+      "start_probability": 0.874,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Bilal El Khannouss",
+      "country": "Morocco",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 2,
+      "r32_round_points": 2,
+      "start_probability": 0.874,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Dayot Upamecano",
+      "country": "France",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 7,
+      "r32_round_points": 7,
+      "start_probability": 0.873,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Ousmane Dembélé",
+      "country": "France",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 3,
+      "r32_round_points": 6,
+      "start_probability": 0.873,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Mike Maignan",
+      "country": "France",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 7,
+      "r32_round_points": 8,
+      "start_probability": 0.873,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
     },
     {
       "name": "Jules Koundé",
       "country": "France",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
       "r16_round_points": 7,
       "r32_round_points": 7,
-      "start_probability": 0.858,
-      "evidenceStrength": "r16_r32_participation_points_plus_strong_prior"
+      "start_probability": 0.873,
+      "evidenceStrength": "explicit_r16_r32_starter_plus_strong_prior"
+    },
+    {
+      "name": "Lionel Messi",
+      "country": "Argentina",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 11,
+      "r32_round_points": 10,
+      "start_probability": 0.856,
+      "evidenceStrength": "explicit_r16_starter_plus_strong_prior"
+    },
+    {
+      "name": "Emiliano Martínez",
+      "country": "Argentina",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 1,
+      "r32_round_points": 2,
+      "start_probability": 0.856,
+      "evidenceStrength": "explicit_r16_starter_plus_strong_prior"
+    },
+    {
+      "name": "Rodrigo De Paul",
+      "country": "Argentina",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "r16Substitute": false,
+      "r16_round_points": 2,
+      "r32_round_points": 2,
+      "start_probability": 0.856,
+      "evidenceStrength": "explicit_r16_starter_plus_strong_prior"
     }
   ]
 }

@@ -1,10 +1,11 @@
 {
   "schema_version": "team_builder_qa_qf_v1",
-  "generated_at": "2026-07-08T12:35:43.868Z",
+  "generated_at": "2026-07-08T14:58:22.971Z",
   "model_version": "team-builder-qf-v1",
   "status": "pass",
   "summary": {
     "projection_rows": 203,
+    "builder_eligible_rows": 86,
     "recommendation_rows": 125,
     "by_position": {
       "DEF": 65,
@@ -12,11 +13,19 @@
       "GK": 24,
       "MID": 82
     },
+    "builder_by_position": {
+      "DEF": 29,
+      "FWD": 10,
+      "GK": 8,
+      "MID": 39
+    },
     "defaultMatchday": "qf",
-    "balanced_projected_points": 81.06,
-    "greedy_projected_points": 81.06,
+    "balanced_projected_points": 78.49,
+    "greedy_projected_points": 78.49,
     "path_value_beyond_qf_included": true,
     "role_volatility_included": true,
+    "explicit_r16_starters_only_for_builder_samples": true,
+    "points_only_rows_used_as_starters": 0,
     "known_qualified_teams_preferred": true,
     "eliminated_and_unavailable_excluded": true
   },
@@ -25,106 +34,151 @@
       "name": "Marc Cucurella",
       "country": "Spain",
       "position": "DEF",
-      "points": 6.003,
-      "opponent": "Belgium"
+      "points": 5.877,
+      "opponent": "Belgium",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
     },
     {
       "name": "Aymeric Laporte",
       "country": "Spain",
       "position": "DEF",
-      "points": 5.989,
-      "opponent": "Belgium"
-    },
-    {
-      "name": "Facundo Medina",
-      "country": "Argentina",
-      "position": "DEF",
-      "points": 5.781,
-      "opponent": "Switzerland"
-    },
-    {
-      "name": "Lisandro Martínez",
-      "country": "Argentina",
-      "position": "DEF",
-      "points": 5.676,
-      "opponent": "Switzerland"
+      "points": 5.863,
+      "opponent": "Belgium",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
     },
     {
       "name": "Pau Cubarsí",
       "country": "Spain",
       "position": "DEF",
-      "points": 5.665,
-      "opponent": "Belgium"
+      "points": 5.723,
+      "opponent": "Belgium",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
     },
     {
       "name": "Unai Simón",
       "country": "Spain",
       "position": "GK",
-      "points": 5.523,
-      "opponent": "Belgium"
+      "points": 5.408,
+      "opponent": "Belgium",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "name": "Lisandro Martínez",
+      "country": "Argentina",
+      "position": "DEF",
+      "points": 5.371,
+      "opponent": "Switzerland",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
     },
     {
       "name": "Dayot Upamecano",
       "country": "France",
       "position": "DEF",
-      "points": 5.414,
-      "opponent": "Morocco"
-    },
-    {
-      "name": "Lionel Messi",
-      "country": "Argentina",
-      "position": "FWD",
-      "points": 5.307,
-      "opponent": "Switzerland"
-    },
-    {
-      "name": "Jules Koundé",
-      "country": "France",
-      "position": "DEF",
-      "points": 5.303,
-      "opponent": "Morocco"
+      "points": 5.34,
+      "opponent": "Morocco",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
     },
     {
       "name": "Mikel Oyarzabal",
       "country": "Spain",
       "position": "FWD",
-      "points": 5.174,
-      "opponent": "Belgium"
+      "points": 5.211,
+      "opponent": "Belgium",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
     },
     {
-      "name": "Cristian Romero",
-      "country": "Argentina",
+      "name": "Jules Koundé",
+      "country": "France",
       "position": "DEF",
-      "points": 5.092,
-      "opponent": "Switzerland"
-    },
-    {
-      "name": "Emiliano Martínez",
-      "country": "Argentina",
-      "position": "GK",
-      "points": 5.075,
-      "opponent": "Switzerland"
+      "points": 5.232,
+      "opponent": "Morocco",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
     },
     {
       "name": "Kylian Mbappé",
       "country": "France",
       "position": "FWD",
-      "points": 5.024,
-      "opponent": "Morocco"
+      "points": 5.08,
+      "opponent": "Morocco",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "name": "Lionel Messi",
+      "country": "Argentina",
+      "position": "FWD",
+      "points": 5.023,
+      "opponent": "Switzerland",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
     },
     {
       "name": "Mike Maignan",
       "country": "France",
       "position": "GK",
-      "points": 5.082,
-      "opponent": "Morocco"
+      "points": 5.012,
+      "opponent": "Morocco",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
     },
     {
-      "name": "Lautaro Martínez",
+      "name": "Emiliano Martínez",
       "country": "Argentina",
+      "position": "GK",
+      "points": 4.943,
+      "opponent": "Switzerland",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "name": "Cristian Romero",
+      "country": "Argentina",
+      "position": "DEF",
+      "points": 4.819,
+      "opponent": "Switzerland",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "name": "Harry Kane",
+      "country": "England",
       "position": "FWD",
-      "points": 4.955,
-      "opponent": "Switzerland"
+      "points": 4.826,
+      "opponent": "Norway",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "name": "Ousmane Dembélé",
+      "country": "France",
+      "position": "MID",
+      "points": 4.761,
+      "opponent": "Morocco",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
     }
   ],
   "greedy_sample": [
@@ -132,106 +186,152 @@
       "name": "Marc Cucurella",
       "country": "Spain",
       "position": "DEF",
-      "points": 6.003,
-      "opponent": "Belgium"
+      "points": 5.877,
+      "opponent": "Belgium",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
     },
     {
       "name": "Aymeric Laporte",
       "country": "Spain",
       "position": "DEF",
-      "points": 5.989,
-      "opponent": "Belgium"
-    },
-    {
-      "name": "Facundo Medina",
-      "country": "Argentina",
-      "position": "DEF",
-      "points": 5.781,
-      "opponent": "Switzerland"
-    },
-    {
-      "name": "Lisandro Martínez",
-      "country": "Argentina",
-      "position": "DEF",
-      "points": 5.676,
-      "opponent": "Switzerland"
+      "points": 5.863,
+      "opponent": "Belgium",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
     },
     {
       "name": "Pau Cubarsí",
       "country": "Spain",
       "position": "DEF",
-      "points": 5.665,
-      "opponent": "Belgium"
+      "points": 5.723,
+      "opponent": "Belgium",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
     },
     {
       "name": "Unai Simón",
       "country": "Spain",
       "position": "GK",
-      "points": 5.523,
-      "opponent": "Belgium"
+      "points": 5.408,
+      "opponent": "Belgium",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "name": "Lisandro Martínez",
+      "country": "Argentina",
+      "position": "DEF",
+      "points": 5.371,
+      "opponent": "Switzerland",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
     },
     {
       "name": "Dayot Upamecano",
       "country": "France",
       "position": "DEF",
-      "points": 5.414,
-      "opponent": "Morocco"
-    },
-    {
-      "name": "Lionel Messi",
-      "country": "Argentina",
-      "position": "FWD",
-      "points": 5.307,
-      "opponent": "Switzerland"
+      "points": 5.34,
+      "opponent": "Morocco",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
     },
     {
       "name": "Jules Koundé",
       "country": "France",
       "position": "DEF",
-      "points": 5.303,
-      "opponent": "Morocco"
+      "points": 5.232,
+      "opponent": "Morocco",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
     },
     {
       "name": "Mikel Oyarzabal",
       "country": "Spain",
       "position": "FWD",
-      "points": 5.174,
-      "opponent": "Belgium"
-    },
-    {
-      "name": "Cristian Romero",
-      "country": "Argentina",
-      "position": "DEF",
-      "points": 5.092,
-      "opponent": "Switzerland"
-    },
-    {
-      "name": "Mike Maignan",
-      "country": "France",
-      "position": "GK",
-      "points": 5.082,
-      "opponent": "Morocco"
-    },
-    {
-      "name": "Emiliano Martínez",
-      "country": "Argentina",
-      "position": "GK",
-      "points": 5.075,
-      "opponent": "Switzerland"
+      "points": 5.211,
+      "opponent": "Belgium",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
     },
     {
       "name": "Kylian Mbappé",
       "country": "France",
       "position": "FWD",
-      "points": 5.024,
-      "opponent": "Morocco"
+      "points": 5.08,
+      "opponent": "Morocco",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
     },
     {
-      "name": "Lautaro Martínez",
+      "name": "Lionel Messi",
       "country": "Argentina",
       "position": "FWD",
-      "points": 4.955,
-      "opponent": "Switzerland"
+      "points": 5.023,
+      "opponent": "Switzerland",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "name": "Mike Maignan",
+      "country": "France",
+      "position": "GK",
+      "points": 5.012,
+      "opponent": "Morocco",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "name": "Emiliano Martínez",
+      "country": "Argentina",
+      "position": "GK",
+      "points": 4.943,
+      "opponent": "Switzerland",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "name": "Harry Kane",
+      "country": "England",
+      "position": "FWD",
+      "points": 4.826,
+      "opponent": "Norway",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "name": "Cristian Romero",
+      "country": "Argentina",
+      "position": "DEF",
+      "points": 4.819,
+      "opponent": "Switzerland",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
+    },
+    {
+      "name": "Ousmane Dembélé",
+      "country": "France",
+      "position": "MID",
+      "points": 4.761,
+      "opponent": "Morocco",
+      "lineupEvidenceType": "explicit_r16_starter",
+      "r16Started": true,
+      "coreEligibilityReason": "explicit_r16_starter_with_qf_role_confidence"
     }
-  ]
+  ],
+  "unsafe_sample_rows": []
 }
