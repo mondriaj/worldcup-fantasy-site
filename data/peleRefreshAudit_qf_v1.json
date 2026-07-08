@@ -1,0 +1,26 @@
+{
+  "schema_version": "pele_refresh_audit_qf_v1",
+  "generated_at": "2026-07-08T12:35:43.868Z",
+  "status": "pass",
+  "refresh_result": "no_source_change_documented_current_team_quality_used",
+  "summary": {
+    "qf_team_count": 8,
+    "missing_teams": 0,
+    "duplicate_team_keys": 0,
+    "invalid_numeric_values": 0,
+    "fixture_team_mappings_safe": true
+  },
+  "qf_teams": [
+    "argentina",
+    "belgium",
+    "england",
+    "france",
+    "morocco",
+    "norway",
+    "spain",
+    "switzerland"
+  ],
+  "missing_teams": [],
+  "duplicate_team_keys": [],
+  "invalid_numeric_rows": []
+}

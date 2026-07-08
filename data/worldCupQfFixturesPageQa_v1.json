@@ -1,0 +1,49 @@
+{
+  "schema_version": "world_cup_qf_fixtures_page_qa_v1",
+  "generated_at": "2026-07-08T12:55:08.352Z",
+  "status": "pass",
+  "summary": {
+    "qf_fixture_count": 4,
+    "rendered_console_errors": 0
+  },
+  "fixture_checks": [
+    {
+      "slot": "M97",
+      "fixture": "France vs Morocco",
+      "kickoff": "Jul 9, 2026 · 4:00 PM ET",
+      "advances_to": "M101",
+      "teams_visible": true,
+      "kickoff_visible": true,
+      "advances_visible": true
+    },
+    {
+      "slot": "M98",
+      "fixture": "Spain vs Belgium",
+      "kickoff": "Jul 10, 2026 · 3:00 PM ET",
+      "advances_to": "M101",
+      "teams_visible": true,
+      "kickoff_visible": true,
+      "advances_visible": true
+    },
+    {
+      "slot": "M99",
+      "fixture": "Norway vs England",
+      "kickoff": "Jul 11, 2026 · 5:00 PM ET",
+      "advances_to": "M102",
+      "teams_visible": true,
+      "kickoff_visible": true,
+      "advances_visible": true
+    },
+    {
+      "slot": "M100",
+      "fixture": "Argentina vs Switzerland",
+      "kickoff": "Jul 11, 2026 · 9:00 PM ET",
+      "advances_to": "M102",
+      "teams_visible": true,
+      "kickoff_visible": true,
+      "advances_visible": true
+    }
+  ],
+  "errors": [],
+  "warnings": []
+}

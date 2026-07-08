@@ -1,6 +1,6 @@
 # Knockout Bracket Prediction QA v1
 
-Generated: 2026-07-04T13:07:19.335Z
+Generated: 2026-07-08T12:55:08.368Z
 
 Status: **PASS**
 
@@ -11,10 +11,10 @@ Status: **PASS**
 | Predicted champion | Argentina |
 | Predicted finalists | Spain, Argentina |
 | Predicted semifinalists | France, Spain, England, Argentina |
-| Decided matches | 16 |
-| Correct | 12 |
-| Wrong | 4 |
-| Pending | 16 |
+| Decided matches | 24 |
+| Correct | 18 |
+| Wrong | 6 |
+| Pending | 8 |
 | Accuracy | 75% |
 | Flags missing/fallback | 0 |
 
@@ -34,6 +34,7 @@ Status: **PASS**
 | Check | Status | Detail |
 | --- | --- | --- |
 | r32_fixture_authority_pass | pass | "pass" |
+| qf_fixture_authority_pass | pass | "pass" |
 | browser_data_global_present | pass |  |
 | index_loads_browser_data_before_script | pass |  |
 | script_reads_active_bracket_prediction_data | pass |  |
@@ -49,12 +50,14 @@ Status: **PASS**
 | summary_predicted_semifinalists_present | pass | France; Spain; England; Argentina |
 | france_argentina_not_before_final | pass |  |
 | france_argentina_not_r16 | pass |  |
-| france_path_feeds_m89 | pass | {"franceSlot":"M77","franceR16":"Germany vs France"} |
-| argentina_path_feeds_m95 | pass | {"argentinaSlot":"M86","argentinaR16":"Argentina vs Australia"} |
+| france_path_feeds_m89 | pass | {"franceSlot":"M77","franceR16":"Paraguay vs France"} |
+| argentina_path_feeds_m95 | pass | {"argentinaSlot":"M86","argentinaR16":"Argentina vs Egypt"} |
 | predicted_winners_are_participants | pass |  |
 | actual_winners_are_actual_participants | pass |  |
 | non_final_matches_do_not_show_actual_scores | pass |  |
 | final_matches_have_prediction_result | pass |  |
 | known_teams_have_flags_or_code_fallback | pass |  |
+| qf_rows_match_qf_authority | pass | {"missing_authority_teams":[],"unexpected_qf_teams":[],"pending_qf_slots":[]} |
+| qf_matches_not_marked_final_before_play | pass | [object Object]; [object Object]; [object Object]; [object Object] |
 | knockout_score_predictor_r32_coverage | pass | 16 |
 | default_strategy_has_full_tree | pass | "safe: 31" |

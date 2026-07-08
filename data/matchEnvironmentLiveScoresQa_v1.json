@@ -1,26 +1,28 @@
 {
   "schema_version": "match_environment_live_scores_qa_v1",
-  "generated_at": "2026-07-04T13:07:27.106Z",
+  "generated_at": "2026-07-08T12:55:08.396Z",
   "status": "passed",
   "files": {
     "html": "index.html",
     "script": "script.js",
     "r32ScorePredictions": "data/scorePredictions_fantasyPool_r32_v1.json",
     "r16ScorePredictions": "data/scorePredictions_fantasyPool_r16_v1.json",
+    "qfScorePredictions": "data/scorePredictions_fantasyPool_qf_v1.json",
     "liveMatchday": "data/liveMatchdayStatus_v1.json",
     "liveFixtureQa": "data/liveFixtureMappingQa_v1.json",
     "outputJson": "data/matchEnvironmentLiveScoresQa_v1.json",
     "outputReport": "data/matchEnvironmentLiveScoresQaReport_v1.md"
   },
   "summary": {
-    "score_prediction_fixture_count": 96,
+    "score_prediction_fixture_count": 100,
     "r32_score_prediction_fixture_count": 88,
     "r16_score_prediction_fixture_count": 8,
-    "complete_prediction_fixture_count": 96,
+    "qf_score_prediction_fixture_count": 4,
+    "complete_prediction_fixture_count": 100,
     "group_stage_score_prediction_fixture_count": 72,
-    "live_fixture_count": 96,
-    "final_fixture_count": 88,
-    "final_score_support_rows": 88,
+    "live_fixture_count": 100,
+    "final_fixture_count": 96,
+    "final_score_support_rows": 96,
     "completed_md1_fixture_count": 24,
     "completed_md1_final_scores_supported": 24,
     "completed_md2_fixture_count": 24,
@@ -30,7 +32,7 @@
     "non_final_score_leak_count": 0,
     "playing_fixture_final_leak_count": 0,
     "reversed_score_error_count": 0,
-    "r16_default": true,
+    "qf_default": true,
     "active_matchdays_accessible": true,
     "live_script_loaded_before_app_script": true,
     "predicted_field_checks": {
@@ -51,15 +53,6 @@
   },
   "completed_md3_checks": [
     {
-      "match_number": 52,
-      "fixture_id": "fwc2026-m052",
-      "fixture": "Bosnia and Herzegovina vs Qatar",
-      "round_id": "3",
-      "score": "3-1",
-      "supported": true,
-      "reversed": false
-    },
-    {
       "match_number": 51,
       "fixture_id": "fwc2026-m051",
       "fixture": "Switzerland vs Canada",
@@ -69,11 +62,11 @@
       "reversed": false
     },
     {
-      "match_number": 50,
-      "fixture_id": "fwc2026-m050",
-      "fixture": "Morocco vs Haiti",
+      "match_number": 52,
+      "fixture_id": "fwc2026-m052",
+      "fixture": "Bosnia and Herzegovina vs Qatar",
       "round_id": "3",
-      "score": "4-2",
+      "score": "3-1",
       "supported": true,
       "reversed": false
     },
@@ -87,11 +80,11 @@
       "reversed": false
     },
     {
-      "match_number": 53,
-      "fixture_id": "fwc2026-m053",
-      "fixture": "Czechia vs Mexico",
+      "match_number": 50,
+      "fixture_id": "fwc2026-m050",
+      "fixture": "Morocco vs Haiti",
       "round_id": "3",
-      "score": "0-3",
+      "score": "4-2",
       "supported": true,
       "reversed": false
     },
@@ -101,6 +94,15 @@
       "fixture": "South Africa vs Korea Republic",
       "round_id": "3",
       "score": "1-0",
+      "supported": true,
+      "reversed": false
+    },
+    {
+      "match_number": 53,
+      "fixture_id": "fwc2026-m053",
+      "fixture": "Czechia vs Mexico",
+      "round_id": "3",
+      "score": "0-3",
       "supported": true,
       "reversed": false
     },
@@ -123,20 +125,20 @@
       "reversed": false
     },
     {
-      "match_number": 58,
-      "fixture_id": "fwc2026-m058",
-      "fixture": "Tunisia vs Netherlands",
-      "round_id": "3",
-      "score": "1-3",
-      "supported": true,
-      "reversed": false
-    },
-    {
       "match_number": 57,
       "fixture_id": "fwc2026-m057",
       "fixture": "Japan vs Sweden",
       "round_id": "3",
       "score": "1-1",
+      "supported": true,
+      "reversed": false
+    },
+    {
+      "match_number": 58,
+      "fixture_id": "fwc2026-m058",
+      "fixture": "Tunisia vs Netherlands",
+      "round_id": "3",
+      "score": "1-3",
       "supported": true,
       "reversed": false
     },
@@ -159,20 +161,20 @@
       "reversed": false
     },
     {
-      "match_number": 61,
-      "fixture_id": "fwc2026-m061",
-      "fixture": "Norway vs France",
-      "round_id": "3",
-      "score": "1-4",
-      "supported": true,
-      "reversed": false
-    },
-    {
       "match_number": 62,
       "fixture_id": "fwc2026-m062",
       "fixture": "Senegal vs Iraq",
       "round_id": "3",
       "score": "5-0",
+      "supported": true,
+      "reversed": false
+    },
+    {
+      "match_number": 61,
+      "fixture_id": "fwc2026-m061",
+      "fixture": "Norway vs France",
+      "round_id": "3",
+      "score": "1-4",
       "supported": true,
       "reversed": false
     },
@@ -195,15 +197,6 @@
       "reversed": false
     },
     {
-      "match_number": 64,
-      "fixture_id": "fwc2026-m064",
-      "fixture": "New Zealand vs Belgium",
-      "round_id": "3",
-      "score": "1-5",
-      "supported": true,
-      "reversed": false
-    },
-    {
       "match_number": 63,
       "fixture_id": "fwc2026-m063",
       "fixture": "Egypt vs IR Iran",
@@ -213,11 +206,11 @@
       "reversed": false
     },
     {
-      "match_number": 67,
-      "fixture_id": "fwc2026-m067",
-      "fixture": "Panama vs England",
+      "match_number": 64,
+      "fixture_id": "fwc2026-m064",
+      "fixture": "New Zealand vs Belgium",
       "round_id": "3",
-      "score": "0-2",
+      "score": "1-5",
       "supported": true,
       "reversed": false
     },
@@ -227,6 +220,15 @@
       "fixture": "Croatia vs Ghana",
       "round_id": "3",
       "score": "2-1",
+      "supported": true,
+      "reversed": false
+    },
+    {
+      "match_number": 67,
+      "fixture_id": "fwc2026-m067",
+      "fixture": "Panama vs England",
+      "round_id": "3",
+      "score": "0-2",
       "supported": true,
       "reversed": false
     },
@@ -249,20 +251,20 @@
       "reversed": false
     },
     {
-      "match_number": 70,
-      "fixture_id": "fwc2026-m070",
-      "fixture": "Jordan vs Argentina",
-      "round_id": "3",
-      "score": "1-3",
-      "supported": true,
-      "reversed": false
-    },
-    {
       "match_number": 69,
       "fixture_id": "fwc2026-m069",
       "fixture": "Algeria vs Austria",
       "round_id": "3",
       "score": "3-3",
+      "supported": true,
+      "reversed": false
+    },
+    {
+      "match_number": 70,
+      "fixture_id": "fwc2026-m070",
+      "fixture": "Jordan vs Argentina",
+      "round_id": "3",
+      "score": "1-3",
       "supported": true,
       "reversed": false
     }

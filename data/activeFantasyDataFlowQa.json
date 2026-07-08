@@ -1,7 +1,7 @@
 {
   "schema_version": "active_fantasy_data_flow_qa_v1",
-  "generated_at": "2026-07-04T13:07:01.409Z",
-  "active_version": "20260704-r16-final",
+  "generated_at": "2026-07-08T12:54:39.009Z",
+  "active_version": "20260708-qf-final",
   "status": "pass",
   "checks": [
     {
@@ -20,6 +20,7 @@
           "liveMatchdayStatusData.js",
           "livePlayerStatusData.js",
           "r16FixtureAuthorityData.js",
+          "qfFixtureAuthorityData.js",
           "script.js"
         ],
         "actual_relevant_order": [
@@ -34,6 +35,7 @@
           "liveMatchdayStatusData.js",
           "livePlayerStatusData.js",
           "r16FixtureAuthorityData.js",
+          "qfFixtureAuthorityData.js",
           "script.js"
         ],
         "loaded_legacy_files": [],
@@ -111,17 +113,18 @@
       "id": "active_browser_globals_loaded",
       "status": "pass",
       "detail": {
-        "recommendation_rows": 250,
-        "projection_rows": 1222,
+        "recommendation_rows": 375,
+        "projection_rows": 1425,
         "finance_rows": 1233,
-        "score_fixture_rows": 96,
-        "score_team_fixture_rows": 192,
+        "score_fixture_rows": 100,
+        "score_team_fixture_rows": 200,
         "knockout_bracket_prediction_match_count": 32,
         "knockout_bracket_prediction_round_count": 6,
         "official_position_records": 1489,
-        "live_fixture_rows": 96,
+        "live_fixture_rows": 100,
         "live_player_rows": 1489,
-        "r16_authority_fixture_rows": 8
+        "r16_authority_fixture_rows": 8,
+        "qf_authority_fixture_rows": 4
       }
     },
     {
@@ -167,8 +170,8 @@
       "id": "fantasy_pool_recommendation_identity_coverage",
       "status": "pass",
       "detail": {
-        "resolved": 250,
-        "total": 250,
+        "resolved": 375,
+        "total": 375,
         "missing": 0
       }
     },
@@ -176,8 +179,8 @@
       "id": "fantasy_pool_projection_identity_coverage",
       "status": "pass",
       "detail": {
-        "resolved": 1222,
-        "total": 1222,
+        "resolved": 1425,
+        "total": 1425,
         "missing": 0,
         "unique_active_official_players": 816
       }
@@ -218,18 +221,18 @@
       "id": "active_matchday_recommendation_identity_and_projection_coverage",
       "status": "pass",
       "detail": {
-        "active_matchday_id": "r16",
-        "active_matchday_label": "R16",
+        "active_matchday_id": "qf",
+        "active_matchday_label": "QF",
         "active_recommendation_rows": 125,
-        "active_projection_rows": 406,
-        "active_score_fixture_rows": 8,
+        "active_projection_rows": 203,
+        "active_score_fixture_rows": 4,
         "active_recommendations_resolving_active_identity_count": 125,
         "active_recommendations_missing_active_identity_count": 0,
         "active_projections_missing_active_identity_count": 0,
         "finance_missing_active_identity_count": 0,
         "recommendation_projection_missing_count": 0,
-        "active_recommendations_missing_players_data_enrichment_count": 110,
-        "active_projections_missing_players_data_enrichment_count": 360,
+        "active_recommendations_missing_players_data_enrichment_count": 114,
+        "active_projections_missing_players_data_enrichment_count": 179,
         "finance_missing_players_data_enrichment_count": 1122,
         "players_data_role": "supplemental_enrichment_only",
         "duplicate_score_fixture_key_count": 0,
@@ -240,7 +243,7 @@
       "id": "active_matchday_score_fixture_coverage",
       "status": "pass",
       "detail": {
-        "active_score_fixture_rows": 8,
+        "active_score_fixture_rows": 4,
         "duplicate_score_fixture_key_count": 0
       }
     },
@@ -289,6 +292,7 @@
       "liveMatchdayStatusData.js",
       "livePlayerStatusData.js",
       "r16FixtureAuthorityData.js",
+      "qfFixtureAuthorityData.js",
       "script.js"
     ],
     "actual_relevant_order": [
@@ -303,6 +307,7 @@
       "liveMatchdayStatusData.js",
       "livePlayerStatusData.js",
       "r16FixtureAuthorityData.js",
+      "qfFixtureAuthorityData.js",
       "script.js"
     ],
     "loaded_legacy_files": [],
@@ -312,17 +317,18 @@
     "passed": true
   },
   "active_counts": {
-    "recommendation_rows": 250,
-    "projection_rows": 1222,
+    "recommendation_rows": 375,
+    "projection_rows": 1425,
     "finance_rows": 1233,
-    "score_fixture_rows": 96,
-    "score_team_fixture_rows": 192,
+    "score_fixture_rows": 100,
+    "score_team_fixture_rows": 200,
     "knockout_bracket_prediction_match_count": 32,
     "knockout_bracket_prediction_round_count": 6,
     "official_position_records": 1489,
-    "live_fixture_rows": 96,
+    "live_fixture_rows": 100,
     "live_player_rows": 1489,
-    "r16_authority_fixture_rows": 8
+    "r16_authority_fixture_rows": 8,
+    "qf_authority_fixture_rows": 4
   },
   "players_sync": {
     "source_count": 100,
@@ -394,13 +400,13 @@
       "FWD": 74
     },
     "recommendation_identity_coverage": {
-      "resolved": 250,
-      "total": 250,
+      "resolved": 375,
+      "total": 375,
       "missing": 0
     },
     "projection_identity_coverage": {
-      "resolved": 1222,
-      "total": 1222,
+      "resolved": 1425,
+      "total": 1425,
       "missing": 0,
       "unique_active_official_players": 816
     },
@@ -434,18 +440,18 @@
     "coverage_percent": 8.06
   },
   "active_matchday_consistency": {
-    "active_matchday_id": "r16",
-    "active_matchday_label": "R16",
+    "active_matchday_id": "qf",
+    "active_matchday_label": "QF",
     "active_recommendation_rows": 125,
-    "active_projection_rows": 406,
-    "active_score_fixture_rows": 8,
+    "active_projection_rows": 203,
+    "active_score_fixture_rows": 4,
     "active_recommendations_resolving_active_identity_count": 125,
     "active_recommendations_missing_active_identity_count": 0,
     "active_projections_missing_active_identity_count": 0,
     "finance_missing_active_identity_count": 0,
     "recommendation_projection_missing_count": 0,
-    "active_recommendations_missing_players_data_enrichment_count": 110,
-    "active_projections_missing_players_data_enrichment_count": 360,
+    "active_recommendations_missing_players_data_enrichment_count": 114,
+    "active_projections_missing_players_data_enrichment_count": 179,
     "finance_missing_players_data_enrichment_count": 1122,
     "players_data_role": "supplemental_enrichment_only",
     "duplicate_score_fixture_key_count": 0,

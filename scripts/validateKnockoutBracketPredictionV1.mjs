@@ -11,6 +11,7 @@ const files = {
   bracketPrediction: "data/knockoutBracketPrediction_v1.json",
   browserData: "knockoutBracketPredictionData.js",
   fixtureAuthority: "data/r32FixtureAuthority_v1.json",
+  qfFixtureAuthority: "data/qfFixtureAuthority_v1.json",
   knockoutScorePredictor: "data/knockoutScorePredictor_v1.json",
   bracketPoolStrategy: "data/bracketPoolStrategyModel_v1.json",
   index: "index.html",
@@ -91,7 +92,7 @@ function addCheck(checks, failures, id, passed, detail = null) {
   if (!passed) failures.push({ id, detail });
 }
 
-function validateData(data, authority, knockout, bracketPool, browserDataText, indexText, scriptText, styleText) {
+function validateData(data, authority, qfAuthority, knockout, bracketPool, browserDataText, indexText, scriptText, styleText) {
   const checks = [];
   const failures = [];
   const matches = data.matches || [];
@@ -135,8 +136,15 @@ function validateData(data, authority, knockout, bracketPool, browserDataText, i
   const argentinaSlot = matchBySlot(data, "M86");
   const argentinaR16 = matchBySlot(data, "M95");
   const safeStrategy = (bracketPool.strategies || []).find((strategy) => strategy.strategy_id === data.defaultStrategy?.strategyId);
+  const qfAuthorityTeams = new Set((qfAuthority.fixtures || []).flatMap((fixture) => [fixture.team_a?.team_id, fixture.team_b?.team_id].filter(Boolean)));
+  const qfRows = matches.filter((match) => match.round === "qf");
+  const qfRowTeams = new Set(qfRows.flatMap((match) => [teamId(match.teamA), teamId(match.teamB)].filter(Boolean)));
+  const qfMissingAuthorityTeams = [...qfAuthorityTeams].filter((team) => !qfRowTeams.has(team));
+  const qfUnexpectedTeams = [...qfRowTeams].filter((team) => !qfAuthorityTeams.has(team));
+  const qfPendingTeamRows = qfRows.filter((match) => [match.teamA, match.teamB].some((team) => team?.sourceConfidence === "pending"));
 
   addCheck(checks, failures, "r32_fixture_authority_pass", authority.status === "pass", authority.status);
+  addCheck(checks, failures, "qf_fixture_authority_pass", qfAuthority.status === "pass", qfAuthority.status);
   addCheck(checks, failures, "browser_data_global_present", /window\.KNOCKOUT_BRACKET_PREDICTION_DATA/.test(browserDataText), null);
   addCheck(checks, failures, "index_loads_browser_data_before_script", indexText.indexOf("knockoutBracketPredictionData.js") > -1 && indexText.indexOf("knockoutBracketPredictionData.js") < indexText.indexOf("script.js"), null);
   addCheck(checks, failures, "script_reads_active_bracket_prediction_data", /knockoutBracketPrediction/.test(scriptText) && /KNOCKOUT_BRACKET_PREDICTION_DATA/.test(scriptText), null);
@@ -163,6 +171,12 @@ function validateData(data, authority, knockout, bracketPool, browserDataText, i
   addCheck(checks, failures, "non_final_matches_do_not_show_actual_scores", nonFinalActualScoreFailures.length === 0, nonFinalActualScoreFailures.slice(0, 20));
   addCheck(checks, failures, "final_matches_have_prediction_result", finalPredictionResultFailures.length === 0, finalPredictionResultFailures);
   addCheck(checks, failures, "known_teams_have_flags_or_code_fallback", missingTeamFlagOrCode.length === 0, missingTeamFlagOrCode.slice(0, 20));
+  addCheck(checks, failures, "qf_rows_match_qf_authority", qfMissingAuthorityTeams.length === 0 && qfUnexpectedTeams.length === 0 && qfPendingTeamRows.length === 0, {
+    missing_authority_teams: qfMissingAuthorityTeams,
+    unexpected_qf_teams: qfUnexpectedTeams,
+    pending_qf_slots: qfPendingTeamRows.map((match) => match.bracketSlotId)
+  });
+  addCheck(checks, failures, "qf_matches_not_marked_final_before_play", qfRows.every((match) => match.status !== "final" && !match.actualScore), qfRows.map((match) => ({ slot: match.bracketSlotId, status: match.status, actualScore: match.actualScore })));
   addCheck(checks, failures, "knockout_score_predictor_r32_coverage", (knockout.known_r32_predictions || []).length === 16, (knockout.known_r32_predictions || []).length);
   addCheck(checks, failures, "default_strategy_has_full_tree", Boolean(safeStrategy && (safeStrategy.matches || []).length === 31), safeStrategy ? `${safeStrategy.strategy_id}: ${(safeStrategy.matches || []).length}` : null);
 
@@ -211,13 +225,14 @@ ${mdTable(["Check", "Status", "Detail"], checkRows)}
 async function main() {
   const data = readJson(files.bracketPrediction);
   const authority = readJson(files.fixtureAuthority);
+  const qfAuthority = readJson(files.qfFixtureAuthority);
   const knockout = readJson(files.knockoutScorePredictor);
   const bracketPool = readJson(files.bracketPoolStrategy);
   const browserDataText = readText(files.browserData);
   const indexText = readText(files.index);
   const scriptText = readText(files.script);
   const styleText = readText(files.style);
-  const { checks, failures, countsByRound } = validateData(data, authority, knockout, bracketPool, browserDataText, indexText, scriptText, styleText);
+  const { checks, failures, countsByRound } = validateData(data, authority, qfAuthority, knockout, bracketPool, browserDataText, indexText, scriptText, styleText);
   const resultCountsByStatus = resultCounts(data);
   const qa = {
     schema_version: "knockout_bracket_prediction_qa_v1",

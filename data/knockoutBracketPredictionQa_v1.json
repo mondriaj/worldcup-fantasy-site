@@ -1,11 +1,12 @@
 {
   "schema_version": "knockout_bracket_prediction_qa_v1",
-  "generated_at": "2026-07-04T13:07:19.335Z",
+  "generated_at": "2026-07-08T12:55:08.368Z",
   "status": "pass",
   "source_files": {
     "bracketPrediction": "data/knockoutBracketPrediction_v1.json",
     "browserData": "knockoutBracketPredictionData.js",
     "fixtureAuthority": "data/r32FixtureAuthority_v1.json",
+    "qfFixtureAuthority": "data/qfFixtureAuthority_v1.json",
     "knockoutScorePredictor": "data/knockoutScorePredictor_v1.json",
     "bracketPoolStrategy": "data/bracketPoolStrategyModel_v1.json",
     "index": "index.html",
@@ -23,9 +24,9 @@
     "third_place": 1
   },
   "result_counts": {
-    "correct": 12,
-    "wrong": 4,
-    "pending": 16
+    "correct": 18,
+    "wrong": 6,
+    "pending": 8
   },
   "summary": {
     "predictedChampion": "Argentina",
@@ -39,16 +40,21 @@
       "England",
       "Argentina"
     ],
-    "decidedKnockoutMatches": 16,
-    "correctWinnerPredictions": 12,
-    "wrongWinnerPredictions": 4,
-    "pendingPredictions": 16,
+    "decidedKnockoutMatches": 24,
+    "correctWinnerPredictions": 18,
+    "wrongWinnerPredictions": 6,
+    "pendingPredictions": 8,
     "accuracyPct": 75,
     "flagsMissingFallbackCount": 0
   },
   "checks": [
     {
       "id": "r32_fixture_authority_pass",
+      "status": "pass",
+      "detail": "pass"
+    },
+    {
+      "id": "qf_fixture_authority_pass",
       "status": "pass",
       "detail": "pass"
     },
@@ -140,7 +146,7 @@
       "status": "pass",
       "detail": {
         "franceSlot": "M77",
-        "franceR16": "Germany vs France"
+        "franceR16": "Paraguay vs France"
       }
     },
     {
@@ -148,7 +154,7 @@
       "status": "pass",
       "detail": {
         "argentinaSlot": "M86",
-        "argentinaR16": "Argentina vs Australia"
+        "argentinaR16": "Argentina vs Egypt"
       }
     },
     {
@@ -175,6 +181,41 @@
       "id": "known_teams_have_flags_or_code_fallback",
       "status": "pass",
       "detail": []
+    },
+    {
+      "id": "qf_rows_match_qf_authority",
+      "status": "pass",
+      "detail": {
+        "missing_authority_teams": [],
+        "unexpected_qf_teams": [],
+        "pending_qf_slots": []
+      }
+    },
+    {
+      "id": "qf_matches_not_marked_final_before_play",
+      "status": "pass",
+      "detail": [
+        {
+          "slot": "M97",
+          "status": "scheduled",
+          "actualScore": null
+        },
+        {
+          "slot": "M98",
+          "status": "scheduled",
+          "actualScore": null
+        },
+        {
+          "slot": "M99",
+          "status": "scheduled",
+          "actualScore": null
+        },
+        {
+          "slot": "M100",
+          "status": "scheduled",
+          "actualScore": null
+        }
+      ]
     },
     {
       "id": "knockout_score_predictor_r32_coverage",

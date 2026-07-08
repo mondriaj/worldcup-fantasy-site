@@ -1,12 +1,12 @@
 # Public Preview Browser QA Report v1
 
-Generated: 2026-07-04T13:11:18.115Z
+Generated: 2026-07-08T12:56:12.221Z
 
 ## Verdict
 
-**pass - safe_to_share_r16_public_preview**
+**pass - safe_to_share_qf_public_preview**
 
-The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. R16 is the public default, R32 and MD1/MD2/MD3 remain accessible as historical views, live completed scores are shown only through the safe mapping path, all group-stage fixtures are final, and old public globals are absent.
+The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. QF is the public default, R16/R32 and MD1/MD2/MD3 remain accessible as historical views, live completed scores are shown only through the safe mapping path, all group-stage fixtures are final, and old public globals are absent.
 
 ## Run Context
 
@@ -23,22 +23,22 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 
 | Check | Result |
 | --- | --- |
-| Picks default to final R16 | pass |
-| Final R16 label visible | pass |
-| Captain Watchlist opens on R16 | pass |
-| Match Environment opens on R16 | pass |
+| Picks default to final QF | pass |
+| Final QF label visible | pass |
+| Captain Watchlist opens on QF | pass |
+| Match Environment opens on QF | pass |
 | MD1 remains accessible | pass |
 | MD2 remains accessible | pass |
-| Team Builder opens on R16 | pass |
-| Team Builder builds R16 squad | pass |
+| Team Builder opens on QF | pass |
+| Team Builder builds QF squad | pass |
 | Balanced Squad is visible | pass |
 | France Player Profile opens | pass |
 | Belgium Player Profile opens | pass |
-| Colombia Player Profile opens | pass |
+| Switzerland Player Profile opens | pass |
 | Morocco Player Profile opens | pass |
 | Hakimi Player Profile opens | pass |
 | Saibari Player Profile opens | pass |
-| Knockout predictor renders actual R16 games | pass |
+| Knockout predictor renders QF games | pass |
 | Visual bracket prediction renders | pass |
 | Visual bracket prediction path guard | pass |
 | Player Profile opens | pass |
@@ -52,28 +52,29 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | Item | Result |
 | --- | --- |
 | Build status | pass |
-| Matchday | r16 |
+| Matchday | qf |
 | Strategy | balancedSquad |
 | Starters / Bench | 11 / 4 |
-| France selected / starters / bench | 4 / 4 / 0 |
-| Belgium selected / starters / bench | 2 / 1 / 1 |
-| Colombia selected / starters / bench | 0 / 0 / 0 |
+| France selected / starters / bench | 4 / 2 / 2 |
+| Belgium selected / starters / bench | 0 / 0 / 0 |
+| Switzerland selected / starters / bench | 0 / 0 / 0 |
 | Morocco selected / starters / bench | 0 / 0 / 0 |
-| Top country | Balanced Squad, Balanced safety, R16. Top country: Argentina 4/4. Fixture spread: R16: 0 hard, 10 favorable, 0 high-uncertainty. |
+| Top country | Balanced Squad, Balanced safety, QF. Top country: Argentina 5/5. Fixture spread: QF: 0 hard, 11 favorable, 0 high-uncertainty. |
 
 ## Data Loaded
 
 | Dataset | Rows |
 | --- | --- |
 | Players sample | 100 |
-| Recommendation candidates | 250 |
-| Projection rows | 1222 |
+| Recommendation candidates | 375 |
+| Projection rows | 1425 |
+| QF projection rows | 203 |
 | R16 projection rows | 406 |
 | R32 projection rows | 816 |
 | Bracket prediction matches | 32 |
-| Score fixtures | 96 |
+| Score fixtures | 100 |
 | Official records | 1489 |
-| Live fixtures | 96 |
+| Live fixtures | 100 |
 | Live players | 1489 |
 
 ## Console, Network, And Layout
@@ -82,9 +83,9 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | --- | --- |
 | Console/page errors | 0 |
 | Console warnings | 0 |
-| Failed requests | 5 |
+| Failed requests | 7 |
 | Blocking failed requests | 0 |
-| Ignored non-blocking failed requests | 5 |
+| Ignored non-blocking failed requests | 7 |
 | Index overflow viewports | 0 |
 | World Cup overflow viewports | 0 |
 | Profile click failures | 0 |
@@ -106,7 +107,7 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 
 ## Remaining Limits
 
-- Browser QA confirms the public final R16 data path, knockout predictor, and live display plumbing.
+- Browser QA confirms the public final QF data path, knockout predictor, and live display plumbing.
 - Final squads remain not source-backed.
 - Team Builder remains planning help and must be checked inside the official FIFA game.
 - User-specific locks, substitutions, captain state, and boosters are not imported.

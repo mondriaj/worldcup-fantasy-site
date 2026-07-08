@@ -1,0 +1,28 @@
+{
+  "schema_version": "qf_fixture_authority_qa_v1",
+  "generated_at": "2026-07-08T12:55:08.335Z",
+  "status": "pass",
+  "summary": {
+    "total_qf_fixtures": 4,
+    "final_known": 4,
+    "partial_known": 0,
+    "pending": 0,
+    "blocked": 0,
+    "completed_r16_fixtures_used": 8,
+    "incomplete_r16_fixtures": 0,
+    "scheduled_qf_fixtures": 4,
+    "final_qf_participants": 8
+  },
+  "fixture_count": 4,
+  "teams": [
+    "france",
+    "morocco",
+    "spain",
+    "belgium",
+    "norway",
+    "england",
+    "argentina",
+    "switzerland"
+  ],
+  "errors": []
+}

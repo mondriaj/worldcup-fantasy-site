@@ -3,9 +3,11 @@
   const liveData = window.LIVE_MATCHDAY_STATUS_DATA || {};
   const r32Authority = window.R32_FIXTURE_AUTHORITY_DATA || {};
   const r16Authority = window.R16_FIXTURE_AUTHORITY_DATA || {};
+  const qfAuthority = window.QF_FIXTURE_AUTHORITY_DATA || {};
   const liveFixtures = Array.isArray(liveData.fixtures) ? liveData.fixtures : [];
   const r32AuthorityFixtures = Array.isArray(r32Authority.fixtures) ? r32Authority.fixtures : [];
   const r16AuthorityFixtures = Array.isArray(r16Authority.fixtures) ? r16Authority.fixtures : [];
+  const qfAuthorityFixtures = Array.isArray(qfAuthority.fixtures) ? qfAuthority.fixtures : [];
 
   function escapeHtml(value) {
     return String(value || "")
@@ -341,6 +343,10 @@
     return authorityFixtureForMatch(match, r16AuthorityFixtures);
   }
 
+  function qfAuthorityFixtureForMatch(match) {
+    return authorityFixtureForMatch(match, qfAuthorityFixtures);
+  }
+
   function authorityTeamLabel(team) {
     return [
       team?.flag || "",
@@ -436,6 +442,39 @@
     `;
   }
 
+  function qfStatusLabel(fixture) {
+    const status = String(fixture?.classification || fixture?.status || "pending").replace(/_/g, " ");
+    return status.replace(/\w\S*/g, (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+  }
+
+  function renderQfAuthorityMatch(match) {
+    const fixture = qfAuthorityFixtureForMatch(match);
+    if (!fixture) {
+      return `
+        <article class="bracket-match">
+          <span>Match ${escapeHtml(match.id)}</span>
+          <strong>${escapeHtml(match.path)}</strong>
+        </article>
+      `;
+    }
+
+    const teamAText = fixture.team_a?.team ? authorityTeamLabel(fixture.team_a) : "TBD";
+    const teamBText = fixture.team_b?.team ? authorityTeamLabel(fixture.team_b) : "TBD";
+    const kickoffText = fixture.kickoff?.eastern_datetime_label || fixture.kickoff?.source_datetime || "";
+    const advancesTo = fixture.winner_advances_to?.bracket_slot_id || "SF";
+    const advancesPath = fixture.winner_advances_to?.path || "";
+
+    return `
+      <article class="bracket-match" data-bracket-slot="${escapeHtml(fixture.bracket_slot_id)}" data-source-fixture-id="${escapeHtml(fixture.source_fixture_id)}">
+        <span>${escapeHtml(fixture.bracket_slot_id)} · QF · ${escapeHtml(qfStatusLabel(fixture))}</span>
+        <strong>${escapeHtml(teamAText)} vs ${escapeHtml(teamBText)}</strong>
+        <small>${escapeHtml(kickoffText)}</small>
+        <small>Winner advances to ${escapeHtml(advancesTo)} · ${escapeHtml(advancesPath)}</small>
+        <small>Feed source ID: ${escapeHtml(fixture.source_fixture_id || "pending")} · QF Fixture Authority · source IDs are metadata, not bracket match numbers.</small>
+      </article>
+    `;
+  }
+
   function renderBracket() {
     const bracketRounds = document.getElementById("bracket-rounds");
     const bracketNote = document.getElementById("bracket-note");
@@ -446,7 +485,7 @@
 
     if (bracketNote) {
       bracketNote.textContent = r32AuthorityFixtures.length
-        ? "Round of 32 teams are shown from the locked R32 fixture authority; known Round of 16 slots use the final R16 authority. Feed source IDs are metadata, not bracket match numbers."
+        ? "Round of 32 teams are shown from the locked R32 fixture authority; Round of 16 actual scores remain visible; Quarterfinal slots use the final QF fixture authority. Feed source IDs are metadata, not bracket match numbers."
         : data.bracket?.note || "";
     }
 
@@ -458,6 +497,8 @@
             ? renderR32AuthorityMatch(match)
             : round.name === "Round of 16"
               ? renderR16AuthorityMatch(match)
+              : round.name === "Quarter-finals"
+                ? renderQfAuthorityMatch(match)
             : `
               <article class="bracket-match">
                 <span>Match ${escapeHtml(match.id)}</span>

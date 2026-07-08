@@ -7,9 +7,9 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 
-const ACTIVE_VERSION = "20260704-r16-final";
-const ACTIVE_MATCHDAY_ID = "r16";
-const ACTIVE_MATCHDAY_LABEL = "R16";
+const ACTIVE_VERSION = "20260708-qf-final";
+const ACTIVE_MATCHDAY_ID = "qf";
+const ACTIVE_MATCHDAY_LABEL = "QF";
 const REQUIRED_SCRIPT_ORDER = [
   "playersData.js",
   "fantasyRulesData.js",
@@ -22,6 +22,7 @@ const REQUIRED_SCRIPT_ORDER = [
   "liveMatchdayStatusData.js",
   "livePlayerStatusData.js",
   "r16FixtureAuthorityData.js",
+  "qfFixtureAuthorityData.js",
   "script.js"
 ];
 const ACTIVE_BROWSER_DATA_FILES = REQUIRED_SCRIPT_ORDER.filter((file) => file !== "script.js");
@@ -389,7 +390,7 @@ function verifyPublicScripts(report, indexHtml, scriptJs) {
   }
 
   if (!isRequiredOrderValid) {
-    addFailure(report, "required_scripts_order", "Required active browser scripts are not loaded in the final R16 active-path order.", {
+    addFailure(report, "required_scripts_order", "Required active browser scripts are not loaded in the final QF active-path order.", {
       expected: REQUIRED_SCRIPT_ORDER,
       actual_relevant_order: localOrder
     });
@@ -516,6 +517,7 @@ function verifyActiveGlobals(report, windowGlobals) {
   const liveMatchday = windowGlobals.LIVE_MATCHDAY_STATUS_DATA || null;
   const livePlayer = windowGlobals.LIVE_PLAYER_STATUS_DATA || null;
   const r16Authority = windowGlobals.R16_FIXTURE_AUTHORITY_DATA || null;
+  const qfAuthority = windowGlobals.QF_FIXTURE_AUTHORITY_DATA || null;
   const knockoutBracketPredictionData = windowGlobals.KNOCKOUT_BRACKET_PREDICTION_DATA || null;
 
   const requiredGlobals = [
@@ -528,7 +530,8 @@ function verifyActiveGlobals(report, windowGlobals) {
     [`FANTASY_POOL_OFFICIAL_DATA_STATUS.${ACTIVE_OFFICIAL_UNIVERSE_FIELD}`, officialRecords.length > 0],
     ["LIVE_MATCHDAY_STATUS_DATA", Boolean(liveMatchday)],
     ["LIVE_PLAYER_STATUS_DATA", Boolean(livePlayer)],
-    ["R16_FIXTURE_AUTHORITY_DATA", Boolean(r16Authority?.fixtures?.length === 8)]
+    ["R16_FIXTURE_AUTHORITY_DATA", Boolean(r16Authority?.fixtures?.length === 8)],
+    ["QF_FIXTURE_AUTHORITY_DATA", Boolean(qfAuthority?.fixtures?.length === 4)]
   ];
 
   requiredGlobals.forEach(([name, ok]) => {
@@ -548,7 +551,8 @@ function verifyActiveGlobals(report, windowGlobals) {
     [ACTIVE_OFFICIAL_UNIVERSE_FIELD]: officialRecords.length,
     live_fixture_rows: liveMatchday?.fixtures?.length || 0,
     live_player_rows: livePlayer?.players?.length || 0,
-    r16_authority_fixture_rows: r16Authority?.fixtures?.length || 0
+    r16_authority_fixture_rows: r16Authority?.fixtures?.length || 0,
+    qf_authority_fixture_rows: qfAuthority?.fixtures?.length || 0
   };
   addCheck(report, "active_browser_globals_loaded", requiredGlobals.every(([, ok]) => ok) ? "pass" : "fail", activeCounts);
 
@@ -563,6 +567,7 @@ function verifyActiveGlobals(report, windowGlobals) {
     liveMatchday,
     livePlayer,
     r16Authority,
+    qfAuthority,
     knockoutBracketPredictionData,
     activeCounts
   };
@@ -907,7 +912,7 @@ function buildMarkdownReport(report) {
   const staleBlock = report.public_stale_path_block || {};
   const activeMatchday = report.active_matchday_consistency || {};
   const lines = [];
-  lines.push("# Active Final R16 Data Flow QA Report");
+  lines.push("# Active Final QF Data Flow QA Report");
   lines.push("");
   lines.push(`Generated: ${report.generated_at}`);
   lines.push(`Status: **${report.status.toUpperCase()}**`);

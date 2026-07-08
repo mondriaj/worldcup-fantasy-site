@@ -1,6 +1,6 @@
 {
   "schema_version": "world_cup_fixtures_page_live_scores_qa_v1",
-  "generated_at": "2026-07-04T13:07:27.105Z",
+  "generated_at": "2026-07-08T12:55:08.383Z",
   "status": "passed",
   "files": {
     "html": "world-cup.html",
@@ -15,9 +15,9 @@
   "summary": {
     "world_cup_fixture_count": 72,
     "rendered_fixture_rows": 72,
-    "live_fixture_count": 96,
+    "live_fixture_count": 100,
     "group_stage_live_fixture_count": 72,
-    "extra_live_fixture_count": 24,
+    "extra_live_fixture_count": 28,
     "completed_md1_fixture_count": 24,
     "completed_md1_final_scores_visible": 24,
     "completed_md2_fixture_count": 24,
@@ -230,14 +230,6 @@
   ],
   "completed_md3_score_checks": [
     {
-      "match_number": 52,
-      "fixture": "Bosnia and Herzegovina vs Qatar",
-      "round_id": "3",
-      "expected_score_text": "BIH 3 - 1 QAT",
-      "visible": true,
-      "reversed": false
-    },
-    {
       "match_number": 51,
       "fixture": "Switzerland vs Canada",
       "round_id": "3",
@@ -246,10 +238,10 @@
       "reversed": false
     },
     {
-      "match_number": 50,
-      "fixture": "Morocco vs Haiti",
+      "match_number": 52,
+      "fixture": "Bosnia and Herzegovina vs Qatar",
       "round_id": "3",
-      "expected_score_text": "MAR 4 - 2 HAI",
+      "expected_score_text": "BIH 3 - 1 QAT",
       "visible": true,
       "reversed": false
     },
@@ -262,10 +254,10 @@
       "reversed": false
     },
     {
-      "match_number": 53,
-      "fixture": "Czechia vs Mexico",
+      "match_number": 50,
+      "fixture": "Morocco vs Haiti",
       "round_id": "3",
-      "expected_score_text": "CZE 0 - 3 MEX",
+      "expected_score_text": "MAR 4 - 2 HAI",
       "visible": true,
       "reversed": false
     },
@@ -274,6 +266,14 @@
       "fixture": "South Africa vs Korea Republic",
       "round_id": "3",
       "expected_score_text": "RSA 1 - 0 KOR",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 53,
+      "fixture": "Czechia vs Mexico",
+      "round_id": "3",
+      "expected_score_text": "CZE 0 - 3 MEX",
       "visible": true,
       "reversed": false
     },
@@ -294,18 +294,18 @@
       "reversed": false
     },
     {
-      "match_number": 58,
-      "fixture": "Tunisia vs Netherlands",
-      "round_id": "3",
-      "expected_score_text": "TUN 1 - 3 NED",
-      "visible": true,
-      "reversed": false
-    },
-    {
       "match_number": 57,
       "fixture": "Japan vs Sweden",
       "round_id": "3",
       "expected_score_text": "JPN 1 - 1 SWE",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 58,
+      "fixture": "Tunisia vs Netherlands",
+      "round_id": "3",
+      "expected_score_text": "TUN 1 - 3 NED",
       "visible": true,
       "reversed": false
     },
@@ -326,18 +326,18 @@
       "reversed": false
     },
     {
-      "match_number": 61,
-      "fixture": "Norway vs France",
-      "round_id": "3",
-      "expected_score_text": "NOR 1 - 4 FRA",
-      "visible": true,
-      "reversed": false
-    },
-    {
       "match_number": 62,
       "fixture": "Senegal vs Iraq",
       "round_id": "3",
       "expected_score_text": "SEN 5 - 0 IRQ",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 61,
+      "fixture": "Norway vs France",
+      "round_id": "3",
+      "expected_score_text": "NOR 1 - 4 FRA",
       "visible": true,
       "reversed": false
     },
@@ -358,14 +358,6 @@
       "reversed": false
     },
     {
-      "match_number": 64,
-      "fixture": "New Zealand vs Belgium",
-      "round_id": "3",
-      "expected_score_text": "NZL 1 - 5 BEL",
-      "visible": true,
-      "reversed": false
-    },
-    {
       "match_number": 63,
       "fixture": "Egypt vs IR Iran",
       "round_id": "3",
@@ -374,10 +366,10 @@
       "reversed": false
     },
     {
-      "match_number": 67,
-      "fixture": "Panama vs England",
+      "match_number": 64,
+      "fixture": "New Zealand vs Belgium",
       "round_id": "3",
-      "expected_score_text": "PAN 0 - 2 ENG",
+      "expected_score_text": "NZL 1 - 5 BEL",
       "visible": true,
       "reversed": false
     },
@@ -386,6 +378,14 @@
       "fixture": "Croatia vs Ghana",
       "round_id": "3",
       "expected_score_text": "CRO 2 - 1 GHA",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 67,
+      "fixture": "Panama vs England",
+      "round_id": "3",
+      "expected_score_text": "PAN 0 - 2 ENG",
       "visible": true,
       "reversed": false
     },
@@ -406,18 +406,18 @@
       "reversed": false
     },
     {
-      "match_number": 70,
-      "fixture": "Jordan vs Argentina",
-      "round_id": "3",
-      "expected_score_text": "JOR 1 - 3 ARG",
-      "visible": true,
-      "reversed": false
-    },
-    {
       "match_number": 69,
       "fixture": "Algeria vs Austria",
       "round_id": "3",
       "expected_score_text": "ALG 3 - 3 AUT",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 70,
+      "fixture": "Jordan vs Argentina",
+      "round_id": "3",
+      "expected_score_text": "JOR 1 - 3 ARG",
       "visible": true,
       "reversed": false
     }

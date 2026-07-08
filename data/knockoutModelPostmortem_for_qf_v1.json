@@ -1,0 +1,174 @@
+{
+  "schema_version": "knockout_model_postmortem_for_qf_v1",
+  "generated_at": "2026-07-08T12:35:43.868Z",
+  "status": "pass",
+  "summary": {
+    "r16_fixtures_checked": 8,
+    "r16_final_scores_used": 8,
+    "explicit_starting_xi_available": false,
+    "role_volatility_teams": [
+      {
+        "team_id": "belgium",
+        "team": "Belgium",
+        "volatility_score": 0.1,
+        "volatility_level": "medium",
+        "eligible_players": 26,
+        "high_prior_without_r16_points": 1,
+        "r16_points_without_r32_points": 4,
+        "r32_r16_participation_continuity": 12
+      },
+      {
+        "team_id": "morocco",
+        "team": "Morocco",
+        "volatility_score": 0.083,
+        "volatility_level": "low",
+        "eligible_players": 26,
+        "high_prior_without_r16_points": 1,
+        "r16_points_without_r32_points": 3,
+        "r32_r16_participation_continuity": 13
+      },
+      {
+        "team_id": "france",
+        "team": "France",
+        "volatility_score": 0.079,
+        "volatility_level": "low",
+        "eligible_players": 26,
+        "high_prior_without_r16_points": 2,
+        "r16_points_without_r32_points": 1,
+        "r32_r16_participation_continuity": 12
+      },
+      {
+        "team_id": "england",
+        "team": "England",
+        "volatility_score": 0.068,
+        "volatility_level": "low",
+        "eligible_players": 25,
+        "high_prior_without_r16_points": 1,
+        "r16_points_without_r32_points": 2,
+        "r32_r16_participation_continuity": 10
+      },
+      {
+        "team_id": "argentina",
+        "team": "Argentina",
+        "volatility_score": 0.065,
+        "volatility_level": "low",
+        "eligible_players": 26,
+        "high_prior_without_r16_points": 1,
+        "r16_points_without_r32_points": 2,
+        "r32_r16_participation_continuity": 14
+      },
+      {
+        "team_id": "switzerland",
+        "team": "Switzerland",
+        "volatility_score": 0.052,
+        "volatility_level": "low",
+        "eligible_players": 26,
+        "high_prior_without_r16_points": 0,
+        "r16_points_without_r32_points": 3,
+        "r32_r16_participation_continuity": 13
+      },
+      {
+        "team_id": "norway",
+        "team": "Norway",
+        "volatility_score": 0.017,
+        "volatility_level": "low",
+        "eligible_players": 26,
+        "high_prior_without_r16_points": 0,
+        "r16_points_without_r32_points": 1,
+        "r32_r16_participation_continuity": 13
+      },
+      {
+        "team_id": "spain",
+        "team": "Spain",
+        "volatility_score": 0.017,
+        "volatility_level": "low",
+        "eligible_players": 26,
+        "high_prior_without_r16_points": 0,
+        "r16_points_without_r32_points": 1,
+        "r32_r16_participation_continuity": 14
+      }
+    ]
+  },
+  "residuals": [
+    {
+      "match_number": 89,
+      "fixture": "Paraguay vs France",
+      "predicted_xg": "0.35-2.023",
+      "top_scoreline": "0-2",
+      "actual_score": "0-1",
+      "home_goal_residual": -0.35,
+      "away_goal_residual": -1.023,
+      "actual_winner": "France"
+    },
+    {
+      "match_number": 90,
+      "fixture": "Canada vs Morocco",
+      "predicted_xg": "0.532-1.212",
+      "top_scoreline": "0-1",
+      "actual_score": "0-3",
+      "home_goal_residual": -0.532,
+      "away_goal_residual": 1.788,
+      "actual_winner": "Morocco"
+    },
+    {
+      "match_number": 91,
+      "fixture": "Brazil vs Norway",
+      "predicted_xg": "1.534-0.83",
+      "top_scoreline": "1-0",
+      "actual_score": "1-2",
+      "home_goal_residual": -0.534,
+      "away_goal_residual": 1.17,
+      "actual_winner": "Norway"
+    },
+    {
+      "match_number": 92,
+      "fixture": "Mexico vs England",
+      "predicted_xg": "0.375-1.809",
+      "top_scoreline": "0-1",
+      "actual_score": "2-3",
+      "home_goal_residual": 1.625,
+      "away_goal_residual": 1.191,
+      "actual_winner": "England"
+    },
+    {
+      "match_number": 93,
+      "fixture": "Portugal vs Spain",
+      "predicted_xg": "0.79-1.724",
+      "top_scoreline": "0-1",
+      "actual_score": "0-1",
+      "home_goal_residual": -0.79,
+      "away_goal_residual": -0.724,
+      "actual_winner": "Spain"
+    },
+    {
+      "match_number": 94,
+      "fixture": "USA vs Belgium",
+      "predicted_xg": "0.8-1.362",
+      "top_scoreline": "0-1",
+      "actual_score": "1-4",
+      "home_goal_residual": 0.2,
+      "away_goal_residual": 2.638,
+      "actual_winner": "Belgium"
+    },
+    {
+      "match_number": 95,
+      "fixture": "Argentina vs Egypt",
+      "predicted_xg": "2.466-0.35",
+      "top_scoreline": "2-0",
+      "actual_score": "3-2",
+      "home_goal_residual": 0.534,
+      "away_goal_residual": 1.65,
+      "actual_winner": "Argentina"
+    },
+    {
+      "match_number": 96,
+      "fixture": "Switzerland vs Colombia",
+      "predicted_xg": "0.728-1.401",
+      "top_scoreline": "0-1",
+      "actual_score": "0-0",
+      "home_goal_residual": -0.728,
+      "away_goal_residual": -1.401,
+      "actual_winner": "decided on penalties"
+    }
+  ]
+}

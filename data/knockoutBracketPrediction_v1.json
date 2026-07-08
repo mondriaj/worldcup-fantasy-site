@@ -1,11 +1,13 @@
 {
   "schema_version": "knockout_bracket_prediction_v1",
-  "generatedAt": "2026-07-04T12:10:47.429Z",
-  "generated_at": "2026-07-04T12:10:47.429Z",
+  "generatedAt": "2026-07-08T12:36:37.156Z",
+  "generated_at": "2026-07-08T12:36:37.156Z",
   "modelVersion": "knockout-bracket-prediction-v1",
   "model_version": "knockout-bracket-prediction-v1",
   "bracketSource": {
     "r32FixtureAuthority": "data/r32FixtureAuthority_v1.json",
+    "r16FixtureAuthority": "data/r16FixtureAuthority_v1.json",
+    "qfFixtureAuthority": "data/qfFixtureAuthority_v1.json",
     "officialBracket": "worldCupData.js",
     "modelPicks": "data/bracketPoolStrategyModel_v1.json",
     "scorePredictions": "data/knockoutScorePredictor_v1.json",
@@ -144,10 +146,10 @@
         "teamId": "argentina"
       }
     ],
-    "decidedKnockoutMatches": 16,
-    "correctWinnerPredictions": 12,
-    "wrongWinnerPredictions": 4,
-    "pendingPredictions": 16,
+    "decidedKnockoutMatches": 24,
+    "correctWinnerPredictions": 18,
+    "wrongWinnerPredictions": 6,
+    "pendingPredictions": 8,
     "accuracyPct": 75,
     "flagsMissingFallbackCount": 0
   },
@@ -1403,81 +1405,93 @@
     {
       "matchId": "89",
       "bracketSlotId": "M89",
-      "sourceFixtureId": null,
-      "sourceFixtureIdRole": null,
+      "sourceFixtureId": "91",
+      "sourceFixtureIdRole": "source fixture id, not bracket slot",
       "round": "r16",
       "roundLabel": "Round of 16",
-      "bracketSide": "winner_m101",
-      "bracketQuarter": "winner_m97",
+      "bracketSide": null,
+      "bracketQuarter": null,
       "bracketPath": "Winner Match 74 v Winner Match 77",
       "feedsFrom": [
         "M74",
         "M77"
       ],
       "teamA": {
-        "code": "GER",
-        "name": "Germany",
-        "flag": "🇩🇪",
-        "sourceConfidence": "predicted",
-        "teamId": "germany"
+        "code": "PAR",
+        "name": "Paraguay",
+        "flag": "🇵🇾",
+        "sourceConfidence": "source-backed",
+        "teamId": "paraguay"
       },
       "teamB": {
         "code": "FRA",
         "name": "France",
         "flag": "🇫🇷",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "france"
       },
       "actualTeamA": {
-        "team": "Paraguay",
-        "team_id": "paraguay",
         "code": "PAR",
-        "flag": "🇵🇾"
+        "name": "Paraguay",
+        "flag": "🇵🇾",
+        "sourceConfidence": "source-backed",
+        "teamId": "paraguay"
       },
       "actualTeamB": {
+        "code": "FRA",
+        "name": "France",
+        "flag": "🇫🇷",
+        "sourceConfidence": "source-backed",
+        "teamId": "france"
+      },
+      "status": "final",
+      "predictedWinner": {
+        "code": "FRA",
+        "name": "France",
+        "flag": "🇫🇷",
+        "sourceConfidence": "source-backed",
+        "teamId": "france"
+      },
+      "predictedLoser": {
+        "code": "PAR",
+        "name": "Paraguay",
+        "flag": "🇵🇾",
+        "sourceConfidence": "source-backed",
+        "teamId": "paraguay"
+      },
+      "predictedScore90": "0-2",
+      "predictedScoreLabel": "PAR 0-2 FRA",
+      "teamAAdvanceProb": 0.1258,
+      "teamBAdvanceProb": 0.8742,
+      "actualWinner": {
         "team": "France",
         "team_id": "france",
         "code": "FRA",
         "flag": "🇫🇷"
       },
-      "status": "pending",
-      "predictedWinner": {
-        "code": "FRA",
-        "name": "France",
-        "flag": "🇫🇷",
-        "sourceConfidence": "predicted",
-        "teamId": "france"
+      "actualLoser": {
+        "team": "Paraguay",
+        "team_id": "paraguay",
+        "code": "PAR",
+        "flag": "🇵🇾"
       },
-      "predictedLoser": {
-        "code": "GER",
-        "name": "Germany",
-        "flag": "🇩🇪",
-        "sourceConfidence": "predicted",
-        "teamId": "germany"
-      },
-      "predictedScore90": "1-1",
-      "predictedScoreLabel": "GER 1-1 FRA",
-      "teamAAdvanceProb": 0.4034,
-      "teamBAdvanceProb": 0.5966,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
-      "modelNote": "France 1.52 xG vs Germany 1.13 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualScore": "PAR 0-1 FRA",
+      "predictionResult": "correct",
+      "modelNote": "France 2.02 xG vs Paraguay 0.35 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Likely R16 path runs through Germany (85.1% if both sides advance).",
-      "sourceConfidence": "predicted",
+      "sourceConfidence": "source-backed",
       "sourceFixtureOrder": null
     },
     {
       "matchId": "90",
       "bracketSlotId": "M90",
-      "sourceFixtureId": null,
-      "sourceFixtureIdRole": null,
+      "sourceFixtureId": "89",
+      "sourceFixtureIdRole": "source fixture id, not bracket slot",
       "round": "r16",
       "roundLabel": "Round of 16",
-      "bracketSide": "winner_m101",
-      "bracketQuarter": "winner_m97",
+      "bracketSide": null,
+      "bracketQuarter": null,
       "bracketPath": "Winner Match 73 v Winner Match 75",
       "feedsFrom": [
         "M73",
@@ -1487,66 +1501,78 @@
         "code": "CAN",
         "name": "Canada",
         "flag": "🇨🇦",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "canada"
       },
       "teamB": {
-        "code": "NED",
-        "name": "Netherlands",
-        "flag": "🇳🇱",
-        "sourceConfidence": "predicted",
-        "teamId": "netherlands"
+        "code": "MAR",
+        "name": "Morocco",
+        "flag": "🇲🇦",
+        "sourceConfidence": "source-backed",
+        "teamId": "morocco"
       },
       "actualTeamA": {
-        "team": "Canada",
-        "team_id": "canada",
         "code": "CAN",
-        "flag": "🇨🇦"
+        "name": "Canada",
+        "flag": "🇨🇦",
+        "sourceConfidence": "source-backed",
+        "teamId": "canada"
       },
       "actualTeamB": {
-        "team": "Morocco",
-        "team_id": "morocco",
         "code": "MAR",
-        "flag": "🇲🇦"
+        "name": "Morocco",
+        "flag": "🇲🇦",
+        "sourceConfidence": "source-backed",
+        "teamId": "morocco"
       },
-      "status": "pending",
+      "status": "final",
       "predictedWinner": {
-        "code": "NED",
-        "name": "Netherlands",
-        "flag": "🇳🇱",
-        "sourceConfidence": "predicted",
-        "teamId": "netherlands"
+        "code": "MAR",
+        "name": "Morocco",
+        "flag": "🇲🇦",
+        "sourceConfidence": "source-backed",
+        "teamId": "morocco"
       },
       "predictedLoser": {
         "code": "CAN",
         "name": "Canada",
         "flag": "🇨🇦",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "canada"
       },
       "predictedScore90": "0-1",
-      "predictedScoreLabel": "CAN 0-1 NED",
-      "teamAAdvanceProb": 0.1566,
-      "teamBAdvanceProb": 0.8434,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
-      "modelNote": "Netherlands 1.77 xG vs Canada 0.35 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "predictedScoreLabel": "CAN 0-1 MAR",
+      "teamAAdvanceProb": 0.307,
+      "teamBAdvanceProb": 0.693,
+      "actualWinner": {
+        "team": "Morocco",
+        "team_id": "morocco",
+        "code": "MAR",
+        "flag": "🇲🇦"
+      },
+      "actualLoser": {
+        "team": "Canada",
+        "team_id": "canada",
+        "code": "CAN",
+        "flag": "🇨🇦"
+      },
+      "actualScore": "CAN 0-3 MAR",
+      "predictionResult": "correct",
+      "modelNote": "Morocco 1.21 xG vs Canada 0.53 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Toughest pre-final pocket projects as QF against France.",
-      "sourceConfidence": "predicted",
+      "sourceConfidence": "source-backed",
       "sourceFixtureOrder": null
     },
     {
       "matchId": "91",
       "bracketSlotId": "M91",
-      "sourceFixtureId": null,
-      "sourceFixtureIdRole": null,
+      "sourceFixtureId": "90",
+      "sourceFixtureIdRole": "source fixture id, not bracket slot",
       "round": "r16",
       "roundLabel": "Round of 16",
-      "bracketSide": "winner_m102",
-      "bracketQuarter": "winner_m99",
+      "bracketSide": null,
+      "bracketQuarter": null,
       "bracketPath": "Winner Match 76 v Winner Match 78",
       "feedsFrom": [
         "M76",
@@ -1556,135 +1582,159 @@
         "code": "BRA",
         "name": "Brazil",
         "flag": "🇧🇷",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "brazil"
       },
       "teamB": {
         "code": "NOR",
         "name": "Norway",
         "flag": "🇳🇴",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "norway"
       },
       "actualTeamA": {
-        "team": "Brazil",
-        "team_id": "brazil",
         "code": "BRA",
-        "flag": "🇧🇷"
+        "name": "Brazil",
+        "flag": "🇧🇷",
+        "sourceConfidence": "source-backed",
+        "teamId": "brazil"
       },
       "actualTeamB": {
-        "team": "Norway",
-        "team_id": "norway",
         "code": "NOR",
-        "flag": "🇳🇴"
+        "name": "Norway",
+        "flag": "🇳🇴",
+        "sourceConfidence": "source-backed",
+        "teamId": "norway"
       },
-      "status": "pending",
+      "status": "final",
       "predictedWinner": {
         "code": "BRA",
         "name": "Brazil",
         "flag": "🇧🇷",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "brazil"
       },
       "predictedLoser": {
         "code": "NOR",
         "name": "Norway",
         "flag": "🇳🇴",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "norway"
       },
       "predictedScore90": "1-0",
       "predictedScoreLabel": "BRA 1-0 NOR",
       "teamAAdvanceProb": 0.6801,
       "teamBAdvanceProb": 0.3199,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Norway",
+        "team_id": "norway",
+        "code": "NOR",
+        "flag": "🇳🇴"
+      },
+      "actualLoser": {
+        "team": "Brazil",
+        "team_id": "brazil",
+        "code": "BRA",
+        "flag": "🇧🇷"
+      },
+      "actualScore": "BRA 1-2 NOR",
+      "predictionResult": "wrong",
       "modelNote": "Brazil 1.53 xG vs Norway 0.83 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Toughest pre-final pocket projects as SF against Argentina.",
-      "sourceConfidence": "predicted",
+      "sourceConfidence": "source-backed",
       "sourceFixtureOrder": null
     },
     {
       "matchId": "92",
       "bracketSlotId": "M92",
-      "sourceFixtureId": null,
-      "sourceFixtureIdRole": null,
+      "sourceFixtureId": "92",
+      "sourceFixtureIdRole": "source fixture id, not bracket slot",
       "round": "r16",
       "roundLabel": "Round of 16",
-      "bracketSide": "winner_m102",
-      "bracketQuarter": "winner_m99",
+      "bracketSide": null,
+      "bracketQuarter": null,
       "bracketPath": "Winner Match 79 v Winner Match 80",
       "feedsFrom": [
         "M79",
         "M80"
       ],
       "teamA": {
-        "code": "ECU",
-        "name": "Ecuador",
-        "flag": "🇪🇨",
-        "sourceConfidence": "predicted",
-        "teamId": "ecuador"
+        "code": "MEX",
+        "name": "Mexico",
+        "flag": "🇲🇽",
+        "sourceConfidence": "source-backed",
+        "teamId": "mexico"
       },
       "teamB": {
         "code": "ENG",
         "name": "England",
         "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "england"
       },
       "actualTeamA": {
-        "team": "Mexico",
-        "team_id": "mexico",
         "code": "MEX",
-        "flag": "🇲🇽"
+        "name": "Mexico",
+        "flag": "🇲🇽",
+        "sourceConfidence": "source-backed",
+        "teamId": "mexico"
       },
       "actualTeamB": {
+        "code": "ENG",
+        "name": "England",
+        "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+        "sourceConfidence": "source-backed",
+        "teamId": "england"
+      },
+      "status": "final",
+      "predictedWinner": {
+        "code": "ENG",
+        "name": "England",
+        "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+        "sourceConfidence": "source-backed",
+        "teamId": "england"
+      },
+      "predictedLoser": {
+        "code": "MEX",
+        "name": "Mexico",
+        "flag": "🇲🇽",
+        "sourceConfidence": "source-backed",
+        "teamId": "mexico"
+      },
+      "predictedScore90": "0-1",
+      "predictedScoreLabel": "MEX 0-1 ENG",
+      "teamAAdvanceProb": 0.1592,
+      "teamBAdvanceProb": 0.8408,
+      "actualWinner": {
         "team": "England",
         "team_id": "england",
         "code": "ENG",
         "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿"
       },
-      "status": "pending",
-      "predictedWinner": {
-        "code": "ENG",
-        "name": "England",
-        "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
-        "sourceConfidence": "predicted",
-        "teamId": "england"
+      "actualLoser": {
+        "team": "Mexico",
+        "team_id": "mexico",
+        "code": "MEX",
+        "flag": "🇲🇽"
       },
-      "predictedLoser": {
-        "code": "ECU",
-        "name": "Ecuador",
-        "flag": "🇪🇨",
-        "sourceConfidence": "predicted",
-        "teamId": "ecuador"
-      },
-      "predictedScore90": "0-1",
-      "predictedScoreLabel": "ECU 0-1 ENG",
-      "teamAAdvanceProb": 0.1926,
-      "teamBAdvanceProb": 0.8074,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
-      "modelNote": "England 1.70 xG vs Ecuador 0.45 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualScore": "MEX 2-3 ENG",
+      "predictionResult": "correct",
+      "modelNote": "England 1.81 xG vs Mexico 0.38 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Toughest pre-final pocket projects as SF against Argentina.",
-      "sourceConfidence": "predicted",
+      "sourceConfidence": "source-backed",
       "sourceFixtureOrder": null
     },
     {
       "matchId": "93",
       "bracketSlotId": "M93",
-      "sourceFixtureId": null,
-      "sourceFixtureIdRole": null,
+      "sourceFixtureId": "94",
+      "sourceFixtureIdRole": "source fixture id, not bracket slot",
       "round": "r16",
       "roundLabel": "Round of 16",
-      "bracketSide": "winner_m101",
-      "bracketQuarter": "winner_m98",
+      "bracketSide": null,
+      "bracketQuarter": null,
       "bracketPath": "Winner Match 83 v Winner Match 84",
       "feedsFrom": [
         "M83",
@@ -1694,66 +1744,78 @@
         "code": "POR",
         "name": "Portugal",
         "flag": "🇵🇹",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "portugal"
       },
       "teamB": {
         "code": "ESP",
         "name": "Spain",
         "flag": "🇪🇸",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "spain"
       },
       "actualTeamA": {
-        "team": "Portugal",
-        "team_id": "portugal",
         "code": "POR",
-        "flag": "🇵🇹"
+        "name": "Portugal",
+        "flag": "🇵🇹",
+        "sourceConfidence": "source-backed",
+        "teamId": "portugal"
       },
       "actualTeamB": {
-        "team": "Spain",
-        "team_id": "spain",
         "code": "ESP",
-        "flag": "🇪🇸"
+        "name": "Spain",
+        "flag": "🇪🇸",
+        "sourceConfidence": "source-backed",
+        "teamId": "spain"
       },
-      "status": "pending",
+      "status": "final",
       "predictedWinner": {
         "code": "ESP",
         "name": "Spain",
         "flag": "🇪🇸",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "spain"
       },
       "predictedLoser": {
         "code": "POR",
         "name": "Portugal",
         "flag": "🇵🇹",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "portugal"
       },
       "predictedScore90": "0-1",
       "predictedScoreLabel": "POR 0-1 ESP",
       "teamAAdvanceProb": 0.2758,
       "teamBAdvanceProb": 0.7242,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Spain",
+        "team_id": "spain",
+        "code": "ESP",
+        "flag": "🇪🇸"
+      },
+      "actualLoser": {
+        "team": "Portugal",
+        "team_id": "portugal",
+        "code": "POR",
+        "flag": "🇵🇹"
+      },
+      "actualScore": "POR 0-1 ESP",
+      "predictionResult": "correct",
       "modelNote": "Spain 1.72 xG vs Portugal 0.79 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Likely R16 path runs through Portugal (67.1% if both sides advance).",
-      "sourceConfidence": "predicted",
+      "sourceConfidence": "source-backed",
       "sourceFixtureOrder": null
     },
     {
       "matchId": "94",
       "bracketSlotId": "M94",
-      "sourceFixtureId": null,
-      "sourceFixtureIdRole": null,
+      "sourceFixtureId": "93",
+      "sourceFixtureIdRole": "source fixture id, not bracket slot",
       "round": "r16",
       "roundLabel": "Round of 16",
-      "bracketSide": "winner_m101",
-      "bracketQuarter": "winner_m98",
+      "bracketSide": null,
+      "bracketQuarter": null,
       "bracketPath": "Winner Match 81 v Winner Match 82",
       "feedsFrom": [
         "M81",
@@ -1763,66 +1825,78 @@
         "code": "USA",
         "name": "USA",
         "flag": "🇺🇸",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "usa"
       },
       "teamB": {
         "code": "BEL",
         "name": "Belgium",
         "flag": "🇧🇪",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "belgium"
       },
       "actualTeamA": {
-        "team": "USA",
-        "team_id": "usa",
         "code": "USA",
-        "flag": "🇺🇸"
+        "name": "USA",
+        "flag": "🇺🇸",
+        "sourceConfidence": "source-backed",
+        "teamId": "usa"
       },
       "actualTeamB": {
-        "team": "Belgium",
-        "team_id": "belgium",
         "code": "BEL",
-        "flag": "🇧🇪"
+        "name": "Belgium",
+        "flag": "🇧🇪",
+        "sourceConfidence": "source-backed",
+        "teamId": "belgium"
       },
-      "status": "pending",
+      "status": "final",
       "predictedWinner": {
         "code": "BEL",
         "name": "Belgium",
         "flag": "🇧🇪",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "belgium"
       },
       "predictedLoser": {
         "code": "USA",
         "name": "USA",
         "flag": "🇺🇸",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "usa"
       },
       "predictedScore90": "0-1",
       "predictedScoreLabel": "USA 0-1 BEL",
       "teamAAdvanceProb": 0.3532,
       "teamBAdvanceProb": 0.6468,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Belgium",
+        "team_id": "belgium",
+        "code": "BEL",
+        "flag": "🇧🇪"
+      },
+      "actualLoser": {
+        "team": "USA",
+        "team_id": "usa",
+        "code": "USA",
+        "flag": "🇺🇸"
+      },
+      "actualScore": "USA 1-4 BEL",
+      "predictionResult": "correct",
       "modelNote": "Belgium 1.36 xG vs USA 0.80 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Toughest pre-final pocket projects as QF against Spain.",
-      "sourceConfidence": "predicted",
+      "sourceConfidence": "source-backed",
       "sourceFixtureOrder": null
     },
     {
       "matchId": "95",
       "bracketSlotId": "M95",
-      "sourceFixtureId": null,
-      "sourceFixtureIdRole": null,
+      "sourceFixtureId": "95",
+      "sourceFixtureIdRole": "source fixture id, not bracket slot",
       "round": "r16",
       "roundLabel": "Round of 16",
-      "bracketSide": "winner_m102",
-      "bracketQuarter": "winner_m100",
+      "bracketSide": null,
+      "bracketQuarter": null,
       "bracketPath": "Winner Match 86 v Winner Match 88",
       "feedsFrom": [
         "M86",
@@ -1832,66 +1906,78 @@
         "code": "ARG",
         "name": "Argentina",
         "flag": "🇦🇷",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "argentina"
       },
       "teamB": {
-        "code": "AUS",
-        "name": "Australia",
-        "flag": "🇦🇺",
-        "sourceConfidence": "predicted",
-        "teamId": "australia"
+        "code": "EGY",
+        "name": "Egypt",
+        "flag": "🇪🇬",
+        "sourceConfidence": "source-backed",
+        "teamId": "egypt"
       },
       "actualTeamA": {
+        "code": "ARG",
+        "name": "Argentina",
+        "flag": "🇦🇷",
+        "sourceConfidence": "source-backed",
+        "teamId": "argentina"
+      },
+      "actualTeamB": {
+        "code": "EGY",
+        "name": "Egypt",
+        "flag": "🇪🇬",
+        "sourceConfidence": "source-backed",
+        "teamId": "egypt"
+      },
+      "status": "final",
+      "predictedWinner": {
+        "code": "ARG",
+        "name": "Argentina",
+        "flag": "🇦🇷",
+        "sourceConfidence": "source-backed",
+        "teamId": "argentina"
+      },
+      "predictedLoser": {
+        "code": "EGY",
+        "name": "Egypt",
+        "flag": "🇪🇬",
+        "sourceConfidence": "source-backed",
+        "teamId": "egypt"
+      },
+      "predictedScore90": "2-0",
+      "predictedScoreLabel": "ARG 2-0 EGY",
+      "teamAAdvanceProb": 0.9112,
+      "teamBAdvanceProb": 0.0888,
+      "actualWinner": {
         "team": "Argentina",
         "team_id": "argentina",
         "code": "ARG",
         "flag": "🇦🇷"
       },
-      "actualTeamB": {
+      "actualLoser": {
         "team": "Egypt",
         "team_id": "egypt",
         "code": "EGY",
         "flag": "🇪🇬"
       },
-      "status": "pending",
-      "predictedWinner": {
-        "code": "ARG",
-        "name": "Argentina",
-        "flag": "🇦🇷",
-        "sourceConfidence": "predicted",
-        "teamId": "argentina"
-      },
-      "predictedLoser": {
-        "code": "AUS",
-        "name": "Australia",
-        "flag": "🇦🇺",
-        "sourceConfidence": "predicted",
-        "teamId": "australia"
-      },
-      "predictedScore90": "2-0",
-      "predictedScoreLabel": "ARG 2-0 AUS",
-      "teamAAdvanceProb": 0.9027,
-      "teamBAdvanceProb": 0.0973,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
-      "modelNote": "Argentina 2.35 xG vs Australia 0.35 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualScore": "ARG 3-2 EGY",
+      "predictionResult": "correct",
+      "modelNote": "Argentina 2.47 xG vs Egypt 0.35 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Toughest pre-final pocket projects as SF against England.",
-      "sourceConfidence": "predicted",
+      "sourceConfidence": "source-backed",
       "sourceFixtureOrder": null
     },
     {
       "matchId": "96",
       "bracketSlotId": "M96",
-      "sourceFixtureId": null,
-      "sourceFixtureIdRole": null,
+      "sourceFixtureId": "96",
+      "sourceFixtureIdRole": "source fixture id, not bracket slot",
       "round": "r16",
       "roundLabel": "Round of 16",
-      "bracketSide": "winner_m102",
-      "bracketQuarter": "winner_m100",
+      "bracketSide": null,
+      "bracketQuarter": null,
       "bracketPath": "Winner Match 85 v Winner Match 87",
       "feedsFrom": [
         "M85",
@@ -1901,66 +1987,78 @@
         "code": "SUI",
         "name": "Switzerland",
         "flag": "🇨🇭",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "switzerland"
       },
       "teamB": {
         "code": "COL",
         "name": "Colombia",
         "flag": "🇨🇴",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "colombia"
       },
       "actualTeamA": {
-        "team": "Switzerland",
-        "team_id": "switzerland",
         "code": "SUI",
-        "flag": "🇨🇭"
+        "name": "Switzerland",
+        "flag": "🇨🇭",
+        "sourceConfidence": "source-backed",
+        "teamId": "switzerland"
       },
       "actualTeamB": {
-        "team": "Colombia",
-        "team_id": "colombia",
         "code": "COL",
-        "flag": "🇨🇴"
+        "name": "Colombia",
+        "flag": "🇨🇴",
+        "sourceConfidence": "source-backed",
+        "teamId": "colombia"
       },
-      "status": "pending",
+      "status": "final",
       "predictedWinner": {
         "code": "COL",
         "name": "Colombia",
         "flag": "🇨🇴",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "colombia"
       },
       "predictedLoser": {
         "code": "SUI",
         "name": "Switzerland",
         "flag": "🇨🇭",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "switzerland"
       },
       "predictedScore90": "0-1",
       "predictedScoreLabel": "SUI 0-1 COL",
       "teamAAdvanceProb": 0.3242,
       "teamBAdvanceProb": 0.6758,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Switzerland",
+        "team_id": "switzerland",
+        "code": "SUI",
+        "flag": "🇨🇭"
+      },
+      "actualLoser": {
+        "team": "Colombia",
+        "team_id": "colombia",
+        "code": "COL",
+        "flag": "🇨🇴"
+      },
+      "actualScore": "SUI 0-0 COL, 4-3 pens",
+      "predictionResult": "wrong",
       "modelNote": "Colombia 1.40 xG vs Switzerland 0.73 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Toughest pre-final pocket projects as QF against Argentina.",
-      "sourceConfidence": "predicted",
+      "sourceConfidence": "source-backed",
       "sourceFixtureOrder": null
     },
     {
       "matchId": "97",
       "bracketSlotId": "M97",
-      "sourceFixtureId": null,
-      "sourceFixtureIdRole": null,
+      "sourceFixtureId": "97",
+      "sourceFixtureIdRole": "source fixture id, not bracket slot",
       "round": "qf",
       "roundLabel": "Quarterfinals",
-      "bracketSide": "winner_m101",
-      "bracketQuarter": "winner_m97",
+      "bracketSide": null,
+      "bracketQuarter": null,
       "bracketPath": "Winner Match 89 v Winner Match 90",
       "feedsFrom": [
         "M89",
@@ -1970,56 +2068,68 @@
         "code": "FRA",
         "name": "France",
         "flag": "🇫🇷",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "france"
       },
       "teamB": {
-        "code": "NED",
-        "name": "Netherlands",
-        "flag": "🇳🇱",
-        "sourceConfidence": "predicted",
-        "teamId": "netherlands"
+        "code": "MAR",
+        "name": "Morocco",
+        "flag": "🇲🇦",
+        "sourceConfidence": "source-backed",
+        "teamId": "morocco"
       },
-      "actualTeamA": null,
-      "actualTeamB": null,
-      "status": "pending",
+      "actualTeamA": {
+        "code": "FRA",
+        "name": "France",
+        "flag": "🇫🇷",
+        "sourceConfidence": "source-backed",
+        "teamId": "france"
+      },
+      "actualTeamB": {
+        "code": "MAR",
+        "name": "Morocco",
+        "flag": "🇲🇦",
+        "sourceConfidence": "source-backed",
+        "teamId": "morocco"
+      },
+      "status": "scheduled",
       "predictedWinner": {
         "code": "FRA",
         "name": "France",
         "flag": "🇫🇷",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "france"
       },
       "predictedLoser": {
-        "code": "NED",
-        "name": "Netherlands",
-        "flag": "🇳🇱",
-        "sourceConfidence": "predicted",
-        "teamId": "netherlands"
+        "code": "MAR",
+        "name": "Morocco",
+        "flag": "🇲🇦",
+        "sourceConfidence": "source-backed",
+        "teamId": "morocco"
       },
       "predictedScore90": "1-0",
-      "predictedScoreLabel": "FRA 1-0 NED",
-      "teamAAdvanceProb": 0.6796,
-      "teamBAdvanceProb": 0.3204,
+      "predictedScoreLabel": "FRA 1-0 MAR",
+      "teamAAdvanceProb": 0.8494,
+      "teamBAdvanceProb": 0.1506,
       "actualWinner": null,
       "actualLoser": null,
       "actualScore": null,
       "predictionResult": "pending",
-      "modelNote": "France 1.58 xG vs Netherlands 0.86 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
+      "modelNote": "France 1.81 xG vs Morocco 0.35 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
       "actualNote": "Actual result pending.",
       "pathNote": "Likely R16 path runs through Germany (85.1% if both sides advance).",
-      "sourceConfidence": "predicted",
+      "sourceConfidence": "source-backed",
       "sourceFixtureOrder": null
     },
     {
       "matchId": "98",
       "bracketSlotId": "M98",
-      "sourceFixtureId": null,
-      "sourceFixtureIdRole": null,
+      "sourceFixtureId": "99",
+      "sourceFixtureIdRole": "source fixture id, not bracket slot",
       "round": "qf",
       "roundLabel": "Quarterfinals",
-      "bracketSide": "winner_m101",
-      "bracketQuarter": "winner_m98",
+      "bracketSide": null,
+      "bracketQuarter": null,
       "bracketPath": "Winner Match 93 v Winner Match 94",
       "feedsFrom": [
         "M93",
@@ -2029,31 +2139,43 @@
         "code": "ESP",
         "name": "Spain",
         "flag": "🇪🇸",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "spain"
       },
       "teamB": {
         "code": "BEL",
         "name": "Belgium",
         "flag": "🇧🇪",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "belgium"
       },
-      "actualTeamA": null,
-      "actualTeamB": null,
-      "status": "pending",
+      "actualTeamA": {
+        "code": "ESP",
+        "name": "Spain",
+        "flag": "🇪🇸",
+        "sourceConfidence": "source-backed",
+        "teamId": "spain"
+      },
+      "actualTeamB": {
+        "code": "BEL",
+        "name": "Belgium",
+        "flag": "🇧🇪",
+        "sourceConfidence": "source-backed",
+        "teamId": "belgium"
+      },
+      "status": "scheduled",
       "predictedWinner": {
         "code": "ESP",
         "name": "Spain",
         "flag": "🇪🇸",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "spain"
       },
       "predictedLoser": {
         "code": "BEL",
         "name": "Belgium",
         "flag": "🇧🇪",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "belgium"
       },
       "predictedScore90": "1-0",
@@ -2067,77 +2189,89 @@
       "modelNote": "Spain 1.97 xG vs Belgium 0.53 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
       "actualNote": "Actual result pending.",
       "pathNote": "Likely R16 path runs through Portugal (67.1% if both sides advance).",
-      "sourceConfidence": "predicted",
+      "sourceConfidence": "source-backed",
       "sourceFixtureOrder": null
     },
     {
       "matchId": "99",
       "bracketSlotId": "M99",
-      "sourceFixtureId": null,
-      "sourceFixtureIdRole": null,
+      "sourceFixtureId": "98",
+      "sourceFixtureIdRole": "source fixture id, not bracket slot",
       "round": "qf",
       "roundLabel": "Quarterfinals",
-      "bracketSide": "winner_m102",
-      "bracketQuarter": "winner_m99",
+      "bracketSide": null,
+      "bracketQuarter": null,
       "bracketPath": "Winner Match 91 v Winner Match 92",
       "feedsFrom": [
         "M91",
         "M92"
       ],
       "teamA": {
-        "code": "BRA",
-        "name": "Brazil",
-        "flag": "🇧🇷",
-        "sourceConfidence": "predicted",
-        "teamId": "brazil"
+        "code": "NOR",
+        "name": "Norway",
+        "flag": "🇳🇴",
+        "sourceConfidence": "source-backed",
+        "teamId": "norway"
       },
       "teamB": {
         "code": "ENG",
         "name": "England",
         "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "england"
       },
-      "actualTeamA": null,
-      "actualTeamB": null,
-      "status": "pending",
+      "actualTeamA": {
+        "code": "NOR",
+        "name": "Norway",
+        "flag": "🇳🇴",
+        "sourceConfidence": "source-backed",
+        "teamId": "norway"
+      },
+      "actualTeamB": {
+        "code": "ENG",
+        "name": "England",
+        "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+        "sourceConfidence": "source-backed",
+        "teamId": "england"
+      },
+      "status": "scheduled",
       "predictedWinner": {
         "code": "ENG",
         "name": "England",
         "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "england"
       },
       "predictedLoser": {
-        "code": "BRA",
-        "name": "Brazil",
-        "flag": "🇧🇷",
-        "sourceConfidence": "predicted",
-        "teamId": "brazil"
+        "code": "NOR",
+        "name": "Norway",
+        "flag": "🇳🇴",
+        "sourceConfidence": "source-backed",
+        "teamId": "norway"
       },
-      "predictedScore90": "1-1",
-      "predictedScoreLabel": "BRA 1-1 ENG",
-      "teamAAdvanceProb": 0.4232,
-      "teamBAdvanceProb": 0.5768,
+      "predictedScore90": "0-1",
+      "predictedScoreLabel": "NOR 0-1 ENG",
+      "teamAAdvanceProb": 0.2517,
+      "teamBAdvanceProb": 0.7483,
       "actualWinner": null,
       "actualLoser": null,
       "actualScore": null,
       "predictionResult": "pending",
-      "modelNote": "England 1.36 xG vs Brazil 1.06 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
+      "modelNote": "England 1.70 xG vs Norway 0.69 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
       "actualNote": "Actual result pending.",
       "pathNote": "Toughest pre-final pocket projects as SF against Argentina.",
-      "sourceConfidence": "predicted",
+      "sourceConfidence": "source-backed",
       "sourceFixtureOrder": null
     },
     {
       "matchId": "100",
       "bracketSlotId": "M100",
-      "sourceFixtureId": null,
-      "sourceFixtureIdRole": null,
+      "sourceFixtureId": "100",
+      "sourceFixtureIdRole": "source fixture id, not bracket slot",
       "round": "qf",
       "roundLabel": "Quarterfinals",
-      "bracketSide": "winner_m102",
-      "bracketQuarter": "winner_m100",
+      "bracketSide": null,
+      "bracketQuarter": null,
       "bracketPath": "Winner Match 95 v Winner Match 96",
       "feedsFrom": [
         "M95",
@@ -2147,45 +2281,57 @@
         "code": "ARG",
         "name": "Argentina",
         "flag": "🇦🇷",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "argentina"
       },
       "teamB": {
-        "code": "COL",
-        "name": "Colombia",
-        "flag": "🇨🇴",
-        "sourceConfidence": "predicted",
-        "teamId": "colombia"
+        "code": "SUI",
+        "name": "Switzerland",
+        "flag": "🇨🇭",
+        "sourceConfidence": "source-backed",
+        "teamId": "switzerland"
       },
-      "actualTeamA": null,
-      "actualTeamB": null,
-      "status": "pending",
+      "actualTeamA": {
+        "code": "ARG",
+        "name": "Argentina",
+        "flag": "🇦🇷",
+        "sourceConfidence": "source-backed",
+        "teamId": "argentina"
+      },
+      "actualTeamB": {
+        "code": "SUI",
+        "name": "Switzerland",
+        "flag": "🇨🇭",
+        "sourceConfidence": "source-backed",
+        "teamId": "switzerland"
+      },
+      "status": "scheduled",
       "predictedWinner": {
         "code": "ARG",
         "name": "Argentina",
         "flag": "🇦🇷",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "argentina"
       },
       "predictedLoser": {
-        "code": "COL",
-        "name": "Colombia",
-        "flag": "🇨🇴",
-        "sourceConfidence": "predicted",
-        "teamId": "colombia"
+        "code": "SUI",
+        "name": "Switzerland",
+        "flag": "🇨🇭",
+        "sourceConfidence": "source-backed",
+        "teamId": "switzerland"
       },
-      "predictedScore90": "1-0",
-      "predictedScoreLabel": "ARG 1-0 COL",
-      "teamAAdvanceProb": 0.7705,
-      "teamBAdvanceProb": 0.2295,
+      "predictedScore90": "2-0",
+      "predictedScoreLabel": "ARG 2-0 SUI",
+      "teamAAdvanceProb": 0.8822,
+      "teamBAdvanceProb": 0.1178,
       "actualWinner": null,
       "actualLoser": null,
       "actualScore": null,
       "predictionResult": "pending",
-      "modelNote": "Argentina 1.78 xG vs Colombia 0.65 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
+      "modelNote": "Argentina 2.11 xG vs Switzerland 0.35 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
       "actualNote": "Actual result pending.",
       "pathNote": "Toughest pre-final pocket projects as SF against England.",
-      "sourceConfidence": "predicted",
+      "sourceConfidence": "source-backed",
       "sourceFixtureOrder": null
     },
     {
@@ -2195,8 +2341,8 @@
       "sourceFixtureIdRole": null,
       "round": "sf",
       "roundLabel": "Semifinals",
-      "bracketSide": "winner_m101",
-      "bracketQuarter": "winner_m97",
+      "bracketSide": null,
+      "bracketQuarter": null,
       "bracketPath": "Winner Match 97 v Winner Match 98",
       "feedsFrom": [
         "M97",
@@ -2254,8 +2400,8 @@
       "sourceFixtureIdRole": null,
       "round": "sf",
       "roundLabel": "Semifinals",
-      "bracketSide": "winner_m102",
-      "bracketQuarter": "winner_m99",
+      "bracketSide": null,
+      "bracketQuarter": null,
       "bracketPath": "Winner Match 99 v Winner Match 100",
       "feedsFrom": [
         "M99",
@@ -2313,8 +2459,8 @@
       "sourceFixtureIdRole": null,
       "round": "final",
       "roundLabel": "Final",
-      "bracketSide": "winner_m101",
-      "bracketQuarter": "winner_m97",
+      "bracketSide": null,
+      "bracketQuarter": null,
       "bracketPath": "Winner Match 101 v Winner Match 102, final",
       "feedsFrom": [
         "M101",
@@ -2372,7 +2518,7 @@
       "sourceFixtureIdRole": null,
       "round": "third_place",
       "roundLabel": "Third Place",
-      "bracketSide": "winner_m101|winner_m102",
+      "bracketSide": null,
       "bracketQuarter": null,
       "bracketPath": "Loser Match 101 v Loser Match 102, third-place match",
       "feedsFrom": [
