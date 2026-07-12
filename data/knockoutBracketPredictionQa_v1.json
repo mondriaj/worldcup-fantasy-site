@@ -1,12 +1,13 @@
 {
   "schema_version": "knockout_bracket_prediction_qa_v1",
-  "generated_at": "2026-07-08T12:55:08.368Z",
+  "generated_at": "2026-07-12T12:43:21.492Z",
   "status": "pass",
   "source_files": {
     "bracketPrediction": "data/knockoutBracketPrediction_v1.json",
     "browserData": "knockoutBracketPredictionData.js",
     "fixtureAuthority": "data/r32FixtureAuthority_v1.json",
     "qfFixtureAuthority": "data/qfFixtureAuthority_v1.json",
+    "sfFixtureAuthority": "data/sfFixtureAuthority_v1.json",
     "knockoutScorePredictor": "data/knockoutScorePredictor_v1.json",
     "bracketPoolStrategy": "data/bracketPoolStrategyModel_v1.json",
     "index": "index.html",
@@ -24,9 +25,9 @@
     "third_place": 1
   },
   "result_counts": {
-    "correct": 18,
+    "correct": 22,
     "wrong": 6,
-    "pending": 8
+    "pending": 4
   },
   "summary": {
     "predictedChampion": "Argentina",
@@ -40,11 +41,11 @@
       "England",
       "Argentina"
     ],
-    "decidedKnockoutMatches": 24,
-    "correctWinnerPredictions": 18,
+    "decidedKnockoutMatches": 28,
+    "correctWinnerPredictions": 22,
     "wrongWinnerPredictions": 6,
-    "pendingPredictions": 8,
-    "accuracyPct": 75,
+    "pendingPredictions": 4,
+    "accuracyPct": 78.6,
     "flagsMissingFallbackCount": 0
   },
   "checks": [
@@ -55,6 +56,11 @@
     },
     {
       "id": "qf_fixture_authority_pass",
+      "status": "pass",
+      "detail": "pass"
+    },
+    {
+      "id": "sf_fixture_authority_pass",
       "status": "pass",
       "detail": "pass"
     },
@@ -192,26 +198,55 @@
       }
     },
     {
-      "id": "qf_matches_not_marked_final_before_play",
+      "id": "qf_matches_marked_final_after_play",
       "status": "pass",
       "detail": [
         {
           "slot": "M97",
-          "status": "scheduled",
-          "actualScore": null
+          "status": "final",
+          "actualScore": "FRA 2-0 MAR",
+          "actualWinner": "France"
         },
         {
           "slot": "M98",
-          "status": "scheduled",
-          "actualScore": null
+          "status": "final",
+          "actualScore": "ESP 2-1 BEL",
+          "actualWinner": "Spain"
         },
         {
           "slot": "M99",
+          "status": "final",
+          "actualScore": "NOR 1-2 ENG",
+          "actualWinner": "England"
+        },
+        {
+          "slot": "M100",
+          "status": "final",
+          "actualScore": "ARG 3-1 SUI",
+          "actualWinner": "Argentina"
+        }
+      ]
+    },
+    {
+      "id": "sf_rows_match_sf_authority",
+      "status": "pass",
+      "detail": {
+        "missing_authority_teams": [],
+        "unexpected_sf_teams": [],
+        "pending_sf_slots": []
+      }
+    },
+    {
+      "id": "sf_matches_not_marked_final_before_play",
+      "status": "pass",
+      "detail": [
+        {
+          "slot": "M101",
           "status": "scheduled",
           "actualScore": null
         },
         {
-          "slot": "M100",
+          "slot": "M102",
           "status": "scheduled",
           "actualScore": null
         }

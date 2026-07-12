@@ -1,0 +1,238 @@
+{
+  "schema_version": "sf_lineup_news_audit_v1",
+  "generated_at": "2026-07-12T12:30:35.501Z",
+  "status": "pass",
+  "source_policy": {
+    "reliable_sources_only": true,
+    "predicted_lineups_not_invented": true,
+    "qf_r16_lineup_evidence_remains_primary": true,
+    "source_backed_absences_override_role_priors": true
+  },
+  "summary": {
+    "sources_checked": 4,
+    "fetch_failures": 0,
+    "teams_checked": 4,
+    "teams_with_confirmed_sf_predicted_xi": 0,
+    "source_backed_absences": 2,
+    "model_adjustment_scope": "absence_overrides_only"
+  },
+  "sources": [
+    {
+      "source_id": "guardian_england_norway_buildup",
+      "url": "https://www.theguardian.com/football/live/2026/jul/11/world-cup-2026-spain-v-belgium-reaction-norway-v-england-quarter-final-buildup-and-more-live",
+      "teams": [
+        "England"
+      ],
+      "reliability": "credible_liveblog",
+      "expected_notes": [
+        "Marc Guéhi, Declan Rice and Reece James trained and were expected to be available before the QF.",
+        "Jordan Henderson out with a fractured wrist.",
+        "Jarell Quansah serving a two-match ban."
+      ],
+      "status": 200,
+      "ok": true,
+      "title": "World Cup 2026: Norway v England buildup; Kane’s round of golf with Trump – as it happened | World Cup 2026 | The Guardian",
+      "last_modified": null,
+      "bytes": 847764,
+      "elapsed_ms": 155
+    },
+    {
+      "source_id": "guardian_argentina_england_context",
+      "url": "https://www.theguardian.com/football/2026/jul/12/argentina-switzerland-england-world-cup-semi-final",
+      "teams": [
+        "Argentina",
+        "England"
+      ],
+      "reliability": "credible_match_context",
+      "expected_notes": [
+        "Argentina reached the SF after extra time and face England on short rest.",
+        "No confirmed semifinal XI is supplied."
+      ],
+      "status": 200,
+      "ok": true,
+      "title": "Argentina’s World Cup built on ‘suffering’ faces its biggest test yet | World Cup 2026 | The Guardian",
+      "last_modified": null,
+      "bytes": 345750,
+      "elapsed_ms": 153
+    },
+    {
+      "source_id": "guardian_spain_merino_context",
+      "url": "https://www.theguardian.com/football/2026/jul/11/spains-mikel-merino-enjoys-happy-knack-of-scoring-late-winners",
+      "teams": [
+        "Spain"
+      ],
+      "reliability": "credible_team_context",
+      "expected_notes": [
+        "Spain rotation/depth context around Mikel Merino.",
+        "No confirmed semifinal XI is supplied."
+      ],
+      "status": 200,
+      "ok": true,
+      "title": "Spain’s Mikel Merino enjoys happy knack of scoring late winners | Spain | The Guardian",
+      "last_modified": null,
+      "bytes": 354612,
+      "elapsed_ms": 201
+    },
+    {
+      "source_id": "guardian_france_morocco_qf",
+      "url": "https://www.theguardian.com/football/live/2026/jul/09/france-v-morocco-world-cup-2026-quarter-final-live",
+      "teams": [
+        "France"
+      ],
+      "reliability": "credible_qf_lineup_source",
+      "expected_notes": [
+        "QF starting XI source for France.",
+        "No confirmed semifinal XI is supplied."
+      ],
+      "status": 200,
+      "ok": true,
+      "title": "France 2-0 Morocco: World Cup 2026 quarter-final – as it happened | World Cup 2026 | The Guardian",
+      "last_modified": null,
+      "bytes": 1524815,
+      "elapsed_ms": 123
+    }
+  ],
+  "teams": [
+    {
+      "team": "France",
+      "credible_sources_checked": [
+        {
+          "source_id": "guardian_france_morocco_qf",
+          "url": "https://www.theguardian.com/football/live/2026/jul/09/france-v-morocco-world-cup-2026-quarter-final-live",
+          "status": 200,
+          "title": "France 2-0 Morocco: World Cup 2026 quarter-final – as it happened | World Cup 2026 | The Guardian",
+          "last_modified": null,
+          "reliability": "credible_qf_lineup_source"
+        }
+      ],
+      "predicted_lineup": null,
+      "predicted_lineup_source_backed": false,
+      "confirmed_absences": [],
+      "injury_doubts": [],
+      "suspension_risks": [],
+      "rotation_notes": [
+        "QF source shows Doué started and Barcola was not in the QF XI; keep as role-volatility context, not a semifinal XI claim."
+      ],
+      "confidence_level": "no_confirmed_sf_xi",
+      "model_effect": "no_lineup_model_adjustment",
+      "public_caution": "No reliable confirmed semifinal starting XI found yet; verify official lineups and locks in FIFA."
+    },
+    {
+      "team": "Spain",
+      "credible_sources_checked": [
+        {
+          "source_id": "guardian_spain_merino_context",
+          "url": "https://www.theguardian.com/football/2026/jul/11/spains-mikel-merino-enjoys-happy-knack-of-scoring-late-winners",
+          "status": 200,
+          "title": "Spain’s Mikel Merino enjoys happy knack of scoring late winners | Spain | The Guardian",
+          "last_modified": null,
+          "reliability": "credible_team_context"
+        }
+      ],
+      "predicted_lineup": null,
+      "predicted_lineup_source_backed": false,
+      "confirmed_absences": [],
+      "injury_doubts": [],
+      "suspension_risks": [],
+      "rotation_notes": [
+        "QF source shows Fabián Ruiz started and Pedri was not in the QF XI; keep as role-volatility context, not a semifinal XI claim."
+      ],
+      "confidence_level": "no_confirmed_sf_xi",
+      "model_effect": "no_lineup_model_adjustment",
+      "public_caution": "No reliable confirmed semifinal starting XI found yet; verify official lineups and locks in FIFA."
+    },
+    {
+      "team": "England",
+      "credible_sources_checked": [
+        {
+          "source_id": "guardian_england_norway_buildup",
+          "url": "https://www.theguardian.com/football/live/2026/jul/11/world-cup-2026-spain-v-belgium-reaction-norway-v-england-quarter-final-buildup-and-more-live",
+          "status": 200,
+          "title": "World Cup 2026: Norway v England buildup; Kane’s round of golf with Trump – as it happened | World Cup 2026 | The Guardian",
+          "last_modified": null,
+          "reliability": "credible_liveblog"
+        },
+        {
+          "source_id": "guardian_argentina_england_context",
+          "url": "https://www.theguardian.com/football/2026/jul/12/argentina-switzerland-england-world-cup-semi-final",
+          "status": 200,
+          "title": "Argentina’s World Cup built on ‘suffering’ faces its biggest test yet | World Cup 2026 | The Guardian",
+          "last_modified": null,
+          "reliability": "credible_match_context"
+        }
+      ],
+      "predicted_lineup": null,
+      "predicted_lineup_source_backed": false,
+      "confirmed_absences": [
+        {
+          "official_fantasy_player_id": "1708",
+          "player": "Jarell Quansah",
+          "reason": "two-match suspension",
+          "source_id": "guardian_england_norway_buildup",
+          "source_url": "https://www.theguardian.com/football/live/2026/jul/11/world-cup-2026-spain-v-belgium-reaction-norway-v-england-quarter-final-buildup-and-more-live",
+          "should_affect_model": true
+        },
+        {
+          "official_fantasy_player_id": "482",
+          "player": "Jordan Henderson",
+          "reason": "fractured wrist",
+          "source_id": "guardian_england_norway_buildup",
+          "source_url": "https://www.theguardian.com/football/live/2026/jul/11/world-cup-2026-spain-v-belgium-reaction-norway-v-england-quarter-final-buildup-and-more-live",
+          "should_affect_model": true
+        }
+      ],
+      "injury_doubts": [
+        {
+          "players": [
+            "Marc Guéhi",
+            "Declan Rice",
+            "Reece James"
+          ],
+          "note": "Reported as trained/expected available before the QF, with recent fitness context.",
+          "source_id": "guardian_england_norway_buildup",
+          "source_url": "https://www.theguardian.com/football/live/2026/jul/11/world-cup-2026-spain-v-belgium-reaction-norway-v-england-quarter-final-buildup-and-more-live",
+          "should_affect_model": "public_caution_only"
+        }
+      ],
+      "suspension_risks": [
+        {
+          "official_fantasy_player_id": "1708",
+          "player": "Jarell Quansah",
+          "reason": "two-match suspension",
+          "source_id": "guardian_england_norway_buildup",
+          "source_url": "https://www.theguardian.com/football/live/2026/jul/11/world-cup-2026-spain-v-belgium-reaction-norway-v-england-quarter-final-buildup-and-more-live",
+          "should_affect_model": true
+        }
+      ],
+      "rotation_notes": [],
+      "confidence_level": "no_confirmed_sf_xi",
+      "model_effect": "source_backed_absence_overrides_only",
+      "public_caution": "No reliable confirmed semifinal starting XI found yet; verify official lineups and locks in FIFA."
+    },
+    {
+      "team": "Argentina",
+      "credible_sources_checked": [
+        {
+          "source_id": "guardian_argentina_england_context",
+          "url": "https://www.theguardian.com/football/2026/jul/12/argentina-switzerland-england-world-cup-semi-final",
+          "status": 200,
+          "title": "Argentina’s World Cup built on ‘suffering’ faces its biggest test yet | World Cup 2026 | The Guardian",
+          "last_modified": null,
+          "reliability": "credible_match_context"
+        }
+      ],
+      "predicted_lineup": null,
+      "predicted_lineup_source_backed": false,
+      "confirmed_absences": [],
+      "injury_doubts": [],
+      "suspension_risks": [],
+      "rotation_notes": [
+        "QF source shows Julián Álvarez started; Lautaro Martínez scored later but is not treated as a QF starter from points/goals."
+      ],
+      "confidence_level": "no_confirmed_sf_xi",
+      "model_effect": "no_lineup_model_adjustment",
+      "public_caution": "No reliable confirmed semifinal starting XI found yet; verify official lineups and locks in FIFA."
+    }
+  ],
+  "recommendation": "No reliable confirmed semifinal starting XI source found yet. Keep SF model based on QF/R16/R32 lineup evidence and run a pre-lock monitor later."
+}

@@ -1,13 +1,14 @@
 {
   "schema_version": "knockout_bracket_prediction_v1",
-  "generatedAt": "2026-07-08T12:36:37.156Z",
-  "generated_at": "2026-07-08T12:36:37.156Z",
+  "generatedAt": "2026-07-12T12:41:01.304Z",
+  "generated_at": "2026-07-12T12:41:01.304Z",
   "modelVersion": "knockout-bracket-prediction-v1",
   "model_version": "knockout-bracket-prediction-v1",
   "bracketSource": {
     "r32FixtureAuthority": "data/r32FixtureAuthority_v1.json",
     "r16FixtureAuthority": "data/r16FixtureAuthority_v1.json",
     "qfFixtureAuthority": "data/qfFixtureAuthority_v1.json",
+    "sfFixtureAuthority": "data/sfFixtureAuthority_v1.json",
     "officialBracket": "worldCupData.js",
     "modelPicks": "data/bracketPoolStrategyModel_v1.json",
     "scorePredictions": "data/knockoutScorePredictor_v1.json",
@@ -121,36 +122,36 @@
         "code": "FRA",
         "name": "France",
         "flag": "🇫🇷",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "france"
       },
       {
         "code": "ESP",
         "name": "Spain",
         "flag": "🇪🇸",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "spain"
       },
       {
         "code": "ENG",
         "name": "England",
         "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "england"
       },
       {
         "code": "ARG",
         "name": "Argentina",
         "flag": "🇦🇷",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "argentina"
       }
     ],
-    "decidedKnockoutMatches": 24,
-    "correctWinnerPredictions": 18,
+    "decidedKnockoutMatches": 28,
+    "correctWinnerPredictions": 22,
     "wrongWinnerPredictions": 6,
-    "pendingPredictions": 8,
-    "accuracyPct": 75,
+    "pendingPredictions": 4,
+    "accuracyPct": 78.6,
     "flagsMissingFallbackCount": 0
   },
   "matches": [
@@ -2092,7 +2093,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "morocco"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "FRA",
         "name": "France",
@@ -2111,12 +2112,24 @@
       "predictedScoreLabel": "FRA 1-0 MAR",
       "teamAAdvanceProb": 0.8494,
       "teamBAdvanceProb": 0.1506,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "France",
+        "name": "France",
+        "team_id": "france",
+        "code": "FRA",
+        "flag": "🇫🇷"
+      },
+      "actualLoser": {
+        "team": "Morocco",
+        "name": "Morocco",
+        "team_id": "morocco",
+        "code": "MAR",
+        "flag": "🇲🇦"
+      },
+      "actualScore": "FRA 2-0 MAR",
+      "predictionResult": "correct",
       "modelNote": "France 1.81 xG vs Morocco 0.35 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Likely R16 path runs through Germany (85.1% if both sides advance).",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": null
@@ -2163,7 +2176,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "belgium"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "ESP",
         "name": "Spain",
@@ -2182,12 +2195,24 @@
       "predictedScoreLabel": "ESP 1-0 BEL",
       "teamAAdvanceProb": 0.8277,
       "teamBAdvanceProb": 0.1723,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Spain",
+        "name": "Spain",
+        "team_id": "spain",
+        "code": "ESP",
+        "flag": "🇪🇸"
+      },
+      "actualLoser": {
+        "team": "Belgium",
+        "name": "Belgium",
+        "team_id": "belgium",
+        "code": "BEL",
+        "flag": "🇧🇪"
+      },
+      "actualScore": "ESP 2-1 BEL",
+      "predictionResult": "correct",
       "modelNote": "Spain 1.97 xG vs Belgium 0.53 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Likely R16 path runs through Portugal (67.1% if both sides advance).",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": null
@@ -2234,7 +2259,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "england"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "ENG",
         "name": "England",
@@ -2253,12 +2278,24 @@
       "predictedScoreLabel": "NOR 0-1 ENG",
       "teamAAdvanceProb": 0.2517,
       "teamBAdvanceProb": 0.7483,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "England",
+        "name": "England",
+        "team_id": "england",
+        "code": "ENG",
+        "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿"
+      },
+      "actualLoser": {
+        "team": "Norway",
+        "name": "Norway",
+        "team_id": "norway",
+        "code": "NOR",
+        "flag": "🇳🇴"
+      },
+      "actualScore": "NOR 1-2 ENG",
+      "predictionResult": "correct",
       "modelNote": "England 1.70 xG vs Norway 0.69 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Toughest pre-final pocket projects as SF against Argentina.",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": null
@@ -2305,7 +2342,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "switzerland"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "ARG",
         "name": "Argentina",
@@ -2324,12 +2361,24 @@
       "predictedScoreLabel": "ARG 2-0 SUI",
       "teamAAdvanceProb": 0.8822,
       "teamBAdvanceProb": 0.1178,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Argentina",
+        "name": "Argentina",
+        "team_id": "argentina",
+        "code": "ARG",
+        "flag": "🇦🇷"
+      },
+      "actualLoser": {
+        "team": "Switzerland",
+        "name": "Switzerland",
+        "team_id": "switzerland",
+        "code": "SUI",
+        "flag": "🇨🇭"
+      },
+      "actualScore": "ARG 3-1 SUI",
+      "predictionResult": "correct",
       "modelNote": "Argentina 2.11 xG vs Switzerland 0.35 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Toughest pre-final pocket projects as SF against England.",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": null
@@ -2337,8 +2386,8 @@
     {
       "matchId": "101",
       "bracketSlotId": "M101",
-      "sourceFixtureId": null,
-      "sourceFixtureIdRole": null,
+      "sourceFixtureId": "101",
+      "sourceFixtureIdRole": "source fixture id, not bracket slot",
       "round": "sf",
       "roundLabel": "Semifinals",
       "bracketSide": null,
@@ -2352,31 +2401,43 @@
         "code": "FRA",
         "name": "France",
         "flag": "🇫🇷",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "france"
       },
       "teamB": {
         "code": "ESP",
         "name": "Spain",
         "flag": "🇪🇸",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "spain"
       },
-      "actualTeamA": null,
-      "actualTeamB": null,
-      "status": "pending",
+      "actualTeamA": {
+        "code": "FRA",
+        "name": "France",
+        "flag": "🇫🇷",
+        "sourceConfidence": "source-backed",
+        "teamId": "france"
+      },
+      "actualTeamB": {
+        "code": "ESP",
+        "name": "Spain",
+        "flag": "🇪🇸",
+        "sourceConfidence": "source-backed",
+        "teamId": "spain"
+      },
+      "status": "scheduled",
       "predictedWinner": {
         "code": "ESP",
         "name": "Spain",
         "flag": "🇪🇸",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "spain"
       },
       "predictedLoser": {
         "code": "FRA",
         "name": "France",
         "flag": "🇫🇷",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "france"
       },
       "predictedScore90": "1-1",
@@ -2390,14 +2451,14 @@
       "modelNote": "Spain 1.46 xG vs France 1.21 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
       "actualNote": "Actual result pending.",
       "pathNote": "Likely R16 path runs through Portugal (67.1% if both sides advance).",
-      "sourceConfidence": "predicted",
+      "sourceConfidence": "source-backed",
       "sourceFixtureOrder": null
     },
     {
       "matchId": "102",
       "bracketSlotId": "M102",
-      "sourceFixtureId": null,
-      "sourceFixtureIdRole": null,
+      "sourceFixtureId": "102",
+      "sourceFixtureIdRole": "source fixture id, not bracket slot",
       "round": "sf",
       "roundLabel": "Semifinals",
       "bracketSide": null,
@@ -2411,31 +2472,43 @@
         "code": "ENG",
         "name": "England",
         "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "england"
       },
       "teamB": {
         "code": "ARG",
         "name": "Argentina",
         "flag": "🇦🇷",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "argentina"
       },
-      "actualTeamA": null,
-      "actualTeamB": null,
-      "status": "pending",
+      "actualTeamA": {
+        "code": "ENG",
+        "name": "England",
+        "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+        "sourceConfidence": "source-backed",
+        "teamId": "england"
+      },
+      "actualTeamB": {
+        "code": "ARG",
+        "name": "Argentina",
+        "flag": "🇦🇷",
+        "sourceConfidence": "source-backed",
+        "teamId": "argentina"
+      },
+      "status": "scheduled",
       "predictedWinner": {
         "code": "ARG",
         "name": "Argentina",
         "flag": "🇦🇷",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "argentina"
       },
       "predictedLoser": {
         "code": "ENG",
         "name": "England",
         "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "england"
       },
       "predictedScore90": "1-1",
@@ -2449,7 +2522,7 @@
       "modelNote": "Argentina 1.45 xG vs England 1.13 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
       "actualNote": "Actual result pending.",
       "pathNote": "Toughest pre-final pocket projects as SF against England.",
-      "sourceConfidence": "predicted",
+      "sourceConfidence": "source-backed",
       "sourceFixtureOrder": null
     },
     {

@@ -1,6 +1,6 @@
 # Knockout Bracket Prediction QA v1
 
-Generated: 2026-07-08T12:55:08.368Z
+Generated: 2026-07-12T12:43:21.492Z
 
 Status: **PASS**
 
@@ -11,11 +11,11 @@ Status: **PASS**
 | Predicted champion | Argentina |
 | Predicted finalists | Spain, Argentina |
 | Predicted semifinalists | France, Spain, England, Argentina |
-| Decided matches | 24 |
-| Correct | 18 |
+| Decided matches | 28 |
+| Correct | 22 |
 | Wrong | 6 |
-| Pending | 8 |
-| Accuracy | 75% |
+| Pending | 4 |
+| Accuracy | 78.6% |
 | Flags missing/fallback | 0 |
 
 ## Match Counts
@@ -35,6 +35,7 @@ Status: **PASS**
 | --- | --- | --- |
 | r32_fixture_authority_pass | pass | "pass" |
 | qf_fixture_authority_pass | pass | "pass" |
+| sf_fixture_authority_pass | pass | "pass" |
 | browser_data_global_present | pass |  |
 | index_loads_browser_data_before_script | pass |  |
 | script_reads_active_bracket_prediction_data | pass |  |
@@ -58,6 +59,8 @@ Status: **PASS**
 | final_matches_have_prediction_result | pass |  |
 | known_teams_have_flags_or_code_fallback | pass |  |
 | qf_rows_match_qf_authority | pass | {"missing_authority_teams":[],"unexpected_qf_teams":[],"pending_qf_slots":[]} |
-| qf_matches_not_marked_final_before_play | pass | [object Object]; [object Object]; [object Object]; [object Object] |
+| qf_matches_marked_final_after_play | pass | [object Object]; [object Object]; [object Object]; [object Object] |
+| sf_rows_match_sf_authority | pass | {"missing_authority_teams":[],"unexpected_sf_teams":[],"pending_sf_slots":[]} |
+| sf_matches_not_marked_final_before_play | pass | [object Object]; [object Object] |
 | knockout_score_predictor_r32_coverage | pass | 16 |
 | default_strategy_has_full_tree | pass | "safe: 31" |

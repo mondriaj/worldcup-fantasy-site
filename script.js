@@ -1,7 +1,7 @@
 // Static data scripts are loaded before this file. They expose player, rules,
 // score-projection, and official fantasy-pool data on window globals, so the
 // public site can run without fetching JSON at runtime.
-const ACTIVE_DATA_VERSION = "20260708-qf-final";
+const ACTIVE_DATA_VERSION = "20260712-sf-final";
 const ACTIVE_DATA = {
   version: ACTIVE_DATA_VERSION,
   players: Array.isArray(window.PLAYERS_DATA) ? window.PLAYERS_DATA : [],
@@ -51,17 +51,17 @@ function scorePredictionSourceFromWindow() {
       model_name: fantasyPoolData?.model?.model_name || null,
       formula_version: fantasyPoolData?.model?.formula_version || null,
       uncertainty_layer_version: fantasyPoolData?.model?.uncertainty_layer_version || null,
-      data_source_label: "QF fantasy score projection context",
+      data_source_label: "SF fantasy score projection context",
       fallback_context_label: "Static score projection backup",
       fixture_prediction_count: fantasyPoolRows.length,
       team_fixture_prediction_count: fantasyPoolTeamRows.length || null
     };
 
     return {
-      key: fantasyPoolData?.model_version || fantasyPoolData?.modelVersion || "fantasy_pool_score_predictions_qf_v1",
-      label: "QF fantasy score projection context",
+      key: fantasyPoolData?.model_version || fantasyPoolData?.modelVersion || "fantasy_pool_score_predictions_sf_v1",
+      label: "SF fantasy score projection context",
       browserFile: "fantasyPoolScorePredictionsData.js",
-      sourceFile: "data/scorePredictions_fantasyPool_qf_v1.json",
+      sourceFile: "data/scorePredictions_fantasyPool_sf_v1.json",
       rows: fantasyPoolRows,
       summary
     };
@@ -71,7 +71,7 @@ function scorePredictionSourceFromWindow() {
     key: "active_match_environment_unavailable",
     label: "Active Match Environment data unavailable",
     browserFile: "fantasyPoolScorePredictionsData.js",
-    sourceFile: "data/scorePredictions_fantasyPool_qf_v1.json",
+    sourceFile: "data/scorePredictions_fantasyPool_sf_v1.json",
     rows: [],
     summary: ACTIVE_DATA.score.summary || null
   };
@@ -352,7 +352,7 @@ const knockoutKnownPredictionRows = scorePredictionRows.filter((row) => {
   const status = String(row?.fixture_authority_status || "").toLowerCase();
   const homeTeam = normalizeText(row?.home_team);
   const awayTeam = normalizeText(row?.away_team);
-  return matchdayId === "qf" &&
+  return matchdayId === "sf" &&
     status === "final_known" &&
     homeTeam &&
     awayTeam &&
@@ -361,6 +361,7 @@ const knockoutKnownPredictionRows = scorePredictionRows.filter((row) => {
 });
 const usingFantasyPoolPreview = Boolean(fantasyPoolPreviewStatus && fantasyPoolRecommendationRows.length);
 const defaultMatchdayOptions = [
+  { matchday_id: "sf", label: "SF" },
   { matchday_id: "qf", label: "QF" },
   { matchday_id: "r16", label: "R16" },
   { matchday_id: "r32", label: "Round of 32" },
@@ -370,7 +371,7 @@ const defaultMatchdayOptions = [
   { matchday_id: "md3", label: "Matchday 3" }
 ];
 const matchdayOptions = defaultMatchdayOptions;
-const defaultPublicMatchdayId = "qf";
+const defaultPublicMatchdayId = "sf";
 const defaultActiveMatchdayId = matchdayOptions.some((option) => option.matchday_id === defaultPublicMatchdayId)
   ? defaultPublicMatchdayId
   : matchdayOptions[0]?.matchday_id || "group_stage_full";
@@ -385,8 +386,8 @@ const browserSquadStorageKey = "worldCupFantasyHelper.teamExport.v1";
 
 function activeDataBadgeHtml() {
   return `
-    <span class="model-data-badge" title="Public final QF page uses only the current active static data path.">
-      QF active data path · ${ACTIVE_DATA.version} · all 8 R16 winners final · verify FIFA locks/deadlines/lineups
+    <span class="model-data-badge" title="Public Semifinal page uses only the current active static data path.">
+      Semifinal fantasy setup · SF active data path · ${ACTIVE_DATA.version} · all 4 QF winners final · Starting probability heavily weights QF starters where lineup data is available · Role volatility matters more now because some teams are still changing their XI · Verify official locks/deadlines/lineups in FIFA
     </span>
   `;
 }
@@ -5794,7 +5795,7 @@ function renderKnockoutKnownFixtures() {
   if (!knockoutKnownPredictionRows.length) {
     knockoutKnownFixturesBody.innerHTML = `
       <tr>
-        <td colspan="5">Known QF fixtures are not loaded yet.</td>
+        <td colspan="5">Known SF fixtures are not loaded yet.</td>
       </tr>
     `;
     return;
@@ -5817,7 +5818,7 @@ function renderKnockoutKnownFixtures() {
       const fixtureLabel = [
         row.match_number ? `M${row.match_number}` : "",
         row.public_label || "Known",
-        "QF"
+        "SF"
       ].filter(Boolean).join(" · ");
 
       return `
@@ -5844,11 +5845,11 @@ function renderKnockoutMatchup() {
   ) || knockoutKnownPredictionRows[0] || null;
 
   if (!row) {
-    knockoutMatchupResult.innerHTML = modelDataWarningHtml("No known QF fixture is available yet.", { title: "Knockout predictor" });
+    knockoutMatchupResult.innerHTML = modelDataWarningHtml("No known SF fixture is available yet.", { title: "Knockout predictor" });
     return;
   }
 
-  knockoutMatchupResult.innerHTML = knockoutPredictionCardHtml(row, { label: `M${row.match_number || ""} · QF Fixture` });
+  knockoutMatchupResult.innerHTML = knockoutPredictionCardHtml(row, { label: `M${row.match_number || ""} · SF Fixture` });
 }
 
 function renderKnockoutPredictor() {
@@ -5859,7 +5860,7 @@ function renderKnockoutPredictor() {
   }
 
   if (!knockoutKnownPredictionRows.length) {
-    knockoutFixtureSelect.innerHTML = `<option value="">Known QF fixtures unavailable</option>`;
+    knockoutFixtureSelect.innerHTML = `<option value="">Known SF fixtures unavailable</option>`;
     renderKnockoutMatchup();
     return;
   }
@@ -6419,7 +6420,7 @@ function playerById(playerId) {
 function captainChangeMatchdayIds() {
   return matchdayOptions
     .map((option) => option.matchday_id)
-    .filter((matchdayId) => ["qf", "r16", "r32", "md1", "md2", "md3"].includes(matchdayId));
+    .filter((matchdayId) => ["sf", "qf", "r16", "r32", "md1", "md2", "md3"].includes(matchdayId));
 }
 
 function defaultSingleMatchdayId() {

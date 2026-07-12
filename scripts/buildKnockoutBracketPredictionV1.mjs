@@ -13,6 +13,7 @@ const files = {
   fixtureAuthority: "data/r32FixtureAuthority_v1.json",
   r16FixtureAuthority: "data/r16FixtureAuthority_v1.json",
   qfFixtureAuthority: "data/qfFixtureAuthority_v1.json",
+  sfFixtureAuthority: "data/sfFixtureAuthority_v1.json",
   liveMatchday: "data/liveMatchdayStatus_v1.json",
   knockoutScorePredictor: "data/knockoutScorePredictor_v1.json",
   bracketPoolStrategy: "data/bracketPoolStrategyModel_v1.json",
@@ -95,6 +96,16 @@ function sourceNumbers(matchPath, type = "Winner") {
     .map((entry) => Number(entry[1]));
 }
 
+function localFixtureIdFromMatchNumber(matchNumber) {
+  const number = Number(matchNumber);
+  return Number.isFinite(number) && number > 0 ? `fwc2026-m${String(number).padStart(3, "0")}` : "";
+}
+
+function validLocalFixtureKey(value) {
+  const key = String(value || "").trim();
+  return /^fwc2026-m\d{3}$/i.test(key) ? key.toLowerCase() : "";
+}
+
 function buildBracketNodes(worldCupData) {
   const nodes = new Map();
   for (const round of worldCupData.bracket?.rounds || []) {
@@ -171,10 +182,16 @@ function winnerLoserFromPick(teamA, teamB, pickId, pickName) {
   return { winner: null, loser: null };
 }
 
-function actualResultForFixture(fixture, liveFixturesBySource, liveFixturesByMatch) {
-  const live = fixture?.source_fixture_id
-    ? liveFixturesBySource.get(String(fixture.source_fixture_id))
-    : liveFixturesByMatch.get(Number(fixture?.bracket_match_number));
+function liveFixtureForAuthority(fixture, liveIndexes) {
+  const localKey = validLocalFixtureKey(fixture?.fixture_id || localFixtureIdFromMatchNumber(fixture?.bracket_match_number));
+  return (localKey ? liveIndexes.byLocal.get(localKey) : null) ||
+    (fixture?.source_fixture_id ? liveIndexes.bySource.get(String(fixture.source_fixture_id)) : null) ||
+    liveIndexes.byMatch.get(Number(fixture?.bracket_match_number)) ||
+    null;
+}
+
+function actualResultForFixture(fixture, liveIndexes) {
+  const live = liveFixtureForAuthority(fixture, liveIndexes);
 
   if (!live) return null;
   const status = String(live.fixture_status || live.status || "").toLowerCase();
@@ -209,14 +226,22 @@ function actualResultForFixture(fixture, liveFixturesBySource, liveFixturesByMat
 }
 
 function buildLiveIndexes(liveMatchday) {
+  const byLocal = new Map();
   const bySource = new Map();
   const byMatch = new Map();
   for (const fixture of liveMatchday.fixtures || []) {
+    const localKey = validLocalFixtureKey(
+      fixture.resolved_local_fixture_key ||
+      fixture.local_fixture_id ||
+      fixture.match_id ||
+      localFixtureIdFromMatchNumber(fixture.match_number)
+    );
+    if (localKey) byLocal.set(localKey, fixture);
     if (fixture.source_fixture_id) bySource.set(String(fixture.source_fixture_id), fixture);
     if (fixture.match_number) byMatch.set(Number(fixture.match_number), fixture);
     if (fixture.local_match_number) byMatch.set(Number(fixture.local_match_number), fixture);
   }
-  return { bySource, byMatch };
+  return { byLocal, bySource, byMatch };
 }
 
 function predictionLookup(knockout) {
@@ -272,10 +297,8 @@ function strategyMatchFor(strategy, matchNumber) {
   return (strategy.matches || []).find((row) => Number(row.match_number) === Number(matchNumber)) || null;
 }
 
-function statusFromLiveFixture(fixture, liveFixturesBySource, liveFixturesByMatch) {
-  const live = fixture?.source_fixture_id
-    ? liveFixturesBySource.get(String(fixture.source_fixture_id))
-    : liveFixturesByMatch.get(Number(fixture?.bracket_match_number));
+function statusFromLiveFixture(fixture, liveIndexes) {
+  const live = liveFixtureForAuthority(fixture, liveIndexes);
   const status = String(live?.fixture_status || fixture?.status || "").toLowerCase();
   if (["complete", "completed", "played", "full_time"].includes(status) || live?.score_status === "final") return "final";
   if (["playing", "in_progress", "live"].includes(status)) return "playing";
@@ -347,6 +370,7 @@ function buildKnockoutBracketPrediction() {
   const fixtureAuthority = readJson(files.fixtureAuthority);
   const r16FixtureAuthority = readJson(files.r16FixtureAuthority);
   const qfFixtureAuthority = readJson(files.qfFixtureAuthority);
+  const sfFixtureAuthority = readJson(files.sfFixtureAuthority);
   const liveMatchday = readJson(files.liveMatchday);
   const knockout = readJson(files.knockoutScorePredictor);
   const bracketPool = readJson(files.bracketPoolStrategy);
@@ -358,6 +382,7 @@ function buildKnockoutBracketPrediction() {
   const authorityByMatch = new Map((fixtureAuthority.fixtures || []).map((fixture) => [Number(fixture.bracket_match_number), fixture]));
   const r16AuthorityByMatch = new Map((r16FixtureAuthority.fixtures || []).map((fixture) => [Number(fixture.bracket_match_number), fixture]));
   const qfAuthorityByMatch = new Map((qfFixtureAuthority.fixtures || []).map((fixture) => [Number(fixture.bracket_match_number), fixture]));
+  const sfAuthorityByMatch = new Map((sfFixtureAuthority.fixtures || []).map((fixture) => [Number(fixture.bracket_match_number), fixture]));
   const rowsByMatch = new Map();
   const actualWinnersByMatch = new Map();
   const actualLosersByMatch = new Map();
@@ -404,12 +429,14 @@ function buildKnockoutBracketPrediction() {
         sourceFixtureOrder = authority?.source_fixture_order ?? null;
         bracketQuarter = authority?.bracket_quarter || null;
         bracketHalf = authority?.bracket_half || null;
-        actualResult = actualResultForFixture(authority, liveIndexes.bySource, liveIndexes.byMatch);
-        sourceStatus = statusFromLiveFixture(authority, liveIndexes.bySource, liveIndexes.byMatch);
-      } else if (node.round === "r16" || node.round === "qf") {
+        actualResult = actualResultForFixture(authority, liveIndexes);
+        sourceStatus = statusFromLiveFixture(authority, liveIndexes);
+      } else if (node.round === "r16" || node.round === "qf" || node.round === "sf") {
         const authority = node.round === "r16"
           ? r16AuthorityByMatch.get(node.matchNumber)
-          : qfAuthorityByMatch.get(node.matchNumber);
+          : node.round === "qf"
+            ? qfAuthorityByMatch.get(node.matchNumber)
+            : sfAuthorityByMatch.get(node.matchNumber);
         if (authority?.team_a && authority?.team_b) {
           teamA = teamFromParts({
             teamId: authority.team_a.team_id,
@@ -431,8 +458,8 @@ function buildKnockoutBracketPrediction() {
           sourceFixtureOrder = authority.source_fixture_order ?? null;
           bracketQuarter = authority.bracket_quarter || null;
           bracketHalf = authority.bracket_half || null;
-          actualResult = actualResultForFixture(authority, liveIndexes.bySource, liveIndexes.byMatch);
-          sourceStatus = statusFromLiveFixture(authority, liveIndexes.bySource, liveIndexes.byMatch);
+          actualResult = actualResultForFixture(authority, liveIndexes);
+          sourceStatus = statusFromLiveFixture(authority, liveIndexes);
         } else {
           const firstSource = rowsByMatch.get(node.winnerSources[0]);
           const secondSource = rowsByMatch.get(node.winnerSources[1]);
@@ -481,7 +508,7 @@ function buildKnockoutBracketPrediction() {
         bracketQuarter,
         bracketHalf,
         sourceStatus,
-        sourceConfidence: node.round === "r16" || node.round === "qf" ? "source-backed" : null
+        sourceConfidence: node.round === "r16" || node.round === "qf" || node.round === "sf" ? "source-backed" : null
       });
 
       rowsByMatch.set(node.matchNumber, row);
@@ -512,6 +539,7 @@ function buildKnockoutBracketPrediction() {
       r32FixtureAuthority: files.fixtureAuthority,
       r16FixtureAuthority: files.r16FixtureAuthority,
       qfFixtureAuthority: files.qfFixtureAuthority,
+      sfFixtureAuthority: files.sfFixtureAuthority,
       officialBracket: files.worldCupData,
       modelPicks: files.bracketPoolStrategy,
       scorePredictions: files.knockoutScorePredictor,
@@ -575,6 +603,9 @@ Status: **${data.predictionStatus.toUpperCase()}**
 ## Sources
 
 - R32 fixtures: \`${data.bracketSource.r32FixtureAuthority}\`
+- R16 fixtures: \`${data.bracketSource.r16FixtureAuthority}\`
+- QF fixtures: \`${data.bracketSource.qfFixtureAuthority}\`
+- SF fixtures: \`${data.bracketSource.sfFixtureAuthority}\`
 - Bracket tree: \`${data.bracketSource.officialBracket}\`
 - Model picks: \`${data.bracketSource.modelPicks}\`
 - Predicted scores: \`${data.bracketSource.scorePredictions}\`

@@ -8,10 +8,14 @@ const FILES = {
   localFixtures: "data/fixtures.json",
   r32FixtureAuthority: "data/r32FixtureAuthority_v1.json",
   r16FixtureAuthority: "data/r16FixtureAuthority_v1.json",
+  qfFixtureAuthority: "data/qfFixtureAuthority_v1.json",
+  sfFixtureAuthority: "data/sfFixtureAuthority_v1.json",
   liveMatchday: "data/liveMatchdayStatus_v1.json",
   livePlayers: "data/livePlayerStatus_v1.json",
   r32ScorePredictions: "data/scorePredictions_fantasyPool_r32_v1.json",
   r16ScorePredictions: "data/scorePredictions_fantasyPool_r16_v1.json",
+  qfScorePredictions: "data/scorePredictions_fantasyPool_qf_v1.json",
+  sfScorePredictions: "data/scorePredictions_fantasyPool_sf_v1.json",
   script: "script.js",
   worldCupPage: "worldCupPage.js",
   qaJson: "data/liveFixtureMappingQa_v1.json",
@@ -340,12 +344,16 @@ Status: ${qa.status}
 - Group-stage local fixtures: ${qa.summary.group_stage_local_fixtures}
 - R32 authority fixtures: ${qa.summary.r32_authority_fixtures}
 - R16 final-known authority fixtures: ${qa.summary.r16_authority_fixtures}
+- QF final-known authority fixtures: ${qa.summary.qf_authority_fixtures}
+- SF final-known authority fixtures: ${qa.summary.sf_authority_fixtures}
 - Total live fixtures: ${qa.summary.total_live_fixtures}
 - Group-stage live fixtures: ${qa.summary.group_stage_live_fixtures}
 - Extra non-group live fixtures: ${qa.summary.extra_live_fixtures}
 - Total score-prediction fixtures: ${qa.summary.total_score_prediction_fixtures}
 - R32 score-prediction fixtures: ${qa.summary.r32_score_prediction_fixtures}
 - R16 score-prediction fixtures: ${qa.summary.r16_score_prediction_fixtures}
+- QF score-prediction fixtures: ${qa.summary.qf_score_prediction_fixtures}
+- SF score-prediction fixtures: ${qa.summary.sf_score_prediction_fixtures}
 - Matched fixtures: ${qa.summary.matched_fixtures}
 - Final fixtures shown: ${qa.summary.final_fixtures_shown}
 - In-progress fixtures suppressed: ${qa.summary.in_progress_fixtures_suppressed}
@@ -402,20 +410,28 @@ async function main() {
     localFixturesData,
     r32AuthorityData,
     r16AuthorityData,
+    qfAuthorityData,
+    sfAuthorityData,
     liveMatchdayData,
     livePlayerData,
     r32ScorePredictionData,
     r16ScorePredictionData,
+    qfScorePredictionData,
+    sfScorePredictionData,
     scriptText,
     worldCupPageText
   ] = await Promise.all([
     readJson(FILES.localFixtures),
     readJson(FILES.r32FixtureAuthority),
     readJson(FILES.r16FixtureAuthority),
+    readJson(FILES.qfFixtureAuthority),
+    readJson(FILES.sfFixtureAuthority),
     readJson(FILES.liveMatchday),
     readJson(FILES.livePlayers),
     readJson(FILES.r32ScorePredictions),
     readJson(FILES.r16ScorePredictions),
+    readJson(FILES.qfScorePredictions),
+    readJson(FILES.sfScorePredictions),
     readText(FILES.script),
     readText(FILES.worldCupPage)
   ]);
@@ -428,14 +444,24 @@ async function main() {
     .filter((fixture) => fixture.classification === "final_known" || fixture.status === "final_known")
     .map((fixture) => fixtureRowFromAuthority(fixture, "r16_fixture_authority"))
     .filter(Boolean);
-  const localFixtures = [...groupStageFixtures, ...r32Fixtures, ...r16Fixtures];
+  const qfFixtures = rowsFromJson(qfAuthorityData, ["fixtures"])
+    .filter((fixture) => fixture.classification === "final_known" || fixture.status === "final_known")
+    .map((fixture) => fixtureRowFromAuthority(fixture, "qf_fixture_authority"))
+    .filter(Boolean);
+  const sfFixtures = rowsFromJson(sfAuthorityData, ["fixtures"])
+    .filter((fixture) => fixture.classification === "final_known" || fixture.status === "final_known")
+    .map((fixture) => fixtureRowFromAuthority(fixture, "sf_fixture_authority"))
+    .filter(Boolean);
+  const localFixtures = [...groupStageFixtures, ...r32Fixtures, ...r16Fixtures, ...qfFixtures, ...sfFixtures];
   const liveFixtures = rowsFromJson(liveMatchdayData, ["fixtures"]);
   const groupStageLiveFixtures = liveFixtures.filter(isGroupStageLiveFixture);
   const extraLiveFixtures = liveFixtures.filter((fixture) => !isGroupStageLiveFixture(fixture));
   const livePlayers = rowsFromJson(livePlayerData, ["players"]);
   const r32ScorePredictions = rowsFromJson(r32ScorePredictionData, ["fixtureScorePredictions"]);
   const r16ScorePredictions = rowsFromJson(r16ScorePredictionData, ["fixtureScorePredictions"]);
-  const scorePredictions = [...r32ScorePredictions, ...r16ScorePredictions];
+  const qfScorePredictions = rowsFromJson(qfScorePredictionData, ["fixtureScorePredictions"]);
+  const sfScorePredictions = rowsFromJson(sfScorePredictionData, ["fixtureScorePredictions"]);
+  const scorePredictions = [...r32ScorePredictions, ...r16ScorePredictions, ...qfScorePredictions, ...sfScorePredictions];
   const localFixturesById = new Map(localFixtures
     .map((fixture) => [validLocalFixtureKey(fixture.match_id || localFixtureIdFromMatchNumber(fixture.match_number)), fixture])
     .filter(([key]) => key));
@@ -464,6 +490,14 @@ async function main() {
     errors.push(`Expected 8 final-known R16 authority fixtures, found ${r16Fixtures.length}`);
   }
 
+  if (qfFixtures.length !== 4) {
+    errors.push(`Expected 4 final-known QF authority fixtures, found ${qfFixtures.length}`);
+  }
+
+  if (sfFixtures.length !== 2) {
+    errors.push(`Expected 2 final-known SF authority fixtures, found ${sfFixtures.length}`);
+  }
+
   if (groupStageLiveFixtures.length !== 72) {
     errors.push(`Expected 72 group-stage live fixtures, found ${groupStageLiveFixtures.length}`);
   }
@@ -474,6 +508,14 @@ async function main() {
 
   if (r16ScorePredictions.length !== 8) {
     errors.push(`Expected 8 final R16 score prediction fixtures, found ${r16ScorePredictions.length}`);
+  }
+
+  if (qfScorePredictions.length !== 4) {
+    errors.push(`Expected 4 final QF score prediction fixtures, found ${qfScorePredictions.length}`);
+  }
+
+  if (sfScorePredictions.length !== 2) {
+    errors.push(`Expected 2 final SF score prediction fixtures, found ${sfScorePredictions.length}`);
   }
 
   if (liveFixtures.some((fixture) => Object.prototype.hasOwnProperty.call(fixture, "fixture_id"))) {
@@ -596,12 +638,16 @@ async function main() {
       group_stage_local_fixtures: groupStageFixtures.length,
       r32_authority_fixtures: r32Fixtures.length,
       r16_authority_fixtures: r16Fixtures.length,
+      qf_authority_fixtures: qfFixtures.length,
+      sf_authority_fixtures: sfFixtures.length,
       total_live_fixtures: liveFixtures.length,
       group_stage_live_fixtures: groupStageLiveFixtures.length,
       extra_live_fixtures: extraLiveFixtures.length,
       total_score_prediction_fixtures: scorePredictions.length,
       r32_score_prediction_fixtures: r32ScorePredictions.length,
       r16_score_prediction_fixtures: r16ScorePredictions.length,
+      qf_score_prediction_fixtures: qfScorePredictions.length,
+      sf_score_prediction_fixtures: sfScorePredictions.length,
       matched_fixtures: liveFixtures.filter((fixture) => SAFE_MAPPING_STATUS_VALUES.has(String(fixture.mapping_status || "").toLowerCase())).length,
       final_fixtures_shown: liveFixtures.filter(safeFinalScoreIsShown).length,
       in_progress_fixtures_suppressed: inProgressSuppressed.length,

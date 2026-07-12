@@ -8,7 +8,7 @@ const baseUrl = process.env.PUBLIC_PREVIEW_BASE_URL || "http://127.0.0.1:8766";
 const outputPath = process.env.PUBLIC_PREVIEW_QA_OUTPUT || "/private/tmp/public_preview_browser_qa_result.json";
 const reportPath = process.env.PUBLIC_PREVIEW_QA_REPORT || "data/publicPreviewBrowserQaReport_v1.md";
 const screenshotDir = process.env.PUBLIC_PREVIEW_QA_SCREENSHOT_DIR || "/private/tmp/public_preview_browser_qa_screenshots";
-const activePublicMatchdayId = "qf";
+const activePublicMatchdayId = "sf";
 const executableCandidates = [
   process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE,
   "/Users/jordimondria/Library/Caches/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-mac-arm64/chrome-headless-shell",
@@ -29,6 +29,7 @@ const currentDataScripts = [
   "livePlayerStatusData.js",
   "r16FixtureAuthorityData.js",
   "qfFixtureAuthorityData.js",
+  "sfFixtureAuthorityData.js",
   "script.js"
 ];
 const oldGlobalNames = [
@@ -56,7 +57,9 @@ const activeGlobalChecks = {
   R16_FIXTURE_AUTHORITY_DATA: (value) =>
     Boolean(value && Array.isArray(value.fixtures) && value.fixtures.length === 8),
   QF_FIXTURE_AUTHORITY_DATA: (value) =>
-    Boolean(value && Array.isArray(value.fixtures) && value.fixtures.length === 4)
+    Boolean(value && Array.isArray(value.fixtures) && value.fixtures.length === 4),
+  SF_FIXTURE_AUTHORITY_DATA: (value) =>
+    Boolean(value && Array.isArray(value.fixtures) && value.fixtures.length === 2)
 };
 
 function firstExistingPath(paths) {
@@ -103,10 +106,10 @@ function buildMarkdownReport(result) {
     "## Verdict",
     "",
     summary.status === "pass"
-      ? "**pass - safe_to_share_qf_public_preview**"
+      ? "**pass - safe_to_share_sf_public_preview**"
       : "**fail - do_not_share_until_browser_qa_is_fixed**",
     "",
-    "The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. QF is the public default, R16/R32 and MD1/MD2/MD3 remain accessible as historical views, live completed scores are shown only through the safe mapping path, all group-stage fixtures are final, and old public globals are absent.",
+    "The public preview browser QA exercised `index.html` and `world-cup.html` across desktop and mobile widths. SF is the public default, QF/R16/R32 and MD1/MD2/MD3 remain accessible as historical views, live completed scores are shown only through the safe mapping path, all group-stage fixtures are final, and old public globals are absent.",
     "",
     "## Run Context",
     "",
@@ -127,22 +130,22 @@ function buildMarkdownReport(result) {
     mdTable(
       ["Check", "Result"],
       [
-        ["Picks default to final QF", checks.picksDefaultQf ? "pass" : "fail"],
-        ["Final QF label visible", checks.finalQfLabelVisible ? "pass" : "fail"],
-        ["Captain Watchlist opens on QF", checks.captainWatchlistDefaultQf ? "pass" : "fail"],
-        ["Match Environment opens on QF", checks.matchEnvironmentDefaultQf ? "pass" : "fail"],
+        ["Picks default to final SF", checks.picksDefaultSf ? "pass" : "fail"],
+        ["Final SF label visible", checks.finalSfLabelVisible ? "pass" : "fail"],
+        ["Captain Watchlist opens on SF", checks.captainWatchlistDefaultSf ? "pass" : "fail"],
+        ["Match Environment opens on SF", checks.matchEnvironmentDefaultSf ? "pass" : "fail"],
         ["MD1 remains accessible", checks.matchEnvironmentMd1Accessible ? "pass" : "fail"],
         ["MD2 remains accessible", checks.matchEnvironmentMd2Accessible ? "pass" : "fail"],
-        ["Team Builder opens on QF", checks.teamBuilderDefaultQf ? "pass" : "fail"],
-        ["Team Builder builds QF squad", checks.teamBuilderBuildsQfSquad ? "pass" : "fail"],
+        ["Team Builder opens on SF", checks.teamBuilderDefaultSf ? "pass" : "fail"],
+        ["Team Builder builds SF squad", checks.teamBuilderBuildsSfSquad ? "pass" : "fail"],
         ["Balanced Squad is visible", checks.balancedSquadVisible ? "pass" : "fail"],
         ["France Player Profile opens", checks.francePlayerProfileOpens ? "pass" : "fail"],
-        ["Belgium Player Profile opens", checks.belgiumPlayerProfileOpens ? "pass" : "fail"],
-        ["Switzerland Player Profile opens", checks.switzerlandPlayerProfileOpens ? "pass" : "fail"],
-        ["Morocco Player Profile opens", checks.moroccoPlayerProfileOpens ? "pass" : "fail"],
-        ["Hakimi Player Profile opens", checks.hakimiPlayerProfileOpensOrNotSelectable ? "pass" : "fail"],
-        ["Saibari Player Profile opens", checks.saibariPlayerProfileOpensOrNotSelectable ? "pass" : "fail"],
-        ["Knockout predictor renders QF games", checks.knockoutPredictorRenders ? "pass" : "fail"],
+        ["Spain Player Profile opens", checks.spainPlayerProfileOpens ? "pass" : "fail"],
+        ["England Player Profile opens", checks.englandPlayerProfileOpens ? "pass" : "fail"],
+        ["Argentina Player Profile opens", checks.argentinaPlayerProfileOpens ? "pass" : "fail"],
+        ["Messi Player Profile opens", checks.messiPlayerProfileOpensOrNotSelectable ? "pass" : "fail"],
+        ["Mbappe Player Profile opens", checks.mbappePlayerProfileOpensOrNotSelectable ? "pass" : "fail"],
+        ["Knockout predictor renders SF games", checks.knockoutPredictorRenders ? "pass" : "fail"],
         ["Visual bracket prediction renders", checks.knockoutBracketPredictionRenders ? "pass" : "fail"],
         ["Visual bracket prediction path guard", checks.knockoutBracketNoFranceArgentinaR16 ? "pass" : "fail"],
         ["Player Profile opens", checks.playerProfileOpens ? "pass" : "fail"],
@@ -163,9 +166,9 @@ function buildMarkdownReport(result) {
         ["Strategy", teamBuilderBuild.selectedStrategy || "n/a"],
         ["Starters / Bench", `${teamBuilderBuild.starterCount ?? "n/a"} / ${teamBuilderBuild.benchCount ?? "n/a"}`],
         ["France selected / starters / bench", `${teamBuilderBuild.countryCounts?.france ?? "n/a"} / ${teamBuilderBuild.starterCountryCounts?.france ?? "n/a"} / ${teamBuilderBuild.benchCountryCounts?.france ?? "n/a"}`],
-        ["Belgium selected / starters / bench", `${teamBuilderBuild.countryCounts?.belgium ?? "n/a"} / ${teamBuilderBuild.starterCountryCounts?.belgium ?? "n/a"} / ${teamBuilderBuild.benchCountryCounts?.belgium ?? "n/a"}`],
-        ["Switzerland selected / starters / bench", `${teamBuilderBuild.countryCounts?.switzerland ?? "n/a"} / ${teamBuilderBuild.starterCountryCounts?.switzerland ?? "n/a"} / ${teamBuilderBuild.benchCountryCounts?.switzerland ?? "n/a"}`],
-        ["Morocco selected / starters / bench", `${teamBuilderBuild.countryCounts?.morocco ?? "n/a"} / ${teamBuilderBuild.starterCountryCounts?.morocco ?? "n/a"} / ${teamBuilderBuild.benchCountryCounts?.morocco ?? "n/a"}`],
+        ["Spain selected / starters / bench", `${teamBuilderBuild.countryCounts?.spain ?? "n/a"} / ${teamBuilderBuild.starterCountryCounts?.spain ?? "n/a"} / ${teamBuilderBuild.benchCountryCounts?.spain ?? "n/a"}`],
+        ["England selected / starters / bench", `${teamBuilderBuild.countryCounts?.england ?? "n/a"} / ${teamBuilderBuild.starterCountryCounts?.england ?? "n/a"} / ${teamBuilderBuild.benchCountryCounts?.england ?? "n/a"}`],
+        ["Argentina selected / starters / bench", `${teamBuilderBuild.countryCounts?.argentina ?? "n/a"} / ${teamBuilderBuild.starterCountryCounts?.argentina ?? "n/a"} / ${teamBuilderBuild.benchCountryCounts?.argentina ?? "n/a"}`],
         ["Top country", teamBuilderBuild.topCountryText || "n/a"]
       ]
     ),
@@ -178,6 +181,7 @@ function buildMarkdownReport(result) {
         ["Players sample", globals.players],
         ["Recommendation candidates", globals.recommendations],
         ["Projection rows", globals.projections],
+        ["SF projection rows", globals.sfProjections],
         ["QF projection rows", globals.qfProjections],
         ["R16 projection rows", globals.r16Projections],
         ["R32 projection rows", globals.r32Projections],
@@ -213,7 +217,7 @@ function buildMarkdownReport(result) {
     "",
     "## Remaining Limits",
     "",
-    "- Browser QA confirms the public final QF data path, knockout predictor, and live display plumbing.",
+    "- Browser QA confirms the public final SF data path, knockout predictor, and live display plumbing.",
     "- Final squads remain not source-backed.",
     "- Team Builder remains planning help and must be checked inside the official FIFA game.",
     "- User-specific locks, substitutions, captain state, and boosters are not imported.",
@@ -247,7 +251,7 @@ async function clickProfileAndClose(page, selector, label) {
     showsOfficialPrice: /Official fantasy price|Price/i.test(modalText),
     showsPosition: /Position|Defender|Midfielder|Forward|Goalkeeper|FWD|MID|DEF|GK/i.test(modalText),
     showsCurrentDataWarning: /Official Fantasy Picks|current FIFA fantasy|Confirm|verify|deadline/i.test(modalText),
-    showsQfContext: /QF|Quarterfinal|Quarterfinals|Path beyond QF|R16 participation/i.test(modalText),
+    showsQfContext: /SF|Semifinal|Semifinals|Path beyond SF|QF starter|QF starters|Role volatility/i.test(modalText),
     modalTextSample: modalText.slice(0, 500)
   };
 
@@ -291,6 +295,7 @@ async function collectPageState(page) {
       players: Array.isArray(window.PLAYERS_DATA) ? window.PLAYERS_DATA.length : window.PLAYERS_DATA?.players?.length || 0,
       recommendations: window.FANTASY_POOL_RECOMMENDATION_CANDIDATES?.length || 0,
       projections: window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS?.length || 0,
+      sfProjections: (window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || []).filter((row) => row.matchday === "sf").length,
       qfProjections: (window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || []).filter((row) => row.matchday === "qf").length,
       r16Projections: (window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || []).filter((row) => row.matchday === "r16").length,
       r32Projections: (window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || []).filter((row) => row.matchday === "r32").length,
@@ -302,10 +307,11 @@ async function collectPageState(page) {
       liveFixtures: window.LIVE_MATCHDAY_STATUS_DATA?.fixtures?.length || 0,
       livePlayers: window.LIVE_PLAYER_STATUS_DATA?.players?.length || 0,
       r16AuthorityFixtures: window.R16_FIXTURE_AUTHORITY_DATA?.fixtures?.length || 0,
-      qfAuthorityFixtures: window.QF_FIXTURE_AUTHORITY_DATA?.fixtures?.length || 0
+      qfAuthorityFixtures: window.QF_FIXTURE_AUTHORITY_DATA?.fixtures?.length || 0,
+      sfAuthorityFixtures: window.SF_FIXTURE_AUTHORITY_DATA?.fixtures?.length || 0
     };
     const topActiveProjection = [...(window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || [])]
-      .filter((row) => row.matchday === "qf")
+      .filter((row) => row.matchday === "sf")
       .sort((a, b) => (b.projectedPoints || b.raw_expected_points || 0) - (a.projectedPoints || a.raw_expected_points || 0))[0] || null;
     const overflowingElements = Array.from(document.querySelectorAll("body *"))
       .filter((element) => {
@@ -373,7 +379,7 @@ async function collectPageState(page) {
           activeDataBadgeStyle?.visibility !== "hidden"
         ),
         activeDataBadgeText: activeDataBadge?.textContent?.trim() || "",
-        finalQfLabelVisible: /Quarterfinal fantasy setup|Quarterfinal setup|QF active data path|all 8 R16 winners|final QF/i.test(bodyText),
+        finalSfLabelVisible: /Semifinal fantasy setup|Semifinal setup|SF active data path|all 4 QF winners|final SF/i.test(bodyText),
         adviceMatchdaySelected: selectValue("#advice-matchday-select"),
         adviceStyleNote: textFrom("#advice-style-note"),
         quickPickCards: quickPickCards.length,
@@ -476,7 +482,8 @@ async function verifyActiveGlobals(page) {
       LIVE_MATCHDAY_STATUS_DATA: Boolean(window.LIVE_MATCHDAY_STATUS_DATA?.fixtures?.length),
       LIVE_PLAYER_STATUS_DATA: Boolean(window.LIVE_PLAYER_STATUS_DATA?.players?.length),
       R16_FIXTURE_AUTHORITY_DATA: Boolean(window.R16_FIXTURE_AUTHORITY_DATA?.fixtures?.length === 8),
-      QF_FIXTURE_AUTHORITY_DATA: Boolean(window.QF_FIXTURE_AUTHORITY_DATA?.fixtures?.length === 4)
+      QF_FIXTURE_AUTHORITY_DATA: Boolean(window.QF_FIXTURE_AUTHORITY_DATA?.fixtures?.length === 4),
+      SF_FIXTURE_AUTHORITY_DATA: Boolean(window.SF_FIXTURE_AUTHORITY_DATA?.fixtures?.length === 2)
     };
     const oldGlobalsPresent = oldGlobals.filter((name) => window[name] !== undefined);
     return {
@@ -561,8 +568,8 @@ async function clickCountryProfileAndClose(page, countryLabel) {
     ]
       .filter((row) => {
         const rowCountry = normalize(row.country || row.team || row.team_id);
-        const rowMatchday = normalize(row.matchday || row.matchday_id || row.fantasy_matchday_id || "qf");
-        return rowCountry === countryKey && (!rowMatchday || rowMatchday === "qf");
+        const rowMatchday = normalize(row.matchday || row.matchday_id || row.fantasy_matchday_id || "sf");
+        return rowCountry === countryKey && (!rowMatchday || rowMatchday === "sf");
       })
       .map((row) => normalize(row.name))
       .filter(Boolean);
@@ -672,7 +679,7 @@ async function clickNamedProfileAndClose(page, label, aliases) {
       status: "skip",
       exists: availability.exists,
       selectable: availability.selectable,
-      reason: availability.exists ? "player exists but is not selectable with a positive QF projection" : "player not found in active QF data",
+      reason: availability.exists ? "player exists but is not selectable with a positive SF projection" : "player not found in active SF data",
       rows: availability.rows
     };
   }
@@ -739,7 +746,7 @@ async function clickNamedProfileAndClose(page, label, aliases) {
   };
 }
 
-async function testTeamBuilderBuildsQf(page) {
+async function testTeamBuilderBuildsSf(page) {
   await openDetails(page, "#team-builder");
   const matchdaySelect = page.locator("#builder-matchday-select");
   if (!(await matchdaySelect.count())) {
@@ -773,7 +780,7 @@ async function testTeamBuilderBuildsQf(page) {
     const message = document.querySelector("#team-message")?.textContent || "";
     const starters = document.querySelectorAll("#team-players .player-card:not(.player-card--placeholder)").length;
     const bench = document.querySelectorAll("#bench-players .bench-card:not(.bench-card--placeholder), #bench-players .player-card").length;
-    return field && !field.classList.contains("hidden") && starters >= 11 && bench >= 4 && /QF|squad|built/i.test(message);
+    return field && !field.classList.contains("hidden") && starters >= 11 && bench >= 4 && /SF|squad|built/i.test(message);
   }, null, { timeout: 60000 });
 
   return page.evaluate(() => {
@@ -855,12 +862,12 @@ async function testMainPage(browser, viewport) {
   const captainProfile = await clickProfileAndClose(page, "#captain-card-grid .player-name-button", "Captain Watchlist");
   const adviceProfile = await clickProfileAndClose(page, "#advice-card-grid .player-name-button, #advice-table-body .player-name-button", "Official Fantasy Picks");
   const franceProfile = await clickCountryProfileAndClose(page, "France");
-  const belgiumProfile = await clickCountryProfileAndClose(page, "Belgium");
-  const switzerlandProfile = await clickCountryProfileAndClose(page, "Switzerland");
-  const moroccoProfile = await clickCountryProfileAndClose(page, "Morocco");
-  const hakimiProfile = await clickNamedProfileAndClose(page, "Hakimi", ["hakimi", "achraf hakimi"]);
-  const saibariProfile = await clickNamedProfileAndClose(page, "Saibari", ["saibari", "ismael saibari"]);
-  const teamBuilderBuild = await testTeamBuilderBuildsQf(page);
+  const spainProfile = await clickCountryProfileAndClose(page, "Spain");
+  const englandProfile = await clickCountryProfileAndClose(page, "England");
+  const argentinaProfile = await clickCountryProfileAndClose(page, "Argentina");
+  const messiProfile = await clickNamedProfileAndClose(page, "Messi", ["messi", "lionel messi"]);
+  const mbappeProfile = await clickNamedProfileAndClose(page, "Mbappe", ["mbappe", "kylian mbappe", "kylian mbappé"]);
+  const teamBuilderBuild = await testTeamBuilderBuildsSf(page);
   const addToBuilder = await testAddToBuilder(page);
 
   await page.locator("#advice-position-select").selectOption("Forward");
@@ -892,61 +899,61 @@ async function testMainPage(browser, viewport) {
     homepageLoads: stateBeforeClicks.title.includes("Fantasy"),
     noConsoleOrPageErrors: consoleErrors.length === 0 && pageErrors.length === 0,
     activeDataBadgeVisible: stateBeforeClicks.ui.activeDataBadgeVisible,
-    finalQfLabelVisible: stateBeforeClicks.ui.finalQfLabelVisible &&
-      /QF|Quarterfinal|all 8 R16 winners|final QF/i.test(stateBeforeClicks.ui.activeDataBadgeText + " " + stateBeforeClicks.ui.quickPickText + " " + stateBeforeClicks.ui.matchEnvironmentSummary),
-    scoreModelQfLoaded: activeGlobals.scoreModelVersion === "score-qf-v1",
-    projectionModelQfLoaded: activeGlobals.projectionModelVersion === "player-projection-qf-v1",
+    finalSfLabelVisible: stateBeforeClicks.ui.finalSfLabelVisible &&
+      /SF|Semifinal|all 4 QF winners|final SF|QF starters/i.test(stateBeforeClicks.ui.activeDataBadgeText + " " + stateBeforeClicks.ui.quickPickText + " " + stateBeforeClicks.ui.matchEnvironmentSummary),
+    scoreModelSfLoaded: activeGlobals.scoreModelVersion === "score-sf-v1",
+    projectionModelSfLoaded: activeGlobals.projectionModelVersion === "player-projection-sf-v1",
     activeOfficialRecordsLoaded: stateBeforeClicks.globals.activeGlobalCounts.officialRecords > 0,
     activeGlobalsPresent: activeGlobals.missingActiveGlobals.length === 0,
     oldGlobalsAbsent: activeGlobals.oldGlobalsPresent.length === 0,
     currentScriptsLoaded: stateBeforeClicks.scripts.missingCurrentScripts.length === 0,
     oldScriptsAbsent: stateBeforeClicks.scripts.loadedLegacyScripts.length === 0,
     picksRender: stateBeforeClicks.ui.quickPickCards > 0 && stateBeforeClicks.ui.quickPickNames.length > 0,
-    picksDefaultQf: stateBeforeClicks.ui.adviceMatchdaySelected === activePublicMatchdayId &&
-      /QF|Quarterfinal|Path beyond QF|R16 participation/i.test(`${stateBeforeClicks.ui.quickPickText} ${stateBeforeClicks.ui.adviceStyleNote}`),
+    picksDefaultSf: stateBeforeClicks.ui.adviceMatchdaySelected === activePublicMatchdayId &&
+      /SF|Semifinal|Path beyond SF|QF starter|QF starters|Role volatility/i.test(`${stateBeforeClicks.ui.quickPickText} ${stateBeforeClicks.ui.adviceStyleNote}`),
     captainWatchlistRenders: stateBeforeClicks.sections.captainWatchlist && stateBeforeClicks.ui.captainCards > 0,
-    captainWatchlistDefaultQf: /QF|Quarterfinal|Path beyond QF|R16 participation/i.test(stateBeforeClicks.ui.captainCardText),
+    captainWatchlistDefaultSf: /SF|Semifinal|Path beyond SF|QF starter|QF starters|Role volatility/i.test(stateBeforeClicks.ui.captainCardText),
     playerProfileOpens: [quickPickProfile, captainProfile, adviceProfile].some((result) => result.status === "pass" && result.playerProfileOpened),
     playerProfilePracticalQf: [quickPickProfile, captainProfile, adviceProfile].some((result) => result.status === "pass" && result.showsQfContext),
     teamBuilderControlsLoad: stateBeforeClicks.ui.teamBuilderControls.strategyOptions > 0 &&
       stateBeforeClicks.ui.teamBuilderControls.matchdayOptions > 0 &&
       stateBeforeClicks.ui.teamBuilderControls.buildButton,
-    teamBuilderDefaultQf: stateBeforeClicks.ui.teamBuilderControls.selectedMatchday === activePublicMatchdayId &&
-      /QF|Quarterfinal/i.test(stateBeforeClicks.ui.teamBuilderControls.buildButtonText),
-    teamBuilderBuildsQfSquad: teamBuilderBuild.status === "pass" &&
+    teamBuilderDefaultSf: stateBeforeClicks.ui.teamBuilderControls.selectedMatchday === activePublicMatchdayId &&
+      /SF|Semifinal/i.test(stateBeforeClicks.ui.teamBuilderControls.buildButtonText),
+    teamBuilderBuildsSfSquad: teamBuilderBuild.status === "pass" &&
       teamBuilderBuild.selectedMatchday === activePublicMatchdayId &&
       teamBuilderBuild.starterCount >= 11 &&
       teamBuilderBuild.benchCount >= 4,
     balancedSquadVisible: teamBuilderBuild.status === "pass" &&
       teamBuilderBuild.selectedStrategy === "balancedSquad" &&
-      /Balanced Squad|QF|squad/i.test(`${teamBuilderBuild.buildButtonText} ${teamBuilderBuild.message}`),
+      /Balanced Squad|SF|squad/i.test(`${teamBuilderBuild.buildButtonText} ${teamBuilderBuild.message}`),
     francePlayerProfileOpens: franceProfile.status === "pass" &&
       franceProfile.playerProfileOpened &&
       franceProfile.showsQfContext,
-    belgiumPlayerProfileOpens: belgiumProfile.status === "pass" &&
-      belgiumProfile.playerProfileOpened &&
-      belgiumProfile.showsQfContext,
-    switzerlandPlayerProfileOpens: switzerlandProfile.status === "pass" &&
-      switzerlandProfile.playerProfileOpened &&
-      switzerlandProfile.showsQfContext,
-    moroccoPlayerProfileOpens: moroccoProfile.status === "pass" &&
-      moroccoProfile.playerProfileOpened &&
-      moroccoProfile.showsQfContext,
-    hakimiPlayerProfileOpensOrNotSelectable: hakimiProfile.status === "skip" ||
-      hakimiProfile.status === "pass" && hakimiProfile.playerProfileOpened && hakimiProfile.showsQfContext,
-    saibariPlayerProfileOpensOrNotSelectable: saibariProfile.status === "skip" ||
-      saibariProfile.status === "pass" && saibariProfile.playerProfileOpened && saibariProfile.showsQfContext,
+    spainPlayerProfileOpens: spainProfile.status === "pass" &&
+      spainProfile.playerProfileOpened &&
+      spainProfile.showsQfContext,
+    englandPlayerProfileOpens: englandProfile.status === "pass" &&
+      englandProfile.playerProfileOpened &&
+      englandProfile.showsQfContext,
+    argentinaPlayerProfileOpens: argentinaProfile.status === "pass" &&
+      argentinaProfile.playerProfileOpened &&
+      argentinaProfile.showsQfContext,
+    messiPlayerProfileOpensOrNotSelectable: messiProfile.status === "skip" ||
+      messiProfile.status === "pass" && messiProfile.playerProfileOpened && messiProfile.showsQfContext,
+    mbappePlayerProfileOpensOrNotSelectable: mbappeProfile.status === "skip" ||
+      mbappeProfile.status === "pass" && mbappeProfile.playerProfileOpened && mbappeProfile.showsQfContext,
     addToBuilderWorksOrUnsupported: addToBuilder.status === "pass" || addToBuilder.status === "skip",
     matchEnvironmentLoads: stateBeforeClicks.ui.environmentRows.length > 0,
-    matchEnvironmentDefaultQf: stateBeforeClicks.ui.matchEnvironmentControls.selectedMatchday === activePublicMatchdayId &&
+    matchEnvironmentDefaultSf: stateBeforeClicks.ui.matchEnvironmentControls.selectedMatchday === activePublicMatchdayId &&
       stateBeforeClicks.ui.environmentRows.length > 0,
     knockoutPredictorRenders: stateBeforeClicks.sections.knockoutPredictor &&
-      stateBeforeClicks.ui.knockoutPredictor.fixtureOptions === 4 &&
-      stateBeforeClicks.ui.knockoutPredictor.knownRows === 4 &&
-      /M97|M98|M99|M100/.test(stateBeforeClicks.ui.knockoutPredictor.knownRowsText) &&
-      /France vs Morocco|Spain vs Belgium|Norway vs England|Argentina vs Switzerland/i.test(stateBeforeClicks.ui.knockoutPredictor.knownRowsText) &&
-      !/Paraguay|Portugal|Colombia|Canada/i.test(stateBeforeClicks.ui.knockoutPredictor.knownRowsText) &&
-      /Projected advancer|advance|Extra time|QF Fixture/i.test(stateBeforeClicks.ui.knockoutPredictor.resultText),
+      stateBeforeClicks.ui.knockoutPredictor.fixtureOptions === 2 &&
+      stateBeforeClicks.ui.knockoutPredictor.knownRows === 2 &&
+      /M101|M102/.test(stateBeforeClicks.ui.knockoutPredictor.knownRowsText) &&
+      /France vs Spain|England vs Argentina/i.test(stateBeforeClicks.ui.knockoutPredictor.knownRowsText) &&
+      !/Morocco|Belgium|Norway|Switzerland/i.test(stateBeforeClicks.ui.knockoutPredictor.knownRowsText) &&
+      /Projected advancer|advance|Extra time|SF Fixture/i.test(stateBeforeClicks.ui.knockoutPredictor.resultText),
     knockoutBracketPredictionRenders: stateBeforeClicks.sections.knockoutBracketPrediction &&
       stateBeforeClicks.ui.knockoutBracketPrediction.summaryCards >= 5 &&
       stateBeforeClicks.ui.knockoutBracketPrediction.roundColumns >= 5 &&
@@ -974,7 +981,7 @@ async function testMainPage(browser, viewport) {
       stateBeforeClicks.ui.matchdayDeskControls.strategyOptions > 0 &&
       stateBeforeClicks.ui.matchdayDeskContentBlocks > 0 &&
       stateBeforeClicks.ui.matchdayDeskContentText.length > 0,
-    matchdayDeskDefaultQf: stateBeforeClicks.ui.matchdayDeskControls.selectedMatchday === activePublicMatchdayId,
+    matchdayDeskDefaultSf: stateBeforeClicks.ui.matchdayDeskControls.selectedMatchday === activePublicMatchdayId,
     liveMd1SupportLoaded: stateBeforeClicks.globals.activeGlobalCounts.liveFixtures > 0 &&
       stateBeforeClicks.globals.activeGlobalCounts.livePlayers > 0
   };
@@ -987,9 +994,9 @@ async function testMainPage(browser, viewport) {
     matchEnvironmentAccess: {
       md1: md1MatchEnvironmentAccess,
       md2: md2MatchEnvironmentAccess,
-      qf: activeMatchEnvironmentAccess
+      sf: activeMatchEnvironmentAccess
     },
-    profileClicks: [quickPickProfile, captainProfile, adviceProfile, franceProfile, belgiumProfile, switzerlandProfile, moroccoProfile, hakimiProfile, saibariProfile],
+    profileClicks: [quickPickProfile, captainProfile, adviceProfile, franceProfile, spainProfile, englandProfile, argentinaProfile, messiProfile, mbappeProfile],
     teamBuilderBuild,
     addToBuilder,
     filters: {
@@ -1028,14 +1035,23 @@ async function testWorldCupPage(browser, viewport) {
     r32AuthorityFixtureCount: window.R32_FIXTURE_AUTHORITY_DATA?.fixtures?.length || 0,
     r16AuthorityFixtureCount: window.R16_FIXTURE_AUTHORITY_DATA?.fixtures?.length || 0,
     qfAuthorityFixtureCount: window.QF_FIXTURE_AUTHORITY_DATA?.fixtures?.length || 0,
+    sfAuthorityFixtureCount: window.SF_FIXTURE_AUTHORITY_DATA?.fixtures?.length || 0,
     renderedR32CardCount: Array.from(document.querySelectorAll('#bracket .bracket-match[data-bracket-slot^="M"]'))
       .filter((node) => /·\s*R32/i.test(node.textContent || "")).length,
     renderedR16CardCount: Array.from(document.querySelectorAll('#bracket .bracket-match[data-bracket-slot^="M"]'))
       .filter((node) => /·\s*R16/i.test(node.textContent || "")).length,
     renderedQfCardCount: Array.from(document.querySelectorAll('#bracket .bracket-match[data-bracket-slot^="M"]'))
       .filter((node) => /·\s*QF/i.test(node.textContent || "")).length,
+    renderedSfCardCount: Array.from(document.querySelectorAll('#bracket .bracket-match[data-bracket-slot^="M"]'))
+      .filter((node) => /·\s*SF/i.test(node.textContent || "")).length,
     renderedQfText: Array.from(document.querySelectorAll('#bracket .bracket-match[data-bracket-slot^="M"]'))
       .filter((node) => /·\s*QF/i.test(node.textContent || ""))
+      .map((node) => node.textContent || "")
+      .join(" ")
+      .replace(/\s+/g, " ")
+      .trim(),
+    renderedSfText: Array.from(document.querySelectorAll('#bracket .bracket-match[data-bracket-slot^="M"]'))
+      .filter((node) => /·\s*SF/i.test(node.textContent || ""))
       .map((node) => node.textContent || "")
       .join(" ")
       .replace(/\s+/g, " ")
@@ -1072,14 +1088,18 @@ async function testWorldCupPage(browser, viewport) {
       ...(state.r32AuthorityFixtureCount !== 16 ? ["worldCupR32AuthorityMissing"] : []),
       ...(state.r16AuthorityFixtureCount !== 8 ? ["worldCupR16AuthorityMissing"] : []),
       ...(state.qfAuthorityFixtureCount !== 4 ? ["worldCupQfAuthorityMissing"] : []),
+      ...(state.sfAuthorityFixtureCount !== 2 ? ["worldCupSfAuthorityMissing"] : []),
       ...(state.renderedR32CardCount < 16 ? ["worldCupR32CardsMissing"] : []),
       ...(state.renderedR16CardCount < 8 ? ["worldCupR16CardsMissing"] : []),
       ...(state.renderedQfCardCount < 4 ? ["worldCupQfCardsMissing"] : []),
+      ...(state.renderedSfCardCount < 2 ? ["worldCupSfCardsMissing"] : []),
       ...(!/M77[\s\S]*France.*Sweden/i.test(state.bracketText) ? ["worldCupFranceR32Missing"] : []),
       ...(!/M86[\s\S]*Argentina.*Cabo Verde/i.test(state.bracketText) ? ["worldCupArgentinaR32Missing"] : []),
       ...(state.hasImpossibleFranceArgentinaR16 ? ["worldCupImpossibleFranceArgentinaR16"] : []),
       ...(!/M97[\s\S]*France.*Morocco/i.test(state.renderedQfText) ? ["worldCupFranceMoroccoQfMissing"] : []),
       ...(!/M100[\s\S]*Argentina.*Switzerland/i.test(state.renderedQfText) ? ["worldCupArgentinaSwitzerlandQfMissing"] : []),
+      ...(!/M101[\s\S]*France.*Spain/i.test(state.renderedSfText) ? ["worldCupFranceSpainSfMissing"] : []),
+      ...(!/M102[\s\S]*England.*Argentina/i.test(state.renderedSfText) ? ["worldCupEnglandArgentinaSfMissing"] : []),
       ...(state.hasKnownR32Tbd ? ["worldCupKnownR32Tbd"] : []),
       ...(pageErrors.length ? ["worldCupPageErrors"] : [])
     ],
@@ -1160,13 +1180,13 @@ async function main() {
         "#match-environment-table-body tr"
       ],
       current_default_assertions: [
-        "Picks default to qf",
-        "Captain Watchlist renders final QF context",
-        "Player Profile shows final QF practical context",
-        "Team Builder selected matchday is qf",
-        "Match Environment selected matchday is qf and MD1/MD2 remain selectable",
-        "Matchday Desk selected matchday is qf",
-        "Knockout predictor renders known QF fixtures with no arbitrary matchup selector",
+        "Picks default to sf",
+        "Captain Watchlist renders final SF context",
+        "Player Profile shows final SF practical context",
+        "Team Builder selected matchday is sf",
+        "Match Environment selected matchday is sf and MD1/MD2 remain selectable",
+        "Matchday Desk selected matchday is sf",
+        "Knockout predictor renders known SF fixtures with no arbitrary matchup selector",
         "Visual Knockout Bracket Prediction renders summary cards, round columns, flags/fallbacks, model picks, actual labels, and prediction-result badges"
       ],
       fallback_mode_removed: true

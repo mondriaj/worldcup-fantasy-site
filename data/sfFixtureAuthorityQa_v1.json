@@ -1,0 +1,29 @@
+{
+  "schema_version": "sf_fixture_authority_qa_v1",
+  "generated_at": "2026-07-12T12:43:11.775Z",
+  "status": "pass",
+  "summary": {
+    "sf_fixture_count": 2,
+    "qf_winners_used": 4,
+    "final_sf_participants": 4,
+    "duplicate_team_count": 0,
+    "duplicate_fixture_count": 0
+  },
+  "fixtures": [
+    {
+      "slot": "M101",
+      "teams": "France vs Spain",
+      "kickoff": "Jul 14, 2026 · 3:00 PM ET",
+      "winner_advances_to": "M104",
+      "loser_advances_to": "M103"
+    },
+    {
+      "slot": "M102",
+      "teams": "England vs Argentina",
+      "kickoff": "Jul 15, 2026 · 3:00 PM ET",
+      "winner_advances_to": "M104",
+      "loser_advances_to": "M103"
+    }
+  ],
+  "errors": []
+}

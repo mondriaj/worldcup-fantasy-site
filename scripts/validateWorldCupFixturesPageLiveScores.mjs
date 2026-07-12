@@ -258,7 +258,7 @@ if (worldCupFixtures.length !== 72) errors.push(`Expected 72 worldCupData group 
 if (renderedRows.length !== 72) errors.push(`Expected 72 rendered fixture rows, found ${renderedRows.length}.`);
 if (duplicateRenderedMatches.length) errors.push(`Duplicate rendered match rows: ${duplicateRenderedMatches.join(", ")}.`);
 if (liveFixtureQa.status !== "passed") errors.push(`Live fixture mapping QA status is ${liveFixtureQa.status}.`);
-if (liveFixtureQa.summary?.matched_fixtures !== 96) errors.push(`Expected 96 matched live fixtures, found ${liveFixtureQa.summary?.matched_fixtures}.`);
+if (liveFixtureQa.summary?.matched_fixtures !== 102) errors.push(`Expected 102 matched live fixtures, found ${liveFixtureQa.summary?.matched_fixtures}.`);
 if ((liveFixtureQa.summary?.unsafe_fixture_player_point_leak_count || 0) !== 0) {
   errors.push(`Live fixture QA reports ${liveFixtureQa.summary.unsafe_fixture_player_point_leak_count} unsafe fixture/player point leaks.`);
 }

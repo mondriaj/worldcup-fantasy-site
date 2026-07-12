@@ -1,6 +1,6 @@
 {
   "schema_version": "official_fantasy_data_update_check_v1",
-  "generated_at": "2026-07-08T12:54:39.011Z",
+  "generated_at": "2026-07-12T12:43:43.232Z",
   "monitor_status": "completed",
   "summary": {
     "official_data_changed": false,
@@ -9,9 +9,10 @@
     "local_official_fantasy_players": 1489,
     "live_official_fantasy_players": 1489,
     "live_selectable_status_counts": {
-      "eliminated": 1231,
-      "playing": 207,
-      "transferred": 50,
+      "eliminated": 1355,
+      "playing": 102,
+      "transferred": 30,
+      "injured": 1,
       "suspended": 1
     },
     "live_position_counts": {
@@ -30,10 +31,10 @@
       "status": 200,
       "ok": true,
       "content_type": "application/json",
-      "last_modified": "2026-07-08T12:04:23Z",
-      "etag": "\"00510622615a803bc32a951edd617a93\"",
-      "bytes": 1356359,
-      "sha256": "f6aea633804c2f16ca382da8488a78d2640defc9c3d9116ce2a93440d5fe2d5e",
+      "last_modified": "2026-07-12T12:04:23Z",
+      "etag": "\"c6eac35d1aa856a0f05bfb1859c91ca3\"",
+      "bytes": 1391511,
+      "sha256": "10ce454cd83dcc5fdfcc486fa11962ade7c579754a42ec4d998cddf65fd38842",
       "parse_error": null
     },
     {
@@ -43,10 +44,10 @@
       "status": 200,
       "ok": true,
       "content_type": "application/json",
-      "last_modified": "2026-07-07T22:53:20Z",
-      "etag": "\"00dd48b813ff2ee0add09cff329819a5\"",
-      "bytes": 6390,
-      "sha256": "ea75235e9fffa637f1a6fb548d97b3bab5b345860d74c1dcab5c94538203f85b",
+      "last_modified": "2026-07-12T04:11:00Z",
+      "etag": "\"9fca0026ac1553011322e15338742102\"",
+      "bytes": 6386,
+      "sha256": "bf2782b048cbc6a8bf25c8b38d4047538f0a910df034d706046d7c30b09ba0b6",
       "parse_error": null
     },
     {
@@ -69,10 +70,10 @@
       "status": 200,
       "ok": true,
       "content_type": "application/json",
-      "last_modified": "2026-07-08T12:01:02Z",
-      "etag": "\"59308133d07a59cf0398ede8a29e97fa\"",
-      "bytes": 151845,
-      "sha256": "aa1779fd04898d6f2836ae01d139d070e1064baf4f2fd9e922a4f6239d3ebdb5",
+      "last_modified": "2026-07-12T12:01:03Z",
+      "etag": "\"98accf3119125848828f400529b374d7\"",
+      "bytes": 155982,
+      "sha256": "ff4f5b0804f5ebbc34d1e273bb3d0eb4205cf405a8b945577d64160f254754e8",
       "parse_error": null
     },
     {
@@ -90,8 +91,9 @@
     }
   ],
   "local_source_last_modified": {
-    "fifaFantasyPlayersJson": "2026-07-08T12:04:23Z",
-    "fifaFantasySquadsJson": "2026-07-07T22:53:20Z"
+    "fifaFantasyPlayersJson": "2026-07-12T12:04:23Z",
+    "fifaFantasySquadsJson": "2026-07-12T04:11:00Z",
+    "fifaFantasyRoundsJson": "2026-07-12T12:01:03Z"
   },
   "diffs": {
     "players": {
@@ -141,7 +143,7 @@
       "help_pages_hash": "025a2c6f7c7ac839b9b2e6c4106ed3ae577807b358e016e815563ea7a322bef8",
       "help_text_hash": "c4ac03240f90d1aad2472725683cebf34ca46204ddd69171bd0db2ead9d1cb98",
       "language_hash": "8efd6d40103d3c09acf299040b4a8243faf53337f3af77580ca9ad405972215b",
-      "rounds_hash": "c9e00f1e7080f506810d020f4942bb8b92e093512edaa51ed2c2abe53073fb24",
+      "rounds_hash": "d9e6ceea5b99915bc3917c162e55f4c59bff689c7b3477c2eff589bfe56f023c",
       "source_header_changes": [],
       "mystery_booster": {
         "local": {
@@ -191,6 +193,7 @@
         "roundsSelected.4",
         "roundsSelected.5",
         "roundsSelected.6",
+        "roundsSelected.7",
         "squadId",
         "stats",
         "stats.avgPoints",
@@ -204,6 +207,7 @@
         "stats.roundPoints.3",
         "stats.roundPoints.4",
         "stats.roundPoints.5",
+        "stats.roundPoints.6",
         "stats.totalPoints",
         "status"
       ],

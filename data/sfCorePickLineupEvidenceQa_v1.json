@@ -1,0 +1,219 @@
+{
+  "schema_version": "sf_core_pick_lineup_evidence_qa_v1",
+  "generated_at": "2026-07-12T12:43:21.503Z",
+  "status": "pass",
+  "summary": {
+    "core_pick_rows": 25,
+    "unsafe_core_pick_rows": 0,
+    "eliminated_core_rows": 0,
+    "wrong_fixture_rows": 0,
+    "points_only_core_rows": 0,
+    "qf_bench_core_rows": 0,
+    "projection_rows": 100,
+    "points_can_imply_starter": false
+  },
+  "unsafe_core_pick_rows": [],
+  "top_core_picks": [
+    {
+      "rank": 1,
+      "name": "Lisandro Martínez",
+      "team": "Argentina",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.88
+    },
+    {
+      "rank": 2,
+      "name": "Aymeric Laporte",
+      "team": "Spain",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.881
+    },
+    {
+      "rank": 3,
+      "name": "Marc Cucurella",
+      "team": "Spain",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.883
+    },
+    {
+      "rank": 4,
+      "name": "Pau Cubarsí",
+      "team": "Spain",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.878
+    },
+    {
+      "rank": 5,
+      "name": "Lionel Messi",
+      "team": "Argentina",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.88
+    },
+    {
+      "rank": 6,
+      "name": "Mikel Oyarzabal",
+      "team": "Spain",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.878
+    },
+    {
+      "rank": 7,
+      "name": "Unai Simón",
+      "team": "Spain",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.885
+    },
+    {
+      "rank": 8,
+      "name": "Cristian Romero",
+      "team": "Argentina",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.88
+    },
+    {
+      "rank": 9,
+      "name": "Nahuel Molina",
+      "team": "Argentina",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.88
+    },
+    {
+      "rank": 10,
+      "name": "Emiliano Martínez",
+      "team": "Argentina",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.88
+    },
+    {
+      "rank": 11,
+      "name": "Dayot Upamecano",
+      "team": "France",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.878
+    },
+    {
+      "rank": 12,
+      "name": "Alexis Mac Allister",
+      "team": "Argentina",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.88
+    },
+    {
+      "rank": 13,
+      "name": "Pedro Porro",
+      "team": "Spain",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.878
+    },
+    {
+      "rank": 14,
+      "name": "Jules Koundé",
+      "team": "France",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.878
+    },
+    {
+      "rank": 15,
+      "name": "Kylian Mbappé",
+      "team": "France",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.883
+    },
+    {
+      "rank": 16,
+      "name": "Rodrigo De Paul",
+      "team": "Argentina",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.88
+    },
+    {
+      "rank": 17,
+      "name": "William Saliba",
+      "team": "France",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.878
+    },
+    {
+      "rank": 18,
+      "name": "Enzo Fernández",
+      "team": "Argentina",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.88
+    },
+    {
+      "rank": 19,
+      "name": "Lamine Yamal Nasraoui Ebana",
+      "team": "Spain",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.878
+    },
+    {
+      "rank": 20,
+      "name": "Mike Maignan",
+      "team": "France",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.878
+    },
+    {
+      "rank": 21,
+      "name": "Rodrigo Hernández Cascante",
+      "team": "Spain",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.878
+    },
+    {
+      "rank": 22,
+      "name": "Ousmane Dembélé",
+      "team": "France",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.878
+    },
+    {
+      "rank": 23,
+      "name": "Lucas Digne",
+      "team": "France",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.878
+    },
+    {
+      "rank": 24,
+      "name": "Harry Kane",
+      "team": "England",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.877
+    },
+    {
+      "rank": 25,
+      "name": "Ezri Konsa",
+      "team": "England",
+      "evidence": "explicit_qf_starter",
+      "qfStarted": true,
+      "start_probability": 0.877
+    }
+  ],
+  "errors": []
+}

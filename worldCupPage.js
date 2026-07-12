@@ -4,10 +4,12 @@
   const r32Authority = window.R32_FIXTURE_AUTHORITY_DATA || {};
   const r16Authority = window.R16_FIXTURE_AUTHORITY_DATA || {};
   const qfAuthority = window.QF_FIXTURE_AUTHORITY_DATA || {};
+  const sfAuthority = window.SF_FIXTURE_AUTHORITY_DATA || {};
   const liveFixtures = Array.isArray(liveData.fixtures) ? liveData.fixtures : [];
   const r32AuthorityFixtures = Array.isArray(r32Authority.fixtures) ? r32Authority.fixtures : [];
   const r16AuthorityFixtures = Array.isArray(r16Authority.fixtures) ? r16Authority.fixtures : [];
   const qfAuthorityFixtures = Array.isArray(qfAuthority.fixtures) ? qfAuthority.fixtures : [];
+  const sfAuthorityFixtures = Array.isArray(sfAuthority.fixtures) ? sfAuthority.fixtures : [];
 
   function escapeHtml(value) {
     return String(value || "")
@@ -347,6 +349,10 @@
     return authorityFixtureForMatch(match, qfAuthorityFixtures);
   }
 
+  function sfAuthorityFixtureForMatch(match) {
+    return authorityFixtureForMatch(match, sfAuthorityFixtures);
+  }
+
   function authorityTeamLabel(team) {
     return [
       team?.flag || "",
@@ -463,14 +469,51 @@
     const kickoffText = fixture.kickoff?.eastern_datetime_label || fixture.kickoff?.source_datetime || "";
     const advancesTo = fixture.winner_advances_to?.bracket_slot_id || "SF";
     const advancesPath = fixture.winner_advances_to?.path || "";
+    const localFixture = authorityFixtureLocalFixture(fixture);
+    const liveFixture = localFixture ? liveFixtureForFixture(localFixture) : null;
+    const liveContext = liveFixtureContextHtml(liveFixture);
 
     return `
       <article class="bracket-match" data-bracket-slot="${escapeHtml(fixture.bracket_slot_id)}" data-source-fixture-id="${escapeHtml(fixture.source_fixture_id)}">
         <span>${escapeHtml(fixture.bracket_slot_id)} · QF · ${escapeHtml(qfStatusLabel(fixture))}</span>
         <strong>${escapeHtml(teamAText)} vs ${escapeHtml(teamBText)}</strong>
+        ${liveContext}
         <small>${escapeHtml(kickoffText)}</small>
         <small>Winner advances to ${escapeHtml(advancesTo)} · ${escapeHtml(advancesPath)}</small>
         <small>Feed source ID: ${escapeHtml(fixture.source_fixture_id || "pending")} · QF Fixture Authority · source IDs are metadata, not bracket match numbers.</small>
+      </article>
+    `;
+  }
+
+  function renderSfAuthorityMatch(match) {
+    const fixture = sfAuthorityFixtureForMatch(match);
+    if (!fixture) {
+      return `
+        <article class="bracket-match">
+          <span>Match ${escapeHtml(match.id)}</span>
+          <strong>${escapeHtml(match.path)}</strong>
+        </article>
+      `;
+    }
+
+    const teamAText = fixture.team_a?.team ? authorityTeamLabel(fixture.team_a) : "TBD";
+    const teamBText = fixture.team_b?.team ? authorityTeamLabel(fixture.team_b) : "TBD";
+    const kickoffText = fixture.kickoff?.eastern_datetime_label || fixture.kickoff?.source_datetime || "";
+    const advancesTo = fixture.winner_advances_to?.bracket_slot_id || "Final";
+    const advancesPath = fixture.winner_advances_to?.path || "";
+    const localFixture = authorityFixtureLocalFixture(fixture);
+    const liveFixture = localFixture ? liveFixtureForFixture(localFixture) : null;
+    const liveContext = liveFixtureContextHtml(liveFixture);
+
+    return `
+      <article class="bracket-match" data-bracket-slot="${escapeHtml(fixture.bracket_slot_id)}" data-source-fixture-id="${escapeHtml(fixture.source_fixture_id)}">
+        <span>${escapeHtml(fixture.bracket_slot_id)} · SF · ${escapeHtml(qfStatusLabel(fixture))}</span>
+        <strong>${escapeHtml(teamAText)} vs ${escapeHtml(teamBText)}</strong>
+        ${liveContext}
+        <small>${escapeHtml(kickoffText)}</small>
+        <small>Winner advances to ${escapeHtml(advancesTo)} · ${escapeHtml(advancesPath)}</small>
+        <small>Loser advances to ${escapeHtml(fixture.loser_advances_to?.bracket_slot_id || "Third Place")} · ${escapeHtml(fixture.loser_advances_to?.path || "")}</small>
+        <small>Feed source ID: ${escapeHtml(fixture.source_fixture_id || "pending")} · SF Fixture Authority · source IDs are metadata, not bracket match numbers.</small>
       </article>
     `;
   }
@@ -485,7 +528,7 @@
 
     if (bracketNote) {
       bracketNote.textContent = r32AuthorityFixtures.length
-        ? "Round of 32 teams are shown from the locked R32 fixture authority; Round of 16 actual scores remain visible; Quarterfinal slots use the final QF fixture authority. Feed source IDs are metadata, not bracket match numbers."
+        ? "Round of 32 teams are shown from the locked R32 fixture authority; Round of 16 and Quarterfinal actual scores remain visible; Semifinal slots use the final SF fixture authority. Feed source IDs are metadata, not bracket match numbers."
         : data.bracket?.note || "";
     }
 
@@ -499,6 +542,8 @@
               ? renderR16AuthorityMatch(match)
               : round.name === "Quarter-finals"
                 ? renderQfAuthorityMatch(match)
+                : round.name === "Semi-finals"
+                  ? renderSfAuthorityMatch(match)
             : `
               <article class="bracket-match">
                 <span>Match ${escapeHtml(match.id)}</span>

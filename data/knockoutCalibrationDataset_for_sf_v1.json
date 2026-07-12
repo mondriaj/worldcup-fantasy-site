@@ -1,0 +1,359 @@
+{
+  "schema_version": "knockout_calibration_dataset_for_sf_v1",
+  "generated_at": "2026-07-12T12:30:55.153Z",
+  "evidence_scope": [
+    "group_stage",
+    "R32",
+    "R16",
+    "QF"
+  ],
+  "qf_residuals": [
+    {
+      "match_number": 97,
+      "fixture": "France vs Morocco",
+      "predicted_xg": "1.809-0.35",
+      "actual_score": "2-0",
+      "home_goal_residual": 0.191,
+      "away_goal_residual": -0.35,
+      "predicted_winner": "France",
+      "actual_winner": "France"
+    },
+    {
+      "match_number": 98,
+      "fixture": "Spain vs Belgium",
+      "predicted_xg": "1.971-0.527",
+      "actual_score": "2-1",
+      "home_goal_residual": 0.029,
+      "away_goal_residual": 0.473,
+      "predicted_winner": "Spain",
+      "actual_winner": "Spain"
+    },
+    {
+      "match_number": 99,
+      "fixture": "Norway vs England",
+      "predicted_xg": "0.689-1.7",
+      "actual_score": "1-2",
+      "home_goal_residual": 0.311,
+      "away_goal_residual": 0.3,
+      "predicted_winner": "England",
+      "actual_winner": "England"
+    },
+    {
+      "match_number": 100,
+      "fixture": "Argentina vs Switzerland",
+      "predicted_xg": "2.107-0.35",
+      "actual_score": "3-1",
+      "home_goal_residual": 0.893,
+      "away_goal_residual": 0.65,
+      "predicted_winner": "Argentina",
+      "actual_winner": "Argentina"
+    }
+  ],
+  "qf_actual_player_points_sample": [
+    {
+      "name": "Cristian Romero",
+      "team": "Argentina",
+      "qf_round_points": 2,
+      "qfStarted": true
+    },
+    {
+      "name": "Marcos Senesi",
+      "team": "Argentina",
+      "qf_round_points": null,
+      "qfStarted": false
+    },
+    {
+      "name": "Nahuel Molina",
+      "team": "Argentina",
+      "qf_round_points": 2,
+      "qfStarted": true
+    },
+    {
+      "name": "Nicolás Otamendi",
+      "team": "Argentina",
+      "qf_round_points": 1,
+      "qfStarted": false
+    },
+    {
+      "name": "Nicolás Tagliafico",
+      "team": "Argentina",
+      "qf_round_points": 2,
+      "qfStarted": true
+    },
+    {
+      "name": "Lionel Messi",
+      "team": "Argentina",
+      "qf_round_points": 5,
+      "qfStarted": true
+    },
+    {
+      "name": "Julián Alvarez",
+      "team": "Argentina",
+      "qf_round_points": 7,
+      "qfStarted": true
+    },
+    {
+      "name": "Giuliano Simeone",
+      "team": "Argentina",
+      "qf_round_points": null,
+      "qfStarted": false
+    },
+    {
+      "name": "Nico González",
+      "team": "Argentina",
+      "qf_round_points": 1,
+      "qfStarted": false
+    },
+    {
+      "name": "José Manuel López",
+      "team": "Argentina",
+      "qf_round_points": 3,
+      "qfStarted": false
+    },
+    {
+      "name": "Emiliano Martínez",
+      "team": "Argentina",
+      "qf_round_points": 3,
+      "qfStarted": true
+    },
+    {
+      "name": "Gerónimo Rulli",
+      "team": "Argentina",
+      "qf_round_points": null,
+      "qfStarted": false
+    },
+    {
+      "name": "Juan Musso",
+      "team": "Argentina",
+      "qf_round_points": null,
+      "qfStarted": false
+    },
+    {
+      "name": "Leandro Paredes",
+      "team": "Argentina",
+      "qf_round_points": 2,
+      "qfStarted": true
+    },
+    {
+      "name": "Rodrigo De Paul",
+      "team": "Argentina",
+      "qf_round_points": 2,
+      "qfStarted": true
+    },
+    {
+      "name": "Nico Paz",
+      "team": "Argentina",
+      "qf_round_points": null,
+      "qfStarted": false
+    },
+    {
+      "name": "Valentín Barco",
+      "team": "Argentina",
+      "qf_round_points": null,
+      "qfStarted": false
+    },
+    {
+      "name": "Exequiel Palacios",
+      "team": "Argentina",
+      "qf_round_points": null,
+      "qfStarted": false
+    },
+    {
+      "name": "Thiago Almada",
+      "team": "Argentina",
+      "qf_round_points": 3,
+      "qfStarted": false
+    },
+    {
+      "name": "Alexis Mac Allister",
+      "team": "Argentina",
+      "qf_round_points": 9,
+      "qfStarted": true
+    },
+    {
+      "name": "Enzo Fernández",
+      "team": "Argentina",
+      "qf_round_points": 2,
+      "qfStarted": true
+    },
+    {
+      "name": "Nico O'Reilly",
+      "team": "England",
+      "qf_round_points": 2,
+      "qfStarted": true
+    },
+    {
+      "name": "Marc Guéhi",
+      "team": "England",
+      "qf_round_points": 2,
+      "qfStarted": true
+    },
+    {
+      "name": "Dan Burn",
+      "team": "England",
+      "qf_round_points": 1,
+      "qfStarted": false
+    },
+    {
+      "name": "Ezri Konsa",
+      "team": "England",
+      "qf_round_points": 2,
+      "qfStarted": true
+    },
+    {
+      "name": "John Stones",
+      "team": "England",
+      "qf_round_points": 2,
+      "qfStarted": true
+    },
+    {
+      "name": "Djed Spence",
+      "team": "England",
+      "qf_round_points": 1,
+      "qfStarted": false
+    },
+    {
+      "name": "Harry Kane",
+      "team": "England",
+      "qf_round_points": 3,
+      "qfStarted": true
+    },
+    {
+      "name": "Bukayo Saka",
+      "team": "England",
+      "qf_round_points": 4,
+      "qfStarted": false
+    },
+    {
+      "name": "Marcus Rashford",
+      "team": "England",
+      "qf_round_points": null,
+      "qfStarted": false
+    },
+    {
+      "name": "Anthony Gordon",
+      "team": "England",
+      "qf_round_points": 5,
+      "qfStarted": true
+    },
+    {
+      "name": "Morgan Rogers",
+      "team": "England",
+      "qf_round_points": 4,
+      "qfStarted": false
+    },
+    {
+      "name": "Noni Madueke",
+      "team": "England",
+      "qf_round_points": 1,
+      "qfStarted": true
+    },
+    {
+      "name": "Jordan Pickford",
+      "team": "England",
+      "qf_round_points": 3,
+      "qfStarted": true
+    },
+    {
+      "name": "Dean Henderson",
+      "team": "England",
+      "qf_round_points": null,
+      "qfStarted": false
+    },
+    {
+      "name": "James Trafford",
+      "team": "England",
+      "qf_round_points": null,
+      "qfStarted": false
+    },
+    {
+      "name": "Kobbie Mainoo",
+      "team": "England",
+      "qf_round_points": null,
+      "qfStarted": false
+    },
+    {
+      "name": "Elliot Anderson",
+      "team": "England",
+      "qf_round_points": 2,
+      "qfStarted": true
+    },
+    {
+      "name": "Declan Rice",
+      "team": "England",
+      "qf_round_points": 1,
+      "qfStarted": true
+    },
+    {
+      "name": "Jude Bellingham",
+      "team": "England",
+      "qf_round_points": 14,
+      "qfStarted": true
+    },
+    {
+      "name": "Theo Hernández",
+      "team": "France",
+      "qf_round_points": null,
+      "qfStarted": false
+    },
+    {
+      "name": "Maxence Lacroix",
+      "team": "France",
+      "qf_round_points": null,
+      "qfStarted": false
+    },
+    {
+      "name": "Dayot Upamecano",
+      "team": "France",
+      "qf_round_points": 7,
+      "qfStarted": true
+    },
+    {
+      "name": "Ibrahima Konaté",
+      "team": "France",
+      "qf_round_points": null,
+      "qfStarted": false
+    },
+    {
+      "name": "Lucas Hernández",
+      "team": "France",
+      "qf_round_points": null,
+      "qfStarted": false
+    },
+    {
+      "name": "Lucas Digne",
+      "team": "France",
+      "qf_round_points": 7,
+      "qfStarted": true
+    },
+    {
+      "name": "Malo Gusto",
+      "team": "France",
+      "qf_round_points": 1,
+      "qfStarted": false
+    },
+    {
+      "name": "Kylian Mbappé",
+      "team": "France",
+      "qf_round_points": 13,
+      "qfStarted": true
+    },
+    {
+      "name": "Ousmane Dembélé",
+      "team": "France",
+      "qf_round_points": 10,
+      "qfStarted": true
+    },
+    {
+      "name": "Marcus Thuram",
+      "team": "France",
+      "qf_round_points": null,
+      "qfStarted": false
+    }
+  ],
+  "qf_participation_evidence": {
+    "qf_starters": 44,
+    "qf_non_starters": 90,
+    "points_only_rows": 0
+  }
+}

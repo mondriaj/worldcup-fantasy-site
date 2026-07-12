@@ -8,6 +8,7 @@ const PATHS = {
   r32AuthorityData: "r32FixtureAuthorityData.js",
   r16AuthorityData: "r16FixtureAuthorityData.js",
   qfAuthorityData: "qfFixtureAuthorityData.js",
+  sfAuthorityData: "sfFixtureAuthorityData.js",
   pageScript: "worldCupPage.js",
   qfAuthorityJson: "data/qfFixtureAuthority_v1.json",
   outputJson: "data/worldCupQfFixturesPageQa_v1.json",
@@ -64,7 +65,7 @@ async function renderWorldCupPage() {
   sandbox.window.console = sandbox.console;
   sandbox.globalThis = sandbox;
 
-  for (const filePath of [PATHS.worldCupData, PATHS.liveMatchdayData, PATHS.r32AuthorityData, PATHS.r16AuthorityData, PATHS.qfAuthorityData, PATHS.pageScript]) {
+  for (const filePath of [PATHS.worldCupData, PATHS.liveMatchdayData, PATHS.r32AuthorityData, PATHS.r16AuthorityData, PATHS.qfAuthorityData, PATHS.sfAuthorityData, PATHS.pageScript]) {
     vm.runInNewContext(await readFile(filePath, "utf8"), sandbox, { filename: filePath });
   }
 
@@ -99,6 +100,7 @@ const requiredScriptOrder = [
   "r32FixtureAuthorityData.js",
   "r16FixtureAuthorityData.js",
   "qfFixtureAuthorityData.js",
+  "sfFixtureAuthorityData.js",
   "worldCupPage.js"
 ];
 
@@ -112,7 +114,7 @@ for (let index = 0; index < requiredScriptOrder.length - 1; index += 1) {
 
 if (authority.status !== "pass") errors.push(`QF authority status is ${authority.status}.`);
 if (fixtures.length !== 4) errors.push(`Expected 4 QF fixtures, found ${fixtures.length}.`);
-if (!/Quarterfinal setup/i.test(html)) errors.push("world-cup.html does not expose Quarterfinal setup copy.");
+if (!/completed R32, R16, and QF results/i.test(html)) errors.push("world-cup.html does not state that QF results remain visible.");
 if (!/QF Fixture Authority/i.test(rendered.bracketText)) errors.push("Rendered bracket does not mention QF Fixture Authority.");
 
 const fixtureChecks = fixtures.map((fixture) => {

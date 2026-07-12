@@ -1,0 +1,31 @@
+{
+  "schema_version": "sf_release_qa_v1",
+  "generated_at": "2026-07-12T12:30:55.153Z",
+  "status": "pass",
+  "checks": [
+    {
+      "id": "sf_fixture_authority",
+      "status": "pass"
+    },
+    {
+      "id": "sf_role_model",
+      "status": "pass"
+    },
+    {
+      "id": "sf_score_model",
+      "status": "pass"
+    },
+    {
+      "id": "sf_projection_model",
+      "status": "pass"
+    },
+    {
+      "id": "sf_recommendations",
+      "status": "pass"
+    },
+    {
+      "id": "sf_team_builder",
+      "status": "pass"
+    }
+  ]
+}

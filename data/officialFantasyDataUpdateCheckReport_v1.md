@@ -1,6 +1,6 @@
 # Official Fantasy Data Update Check v1
 
-Generated: 2026-07-08T12:54:39.011Z
+Generated: 2026-07-12T12:43:43.232Z
 
 ## Summary
 
@@ -16,10 +16,10 @@ Generated: 2026-07-08T12:54:39.011Z
 
 | Source | HTTP | Parsed | Last-Modified | Bytes |
 | --- | --- | --- | --- | --- |
-| fifaFantasyPlayersJson | 200 | yes | 2026-07-08T12:04:23Z | 1356359 |
-| fifaFantasySquadsJson | 200 | yes | 2026-07-07T22:53:20Z | 6390 |
+| fifaFantasyPlayersJson | 200 | yes | 2026-07-12T12:04:23Z | 1391511 |
+| fifaFantasySquadsJson | 200 | yes | 2026-07-12T04:11:00Z | 6386 |
 | fifaFantasyHelpPagesJson | 200 | yes | 2026-06-29T10:15:41Z | 181977 |
-| fifaFantasyRoundsJson | 200 | yes | 2026-07-08T12:01:02Z | 151845 |
+| fifaFantasyRoundsJson | 200 | yes | 2026-07-12T12:01:03Z | 155982 |
 | fifaFantasyLanguageJson | 200 | yes | 2026-06-28T19:17:42Z | 27453 |
 
 ## Change Counts
@@ -51,7 +51,7 @@ This script is reporting-only. It does not import players, import squads, import
 
 - Local official fantasy players: 1489
 - Live official fantasy players: 1489
-- Selectable status counts live: {"eliminated":1231,"playing":207,"transferred":50,"suspended":1}
+- Selectable status counts live: {"eliminated":1355,"playing":102,"transferred":30,"injured":1,"suspended":1}
 - Position counts live: {"DEF":486,"FWD":307,"MID":515,"GK":181}
 
 No player import-field changes found.
@@ -75,7 +75,7 @@ Candidate fields that may be useful for status auditing but do not prove final s
 
 - Help pages hash: `025a2c6f7c7ac839b9b2e6c4106ed3ae577807b358e016e815563ea7a322bef8`
 - Language hash: `8efd6d40103d3c09acf299040b4a8243faf53337f3af77580ca9ad405972215b`
-- Rounds hash: `c9e00f1e7080f506810d020f4942bb8b92e093512edaa51ed2c2abe53073fb24`
+- Rounds hash: `d9e6ceea5b99915bc3917c162e55f4c59bff689c7b3477c2eff589bfe56f023c`
 - Clean Sheet Shield text changed vs imported rules: no
 - Live Clean Sheet Shield header: Clean Sheet Shield
 - Live Clean Sheet Shield description: Activate the Clean Sheet Shield to gain an edge in any of the Knockout stages. Any goalkeeper, defender, or midfielder in your team will only lose their clean sheet after conceding 2 goals.

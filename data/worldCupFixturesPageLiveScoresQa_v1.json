@@ -1,6 +1,6 @@
 {
   "schema_version": "world_cup_fixtures_page_live_scores_qa_v1",
-  "generated_at": "2026-07-08T12:55:08.383Z",
+  "generated_at": "2026-07-12T12:43:01.835Z",
   "status": "passed",
   "files": {
     "html": "world-cup.html",
@@ -15,9 +15,9 @@
   "summary": {
     "world_cup_fixture_count": 72,
     "rendered_fixture_rows": 72,
-    "live_fixture_count": 100,
+    "live_fixture_count": 102,
     "group_stage_live_fixture_count": 72,
-    "extra_live_fixture_count": 28,
+    "extra_live_fixture_count": 30,
     "completed_md1_fixture_count": 24,
     "completed_md1_final_scores_visible": 24,
     "completed_md2_fixture_count": 24,
@@ -246,14 +246,6 @@
       "reversed": false
     },
     {
-      "match_number": 49,
-      "fixture": "Scotland vs Brazil",
-      "round_id": "3",
-      "expected_score_text": "SCO 0 - 3 BRA",
-      "visible": true,
-      "reversed": false
-    },
-    {
       "match_number": 50,
       "fixture": "Morocco vs Haiti",
       "round_id": "3",
@@ -262,10 +254,10 @@
       "reversed": false
     },
     {
-      "match_number": 54,
-      "fixture": "South Africa vs Korea Republic",
+      "match_number": 49,
+      "fixture": "Scotland vs Brazil",
       "round_id": "3",
-      "expected_score_text": "RSA 1 - 0 KOR",
+      "expected_score_text": "SCO 0 - 3 BRA",
       "visible": true,
       "reversed": false
     },
@@ -278,10 +270,10 @@
       "reversed": false
     },
     {
-      "match_number": 55,
-      "fixture": "Curaçao vs Côte d'Ivoire",
+      "match_number": 54,
+      "fixture": "South Africa vs Korea Republic",
       "round_id": "3",
-      "expected_score_text": "CUW 0 - 2 CIV",
+      "expected_score_text": "RSA 1 - 0 KOR",
       "visible": true,
       "reversed": false
     },
@@ -290,6 +282,14 @@
       "fixture": "Ecuador vs Germany",
       "round_id": "3",
       "expected_score_text": "ECU 2 - 1 GER",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 55,
+      "fixture": "Curaçao vs Côte d'Ivoire",
+      "round_id": "3",
+      "expected_score_text": "CUW 0 - 2 CIV",
       "visible": true,
       "reversed": false
     },
@@ -342,14 +342,6 @@
       "reversed": false
     },
     {
-      "match_number": 65,
-      "fixture": "Cabo Verde vs Saudi Arabia",
-      "round_id": "3",
-      "expected_score_text": "CPV 0 - 0 KSA",
-      "visible": true,
-      "reversed": false
-    },
-    {
       "match_number": 66,
       "fixture": "Uruguay vs Spain",
       "round_id": "3",
@@ -358,10 +350,10 @@
       "reversed": false
     },
     {
-      "match_number": 63,
-      "fixture": "Egypt vs IR Iran",
+      "match_number": 65,
+      "fixture": "Cabo Verde vs Saudi Arabia",
       "round_id": "3",
-      "expected_score_text": "EGY 1 - 1 IRN",
+      "expected_score_text": "CPV 0 - 0 KSA",
       "visible": true,
       "reversed": false
     },
@@ -374,10 +366,10 @@
       "reversed": false
     },
     {
-      "match_number": 68,
-      "fixture": "Croatia vs Ghana",
+      "match_number": 63,
+      "fixture": "Egypt vs IR Iran",
       "round_id": "3",
-      "expected_score_text": "CRO 2 - 1 GHA",
+      "expected_score_text": "EGY 1 - 1 IRN",
       "visible": true,
       "reversed": false
     },
@@ -386,6 +378,14 @@
       "fixture": "Panama vs England",
       "round_id": "3",
       "expected_score_text": "PAN 0 - 2 ENG",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 68,
+      "fixture": "Croatia vs Ghana",
+      "round_id": "3",
+      "expected_score_text": "CRO 2 - 1 GHA",
       "visible": true,
       "reversed": false
     },
@@ -406,18 +406,18 @@
       "reversed": false
     },
     {
-      "match_number": 69,
-      "fixture": "Algeria vs Austria",
-      "round_id": "3",
-      "expected_score_text": "ALG 3 - 3 AUT",
-      "visible": true,
-      "reversed": false
-    },
-    {
       "match_number": 70,
       "fixture": "Jordan vs Argentina",
       "round_id": "3",
       "expected_score_text": "JOR 1 - 3 ARG",
+      "visible": true,
+      "reversed": false
+    },
+    {
+      "match_number": 69,
+      "fixture": "Algeria vs Austria",
+      "round_id": "3",
+      "expected_score_text": "ALG 3 - 3 AUT",
       "visible": true,
       "reversed": false
     }

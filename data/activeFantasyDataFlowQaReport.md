@@ -1,6 +1,6 @@
 # Active Final QF Data Flow QA Report
 
-Generated: 2026-07-08T12:54:39.009Z
+Generated: 2026-07-12T12:43:33.289Z
 Status: **PASS**
 Active version: `20260708-qf-final`
 
@@ -25,8 +25,8 @@ Active version: `20260708-qf-final`
 - duplicate official fantasy player IDs: 0
 - selectable official records: 414
 - selectable by position: GK 49, DEF 130, MID 161, FWD 74
-- recommendation identity coverage: 375 / 375 resolved
-- projection identity coverage: 1425 / 1425 resolved
+- recommendation identity coverage: 500 / 500 resolved
+- projection identity coverage: 1525 / 1525 resolved
 - finance identity coverage: 1233 / 1233 resolved
 - projection/finance active ID alignment: 0 projection-only, 417 finance-only
 
@@ -51,7 +51,7 @@ Active version: `20260708-qf-final`
 - QF recommendation projection misses: 0
 - QF projections: 203
 - QF score fixtures: 4
-- playersData.js QF recommendation enrichment misses: 114
+- playersData.js QF recommendation enrichment misses: 109
 - playersData.js QF projection enrichment misses: 179
 - playersData.js finance enrichment misses: 1122
 

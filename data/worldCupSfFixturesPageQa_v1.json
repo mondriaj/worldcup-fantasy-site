@@ -1,0 +1,68 @@
+{
+  "schema_version": "world_cup_sf_fixtures_page_qa_v1",
+  "generated_at": "2026-07-12T12:43:11.779Z",
+  "status": "pass",
+  "summary": {
+    "sf_fixture_count": 2,
+    "qf_score_checks": 4,
+    "qf_scores_visible": 4,
+    "rendered_console_errors": 0
+  },
+  "fixture_checks": [
+    {
+      "slot": "M101",
+      "fixture": "France vs Spain",
+      "kickoff": "Jul 14, 2026 · 3:00 PM ET",
+      "live_fixture_status": "scheduled",
+      "teams_visible": true,
+      "kickoff_visible": true,
+      "scheduled_visible": true,
+      "no_tbd": true,
+      "live_mapped_scheduled": true
+    },
+    {
+      "slot": "M102",
+      "fixture": "England vs Argentina",
+      "kickoff": "Jul 15, 2026 · 3:00 PM ET",
+      "live_fixture_status": "scheduled",
+      "teams_visible": true,
+      "kickoff_visible": true,
+      "scheduled_visible": true,
+      "no_tbd": true,
+      "live_mapped_scheduled": true
+    }
+  ],
+  "qf_score_checks": [
+    {
+      "fixture_id": "fwc2026-m097",
+      "fixture": "France vs Morocco",
+      "expected_score_text": "FRA 2 - 0 MAR",
+      "visible": true,
+      "safe_final": true
+    },
+    {
+      "fixture_id": "fwc2026-m098",
+      "fixture": "Spain vs Belgium",
+      "expected_score_text": "ESP 2 - 1 BEL",
+      "visible": true,
+      "safe_final": true
+    },
+    {
+      "fixture_id": "fwc2026-m099",
+      "fixture": "Norway vs England",
+      "expected_score_text": "NOR 1 - 2 ENG",
+      "visible": true,
+      "safe_final": true
+    },
+    {
+      "fixture_id": "fwc2026-m100",
+      "fixture": "Argentina vs Switzerland",
+      "expected_score_text": "ARG 3 - 1 SUI",
+      "visible": true,
+      "safe_final": true
+    }
+  ],
+  "bracket_note": "Round of 32 teams are shown from the locked R32 fixture authority; Round of 16 and Quarterfinal actual scores remain visible; Semifinal slots use the final SF fixture authority. Feed source IDs are metadata, not bracket match numbers.",
+  "errors": [],
+  "warnings": []
+}

@@ -1,0 +1,705 @@
+{
+  "schema_version": "team_builder_qa_sf_v1",
+  "generated_at": "2026-07-12T12:30:55.153Z",
+  "model_version": "team-builder-sf-v1",
+  "status": "pass",
+  "summary": {
+    "projection_rows": 100,
+    "builder_eligible_rows": 29,
+    "recommendation_rows": 125,
+    "by_position": {
+      "DEF": 14,
+      "FWD": 4,
+      "GK": 3,
+      "MID": 8
+    },
+    "balanced_by_position": {
+      "GK": 2,
+      "DEF": 5,
+      "MID": 5,
+      "FWD": 3
+    },
+    "defaultMatchday": "sf",
+    "balanced_projected_points": 61.36,
+    "greedy_projected_points": 62.99,
+    "balanced_vs_greedy_delta": -1.63,
+    "path_value_to_final_third_place_included": true,
+    "role_volatility_included": true,
+    "explicit_qf_starters_only_for_builder_samples": true,
+    "points_only_rows_used_as_starters": 0,
+    "eliminated_and_unavailable_excluded": true
+  },
+  "balanced_squad": [
+    {
+      "name": "Unai Simón",
+      "country": "Spain",
+      "position": "GK",
+      "points": 4.163,
+      "opponent": "France",
+      "start_probability": 0.885,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Emiliano Martínez",
+      "country": "Argentina",
+      "position": "GK",
+      "points": 3.848,
+      "opponent": "England",
+      "start_probability": 0.88,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Lisandro Martínez",
+      "country": "Argentina",
+      "position": "DEF",
+      "points": 4.565,
+      "opponent": "England",
+      "start_probability": 0.88,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Aymeric Laporte",
+      "country": "Spain",
+      "position": "DEF",
+      "points": 4.58,
+      "opponent": "France",
+      "start_probability": 0.881,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Marc Cucurella",
+      "country": "Spain",
+      "position": "DEF",
+      "points": 4.572,
+      "opponent": "France",
+      "start_probability": 0.883,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Pau Cubarsí",
+      "country": "Spain",
+      "position": "DEF",
+      "points": 4.541,
+      "opponent": "France",
+      "start_probability": 0.878,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Cristian Romero",
+      "country": "Argentina",
+      "position": "DEF",
+      "points": 4.095,
+      "opponent": "England",
+      "start_probability": 0.88,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Alexis Mac Allister",
+      "country": "Argentina",
+      "position": "MID",
+      "points": 3.736,
+      "opponent": "England",
+      "start_probability": 0.88,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Rodrigo De Paul",
+      "country": "Argentina",
+      "position": "MID",
+      "points": 3.667,
+      "opponent": "England",
+      "start_probability": 0.88,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Ousmane Dembélé",
+      "country": "France",
+      "position": "MID",
+      "points": 3.756,
+      "opponent": "Spain",
+      "start_probability": 0.878,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Lamine Yamal Nasraoui Ebana",
+      "country": "Spain",
+      "position": "MID",
+      "points": 3.553,
+      "opponent": "France",
+      "start_probability": 0.878,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Rodrigo Hernández Cascante",
+      "country": "Spain",
+      "position": "MID",
+      "points": 3.514,
+      "opponent": "France",
+      "start_probability": 0.878,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Lionel Messi",
+      "country": "Argentina",
+      "position": "FWD",
+      "points": 4.369,
+      "opponent": "England",
+      "start_probability": 0.88,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Mikel Oyarzabal",
+      "country": "Spain",
+      "position": "FWD",
+      "points": 4.378,
+      "opponent": "France",
+      "start_probability": 0.878,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Kylian Mbappé",
+      "country": "France",
+      "position": "FWD",
+      "points": 4.022,
+      "opponent": "Spain",
+      "start_probability": 0.883,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    }
+  ],
+  "greedy_baseline": [
+    {
+      "name": "Aymeric Laporte",
+      "country": "Spain",
+      "position": "DEF",
+      "points": 4.58,
+      "opponent": "France",
+      "start_probability": 0.881,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Marc Cucurella",
+      "country": "Spain",
+      "position": "DEF",
+      "points": 4.572,
+      "opponent": "France",
+      "start_probability": 0.883,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Lisandro Martínez",
+      "country": "Argentina",
+      "position": "DEF",
+      "points": 4.565,
+      "opponent": "England",
+      "start_probability": 0.88,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Pau Cubarsí",
+      "country": "Spain",
+      "position": "DEF",
+      "points": 4.541,
+      "opponent": "France",
+      "start_probability": 0.878,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Mikel Oyarzabal",
+      "country": "Spain",
+      "position": "FWD",
+      "points": 4.378,
+      "opponent": "France",
+      "start_probability": 0.878,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Lionel Messi",
+      "country": "Argentina",
+      "position": "FWD",
+      "points": 4.369,
+      "opponent": "England",
+      "start_probability": 0.88,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Unai Simón",
+      "country": "Spain",
+      "position": "GK",
+      "points": 4.163,
+      "opponent": "France",
+      "start_probability": 0.885,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Dayot Upamecano",
+      "country": "France",
+      "position": "DEF",
+      "points": 4.108,
+      "opponent": "Spain",
+      "start_probability": 0.878,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Cristian Romero",
+      "country": "Argentina",
+      "position": "DEF",
+      "points": 4.095,
+      "opponent": "England",
+      "start_probability": 0.88,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Jules Koundé",
+      "country": "France",
+      "position": "DEF",
+      "points": 4.046,
+      "opponent": "Spain",
+      "start_probability": 0.878,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Kylian Mbappé",
+      "country": "France",
+      "position": "FWD",
+      "points": 4.022,
+      "opponent": "Spain",
+      "start_probability": 0.883,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Nahuel Molina",
+      "country": "Argentina",
+      "position": "DEF",
+      "points": 4.01,
+      "opponent": "England",
+      "start_probability": 0.88,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "William Saliba",
+      "country": "France",
+      "position": "DEF",
+      "points": 3.883,
+      "opponent": "Spain",
+      "start_probability": 0.878,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Emiliano Martínez",
+      "country": "Argentina",
+      "position": "GK",
+      "points": 3.848,
+      "opponent": "England",
+      "start_probability": 0.88,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    },
+    {
+      "name": "Mike Maignan",
+      "country": "France",
+      "position": "GK",
+      "points": 3.805,
+      "opponent": "Spain",
+      "start_probability": 0.878,
+      "lineupEvidenceType": "explicit_qf_starter",
+      "qfStarted": true,
+      "role_caution": null,
+      "coreEligibilityReason": "explicit_qf_starter_with_sf_role_confidence"
+    }
+  ],
+  "omitted_star_diagnostics": [
+    {
+      "name": "Nahuel Molina",
+      "country": "Argentina",
+      "position": "DEF",
+      "reason": "Squad balance/position limit.",
+      "qfStarted": true,
+      "lineupEvidenceType": "explicit_qf_starter"
+    },
+    {
+      "name": "Harry Kane",
+      "country": "England",
+      "position": "FWD",
+      "reason": "Squad balance/position limit.",
+      "qfStarted": true,
+      "lineupEvidenceType": "explicit_qf_starter"
+    },
+    {
+      "name": "Dayot Upamecano",
+      "country": "France",
+      "position": "DEF",
+      "reason": "Squad balance/position limit.",
+      "qfStarted": true,
+      "lineupEvidenceType": "explicit_qf_starter"
+    },
+    {
+      "name": "Jules Koundé",
+      "country": "France",
+      "position": "DEF",
+      "reason": "Squad balance/position limit.",
+      "qfStarted": true,
+      "lineupEvidenceType": "explicit_qf_starter"
+    },
+    {
+      "name": "Pedro Porro",
+      "country": "Spain",
+      "position": "DEF",
+      "reason": "Squad balance/position limit.",
+      "qfStarted": true,
+      "lineupEvidenceType": "explicit_qf_starter"
+    },
+    {
+      "name": "Enzo Fernández",
+      "country": "Argentina",
+      "position": "MID",
+      "reason": "Squad balance/position limit.",
+      "qfStarted": true,
+      "lineupEvidenceType": "explicit_qf_starter"
+    },
+    {
+      "name": "William Saliba",
+      "country": "France",
+      "position": "DEF",
+      "reason": "Squad balance/position limit.",
+      "qfStarted": true,
+      "lineupEvidenceType": "explicit_qf_starter"
+    },
+    {
+      "name": "Mike Maignan",
+      "country": "France",
+      "position": "GK",
+      "reason": "Squad balance/position limit.",
+      "qfStarted": true,
+      "lineupEvidenceType": "explicit_qf_starter"
+    },
+    {
+      "name": "Michael Olise",
+      "country": "France",
+      "position": "MID",
+      "reason": "Squad balance/position limit.",
+      "qfStarted": true,
+      "lineupEvidenceType": "explicit_qf_starter"
+    },
+    {
+      "name": "Lucas Digne",
+      "country": "France",
+      "position": "DEF",
+      "reason": "Squad balance/position limit.",
+      "qfStarted": true,
+      "lineupEvidenceType": "explicit_qf_starter"
+    },
+    {
+      "name": "Ezri Konsa",
+      "country": "England",
+      "position": "DEF",
+      "reason": "Squad balance/position limit.",
+      "qfStarted": true,
+      "lineupEvidenceType": "explicit_qf_starter"
+    },
+    {
+      "name": "Jude Bellingham",
+      "country": "England",
+      "position": "MID",
+      "reason": "Squad balance/position limit.",
+      "qfStarted": true,
+      "lineupEvidenceType": "explicit_qf_starter"
+    },
+    {
+      "name": "Marc Guéhi",
+      "country": "England",
+      "position": "DEF",
+      "reason": "Squad balance/position limit.",
+      "qfStarted": true,
+      "lineupEvidenceType": "explicit_qf_starter"
+    },
+    {
+      "name": "Julián Alvarez",
+      "country": "Argentina",
+      "position": "FWD",
+      "reason": "Squad balance/position limit.",
+      "qfStarted": true,
+      "lineupEvidenceType": "explicit_qf_starter"
+    },
+    {
+      "name": "Nico O'Reilly",
+      "country": "England",
+      "position": "DEF",
+      "reason": "Squad balance/position limit.",
+      "qfStarted": true,
+      "lineupEvidenceType": "explicit_qf_starter"
+    }
+  ],
+  "role_volatility_diagnostics": [
+    {
+      "name": "Ezri Konsa",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": true,
+      "r16Started": true,
+      "caution": ""
+    },
+    {
+      "name": "Harry Kane",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": true,
+      "r16Started": true,
+      "caution": ""
+    },
+    {
+      "name": "Reece James",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": false,
+      "r16Started": null,
+      "caution": "Did not start QF."
+    },
+    {
+      "name": "Jordan Pickford",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": true,
+      "r16Started": true,
+      "caution": ""
+    },
+    {
+      "name": "Jude Bellingham",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": true,
+      "r16Started": true,
+      "caution": ""
+    },
+    {
+      "name": "Noni Madueke",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": true,
+      "r16Started": false,
+      "caution": "Started QF after not starting R16; role is upgraded but volatile."
+    },
+    {
+      "name": "Declan Rice",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": true,
+      "r16Started": true,
+      "caution": ""
+    },
+    {
+      "name": "Nico O'Reilly",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": true,
+      "r16Started": true,
+      "caution": ""
+    },
+    {
+      "name": "Marc Guéhi",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": true,
+      "r16Started": true,
+      "caution": ""
+    },
+    {
+      "name": "Elliot Anderson",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": true,
+      "r16Started": true,
+      "caution": ""
+    },
+    {
+      "name": "John Stones",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": true,
+      "r16Started": false,
+      "caution": "Started QF after not starting R16; role is upgraded but volatile."
+    },
+    {
+      "name": "Anthony Gordon",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": true,
+      "r16Started": true,
+      "caution": ""
+    },
+    {
+      "name": "Marcus Rashford",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": false,
+      "r16Started": false,
+      "caution": "Lost QF start after prior starter evidence; verify lineup before using."
+    },
+    {
+      "name": "Morgan Rogers",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": false,
+      "r16Started": false,
+      "caution": "Did not start QF."
+    },
+    {
+      "name": "Djed Spence",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": false,
+      "r16Started": false,
+      "caution": "Lost QF start after prior starter evidence; verify lineup before using."
+    },
+    {
+      "name": "Bukayo Saka",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": false,
+      "r16Started": true,
+      "caution": "Lost QF start after prior starter evidence; verify lineup before using."
+    },
+    {
+      "name": "Dan Burn",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": false,
+      "r16Started": false,
+      "caution": "Did not start QF."
+    },
+    {
+      "name": "Eberechi Eze",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": false,
+      "r16Started": null,
+      "caution": "Did not start QF."
+    },
+    {
+      "name": "Ollie Watkins",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": false,
+      "r16Started": false,
+      "caution": "Did not start QF."
+    },
+    {
+      "name": "Ivan Toney",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": false,
+      "r16Started": false,
+      "caution": "Did not start QF."
+    },
+    {
+      "name": "Kobbie Mainoo",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": false,
+      "r16Started": false,
+      "caution": "Did not start QF."
+    },
+    {
+      "name": "Dean Henderson",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": false,
+      "r16Started": null,
+      "caution": "Did not start QF."
+    },
+    {
+      "name": "James Trafford",
+      "country": "England",
+      "role_volatility_level": "medium",
+      "qfStarted": false,
+      "r16Started": false,
+      "caution": "Did not start QF."
+    }
+  ],
+  "unsafe_sample_rows": []
+}
