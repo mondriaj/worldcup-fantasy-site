@@ -134,6 +134,7 @@ const requiredQaRunnerCommandIds = [
   "final_round_fixture_authority",
   "bracket_path_integrity",
   "knockout_bracket_prediction",
+  "public_payload_contract",
   "public_preview_browser_qa",
   "git_diff_whitespace"
 ];
@@ -149,6 +150,9 @@ const requiredSyntaxChecks = [
   "liveMatchdayStatusData.js",
   "livePlayerStatusData.js",
   "teamBuilderFinalRoundArtifactData.js",
+  "scripts/auditPublicPayloadSlimmingV1.mjs",
+  "scripts/lib/publicPayloadSlimming.mjs",
+  "scripts/validatePublicPayloadContractV1.mjs",
   "scripts/runActiveStageQaFromManifestV1.mjs",
   "scripts/validateActiveStageManifestV1.mjs",
   "scripts/lib/readActiveStageManifest.mjs"
@@ -248,6 +252,10 @@ const checks = [
   }),
   check("qa_runner_public_preview_uses_local_server", Boolean(qaRunner.localServer?.baseUrl && (qaRunner.requiredCommandChecks || []).some((entry) => entry.id === "public_preview_browser_qa" && entry.requiresLocalServer)), {
     localServer: qaRunner.localServer
+  }),
+  check("public_payload_contract_listed", Boolean(manifest.publicPayloads?.contract && manifest.validators?.publicPayloadContract), {
+    publicPayloads: manifest.publicPayloads,
+    validator: manifest.validators?.publicPayloadContract
   })
 ];
 

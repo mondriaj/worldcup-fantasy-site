@@ -1,0 +1,232 @@
+{
+  "schema_version": "public_payload_contract_v1",
+  "generated_at": "2026-07-18T13:30:00.000Z",
+  "activeStage": "finalRound",
+  "rules": [
+    "Public wrappers contain rendering and QA-critical fields only.",
+    "Internal model diagnostics remain in data/*.json and data/*.md.",
+    "Historical rows may remain only when safely stage-scoped.",
+    "Unfamiliar or risky fields are kept rather than stripped."
+  ],
+  "wrappers": {
+    "recommendations": {
+      "wrapper": "fantasyPoolRecommendationsData.js",
+      "requiredFields": [
+        "recommendationCandidates",
+        "summary",
+        "modelVersion",
+        "data_status"
+      ],
+      "requiredRowFields": [
+        "official_fantasy_player_id",
+        "name",
+        "country",
+        "team_id",
+        "position",
+        "matchday",
+        "mode",
+        "rank",
+        "recommendation_score",
+        "risk_adjusted_points",
+        "start_probability",
+        "expected_minutes",
+        "fixture_context",
+        "why_pick",
+        "why_careful"
+      ],
+      "optionalFields": [
+        "safety_labels",
+        "qa_status",
+        "model",
+        "source_checked"
+      ],
+      "internalOnlyFields": [
+        "input_files",
+        "path_context",
+        "sfLineupSource",
+        "sfLineupEvidenceId",
+        "qfLineupSource",
+        "qfLineupEvidenceId"
+      ],
+      "stageScopingRule": "Rows may include SF/QF/R16/R32 history; active Final Round views filter to matchday === finalRound.",
+      "maxExpectedPublicSizeBytes": 900000,
+      "browserFeatures": [
+        "Picks",
+        "Captain Watchlist",
+        "Player Profile",
+        "Team Builder candidate enrichment"
+      ]
+    },
+    "projections": {
+      "wrapper": "fantasyPoolMatchdayProjectionsData.js",
+      "requiredFields": [
+        "playerMatchdayProjections",
+        "summary",
+        "modelVersion",
+        "data_status"
+      ],
+      "requiredRowFields": [
+        "official_fantasy_player_id",
+        "name",
+        "country",
+        "team_id",
+        "position",
+        "matchday",
+        "risk_adjusted_points",
+        "raw_expected_points",
+        "start_probability",
+        "expected_minutes",
+        "fixture_context",
+        "role_label",
+        "role_confidence"
+      ],
+      "optionalFields": [
+        "safety_labels",
+        "qa_status",
+        "model",
+        "source_checked"
+      ],
+      "internalOnlyFields": [
+        "input_files",
+        "path_context",
+        "sfLineupSource",
+        "sfLineupEvidenceId",
+        "qfLineupSource",
+        "qfLineupEvidenceId"
+      ],
+      "stageScopingRule": "Rows may include SF/QF/R16/R32 history; active Final Round views filter to matchday === finalRound.",
+      "maxExpectedPublicSizeBytes": 1200000,
+      "browserFeatures": [
+        "Player Profile",
+        "Team Builder",
+        "Final Round role/risk labels"
+      ]
+    },
+    "scorePredictions": {
+      "wrapper": "fantasyPoolScorePredictionsData.js",
+      "requiredFields": [
+        "fixtureScorePredictions",
+        "teamFixturePredictions",
+        "summary",
+        "modelVersion"
+      ],
+      "requiredRowFields": [
+        "fixture_id",
+        "match_number",
+        "fantasy_matchday_id",
+        "stage",
+        "home_team",
+        "away_team",
+        "home_expected_goals",
+        "away_expected_goals",
+        "top_scoreline",
+        "top_scorelines"
+      ],
+      "optionalFields": [
+        "safety_labels",
+        "projectedKnockoutPath",
+        "source_checked"
+      ],
+      "internalOnlyFields": [
+        "input_files",
+        "bracketSource",
+        "actualNote",
+        "modelNote",
+        "pathNote"
+      ],
+      "stageScopingRule": "Rows may include earlier knockout history; active Match Environment filters to fantasy_matchday_id === finalRound where needed.",
+      "maxExpectedPublicSizeBytes": 500000,
+      "browserFeatures": [
+        "Match Environment",
+        "score context in player profile",
+        "fixture projections"
+      ]
+    },
+    "teamBuilderArtifact": {
+      "wrapper": "teamBuilderFinalRoundArtifactData.js",
+      "requiredFields": [
+        "strategy",
+        "selectedSquad",
+        "starters",
+        "bench",
+        "captain",
+        "viceCaptain",
+        "summary"
+      ],
+      "requiredRowFields": [
+        "official_fantasy_player_id",
+        "name",
+        "country",
+        "position",
+        "price",
+        "fixture_stage"
+      ],
+      "optionalFields": [
+        "objectiveExplanation",
+        "constraintsUsed",
+        "modelVersion"
+      ],
+      "internalOnlyFields": [
+        "diagnostics",
+        "rawExpectedPointsSquad",
+        "topOmittedByTeam",
+        "omittedStarDiagnostics",
+        "roleVolatilityDiagnostics"
+      ],
+      "stageScopingRule": "Final Round artifact only.",
+      "maxExpectedPublicSizeBytes": 35000,
+      "browserFeatures": [
+        "Team Builder default artifact",
+        "browser equivalence QA",
+        "budget and optionality display"
+      ]
+    },
+    "officialStatus": {
+      "wrapper": "fantasyPoolOfficialDataStatusData.js",
+      "alreadyCompact": true,
+      "browserFeatures": [
+        "official position and status labels"
+      ]
+    },
+    "liveMatchdayStatus": {
+      "wrapper": "liveMatchdayStatusData.js",
+      "riskyToSlim": true,
+      "reason": "Used by multiple live score and fixture validators.",
+      "browserFeatures": [
+        "Match Environment",
+        "World Cup fixtures live/final score display"
+      ]
+    },
+    "livePlayerStatus": {
+      "wrapper": "livePlayerStatusData.js",
+      "riskyToSlim": true,
+      "reason": "Used as status overlay data.",
+      "browserFeatures": [
+        "player status labels"
+      ]
+    },
+    "knockoutBracket": {
+      "wrapper": "knockoutBracketPredictionData.js",
+      "riskyToSlim": true,
+      "reason": "World Cup bracket rendering uses nested match/team structures.",
+      "browserFeatures": [
+        "Knockout Bracket"
+      ]
+    },
+    "worldCupData": {
+      "wrapper": "worldCupData.js",
+      "riskyToSlim": true,
+      "reason": "World Cup page uses groups, fixtures, bracket, and sources.",
+      "browserFeatures": [
+        "World Cup page"
+      ]
+    },
+    "fixtureAuthority": {
+      "wrapper": "finalRoundFixtureAuthorityData.js",
+      "alreadyCompact": true,
+      "browserFeatures": [
+        "Final/Third Place fixture authority"
+      ]
+    }
+  }
+}

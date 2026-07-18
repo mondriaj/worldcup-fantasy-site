@@ -17,6 +17,7 @@ The site had the right Final Round behavior, but the active-stage contract was s
 - Final Round Team Builder artifact and validators
 - Required active validators and browser assertions
 - Manifest-driven active QA runner commands, syntax checks, search checks, and expected public behavior assertions
+- Public payload slimming audit, contract, validator, and wrapper size metadata
 - Known public caveats
 - Forbidden refereeing/conspiracy surfaces
 - Deprecated globals and legacy files that active public views should block
@@ -62,3 +63,7 @@ Skipped for now:
 - A local static server for browser QA checks that need a real URL.
 
 The runner does not rebuild models, tune weights, change recommendations, change projections, change score predictions, change Team Builder output, stage files, commit files, or push.
+
+## Public Payload Contract
+
+The manifest now references `data/publicPayloadContract_v1.json` and the public payload slimming audit/diff reports. `scripts/validatePublicPayloadContractV1.mjs` is included in the manifest-driven QA runner so compact public wrappers must still parse, expose required browser fields, keep active Final Round rows available, retain Team Builder artifact fields, and exclude internal-only diagnostics from slimmed public wrappers.

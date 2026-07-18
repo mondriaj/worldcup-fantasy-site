@@ -97,7 +97,22 @@
     "finalRoundFixtureAuthority": "scripts/validateFinalRoundFixtureAuthorityV1.mjs",
     "bracketPathIntegrity": "scripts/validateBracketPathIntegrityV1.mjs",
     "knockoutBracketPrediction": "scripts/validateKnockoutBracketPredictionV1.mjs",
-    "publicPreviewBrowserQa": "scripts/runPublicPreviewBrowserQa.mjs"
+    "publicPreviewBrowserQa": "scripts/runPublicPreviewBrowserQa.mjs",
+    "publicPayloadContract": "scripts/validatePublicPayloadContractV1.mjs"
+  },
+  "publicPayloads": {
+    "contract": "data/publicPayloadContract_v1.json",
+    "contractReport": "data/publicPayloadContractReport_v1.md",
+    "slimmingAudit": "data/publicPayloadSlimmingAudit_v1.json",
+    "slimmingAuditReport": "data/publicPayloadSlimmingAuditReport_v1.md",
+    "slimmingDiff": "data/publicPayloadSlimmingDiff_v1.json",
+    "slimmingDiffReport": "data/publicPayloadSlimmingDiffReport_v1.md",
+    "slimmedWrappers": {
+      "fantasyPoolRecommendationsData.js": 1933970,
+      "fantasyPoolMatchdayProjectionsData.js": 3597075,
+      "fantasyPoolScorePredictionsData.js": 343711,
+      "teamBuilderFinalRoundArtifactData.js": 27526
+    }
   },
   "qaRunner": {
     "script": "scripts/runActiveStageQaFromManifestV1.mjs",
@@ -125,6 +140,7 @@
       { "id": "final_round_fixture_authority", "command": "node scripts/validateFinalRoundFixtureAuthorityV1.mjs" },
       { "id": "bracket_path_integrity", "command": "node scripts/validateBracketPathIntegrityV1.mjs" },
       { "id": "knockout_bracket_prediction", "command": "node scripts/validateKnockoutBracketPredictionV1.mjs" },
+      { "id": "public_payload_contract", "command": "node scripts/validatePublicPayloadContractV1.mjs" },
       { "id": "public_preview_browser_qa", "command": "node scripts/runPublicPreviewBrowserQa.mjs", "requiresLocalServer": true },
       { "id": "git_diff_whitespace", "command": "git diff --check" }
     ],
@@ -141,6 +157,9 @@
       "liveMatchdayStatusData.js",
       "livePlayerStatusData.js",
       "teamBuilderFinalRoundArtifactData.js",
+      "scripts/auditPublicPayloadSlimmingV1.mjs",
+      "scripts/lib/publicPayloadSlimming.mjs",
+      "scripts/validatePublicPayloadContractV1.mjs",
       "scripts/runActiveStageQaFromManifestV1.mjs",
       "scripts/validateActiveStageManifestV1.mjs",
       "scripts/lib/readActiveStageManifest.mjs"

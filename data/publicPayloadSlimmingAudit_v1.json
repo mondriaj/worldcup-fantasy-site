@@ -1,0 +1,1131 @@
+{
+  "schema_version": "public_payload_slimming_audit_v1",
+  "generated_at": "2026-07-18T13:30:00.000Z",
+  "status": "pass",
+  "activeStage": "finalRound",
+  "wrappers": [
+    {
+      "id": "recommendations",
+      "file": "fantasyPoolRecommendationsData.js",
+      "global": "FANTASY_POOL_RECOMMENDATIONS_DATA",
+      "loadedBy": [
+        "index.html"
+      ],
+      "changed": true,
+      "sizeBeforeBytes": 2508699,
+      "sizeAfterBytes": 1933970,
+      "savingsBytes": 574729,
+      "savingsPct": 22.9,
+      "totalRows": 675,
+      "activeRows": 175,
+      "historicalRows": 500,
+      "topLevelKeys": [
+        "data_status",
+        "generated_at",
+        "input_files",
+        "model",
+        "modelVersion",
+        "model_stage",
+        "model_version",
+        "qa_status",
+        "recommendationCandidates",
+        "safety_labels",
+        "schema_version",
+        "source_checked",
+        "summary"
+      ],
+      "repeatedLargeFields": [
+        {
+          "field": "fixture_context",
+          "bytes": 334935
+        },
+        {
+          "field": "data_quality_flags",
+          "bytes": 235234
+        },
+        {
+          "field": "path_context",
+          "bytes": 103895
+        },
+        {
+          "field": "projectionReason",
+          "bytes": 98149
+        },
+        {
+          "field": "final_round_strategy",
+          "bytes": 93900
+        },
+        {
+          "field": "why_pick",
+          "bytes": 70896
+        },
+        {
+          "field": "minutes_context",
+          "bytes": 62265
+        },
+        {
+          "field": "why_careful",
+          "bytes": 58554
+        },
+        {
+          "field": "qfLineupSource",
+          "bytes": 32363
+        },
+        {
+          "field": "dataQualityFlags",
+          "bytes": 31665
+        },
+        {
+          "field": "r16LineupSource",
+          "bytes": 24802
+        },
+        {
+          "field": "model_stage",
+          "bytes": 21800
+        }
+      ],
+      "fieldsUsedByBrowserRendering": [
+        "official_fantasy_player_id",
+        "name",
+        "country",
+        "team_id",
+        "position",
+        "matchday",
+        "mode",
+        "rank",
+        "recommendation_score",
+        "risk_adjusted_points",
+        "start_probability",
+        "expected_minutes",
+        "fixture_context",
+        "why_pick",
+        "why_careful"
+      ],
+      "fieldsNotUsedByBrowserRendering": [
+        "sfLineupSource",
+        "sfLineupEvidenceId",
+        "qfLineupSource",
+        "qfLineupEvidenceId",
+        "path_context",
+        "minutes_context.evidence_notes",
+        "input_files"
+      ],
+      "internalDiagnosticsAccidentallyPublic": [
+        "sfLineupSource",
+        "sfLineupEvidenceId",
+        "qfLineupSource",
+        "qfLineupEvidenceId",
+        "path_context",
+        "minutes_context.evidence_notes",
+        "input_files"
+      ],
+      "fieldsSafeToStrip": [
+        "sfLineupSource",
+        "sfLineupEvidenceId",
+        "qfLineupSource",
+        "qfLineupEvidenceId",
+        "path_context",
+        "minutes_context.evidence_notes",
+        "input_files"
+      ],
+      "fieldsUnsafeToStrip": [
+        "official_fantasy_player_id",
+        "name",
+        "country",
+        "team_id",
+        "position",
+        "matchday",
+        "mode",
+        "rank",
+        "recommendation_score",
+        "risk_adjusted_points",
+        "start_probability",
+        "expected_minutes",
+        "fixture_context",
+        "why_pick",
+        "why_careful"
+      ],
+      "estimatedSlimSizeBytes": 1933970,
+      "estimatedSavingsBytes": 574729,
+      "slimmingDecision": "slimmed"
+    },
+    {
+      "id": "projections",
+      "file": "fantasyPoolMatchdayProjectionsData.js",
+      "global": "FANTASY_POOL_MATCHDAY_PROJECTIONS_DATA",
+      "loadedBy": [
+        "index.html"
+      ],
+      "changed": true,
+      "sizeBeforeBytes": 4641345,
+      "sizeAfterBytes": 3597075,
+      "savingsBytes": 1044270,
+      "savingsPct": 22.5,
+      "totalRows": 1659,
+      "activeRows": 134,
+      "historicalRows": 1525,
+      "topLevelKeys": [
+        "data_status",
+        "generated_at",
+        "input_files",
+        "model",
+        "modelVersion",
+        "model_stage",
+        "model_version",
+        "playerMatchdayProjections",
+        "qa_status",
+        "safety_labels",
+        "schema_version",
+        "source_checked",
+        "summary"
+      ],
+      "repeatedLargeFields": [
+        {
+          "field": "fixture_context",
+          "bytes": 919149
+        },
+        {
+          "field": "data_quality_flags",
+          "bytes": 508162
+        },
+        {
+          "field": "path_context",
+          "bytes": 401504
+        },
+        {
+          "field": "minutes_context",
+          "bytes": 254049
+        },
+        {
+          "field": "projectionReason",
+          "bytes": 203139
+        },
+        {
+          "field": "caution",
+          "bytes": 78153
+        },
+        {
+          "field": "model_stage",
+          "bytes": 63811
+        },
+        {
+          "field": "modelVersion",
+          "bytes": 43903
+        },
+        {
+          "field": "player_matchday_projection_id",
+          "bytes": 42611
+        },
+        {
+          "field": "internal_player_id",
+          "bytes": 40140
+        },
+        {
+          "field": "name",
+          "bytes": 29258
+        },
+        {
+          "field": "display_name",
+          "bytes": 29258
+        }
+      ],
+      "fieldsUsedByBrowserRendering": [
+        "official_fantasy_player_id",
+        "name",
+        "country",
+        "team_id",
+        "position",
+        "matchday",
+        "risk_adjusted_points",
+        "raw_expected_points",
+        "start_probability",
+        "expected_minutes",
+        "fixture_context",
+        "role_label",
+        "role_confidence"
+      ],
+      "fieldsNotUsedByBrowserRendering": [
+        "sfLineupSource",
+        "sfLineupEvidenceId",
+        "qfLineupSource",
+        "qfLineupEvidenceId",
+        "path_context",
+        "minutes_context.evidence_notes",
+        "input_files"
+      ],
+      "internalDiagnosticsAccidentallyPublic": [
+        "sfLineupSource",
+        "sfLineupEvidenceId",
+        "qfLineupSource",
+        "qfLineupEvidenceId",
+        "path_context",
+        "minutes_context.evidence_notes",
+        "input_files"
+      ],
+      "fieldsSafeToStrip": [
+        "sfLineupSource",
+        "sfLineupEvidenceId",
+        "qfLineupSource",
+        "qfLineupEvidenceId",
+        "path_context",
+        "minutes_context.evidence_notes",
+        "input_files"
+      ],
+      "fieldsUnsafeToStrip": [
+        "official_fantasy_player_id",
+        "name",
+        "country",
+        "team_id",
+        "position",
+        "matchday",
+        "risk_adjusted_points",
+        "raw_expected_points",
+        "start_probability",
+        "expected_minutes",
+        "fixture_context",
+        "role_label",
+        "role_confidence"
+      ],
+      "estimatedSlimSizeBytes": 3597075,
+      "estimatedSavingsBytes": 1044270,
+      "slimmingDecision": "slimmed"
+    },
+    {
+      "id": "scorePredictions",
+      "file": "fantasyPoolScorePredictionsData.js",
+      "global": "FANTASY_POOL_SCORE_PREDICTIONS_DATA",
+      "loadedBy": [
+        "index.html"
+      ],
+      "changed": true,
+      "sizeBeforeBytes": 1846419,
+      "sizeAfterBytes": 343711,
+      "savingsBytes": 1502708,
+      "savingsPct": 81.4,
+      "totalRows": 104,
+      "activeRows": 2,
+      "historicalRows": 102,
+      "topLevelKeys": [
+        "data_status",
+        "defaultMatchday",
+        "fixtureScorePredictions",
+        "generated_at",
+        "input_files",
+        "modelVersion",
+        "model_stage",
+        "model_version",
+        "projectedKnockoutPath",
+        "safety_labels",
+        "schema_version",
+        "source_checked",
+        "summary",
+        "teamFixturePredictions"
+      ],
+      "repeatedLargeFields": [
+        {
+          "field": "model_inputs_v3",
+          "bytes": 513296
+        },
+        {
+          "field": "away_team_prediction",
+          "bytes": 94010
+        },
+        {
+          "field": "home_team_prediction",
+          "bytes": 93452
+        },
+        {
+          "field": "v4_calibration",
+          "bytes": 75655
+        },
+        {
+          "field": "data_quality",
+          "bytes": 52368
+        },
+        {
+          "field": "top_scorelines",
+          "bytes": 44334
+        },
+        {
+          "field": "qa_flags",
+          "bytes": 22847
+        },
+        {
+          "field": "v5_calibration",
+          "bytes": 21973
+        },
+        {
+          "field": "uncertainty_inputs",
+          "bytes": 21064
+        },
+        {
+          "field": "comparison_to_v2",
+          "bytes": 16786
+        },
+        {
+          "field": "source_note",
+          "bytes": 15768
+        },
+        {
+          "field": "comparison_to_v3",
+          "bytes": 14353
+        }
+      ],
+      "fieldsUsedByBrowserRendering": [
+        "fixture_id",
+        "match_number",
+        "fantasy_matchday_id",
+        "stage",
+        "home_team",
+        "away_team",
+        "home_expected_goals",
+        "away_expected_goals",
+        "top_scoreline",
+        "top_scorelines"
+      ],
+      "fieldsNotUsedByBrowserRendering": [
+        "input_files"
+      ],
+      "internalDiagnosticsAccidentallyPublic": [
+        "input_files"
+      ],
+      "fieldsSafeToStrip": [
+        "input_files"
+      ],
+      "fieldsUnsafeToStrip": [
+        "fixture_id",
+        "match_number",
+        "fantasy_matchday_id",
+        "stage",
+        "home_team",
+        "away_team",
+        "home_expected_goals",
+        "away_expected_goals",
+        "top_scoreline",
+        "top_scorelines"
+      ],
+      "estimatedSlimSizeBytes": 343711,
+      "estimatedSavingsBytes": 1502708,
+      "slimmingDecision": "slimmed"
+    },
+    {
+      "id": "teamBuilderArtifact",
+      "file": "teamBuilderFinalRoundArtifactData.js",
+      "global": "TEAM_BUILDER_FINAL_ROUND_ARTIFACT_DATA",
+      "loadedBy": [
+        "index.html"
+      ],
+      "changed": true,
+      "sizeBeforeBytes": 41340,
+      "sizeAfterBytes": 27526,
+      "savingsBytes": 13814,
+      "savingsPct": 33.4,
+      "totalRows": 15,
+      "activeRows": 15,
+      "historicalRows": 0,
+      "topLevelKeys": [
+        "bench",
+        "captain",
+        "constraintsUsed",
+        "diagnostics",
+        "generatedAt",
+        "modelVersion",
+        "objectiveExplanation",
+        "schema_version",
+        "selectedSquad",
+        "starters",
+        "strategy",
+        "summary",
+        "viceCaptain"
+      ],
+      "repeatedLargeFields": [
+        {
+          "field": "finalRoundStrategy",
+          "bytes": 7959
+        },
+        {
+          "field": "lineupEvidenceType",
+          "bytes": 315
+        },
+        {
+          "field": "name",
+          "bytes": 247
+        },
+        {
+          "field": "country",
+          "bytes": 140
+        },
+        {
+          "field": "opponent",
+          "bytes": 128
+        },
+        {
+          "field": "roleCaution",
+          "bytes": 124
+        },
+        {
+          "field": "fixture_stage",
+          "bytes": 117
+        },
+        {
+          "field": "captainScore",
+          "bytes": 90
+        },
+        {
+          "field": "official_fantasy_player_id",
+          "bytes": 74
+        },
+        {
+          "field": "position",
+          "bytes": 73
+        },
+        {
+          "field": "thirdPlaceRisk",
+          "bytes": 73
+        },
+        {
+          "field": "projectedPoints",
+          "bytes": 71
+        }
+      ],
+      "fieldsUsedByBrowserRendering": [
+        "official_fantasy_player_id",
+        "name",
+        "country",
+        "position",
+        "price",
+        "fixture_stage"
+      ],
+      "fieldsNotUsedByBrowserRendering": [
+        "diagnostics",
+        "topOmittedByTeam",
+        "omittedStarDiagnostics",
+        "roleVolatilityDiagnostics",
+        "rawExpectedPointsSquad"
+      ],
+      "internalDiagnosticsAccidentallyPublic": [
+        "diagnostics",
+        "topOmittedByTeam",
+        "omittedStarDiagnostics",
+        "roleVolatilityDiagnostics",
+        "rawExpectedPointsSquad"
+      ],
+      "fieldsSafeToStrip": [
+        "diagnostics",
+        "topOmittedByTeam",
+        "omittedStarDiagnostics",
+        "roleVolatilityDiagnostics",
+        "rawExpectedPointsSquad"
+      ],
+      "fieldsUnsafeToStrip": [
+        "official_fantasy_player_id",
+        "name",
+        "country",
+        "position",
+        "price",
+        "fixture_stage"
+      ],
+      "estimatedSlimSizeBytes": 27526,
+      "estimatedSavingsBytes": 13814,
+      "slimmingDecision": "slimmed"
+    },
+    {
+      "id": "officialStatus",
+      "file": "fantasyPoolOfficialDataStatusData.js",
+      "global": "FANTASY_POOL_OFFICIAL_DATA_STATUS",
+      "loadedBy": [
+        "index.html"
+      ],
+      "changed": false,
+      "sizeBeforeBytes": 798676,
+      "sizeAfterBytes": 798676,
+      "savingsBytes": 0,
+      "savingsPct": 0,
+      "totalRows": 1489,
+      "activeRows": 1489,
+      "historicalRows": 0,
+      "topLevelKeys": [
+        "active_legacy_files_preserved",
+        "browser_ready_preview_files",
+        "final_squad_source_status",
+        "generated_at",
+        "model_stage",
+        "official_position_record_count",
+        "official_position_records",
+        "official_position_source",
+        "public_label",
+        "public_warning_html",
+        "readiness_status",
+        "readiness_verdict",
+        "rules_status",
+        "safe_for_final_public_recommendations",
+        "safe_for_public_preview_with_warnings",
+        "safe_for_team_builder_promotion",
+        "schema_version",
+        "source_checked",
+        "source_files",
+        "status_points",
+        "stop_conditions_before_final_promotion",
+        "summary",
+        "team_builder_status",
+        "team_builder_warning_html",
+        "unavailable_player_ids",
+        "unavailable_player_names",
+        "unavailable_players",
+        "warning_copy"
+      ],
+      "repeatedLargeFields": [
+        {
+          "field": "position_source",
+          "bytes": 41692
+        },
+        {
+          "field": "internal_player_id",
+          "bytes": 36696
+        },
+        {
+          "field": "matched_existing_player_id",
+          "bytes": 31728
+        },
+        {
+          "field": "name",
+          "bytes": 27536
+        },
+        {
+          "field": "selectable_status",
+          "bytes": 16740
+        },
+        {
+          "field": "country",
+          "bytes": 14612
+        },
+        {
+          "field": "official_fantasy_player_id",
+          "bytes": 8009
+        },
+        {
+          "field": "position_conflict",
+          "bytes": 7310
+        },
+        {
+          "field": "official_fantasy_position",
+          "bytes": 7264
+        },
+        {
+          "field": "existing_model_position",
+          "bytes": 7069
+        },
+        {
+          "field": "team_id",
+          "bytes": 5666
+        },
+        {
+          "field": "official_price",
+          "bytes": 4080
+        }
+      ],
+      "fieldsUsedByBrowserRendering": [],
+      "fieldsNotUsedByBrowserRendering": [],
+      "internalDiagnosticsAccidentallyPublic": [],
+      "fieldsSafeToStrip": [],
+      "fieldsUnsafeToStrip": [],
+      "estimatedSlimSizeBytes": 798676,
+      "estimatedSavingsBytes": 0,
+      "slimmingDecision": "unchanged"
+    },
+    {
+      "id": "liveMatchdayStatus",
+      "file": "liveMatchdayStatusData.js",
+      "global": "LIVE_MATCHDAY_STATUS_DATA",
+      "loadedBy": [
+        "index.html",
+        "world-cup.html"
+      ],
+      "changed": false,
+      "sizeBeforeBytes": 220263,
+      "sizeAfterBytes": 220263,
+      "savingsBytes": 0,
+      "savingsPct": 0,
+      "totalRows": 104,
+      "activeRows": 104,
+      "historicalRows": 0,
+      "topLevelKeys": [
+        "data_status",
+        "fixtures",
+        "generated_at",
+        "rounds",
+        "schema_version",
+        "source_checked",
+        "sources",
+        "summary",
+        "update_decision",
+        "validation"
+      ],
+      "repeatedLargeFields": [
+        {
+          "field": "source_note",
+          "bytes": 30888
+        },
+        {
+          "field": "home_goal_scorers_assists",
+          "bytes": 21740
+        },
+        {
+          "field": "away_goal_scorers_assists",
+          "bytes": 15550
+        },
+        {
+          "field": "mapping_reason",
+          "bytes": 3962
+        },
+        {
+          "field": "local_fixture_match_status",
+          "bytes": 3238
+        },
+        {
+          "field": "date",
+          "bytes": 2808
+        },
+        {
+          "field": "venue_city",
+          "bytes": 2065
+        },
+        {
+          "field": "mapping_basis",
+          "bytes": 1768
+        },
+        {
+          "field": "local_fixture_mapping_method",
+          "bytes": 1768
+        },
+        {
+          "field": "venue_name",
+          "bytes": 1767
+        },
+        {
+          "field": "resolved_local_fixture_key",
+          "bytes": 1436
+        },
+        {
+          "field": "local_fixture_id",
+          "bytes": 1436
+        }
+      ],
+      "fieldsUsedByBrowserRendering": [],
+      "fieldsNotUsedByBrowserRendering": [],
+      "internalDiagnosticsAccidentallyPublic": [],
+      "fieldsSafeToStrip": [],
+      "fieldsUnsafeToStrip": [],
+      "estimatedSlimSizeBytes": 220263,
+      "estimatedSavingsBytes": 0,
+      "slimmingDecision": "unchanged"
+    },
+    {
+      "id": "livePlayerStatus",
+      "file": "livePlayerStatusData.js",
+      "global": "LIVE_PLAYER_STATUS_DATA",
+      "loadedBy": [
+        "index.html"
+      ],
+      "changed": false,
+      "sizeBeforeBytes": 985154,
+      "sizeAfterBytes": 985154,
+      "savingsBytes": 0,
+      "savingsPct": 0,
+      "totalRows": 1489,
+      "activeRows": 1489,
+      "historicalRows": 0,
+      "topLevelKeys": [
+        "comparison_to_local_official_import",
+        "data_status",
+        "generated_at",
+        "players",
+        "schema_version",
+        "source_checked",
+        "sources",
+        "summary",
+        "update_decision",
+        "validation"
+      ],
+      "repeatedLargeFields": [
+        {
+          "field": "stats",
+          "bytes": 302925
+        },
+        {
+          "field": "roundsSelected",
+          "bytes": 86162
+        },
+        {
+          "field": "name",
+          "bytes": 27536
+        },
+        {
+          "field": "display_name",
+          "bytes": 23600
+        },
+        {
+          "field": "status",
+          "bytes": 17586
+        },
+        {
+          "field": "first_name",
+          "bytes": 14658
+        },
+        {
+          "field": "team_name",
+          "bytes": 14612
+        },
+        {
+          "field": "last_name",
+          "bytes": 14367
+        },
+        {
+          "field": "fifa_player_id",
+          "bytes": 10974
+        },
+        {
+          "field": "official_fantasy_player_id",
+          "bytes": 8009
+        },
+        {
+          "field": "team_abbr",
+          "bytes": 7445
+        },
+        {
+          "field": "position",
+          "bytes": 7264
+        }
+      ],
+      "fieldsUsedByBrowserRendering": [],
+      "fieldsNotUsedByBrowserRendering": [],
+      "internalDiagnosticsAccidentallyPublic": [],
+      "fieldsSafeToStrip": [],
+      "fieldsUnsafeToStrip": [],
+      "estimatedSlimSizeBytes": 985154,
+      "estimatedSavingsBytes": 0,
+      "slimmingDecision": "unchanged"
+    },
+    {
+      "id": "knockoutBracket",
+      "file": "knockoutBracketPredictionData.js",
+      "global": "KNOCKOUT_BRACKET_PREDICTION_DATA",
+      "loadedBy": [
+        "index.html"
+      ],
+      "changed": false,
+      "sizeBeforeBytes": 58083,
+      "sizeAfterBytes": 58083,
+      "savingsBytes": 0,
+      "savingsPct": 0,
+      "totalRows": 32,
+      "activeRows": 32,
+      "historicalRows": 0,
+      "topLevelKeys": [
+        "bracketSource",
+        "defaultStrategy",
+        "finalSquadsSourceBacked",
+        "fixtureAuthorityVersion",
+        "generatedAt",
+        "generated_at",
+        "matches",
+        "modelVersion",
+        "model_version",
+        "ownershipUsedAsSignal",
+        "predictionStatus",
+        "rounds",
+        "schema_version",
+        "summary"
+      ],
+      "repeatedLargeFields": [
+        {
+          "field": "modelNote",
+          "bytes": 5016
+        },
+        {
+          "field": "teamB",
+          "bytes": 3380
+        },
+        {
+          "field": "actualTeamB",
+          "bytes": 3380
+        },
+        {
+          "field": "predictedLoser",
+          "bytes": 3377
+        },
+        {
+          "field": "predictedWinner",
+          "bytes": 3362
+        },
+        {
+          "field": "teamA",
+          "bytes": 3359
+        },
+        {
+          "field": "actualTeamA",
+          "bytes": 3359
+        },
+        {
+          "field": "actualLoser",
+          "bytes": 2257
+        },
+        {
+          "field": "actualWinner",
+          "bytes": 2233
+        },
+        {
+          "field": "pathNote",
+          "bytes": 2040
+        },
+        {
+          "field": "actualNote",
+          "bytes": 1548
+        },
+        {
+          "field": "bracketPath",
+          "bytes": 1337
+        }
+      ],
+      "fieldsUsedByBrowserRendering": [],
+      "fieldsNotUsedByBrowserRendering": [
+        "bracketSource"
+      ],
+      "internalDiagnosticsAccidentallyPublic": [
+        "bracketSource"
+      ],
+      "fieldsSafeToStrip": [
+        "bracketSource"
+      ],
+      "fieldsUnsafeToStrip": [],
+      "estimatedSlimSizeBytes": 58083,
+      "estimatedSavingsBytes": 0,
+      "slimmingDecision": "unchanged"
+    },
+    {
+      "id": "worldCupData",
+      "file": "worldCupData.js",
+      "global": "WORLD_CUP_DATA",
+      "loadedBy": [
+        "world-cup.html"
+      ],
+      "changed": false,
+      "sizeBeforeBytes": 42069,
+      "sizeAfterBytes": 42069,
+      "savingsBytes": 0,
+      "savingsPct": 0,
+      "totalRows": 72,
+      "activeRows": 72,
+      "historicalRows": 0,
+      "topLevelKeys": [
+        "bracket",
+        "fixtures",
+        "groups",
+        "lastChecked",
+        "sources"
+      ],
+      "repeatedLargeFields": [
+        {
+          "field": "eastern_datetime_label",
+          "bytes": 2034
+        },
+        {
+          "field": "utc_datetime",
+          "bytes": 1584
+        },
+        {
+          "field": "stadium",
+          "bytes": 1451
+        },
+        {
+          "field": "date",
+          "bytes": 864
+        },
+        {
+          "field": "eastern_date",
+          "bytes": 864
+        },
+        {
+          "field": "source_last_checked",
+          "bytes": 864
+        },
+        {
+          "field": "city",
+          "bytes": 815
+        },
+        {
+          "field": "team_2",
+          "bytes": 725
+        },
+        {
+          "field": "source",
+          "bytes": 720
+        },
+        {
+          "field": "team_1",
+          "bytes": 694
+        },
+        {
+          "field": "eastern_time",
+          "bytes": 666
+        },
+        {
+          "field": "local_time",
+          "bytes": 504
+        }
+      ],
+      "fieldsUsedByBrowserRendering": [],
+      "fieldsNotUsedByBrowserRendering": [],
+      "internalDiagnosticsAccidentallyPublic": [],
+      "fieldsSafeToStrip": [],
+      "fieldsUnsafeToStrip": [],
+      "estimatedSlimSizeBytes": 42069,
+      "estimatedSavingsBytes": 0,
+      "slimmingDecision": "unchanged"
+    },
+    {
+      "id": "fixtureAuthority",
+      "file": "finalRoundFixtureAuthorityData.js",
+      "global": "FINAL_ROUND_FIXTURE_AUTHORITY_DATA",
+      "loadedBy": [
+        "index.html",
+        "world-cup.html"
+      ],
+      "changed": false,
+      "sizeBeforeBytes": 3947,
+      "sizeAfterBytes": 3947,
+      "savingsBytes": 0,
+      "savingsPct": 0,
+      "totalRows": 2,
+      "activeRows": 2,
+      "historicalRows": 0,
+      "topLevelKeys": [
+        "evidence_scope",
+        "fixtures",
+        "generated_at",
+        "qa",
+        "release_status",
+        "schema_version",
+        "source_files",
+        "status",
+        "summary"
+      ],
+      "repeatedLargeFields": [
+        {
+          "field": "source_matches",
+          "bytes": 1186
+        },
+        {
+          "field": "kickoff",
+          "bytes": 202
+        },
+        {
+          "field": "team_b",
+          "bytes": 198
+        },
+        {
+          "field": "team_a",
+          "bytes": 163
+        },
+        {
+          "field": "source_confidence",
+          "bytes": 125
+        },
+        {
+          "field": "venue",
+          "bytes": 123
+        },
+        {
+          "field": "public_note",
+          "bytes": 103
+        },
+        {
+          "field": "source_fixture_id_role",
+          "bytes": 76
+        },
+        {
+          "field": "bracket_path",
+          "bytes": 72
+        },
+        {
+          "field": "fixture_id",
+          "bytes": 28
+        },
+        {
+          "field": "classification",
+          "bytes": 26
+        },
+        {
+          "field": "fantasy_matchday_id",
+          "bytes": 24
+        }
+      ],
+      "fieldsUsedByBrowserRendering": [],
+      "fieldsNotUsedByBrowserRendering": [
+        "source_matches"
+      ],
+      "internalDiagnosticsAccidentallyPublic": [
+        "source_matches"
+      ],
+      "fieldsSafeToStrip": [
+        "source_matches"
+      ],
+      "fieldsUnsafeToStrip": [],
+      "estimatedSlimSizeBytes": 3947,
+      "estimatedSavingsBytes": 0,
+      "slimmingDecision": "unchanged"
+    }
+  ],
+  "safeSlimmingCandidates": [
+    "fantasyPoolRecommendationsData.js",
+    "fantasyPoolMatchdayProjectionsData.js",
+    "fantasyPoolScorePredictionsData.js",
+    "teamBuilderFinalRoundArtifactData.js"
+  ],
+  "riskyCandidates": [
+    {
+      "file": "liveMatchdayStatusData.js",
+      "reason": "Used by multiple live score and fixture validators."
+    },
+    {
+      "file": "livePlayerStatusData.js",
+      "reason": "Used as status overlay data."
+    },
+    {
+      "file": "knockoutBracketPredictionData.js",
+      "reason": "World Cup bracket rendering uses nested match/team structures."
+    },
+    {
+      "file": "worldCupData.js",
+      "reason": "World Cup page uses groups, fixtures, bracket, and sources."
+    }
+  ],
+  "alreadyCompact": [
+    "fantasyPoolOfficialDataStatusData.js",
+    "finalRoundFixtureAuthorityData.js"
+  ],
+  "mixedStageRows": [
+    {
+      "file": "fantasyPoolRecommendationsData.js",
+      "activeRows": 175,
+      "historicalRows": 500,
+      "safe": true
+    },
+    {
+      "file": "fantasyPoolMatchdayProjectionsData.js",
+      "activeRows": 134,
+      "historicalRows": 1525,
+      "safe": true
+    },
+    {
+      "file": "fantasyPoolScorePredictionsData.js",
+      "activeRows": 2,
+      "historicalRows": 102,
+      "safe": true
+    }
+  ],
+  "totalBeforeBytes": 11145995,
+  "totalAfterBytes": 8010474,
+  "totalSavingsBytes": 3135521,
+  "totalSavingsPct": 28.1
+}

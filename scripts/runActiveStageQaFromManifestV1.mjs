@@ -434,7 +434,7 @@ function renderMarkdown(report) {
       result.outputExcerpt
         ? `\`\`\`\n${result.outputExcerpt}\n\`\`\``
         : result.hitsExcerpt
-          ? `Hits: ${result.hitCount}. Active leaks: ${result.activeLeakHits?.length || 0}. ${result.explanation || ""}`
+          ? `Hits: ${result.hitCount}. Active leaks: ${result.activeLeakHits?.length || 0}.${result.explanation ? ` ${result.explanation}` : ""}`
           : "No output.",
       ""
     ].join("\n")).join("\n")

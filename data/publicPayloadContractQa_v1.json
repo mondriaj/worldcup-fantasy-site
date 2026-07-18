@@ -1,0 +1,130 @@
+{
+  "schema_version": "public_payload_contract_qa_v1",
+  "generated_at": "2026-07-18T13:24:45.129Z",
+  "status": "pass",
+  "activeStage": "finalRound",
+  "checks": [
+    {
+      "id": "recommendations_wrapper_parses",
+      "status": "pass",
+      "wrapper": "fantasyPoolRecommendationsData.js"
+    },
+    {
+      "id": "recommendations_required_top_level_fields",
+      "status": "pass",
+      "missing": []
+    },
+    {
+      "id": "recommendations_required_row_fields",
+      "status": "pass",
+      "missing": []
+    },
+    {
+      "id": "recommendations_active_rows_available",
+      "status": "pass",
+      "activeRows": 175,
+      "totalRows": 675
+    },
+    {
+      "id": "recommendations_internal_only_fields_absent",
+      "status": "pass",
+      "present": []
+    },
+    {
+      "id": "projections_wrapper_parses",
+      "status": "pass",
+      "wrapper": "fantasyPoolMatchdayProjectionsData.js"
+    },
+    {
+      "id": "projections_required_top_level_fields",
+      "status": "pass",
+      "missing": []
+    },
+    {
+      "id": "projections_required_row_fields",
+      "status": "pass",
+      "missing": []
+    },
+    {
+      "id": "projections_active_rows_available",
+      "status": "pass",
+      "activeRows": 134,
+      "totalRows": 1659
+    },
+    {
+      "id": "projections_internal_only_fields_absent",
+      "status": "pass",
+      "present": []
+    },
+    {
+      "id": "scorePredictions_wrapper_parses",
+      "status": "pass",
+      "wrapper": "fantasyPoolScorePredictionsData.js"
+    },
+    {
+      "id": "scorePredictions_required_top_level_fields",
+      "status": "pass",
+      "missing": []
+    },
+    {
+      "id": "scorePredictions_required_row_fields",
+      "status": "pass",
+      "missing": []
+    },
+    {
+      "id": "scorePredictions_active_rows_available",
+      "status": "pass",
+      "activeRows": 2,
+      "totalRows": 104
+    },
+    {
+      "id": "scorePredictions_internal_only_fields_absent",
+      "status": "pass",
+      "present": []
+    },
+    {
+      "id": "teamBuilderArtifact_wrapper_parses",
+      "status": "pass",
+      "wrapper": "teamBuilderFinalRoundArtifactData.js"
+    },
+    {
+      "id": "teamBuilderArtifact_required_top_level_fields",
+      "status": "pass",
+      "missing": []
+    },
+    {
+      "id": "teamBuilderArtifact_required_row_fields",
+      "status": "pass",
+      "missing": []
+    },
+    {
+      "id": "teamBuilderArtifact_active_rows_available",
+      "status": "pass",
+      "activeRows": 15,
+      "totalRows": 15
+    },
+    {
+      "id": "teamBuilderArtifact_internal_only_fields_absent",
+      "status": "pass",
+      "present": []
+    },
+    {
+      "id": "team_builder_artifact_fields_available",
+      "status": "pass",
+      "selectedSquad": 15,
+      "starters": 11,
+      "bench": 4,
+      "selectedTotalPrice": 94.8,
+      "budgetLimit": 105
+    },
+    {
+      "id": "active_final_round_leakage_absent",
+      "status": "pass"
+    },
+    {
+      "id": "browser_usage_contract_present",
+      "status": "pass"
+    }
+  ],
+  "failedChecks": []
+}

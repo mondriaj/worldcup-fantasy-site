@@ -1,0 +1,180 @@
+{
+  "schema_version": "public_payload_slimming_no_behavior_change_v1",
+  "generated_at": "2026-07-18T13:30:00.000Z",
+  "status": "pass",
+  "public_behavior_unchanged": true,
+  "checks": {
+    "team_builder_artifact_player_list_unchanged": true,
+    "team_builder_budget_unchanged": true,
+    "team_builder_team_counts_unchanged": true,
+    "team_builder_fixture_counts_unchanged": true,
+    "captain_vice_unchanged": true,
+    "recommendations_row_count_unchanged": true,
+    "top_25_recommendation_names_unchanged": true,
+    "projections_row_count_unchanged": true,
+    "score_fixture_count_unchanged": true,
+    "bracket_teams_unchanged": true,
+    "public_caveats_still_visible": true,
+    "no_active_eliminated_player_leakage": true
+  },
+  "before": {
+    "teamBuilderPlayers": [
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Pau Cubarsí",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Álex Baena",
+      "Fabián Ruiz",
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal"
+    ],
+    "teamBuilderBudget": 94.8,
+    "teamBuilderBudgetLimit": 105,
+    "teamBuilderTeamCounts": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "teamBuilderFixtureCounts": {
+      "final": 13,
+      "third_place": 2
+    },
+    "captain": "Mikel Oyarzabal",
+    "viceCaptain": "Leandro Paredes",
+    "recommendationRows": 675,
+    "top25RecommendationNames": [
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Lionel Messi",
+      "Julián Alvarez",
+      "Mikel Oyarzabal",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Álex Baena",
+      "Lamine Yamal Nasraoui Ebana",
+      "Rodrigo Hernández Cascante",
+      "Dani Olmo",
+      "Fabián Ruiz",
+      "Ousmane Dembélé",
+      "Adrien Rabiot",
+      "Michael Olise",
+      "Anthony Gordon",
+      "Elliot Anderson",
+      "Declan Rice",
+      "Jude Bellingham",
+      "Giuliano Simeone",
+      "Aurélien Tchouaméni",
+      "Bradley Barcola",
+      "Cristian Romero",
+      "Nahuel Molina"
+    ],
+    "projectionRows": 1659,
+    "scoreFixtures": 104,
+    "activeEligibleTeams": [
+      "France",
+      "England",
+      "Spain",
+      "Argentina"
+    ],
+    "publicDefaultStage": "finalRound",
+    "bracketTeams": {
+      "final": [
+        "Spain",
+        "Argentina"
+      ],
+      "third_place": [
+        "France",
+        "England"
+      ]
+    }
+  },
+  "after": {
+    "teamBuilderPlayers": [
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Pau Cubarsí",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Álex Baena",
+      "Fabián Ruiz",
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal"
+    ],
+    "teamBuilderBudget": 94.8,
+    "teamBuilderBudgetLimit": 105,
+    "teamBuilderTeamCounts": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "teamBuilderFixtureCounts": {
+      "final": 13,
+      "third_place": 2
+    },
+    "captain": "Mikel Oyarzabal",
+    "viceCaptain": "Leandro Paredes",
+    "recommendationRows": 675,
+    "top25RecommendationNames": [
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Lionel Messi",
+      "Julián Alvarez",
+      "Mikel Oyarzabal",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Álex Baena",
+      "Lamine Yamal Nasraoui Ebana",
+      "Rodrigo Hernández Cascante",
+      "Dani Olmo",
+      "Fabián Ruiz",
+      "Ousmane Dembélé",
+      "Adrien Rabiot",
+      "Michael Olise",
+      "Anthony Gordon",
+      "Elliot Anderson",
+      "Declan Rice",
+      "Jude Bellingham",
+      "Giuliano Simeone",
+      "Aurélien Tchouaméni",
+      "Bradley Barcola",
+      "Cristian Romero",
+      "Nahuel Molina"
+    ],
+    "projectionRows": 1659,
+    "scoreFixtures": 104,
+    "activeEligibleTeams": [
+      "France",
+      "England",
+      "Spain",
+      "Argentina"
+    ],
+    "publicDefaultStage": "finalRound",
+    "bracketTeams": {
+      "final": [
+        "Spain",
+        "Argentina"
+      ],
+      "third_place": [
+        "France",
+        "England"
+      ]
+    }
+  }
+}
