@@ -1867,106 +1867,10 @@ Object.entries(publicPickModelCopy).forEach(([key, copy]) => {
   }
 });
 
-const teamBuilderStrategyOptionKeys = [
-  "balancedSquad",
-  "diversifiedSquad",
-  "concentratedUpside",
-  "starsAndScrubs",
-  "valueSquad"
-];
-
-const teamBuilderStrategyOptions = {
-  balancedSquad: {
-    id: "balancedSquad",
-    label: "Balanced Squad",
-    measureKey: "balanced",
-    description: "Strong all-around squad with a mix of starters, bench depth, budget efficiency, Final Round optionality, and moderate diversification.",
-    whatItBuilds: "A strong all-around 15-player squad.",
-    howItChooses: "Balances starter quality, reliable minutes, playable bench depth, budget efficiency, moderate upside, Final Round kickoff optionality, and moderate diversification.",
-    mainTradeoff: "May pass on a sharper stack or extra premium if that weakens the bench, ignores the earlier fixture, or concentrates too much risk.",
-    bestFor: "the default squad plan with no single extreme.",
-    playerSignal: "Uses Core Picks as the main player signal, then checks the full squad shape and fixture order.",
-    optimizationNote: "Balanced Squad is the default all-around optimizer profile. Earlier kickoff gives substitution flexibility if your game rules allow manual changes; verify FIFA substitution and lock rules."
-  },
-  diversifiedSquad: {
-    id: "diversifiedSquad",
-    label: "Diversified Squad",
-    measureKey: "safe",
-    description: "Reduces dependence on one country, one match, or a small group of stars.",
-    whatItBuilds: "A squad that spreads risk across countries, fixtures, and star players.",
-    howItChooses: "Rewards reliable starts, bench strength, lower country concentration, lower fixture concentration, and downside protection.",
-    mainTradeoff: "Can give up some explosive upside from stacking one strong match environment.",
-    bestFor: "steadier portfolio protection.",
-    playerSignal: "Leans on High-Floor Picks, then adds stronger diversification checks.",
-    optimizationNote: "Diversified Squad penalizes country stacks, fixture stacks, top-player dependence, weak bench spots, and fragile minutes more than the default."
-  },
-  concentratedUpside: {
-    id: "concentratedUpside",
-    label: "Concentrated Upside",
-    measureKey: "upside",
-    description: "Intentionally leans into strong attacking fixtures and higher-ceiling stacks.",
-    whatItBuilds: "A higher-ceiling squad built around strong attacking spots.",
-    howItChooses: "Rewards ceiling, favorable attacking fixtures, and controlled player stacks while checking roles and minutes.",
-    mainTradeoff: "Can be more fragile if the stacked fixture misses.",
-    bestFor: "chasing upside with some guardrails.",
-    playerSignal: "Leans on Upside Picks: projected return, ceiling, attacking involvement, and matchup strength.",
-    optimizationNote: "Concentrated Upside allows more stack exposure when the fixture context is strong."
-  },
-  starsAndScrubs: {
-    id: "starsAndScrubs",
-    label: "Stars and Scrubs",
-    measureKey: "premiumWorthIt",
-    description: "Spends heavily on elite starters and accepts a cheaper bench.",
-    whatItBuilds: "A top-heavy squad that spends on elite starters and fills the bench cheaply.",
-    howItChooses: "Rewards premium players who justify price through projection, role, and ceiling while keeping minimum bench playability.",
-    mainTradeoff: "Bench can be weaker and more budget-sensitive.",
-    bestFor: "elite starter firepower with a thinner bench.",
-    playerSignal: "Leans on premium value, starter projection, and ceiling.",
-    optimizationNote: "Stars and Scrubs tolerates more star dependence and weaker bench depth when premiums justify the spend."
-  },
-  valueSquad: {
-    id: "valueSquad",
-    label: "Value Squad",
-    measureKey: "bestValue",
-    description: "Builds the deepest squad for the budget.",
-    whatItBuilds: "A deeper squad that squeezes more usable points from the budget.",
-    howItChooses: "Rewards points per price, playable cheaper options, budget efficiency, and bench depth.",
-    mainTradeoff: "May skip some premium ceiling if the price hurts squad depth.",
-    bestFor: "efficient spend and stronger substitutes.",
-    playerSignal: "Leans on Value Picks: return per price, start chance, and lower budget pressure.",
-    optimizationNote: "Value Squad prefers efficient spend and a stronger bench over top-heavy premium concentration."
-  }
-};
-
-const teamBuilderStrategyAliases = {
-  balanced: "balancedSquad",
-  core: "balancedSquad",
-  expected: "balancedSquad",
-  safe: "diversifiedSquad",
-  highFloor: "diversifiedSquad",
-  high_floor: "diversifiedSquad",
-  differential: "diversifiedSquad",
-  upside: "concentratedUpside",
-  bestValue: "valueSquad",
-  value: "valueSquad",
-  cheapEnabler: "valueSquad",
-  premiumWorthIt: "starsAndScrubs",
-  starCore: "starsAndScrubs",
-  star_core: "starsAndScrubs",
-  captain: "balancedSquad",
-  captainFirst: "balancedSquad",
-  captain_first: "balancedSquad",
-  noStarsBalanced: "balancedSquad",
-  no_stars_balanced: "balancedSquad"
-};
-
-const teamBuilderComparisonStrategyKeys = [
-  "balancedSquad",
-  "diversifiedSquad",
-  "concentratedUpside",
-  "starsAndScrubs",
-  "valueSquad"
-];
+const teamBuilderStrategyOptionKeys = TEAM_BUILDER_PUBLIC_HELPERS.STRATEGY_OPTION_KEYS || [];
+const teamBuilderStrategyOptions = TEAM_BUILDER_PUBLIC_HELPERS.STRATEGY_OPTIONS || {};
+const teamBuilderStrategyAliases = TEAM_BUILDER_PUBLIC_HELPERS.STRATEGY_ALIASES || {};
+const teamBuilderComparisonStrategyKeys = TEAM_BUILDER_PUBLIC_HELPERS.COMPARISON_STRATEGY_KEYS || teamBuilderStrategyOptionKeys;
 
 const teamBuilderOptimizerVersion = "team_builder_optimizer_md3_v5";
 
@@ -10657,57 +10561,7 @@ function squadStrategyReportData(starters = [], bench = []) {
 }
 
 function squadStrategyFitText(reportData, strategyOption = activeBuilderStrategyOption()) {
-  const levels = reportData.levels;
-  const stackText = [
-    levels.country === "high" ? "Country Stack Risk" : "",
-    levels.fixture === "high" ? "Fixture Stack Risk" : ""
-  ].filter(Boolean).join(" and ");
-
-  if (strategyOption.id === "diversifiedSquad") {
-    if (levels.country === "low" && levels.fixture === "low") {
-      return "This fits Diversified Squad well: country and fixture stack risk are both Low. Check Bench Strength and Bad-Week Floor to make sure the spread-out build still has enough protection.";
-    }
-
-    return `Diversified Squad wants lower stack risk, and this build still has ${stackText || "some Medium stack pressure"}. Rebuild or adjust locks if that concentration is not intentional.`;
-  }
-
-  if (strategyOption.id === "concentratedUpside") {
-    if (["high", "medium"].includes(levels.upside)) {
-      return "This fits Concentrated Upside if you are comfortable with the stack tradeoff: the ceiling signal is strong enough to justify a sharper portfolio. Treat Country Stack Risk and Fixture Stack Risk as the main warning lights.";
-    }
-
-    return "Concentrated Upside can accept more stack risk, but this build is not showing a strong ceiling signal yet. Check whether filters or locks are limiting the upside lane.";
-  }
-
-  if (strategyOption.id === "starsAndScrubs") {
-    if (levels.star === "high" || levels.budgetShape === "topHeavy") {
-      return "This fits Stars and Scrubs: more value is concentrated in the top players, and the bench is the tradeoff. Make sure any weaker bench spots are deliberate before saving.";
-    }
-
-    return "This is less top-heavy than a typical Stars and Scrubs build. It may be steadier, but it is not leaning hard into the selected strategy.";
-  }
-
-  if (strategyOption.id === "valueSquad") {
-    if (["high", "medium"].includes(levels.bench) && levels.budgetShape !== "topHeavy") {
-      return "This fits Value Squad: the bench looks playable and the budget shape is efficient. The main check is whether the squad still has enough Upside Ceiling.";
-    }
-
-    return "Value Squad wants playable depth and an efficient budget shape. This build may need a stronger bench or less top-heavy spend to match the strategy.";
-  }
-
-  const balancedSignals = [
-    levels.country !== "high",
-    levels.fixture !== "high",
-    levels.star !== "high",
-    levels.bench !== "low",
-    levels.floor !== "low"
-  ].filter(Boolean).length;
-
-  if (balancedSignals >= 4) {
-    return "This looks aligned with Balanced Squad: most portfolio signals are moderate or better. Review any High risk item before saving.";
-  }
-
-  return "Balanced Squad wants moderate tradeoffs across the report. This build has a few sharper edges, so check the weakest metric before saving.";
+  return TEAM_BUILDER_PUBLIC_HELPERS.squadStrategyFitText(reportData, strategyOption);
 }
 
 function renderSquadStrategyReport(starters = [], bench = []) {
@@ -13714,15 +13568,27 @@ function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built", optio
   teamField.classList.remove("hidden");
   renderBench(bench, benchRequirementsForTactic(tacticName));
 
+  const teamMessageContext = {
+    builderActionLabel: builderActionLabel(),
+    squadLabel: squadLabel(),
+    benchLabel: benchLabel(),
+    squadLength: squad.length,
+    strategyLabel: activeBuilderStrategyLabel(),
+    trustLabel: trustModeLabel(),
+    matchdayLabel: activeMatchdayLabel(),
+    budgetLimit: budgetText(initialBudget),
+    startingLineupTotal
+  };
+
   if (mode === "preview" && squad.length === 0) {
-    teamMessage.textContent = `Transparent slots show the selected starting tactic. ${builderActionLabel()} will create a ${squadLabel()} with ${benchLabel()} below.`;
+    teamMessage.textContent = TEAM_BUILDER_PUBLIC_HELPERS.teamBuilderStatusMessage("preview_empty", teamMessageContext);
   } else if (mode === "preview") {
-    teamMessage.textContent = `Showing ${squad.length} locked squad player${squad.length === 1 ? "" : "s"}. Click ${builderActionLabel()} to fill the full ${squadLabel()}.`;
+    teamMessage.textContent = TEAM_BUILDER_PUBLIC_HELPERS.teamBuilderStatusMessage("preview_locked", teamMessageContext);
   } else if (missingStarterSlots > 0 || missingSquadSlots > 0) {
     const riskText = builderRiskControlsActive() ? ` Risk controls: ${builderRiskSettingsSummary()}.` : "";
-    teamMessage.textContent = `Team Builder found ${squad.length} squad player${squad.length === 1 ? "" : "s"} using ${activeBuilderStrategyLabel()}, ${trustModeLabel()}, and ${activeMatchdayLabel()}. Some spots are still open because the current locks, filters, removals, safety preference, budget, country limit, or risk controls are too tight.${riskText}`;
+    teamMessage.textContent = TEAM_BUILDER_PUBLIC_HELPERS.teamBuilderStatusMessage("partial", { ...teamMessageContext, riskText });
   } else if (isOverBudget) {
-    teamMessage.textContent = `Team Builder built a ${squadLabel()} using ${activeBuilderStrategyLabel()}, ${trustModeLabel()}, and ${activeMatchdayLabel()}, but it is over the ${budgetText(initialBudget)} budget. Try removing expensive locked players or relaxing filters.`;
+    teamMessage.textContent = TEAM_BUILDER_PUBLIC_HELPERS.teamBuilderStatusMessage("over_budget", teamMessageContext);
   } else {
     const riskText = builderRiskControlsActive() ? ` Risk controls: ${builderRiskSettingsSummary()}.` : "";
     if (options.generatedArtifact) {
@@ -13730,18 +13596,15 @@ function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built", optio
       const rawProjected = displayNumber(artifact.summary?.raw_projected_points);
       const optionality = displayNumber(artifact.summary?.optionality_score);
       const composite = displayNumber(artifact.summary?.composite_score);
-      teamMessage.textContent = typeof TEAM_BUILDER_PUBLIC_HELPERS.artifactLoadedMessage === "function"
-        ? TEAM_BUILDER_PUBLIC_HELPERS.artifactLoadedMessage({
-          startingLineupTotal,
-          benchLabel: benchLabel(),
-          rawProjected,
-          optionality,
-          composite,
-          riskText
-        })
-        : `Recommended Balanced Squad loaded from the validated Final Round Team Builder artifact: ${startingLineupTotal} starters on the field and ${benchLabel()} below. Raw projected points ${rawProjected}; optionality ${optionality}; composite ${composite}.${riskText}`;
+      teamMessage.textContent = TEAM_BUILDER_PUBLIC_HELPERS.teamBuilderStatusMessage("artifact_loaded", {
+        ...teamMessageContext,
+        rawProjected,
+        optionality,
+        composite,
+        riskText
+      });
     } else {
-      teamMessage.textContent = `Team Builder built a ${squadLabel()} within the ${budgetText(initialBudget)} budget using ${activeBuilderStrategyLabel()}, ${trustModeLabel()}, and ${activeMatchdayLabel()}: ${startingLineupTotal} starters on the field and ${benchLabel()} below.${riskText}`;
+      teamMessage.textContent = TEAM_BUILDER_PUBLIC_HELPERS.teamBuilderStatusMessage("built", { ...teamMessageContext, riskText });
     }
   }
 

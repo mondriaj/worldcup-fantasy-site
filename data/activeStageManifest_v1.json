@@ -7,7 +7,7 @@
     "default": "20260718-final-round",
     "overrides": {
       "teamBuilderFinalRoundArtifactData.js": "20260718-builder-artifact-equivalence",
-      "teamBuilderPublicHelpers.js": "20260718-team-builder-public-helpers",
+      "teamBuilderPublicHelpers.js": "20260718-team-builder-display-labels",
       "script.js": "20260718-builder-artifact-equivalence"
     }
   },

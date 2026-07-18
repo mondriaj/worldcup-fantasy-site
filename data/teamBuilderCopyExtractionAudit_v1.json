@@ -1,0 +1,136 @@
+{
+  "schema_version": "team_builder_copy_extraction_audit_v1",
+  "generated_at": "2026-07-18T14:10:00.000Z",
+  "status": "pass",
+  "active_stage": "finalRound",
+  "scope_gate": {
+    "model_change": false,
+    "generated_artifact_changed": false,
+    "recommendations_changed": false,
+    "projections_changed": false,
+    "score_predictions_changed": false,
+    "pele_changed": false,
+    "fixtures_changed": false,
+    "public_rankings_changed": false,
+    "unrelated_dirty_files_left_unstaged": true
+  },
+  "audited_copy_blocks": [
+    {
+      "block": "strategy labels and descriptions",
+      "before_script_js_lines": "1870-1968",
+      "after_script_js_lines": "1870-1873",
+      "new_helper_lines": "scripts/lib/teamBuilderPublicModel.mjs:18-123, teamBuilderPublicHelpers.js:18-123",
+      "classification": "safe to extract now",
+      "decision": "moved strategy option keys, display labels, descriptions, aliases, and comparison strategy keys",
+      "visible_wording_changed": false
+    },
+    {
+      "block": "objective component labels",
+      "before_location": "scripts/lib/teamBuilderPublicModel.mjs existing helper",
+      "after_location": "scripts/lib/teamBuilderPublicModel.mjs and teamBuilderPublicHelpers.js",
+      "classification": "safe to extract now",
+      "decision": "kept in helper and added objective summary formatter",
+      "visible_wording_changed": false
+    },
+    {
+      "block": "artifact-backed explanation text",
+      "before_script_js_lines": "13730-13742",
+      "after_helper_lines": "scripts/lib/teamBuilderPublicModel.mjs:254-265, teamBuilderPublicHelpers.js:254-265",
+      "classification": "safe to extract now",
+      "decision": "kept wording identical while routing through objectiveSummaryText and teamBuilderStatusMessage",
+      "visible_wording_changed": false
+    },
+    {
+      "block": "Team Builder render status messages",
+      "before_script_js_lines": "13718-13744",
+      "after_script_js_lines": "13584-13607",
+      "new_helper_lines": "scripts/lib/teamBuilderPublicModel.mjs:267-293, teamBuilderPublicHelpers.js:267-293",
+      "classification": "safe to extract now",
+      "decision": "moved preview, partial, over-budget, artifact-loaded, and built-squad messages",
+      "visible_wording_changed": false
+    },
+    {
+      "block": "squad strategy fit explanations",
+      "before_script_js_lines": "10657-10710",
+      "after_script_js_lines": "10563-10565",
+      "new_helper_lines": "scripts/lib/teamBuilderPublicModel.mjs:295-345, teamBuilderPublicHelpers.js:295-345",
+      "classification": "safe to extract now",
+      "decision": "moved pure strategy-fit text selector; thresholds and report metrics remain in script.js",
+      "visible_wording_changed": false
+    },
+    {
+      "block": "optionality explanation text",
+      "current_locations": [
+        "portfolio metric note in script.js",
+        "artifact summary message in helper"
+      ],
+      "classification": "partly safe to extract now",
+      "decision": "artifact objective copy moved; DOM-coupled portfolio metric label remains near rendering",
+      "visible_wording_changed": false
+    },
+    {
+      "block": "Third Place risk explanation text",
+      "current_locations": [
+        "public profile tag definitions in script.js",
+        "portfolio warning text in script.js"
+      ],
+      "classification": "should remain near DOM rendering",
+      "decision": "left in script.js because it is tied to pick-card/profile tag rendering and portfolio warning assembly"
+    },
+    {
+      "block": "budget explanation text",
+      "current_locations": [
+        "rule validations",
+        "render warnings",
+        "Team Builder status messages",
+        "export summaries"
+      ],
+      "classification": "partly safe to extract now",
+      "decision": "Team Builder status budget messages moved; legal validation and export summary wording remain with their data assembly"
+    },
+    {
+      "block": "captain/vice explanation text",
+      "classification": "risky to extract now",
+      "decision": "left in script.js",
+      "reason": "It is tied to user selections, saved squad state, decision tools, and export semantics."
+    },
+    {
+      "block": "warning/caveat copy",
+      "classification": "should become copy constants later",
+      "decision": "left mostly in script.js",
+      "reason": "Warnings are spread across validation, import/export, decision tools, and portfolio warnings; extracting them safely needs a broader copy map."
+    },
+    {
+      "block": "fallback/error messages",
+      "classification": "should remain near DOM rendering",
+      "decision": "left in script.js",
+      "reason": "They are tightly coupled to user actions, DOM state, and specific error handlers."
+    }
+  ],
+  "audit_findings": {
+    "duplicate_strings": [
+      "Budget/remaining budget wording appears in rule checks, warnings, export summaries, and portfolio metrics.",
+      "Captain Watchlist and Captain Option labels appear in pick cards, tables, and decision tools.",
+      "Third Place risk and role caution labels appear in profile tags, recommendation tags, and portfolio warnings.",
+      "Final squads/source-backed caveats appear in generated data labels and export caveats."
+    ],
+    "stale_or_legacy_budget_wording": "No stale Final Round budget wording found. Active visible budget remains 94.8 / 105 and helper cache-bust was updated.",
+    "confusing_labels": [
+      "Budget Pressure is used both as a portfolio metric and warning label.",
+      "Optionality Score is concise but still needs the existing FIFA-lock caveat to avoid implying guaranteed substitution value."
+    ],
+    "overlong_caveats": [
+      "Decision-tool imported-check caveats are long but intentionally explicit.",
+      "Export model caveat is broad and should remain careful until official live locks and lineups are source-backed."
+    ],
+    "model_labels_hidden_inside_rendering_code": [
+      "portfolio metric labels in renderPortfolioAnalytics",
+      "strategy report metric labels in squadStrategyReportData",
+      "public profile tag definitions near profile rendering",
+      "captain/advice card labels in card renderers"
+    ],
+    "expected_line_count_reduction": 137,
+    "script_js_line_count_before": 15423,
+    "script_js_line_count_after": 15286
+  }
+}

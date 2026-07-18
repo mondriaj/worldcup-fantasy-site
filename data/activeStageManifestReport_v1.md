@@ -67,7 +67,7 @@ The runner does not rebuild models, tune weights, change recommendations, change
 
 ## Team Builder Public Helpers
 
-`scripts/lib/teamBuilderPublicModel.mjs` and `teamBuilderPublicHelpers.js` hold the safe public Team Builder helper layer for artifact validation, fixture-authority eligible-team keys, count summaries, and artifact-backed explanation copy. The browser wrapper is loaded after `teamBuilderFinalRoundArtifactData.js` and before `script.js`, so the public default can keep rendering the generated artifact without turning the legacy app bundle into a module.
+`scripts/lib/teamBuilderPublicModel.mjs` and `teamBuilderPublicHelpers.js` hold the safe public Team Builder helper layer for artifact validation, fixture-authority eligible-team keys, count summaries, strategy display copy, objective summary labels, and artifact-backed explanation copy. The browser wrapper is loaded after `teamBuilderFinalRoundArtifactData.js` and before `script.js`, so the public default can keep rendering the generated artifact without turning the legacy app bundle into a module.
 
 ## Public Payload Contract
 
