@@ -1,6 +1,6 @@
 {
   "schema_version": "team_builder_qa_final_round_v1",
-  "generated_at": "2026-07-18T02:28:29.468Z",
+  "generated_at": "2026-07-18T03:11:11.408Z",
   "status": "pass",
   "summary": {
     "squad_size": 15,
@@ -12,28 +12,51 @@
       "FWD": 3
     },
     "defaultMatchday": "finalRound",
+    "country_limit": 8,
+    "eligible_teams": [
+      "France",
+      "England",
+      "Spain",
+      "Argentina"
+    ],
+    "candidate_count_by_team": {
+      "Argentina": 25,
+      "Spain": 26,
+      "France": 26,
+      "England": 24
+    },
+    "selected_count_by_team": {
+      "France": 4,
+      "Spain": 2,
+      "Argentina": 8,
+      "England": 1
+    },
+    "eliminated_player_candidates": 0,
+    "eliminated_player_selected": 0,
+    "captain_team_eligible": true,
+    "vice_team_eligible": true,
     "captain": "Julián Alvarez",
     "viceCaptain": "Leandro Paredes",
-    "third_place_players": 4,
-    "final_players": 11,
+    "third_place_players": 5,
+    "final_players": 10,
     "thin_profile_players": 0,
     "points_only_evidence_players": 0
   },
   "balancedSquad": [
     {
-      "official_fantasy_player_id": "45",
-      "name": "Emiliano Martínez",
-      "country": "Argentina",
+      "official_fantasy_player_id": "506",
+      "name": "Mike Maignan",
+      "country": "France",
       "position": "GK",
       "price": 5,
-      "opponent": "Spain",
-      "fixture_stage": "final",
-      "projectedPoints": 3.15,
-      "start_probability": 0.888,
-      "captainScore": 30.972,
+      "opponent": "England",
+      "fixture_stage": "third_place",
+      "projectedPoints": 2.147,
+      "start_probability": 0.591,
+      "captainScore": 24.301,
       "lineupEvidenceType": "explicit_sf_starter",
-      "thirdPlaceRisk": false,
-      "roleCaution": ""
+      "thirdPlaceRisk": true,
+      "roleCaution": "Third Place game may have higher rotation risk."
     },
     {
       "official_fantasy_player_id": "1099",
@@ -256,6 +279,8 @@
     "name": "Leandro Paredes",
     "country": "Argentina"
   },
+  "eliminatedCandidateDiagnostics": [],
+  "eliminatedSelectedDiagnostics": [],
   "omittedStarDiagnostics": [
     {
       "name": "Lionel Messi",
@@ -339,6 +364,12 @@
     }
   ],
   "roleVolatilityDiagnostics": [
+    {
+      "name": "Mike Maignan",
+      "country": "France",
+      "roleCaution": "Third Place game may have higher rotation risk.",
+      "lineupEvidenceType": "explicit_sf_starter"
+    },
     {
       "name": "Ousmane Dembélé",
       "country": "France",

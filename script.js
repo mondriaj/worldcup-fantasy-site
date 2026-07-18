@@ -32,7 +32,8 @@ const ACTIVE_DATA = {
   officialStatus: window.FANTASY_POOL_OFFICIAL_DATA_STATUS || null,
   liveMatchday: window.LIVE_MATCHDAY_STATUS_DATA || null,
   livePlayer: window.LIVE_PLAYER_STATUS_DATA || null,
-  knockoutBracketPrediction: window.KNOCKOUT_BRACKET_PREDICTION_DATA || null
+  knockoutBracketPrediction: window.KNOCKOUT_BRACKET_PREDICTION_DATA || null,
+  finalRoundFixtureAuthority: window.FINAL_ROUND_FIXTURE_AUTHORITY_DATA || null
 };
 
 function scorePredictionSourceFromWindow() {
@@ -384,6 +385,69 @@ let activeAdvicePoolModeId = "playable";
 let activeQuickPickModelKey = "expected";
 let activeQuickPickPosition = "All";
 const browserSquadStorageKey = "worldCupFantasyHelper.teamExport.v1";
+
+function teamEligibilityKeys(record) {
+  return [
+    record?.team_id,
+    record?.teamId,
+    record?.country,
+    record?.team,
+    record?.name,
+    record?.code,
+    record?.official_team_code,
+    record?.preview_candidate?.team_id,
+    record?.preview_candidate?.country,
+    record?.preview_candidate?.team,
+    record?.preview_candidate?.code
+  ]
+    .map(normalizeText)
+    .filter(Boolean);
+}
+
+function getActiveStageEligibleTeams(matchdayId = activeMatchdayId) {
+  if (matchdayId !== "finalRound") {
+    return null;
+  }
+
+  const fixtures = Array.isArray(ACTIVE_DATA.finalRoundFixtureAuthority?.fixtures)
+    ? ACTIVE_DATA.finalRoundFixtureAuthority.fixtures
+    : [];
+  const keys = new Set();
+
+  fixtures.forEach((fixture) => {
+    [fixture.team_a, fixture.team_b].filter(Boolean).forEach((team) => {
+      teamEligibilityKeys(team).forEach((key) => keys.add(key));
+    });
+  });
+
+  return keys;
+}
+
+function recordMatchesActiveStageEligibleTeam(record, matchdayId = activeMatchdayId) {
+  const eligibleTeams = getActiveStageEligibleTeams(matchdayId);
+  if (!eligibleTeams) {
+    return true;
+  }
+
+  return teamEligibilityKeys(record).some((key) => eligibleTeams.has(key));
+}
+
+function playerHasActiveMatchdayProjection(player, matchdayId = activeMatchdayId) {
+  if (!player || matchdayId === "group_stage_full") {
+    return true;
+  }
+
+  return projectionIsAvailable(projectionForPlayerMatchday(player, matchdayId));
+}
+
+function playerAllowedForActiveMatchday(player, matchdayId = activeMatchdayId) {
+  if (matchdayId !== "finalRound") {
+    return true;
+  }
+
+  return recordMatchesActiveStageEligibleTeam(player, matchdayId) &&
+    playerHasActiveMatchdayProjection(player, matchdayId);
+}
 
 function activeDataBadgeHtml() {
   return `
@@ -1144,7 +1208,7 @@ function fantasyPoolPreviewCandidatesForMode(mode, matchdayId = activeMatchdayId
   const candidates = fantasyPoolRecommendationRows.filter((candidate) =>
     candidate.mode === mode && candidate.matchday === preferredMatchday
   );
-  const fallbackCandidates = preferredMatchday === "group_stage_full"
+  const fallbackCandidates = preferredMatchday === "group_stage_full" || preferredMatchday === "finalRound"
     ? []
     : fantasyPoolRecommendationRows.filter((candidate) =>
       candidate.mode === mode && candidate.matchday === "group_stage_full"
@@ -1154,7 +1218,8 @@ function fantasyPoolPreviewCandidatesForMode(mode, matchdayId = activeMatchdayId
     .slice()
     .sort((a, b) => Number(a.rank || 999) - Number(b.rank || 999))
     .map((candidate) => fantasyPoolPreviewPlayerById.get(fantasyPoolPreviewPlayerId(candidate)))
-    .filter(Boolean);
+    .filter(Boolean)
+    .filter((player) => playerAllowedForActiveMatchday(player, preferredMatchday));
 }
 
 function fantasyPoolPreviewModeForAdvice(measureKey, trustMode) {
@@ -1282,6 +1347,7 @@ function countryLimitForMatchday(rules, matchdayId = activeMatchdayId) {
     quarter_final: "quarter_final",
     sf: "semi_final",
     semi_final: "semi_final",
+    finalround: "final",
     final: "final"
   };
   const knockoutKey = knockoutKeyByMatchday[id];
@@ -6540,19 +6606,23 @@ function decisionPlayerMatchesFilters(player, config) {
   const countryValue = config?.countrySelect?.value || "All";
   const positionValue = config?.positionSelect?.value || "All";
 
-  return (countryValue === "All" || captainChangeCountryLabel(player) === countryValue) &&
+  return playerAllowedForActiveMatchday(player) &&
+    (countryValue === "All" || captainChangeCountryLabel(player) === countryValue) &&
     (positionValue === "All" || player.position === positionValue);
 }
 
 function renderDecisionFilterOptions() {
-  const countryOptions = [...new Set(players.map(captainChangeCountryLabel))]
+  const decisionEligiblePlayers = players.filter((player) => playerAllowedForActiveMatchday(player));
+  const countryOptions = [...new Set(decisionEligiblePlayers.map(captainChangeCountryLabel))]
     .filter(Boolean)
     .sort((a, b) => a.localeCompare(b));
   const countryHtml = [
     `<option value="All">All countries</option>`,
     ...countryOptions.map((country) => `<option value="${escapeHtml(country)}">${escapeHtml(country)}</option>`)
   ].join("");
-  const positionOptions = positionOrder.filter((position) => players.some((player) => player.position === position));
+  const positionOptions = positionOrder.filter((position) =>
+    decisionEligiblePlayers.some((player) => player.position === position)
+  );
   const positionHtml = [
     `<option value="All">All positions</option>`,
     ...positionOptions.map((position) => `<option value="${escapeHtml(position)}">${escapeHtml(position)}</option>`)
@@ -9311,7 +9381,8 @@ function renderCountryFilterOptions() {
   }
 
   const previousValue = countryFilter.value || "All";
-  const countryOptions = Array.from(new Set(players.map(playerCountryKey)))
+  const countryEligiblePlayers = players.filter((player) => playerAllowedForActiveMatchday(player));
+  const countryOptions = Array.from(new Set(countryEligiblePlayers.map(playerCountryKey)))
     .sort((a, b) => countryCountLabel(a).localeCompare(countryCountLabel(b)))
     .map((countryKey) => `<option value="${escapeHtml(countryKey)}">${escapeHtml(countryCountLabel(countryKey))}</option>`)
     .join("");
@@ -9321,7 +9392,7 @@ function renderCountryFilterOptions() {
     ${countryOptions}
   `;
 
-  const validCountryValues = new Set(["All", ...Array.from(new Set(players.map(playerCountryKey)))]);
+  const validCountryValues = new Set(["All", ...Array.from(new Set(countryEligiblePlayers.map(playerCountryKey)))]);
   selectedCountryFilter = validCountryValues.has(previousValue) ? previousValue : "All";
   countryFilter.value = selectedCountryFilter;
 }
@@ -12156,6 +12227,7 @@ function availableFillCandidates(position, usedIds, countryCounts = null) {
   const measure = activeMeasure();
   const candidates = players.filter((player) =>
     player.position === position &&
+    playerAllowedForActiveMatchday(player) &&
     !usedIds.has(player.id) &&
     !excludedPlayerIds.has(player.id) &&
     priceMatchesFilters(player) &&
@@ -12179,6 +12251,7 @@ function renderPlayerPicker() {
   const builderStrategyLabel = activeBuilderStrategyLabel();
   const searchValue = normalizeText(playerSearch.value);
   const filteredPlayers = players
+    .filter((player) => playerAllowedForActiveMatchday(player))
     .filter((player) => !excludedPlayerIds.has(player.id))
     .filter((player) => selectedPositionFilter === "All" || player.position === selectedPositionFilter)
     .filter((player) => playerMatchesBuilderCountryFilter(player, { keepLocked: true }))
@@ -12267,6 +12340,8 @@ function updateMatchdayView(nextMatchdayId) {
   });
   setMatchdayDecisionMatchday(activeMatchdayId);
   renderBuilderActionCopy();
+  renderCountryFilterOptions();
+  renderDecisionFilterOptions();
 
   renderMeasureInfo();
   renderPlayerPicker();
@@ -12318,7 +12393,11 @@ function updateLockedPlayers(event) {
 // Locked players are kept first, but only while they fit the loaded squad limits.
 function getValidLockedSquadPlayers(measure, profile = teamBuilderStrategyScoringProfile()) {
   const lockedPlayers = sortPlayersForBuilderStrategy(
-    players.filter((player) => lockedPlayerIds.has(player.id) && !excludedPlayerIds.has(player.id)),
+    players.filter((player) =>
+      playerAllowedForActiveMatchday(player) &&
+      lockedPlayerIds.has(player.id) &&
+      !excludedPlayerIds.has(player.id)
+    ),
     measure,
     "starter",
     profile
@@ -12442,6 +12521,7 @@ function optimizerPriceFloorsByPosition() {
     floors[position] = players
       .filter((player) =>
         player.position === position &&
+        playerAllowedForActiveMatchday(player) &&
         !excludedPlayerIds.has(player.id) &&
         priceMatchesFilters(player) &&
         playerMatchesBuilderCountryFilter(player) &&
@@ -12591,6 +12671,7 @@ function optimizerCandidatePools(measure) {
   return positionOrder.reduce((pools, position) => {
     const candidates = players.filter((player) =>
       player.position === position &&
+      playerAllowedForActiveMatchday(player) &&
       !excludedPlayerIds.has(player.id) &&
       priceMatchesFilters(player) &&
       playerMatchesBuilderCountryFilter(player) &&

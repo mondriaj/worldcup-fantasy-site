@@ -98,6 +98,22 @@ function buildMarkdownReport(result) {
   const checks = firstIndex?.checks || {};
   const globals = firstIndex?.stateBeforeClicks?.globals?.activeGlobalCounts || {};
   const teamBuilderBuild = firstIndex?.teamBuilderBuild || {};
+  const teamBuilderSelectedRows = [
+    ...(teamBuilderBuild.starterSquad || []).map((entry, index) => [
+      "Starter",
+      index + 1,
+      entry.name || "n/a",
+      entry.position || "n/a",
+      entry.country || "n/a"
+    ]),
+    ...(teamBuilderBuild.benchSquad || []).map((entry, index) => [
+      "Bench",
+      index + 1,
+      entry.name || "n/a",
+      entry.position || "n/a",
+      entry.country || "n/a"
+    ])
+  ];
   const screenshots = result.indexResults.concat(result.worldCupResults).map((entry) => entry.screenshotPath);
   const ignoredFailedRequests = summary.failedRequestCount - summary.blockingFailedRequestCount;
 
@@ -134,13 +150,17 @@ function buildMarkdownReport(result) {
       ["Check", "Result"],
       [
         ["Picks default to Final Round", checks.picksDefaultFinalRound ? "pass" : "fail"],
+        ["Picks exclude eliminated teams", checks.picksNoEliminatedPlayers ? "pass" : "fail"],
         ["Final Round label visible", checks.finalRoundLabelVisible ? "pass" : "fail"],
         ["Captain Watchlist opens on Final Round", checks.captainWatchlistDefaultFinalRound ? "pass" : "fail"],
+        ["Captain Watchlist excludes eliminated teams", checks.captainWatchlistNoEliminatedPlayers ? "pass" : "fail"],
         ["Match Environment opens on Final Round", checks.matchEnvironmentDefaultFinalRound ? "pass" : "fail"],
         ["MD1 remains accessible", checks.matchEnvironmentMd1Accessible ? "pass" : "fail"],
         ["MD2 remains accessible", checks.matchEnvironmentMd2Accessible ? "pass" : "fail"],
         ["Team Builder opens on Final Round", checks.teamBuilderDefaultFinalRound ? "pass" : "fail"],
         ["Team Builder builds Final Round squad", checks.teamBuilderBuildsFinalRoundSquad ? "pass" : "fail"],
+        ["Team Builder selected players eligible", checks.teamBuilderSelectedOnlyFinalRoundTeams ? "pass" : "fail"],
+        ["Team Builder excludes known eliminated names", checks.teamBuilderNoKnownEliminatedText ? "pass" : "fail"],
         ["Balanced Squad is visible", checks.balancedSquadVisible ? "pass" : "fail"],
         ["France Player Profile opens", checks.francePlayerProfileOpens ? "pass" : "fail"],
         ["Spain Player Profile opens", checks.spainPlayerProfileOpens ? "pass" : "fail"],
@@ -168,13 +188,24 @@ function buildMarkdownReport(result) {
         ["Matchday", teamBuilderBuild.selectedMatchday || "n/a"],
         ["Strategy", teamBuilderBuild.selectedStrategy || "n/a"],
         ["Starters / Bench", `${teamBuilderBuild.starterCount ?? "n/a"} / ${teamBuilderBuild.benchCount ?? "n/a"}`],
+        ["Eliminated selected", teamBuilderBuild.eliminatedSelectedCount ?? "n/a"],
+        ["Known eliminated text in builder", teamBuilderBuild.knownEliminatedTextInTeamBuilder ? "yes" : "no"],
+        ["Known eliminated text in picker", teamBuilderBuild.knownEliminatedTextInPlayerPicker ? "yes" : "no"],
         ["France selected / starters / bench", `${teamBuilderBuild.countryCounts?.france ?? "n/a"} / ${teamBuilderBuild.starterCountryCounts?.france ?? "n/a"} / ${teamBuilderBuild.benchCountryCounts?.france ?? "n/a"}`],
         ["Spain selected / starters / bench", `${teamBuilderBuild.countryCounts?.spain ?? "n/a"} / ${teamBuilderBuild.starterCountryCounts?.spain ?? "n/a"} / ${teamBuilderBuild.benchCountryCounts?.spain ?? "n/a"}`],
         ["England selected / starters / bench", `${teamBuilderBuild.countryCounts?.england ?? "n/a"} / ${teamBuilderBuild.starterCountryCounts?.england ?? "n/a"} / ${teamBuilderBuild.benchCountryCounts?.england ?? "n/a"}`],
         ["Argentina selected / starters / bench", `${teamBuilderBuild.countryCounts?.argentina ?? "n/a"} / ${teamBuilderBuild.starterCountryCounts?.argentina ?? "n/a"} / ${teamBuilderBuild.benchCountryCounts?.argentina ?? "n/a"}`],
+        ["Brazil selected", teamBuilderBuild.countryCounts?.brazil ?? "n/a"],
+        ["Colombia selected", teamBuilderBuild.countryCounts?.colombia ?? "n/a"],
         ["Top country", teamBuilderBuild.topCountryText || "n/a"]
       ]
     ),
+    "",
+    "## Team Builder Selected Squad",
+    "",
+    teamBuilderSelectedRows.length
+      ? mdTable(["Area", "Slot", "Player", "Pos", "Country"], teamBuilderSelectedRows)
+      : "n/a",
     "",
     "## Data Loaded",
     "",
@@ -340,6 +371,8 @@ async function collectPageState(page) {
     const quickPickText = compactText(quickPickCards.map((card) => card.innerText).join(" "));
     const captainCardText = compactText(captainCards.map((card) => card.innerText).join(" "));
     const adviceCardText = compactText(adviceCards.map((card) => card.innerText).join(" "));
+    const playerPickerText = compactText(document.querySelector("#player-picker")?.innerText || "");
+    const forbiddenActiveFinalRoundPattern = /Lerma|Raphinha|Raphael Dias Belloli|Vinicius|Vinícius|Brazil|Colombia|\bBRA\b|\bCOL\b/i;
 
     return {
       title: document.title,
@@ -392,10 +425,14 @@ async function collectPageState(page) {
         quickPickNames,
         quickPickLabels,
         quickPickText: quickPickText.slice(0, 1200),
+        quickPickHasKnownEliminatedText: forbiddenActiveFinalRoundPattern.test(quickPickText),
         captainCards: captainCards.length,
         captainCardText: captainCardText.slice(0, 1200),
+        captainHasKnownEliminatedText: forbiddenActiveFinalRoundPattern.test(captainCardText),
         adviceCards: adviceCards.length,
         adviceCardText: adviceCardText.slice(0, 1200),
+        adviceHasKnownEliminatedText: forbiddenActiveFinalRoundPattern.test(adviceCardText),
+        playerPickerHasKnownEliminatedText: forbiddenActiveFinalRoundPattern.test(playerPickerText),
         environmentRows: environmentRows.slice(0, 8),
         matchEnvironmentSummary: document.querySelector("#match-environment-summary")?.textContent?.trim() || "",
         matchEnvironmentControls: {
@@ -801,7 +838,9 @@ async function testTeamBuilderBuildsFinalRound(page) {
       const text = card.textContent.trim().replace(/\s+/g, " ");
       const metaText = card.querySelector(".player-card__meta, p")?.textContent?.trim() || "";
       const country = metaText.split("·")[0]?.trim() || "";
-      return { text, country: normalize(country) };
+      const position = card.querySelector(".player-card__role, span")?.textContent?.trim() || "";
+      const name = card.querySelector(".player-name-button")?.textContent?.trim() || text;
+      return { text, name, position, countryLabel: country, country: normalize(country) };
     };
     const starters = Array.from(document.querySelectorAll("#team-players .player-card:not(.player-card--placeholder)"))
       .map(selectedCardInfo);
@@ -811,6 +850,17 @@ async function testTeamBuilderBuildsFinalRound(page) {
     const topCountryText = document.querySelector("#portfolio-summary")?.textContent?.trim() || "";
     const countCountry = (items, country) => items.filter((entry) => entry.country === normalize(country)).length;
     const auditedCountries = ["Argentina", "France", "England", "Spain", "Brazil", "Colombia", "Belgium", "Morocco", "Norway", "USA", "Portugal", "Switzerland", "Canada", "Mexico", "Paraguay", "Egypt"];
+    const eligibleCountryKeys = new Set((window.FINAL_ROUND_FIXTURE_AUTHORITY_DATA?.fixtures || [])
+      .flatMap((fixture) => [fixture.team_a, fixture.team_b])
+      .filter(Boolean)
+      .flatMap((team) => [team.team_id, team.team, team.name, team.code].map(normalize).filter(Boolean)));
+    const forbiddenTextPattern = /Lerma|Raphinha|Raphael Dias Belloli|Vinicius|Vinícius|Brazil|Colombia|\bBRA\b|\bCOL\b/i;
+    const selectedRows = [...starters, ...bench];
+    const eliminatedSelected = selectedRows.filter((entry) =>
+      !eligibleCountryKeys.has(entry.country) || forbiddenTextPattern.test(entry.text)
+    );
+    const playerPickerText = document.querySelector("#player-picker")?.innerText?.replace(/\s+/g, " ").trim() || "";
+    const teamBuilderText = document.querySelector("#team-builder")?.innerText?.replace(/\s+/g, " ").trim() || "";
     const countryCounts = Object.fromEntries(auditedCountries.map((country) => [country.toLowerCase(), countCountry([...starters, ...bench], country)]));
     const starterCountryCounts = Object.fromEntries(auditedCountries.map((country) => [country.toLowerCase(), countCountry(starters, country)]));
     const benchCountryCounts = Object.fromEntries(auditedCountries.map((country) => [country.toLowerCase(), countCountry(bench, country)]));
@@ -827,6 +877,13 @@ async function testTeamBuilderBuildsFinalRound(page) {
       countryCounts,
       starterCountryCounts,
       benchCountryCounts,
+      eligibleCountries: Array.from(eligibleCountryKeys),
+      eliminatedSelectedCount: eliminatedSelected.length,
+      eliminatedSelectedSample: eliminatedSelected.map((entry) => entry.text).slice(0, 8),
+      knownEliminatedTextInTeamBuilder: forbiddenTextPattern.test(teamBuilderText),
+      knownEliminatedTextInPlayerPicker: forbiddenTextPattern.test(playerPickerText),
+      starterSquad: starters.map((entry) => ({ name: entry.name, position: entry.position, country: entry.countryLabel })),
+      benchSquad: bench.map((entry) => ({ name: entry.name, position: entry.position, country: entry.countryLabel })),
       starterSample: starters.map((entry) => entry.text).slice(0, 5),
       benchSample: bench.map((entry) => entry.text).slice(0, 4)
     };
@@ -918,8 +975,11 @@ async function testMainPage(browser, viewport) {
     picksRender: stateBeforeClicks.ui.quickPickCards > 0 && stateBeforeClicks.ui.quickPickNames.length > 0,
     picksDefaultFinalRound: stateBeforeClicks.ui.adviceMatchdaySelected === activePublicMatchdayId &&
       /Final Round|Final|Third Place|semifinal starter|Third Place rotation|Role volatility/i.test(`${stateBeforeClicks.ui.quickPickText} ${stateBeforeClicks.ui.adviceStyleNote}`),
+    picksNoEliminatedPlayers: !stateBeforeClicks.ui.quickPickHasKnownEliminatedText &&
+      !stateBeforeClicks.ui.adviceHasKnownEliminatedText,
     captainWatchlistRenders: stateBeforeClicks.sections.captainWatchlist && stateBeforeClicks.ui.captainCards > 0,
     captainWatchlistDefaultFinalRound: /Final Round|Final|Third Place|semifinal starter|Third Place rotation|Role volatility/i.test(stateBeforeClicks.ui.captainCardText),
+    captainWatchlistNoEliminatedPlayers: !stateBeforeClicks.ui.captainHasKnownEliminatedText,
     playerProfileOpens: [quickPickProfile, captainProfile, adviceProfile].some((result) => result.status === "pass" && result.playerProfileOpened),
     playerProfilePracticalFinalRound: [quickPickProfile, captainProfile, adviceProfile].some((result) => result.status === "pass" && result.showsFinalRoundContext),
     teamBuilderControlsLoad: stateBeforeClicks.ui.teamBuilderControls.strategyOptions > 0 &&
@@ -931,6 +991,13 @@ async function testMainPage(browser, viewport) {
       teamBuilderBuild.selectedMatchday === activePublicMatchdayId &&
       teamBuilderBuild.starterCount >= 11 &&
       teamBuilderBuild.benchCount >= 4,
+    teamBuilderSelectedOnlyFinalRoundTeams: teamBuilderBuild.status === "pass" &&
+      teamBuilderBuild.eliminatedSelectedCount === 0 &&
+      (teamBuilderBuild.countryCounts?.brazil || 0) === 0 &&
+      (teamBuilderBuild.countryCounts?.colombia || 0) === 0,
+    teamBuilderNoKnownEliminatedText: teamBuilderBuild.status === "pass" &&
+      !teamBuilderBuild.knownEliminatedTextInTeamBuilder &&
+      !teamBuilderBuild.knownEliminatedTextInPlayerPicker,
     balancedSquadVisible: teamBuilderBuild.status === "pass" &&
       teamBuilderBuild.selectedStrategy === "balancedSquad" &&
       /Balanced Squad|Final Round|squad/i.test(`${teamBuilderBuild.buildButtonText} ${teamBuilderBuild.message}`),

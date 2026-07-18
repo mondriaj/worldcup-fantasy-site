@@ -1,0 +1,96 @@
+{
+  "schema_version": "final_round_eliminated_player_bug_audit_v1",
+  "generated_at": "2026-07-18T03:11:24.153Z",
+  "status": "pass",
+  "bug_reproduced": true,
+  "public_users_affected_before_fix": true,
+  "root_cause": [
+    "script.js built Team Builder players from the full official fantasy pool.",
+    "currentFantasyPoolPlayerFromOfficialRecord accepted any historical projection row as sufficient context when a finalRound projection was missing.",
+    "renderPlayerPicker, optimizerCandidatePools, availableFillCandidates, getValidLockedSquadPlayers, and optimizerPriceFloorsByPosition did not enforce Final Round fixture-authority team eligibility.",
+    "countryLimitForMatchday did not map finalRound to the official knockout final limit, so it fell back to the group-stage max of 3 per country."
+  ],
+  "previous_qa_missed_it": [
+    "data/teamBuilderQa_finalRound_v1.json was generated from already-filtered Final Round projection rows, not the actual browser Team Builder candidate pool.",
+    "scripts/runPublicPreviewBrowserQa.mjs checked that a squad rendered but did not assert that selected players and picker candidates belonged only to Final/Third Place teams.",
+    "Historical projection rows in public wrappers were allowed for history views, but the browser did not require active finalRound rows before using them as Team Builder context."
+  ],
+  "affected_surfaces_before_fix": {
+    "team_builder_squad": true,
+    "team_builder_candidates": true,
+    "player_profile_from_team_builder_candidates": true,
+    "picks": false,
+    "captain_watchlist": false,
+    "final_round_projection_source_rows": false,
+    "final_round_recommendation_source_rows": false
+  },
+  "fixed_by": [
+    "Final Round eligible teams now come from FINAL_ROUND_FIXTURE_AUTHORITY_DATA.",
+    "Active Final Round Team Builder candidates must match fixture-authority teams and have a real finalRound projection.",
+    "Final Round no longer falls back to group-stage recommendation/projection rows.",
+    "finalRound country-limit mapping now uses the official knockout final limit."
+  ],
+  "specific_players": [
+    {
+      "player": "Lerma",
+      "team_id": "colombia",
+      "in_active_projections_after_fix": false,
+      "in_active_recommendations_after_fix": false,
+      "in_team_builder_selected_after_fix": false,
+      "historical_projection_rows_allowed": 2,
+      "finance_rows_not_active_surface": 1
+    },
+    {
+      "player": "Raphinha",
+      "team_id": "brazil",
+      "in_active_projections_after_fix": false,
+      "in_active_recommendations_after_fix": false,
+      "in_team_builder_selected_after_fix": false,
+      "historical_projection_rows_allowed": 2,
+      "finance_rows_not_active_surface": 1
+    },
+    {
+      "player": "Vinicius",
+      "team_id": "brazil",
+      "in_active_projections_after_fix": false,
+      "in_active_recommendations_after_fix": false,
+      "in_team_builder_selected_after_fix": false,
+      "historical_projection_rows_allowed": 2,
+      "finance_rows_not_active_surface": 1
+    }
+  ],
+  "qa_summary": {
+    "eligible_teams": [
+      "France",
+      "England",
+      "Spain",
+      "Argentina"
+    ],
+    "active_projection_rows": 134,
+    "active_recommendation_rows": 125,
+    "core_pick_rows": 25,
+    "captain_watchlist_rows": 25,
+    "team_builder_candidate_count_by_team": {
+      "Argentina": 25,
+      "Spain": 26,
+      "France": 26,
+      "England": 24
+    },
+    "team_builder_selected_count_by_team": {
+      "France": 4,
+      "Spain": 2,
+      "Argentina": 8,
+      "England": 1
+    },
+    "eliminated_player_candidates": 0,
+    "eliminated_player_selected": 0,
+    "picks_eliminated_player_count": 0,
+    "captain_watchlist_eliminated_player_count": 0,
+    "player_profile_active_stage_eliminated_leakage": false,
+    "source_final_round_projection_bug_hits": 0,
+    "source_final_round_recommendation_bug_hits": 0,
+    "historical_projection_bug_hits_allowed": 102,
+    "historical_recommendation_bug_hits_allowed": 27,
+    "finance_bug_hits_not_active_surface": 51
+  }
+}

@@ -1509,14 +1509,36 @@ function buildRecommendations({ projections }) {
   };
 }
 
-function buildTeamBuilder({ projections, recommendations }) {
+function buildTeamBuilder({ projections, recommendations, authority }) {
   const byPositionNeeded = { GK: 2, DEF: 5, MID: 5, FWD: 3 };
-  const pool = projections.playerMatchdayProjections
-    .filter((row) => row.selectable_status === "playing" && !row.thin_profile && row.start_probability >= 0.45)
-    .sort((a, b) =>
-      Number(b.risk_adjusted_points || 0) * 12 + Number(b.start_probability || 0) * 8 + Number(b.captain_score || 0) * 0.12 -
-      (Number(a.risk_adjusted_points || 0) * 12 + Number(a.start_probability || 0) * 8 + Number(a.captain_score || 0) * 0.12)
-    );
+  const finalCountryLimit = 8;
+  const eligibleTeamIds = new Set((authority.fixtures || []).flatMap((fixture) => [
+    fixture.team_a?.team_id,
+    fixture.team_b?.team_id
+  ]).filter(Boolean));
+  const eligibleTeamNames = [...eligibleTeamIds].map((teamId) => TEAM_INFO[teamId]?.team || teamId);
+  const isEligibleTeamRow = (row) => eligibleTeamIds.has(row.team_id);
+  const countByTeam = (rows) => rows.reduce((counts, row) => {
+    const team = row.country || TEAM_INFO[row.team_id]?.team || row.team_id || "Unknown";
+    counts[team] = (counts[team] || 0) + 1;
+    return counts;
+  }, {});
+  const knownEliminatedPlayerRows = (rows) => rows.filter((row) =>
+    /lerma|raphinha|raphael dias belloli|vinicius|vinicius|vini/i.test(String(row.name || row.display_name || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "")) ||
+    ["brazil", "colombia"].includes(String(row.team_id || "").toLowerCase())
+  );
+  const rowScore = (row) =>
+    Number(row.risk_adjusted_points || 0) * 12 +
+    Number(row.start_probability || 0) * 8 +
+    Number(row.captain_score || 0) * 0.12;
+  const candidateRows = projections.playerMatchdayProjections
+    .filter((row) => row.matchday === MATCHDAY_ID)
+    .filter((row) => row.selectable_status === "playing" && !row.thin_profile)
+    .filter(isEligibleTeamRow);
+  const eliminatedCandidateRows = knownEliminatedPlayerRows(candidateRows);
+  const pool = candidateRows
+    .filter((row) => row.start_probability >= 0.45)
+    .sort((a, b) => rowScore(b) - rowScore(a));
   const squad = [];
   for (const [position, count] of Object.entries(byPositionNeeded)) {
     squad.push(...pool.filter((row) => row.position === position).slice(0, count));
@@ -1535,8 +1557,38 @@ function buildTeamBuilder({ projections, recommendations }) {
     const replaceIndex = squad.findIndex((row) => row.official_fantasy_player_id === replaceTarget.official_fantasy_player_id);
     if (replaceIndex >= 0) squad[replaceIndex] = thirdPlaceCandidate;
   }
+  let countryLimitChanged = true;
+  while (countryLimitChanged) {
+    countryLimitChanged = false;
+    const selectedByTeam = countByTeam(squad);
+    const overLimitTeam = Object.keys(selectedByTeam).find((teamName) => selectedByTeam[teamName] > finalCountryLimit);
+    if (!overLimitTeam) break;
+    const overLimitTeamId = Object.keys(TEAM_INFO).find((teamId) => TEAM_INFO[teamId].team === overLimitTeam) || overLimitTeam.toLowerCase();
+    const replaceTargets = squad
+      .filter((row) => row.team_id === overLimitTeamId || row.country === overLimitTeam)
+      .sort((a, b) => rowScore(a) - rowScore(b));
+    for (const replaceTarget of replaceTargets) {
+      const selectedIds = new Set(squad.map((row) => String(row.official_fantasy_player_id)));
+      const replacement = pool
+        .filter((row) => row.position === replaceTarget.position)
+        .filter((row) => !selectedIds.has(String(row.official_fantasy_player_id)))
+        .filter((row) => row.team_id !== replaceTarget.team_id)
+        .filter((row) => (selectedByTeam[row.country] || 0) < finalCountryLimit)
+        .sort((a, b) => rowScore(b) - rowScore(a))[0];
+      if (!replacement) continue;
+      const replaceIndex = squad.findIndex((row) => row.official_fantasy_player_id === replaceTarget.official_fantasy_player_id);
+      if (replaceIndex >= 0) {
+        squad[replaceIndex] = replacement;
+        countryLimitChanged = true;
+        break;
+      }
+    }
+  }
   const captain = squad.slice().sort((a, b) => Number(b.captain_score || 0) - Number(a.captain_score || 0))[0] || null;
   const viceCaptain = squad.slice().filter((row) => row.official_fantasy_player_id !== captain?.official_fantasy_player_id).sort((a, b) => Number(b.captain_score || 0) - Number(a.captain_score || 0))[0] || null;
+  const eliminatedSelectedRows = knownEliminatedPlayerRows(squad);
+  const captainTeamEligible = captain ? isEligibleTeamRow(captain) : false;
+  const viceCaptainTeamEligible = viceCaptain ? isEligibleTeamRow(viceCaptain) : false;
   const omittedStars = recommendations.recommendationCandidates
     .filter((row) => row.mode === "captain")
     .filter((row) => !squad.some((pick) => pick.official_fantasy_player_id === row.official_fantasy_player_id))
@@ -1549,7 +1601,15 @@ function buildTeamBuilder({ projections, recommendations }) {
       lineupEvidenceType: row.lineupEvidenceType,
       thirdPlaceRisk: row.third_place_rotation_risk
     }));
-  const status = squad.length === 15 && Object.entries(byPositionNeeded).every(([position, count]) => squad.filter((row) => row.position === position).length === count)
+  const errors = [];
+  if (squad.length !== 15) errors.push("Balanced squad did not contain 15 players.");
+  if (!Object.entries(byPositionNeeded).every(([position, count]) => squad.filter((row) => row.position === position).length === count)) errors.push("Balanced squad did not satisfy the 2/5/5/3 structure.");
+  if (Object.values(countByTeam(squad)).some((count) => count > finalCountryLimit)) errors.push(`Balanced squad exceeded the Final country limit of ${finalCountryLimit}.`);
+  if (eliminatedCandidateRows.length) errors.push("Final Round Team Builder candidate pool contains eliminated players.");
+  if (eliminatedSelectedRows.length) errors.push("Final Round Team Builder selected squad contains eliminated players.");
+  if (!captainTeamEligible) errors.push("Captain team is not eligible for Final Round.");
+  if (!viceCaptainTeamEligible) errors.push("Vice captain team is not eligible for Final Round.");
+  const status = errors.length === 0
     ? "pass"
     : "fail";
   return {
@@ -1561,6 +1621,14 @@ function buildTeamBuilder({ projections, recommendations }) {
       required_squad_size: 15,
       positions: Object.fromEntries(Object.keys(byPositionNeeded).map((position) => [position, squad.filter((row) => row.position === position).length])),
       defaultMatchday: MATCHDAY_ID,
+      country_limit: finalCountryLimit,
+      eligible_teams: eligibleTeamNames,
+      candidate_count_by_team: countByTeam(candidateRows),
+      selected_count_by_team: countByTeam(squad),
+      eliminated_player_candidates: eliminatedCandidateRows.length,
+      eliminated_player_selected: eliminatedSelectedRows.length,
+      captain_team_eligible: captainTeamEligible,
+      vice_team_eligible: viceCaptainTeamEligible,
       captain: captain?.name || null,
       viceCaptain: viceCaptain?.name || null,
       third_place_players: squad.filter((row) => row.third_place_rotation_risk).length,
@@ -1585,6 +1653,8 @@ function buildTeamBuilder({ projections, recommendations }) {
     })),
     captain: captain ? { id: captain.official_fantasy_player_id, name: captain.name, country: captain.country } : null,
     viceCaptain: viceCaptain ? { id: viceCaptain.official_fantasy_player_id, name: viceCaptain.name, country: viceCaptain.country } : null,
+    eliminatedCandidateDiagnostics: eliminatedCandidateRows.map((row) => ({ id: row.official_fantasy_player_id, name: row.name, country: row.country, team_id: row.team_id })),
+    eliminatedSelectedDiagnostics: eliminatedSelectedRows.map((row) => ({ id: row.official_fantasy_player_id, name: row.name, country: row.country, team_id: row.team_id })),
     omittedStarDiagnostics: omittedStars,
     roleVolatilityDiagnostics: squad.filter((row) => row.roleCaution).map((row) => ({
       name: row.name,
@@ -1592,7 +1662,7 @@ function buildTeamBuilder({ projections, recommendations }) {
       roleCaution: row.roleCaution,
       lineupEvidenceType: row.lineupEvidenceType
     })),
-    errors: status === "pass" ? [] : ["Balanced squad did not satisfy the 2/5/5/3 structure."]
+    errors
   };
 }
 
@@ -2044,7 +2114,7 @@ async function writeReports({ authority, sfLineupEvidence, thirdPlaceProfile, th
   await writeText("data/recommendationModel_finalRound_v1.md", `# Recommendation Model Final Round v1\n\n${mdTable(["Metric", "Value"], Object.entries(recommendations.summary).map(([key, value]) => [key, typeof value === "object" ? JSON.stringify(value).slice(0, 300) : value]))}`);
   await writeText("data/recommendationQaReport_finalRound_v1.md", `# Recommendation QA Final Round v1\n\nStatus: ${qas.recommendationQa.status}\n`);
   await writeText("data/teamBuilderModel_finalRound_v1.md", `# Team Builder Model Final Round v1\n\nBalanced squad is constrained to 2 GK, 5 DEF, 5 MID, and 3 FWD, excludes unavailable and thin-profile players, and keeps Third Place risk visible.\n\n${mdTable(["Metric", "Value"], Object.entries(teamBuilder.summary).map(([key, value]) => [key, typeof value === "object" ? JSON.stringify(value) : value]))}`);
-  await writeText("data/teamBuilderQaReport_finalRound_v1.md", `# Team Builder QA Final Round v1\n\nStatus: ${teamBuilder.status}\n\n${mdTable(["Player", "Country", "Pos", "Opponent", "Stage", "Pts", "Start", "Risk"], teamBuilder.balancedSquad.map((row) => [row.name, row.country, row.position, row.opponent, row.fixture_stage, row.projectedPoints, row.start_probability, row.thirdPlaceRisk ? "Third Place rotation" : ""]))}`);
+  await writeText("data/teamBuilderQaReport_finalRound_v1.md", `# Team Builder QA Final Round v1\n\nStatus: ${teamBuilder.status}\n\n## Summary\n\n${mdTable(["Metric", "Value"], Object.entries(teamBuilder.summary).map(([key, value]) => [key, typeof value === "object" ? JSON.stringify(value) : value]))}\n\n## Selected Squad\n\n${mdTable(["Player", "Country", "Pos", "Opponent", "Stage", "Pts", "Start", "Risk"], teamBuilder.balancedSquad.map((row) => [row.name, row.country, row.position, row.opponent, row.fixture_stage, row.projectedPoints, row.start_probability, row.thirdPlaceRisk ? "Third Place rotation" : ""]))}`);
   await writeText("data/knockoutModelPostmortemReport_for_finalRound_v1.md", `# Knockout Model Postmortem For Final Round v1\n\nStatus: ${postmortem.status}\n\n${mdTable(["Match", "Fixture", "Pred xG", "Actual", "Home residual", "Away residual"], postmortem.residuals.map((row) => [row.match_number, row.fixture, row.predicted_xg, row.actual_score, row.home_goal_residual, row.away_goal_residual]))}`);
   await writeText("data/peleRefreshAudit_finalRound_v1.md", `# PELE Refresh Audit Final Round v1\n\nStatus: ${peleAudit.status}\n\nRefresh result: ${peleAudit.refresh_result}\n\n${mdTable(["Team", "Found", "Quality", "PELE rating", "PELE status"], peleAudit.teams.map((row) => [row.team, row.found ? "yes" : "no", row.team_quality_v2_score, row.pele_rating, row.pele_status]))}`);
   await writeText("data/finalRoundCorePickLineupEvidenceQaReport_v1.md", `# Final Round Core Pick Lineup Evidence QA v1\n\nStatus: ${qas.corePickQa.status}\n\n${mdTable(["Metric", "Value"], Object.entries(qas.corePickQa.summary))}`);
@@ -2068,7 +2138,7 @@ export async function buildFinalRoundArtifacts() {
   const score = buildScorePredictions({ authority, knockout, thirdPlaceProfile });
   const projections = buildProjections({ role, score, thirdPlaceProfile });
   const recommendations = buildRecommendations({ projections });
-  const teamBuilder = buildTeamBuilder({ projections, recommendations });
+  const teamBuilder = buildTeamBuilder({ projections, recommendations, authority });
   const { dataset, postmortem } = buildPostmortem({ score, sfScore, live, role });
   const qas = qaReports({ authority, role, score, projections, recommendations, teamBuilder, thirdPlaceProfile, lineupNewsAudit, peleAudit });
 
@@ -2142,5 +2212,9 @@ export async function validateTeamBuilderFinalRound() {
   if (qa.summary?.squad_size !== 15) errors.push("Balanced squad is not 15 players.");
   if ((qa.summary?.thin_profile_players || 0) !== 0) errors.push("Thin-profile player entered Team Builder.");
   if ((qa.summary?.points_only_evidence_players || 0) !== 0) errors.push("Team Builder contains points-only evidence player.");
+  if ((qa.summary?.eliminated_player_candidates || 0) !== 0) errors.push("Final Round Team Builder candidates include eliminated players.");
+  if ((qa.summary?.eliminated_player_selected || 0) !== 0) errors.push("Final Round Team Builder selected squad includes eliminated players.");
+  if (qa.summary?.captain_team_eligible !== true) errors.push("Team Builder captain team is not Final Round eligible.");
+  if (qa.summary?.vice_team_eligible !== true) errors.push("Team Builder vice captain team is not Final Round eligible.");
   return { status: errors.length ? "fail" : "pass", errors, qa };
 }

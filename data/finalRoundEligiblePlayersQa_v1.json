@@ -1,0 +1,957 @@
+{
+  "schema_version": "final_round_eligible_players_qa_v1",
+  "generated_at": "2026-07-18T03:11:24.153Z",
+  "status": "pass",
+  "summary": {
+    "eligible_teams": [
+      "France",
+      "England",
+      "Spain",
+      "Argentina"
+    ],
+    "active_projection_rows": 134,
+    "active_recommendation_rows": 125,
+    "core_pick_rows": 25,
+    "captain_watchlist_rows": 25,
+    "team_builder_candidate_count_by_team": {
+      "Argentina": 25,
+      "Spain": 26,
+      "France": 26,
+      "England": 24
+    },
+    "team_builder_selected_count_by_team": {
+      "France": 4,
+      "Spain": 2,
+      "Argentina": 8,
+      "England": 1
+    },
+    "eliminated_player_candidates": 0,
+    "eliminated_player_selected": 0,
+    "picks_eliminated_player_count": 0,
+    "captain_watchlist_eliminated_player_count": 0,
+    "player_profile_active_stage_eliminated_leakage": false,
+    "source_final_round_projection_bug_hits": 0,
+    "source_final_round_recommendation_bug_hits": 0,
+    "historical_projection_bug_hits_allowed": 102,
+    "historical_recommendation_bug_hits_allowed": 27,
+    "finance_bug_hits_not_active_surface": 51
+  },
+  "checks": [
+    {
+      "id": "fixture_authority_pass",
+      "status": "pass",
+      "details": {
+        "eligibleTeams": [
+          "France",
+          "England",
+          "Spain",
+          "Argentina"
+        ]
+      }
+    },
+    {
+      "id": "active_projection_rows_eligible",
+      "status": "pass",
+      "details": {
+        "outside": [],
+        "bugHits": []
+      }
+    },
+    {
+      "id": "active_recommendation_rows_eligible",
+      "status": "pass",
+      "details": {
+        "outside": [],
+        "bugHits": []
+      }
+    },
+    {
+      "id": "core_picks_eligible",
+      "status": "pass",
+      "details": {
+        "outside": [],
+        "bugHits": []
+      }
+    },
+    {
+      "id": "captain_watchlist_eligible",
+      "status": "pass",
+      "details": {
+        "outside": [],
+        "bugHits": []
+      }
+    },
+    {
+      "id": "team_builder_qa_pass",
+      "status": "pass",
+      "details": {
+        "status": "pass",
+        "errors": []
+      }
+    },
+    {
+      "id": "team_builder_candidates_eligible",
+      "status": "pass",
+      "details": {
+        "candidateCountByTeam": {
+          "Argentina": 25,
+          "Spain": 26,
+          "France": 26,
+          "England": 24
+        },
+        "diagnostics": []
+      }
+    },
+    {
+      "id": "team_builder_selected_eligible",
+      "status": "pass",
+      "details": {
+        "selectedCountByTeam": {
+          "France": 4,
+          "Spain": 2,
+          "Argentina": 8,
+          "England": 1
+        },
+        "outside": [],
+        "bugHits": []
+      }
+    },
+    {
+      "id": "team_builder_captain_eligible",
+      "status": "pass",
+      "details": {
+        "id": "39",
+        "name": "Julián Alvarez",
+        "country": "Argentina"
+      }
+    },
+    {
+      "id": "team_builder_vice_eligible",
+      "status": "pass",
+      "details": {
+        "id": "48",
+        "name": "Leandro Paredes",
+        "country": "Argentina"
+      }
+    },
+    {
+      "id": "player_profile_active_stage_sources_eligible",
+      "status": "pass",
+      "details": {
+        "activeProjectionBugHits": [],
+        "activeRecommendationBugHits": []
+      }
+    },
+    {
+      "id": "specific_lerma_absent_from_active_surfaces",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "specific_raphinha_absent_from_active_surfaces",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "specific_vinicius_absent_from_active_surfaces",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "script_guard_finalRoundAuthorityLoaded",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "script_guard_activeEligibleTeamHelper",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "script_guard_activePlayerFilterHelper",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "script_guard_finalRoundCountryLimitMapsToFinal",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "script_guard_builderPickerFiltered",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "script_guard_optimizerPoolsFiltered",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "script_guard_lockedPlayersFiltered",
+      "status": "pass",
+      "details": {}
+    }
+  ],
+  "diagnostics": {
+    "activeProjectionBugHits": [],
+    "activeRecommendationBugHits": [],
+    "teamBuilderSelectedBugHits": [],
+    "historicalProjectionBugHits": [
+      {
+        "id": "248",
+        "name": "Daniel Muñoz",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "250",
+        "name": "Dávinson Sánchez",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "249",
+        "name": "Jhon Lucumí",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "262",
+        "name": "Camilo Vargas",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "252",
+        "name": "Johan Mojica",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "183",
+        "name": "Alisson Ramsés Becker",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "256",
+        "name": "Luis Díaz",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "168",
+        "name": "Douglas dos Santos Justino de Melo",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "173",
+        "name": "Vinícius José Paixão de Oliveira Júnior",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "1361",
+        "name": "Bruno Guimarães Rodriguez Moura",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "251",
+        "name": "Déiver Machado",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "164",
+        "name": "Gabriel dos Santos Magalhães",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "165",
+        "name": "Marcos Aoás Corrêa",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "253",
+        "name": "Santiago Arias",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "269",
+        "name": "Jhon Arias",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "1374",
+        "name": "Yerry Mina",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "188",
+        "name": "Carlos Henrique Casimiro",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "265",
+        "name": "Jefferson Lerma",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "190",
+        "name": "Lucas Tolentino Coelho de Lima",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "257",
+        "name": "Jhon Córdoba",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "246",
+        "name": "Kevin Castaño",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "247",
+        "name": "Richard Ríos",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "174",
+        "name": "Matheus Santos Carneiro da Cunha",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "259",
+        "name": "Luis Suárez",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      },
+      {
+        "id": "268",
+        "name": "Jaminton Campaz",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r16",
+        "mode": null,
+        "stage": null,
+        "source": "active_r16_player_projection_support"
+      }
+    ],
+    "historicalRecommendationBugHits": [
+      {
+        "id": "248",
+        "name": "Daniel Muñoz",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r16",
+        "mode": "balanced",
+        "stage": null,
+        "source": "active_r16_recommendations"
+      },
+      {
+        "id": "248",
+        "name": "Daniel Muñoz",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r16",
+        "mode": "safe",
+        "stage": null,
+        "source": "active_r16_recommendations"
+      },
+      {
+        "id": "250",
+        "name": "Dávinson Sánchez",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r16",
+        "mode": "safe",
+        "stage": null,
+        "source": "active_r16_recommendations"
+      },
+      {
+        "id": "248",
+        "name": "Daniel Muñoz",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "balanced",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "250",
+        "name": "Dávinson Sánchez",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "balanced",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "249",
+        "name": "Jhon Lucumí",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "balanced",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "262",
+        "name": "Camilo Vargas",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "balanced",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "252",
+        "name": "Johan Mojica",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "balanced",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "248",
+        "name": "Daniel Muñoz",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "safe",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "250",
+        "name": "Dávinson Sánchez",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "safe",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "249",
+        "name": "Jhon Lucumí",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "safe",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "262",
+        "name": "Camilo Vargas",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "safe",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "252",
+        "name": "Johan Mojica",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "safe",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "248",
+        "name": "Daniel Muñoz",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "upside",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "250",
+        "name": "Dávinson Sánchez",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "upside",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "249",
+        "name": "Jhon Lucumí",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "upside",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "252",
+        "name": "Johan Mojica",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "upside",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "250",
+        "name": "Dávinson Sánchez",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "differential",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "249",
+        "name": "Jhon Lucumí",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "differential",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "248",
+        "name": "Daniel Muñoz",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "differential",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "252",
+        "name": "Johan Mojica",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "differential",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "262",
+        "name": "Camilo Vargas",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "differential",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "251",
+        "name": "Déiver Machado",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "differential",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "248",
+        "name": "Daniel Muñoz",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "captain",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      },
+      {
+        "id": "250",
+        "name": "Dávinson Sánchez",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": "r32",
+        "mode": "captain",
+        "stage": null,
+        "source": "active_r32_recommendations"
+      }
+    ],
+    "financeBugHits": [
+      {
+        "id": "164",
+        "name": "Gabriel dos Santos Magalhães",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "165",
+        "name": "Marcos Aoás Corrêa",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "166",
+        "name": "Roger Ibañez da Silva",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "167",
+        "name": "Danilo Luiz da Silva",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "168",
+        "name": "Douglas dos Santos Justino de Melo",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "169",
+        "name": "Gleison Bremer Silva Nascimento",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "170",
+        "name": "Leonardo Pereira",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "173",
+        "name": "Vinícius José Paixão de Oliveira Júnior",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "174",
+        "name": "Matheus Santos Carneiro da Cunha",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "176",
+        "name": "Gabriel Teodoro Martinelli Silva",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "177",
+        "name": "Luiz Henrique André Rosa da Silva",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "178",
+        "name": "Igor Thiago Nascimento Rodrigues",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "179",
+        "name": "Rayan Vitor Simplício Rocha",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "181",
+        "name": "Endrick Felipe Moreira de Sousa",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "182",
+        "name": "Ederson Santana de Moraes",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "183",
+        "name": "Alisson Ramsés Becker",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "186",
+        "name": "Fábio Henrique Tavares",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "187",
+        "name": "Danilo dos Santos de Oliveira",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "188",
+        "name": "Carlos Henrique Casimiro",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "190",
+        "name": "Lucas Tolentino Coelho de Lima",
+        "country": "Brazil",
+        "team_id": "brazil",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "246",
+        "name": "Kevin Castaño",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "247",
+        "name": "Richard Ríos",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "248",
+        "name": "Daniel Muñoz",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "249",
+        "name": "Jhon Lucumí",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      },
+      {
+        "id": "250",
+        "name": "Dávinson Sánchez",
+        "country": "Colombia",
+        "team_id": "colombia",
+        "matchday": null,
+        "mode": null,
+        "stage": null,
+        "source": "fantasy_pool_only"
+      }
+    ]
+  }
+}
