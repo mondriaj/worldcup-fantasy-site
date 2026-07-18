@@ -1,0 +1,177 @@
+{
+  "schema_version": "active_stage_qa_runner_no_behavior_change_v1",
+  "generated_at": "2026-07-18T13:08:00.000Z",
+  "status": "pass",
+  "public_behavior_unchanged": true,
+  "activeStage": "finalRound",
+  "comparison_scope": "QA runner, manifest, validator, and report wiring only. Public HTML, browser app logic, public wrappers, recommendations, projections, score predictions, PELE data, and Team Builder output are not changed by this scoped commit.",
+  "baseline_source": "data/activeStageManifestNoBehaviorChange_v1.json plus current active Final Round public metrics before staging the QA runner commit",
+  "before": {
+    "team_builder_artifact_player_list": [
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Pau Cubarsí",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Álex Baena",
+      "Fabián Ruiz",
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal"
+    ],
+    "team_builder_budget": {
+      "selected_total_price": 94.8,
+      "budget_limit": 105
+    },
+    "team_builder_team_counts": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "team_builder_fixture_counts": {
+      "final": 13,
+      "third_place": 2
+    },
+    "recommendations_row_count": 175,
+    "projections_row_count": 134,
+    "score_fixture_count": 2,
+    "active_eligible_teams": [
+      "France",
+      "England",
+      "Spain",
+      "Argentina"
+    ],
+    "active_public_wrappers_loaded_by_index_html": [
+      "playersData.js",
+      "fantasyRulesData.js",
+      "fantasyPoolRecommendationsData.js",
+      "fantasyPoolMatchdayProjectionsData.js",
+      "fantasyPoolFinanceMetricsData.js",
+      "fantasyPoolScorePredictionsData.js",
+      "knockoutBracketPredictionData.js",
+      "fantasyPoolOfficialDataStatusData.js",
+      "liveMatchdayStatusData.js",
+      "livePlayerStatusData.js",
+      "r16FixtureAuthorityData.js",
+      "qfFixtureAuthorityData.js",
+      "sfFixtureAuthorityData.js",
+      "finalRoundFixtureAuthorityData.js",
+      "teamBuilderFinalRoundArtifactData.js",
+      "script.js"
+    ],
+    "active_public_wrappers_loaded_by_world_cup_html": [
+      "worldCupData.js",
+      "liveMatchdayStatusData.js",
+      "r32FixtureAuthorityData.js",
+      "r16FixtureAuthorityData.js",
+      "qfFixtureAuthorityData.js",
+      "sfFixtureAuthorityData.js",
+      "finalRoundFixtureAuthorityData.js",
+      "worldCupPage.js"
+    ]
+  },
+  "after": {
+    "team_builder_artifact_player_list": [
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Pau Cubarsí",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Álex Baena",
+      "Fabián Ruiz",
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal"
+    ],
+    "team_builder_budget": {
+      "selected_total_price": 94.8,
+      "budget_limit": 105
+    },
+    "team_builder_team_counts": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "team_builder_fixture_counts": {
+      "final": 13,
+      "third_place": 2
+    },
+    "recommendations_row_count": 175,
+    "projections_row_count": 134,
+    "score_fixture_count": 2,
+    "active_eligible_teams": [
+      "France",
+      "England",
+      "Spain",
+      "Argentina"
+    ],
+    "active_public_wrappers_loaded_by_index_html": [
+      "playersData.js",
+      "fantasyRulesData.js",
+      "fantasyPoolRecommendationsData.js",
+      "fantasyPoolMatchdayProjectionsData.js",
+      "fantasyPoolFinanceMetricsData.js",
+      "fantasyPoolScorePredictionsData.js",
+      "knockoutBracketPredictionData.js",
+      "fantasyPoolOfficialDataStatusData.js",
+      "liveMatchdayStatusData.js",
+      "livePlayerStatusData.js",
+      "r16FixtureAuthorityData.js",
+      "qfFixtureAuthorityData.js",
+      "sfFixtureAuthorityData.js",
+      "finalRoundFixtureAuthorityData.js",
+      "teamBuilderFinalRoundArtifactData.js",
+      "script.js"
+    ],
+    "active_public_wrappers_loaded_by_world_cup_html": [
+      "worldCupData.js",
+      "liveMatchdayStatusData.js",
+      "r32FixtureAuthorityData.js",
+      "r16FixtureAuthorityData.js",
+      "qfFixtureAuthorityData.js",
+      "sfFixtureAuthorityData.js",
+      "finalRoundFixtureAuthorityData.js",
+      "worldCupPage.js"
+    ]
+  },
+  "checks": {
+    "team_builder_artifact_player_list_changed": false,
+    "team_builder_budget_changed": false,
+    "team_builder_team_counts_changed": false,
+    "team_builder_fixture_counts_changed": false,
+    "recommendations_row_count_changed": false,
+    "projections_row_count_changed": false,
+    "score_fixture_count_changed": false,
+    "active_eligible_teams_changed": false,
+    "index_html_active_wrappers_changed": false,
+    "world_cup_html_active_wrappers_changed": false,
+    "public_html_changed_by_scoped_commit": false,
+    "public_app_logic_changed_by_scoped_commit": false,
+    "public_wrapper_changed_by_scoped_commit": false,
+    "model_output_changed_by_scoped_commit": false
+  },
+  "scoped_changed_files": [
+    "scripts/runActiveStageQaFromManifestV1.mjs",
+    "scripts/validateActiveStageManifestV1.mjs",
+    "data/activeStageManifest_v1.json",
+    "data/activeStageManifestReport_v1.md",
+    "data/activeStageQaRun_v1.json",
+    "data/activeStageQaRunReport_v1.md",
+    "data/activeStageQaRunnerNoBehaviorChange_v1.json",
+    "data/activeStageQaRunnerNoBehaviorChangeReport_v1.md"
+  ],
+  "unrelated_files_left_unstaged": true,
+  "explanation": "The manifest-driven runner adds orchestration and reporting only. The public Final Round data surfaces keep the same Team Builder artifact, budget, team/fixture distribution, active row counts, eligible teams, and page wrapper wiring."
+}

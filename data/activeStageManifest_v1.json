@@ -99,6 +99,84 @@
     "knockoutBracketPrediction": "scripts/validateKnockoutBracketPredictionV1.mjs",
     "publicPreviewBrowserQa": "scripts/runPublicPreviewBrowserQa.mjs"
   },
+  "qaRunner": {
+    "script": "scripts/runActiveStageQaFromManifestV1.mjs",
+    "outputJson": "data/activeStageQaRun_v1.json",
+    "outputReport": "data/activeStageQaRunReport_v1.md",
+    "localServer": {
+      "port": 8772,
+      "baseUrl": "http://127.0.0.1:8772"
+    },
+    "requiredCommandChecks": [
+      { "id": "manifest_validation", "command": "node scripts/validateActiveStageManifestV1.mjs" },
+      { "id": "team_builder_browser_equivalence", "command": "node scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs", "requiresLocalServer": true },
+      { "id": "eligible_players", "command": "node scripts/validateFinalRoundEligiblePlayersV1.mjs" },
+      { "id": "fixture_exposure_strategy", "command": "node scripts/validateFinalRoundFixtureExposureStrategyV1.mjs" },
+      { "id": "team_builder_final_round", "command": "node scripts/validateTeamBuilderFinalRoundV1.mjs" },
+      { "id": "core_pick_lineup_evidence", "command": "node scripts/validateFinalRoundCorePickLineupEvidence.mjs" },
+      {
+        "id": "active_fantasy_data_flow",
+        "command": "node scripts/validateActiveFantasyDataFlow.mjs",
+        "fallbackCommand": "node scripts/validateActiveMd2DataFlow.mjs"
+      },
+      { "id": "live_fixture_mapping", "command": "node scripts/validateLiveFixtureMapping.mjs" },
+      { "id": "match_environment_live_scores", "command": "node scripts/validateMatchEnvironmentLiveScores.mjs" },
+      { "id": "world_cup_fixtures_page_live_scores", "command": "node scripts/validateWorldCupFixturesPageLiveScores.mjs" },
+      { "id": "final_round_fixture_authority", "command": "node scripts/validateFinalRoundFixtureAuthorityV1.mjs" },
+      { "id": "bracket_path_integrity", "command": "node scripts/validateBracketPathIntegrityV1.mjs" },
+      { "id": "knockout_bracket_prediction", "command": "node scripts/validateKnockoutBracketPredictionV1.mjs" },
+      { "id": "public_preview_browser_qa", "command": "node scripts/runPublicPreviewBrowserQa.mjs", "requiresLocalServer": true },
+      { "id": "git_diff_whitespace", "command": "git diff --check" }
+    ],
+    "optionalCommandChecks": [],
+    "syntaxChecks": [
+      "script.js",
+      "worldCupPage.js",
+      "worldCupData.js",
+      "knockoutBracketPredictionData.js",
+      "fantasyPoolRecommendationsData.js",
+      "fantasyPoolMatchdayProjectionsData.js",
+      "fantasyPoolScorePredictionsData.js",
+      "fantasyPoolOfficialDataStatusData.js",
+      "liveMatchdayStatusData.js",
+      "livePlayerStatusData.js",
+      "teamBuilderFinalRoundArtifactData.js",
+      "scripts/runActiveStageQaFromManifestV1.mjs",
+      "scripts/validateActiveStageManifestV1.mjs",
+      "scripts/lib/readActiveStageManifest.mjs"
+    ],
+    "searchChecks": [
+      {
+        "id": "old_globals_legacy_paths_public_files",
+        "policy": "zero_hits_required",
+        "pattern": "financePlayersData|matchdayProjectionsData|scorePredictionsData|scorePredictions_v0|scorePredictions_v1|scorePredictions_v2|20260603|official-final|window\\.FINANCE_PLAYERS_DATA|window\\.PLAYER_MATCHDAY_PROJECTIONS_DATA|window\\.MATCHDAY_MODEL_SUMMARY|window\\.FINANCE_MODEL_SUMMARY|window\\.SCORE_FIXTURE_PREDICTIONS_DATA|window\\.SCORE_PREDICTIONS_SUMMARY",
+        "files": ["index.html", "script.js", "world-cup.html", "worldCupPage.js"]
+      },
+      {
+        "id": "active_eliminated_player_leakage",
+        "policy": "historical_hits_allowed_with_explanation",
+        "pattern": "Lerma|Raphinha|Vinicius|Vinícius|Brazil|Colombia|BRA|COL",
+        "files": ["index.html", "script.js", "fantasyPoolRecommendationsData.js", "fantasyPoolMatchdayProjectionsData.js", "teamBuilderFinalRoundArtifactData.js"],
+        "explanation": "France, England, Spain, and Argentina active Final Round hits are expected; Brazil/Colombia historical wrapper rows are allowed only outside active finalRound rows and are covered by eligible-player QA."
+      },
+      {
+        "id": "public_refereeing_conspiracy_leakage",
+        "policy": "zero_hits_required",
+        "pattern": "Refereeing Outcomes|conspiracy|referee fairness|fouls received|yellow-card propensity|No unusual team-level pattern",
+        "files": ["index.html", "world-cup.html", "script.js", "worldCupPage.js"]
+      }
+    ],
+    "expectedPublicBehaviorAssertions": [
+      "public behavior unchanged",
+      "active stage remains finalRound",
+      "Team Builder remains artifact-backed",
+      "Team Builder budget remains 94.8 / 105",
+      "active eligible teams remain France, England, Spain, Argentina",
+      "no active eliminated players",
+      "no old globals",
+      "no public refereeing/conspiracy section"
+    ]
+  },
   "browserAssertions": [
     "public default is Final Round",
     "Team Builder artifact is loaded before script.js",

@@ -16,6 +16,7 @@ The site had the right Final Round behavior, but the active-stage contract was s
 - Active source data files and public wrappers
 - Final Round Team Builder artifact and validators
 - Required active validators and browser assertions
+- Manifest-driven active QA runner commands, syntax checks, search checks, and expected public behavior assertions
 - Known public caveats
 - Forbidden refereeing/conspiracy surfaces
 - Deprecated globals and legacy files that active public views should block
@@ -50,3 +51,14 @@ Wired now:
 Skipped for now:
 
 - Release/build aggregators. Wiring them would touch model-generation paths and is too invasive for a no-model-change cleanup pass.
+
+## Active QA Runner
+
+`scripts/runActiveStageQaFromManifestV1.mjs` reads the `qaRunner` section and provides the single active-stage gate for future cleanup prompts. The runner owns:
+
+- Required command checks for manifest validation, Final Round data validators, Team Builder artifact/browser equivalence, live score checks, bracket checks, public preview browser QA, and `git diff --check`.
+- Syntax checks for active public app scripts, active public wrappers, the manifest validator, and the manifest helper.
+- Search checks for old globals/legacy paths, active eliminated-player leakage, and public refereeing/conspiracy leakage.
+- A local static server for browser QA checks that need a real URL.
+
+The runner does not rebuild models, tune weights, change recommendations, change projections, change score predictions, change Team Builder output, stage files, commit files, or push.

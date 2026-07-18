@@ -81,6 +81,7 @@ const listedWrappers = Object.values(manifest.wrappers || {});
 const listedValidators = Object.values(manifest.validators || {});
 const blockedGlobals = manifestBlockedGlobals(manifest);
 const forbiddenPublicSurfaces = manifest.forbiddenPublicSurfaces || [];
+const qaRunner = manifest.qaRunner || {};
 
 const loadedByPage = (page) => new Set((pageScripts[page] || []).map((entry) => entry.file));
 const missingExpectedScripts = Object.entries(manifest.publicWiring?.pages || {}).flatMap(([page, config]) => {
@@ -119,6 +120,49 @@ const requiredFiles = [
     return { id, value: error.message, ok: false };
   }
 });
+const requiredQaRunnerCommandIds = [
+  "manifest_validation",
+  "team_builder_browser_equivalence",
+  "eligible_players",
+  "fixture_exposure_strategy",
+  "team_builder_final_round",
+  "core_pick_lineup_evidence",
+  "active_fantasy_data_flow",
+  "live_fixture_mapping",
+  "match_environment_live_scores",
+  "world_cup_fixtures_page_live_scores",
+  "final_round_fixture_authority",
+  "bracket_path_integrity",
+  "knockout_bracket_prediction",
+  "public_preview_browser_qa",
+  "git_diff_whitespace"
+];
+const requiredSyntaxChecks = [
+  "script.js",
+  "worldCupPage.js",
+  "worldCupData.js",
+  "knockoutBracketPredictionData.js",
+  "fantasyPoolRecommendationsData.js",
+  "fantasyPoolMatchdayProjectionsData.js",
+  "fantasyPoolScorePredictionsData.js",
+  "fantasyPoolOfficialDataStatusData.js",
+  "liveMatchdayStatusData.js",
+  "livePlayerStatusData.js",
+  "teamBuilderFinalRoundArtifactData.js",
+  "scripts/runActiveStageQaFromManifestV1.mjs",
+  "scripts/validateActiveStageManifestV1.mjs",
+  "scripts/lib/readActiveStageManifest.mjs"
+];
+const requiredSearchCheckIds = [
+  "old_globals_legacy_paths_public_files",
+  "active_eliminated_player_leakage",
+  "public_refereeing_conspiracy_leakage"
+];
+const qaRunnerCommandIds = (qaRunner.requiredCommandChecks || []).map((entry) => entry.id);
+const missingQaRunnerCommandIds = requiredQaRunnerCommandIds.filter((id) => !qaRunnerCommandIds.includes(id));
+const missingSyntaxChecks = requiredSyntaxChecks.filter((file) => !(qaRunner.syntaxChecks || []).includes(file));
+const searchCheckIds = (qaRunner.searchChecks || []).map((entry) => entry.id);
+const missingSearchChecks = requiredSearchCheckIds.filter((id) => !searchCheckIds.includes(id));
 
 const requiredBlockedGlobals = [
   "FINANCE_PLAYERS_DATA",
@@ -184,6 +228,26 @@ const checks = [
   }),
   check("forbidden_refereeing_conspiracy_absent_from_public_pages", forbiddenHits.length === 0, {
     forbiddenHits
+  }),
+  check("qa_runner_section_present", Boolean(qaRunner.script && qaRunner.outputJson && qaRunner.outputReport), {
+    script: qaRunner.script,
+    outputJson: qaRunner.outputJson,
+    outputReport: qaRunner.outputReport
+  }),
+  check("qa_runner_script_exists", Boolean(qaRunner.script && exists(qaRunner.script)), {
+    script: qaRunner.script
+  }),
+  check("qa_runner_required_command_checks_present", missingQaRunnerCommandIds.length === 0, {
+    missingQaRunnerCommandIds
+  }),
+  check("qa_runner_syntax_checks_present", missingSyntaxChecks.length === 0, {
+    missingSyntaxChecks
+  }),
+  check("qa_runner_search_checks_present", missingSearchChecks.length === 0, {
+    missingSearchChecks
+  }),
+  check("qa_runner_public_preview_uses_local_server", Boolean(qaRunner.localServer?.baseUrl && (qaRunner.requiredCommandChecks || []).some((entry) => entry.id === "public_preview_browser_qa" && entry.requiresLocalServer)), {
+    localServer: qaRunner.localServer
   })
 ];
 
@@ -199,6 +263,7 @@ const result = {
   sourceFiles: listedSourceFiles,
   publicWrappers: listedWrappers,
   validators: listedValidators,
+  qaRunner,
   blockedGlobals,
   pageScripts,
   checks
