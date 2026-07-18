@@ -1,0 +1,13 @@
+{
+  "schema_version": "final_round_core_pick_lineup_evidence_qa_v1",
+  "generated_at": "2026-07-18T02:28:29.468Z",
+  "status": "pass",
+  "summary": {
+    "core_pick_rows": 25,
+    "core_without_explicit_sf_starter": 0,
+    "thin_profile_core_picks": 0,
+    "third_place_core_without_rotation_check": 0,
+    "points_only_core_picks": 0
+  },
+  "unsafe_core_pick_rows": []
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": "world_cup_sf_fixtures_page_qa_v1",
-  "generated_at": "2026-07-12T12:43:11.779Z",
+  "generated_at": "2026-07-18T02:32:59.552Z",
   "status": "pass",
   "summary": {
     "sf_fixture_count": 2,
@@ -13,23 +13,25 @@
       "slot": "M101",
       "fixture": "France vs Spain",
       "kickoff": "Jul 14, 2026 · 3:00 PM ET",
-      "live_fixture_status": "scheduled",
+      "live_fixture_status": "complete",
+      "expected_score_text": "FRA 0 - 2 ESP",
       "teams_visible": true,
       "kickoff_visible": true,
-      "scheduled_visible": true,
+      "actual_final_score_visible": true,
       "no_tbd": true,
-      "live_mapped_scheduled": true
+      "live_mapped_final": true
     },
     {
       "slot": "M102",
       "fixture": "England vs Argentina",
       "kickoff": "Jul 15, 2026 · 3:00 PM ET",
-      "live_fixture_status": "scheduled",
+      "live_fixture_status": "complete",
+      "expected_score_text": "ENG 1 - 2 ARG",
       "teams_visible": true,
       "kickoff_visible": true,
-      "scheduled_visible": true,
+      "actual_final_score_visible": true,
       "no_tbd": true,
-      "live_mapped_scheduled": true
+      "live_mapped_final": true
     }
   ],
   "qf_score_checks": [
@@ -62,7 +64,7 @@
       "safe_final": true
     }
   ],
-  "bracket_note": "Round of 32 teams are shown from the locked R32 fixture authority; Round of 16 and Quarterfinal actual scores remain visible; Semifinal slots use the final SF fixture authority. Feed source IDs are metadata, not bracket match numbers.",
+  "bracket_note": "Round of 32 teams are shown from the locked R32 fixture authority; Round of 16, Quarterfinal, and Semifinal actual scores remain visible; Final and Third Place use the final-round fixture authority. Feed source IDs are metadata, not bracket match numbers.",
   "errors": [],
   "warnings": []
 }

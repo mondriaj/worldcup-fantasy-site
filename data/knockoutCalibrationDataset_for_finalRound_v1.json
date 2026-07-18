@@ -1,0 +1,503 @@
+{
+  "schema_version": "knockout_calibration_dataset_for_final_round_v1",
+  "generated_at": "2026-07-18T02:28:29.468Z",
+  "evidence_scope": "Group stage through completed semifinals; final round fixtures are scheduled only.",
+  "sf_residuals": [
+    {
+      "match_number": 101,
+      "fixture": "France vs Spain",
+      "predicted_xg": "1.211-1.464",
+      "actual_score": "0-2",
+      "home_goal_residual": -1.211,
+      "away_goal_residual": 0.536,
+      "actual_winner": "Spain"
+    },
+    {
+      "match_number": 102,
+      "fixture": "England vs Argentina",
+      "predicted_xg": "1.128-1.45",
+      "actual_score": "1-2",
+      "home_goal_residual": -0.128,
+      "away_goal_residual": 0.55,
+      "actual_winner": "Argentina"
+    }
+  ],
+  "sf_starters": [
+    {
+      "id": "28",
+      "name": "Cristian Romero",
+      "country": "Argentina"
+    },
+    {
+      "id": "30",
+      "name": "Nahuel Molina",
+      "country": "Argentina"
+    },
+    {
+      "id": "34",
+      "name": "Nicolás Tagliafico",
+      "country": "Argentina"
+    },
+    {
+      "id": "38",
+      "name": "Lionel Messi",
+      "country": "Argentina"
+    },
+    {
+      "id": "39",
+      "name": "Julián Alvarez",
+      "country": "Argentina"
+    },
+    {
+      "id": "41",
+      "name": "Giuliano Simeone",
+      "country": "Argentina"
+    },
+    {
+      "id": "45",
+      "name": "Emiliano Martínez",
+      "country": "Argentina"
+    },
+    {
+      "id": "48",
+      "name": "Leandro Paredes",
+      "country": "Argentina"
+    },
+    {
+      "id": "56",
+      "name": "Alexis Mac Allister",
+      "country": "Argentina"
+    },
+    {
+      "id": "57",
+      "name": "Enzo Fernández",
+      "country": "Argentina"
+    },
+    {
+      "id": "461",
+      "name": "Marc Guéhi",
+      "country": "England"
+    },
+    {
+      "id": "466",
+      "name": "John Stones",
+      "country": "England"
+    },
+    {
+      "id": "467",
+      "name": "Djed Spence",
+      "country": "England"
+    },
+    {
+      "id": "468",
+      "name": "Harry Kane",
+      "country": "England"
+    },
+    {
+      "id": "474",
+      "name": "Anthony Gordon",
+      "country": "England"
+    },
+    {
+      "id": "475",
+      "name": "Morgan Rogers",
+      "country": "England"
+    },
+    {
+      "id": "477",
+      "name": "Jordan Pickford",
+      "country": "England"
+    },
+    {
+      "id": "486",
+      "name": "Elliot Anderson",
+      "country": "England"
+    },
+    {
+      "id": "488",
+      "name": "Declan Rice",
+      "country": "England"
+    },
+    {
+      "id": "491",
+      "name": "Jude Bellingham",
+      "country": "England"
+    },
+    {
+      "id": "494",
+      "name": "Dayot Upamecano",
+      "country": "France"
+    },
+    {
+      "id": "498",
+      "name": "Lucas Digne",
+      "country": "France"
+    },
+    {
+      "id": "500",
+      "name": "Kylian Mbappé",
+      "country": "France"
+    },
+    {
+      "id": "501",
+      "name": "Ousmane Dembélé",
+      "country": "France"
+    },
+    {
+      "id": "506",
+      "name": "Mike Maignan",
+      "country": "France"
+    },
+    {
+      "id": "510",
+      "name": "Adrien Rabiot",
+      "country": "France"
+    },
+    {
+      "id": "515",
+      "name": "Aurélien Tchouaméni",
+      "country": "France"
+    },
+    {
+      "id": "517",
+      "name": "Michael Olise",
+      "country": "France"
+    },
+    {
+      "id": "1082",
+      "name": "Álex Baena",
+      "country": "Spain"
+    },
+    {
+      "id": "1085",
+      "name": "Pedro Porro",
+      "country": "Spain"
+    },
+    {
+      "id": "1086",
+      "name": "Aymeric Laporte",
+      "country": "Spain"
+    },
+    {
+      "id": "1088",
+      "name": "Marc Cucurella",
+      "country": "Spain"
+    },
+    {
+      "id": "1089",
+      "name": "Pau Cubarsí",
+      "country": "Spain"
+    },
+    {
+      "id": "1092",
+      "name": "Lamine Yamal Nasraoui Ebana",
+      "country": "Spain"
+    },
+    {
+      "id": "1094",
+      "name": "Mikel Oyarzabal",
+      "country": "Spain"
+    },
+    {
+      "id": "1099",
+      "name": "Unai Simón",
+      "country": "Spain"
+    },
+    {
+      "id": "1104",
+      "name": "Rodrigo Hernández Cascante",
+      "country": "Spain"
+    },
+    {
+      "id": "1105",
+      "name": "Dani Olmo",
+      "country": "Spain"
+    },
+    {
+      "id": "1318",
+      "name": "Lisandro Martínez",
+      "country": "Argentina"
+    },
+    {
+      "id": "1429",
+      "name": "William Saliba",
+      "country": "France"
+    },
+    {
+      "id": "1430",
+      "name": "Jules Koundé",
+      "country": "France"
+    },
+    {
+      "id": "1431",
+      "name": "Bradley Barcola",
+      "country": "France"
+    },
+    {
+      "id": "1709",
+      "name": "Reece James",
+      "country": "England"
+    },
+    {
+      "id": "1998",
+      "name": "Fabián Ruiz",
+      "country": "Spain"
+    }
+  ],
+  "qf_and_sf_starters": [
+    {
+      "id": "28",
+      "name": "Cristian Romero",
+      "country": "Argentina"
+    },
+    {
+      "id": "30",
+      "name": "Nahuel Molina",
+      "country": "Argentina"
+    },
+    {
+      "id": "34",
+      "name": "Nicolás Tagliafico",
+      "country": "Argentina"
+    },
+    {
+      "id": "38",
+      "name": "Lionel Messi",
+      "country": "Argentina"
+    },
+    {
+      "id": "39",
+      "name": "Julián Alvarez",
+      "country": "Argentina"
+    },
+    {
+      "id": "45",
+      "name": "Emiliano Martínez",
+      "country": "Argentina"
+    },
+    {
+      "id": "48",
+      "name": "Leandro Paredes",
+      "country": "Argentina"
+    },
+    {
+      "id": "56",
+      "name": "Alexis Mac Allister",
+      "country": "Argentina"
+    },
+    {
+      "id": "57",
+      "name": "Enzo Fernández",
+      "country": "Argentina"
+    },
+    {
+      "id": "461",
+      "name": "Marc Guéhi",
+      "country": "England"
+    },
+    {
+      "id": "466",
+      "name": "John Stones",
+      "country": "England"
+    },
+    {
+      "id": "468",
+      "name": "Harry Kane",
+      "country": "England"
+    },
+    {
+      "id": "474",
+      "name": "Anthony Gordon",
+      "country": "England"
+    },
+    {
+      "id": "477",
+      "name": "Jordan Pickford",
+      "country": "England"
+    },
+    {
+      "id": "486",
+      "name": "Elliot Anderson",
+      "country": "England"
+    },
+    {
+      "id": "488",
+      "name": "Declan Rice",
+      "country": "England"
+    },
+    {
+      "id": "491",
+      "name": "Jude Bellingham",
+      "country": "England"
+    },
+    {
+      "id": "494",
+      "name": "Dayot Upamecano",
+      "country": "France"
+    },
+    {
+      "id": "498",
+      "name": "Lucas Digne",
+      "country": "France"
+    },
+    {
+      "id": "500",
+      "name": "Kylian Mbappé",
+      "country": "France"
+    },
+    {
+      "id": "501",
+      "name": "Ousmane Dembélé",
+      "country": "France"
+    },
+    {
+      "id": "506",
+      "name": "Mike Maignan",
+      "country": "France"
+    },
+    {
+      "id": "510",
+      "name": "Adrien Rabiot",
+      "country": "France"
+    },
+    {
+      "id": "517",
+      "name": "Michael Olise",
+      "country": "France"
+    },
+    {
+      "id": "1082",
+      "name": "Álex Baena",
+      "country": "Spain"
+    },
+    {
+      "id": "1085",
+      "name": "Pedro Porro",
+      "country": "Spain"
+    },
+    {
+      "id": "1086",
+      "name": "Aymeric Laporte",
+      "country": "Spain"
+    },
+    {
+      "id": "1088",
+      "name": "Marc Cucurella",
+      "country": "Spain"
+    },
+    {
+      "id": "1089",
+      "name": "Pau Cubarsí",
+      "country": "Spain"
+    },
+    {
+      "id": "1092",
+      "name": "Lamine Yamal Nasraoui Ebana",
+      "country": "Spain"
+    },
+    {
+      "id": "1094",
+      "name": "Mikel Oyarzabal",
+      "country": "Spain"
+    },
+    {
+      "id": "1099",
+      "name": "Unai Simón",
+      "country": "Spain"
+    },
+    {
+      "id": "1104",
+      "name": "Rodrigo Hernández Cascante",
+      "country": "Spain"
+    },
+    {
+      "id": "1105",
+      "name": "Dani Olmo",
+      "country": "Spain"
+    },
+    {
+      "id": "1318",
+      "name": "Lisandro Martínez",
+      "country": "Argentina"
+    },
+    {
+      "id": "1429",
+      "name": "William Saliba",
+      "country": "France"
+    },
+    {
+      "id": "1430",
+      "name": "Jules Koundé",
+      "country": "France"
+    },
+    {
+      "id": "1998",
+      "name": "Fabián Ruiz",
+      "country": "Spain"
+    }
+  ],
+  "sf_started_not_qf": [
+    {
+      "id": "41",
+      "name": "Giuliano Simeone",
+      "country": "Argentina"
+    },
+    {
+      "id": "467",
+      "name": "Djed Spence",
+      "country": "England"
+    },
+    {
+      "id": "475",
+      "name": "Morgan Rogers",
+      "country": "England"
+    },
+    {
+      "id": "515",
+      "name": "Aurélien Tchouaméni",
+      "country": "France"
+    },
+    {
+      "id": "1431",
+      "name": "Bradley Barcola",
+      "country": "France"
+    },
+    {
+      "id": "1709",
+      "name": "Reece James",
+      "country": "England"
+    }
+  ],
+  "qf_started_not_sf": [
+    {
+      "id": "50",
+      "name": "Rodrigo De Paul",
+      "country": "Argentina"
+    },
+    {
+      "id": "457",
+      "name": "Nico O'Reilly",
+      "country": "England"
+    },
+    {
+      "id": "463",
+      "name": "Ezri Konsa",
+      "country": "England"
+    },
+    {
+      "id": "476",
+      "name": "Noni Madueke",
+      "country": "England"
+    },
+    {
+      "id": "505",
+      "name": "Désiré Doué",
+      "country": "France"
+    },
+    {
+      "id": "512",
+      "name": "Manu Koné",
+      "country": "France"
+    }
+  ]
+}

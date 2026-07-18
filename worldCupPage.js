@@ -5,11 +5,13 @@
   const r16Authority = window.R16_FIXTURE_AUTHORITY_DATA || {};
   const qfAuthority = window.QF_FIXTURE_AUTHORITY_DATA || {};
   const sfAuthority = window.SF_FIXTURE_AUTHORITY_DATA || {};
+  const finalRoundAuthority = window.FINAL_ROUND_FIXTURE_AUTHORITY_DATA || {};
   const liveFixtures = Array.isArray(liveData.fixtures) ? liveData.fixtures : [];
   const r32AuthorityFixtures = Array.isArray(r32Authority.fixtures) ? r32Authority.fixtures : [];
   const r16AuthorityFixtures = Array.isArray(r16Authority.fixtures) ? r16Authority.fixtures : [];
   const qfAuthorityFixtures = Array.isArray(qfAuthority.fixtures) ? qfAuthority.fixtures : [];
   const sfAuthorityFixtures = Array.isArray(sfAuthority.fixtures) ? sfAuthority.fixtures : [];
+  const finalRoundAuthorityFixtures = Array.isArray(finalRoundAuthority.fixtures) ? finalRoundAuthority.fixtures : [];
 
   function escapeHtml(value) {
     return String(value || "")
@@ -353,6 +355,10 @@
     return authorityFixtureForMatch(match, sfAuthorityFixtures);
   }
 
+  function finalRoundAuthorityFixtureForMatch(match) {
+    return authorityFixtureForMatch(match, finalRoundAuthorityFixtures);
+  }
+
   function authorityTeamLabel(team) {
     return [
       team?.flag || "",
@@ -437,13 +443,22 @@
     const liveContext = liveFixtureContextHtml(liveFixture);
     const teamAText = fixture.team_a?.team ? authorityTeamLabel(fixture.team_a) : "TBD";
     const teamBText = fixture.team_b?.team ? authorityTeamLabel(fixture.team_b) : "TBD";
+    const kickoffText = fixture.kickoff?.eastern_datetime_label || fixture.kickoff?.source_datetime || "";
+    const advancesTo = typeof fixture.winner_advances_to === "string"
+      ? fixture.winner_advances_to
+      : fixture.winner_advances_to?.bracket_slot_id || "QF";
+    const advancesPath = typeof fixture.winner_advances_to === "object"
+      ? fixture.winner_advances_to?.path || ""
+      : "";
 
     return `
       <article class="bracket-match" data-bracket-slot="${escapeHtml(fixture.bracket_slot_id)}" data-source-fixture-id="${escapeHtml(fixture.source_fixture_id)}">
         <span>${escapeHtml(fixture.bracket_slot_id)} · R16 · ${escapeHtml(r16StatusLabel(fixture))}</span>
         <strong>${escapeHtml(teamAText)} vs ${escapeHtml(teamBText)}</strong>
         ${liveContext || `<small>${escapeHtml(r16PendingSourcesText(fixture))}</small>`}
-        <small>Feed source ID: ${escapeHtml(fixture.source_fixture_id || "pending")} · Source IDs are metadata, not bracket match numbers.</small>
+        <small>${escapeHtml(kickoffText)}</small>
+        <small>Winner advances to ${escapeHtml(advancesTo)}${advancesPath ? ` · ${escapeHtml(advancesPath)}` : ""}</small>
+        <small>Feed source ID: ${escapeHtml(fixture.source_fixture_id || "pending")} · R16 Fixture Authority · source IDs are metadata, not bracket match numbers.</small>
       </article>
     `;
   }
@@ -518,6 +533,33 @@
     `;
   }
 
+  function renderFinalRoundAuthorityMatch(match) {
+    const fixture = finalRoundAuthorityFixtureForMatch(match);
+    if (!fixture) {
+      return `
+        <article class="bracket-match">
+          <span>Match ${escapeHtml(match.id)}</span>
+          <strong>${escapeHtml(match.path)}</strong>
+        </article>
+      `;
+    }
+
+    const teamAText = fixture.team_a?.team ? authorityTeamLabel(fixture.team_a) : "TBD";
+    const teamBText = fixture.team_b?.team ? authorityTeamLabel(fixture.team_b) : "TBD";
+    const kickoffText = fixture.kickoff?.eastern_datetime_label || fixture.kickoff?.source_datetime || "";
+    const fixtureStatusText = qfStatusLabel({ classification: fixture.status || fixture.classification });
+
+    return `
+      <article class="bracket-match" data-bracket-slot="${escapeHtml(fixture.bracket_slot_id)}" data-source-fixture-id="${escapeHtml(fixture.source_fixture_id)}">
+        <span>${escapeHtml(fixture.bracket_slot_id)} · ${escapeHtml(fixture.round)} · ${escapeHtml(fixtureStatusText)}</span>
+        <strong>${escapeHtml(teamAText)} vs ${escapeHtml(teamBText)}</strong>
+        <small>${escapeHtml(kickoffText)}</small>
+        <small>${escapeHtml(fixture.bracket_path || "")}</small>
+        <small>Feed source ID: ${escapeHtml(fixture.source_fixture_id || "pending")} · Final Round Fixture Authority · source IDs are metadata, not bracket match numbers.</small>
+      </article>
+    `;
+  }
+
   function renderBracket() {
     const bracketRounds = document.getElementById("bracket-rounds");
     const bracketNote = document.getElementById("bracket-note");
@@ -528,7 +570,7 @@
 
     if (bracketNote) {
       bracketNote.textContent = r32AuthorityFixtures.length
-        ? "Round of 32 teams are shown from the locked R32 fixture authority; Round of 16 and Quarterfinal actual scores remain visible; Semifinal slots use the final SF fixture authority. Feed source IDs are metadata, not bracket match numbers."
+        ? "Round of 32 teams are shown from the locked R32 fixture authority; Round of 16, Quarterfinal, and Semifinal actual scores remain visible; Final and Third Place use the final-round fixture authority. Feed source IDs are metadata, not bracket match numbers."
         : data.bracket?.note || "";
     }
 
@@ -544,6 +586,8 @@
                 ? renderQfAuthorityMatch(match)
                 : round.name === "Semi-finals"
                   ? renderSfAuthorityMatch(match)
+                  : round.name === "Final" || round.name === "Final matches"
+                    ? renderFinalRoundAuthorityMatch(match)
             : `
               <article class="bracket-match">
                 <span>Match ${escapeHtml(match.id)}</span>

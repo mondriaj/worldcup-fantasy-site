@@ -114,7 +114,9 @@ for (let index = 0; index < requiredScriptOrder.length - 1; index += 1) {
 
 if (authority.status !== "pass") errors.push(`QF authority status is ${authority.status}.`);
 if (fixtures.length !== 4) errors.push(`Expected 4 QF fixtures, found ${fixtures.length}.`);
-if (!/completed R32, R16, and QF results/i.test(html)) errors.push("world-cup.html does not state that QF results remain visible.");
+if (!/completed R32, R16, QF, and SF results/i.test(html) && !/completed R32, R16, and QF results/i.test(html)) {
+  errors.push("world-cup.html does not state that QF results remain visible.");
+}
 if (!/QF Fixture Authority/i.test(rendered.bracketText)) errors.push("Rendered bracket does not mention QF Fixture Authority.");
 
 const fixtureChecks = fixtures.map((fixture) => {

@@ -1,6 +1,6 @@
 # World Cup Fixtures Page Live Scores QA v1
 
-Generated: 2026-07-12T12:43:01.835Z
+Generated: 2026-07-18T02:32:59.527Z
 
 Status: passed
 
@@ -10,9 +10,9 @@ Status: passed
 | --- | --- |
 | World Cup fixtures | 72 |
 | Rendered fixture rows | 72 |
-| Live fixtures | 102 |
+| Live fixtures | 104 |
 | Group-stage live fixtures | 72 |
-| Extra non-group live fixtures | 30 |
+| Extra non-group live fixtures | 32 |
 | Completed MD1 fixtures visible | 24 / 24 |
 | Completed MD2 fixtures visible | 24 / 24 |
 | Completed MD3 fixtures visible | 24 / 24 |

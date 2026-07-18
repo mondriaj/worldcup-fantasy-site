@@ -14,6 +14,7 @@ const files = {
   r16FixtureAuthority: "data/r16FixtureAuthority_v1.json",
   qfFixtureAuthority: "data/qfFixtureAuthority_v1.json",
   sfFixtureAuthority: "data/sfFixtureAuthority_v1.json",
+  finalRoundFixtureAuthority: "data/finalRoundFixtureAuthority_v1.json",
   liveMatchday: "data/liveMatchdayStatus_v1.json",
   knockoutScorePredictor: "data/knockoutScorePredictor_v1.json",
   bracketPoolStrategy: "data/bracketPoolStrategyModel_v1.json",
@@ -371,6 +372,7 @@ function buildKnockoutBracketPrediction() {
   const r16FixtureAuthority = readJson(files.r16FixtureAuthority);
   const qfFixtureAuthority = readJson(files.qfFixtureAuthority);
   const sfFixtureAuthority = readJson(files.sfFixtureAuthority);
+  const finalRoundFixtureAuthority = readJson(files.finalRoundFixtureAuthority);
   const liveMatchday = readJson(files.liveMatchday);
   const knockout = readJson(files.knockoutScorePredictor);
   const bracketPool = readJson(files.bracketPoolStrategy);
@@ -383,6 +385,7 @@ function buildKnockoutBracketPrediction() {
   const r16AuthorityByMatch = new Map((r16FixtureAuthority.fixtures || []).map((fixture) => [Number(fixture.bracket_match_number), fixture]));
   const qfAuthorityByMatch = new Map((qfFixtureAuthority.fixtures || []).map((fixture) => [Number(fixture.bracket_match_number), fixture]));
   const sfAuthorityByMatch = new Map((sfFixtureAuthority.fixtures || []).map((fixture) => [Number(fixture.bracket_match_number), fixture]));
+  const finalRoundAuthorityByMatch = new Map((finalRoundFixtureAuthority.fixtures || []).map((fixture) => [Number(fixture.bracket_match_number), fixture]));
   const rowsByMatch = new Map();
   const actualWinnersByMatch = new Map();
   const actualLosersByMatch = new Map();
@@ -471,21 +474,67 @@ function buildKnockoutBracketPrediction() {
           bracketHalf = firstSource?.bracketSide || secondSource?.bracketSide || null;
         }
       } else if (node.round === "third_place") {
+        const authority = finalRoundAuthorityByMatch.get(node.matchNumber);
         const firstSource = rowsByMatch.get(node.loserSources[0]);
         const secondSource = rowsByMatch.get(node.loserSources[1]);
-        teamA = asPredictedTeam(predictedLosersByMatch.get(node.loserSources[0])) || pendingTeam(`Loser M${node.loserSources[0]}`);
-        teamB = asPredictedTeam(predictedLosersByMatch.get(node.loserSources[1])) || pendingTeam(`Loser M${node.loserSources[1]}`);
-        actualTeamA = actualLosersByMatch.get(node.loserSources[0]) || null;
-        actualTeamB = actualLosersByMatch.get(node.loserSources[1]) || null;
+        if (authority?.team_a && authority?.team_b) {
+          teamA = teamFromParts({
+            teamId: authority.team_a.team_id,
+            name: authority.team_a.team,
+            code: authority.team_a.code,
+            flag: authority.team_a.flag,
+            sourceConfidence: "source-backed"
+          });
+          teamB = teamFromParts({
+            teamId: authority.team_b.team_id,
+            name: authority.team_b.team,
+            code: authority.team_b.code,
+            flag: authority.team_b.flag,
+            sourceConfidence: "source-backed"
+          });
+          actualTeamA = teamA;
+          actualTeamB = teamB;
+          sourceFixtureId = authority.source_fixture_id || null;
+          sourceFixtureOrder = authority.source_fixture_order ?? null;
+          sourceStatus = statusFromLiveFixture(authority, liveIndexes);
+        } else {
+          teamA = asPredictedTeam(predictedLosersByMatch.get(node.loserSources[0])) || pendingTeam(`Loser M${node.loserSources[0]}`);
+          teamB = asPredictedTeam(predictedLosersByMatch.get(node.loserSources[1])) || pendingTeam(`Loser M${node.loserSources[1]}`);
+          actualTeamA = actualLosersByMatch.get(node.loserSources[0]) || null;
+          actualTeamB = actualLosersByMatch.get(node.loserSources[1]) || null;
+        }
         bracketQuarter = null;
         bracketHalf = `${firstSource?.bracketSide || ""}|${secondSource?.bracketSide || ""}`.replace(/^\||\|$/g, "") || null;
       } else {
+        const authority = finalRoundAuthorityByMatch.get(node.matchNumber);
         const firstSource = rowsByMatch.get(node.winnerSources[0]);
         const secondSource = rowsByMatch.get(node.winnerSources[1]);
-        teamA = asPredictedTeam(predictedWinnersByMatch.get(node.winnerSources[0])) || pendingTeam(`Winner M${node.winnerSources[0]}`);
-        teamB = asPredictedTeam(predictedWinnersByMatch.get(node.winnerSources[1])) || pendingTeam(`Winner M${node.winnerSources[1]}`);
-        actualTeamA = actualWinnersByMatch.get(node.winnerSources[0]) || null;
-        actualTeamB = actualWinnersByMatch.get(node.winnerSources[1]) || null;
+        if (authority?.team_a && authority?.team_b) {
+          teamA = teamFromParts({
+            teamId: authority.team_a.team_id,
+            name: authority.team_a.team,
+            code: authority.team_a.code,
+            flag: authority.team_a.flag,
+            sourceConfidence: "source-backed"
+          });
+          teamB = teamFromParts({
+            teamId: authority.team_b.team_id,
+            name: authority.team_b.team,
+            code: authority.team_b.code,
+            flag: authority.team_b.flag,
+            sourceConfidence: "source-backed"
+          });
+          actualTeamA = teamA;
+          actualTeamB = teamB;
+          sourceFixtureId = authority.source_fixture_id || null;
+          sourceFixtureOrder = authority.source_fixture_order ?? null;
+          sourceStatus = statusFromLiveFixture(authority, liveIndexes);
+        } else {
+          teamA = asPredictedTeam(predictedWinnersByMatch.get(node.winnerSources[0])) || pendingTeam(`Winner M${node.winnerSources[0]}`);
+          teamB = asPredictedTeam(predictedWinnersByMatch.get(node.winnerSources[1])) || pendingTeam(`Winner M${node.winnerSources[1]}`);
+          actualTeamA = actualWinnersByMatch.get(node.winnerSources[0]) || null;
+          actualTeamB = actualWinnersByMatch.get(node.winnerSources[1]) || null;
+        }
         bracketQuarter = firstSource?.bracketQuarter || secondSource?.bracketQuarter || null;
         bracketHalf = firstSource?.bracketSide || secondSource?.bracketSide || null;
       }
@@ -540,6 +589,7 @@ function buildKnockoutBracketPrediction() {
       r16FixtureAuthority: files.r16FixtureAuthority,
       qfFixtureAuthority: files.qfFixtureAuthority,
       sfFixtureAuthority: files.sfFixtureAuthority,
+      finalRoundFixtureAuthority: files.finalRoundFixtureAuthority,
       officialBracket: files.worldCupData,
       modelPicks: files.bracketPoolStrategy,
       scorePredictions: files.knockoutScorePredictor,
@@ -606,6 +656,7 @@ Status: **${data.predictionStatus.toUpperCase()}**
 - R16 fixtures: \`${data.bracketSource.r16FixtureAuthority}\`
 - QF fixtures: \`${data.bracketSource.qfFixtureAuthority}\`
 - SF fixtures: \`${data.bracketSource.sfFixtureAuthority}\`
+- Final Round fixtures: \`${data.bracketSource.finalRoundFixtureAuthority}\`
 - Bracket tree: \`${data.bracketSource.officialBracket}\`
 - Model picks: \`${data.bracketSource.modelPicks}\`
 - Predicted scores: \`${data.bracketSource.scorePredictions}\`

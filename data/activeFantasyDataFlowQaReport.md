@@ -1,8 +1,8 @@
-# Active Final QF Data Flow QA Report
+# Active Final Round Data Flow QA Report
 
-Generated: 2026-07-12T12:43:33.289Z
+Generated: 2026-07-18T02:29:18.895Z
 Status: **PASS**
-Active version: `20260708-qf-final`
+Active version: `20260718-final-round`
 
 ## Summary
 
@@ -25,9 +25,9 @@ Active version: `20260708-qf-final`
 - duplicate official fantasy player IDs: 0
 - selectable official records: 414
 - selectable by position: GK 49, DEF 130, MID 161, FWD 74
-- recommendation identity coverage: 500 / 500 resolved
-- projection identity coverage: 1525 / 1525 resolved
-- finance identity coverage: 1233 / 1233 resolved
+- recommendation identity coverage: 625 / 625 resolved
+- projection identity coverage: 1659 / 1659 resolved
+- finance identity coverage: 1265 / 1265 resolved
 - projection/finance active ID alignment: 0 projection-only, 417 finance-only
 
 ## C. Enrichment Coverage
@@ -44,16 +44,16 @@ Active version: `20260708-qf-final`
 - stale cache strings absent: pass
 - public fallback references absent: pass
 
-## QF Gate
+## Final Round Gate
 
-- QF recommendations: 125
-- QF recommendation active identity coverage: 125 / 125
-- QF recommendation projection misses: 0
-- QF projections: 203
-- QF score fixtures: 4
-- playersData.js QF recommendation enrichment misses: 109
-- playersData.js QF projection enrichment misses: 179
-- playersData.js finance enrichment misses: 1122
+- Final Round recommendations: 125
+- Final Round recommendation active identity coverage: 125 / 125
+- Final Round recommendation projection misses: 0
+- Final Round projections: 134
+- Final Round score fixtures: 2
+- playersData.js Final Round recommendation enrichment misses: 112
+- playersData.js Final Round projection enrichment misses: 110
+- playersData.js finance enrichment misses: 1152
 
 ## Checks
 
@@ -96,6 +96,8 @@ liveMatchdayStatusData.js
 livePlayerStatusData.js
 r16FixtureAuthorityData.js
 qfFixtureAuthorityData.js
+sfFixtureAuthorityData.js
+finalRoundFixtureAuthorityData.js
 script.js
 ```
 

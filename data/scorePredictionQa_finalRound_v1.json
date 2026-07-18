@@ -1,0 +1,220 @@
+{
+  "schema_version": "score_prediction_qa_final_round_v1",
+  "generated_at": "2026-07-18T02:28:29.468Z",
+  "status": "pass",
+  "summary": {
+    "fixture_prediction_count": 2,
+    "final_round_fixture_predictions": 2,
+    "final_fixture_predictions": 1,
+    "third_place_fixture_predictions": 1,
+    "partial_or_pending_fixture_rows": 0,
+    "defaultMatchday": "finalRound",
+    "ownershipUsedAsSignal": false,
+    "finalSquadsSourceBacked": false,
+    "completedSfFixturesUsed": 2,
+    "incompleteSfFixtures": 0,
+    "projected_final_match": "Spain vs Argentina",
+    "projected_third_place_match": "France vs England",
+    "third_place_modifiers": {
+      "thirdPlaceGoalEnvironmentModifier": 1.16,
+      "thirdPlaceCleanSheetModifier": 0.976,
+      "thirdPlaceLineupVolatilityModifier": 1.08,
+      "thirdPlaceStarterProbabilityPenalty": 0.12,
+      "thirdPlaceUpsideModifier": 1.12
+    }
+  },
+  "fixture_predictions": [
+    {
+      "prediction_id": "fwc2026-m103-score-final-round-v1",
+      "match_id": "fwc2026-m103",
+      "fixture_id": "fwc2026-m103",
+      "match_number": 103,
+      "matchday": "Final Round",
+      "fantasy_matchday_id": "finalRound",
+      "stage": "third_place",
+      "group": "Third Place",
+      "date": "2026-07-18T22:00:00+01:00",
+      "eastern_datetime_label": "Jul 18, 2026 · 5:00 PM ET",
+      "fixture_authority_status": "final_known",
+      "public_label": "Third Place",
+      "home_team_id": "france",
+      "home_team": "France",
+      "away_team_id": "england",
+      "away_team": "England",
+      "home_expected_goals": 1.464,
+      "away_expected_goals": 1.451,
+      "home_projected_xg": 1.464,
+      "away_projected_xg": 1.451,
+      "total_expected_goals": 2.915,
+      "home_win_probability": 0.368,
+      "draw_probability": 0.2692,
+      "away_win_probability": 0.3628,
+      "home_clean_sheet_probability": 0.279,
+      "away_clean_sheet_probability": 0.276,
+      "both_teams_to_score_probability": 0.5526,
+      "upset_risk_probability": 0.496,
+      "probability_extra_time": null,
+      "home_advance_probability": 0.504,
+      "away_advance_probability": 0.496,
+      "home_advance_in_90_probability": 0.368,
+      "away_advance_in_90_probability": 0.3628,
+      "home_advance_after_extra_time_probability": null,
+      "away_advance_after_extra_time_probability": null,
+      "home_advance_on_penalties_probability": null,
+      "away_advance_on_penalties_probability": null,
+      "favorite_team_id": "france",
+      "favorite_team": "France",
+      "favorite_win_probability": 0.504,
+      "projected_advancing_team": "France",
+      "matchUncertainty": "High",
+      "uncertainty_label": "High",
+      "top_scorelines": [
+        {
+          "scoreline": "1-1",
+          "home_goals": 1,
+          "away_goals": 1,
+          "probability": 0.128
+        },
+        {
+          "scoreline": "1-0",
+          "home_goals": 1,
+          "away_goals": 0,
+          "probability": 0.102
+        },
+        {
+          "scoreline": "0-1",
+          "home_goals": 0,
+          "away_goals": 1,
+          "probability": 0.101
+        },
+        {
+          "scoreline": "2-1",
+          "home_goals": 2,
+          "away_goals": 1,
+          "probability": 0.0907
+        },
+        {
+          "scoreline": "1-2",
+          "home_goals": 1,
+          "away_goals": 2,
+          "probability": 0.0896
+        },
+        {
+          "scoreline": "0-0",
+          "home_goals": 0,
+          "away_goals": 0,
+          "probability": 0.081
+        }
+      ],
+      "top_scoreline": "1-1",
+      "third_place_modifiers": {
+        "thirdPlaceGoalEnvironmentModifier": 1.16,
+        "thirdPlaceCleanSheetModifier": 0.976,
+        "thirdPlaceLineupVolatilityModifier": 1.08,
+        "thirdPlaceStarterProbabilityPenalty": 0.12,
+        "thirdPlaceUpsideModifier": 1.12
+      },
+      "data_quality_flags": [
+        "score_prediction_final_round_v1",
+        "completed_sf_only",
+        "pele_team_quality_prior",
+        "ownership_not_used_as_signal",
+        "final_squads_not_source_backed",
+        "third_place_goal_environment_modifier_applied"
+      ]
+    },
+    {
+      "prediction_id": "fwc2026-m104-score-final-round-v1",
+      "match_id": "fwc2026-m104",
+      "fixture_id": "fwc2026-m104",
+      "match_number": 104,
+      "matchday": "Final Round",
+      "fantasy_matchday_id": "finalRound",
+      "stage": "final",
+      "group": "Final",
+      "date": "2026-07-19T20:00:00+01:00",
+      "eastern_datetime_label": "Jul 19, 2026 · 3:00 PM ET",
+      "fixture_authority_status": "final_known",
+      "public_label": "Final",
+      "home_team_id": "spain",
+      "home_team": "Spain",
+      "away_team_id": "argentina",
+      "away_team": "Argentina",
+      "home_expected_goals": 1.341,
+      "away_expected_goals": 1.399,
+      "home_projected_xg": 1.341,
+      "away_projected_xg": 1.399,
+      "total_expected_goals": 2.74,
+      "home_win_probability": 0.3588,
+      "draw_probability": 0.2559,
+      "away_win_probability": 0.3853,
+      "home_clean_sheet_probability": 0.247,
+      "away_clean_sheet_probability": 0.262,
+      "both_teams_to_score_probability": 0.5561,
+      "upset_risk_probability": 0.4855,
+      "probability_extra_time": 0.2559,
+      "home_advance_probability": 0.4855,
+      "away_advance_probability": 0.5145,
+      "home_advance_in_90_probability": 0.3588,
+      "away_advance_in_90_probability": 0.3853,
+      "home_advance_after_extra_time_probability": 0.0479,
+      "away_advance_after_extra_time_probability": 0.0494,
+      "home_advance_on_penalties_probability": 0.0788,
+      "away_advance_on_penalties_probability": 0.0798,
+      "favorite_team_id": "argentina",
+      "favorite_team": "Argentina",
+      "favorite_win_probability": 0.5145,
+      "projected_advancing_team": "Argentina",
+      "matchUncertainty": "High",
+      "uncertainty_label": "High",
+      "top_scorelines": [
+        {
+          "scoreline": "1-1",
+          "home_goals": 1,
+          "away_goals": 1,
+          "probability": 0.121
+        },
+        {
+          "scoreline": "0-1",
+          "home_goals": 0,
+          "away_goals": 1,
+          "probability": 0.09
+        },
+        {
+          "scoreline": "1-0",
+          "home_goals": 1,
+          "away_goals": 0,
+          "probability": 0.087
+        },
+        {
+          "scoreline": "1-2",
+          "home_goals": 1,
+          "away_goals": 2,
+          "probability": 0.085
+        },
+        {
+          "scoreline": "2-1",
+          "home_goals": 2,
+          "away_goals": 1,
+          "probability": 0.081
+        },
+        {
+          "scoreline": "0-0",
+          "home_goals": 0,
+          "away_goals": 0,
+          "probability": 0.065
+        }
+      ],
+      "top_scoreline": "1-1",
+      "third_place_modifiers": null,
+      "data_quality_flags": [
+        "score_prediction_final_round_v1",
+        "completed_sf_only",
+        "pele_team_quality_prior",
+        "ownership_not_used_as_signal",
+        "final_squads_not_source_backed",
+        "final_extra_time_penalty_logic_retained"
+      ]
+    }
+  ]
+}

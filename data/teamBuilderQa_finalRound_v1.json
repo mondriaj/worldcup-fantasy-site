@@ -1,0 +1,368 @@
+{
+  "schema_version": "team_builder_qa_final_round_v1",
+  "generated_at": "2026-07-18T02:28:29.468Z",
+  "status": "pass",
+  "summary": {
+    "squad_size": 15,
+    "required_squad_size": 15,
+    "positions": {
+      "GK": 2,
+      "DEF": 5,
+      "MID": 5,
+      "FWD": 3
+    },
+    "defaultMatchday": "finalRound",
+    "captain": "Julián Alvarez",
+    "viceCaptain": "Leandro Paredes",
+    "third_place_players": 4,
+    "final_players": 11,
+    "thin_profile_players": 0,
+    "points_only_evidence_players": 0
+  },
+  "balancedSquad": [
+    {
+      "official_fantasy_player_id": "45",
+      "name": "Emiliano Martínez",
+      "country": "Argentina",
+      "position": "GK",
+      "price": 5,
+      "opponent": "Spain",
+      "fixture_stage": "final",
+      "projectedPoints": 3.15,
+      "start_probability": 0.888,
+      "captainScore": 30.972,
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false,
+      "roleCaution": ""
+    },
+    {
+      "official_fantasy_player_id": "1099",
+      "name": "Unai Simón",
+      "country": "Spain",
+      "position": "GK",
+      "price": 5,
+      "opponent": "Argentina",
+      "fixture_stage": "final",
+      "projectedPoints": 3.083,
+      "start_probability": 0.89,
+      "captainScore": 30.441,
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false,
+      "roleCaution": ""
+    },
+    {
+      "official_fantasy_player_id": "28",
+      "name": "Cristian Romero",
+      "country": "Argentina",
+      "position": "DEF",
+      "price": 4.9,
+      "opponent": "Spain",
+      "fixture_stage": "final",
+      "projectedPoints": 3.725,
+      "start_probability": 0.888,
+      "captainScore": 33.881,
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false,
+      "roleCaution": ""
+    },
+    {
+      "official_fantasy_player_id": "30",
+      "name": "Nahuel Molina",
+      "country": "Argentina",
+      "position": "DEF",
+      "price": 4.4,
+      "opponent": "Spain",
+      "fixture_stage": "final",
+      "projectedPoints": 3.725,
+      "start_probability": 0.888,
+      "captainScore": 33.881,
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false,
+      "roleCaution": ""
+    },
+    {
+      "official_fantasy_player_id": "34",
+      "name": "Nicolás Tagliafico",
+      "country": "Argentina",
+      "position": "DEF",
+      "price": 4.3,
+      "opponent": "Spain",
+      "fixture_stage": "final",
+      "projectedPoints": 3.725,
+      "start_probability": 0.888,
+      "captainScore": 33.881,
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false,
+      "roleCaution": ""
+    },
+    {
+      "official_fantasy_player_id": "1318",
+      "name": "Lisandro Martínez",
+      "country": "Argentina",
+      "position": "DEF",
+      "price": 4.6,
+      "opponent": "Spain",
+      "fixture_stage": "final",
+      "projectedPoints": 3.725,
+      "start_probability": 0.888,
+      "captainScore": 33.881,
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false,
+      "roleCaution": ""
+    },
+    {
+      "official_fantasy_player_id": "1085",
+      "name": "Pedro Porro",
+      "country": "Spain",
+      "position": "DEF",
+      "price": 5.5,
+      "opponent": "Argentina",
+      "fixture_stage": "final",
+      "projectedPoints": 3.636,
+      "start_probability": 0.89,
+      "captainScore": 33.249,
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false,
+      "roleCaution": ""
+    },
+    {
+      "official_fantasy_player_id": "48",
+      "name": "Leandro Paredes",
+      "country": "Argentina",
+      "position": "MID",
+      "price": 5.6,
+      "opponent": "Spain",
+      "fixture_stage": "final",
+      "projectedPoints": 4.358,
+      "start_probability": 0.888,
+      "captainScore": 37.949,
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false,
+      "roleCaution": ""
+    },
+    {
+      "official_fantasy_player_id": "56",
+      "name": "Alexis Mac Allister",
+      "country": "Argentina",
+      "position": "MID",
+      "price": 6.6,
+      "opponent": "Spain",
+      "fixture_stage": "final",
+      "projectedPoints": 4.358,
+      "start_probability": 0.888,
+      "captainScore": 37.949,
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false,
+      "roleCaution": ""
+    },
+    {
+      "official_fantasy_player_id": "57",
+      "name": "Enzo Fernández",
+      "country": "Argentina",
+      "position": "MID",
+      "price": 7.5,
+      "opponent": "Spain",
+      "fixture_stage": "final",
+      "projectedPoints": 4.358,
+      "start_probability": 0.888,
+      "captainScore": 37.949,
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false,
+      "roleCaution": ""
+    },
+    {
+      "official_fantasy_player_id": "501",
+      "name": "Ousmane Dembélé",
+      "country": "France",
+      "position": "MID",
+      "price": 10,
+      "opponent": "England",
+      "fixture_stage": "third_place",
+      "projectedPoints": 3.317,
+      "start_probability": 0.591,
+      "captainScore": 31.179,
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": true,
+      "roleCaution": "Third Place game may have higher rotation risk."
+    },
+    {
+      "official_fantasy_player_id": "510",
+      "name": "Adrien Rabiot",
+      "country": "France",
+      "position": "MID",
+      "price": 6.4,
+      "opponent": "England",
+      "fixture_stage": "third_place",
+      "projectedPoints": 3.317,
+      "start_probability": 0.591,
+      "captainScore": 31.179,
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": true,
+      "roleCaution": "Third Place game may have higher rotation risk."
+    },
+    {
+      "official_fantasy_player_id": "468",
+      "name": "Harry Kane",
+      "country": "England",
+      "position": "FWD",
+      "price": 10.5,
+      "opponent": "France",
+      "fixture_stage": "third_place",
+      "projectedPoints": 4.055,
+      "start_probability": 0.586,
+      "captainScore": 35.472,
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": true,
+      "roleCaution": "Third Place game may have higher rotation risk."
+    },
+    {
+      "official_fantasy_player_id": "39",
+      "name": "Julián Alvarez",
+      "country": "Argentina",
+      "position": "FWD",
+      "price": 8.6,
+      "opponent": "Spain",
+      "fixture_stage": "final",
+      "projectedPoints": 5.19,
+      "start_probability": 0.888,
+      "captainScore": 42.725,
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false,
+      "roleCaution": ""
+    },
+    {
+      "official_fantasy_player_id": "500",
+      "name": "Kylian Mbappé",
+      "country": "France",
+      "position": "FWD",
+      "price": 10.5,
+      "opponent": "England",
+      "fixture_stage": "third_place",
+      "projectedPoints": 4.104,
+      "start_probability": 0.591,
+      "captainScore": 35.798,
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": true,
+      "roleCaution": "Third Place game may have higher rotation risk."
+    }
+  ],
+  "captain": {
+    "id": "39",
+    "name": "Julián Alvarez",
+    "country": "Argentina"
+  },
+  "viceCaptain": {
+    "id": "48",
+    "name": "Leandro Paredes",
+    "country": "Argentina"
+  },
+  "omittedStarDiagnostics": [
+    {
+      "name": "Lionel Messi",
+      "country": "Argentina",
+      "position": "FWD",
+      "reason": "Squad balance/position limit.",
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false
+    },
+    {
+      "name": "Mikel Oyarzabal",
+      "country": "Spain",
+      "position": "FWD",
+      "reason": "Squad balance/position limit.",
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false
+    },
+    {
+      "name": "Álex Baena",
+      "country": "Spain",
+      "position": "MID",
+      "reason": "Squad balance/position limit.",
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false
+    },
+    {
+      "name": "Lamine Yamal Nasraoui Ebana",
+      "country": "Spain",
+      "position": "MID",
+      "reason": "Squad balance/position limit.",
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false
+    },
+    {
+      "name": "Rodrigo Hernández Cascante",
+      "country": "Spain",
+      "position": "MID",
+      "reason": "Squad balance/position limit.",
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false
+    },
+    {
+      "name": "Dani Olmo",
+      "country": "Spain",
+      "position": "MID",
+      "reason": "Squad balance/position limit.",
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false
+    },
+    {
+      "name": "Fabián Ruiz",
+      "country": "Spain",
+      "position": "MID",
+      "reason": "Squad balance/position limit.",
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false
+    },
+    {
+      "name": "Giuliano Simeone",
+      "country": "Argentina",
+      "position": "MID",
+      "reason": "Started SF after not starting QF; upgraded but role volatility remains.",
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false
+    },
+    {
+      "name": "Aymeric Laporte",
+      "country": "Spain",
+      "position": "DEF",
+      "reason": "Squad balance/position limit.",
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false
+    },
+    {
+      "name": "Marc Cucurella",
+      "country": "Spain",
+      "position": "DEF",
+      "reason": "Squad balance/position limit.",
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false
+    }
+  ],
+  "roleVolatilityDiagnostics": [
+    {
+      "name": "Ousmane Dembélé",
+      "country": "France",
+      "roleCaution": "Third Place game may have higher rotation risk.",
+      "lineupEvidenceType": "explicit_sf_starter"
+    },
+    {
+      "name": "Adrien Rabiot",
+      "country": "France",
+      "roleCaution": "Third Place game may have higher rotation risk.",
+      "lineupEvidenceType": "explicit_sf_starter"
+    },
+    {
+      "name": "Harry Kane",
+      "country": "England",
+      "roleCaution": "Third Place game may have higher rotation risk.",
+      "lineupEvidenceType": "explicit_sf_starter"
+    },
+    {
+      "name": "Kylian Mbappé",
+      "country": "France",
+      "roleCaution": "Third Place game may have higher rotation risk.",
+      "lineupEvidenceType": "explicit_sf_starter"
+    }
+  ],
+  "errors": []
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": "world_cup_fixtures_page_live_scores_qa_v1",
-  "generated_at": "2026-07-12T12:43:01.835Z",
+  "generated_at": "2026-07-18T02:32:59.527Z",
   "status": "passed",
   "files": {
     "html": "world-cup.html",
@@ -15,9 +15,9 @@
   "summary": {
     "world_cup_fixture_count": 72,
     "rendered_fixture_rows": 72,
-    "live_fixture_count": 102,
+    "live_fixture_count": 104,
     "group_stage_live_fixture_count": 72,
-    "extra_live_fixture_count": 30,
+    "extra_live_fixture_count": 32,
     "completed_md1_fixture_count": 24,
     "completed_md1_final_scores_visible": 24,
     "completed_md2_fixture_count": 24,

@@ -1,0 +1,58 @@
+{
+  "schema_version": "final_round_release_qa_v1",
+  "generated_at": "2026-07-18T02:28:29.468Z",
+  "status": "pass",
+  "summary": {
+    "public_site_promoted_to_final_round": true,
+    "completed_sf_fixtures_used": "2/2",
+    "final_round_fixture_authority": "pass",
+    "role_model": "pass",
+    "score_model": "pass",
+    "projection_model": "pass",
+    "recommendations": "pass",
+    "team_builder": "pass",
+    "third_place_historical_profile": "pass",
+    "lineup_news_audit": "pass",
+    "pele_audit": "pass",
+    "refereeing_outcomes_published": false,
+    "old_public_globals_blocked": true
+  },
+  "checks": [
+    {
+      "id": "final_round_fixture_authority",
+      "status": "pass"
+    },
+    {
+      "id": "role_model",
+      "status": "pass"
+    },
+    {
+      "id": "score_model",
+      "status": "pass"
+    },
+    {
+      "id": "projection_model",
+      "status": "pass"
+    },
+    {
+      "id": "recommendations",
+      "status": "pass"
+    },
+    {
+      "id": "team_builder",
+      "status": "pass"
+    },
+    {
+      "id": "third_place_profile",
+      "status": "pass"
+    },
+    {
+      "id": "lineup_news",
+      "status": "pass"
+    },
+    {
+      "id": "pele_audit",
+      "status": "pass"
+    }
+  ]
+}

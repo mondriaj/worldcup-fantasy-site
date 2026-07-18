@@ -1,0 +1,99 @@
+{
+  "schema_version": "knockout_model_postmortem_for_final_round_v1",
+  "generated_at": "2026-07-18T02:28:29.468Z",
+  "status": "pass",
+  "residuals": [
+    {
+      "match_number": 101,
+      "fixture": "France vs Spain",
+      "predicted_xg": "1.211-1.464",
+      "actual_score": "0-2",
+      "home_goal_residual": -1.211,
+      "away_goal_residual": 0.536,
+      "actual_winner": "Spain"
+    },
+    {
+      "match_number": 102,
+      "fixture": "England vs Argentina",
+      "predicted_xg": "1.128-1.45",
+      "actual_score": "1-2",
+      "home_goal_residual": -0.128,
+      "away_goal_residual": 0.55,
+      "actual_winner": "Argentina"
+    }
+  ],
+  "summary": {
+    "completed_sf_predictions_audited": 2,
+    "sf_starters": 44,
+    "qf_and_sf_starters": 38,
+    "sf_started_not_qf": 6,
+    "qf_started_not_sf": 6,
+    "high_projection_weak_role_evidence": 0
+  },
+  "role_change_examples": {
+    "gained_starting_role": [
+      {
+        "id": "41",
+        "name": "Giuliano Simeone",
+        "country": "Argentina"
+      },
+      {
+        "id": "467",
+        "name": "Djed Spence",
+        "country": "England"
+      },
+      {
+        "id": "475",
+        "name": "Morgan Rogers",
+        "country": "England"
+      },
+      {
+        "id": "515",
+        "name": "Aurélien Tchouaméni",
+        "country": "France"
+      },
+      {
+        "id": "1431",
+        "name": "Bradley Barcola",
+        "country": "France"
+      },
+      {
+        "id": "1709",
+        "name": "Reece James",
+        "country": "England"
+      }
+    ],
+    "lost_starting_role": [
+      {
+        "id": "50",
+        "name": "Rodrigo De Paul",
+        "country": "Argentina"
+      },
+      {
+        "id": "457",
+        "name": "Nico O'Reilly",
+        "country": "England"
+      },
+      {
+        "id": "463",
+        "name": "Ezri Konsa",
+        "country": "England"
+      },
+      {
+        "id": "476",
+        "name": "Noni Madueke",
+        "country": "England"
+      },
+      {
+        "id": "505",
+        "name": "Désiré Doué",
+        "country": "France"
+      },
+      {
+        "id": "512",
+        "name": "Manu Koné",
+        "country": "France"
+      }
+    ]
+  }
+}

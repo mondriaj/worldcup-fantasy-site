@@ -3,7 +3,7 @@ import path from "node:path";
 
 const GENERATED_AT = new Date().toISOString().slice(0, 10);
 
-const DEFAULT_INPUT = "data/imports/officialFantasyPlayers.csv";
+const DEFAULT_INPUT = "data/imports/officialFantasyPlayers_live_v1.json";
 const OUTPUT_PLAYERS = "data/officialFantasyPlayers_v0.json";
 const OUTPUT_REPORT = "data/officialFantasyImportReport_v0.json";
 const CURRENT_PLAYERS = "data/players.json";

@@ -1,6 +1,6 @@
 # Knockout Bracket Prediction Model v1
 
-Generated: 2026-07-12T12:41:01.304Z
+Generated: 2026-07-18T02:29:04.412Z
 
 Status: **FINAL**
 
@@ -10,6 +10,7 @@ Status: **FINAL**
 - R16 fixtures: `data/r16FixtureAuthority_v1.json`
 - QF fixtures: `data/qfFixtureAuthority_v1.json`
 - SF fixtures: `data/sfFixtureAuthority_v1.json`
+- Final Round fixtures: `data/finalRoundFixtureAuthority_v1.json`
 - Bracket tree: `worldCupData.js`
 - Model picks: `data/bracketPoolStrategyModel_v1.json`
 - Predicted scores: `data/knockoutScorePredictor_v1.json`
@@ -28,11 +29,11 @@ No ownership signal is used. Final squads are not source-backed.
 | Predicted champion | Argentina |
 | Predicted finalists | Spain, Argentina |
 | Predicted semifinalists | France, Spain, England, Argentina |
-| Decided knockout matches | 28 |
-| Correct predictions | 22 |
+| Decided knockout matches | 30 |
+| Correct predictions | 24 |
 | Wrong predictions | 6 |
-| Pending predictions | 4 |
-| Accuracy | 78.6% |
+| Pending predictions | 2 |
+| Accuracy | 80% |
 | Flags missing with no code fallback | 0 |
 
 ## Round Counts

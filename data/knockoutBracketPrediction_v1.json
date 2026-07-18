@@ -1,7 +1,7 @@
 {
   "schema_version": "knockout_bracket_prediction_v1",
-  "generatedAt": "2026-07-12T12:41:01.304Z",
-  "generated_at": "2026-07-12T12:41:01.304Z",
+  "generatedAt": "2026-07-18T02:29:04.412Z",
+  "generated_at": "2026-07-18T02:29:04.412Z",
   "modelVersion": "knockout-bracket-prediction-v1",
   "model_version": "knockout-bracket-prediction-v1",
   "bracketSource": {
@@ -9,6 +9,7 @@
     "r16FixtureAuthority": "data/r16FixtureAuthority_v1.json",
     "qfFixtureAuthority": "data/qfFixtureAuthority_v1.json",
     "sfFixtureAuthority": "data/sfFixtureAuthority_v1.json",
+    "finalRoundFixtureAuthority": "data/finalRoundFixtureAuthority_v1.json",
     "officialBracket": "worldCupData.js",
     "modelPicks": "data/bracketPoolStrategyModel_v1.json",
     "scorePredictions": "data/knockoutScorePredictor_v1.json",
@@ -98,7 +99,7 @@
       "code": "ARG",
       "name": "Argentina",
       "flag": "🇦🇷",
-      "sourceConfidence": "predicted",
+      "sourceConfidence": "source-backed",
       "teamId": "argentina"
     },
     "predictedFinalists": [
@@ -106,14 +107,14 @@
         "code": "ESP",
         "name": "Spain",
         "flag": "🇪🇸",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "spain"
       },
       {
         "code": "ARG",
         "name": "Argentina",
         "flag": "🇦🇷",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "argentina"
       }
     ],
@@ -147,11 +148,11 @@
         "teamId": "argentina"
       }
     ],
-    "decidedKnockoutMatches": 28,
-    "correctWinnerPredictions": 22,
+    "decidedKnockoutMatches": 30,
+    "correctWinnerPredictions": 24,
     "wrongWinnerPredictions": 6,
-    "pendingPredictions": 4,
-    "accuracyPct": 78.6,
+    "pendingPredictions": 2,
+    "accuracyPct": 80,
     "flagsMissingFallbackCount": 0
   },
   "matches": [
@@ -2425,7 +2426,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "spain"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "ESP",
         "name": "Spain",
@@ -2444,12 +2445,24 @@
       "predictedScoreLabel": "FRA 1-1 ESP",
       "teamAAdvanceProb": 0.4393,
       "teamBAdvanceProb": 0.5607,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Spain",
+        "name": "Spain",
+        "team_id": "spain",
+        "code": "ESP",
+        "flag": "🇪🇸"
+      },
+      "actualLoser": {
+        "team": "France",
+        "name": "France",
+        "team_id": "france",
+        "code": "FRA",
+        "flag": "🇫🇷"
+      },
+      "actualScore": "FRA 0-2 ESP",
+      "predictionResult": "correct",
       "modelNote": "Spain 1.46 xG vs France 1.21 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Likely R16 path runs through Portugal (67.1% if both sides advance).",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": null
@@ -2496,7 +2509,7 @@
         "sourceConfidence": "source-backed",
         "teamId": "argentina"
       },
-      "status": "scheduled",
+      "status": "final",
       "predictedWinner": {
         "code": "ARG",
         "name": "Argentina",
@@ -2515,12 +2528,24 @@
       "predictedScoreLabel": "ENG 1-1 ARG",
       "teamAAdvanceProb": 0.4196,
       "teamBAdvanceProb": 0.5804,
-      "actualWinner": null,
-      "actualLoser": null,
-      "actualScore": null,
-      "predictionResult": "pending",
+      "actualWinner": {
+        "team": "Argentina",
+        "name": "Argentina",
+        "team_id": "argentina",
+        "code": "ARG",
+        "flag": "🇦🇷"
+      },
+      "actualLoser": {
+        "team": "England",
+        "name": "England",
+        "team_id": "england",
+        "code": "ENG",
+        "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿"
+      },
+      "actualScore": "ENG 1-2 ARG",
+      "predictionResult": "correct",
       "modelNote": "Argentina 1.45 xG vs England 1.13 xG. Extra time is driven by the 90-minute draw probability; penalties stay near 50/50 with a small PELE/team-quality edge.",
-      "actualNote": "Actual result pending.",
+      "actualNote": "Actual result from safe live-status final score.",
       "pathNote": "Toughest pre-final pocket projects as SF against England.",
       "sourceConfidence": "source-backed",
       "sourceFixtureOrder": null
@@ -2528,8 +2553,8 @@
     {
       "matchId": "104",
       "bracketSlotId": "M104",
-      "sourceFixtureId": null,
-      "sourceFixtureIdRole": null,
+      "sourceFixtureId": "104",
+      "sourceFixtureIdRole": "source fixture id, not bracket slot",
       "round": "final",
       "roundLabel": "Final",
       "bracketSide": null,
@@ -2543,31 +2568,43 @@
         "code": "ESP",
         "name": "Spain",
         "flag": "🇪🇸",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "spain"
       },
       "teamB": {
         "code": "ARG",
         "name": "Argentina",
         "flag": "🇦🇷",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "argentina"
       },
-      "actualTeamA": null,
-      "actualTeamB": null,
-      "status": "pending",
+      "actualTeamA": {
+        "code": "ESP",
+        "name": "Spain",
+        "flag": "🇪🇸",
+        "sourceConfidence": "source-backed",
+        "teamId": "spain"
+      },
+      "actualTeamB": {
+        "code": "ARG",
+        "name": "Argentina",
+        "flag": "🇦🇷",
+        "sourceConfidence": "source-backed",
+        "teamId": "argentina"
+      },
+      "status": "scheduled",
       "predictedWinner": {
         "code": "ARG",
         "name": "Argentina",
         "flag": "🇦🇷",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "argentina"
       },
       "predictedLoser": {
         "code": "ESP",
         "name": "Spain",
         "flag": "🇪🇸",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "spain"
       },
       "predictedScore90": "1-1",
@@ -2587,8 +2624,8 @@
     {
       "matchId": "103",
       "bracketSlotId": "M103",
-      "sourceFixtureId": null,
-      "sourceFixtureIdRole": null,
+      "sourceFixtureId": "103",
+      "sourceFixtureIdRole": "source fixture id, not bracket slot",
       "round": "third_place",
       "roundLabel": "Third Place",
       "bracketSide": null,
@@ -2602,31 +2639,43 @@
         "code": "FRA",
         "name": "France",
         "flag": "🇫🇷",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "france"
       },
       "teamB": {
         "code": "ENG",
         "name": "England",
         "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "england"
       },
-      "actualTeamA": null,
-      "actualTeamB": null,
-      "status": "pending",
+      "actualTeamA": {
+        "code": "FRA",
+        "name": "France",
+        "flag": "🇫🇷",
+        "sourceConfidence": "source-backed",
+        "teamId": "france"
+      },
+      "actualTeamB": {
+        "code": "ENG",
+        "name": "England",
+        "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+        "sourceConfidence": "source-backed",
+        "teamId": "england"
+      },
+      "status": "scheduled",
       "predictedWinner": {
         "code": "FRA",
         "name": "France",
         "flag": "🇫🇷",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "france"
       },
       "predictedLoser": {
         "code": "ENG",
         "name": "England",
         "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
-        "sourceConfidence": "predicted",
+        "sourceConfidence": "source-backed",
         "teamId": "england"
       },
       "predictedScore90": "1-1",

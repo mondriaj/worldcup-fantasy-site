@@ -1,15 +1,15 @@
 # World Cup SF Fixtures Page QA v1
 
-Generated: 2026-07-12T12:43:11.779Z
+Generated: 2026-07-18T02:32:59.552Z
 
 Status: pass
 
 ## SF Fixtures
 
-| Slot | Fixture | Kickoff | Status | Teams | Kickoff | Scheduled | No TBD | Live mapped |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| M101 | France vs Spain | Jul 14, 2026 · 3:00 PM ET | scheduled | yes | yes | yes | yes | yes |
-| M102 | England vs Argentina | Jul 15, 2026 · 3:00 PM ET | scheduled | yes | yes | yes | yes | yes |
+| Slot | Fixture | Kickoff | Status | Score | Teams | Kickoff | Final score | No TBD | Live final |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| M101 | France vs Spain | Jul 14, 2026 · 3:00 PM ET | complete | FRA 0 - 2 ESP | yes | yes | yes | yes | yes |
+| M102 | England vs Argentina | Jul 15, 2026 · 3:00 PM ET | complete | ENG 1 - 2 ARG | yes | yes | yes | yes | yes |
 
 ## QF Final Scores
 

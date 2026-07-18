@@ -1,0 +1,94 @@
+{
+  "schema_version": "world_cup_final_round_fixtures_page_qa_v1",
+  "generated_at": "2026-07-18T02:32:59.553Z",
+  "status": "passed",
+  "files": {
+    "html": "world-cup.html",
+    "worldCupData": "worldCupData.js",
+    "liveMatchdayData": "liveMatchdayStatusData.js",
+    "r32AuthorityData": "r32FixtureAuthorityData.js",
+    "r16AuthorityData": "r16FixtureAuthorityData.js",
+    "qfAuthorityData": "qfFixtureAuthorityData.js",
+    "sfAuthorityData": "sfFixtureAuthorityData.js",
+    "finalRoundAuthorityData": "finalRoundFixtureAuthorityData.js",
+    "pageScript": "worldCupPage.js",
+    "finalRoundAuthorityJson": "data/finalRoundFixtureAuthority_v1.json",
+    "liveMatchdayJson": "data/liveMatchdayStatus_v1.json",
+    "outputJson": "data/worldCupFinalRoundFixturesPageQa_v1.json",
+    "outputReport": "data/worldCupFinalRoundFixturesPageQaReport_v1.md"
+  },
+  "summary": {
+    "final_round_authority_status": "pass",
+    "final_fixture_visible": true,
+    "third_place_fixture_visible": true,
+    "final_teams": "M104 · Final · Scheduled 🇪🇸 Spain (ESP) vs 🇦🇷 Argentina (ARG) Jul 19, 2026 · 3:00 PM ET Winner Match 101 v Winner Match 102 Feed source ID: 104 · Final Round Fixture Authority · source IDs are metadata, not bracket match numbers.",
+    "third_place_teams": "M103 · Third Place · Scheduled 🇫🇷 France (FRA) vs 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England (ENG) Jul 18, 2026 · 5:00 PM ET Loser Match 101 v Loser Match 102 Feed source ID: 103 · Final Round Fixture Authority · source IDs are metadata, not bracket match numbers.",
+    "sf101_text": "M101 · SF · Final Known 🇫🇷 France (FRA) vs 🇪🇸 Spain (ESP) Actual: FRA 0 - 2 ESP · Full time Jul 14, 2026 · 3:00 PM ET Winner advances to M104 · Winner Match 101 v Winner Match 102 Loser advances to M103 · Loser Match 101 v Loser Match 102 Feed source ID: 101 · SF Fixture Authority · source IDs are metadata, not bracket match numbers.",
+    "sf102_text": "M102 · SF · Final Known 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England (ENG) vs 🇦🇷 Argentina (ARG) Actual: ENG 1 - 2 ARG · Full time Jul 15, 2026 · 3:00 PM ET Winner advances to M104 · Winner Match 101 v Winner Match 102 Loser advances to M103 · Loser Match 101 v Loser Match 102 Feed source ID: 102 · SF Fixture Authority · source IDs are metadata, not bracket match numbers.",
+    "console_error_count": 0
+  },
+  "checks": [
+    {
+      "id": "final_round_authority_pass",
+      "status": "pass",
+      "detail": "pass"
+    },
+    {
+      "id": "world_cup_loads_final_round_authority_before_page_script",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "id": "third_place_slot_renders",
+      "status": "pass",
+      "detail": "M103 · Third Place · Scheduled 🇫🇷 France (FRA) vs 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England (ENG) Jul 18, 2026 · 5:00 PM ET Loser Match 101 v Loser Match 102 Feed source ID: 103 · Final Round Fixture Authority · source IDs are metadata, not bracket match numbers."
+    },
+    {
+      "id": "final_slot_renders",
+      "status": "pass",
+      "detail": "M104 · Final · Scheduled 🇪🇸 Spain (ESP) vs 🇦🇷 Argentina (ARG) Jul 19, 2026 · 3:00 PM ET Winner Match 101 v Winner Match 102 Feed source ID: 104 · Final Round Fixture Authority · source IDs are metadata, not bracket match numbers."
+    },
+    {
+      "id": "third_place_teams_correct",
+      "status": "pass",
+      "detail": "M103 · Third Place · Scheduled 🇫🇷 France (FRA) vs 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England (ENG) Jul 18, 2026 · 5:00 PM ET Loser Match 101 v Loser Match 102 Feed source ID: 103 · Final Round Fixture Authority · source IDs are metadata, not bracket match numbers."
+    },
+    {
+      "id": "final_teams_correct",
+      "status": "pass",
+      "detail": "M104 · Final · Scheduled 🇪🇸 Spain (ESP) vs 🇦🇷 Argentina (ARG) Jul 19, 2026 · 3:00 PM ET Winner Match 101 v Winner Match 102 Feed source ID: 104 · Final Round Fixture Authority · source IDs are metadata, not bracket match numbers."
+    },
+    {
+      "id": "third_place_kickoff_visible",
+      "status": "pass",
+      "detail": "M103 · Third Place · Scheduled 🇫🇷 France (FRA) vs 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England (ENG) Jul 18, 2026 · 5:00 PM ET Loser Match 101 v Loser Match 102 Feed source ID: 103 · Final Round Fixture Authority · source IDs are metadata, not bracket match numbers."
+    },
+    {
+      "id": "final_kickoff_visible",
+      "status": "pass",
+      "detail": "M104 · Final · Scheduled 🇪🇸 Spain (ESP) vs 🇦🇷 Argentina (ARG) Jul 19, 2026 · 3:00 PM ET Winner Match 101 v Winner Match 102 Feed source ID: 104 · Final Round Fixture Authority · source IDs are metadata, not bracket match numbers."
+    },
+    {
+      "id": "final_round_no_tbd",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "id": "sf101_actual_score_visible",
+      "status": "pass",
+      "detail": "M101 · SF · Final Known 🇫🇷 France (FRA) vs 🇪🇸 Spain (ESP) Actual: FRA 0 - 2 ESP · Full time Jul 14, 2026 · 3:00 PM ET Winner advances to M104 · Winner Match 101 v Winner Match 102 Loser advances to M103 · Loser Match 101 v Loser Match 102 Feed source ID: 101 · SF Fixture Authority · source IDs are metadata, not bracket match numbers."
+    },
+    {
+      "id": "sf102_actual_score_visible",
+      "status": "pass",
+      "detail": "M102 · SF · Final Known 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England (ENG) vs 🇦🇷 Argentina (ARG) Actual: ENG 1 - 2 ARG · Full time Jul 15, 2026 · 3:00 PM ET Winner advances to M104 · Winner Match 101 v Winner Match 102 Loser advances to M103 · Loser Match 101 v Loser Match 102 Feed source ID: 102 · SF Fixture Authority · source IDs are metadata, not bracket match numbers."
+    },
+    {
+      "id": "no_console_errors",
+      "status": "pass",
+      "detail": "[]"
+    }
+  ],
+  "errors": [],
+  "console_messages": []
+}

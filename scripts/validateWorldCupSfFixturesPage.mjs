@@ -164,8 +164,7 @@ for (let index = 0; index < requiredScriptOrder.length - 1; index += 1) {
 
 if (authority.status !== "pass") errors.push(`SF authority status is ${authority.status}.`);
 if (fixtures.length !== 2) errors.push(`Expected 2 SF fixtures, found ${fixtures.length}.`);
-if (!/Semifinal setup/i.test(html)) errors.push("world-cup.html does not expose Semifinal setup copy.");
-if (!/completed R32, R16, and QF results/i.test(html)) errors.push("world-cup.html does not state that QF results remain visible.");
+if (!/completed R32, R16, QF, and SF results/i.test(html)) errors.push("world-cup.html does not state that SF results remain visible.");
 if (!/SF Fixture Authority/i.test(rendered.bracketText)) errors.push("Rendered bracket does not mention SF Fixture Authority.");
 
 const fixtureChecks = fixtures.map((fixture) => {
@@ -176,33 +175,32 @@ const fixtureChecks = fixtures.map((fixture) => {
   const liveFixture = liveFixturesByLocalId.get(fixtureId);
   const teamsVisible = expectedTeams.every((team) => articleText.includes(team));
   const kickoffVisible = fixture.kickoff?.eastern_datetime_label ? articleText.includes(fixture.kickoff.eastern_datetime_label) : false;
-  const scheduledVisible = /Status: Scheduled/i.test(articleText);
+  const actualScoreText = liveFixture ? expectedScoreText(liveFixture) : "";
+  const actualFinalScoreVisible = Boolean(actualScoreText && articleText.includes(actualScoreText) && /Full time/i.test(articleText));
   const hasTbd = /\bTBD\b/i.test(articleText);
   const advancesVisible = fixture.winner_advances_to?.bracket_slot_id ? articleText.includes(fixture.winner_advances_to.bracket_slot_id) : false;
   const loserAdvancesVisible = fixture.loser_advances_to?.bracket_slot_id ? articleText.includes(fixture.loser_advances_to.bracket_slot_id) : false;
-  const liveMappedScheduled = Boolean(liveFixture &&
-    isMappedFixture(liveFixture) &&
-    String(liveFixture.fixture_status || "").toLowerCase() === "scheduled" &&
-    liveFixture.safe_to_display_score !== true);
+  const liveMappedFinal = Boolean(liveFixture && isFinalScoreFixture(liveFixture));
 
   if (!teamsVisible) errors.push(`${slot} expected teams are not visible on rendered world-cup bracket.`);
   if (!kickoffVisible) errors.push(`${slot} kickoff time is not visible on rendered world-cup bracket.`);
-  if (!scheduledVisible) errors.push(`${slot} scheduled live status is not visible on rendered world-cup bracket.`);
+  if (!actualFinalScoreVisible) errors.push(`${slot} actual final score is not visible on rendered world-cup bracket.`);
   if (hasTbd) errors.push(`${slot} rendered SF fixture still contains TBD.`);
   if (!advancesVisible) errors.push(`${slot} winner-advances-to slot is not visible on rendered world-cup bracket.`);
   if (!loserAdvancesVisible) errors.push(`${slot} loser-advances-to slot is not visible on rendered world-cup bracket.`);
-  if (!liveMappedScheduled) errors.push(`${slot} live fixture is not mapped as a scheduled SF fixture without score display.`);
+  if (!liveMappedFinal) errors.push(`${slot} live fixture is not mapped as a safe final SF fixture.`);
 
   return {
     slot,
     fixture: `${fixture.team_a?.team} vs ${fixture.team_b?.team}`,
     kickoff: fixture.kickoff?.eastern_datetime_label || null,
     live_fixture_status: liveFixture?.fixture_status || null,
+    expected_score_text: actualScoreText,
     teams_visible: teamsVisible,
     kickoff_visible: kickoffVisible,
-    scheduled_visible: scheduledVisible,
+    actual_final_score_visible: actualFinalScoreVisible,
     no_tbd: !hasTbd,
-    live_mapped_scheduled: liveMappedScheduled
+    live_mapped_final: liveMappedFinal
   };
 });
 
@@ -252,16 +250,17 @@ const report = [
   "",
   "## SF Fixtures",
   "",
-  mdTable(["Slot", "Fixture", "Kickoff", "Status", "Teams", "Kickoff", "Scheduled", "No TBD", "Live mapped"], fixtureChecks.map((row) => [
+  mdTable(["Slot", "Fixture", "Kickoff", "Status", "Score", "Teams", "Kickoff", "Final score", "No TBD", "Live final"], fixtureChecks.map((row) => [
     row.slot,
     row.fixture,
     row.kickoff,
     row.live_fixture_status,
+    row.expected_score_text,
     row.teams_visible ? "yes" : "no",
     row.kickoff_visible ? "yes" : "no",
-    row.scheduled_visible ? "yes" : "no",
+    row.actual_final_score_visible ? "yes" : "no",
     row.no_tbd ? "yes" : "no",
-    row.live_mapped_scheduled ? "yes" : "no"
+    row.live_mapped_final ? "yes" : "no"
   ])),
   "",
   "## QF Final Scores",

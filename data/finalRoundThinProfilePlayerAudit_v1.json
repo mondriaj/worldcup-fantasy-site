@@ -1,0 +1,78 @@
+{
+  "schema_version": "final_round_thin_profile_player_audit_v1",
+  "generated_at": "2026-07-18T02:22:11.323Z",
+  "status": "GREEN",
+  "required_player_ids": [
+    "29",
+    "2078"
+  ],
+  "summary": {
+    "thin_profile_rows": 2,
+    "handled_rows": 2,
+    "missing_required_count": 0,
+    "metadata_failure_count": 0,
+    "identity_failure_count": 0,
+    "core_pick_failure_count": 0,
+    "team_builder_failure_count": 0
+  },
+  "qa": {
+    "status": "GREEN",
+    "errors": [],
+    "warnings": [
+      "Marcos Senesi (Argentina) is mapped_thin_profile; exclude_from_core_picks_and_team_builder_until_source_backed_role_or_explicit_low_confidence_caution_exists.",
+      "Trevoh Chalobah (England) is mapped_thin_profile; exclude_from_core_picks_and_team_builder_until_source_backed_role_or_explicit_low_confidence_caution_exists."
+    ]
+  },
+  "players": [
+    {
+      "official_fantasy_player_id": "29",
+      "name": "Marcos Senesi",
+      "country": "Argentina",
+      "team_id": "2",
+      "team_status": "in Final",
+      "official_fantasy_position": "DEF",
+      "official_price": 4.7,
+      "selectable_status": "playing",
+      "identity_status": "mapped_thin_profile",
+      "internal_player_id": "thin-2-marcos-senesi",
+      "mapping_confidence": "1.000",
+      "metadata_complete": true,
+      "identity_safe": true,
+      "active_sf_projection_row_present": false,
+      "active_sf_recommendation_row_present": false,
+      "active_sf_team_builder_row_present": false,
+      "source_backed_projection_or_lineup_coverage": false,
+      "core_pick_allowed": false,
+      "team_builder_allowed_without_explicit_caution": false,
+      "final_round_model_action": "exclude_from_core_picks_and_team_builder_until_source_backed_role_or_explicit_low_confidence_caution_exists",
+      "public_caution_required_if_displayed": true,
+      "handled": true,
+      "reason": "Thin profile has complete official metadata and stable staged identity, and is absent from current Core Pick/Team Builder surfaces; future Final Round builds must keep explicit caution or exclusion."
+    },
+    {
+      "official_fantasy_player_id": "2078",
+      "name": "Trevoh Chalobah",
+      "country": "England",
+      "team_id": "18",
+      "team_status": "in Third Place",
+      "official_fantasy_position": "DEF",
+      "official_price": 4.5,
+      "selectable_status": "playing",
+      "identity_status": "mapped_thin_profile",
+      "internal_player_id": "thin-18-trevoh-chalobah",
+      "mapping_confidence": "1.000",
+      "metadata_complete": true,
+      "identity_safe": true,
+      "active_sf_projection_row_present": false,
+      "active_sf_recommendation_row_present": false,
+      "active_sf_team_builder_row_present": false,
+      "source_backed_projection_or_lineup_coverage": false,
+      "core_pick_allowed": false,
+      "team_builder_allowed_without_explicit_caution": false,
+      "final_round_model_action": "exclude_from_core_picks_and_team_builder_until_source_backed_role_or_explicit_low_confidence_caution_exists",
+      "public_caution_required_if_displayed": true,
+      "handled": true,
+      "reason": "Thin profile has complete official metadata and stable staged identity, and is absent from current Core Pick/Team Builder surfaces; future Final Round builds must keep explicit caution or exclusion."
+    }
+  ]
+}

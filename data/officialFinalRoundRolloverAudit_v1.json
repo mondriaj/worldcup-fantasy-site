@@ -1,0 +1,377 @@
+{
+  "schema_version": "official_final_round_rollover_audit_v1",
+  "generated_at": "2026-07-18T02:22:11.323Z",
+  "status": "GREEN",
+  "sources": {
+    "players": {
+      "last_modified": "Sat, 18 Jul 2026 02:04:23 GMT",
+      "bytes": 1424351
+    },
+    "squads": {
+      "last_modified": "Wed, 15 Jul 2026 21:03:04 GMT",
+      "bytes": 6386
+    },
+    "rounds": {
+      "last_modified": "Fri, 17 Jul 2026 18:01:03 GMT",
+      "bytes": 158893
+    }
+  },
+  "observed_monitor_summary": {
+    "official_data_changed": true,
+    "rerun_decision": "minor_change_no_model_rerun_needed",
+    "fetch_failures": 0,
+    "local_official_fantasy_players": 1489,
+    "live_official_fantasy_players": 1489,
+    "live_selectable_status_counts": {
+      "eliminated": 1355,
+      "playing": 103,
+      "transferred": 30,
+      "injured": 1
+    },
+    "live_position_counts": {
+      "DEF": 486,
+      "FWD": 307,
+      "MID": 515,
+      "GK": 181
+    },
+    "final_squad_status": "still_blocked_no_source_backed_final_squads"
+  },
+  "working_snapshot": {
+    "source_checked": "2026-07-18",
+    "input_file": "data/imports/officialFantasyPlayers_live_v1.json",
+    "rows": 1489
+  },
+  "committed_previous_snapshot": {
+    "source_checked": "2026-07-12",
+    "input_file": "data/imports/officialFantasyPlayers_live_v1.json",
+    "rows": 1489
+  },
+  "stale_working_snapshot_detected": false,
+  "final_round_fixtures": {
+    "final": {
+      "fixture_id": "104",
+      "round_label": "Final",
+      "status": "scheduled",
+      "date": "2026-07-19T20:00:00+01:00",
+      "teams": [
+        {
+          "team_id": "41",
+          "name": "Spain",
+          "abbr": "ESP",
+          "side": "home"
+        },
+        {
+          "team_id": "2",
+          "name": "Argentina",
+          "abbr": "ARG",
+          "side": "away"
+        }
+      ]
+    },
+    "third_place": {
+      "fixture_id": "103",
+      "round_label": "Third Place",
+      "status": "scheduled",
+      "date": "2026-07-18T22:00:00+01:00",
+      "teams": [
+        {
+          "team_id": "19",
+          "name": "France",
+          "abbr": "FRA",
+          "side": "home"
+        },
+        {
+          "team_id": "18",
+          "name": "England",
+          "abbr": "ENG",
+          "side": "away"
+        }
+      ]
+    }
+  },
+  "observed_snapshot_comparison": {
+    "local_count": 1489,
+    "live_count": 1489,
+    "counts": {
+      "new_players": 0,
+      "removed_players": 0,
+      "name_changes": 0,
+      "price_changes": 0,
+      "position_changes": 0,
+      "selectable_status_changes": 0,
+      "country_team_changes": 0,
+      "fifa_player_id_changes": 0,
+      "ownership_percent_changes": 2
+    }
+  },
+  "committed_snapshot_control": {
+    "local_count": 1489,
+    "live_count": 1489,
+    "counts": {
+      "new_players": 0,
+      "removed_players": 0,
+      "name_changes": 0,
+      "price_changes": 0,
+      "position_changes": 0,
+      "selectable_status_changes": 1,
+      "country_team_changes": 0,
+      "fifa_player_id_changes": 0,
+      "ownership_percent_changes": 209
+    },
+    "status_changes_classified": [
+      {
+        "official_fantasy_player_id": "1708",
+        "name": "Jarell Quansah",
+        "country": "England",
+        "team_id": "18",
+        "official_fantasy_position": "DEF",
+        "official_price": 4.4,
+        "selectable_status": "playing",
+        "team_status": "in Third Place",
+        "has_official_fantasy_id": true,
+        "has_price": true,
+        "has_position": true,
+        "currently_selectable": true,
+        "should_be_model_eligible": true,
+        "reason": "Final Round team player has complete official fantasy metadata and stable identity mapping.",
+        "identity_status": "mapped",
+        "internal_player_id": "england-jarell-quansah",
+        "mapping_confidence": "0.960",
+        "mapping_method": "exact_name_country",
+        "thin_profile": false,
+        "needs_manual_review": true,
+        "old_status": "suspended",
+        "new_status": "playing"
+      }
+    ]
+  },
+  "selectable_status_change_summary": {
+    "total": 0,
+    "by_team_status": {},
+    "by_old_new_status": {},
+    "by_team": {}
+  },
+  "selectable_status_changes_classified": [],
+  "new_players_classified": [],
+  "name_changes_classified": [],
+  "prior_monitor_new_players_classified": [
+    {
+      "official_fantasy_player_id": "2073",
+      "name": "Éderson José dos Santos Lourenço da Silva",
+      "country": "Brazil",
+      "team_id": "7",
+      "official_fantasy_position": "MID",
+      "official_price": 6.3,
+      "selectable_status": "eliminated",
+      "team_status": "eliminated before Final Round",
+      "has_official_fantasy_id": true,
+      "has_price": true,
+      "has_position": true,
+      "currently_selectable": false,
+      "should_be_model_eligible": false,
+      "reason": "Team is outside Final and Third Place; safely excluded from Final Round model pool.",
+      "identity_status": "mapped_thin_profile",
+      "internal_player_id": "thin-7-ederson-jose-dos-santos-lourenco-da-silva",
+      "mapping_confidence": "1.000",
+      "mapping_method": "new_profile",
+      "thin_profile": true,
+      "needs_manual_review": true
+    },
+    {
+      "official_fantasy_player_id": "2074",
+      "name": "Lutsharel Geertruida",
+      "country": "Netherlands",
+      "team_id": "30",
+      "official_fantasy_position": "DEF",
+      "official_price": 4.3,
+      "selectable_status": "eliminated",
+      "team_status": "eliminated before Final Round",
+      "has_official_fantasy_id": true,
+      "has_price": true,
+      "has_position": true,
+      "currently_selectable": false,
+      "should_be_model_eligible": false,
+      "reason": "Team is outside Final and Third Place; safely excluded from Final Round model pool.",
+      "identity_status": "mapped_thin_profile",
+      "internal_player_id": "thin-30-lutsharel-geertruida",
+      "mapping_confidence": "1.000",
+      "mapping_method": "new_profile",
+      "thin_profile": true,
+      "needs_manual_review": true
+    },
+    {
+      "official_fantasy_player_id": "2075",
+      "name": "Dejan Ljubicic",
+      "country": "Austria",
+      "team_id": "4",
+      "official_fantasy_position": "MID",
+      "official_price": 5,
+      "selectable_status": "eliminated",
+      "team_status": "eliminated before Final Round",
+      "has_official_fantasy_id": true,
+      "has_price": true,
+      "has_position": true,
+      "currently_selectable": false,
+      "should_be_model_eligible": false,
+      "reason": "Team is outside Final and Third Place; safely excluded from Final Round model pool.",
+      "identity_status": "mapped_thin_profile",
+      "internal_player_id": "thin-4-dejan-ljubicic",
+      "mapping_confidence": "1.000",
+      "mapping_method": "new_profile",
+      "thin_profile": true,
+      "needs_manual_review": true
+    },
+    {
+      "official_fantasy_player_id": "2076",
+      "name": "Shuto Machino",
+      "country": "Japan",
+      "team_id": "25",
+      "official_fantasy_position": "FWD",
+      "official_price": 4.8,
+      "selectable_status": "eliminated",
+      "team_status": "eliminated before Final Round",
+      "has_official_fantasy_id": true,
+      "has_price": true,
+      "has_position": true,
+      "currently_selectable": false,
+      "should_be_model_eligible": false,
+      "reason": "Team is outside Final and Third Place; safely excluded from Final Round model pool.",
+      "identity_status": "mapped_thin_profile",
+      "internal_player_id": "thin-25-shuto-machino",
+      "mapping_confidence": "1.000",
+      "mapping_method": "new_profile",
+      "thin_profile": true,
+      "needs_manual_review": true
+    },
+    {
+      "official_fantasy_player_id": "2077",
+      "name": "Garven Metusala",
+      "country": "Haiti",
+      "team_id": "22",
+      "official_fantasy_position": "DEF",
+      "official_price": 3.5,
+      "selectable_status": "eliminated",
+      "team_status": "eliminated before Final Round",
+      "has_official_fantasy_id": true,
+      "has_price": true,
+      "has_position": true,
+      "currently_selectable": false,
+      "should_be_model_eligible": false,
+      "reason": "Team is outside Final and Third Place; safely excluded from Final Round model pool.",
+      "identity_status": "mapped_thin_profile",
+      "internal_player_id": "thin-22-garven-metusala",
+      "mapping_confidence": "1.000",
+      "mapping_method": "new_profile",
+      "thin_profile": true,
+      "needs_manual_review": true
+    },
+    {
+      "official_fantasy_player_id": "2078",
+      "name": "Trevoh Chalobah",
+      "country": "England",
+      "team_id": "18",
+      "official_fantasy_position": "DEF",
+      "official_price": 4.5,
+      "selectable_status": "playing",
+      "team_status": "in Third Place",
+      "has_official_fantasy_id": true,
+      "has_price": true,
+      "has_position": true,
+      "currently_selectable": true,
+      "should_be_model_eligible": false,
+      "reason": "Final Round team player has a staged thin identity only; safe only with explicit exclusion/caution or source-backed manual projection coverage.",
+      "identity_status": "mapped_thin_profile",
+      "internal_player_id": "thin-18-trevoh-chalobah",
+      "mapping_confidence": "1.000",
+      "mapping_method": "new_profile",
+      "thin_profile": true,
+      "needs_manual_review": true
+    },
+    {
+      "official_fantasy_player_id": "2079",
+      "name": "Arjan Malic",
+      "country": "Bosnia and Herzegovina",
+      "team_id": "6",
+      "official_fantasy_position": "DEF",
+      "official_price": 3.7,
+      "selectable_status": "eliminated",
+      "team_status": "eliminated before Final Round",
+      "has_official_fantasy_id": true,
+      "has_price": true,
+      "has_position": true,
+      "currently_selectable": false,
+      "should_be_model_eligible": false,
+      "reason": "Team is outside Final and Third Place; safely excluded from Final Round model pool.",
+      "identity_status": "missing_identity_map_row",
+      "internal_player_id": null,
+      "mapping_confidence": "none",
+      "mapping_method": null,
+      "thin_profile": false,
+      "needs_manual_review": true
+    }
+  ],
+  "prior_monitor_name_changes_classified": [
+    {
+      "official_fantasy_player_id": "1311",
+      "name": "Abduvokhid Nematov",
+      "country": "Uzbekistan",
+      "team_id": "48",
+      "official_fantasy_position": "GK",
+      "official_price": 4,
+      "selectable_status": "eliminated",
+      "team_status": "eliminated before Final Round",
+      "has_official_fantasy_id": true,
+      "has_price": true,
+      "has_position": true,
+      "currently_selectable": false,
+      "should_be_model_eligible": false,
+      "reason": "Stable official fantasy ID; display-name variant is safe for identity joins.",
+      "identity_status": "mapped",
+      "internal_player_id": "uzbekistan-abduvohid-nematov",
+      "mapping_confidence": "0.960",
+      "mapping_method": "name_variant_country",
+      "thin_profile": false,
+      "needs_manual_review": true,
+      "old_name": "Abduvokhid Ne'matov",
+      "identity_stable": true
+    }
+  ],
+  "thin_profile_audit": {
+    "status": "GREEN",
+    "summary": {
+      "thin_profile_rows": 2,
+      "handled_rows": 2,
+      "missing_required_count": 0,
+      "metadata_failure_count": 0,
+      "identity_failure_count": 0,
+      "core_pick_failure_count": 0,
+      "team_builder_failure_count": 0
+    },
+    "output_json": "data/finalRoundThinProfilePlayerAudit_v1.json",
+    "output_report": "data/finalRoundThinProfilePlayerAuditReport_v1.md"
+  },
+  "verdict": {
+    "status": "GREEN",
+    "classification": {
+      "expected_round_rollover": false,
+      "eliminated_team_lockout": false,
+      "official_fantasy_game_reset": false,
+      "data_schema_change": false,
+      "partial_feed_failure": false,
+      "true_player_availability_change": true,
+      "ambiguous": false
+    },
+    "conclusion": "The observed status-change count was not reproduced from the working snapshot.",
+    "material_counts": {
+      "observed_snapshot_selectable_status_changes": 0,
+      "committed_snapshot_material_changes": 1,
+      "committed_snapshot_selectable_status_changes": 1,
+      "final_or_third_place_status_changes_in_observed_snapshot": 0,
+      "metadata_failure_count": 0,
+      "active_identity_warning_count": 0,
+      "new_active_thin_profile_count": 0
+    },
+    "blockers": [],
+    "warnings": []
+  }
+}

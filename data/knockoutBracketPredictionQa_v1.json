@@ -1,6 +1,6 @@
 {
   "schema_version": "knockout_bracket_prediction_qa_v1",
-  "generated_at": "2026-07-12T12:43:21.492Z",
+  "generated_at": "2026-07-18T02:29:04.416Z",
   "status": "pass",
   "source_files": {
     "bracketPrediction": "data/knockoutBracketPrediction_v1.json",
@@ -8,6 +8,7 @@
     "fixtureAuthority": "data/r32FixtureAuthority_v1.json",
     "qfFixtureAuthority": "data/qfFixtureAuthority_v1.json",
     "sfFixtureAuthority": "data/sfFixtureAuthority_v1.json",
+    "finalRoundFixtureAuthority": "data/finalRoundFixtureAuthority_v1.json",
     "knockoutScorePredictor": "data/knockoutScorePredictor_v1.json",
     "bracketPoolStrategy": "data/bracketPoolStrategyModel_v1.json",
     "index": "index.html",
@@ -25,9 +26,9 @@
     "third_place": 1
   },
   "result_counts": {
-    "correct": 22,
+    "correct": 24,
     "wrong": 6,
-    "pending": 4
+    "pending": 2
   },
   "summary": {
     "predictedChampion": "Argentina",
@@ -41,11 +42,11 @@
       "England",
       "Argentina"
     ],
-    "decidedKnockoutMatches": 28,
-    "correctWinnerPredictions": 22,
+    "decidedKnockoutMatches": 30,
+    "correctWinnerPredictions": 24,
     "wrongWinnerPredictions": 6,
-    "pendingPredictions": 4,
-    "accuracyPct": 78.6,
+    "pendingPredictions": 2,
+    "accuracyPct": 80,
     "flagsMissingFallbackCount": 0
   },
   "checks": [
@@ -237,20 +238,44 @@
       }
     },
     {
-      "id": "sf_matches_not_marked_final_before_play",
+      "id": "sf_matches_marked_final_after_play",
       "status": "pass",
       "detail": [
         {
           "slot": "M101",
-          "status": "scheduled",
-          "actualScore": null
+          "status": "final",
+          "actualScore": "FRA 0-2 ESP",
+          "actualWinner": "Spain"
         },
         {
           "slot": "M102",
-          "status": "scheduled",
-          "actualScore": null
+          "status": "final",
+          "actualScore": "ENG 1-2 ARG",
+          "actualWinner": "Argentina"
         }
       ]
+    },
+    {
+      "id": "final_round_actual_teams_resolved",
+      "status": "pass",
+      "detail": {
+        "final": [
+          "Spain",
+          "Argentina"
+        ],
+        "third_place": [
+          "France",
+          "England"
+        ]
+      }
+    },
+    {
+      "id": "final_round_slots_not_pending",
+      "status": "pass",
+      "detail": {
+        "final": "M104",
+        "third_place": "M103"
+      }
     },
     {
       "id": "knockout_score_predictor_r32_coverage",

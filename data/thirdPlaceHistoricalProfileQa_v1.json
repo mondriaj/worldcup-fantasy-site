@@ -1,0 +1,36 @@
+{
+  "schema_version": "third_place_historical_profile_qa_v1",
+  "generated_at": "2026-07-18T02:28:29.468Z",
+  "status": "pass",
+  "summary": {
+    "score_games_used": 20,
+    "average_goals": 3.8,
+    "median_goals": 3.5,
+    "lineup_confidence": "low",
+    "modifiers": {
+      "thirdPlaceGoalEnvironmentModifier": 1.16,
+      "thirdPlaceCleanSheetModifier": 0.976,
+      "thirdPlaceLineupVolatilityModifier": 1.08,
+      "thirdPlaceStarterProbabilityPenalty": 0.12,
+      "thirdPlaceUpsideModifier": 1.12
+    }
+  },
+  "checks": [
+    {
+      "id": "third_place_scores_sourced",
+      "status": "pass"
+    },
+    {
+      "id": "no_2026_result_leak",
+      "status": "pass"
+    },
+    {
+      "id": "lineup_claims_limited_to_partial_evidence",
+      "status": "pass"
+    },
+    {
+      "id": "modifiers_documented",
+      "status": "pass"
+    }
+  ]
+}

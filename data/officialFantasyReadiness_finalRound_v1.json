@@ -1,0 +1,24 @@
+{
+  "schema_version": "official_fantasy_readiness_final_round_v1",
+  "generated_at": "2026-07-18T02:22:11.323Z",
+  "status": "GREEN",
+  "gates": {
+    "fantasy_pool_readiness": {
+      "status": "GREEN",
+      "model_blocking": false,
+      "notes": "Live official fantasy feed has id, team, price, position, and selectable/status fields for all Final/Third Place model-eligible players; thin-profile selectable players are explicitly guarded by QA."
+    },
+    "final_squad_source_backing": {
+      "status": "BLOCKED",
+      "model_blocking": false,
+      "notes": "No source-backed final national-squad verification is present. Fantasy modeling may use official fantasy-pool membership only if public copy says final squads are not source-backed."
+    },
+    "active_snapshot_hygiene": {
+      "status": "GREEN",
+      "model_blocking": false,
+      "notes": "Working official player snapshot is regenerated from the current live official fantasy feed and has no material diff against the live source."
+    }
+  },
+  "required_public_caveat": "Official fantasy-pool membership, prices, positions, and selectable status are used for fantasy modeling. Final national squads are not independently source-backed; verify official locks, deadlines, and lineups in FIFA.",
+  "recommendation": "Final Round setup can be rerun with the documented final-squad caveat and thin-profile guardrails."
+}

@@ -1,19 +1,18 @@
 {
   "schema_version": "official_fantasy_data_update_check_v1",
-  "generated_at": "2026-07-12T12:43:43.232Z",
+  "generated_at": "2026-07-18T02:21:56.469Z",
   "monitor_status": "completed",
   "summary": {
-    "official_data_changed": false,
-    "rerun_decision": "no_change",
+    "official_data_changed": true,
+    "rerun_decision": "minor_change_no_model_rerun_needed",
     "fetch_failures": 0,
     "local_official_fantasy_players": 1489,
     "live_official_fantasy_players": 1489,
     "live_selectable_status_counts": {
       "eliminated": 1355,
-      "playing": 102,
+      "playing": 103,
       "transferred": 30,
-      "injured": 1,
-      "suspended": 1
+      "injured": 1
     },
     "live_position_counts": {
       "DEF": 486,
@@ -31,10 +30,10 @@
       "status": 200,
       "ok": true,
       "content_type": "application/json",
-      "last_modified": "2026-07-12T12:04:23Z",
-      "etag": "\"c6eac35d1aa856a0f05bfb1859c91ca3\"",
-      "bytes": 1391511,
-      "sha256": "10ce454cd83dcc5fdfcc486fa11962ade7c579754a42ec4d998cddf65fd38842",
+      "last_modified": "2026-07-18T02:04:23Z",
+      "etag": "\"7f6afa2388d6a8c7e1716bea97e9ef91\"",
+      "bytes": 1424351,
+      "sha256": "9cad346e0a51d8c0794f7283c13ee355215cae78d117f599397a21a073ee732a",
       "parse_error": null
     },
     {
@@ -44,7 +43,7 @@
       "status": 200,
       "ok": true,
       "content_type": "application/json",
-      "last_modified": "2026-07-12T04:11:00Z",
+      "last_modified": "2026-07-15T21:03:04Z",
       "etag": "\"9fca0026ac1553011322e15338742102\"",
       "bytes": 6386,
       "sha256": "bf2782b048cbc6a8bf25c8b38d4047538f0a910df034d706046d7c30b09ba0b6",
@@ -70,10 +69,10 @@
       "status": 200,
       "ok": true,
       "content_type": "application/json",
-      "last_modified": "2026-07-12T12:01:03Z",
-      "etag": "\"98accf3119125848828f400529b374d7\"",
-      "bytes": 155982,
-      "sha256": "ff4f5b0804f5ebbc34d1e273bb3d0eb4205cf405a8b945577d64160f254754e8",
+      "last_modified": "2026-07-17T18:01:03Z",
+      "etag": "\"17bb27c06454598e80a60b20f02cd332\"",
+      "bytes": 158893,
+      "sha256": "b25718757d3169815fa3ee49e9c2c0947461d1ac529d05f5a55ac2ea4cab2de3",
       "parse_error": null
     },
     {
@@ -91,9 +90,8 @@
     }
   ],
   "local_source_last_modified": {
-    "fifaFantasyPlayersJson": "2026-07-12T12:04:23Z",
-    "fifaFantasySquadsJson": "2026-07-12T04:11:00Z",
-    "fifaFantasyRoundsJson": "2026-07-12T12:01:03Z"
+    "fifaFantasyPlayersJson": "2026-07-18T01:04:23Z",
+    "fifaFantasySquadsJson": "2026-07-15T21:03:04Z"
   },
   "diffs": {
     "players": {
@@ -107,7 +105,26 @@
       "selectable_status_changes": [],
       "country_team_changes": [],
       "fifa_player_id_changes": [],
-      "ownership_percent_changes": [],
+      "ownership_percent_changes": [
+        {
+          "official_fantasy_player_id": "1085",
+          "name": "Pedro Porro",
+          "country": "Spain",
+          "team_id": "41",
+          "field": "ownership_percent",
+          "local_value": 17,
+          "live_value": 17.1
+        },
+        {
+          "official_fantasy_player_id": "1088",
+          "name": "Marc Cucurella",
+          "country": "Spain",
+          "team_id": "41",
+          "field": "ownership_percent",
+          "local_value": 51.3,
+          "live_value": 51.4
+        }
+      ],
       "counts": {
         "new_players": 0,
         "removed_players": 0,
@@ -117,7 +134,7 @@
         "selectable_status_changes": 0,
         "country_team_changes": 0,
         "fifa_player_id_changes": 0,
-        "ownership_percent_changes": 0
+        "ownership_percent_changes": 2
       }
     },
     "squads": {
@@ -143,7 +160,7 @@
       "help_pages_hash": "025a2c6f7c7ac839b9b2e6c4106ed3ae577807b358e016e815563ea7a322bef8",
       "help_text_hash": "c4ac03240f90d1aad2472725683cebf34ca46204ddd69171bd0db2ead9d1cb98",
       "language_hash": "8efd6d40103d3c09acf299040b4a8243faf53337f3af77580ca9ad405972215b",
-      "rounds_hash": "d9e6ceea5b99915bc3917c162e55f4c59bff689c7b3477c2eff589bfe56f023c",
+      "rounds_hash": "563d760aafb9050d91d3d0b46fa35aad2f2fb0778085c258e47d21388c92dcf8",
       "source_header_changes": [],
       "mystery_booster": {
         "local": {
@@ -194,6 +211,7 @@
         "roundsSelected.5",
         "roundsSelected.6",
         "roundsSelected.7",
+        "roundsSelected.8",
         "squadId",
         "stats",
         "stats.avgPoints",
@@ -208,6 +226,7 @@
         "stats.roundPoints.4",
         "stats.roundPoints.5",
         "stats.roundPoints.6",
+        "stats.roundPoints.7",
         "stats.totalPoints",
         "status"
       ],
@@ -346,8 +365,10 @@
     }
   },
   "recommendation": {
-    "rerun_decision": "no_change",
-    "reasons": [],
+    "rerun_decision": "minor_change_no_model_rerun_needed",
+    "reasons": [
+      "Only non-model source headers or ownership-style values changed."
+    ],
     "player_import_needed": false,
     "squad_import_needed": false,
     "rules_import_needed": false,

@@ -1,69 +1,70 @@
 # Live Matchday Status Report v1
 
-Generated: 2026-07-12T12:19:24.724Z
+Generated: 2026-07-18T02:21:56.469Z
 
 Status: static live/post-match support import. Model predictions, PELE data, recommendations, projections, finance metrics, Team Builder weights, and website formulas were not rerun by this script.
 
 ## Sources
 
-- fifaFantasyPlayersJson: ok, last modified 2026-07-12T12:04:23Z
-- fifaFantasySquadsJson: ok, last modified 2026-07-12T04:11:00Z
-- fifaFantasyRoundsJson: ok, last modified 2026-07-12T12:01:03Z
+- fifaFantasyPlayersJson: ok, last modified 2026-07-18T02:04:23Z
+- fifaFantasySquadsJson: ok, last modified 2026-07-15T21:03:04Z
+- fifaFantasyRoundsJson: ok, last modified 2026-07-17T18:01:03Z
 
 Fetch failures: 0
 
 ## Round And Fixture Status
 
 Rounds imported: 8
-Fixtures imported: 102
+Fixtures imported: 104
 Group-stage fixtures mapped locally: 72
 R32 fixtures mapped locally: 16
 R16 fixtures mapped locally: 8
 QF fixtures mapped locally: 4
 SF fixtures mapped locally: 2
-Fixtures with score fields populated: 100
-Completed/played fixtures: 100
+Fixtures with score fields populated: 102
+Completed/played fixtures: 102
 Playing fixtures: 0
 Scheduled fixtures: 2
 In-progress fixture scores hidden until final: 0
-Safe final scores shown: 100
-Unmatched live fixtures: 0
+Safe final scores shown: 102
+Unmatched live fixtures: 2
 Ambiguous live fixtures: 0
 Reversed mappings handled: 0
 
 Mapping status counts:
 
 - matched: 102
+- unmatched: 2
 
 Mapping orientation counts:
 
 - direct: 102
+- unknown: 2
 
 Round status counts:
 
-- complete: 6
-- scheduled: 2
+- complete: 7
+- scheduled: 1
 
 Fixture status counts:
 
-- complete: 100
+- complete: 102
 - scheduled: 2
 
 ## Player Live Fields
 
 Players imported: 1489
-Players with total points: 1034
-Players with last-round points: 1034
-Players with round-points maps: 1034
+Players with total points: 1035
+Players with last-round points: 1035
+Players with round-points maps: 1035
 Players with unfinished-fixture points suppressed: 0
-Ownership changes >= 0.1 percentage points: 0
+Ownership changes >= 0.1 percentage points: 5
 
 Player status counts:
 
 - eliminated: 1355
 - injured: 1
-- playing: 102
-- suspended: 1
+- playing: 103
 - transferred: 30
 
 matchStatus counts:
@@ -81,6 +82,7 @@ Reasons:
 
 - final fixture score/status changes are display/support data only
 - final actual fantasy points are display/support data only
+- ownership changes do not trigger model reruns
 
 Material change summary:
 

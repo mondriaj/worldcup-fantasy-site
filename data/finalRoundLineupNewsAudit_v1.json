@@ -1,0 +1,87 @@
+{
+  "schema_version": "final_round_lineup_news_audit_v1",
+  "generated_at": "2026-07-18T02:28:29.468Z",
+  "source_checked": "2026-07-18",
+  "status": "pass",
+  "summary": {
+    "teams_checked": 4,
+    "full_predicted_xi_sources_found": 0,
+    "model_individual_probability_adjustments": 0,
+    "team_level_third_place_rotation_cautions": 2,
+    "recommendation": "Run another pre-lock lineup monitor later; do not treat speculation as confirmed XI evidence."
+  },
+  "teams": [
+    {
+      "team_id": "france",
+      "team": "France",
+      "source": "The Guardian World Cup countdown liveblog",
+      "source_url": "https://www.theguardian.com/football/live/2026/jul/17/world-cup-2026-spain-v-argentina-countdown-trump-to-attend-final-england-news-live",
+      "publication_time": "2026-07-17",
+      "predicted_lineup": null,
+      "confirmed_absences": [],
+      "injury_doubts": [],
+      "suspension_risks": [],
+      "rotation_notes": [
+        "Deschamps said Mbappe is available and promised changes for the third-place match."
+      ],
+      "confidence_level": "medium",
+      "model_effect": "team_level_third_place_rotation_caution_only"
+    },
+    {
+      "team_id": "england",
+      "team": "England",
+      "source": "The Guardian World Cup countdown liveblog and talkSPORT third-place preview",
+      "source_url": "https://talksport.com/football/world-cup/4236250/england-vs-france-kick-off-time-uk-date-third-place-playoff/",
+      "publication_time": "2026-07-17",
+      "predicted_lineup": null,
+      "confirmed_absences": [],
+      "injury_doubts": [],
+      "suspension_risks": [],
+      "rotation_notes": [
+        "Third-place match context increases rotation risk; no reliable complete expected XI found."
+      ],
+      "confidence_level": "low",
+      "model_effect": "team_level_third_place_rotation_caution_only"
+    },
+    {
+      "team_id": "spain",
+      "team": "Spain",
+      "source": "The Guardian World Cup countdown liveblog",
+      "source_url": "https://www.theguardian.com/football/live/2026/jul/17/world-cup-2026-spain-v-argentina-countdown-trump-to-attend-final-england-news-live",
+      "publication_time": "2026-07-17",
+      "predicted_lineup": null,
+      "confirmed_absences": [],
+      "injury_doubts": [
+        "Mikel Merino referenced smoke/conditions; no lineup absence confirmed in the audited source."
+      ],
+      "suspension_risks": [],
+      "rotation_notes": [
+        "No reliable full final XI source found; explicit SF lineup remains primary evidence."
+      ],
+      "confidence_level": "low",
+      "model_effect": "no_individual_probability_adjustment"
+    },
+    {
+      "team_id": "argentina",
+      "team": "Argentina",
+      "source": "The Guardian World Cup countdown liveblog",
+      "source_url": "https://www.theguardian.com/football/live/2026/jul/17/world-cup-2026-spain-v-argentina-countdown-trump-to-attend-final-england-news-live",
+      "publication_time": "2026-07-17",
+      "predicted_lineup": null,
+      "confirmed_absences": [],
+      "injury_doubts": [],
+      "suspension_risks": [],
+      "rotation_notes": [
+        "No reliable full final XI source found; explicit SF lineup remains primary evidence."
+      ],
+      "confidence_level": "low",
+      "model_effect": "no_individual_probability_adjustment"
+    }
+  ],
+  "qa": {
+    "status": "pass",
+    "no_speculative_social_posts": true,
+    "explicit_sf_lineup_primary": true,
+    "no_predicted_lineup_claim_without_source": true
+  }
+}

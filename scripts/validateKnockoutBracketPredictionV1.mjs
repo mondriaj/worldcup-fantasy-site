@@ -13,6 +13,7 @@ const files = {
   fixtureAuthority: "data/r32FixtureAuthority_v1.json",
   qfFixtureAuthority: "data/qfFixtureAuthority_v1.json",
   sfFixtureAuthority: "data/sfFixtureAuthority_v1.json",
+  finalRoundFixtureAuthority: "data/finalRoundFixtureAuthority_v1.json",
   knockoutScorePredictor: "data/knockoutScorePredictor_v1.json",
   bracketPoolStrategy: "data/bracketPoolStrategyModel_v1.json",
   index: "index.html",
@@ -149,6 +150,10 @@ function validateData(data, authority, qfAuthority, sfAuthority, knockout, brack
   const sfMissingAuthorityTeams = [...sfAuthorityTeams].filter((team) => !sfRowTeams.has(team));
   const sfUnexpectedTeams = [...sfRowTeams].filter((team) => !sfAuthorityTeams.has(team));
   const sfPendingTeamRows = sfRows.filter((match) => [match.teamA, match.teamB].some((team) => team?.sourceConfidence === "pending"));
+  const finalRow = matches.find((match) => match.round === "final");
+  const thirdPlaceRow = matches.find((match) => match.round === "third_place");
+  const finalTeamIds = new Set([teamId(finalRow?.teamA), teamId(finalRow?.teamB)].filter(Boolean));
+  const thirdPlaceTeamIds = new Set([teamId(thirdPlaceRow?.teamA), teamId(thirdPlaceRow?.teamB)].filter(Boolean));
 
   addCheck(checks, failures, "r32_fixture_authority_pass", authority.status === "pass", authority.status);
   addCheck(checks, failures, "qf_fixture_authority_pass", qfAuthority.status === "pass", qfAuthority.status);
@@ -190,7 +195,15 @@ function validateData(data, authority, qfAuthority, sfAuthority, knockout, brack
     unexpected_sf_teams: sfUnexpectedTeams,
     pending_sf_slots: sfPendingTeamRows.map((match) => match.bracketSlotId)
   });
-  addCheck(checks, failures, "sf_matches_not_marked_final_before_play", sfRows.every((match) => match.status !== "final" && !match.actualScore), sfRows.map((match) => ({ slot: match.bracketSlotId, status: match.status, actualScore: match.actualScore })));
+  addCheck(checks, failures, "sf_matches_marked_final_after_play", sfRows.every((match) => match.status === "final" && match.actualScore && match.actualWinner), sfRows.map((match) => ({ slot: match.bracketSlotId, status: match.status, actualScore: match.actualScore, actualWinner: teamLabel(match.actualWinner) })));
+  addCheck(checks, failures, "final_round_actual_teams_resolved", finalTeamIds.has("spain") && finalTeamIds.has("argentina") && thirdPlaceTeamIds.has("france") && thirdPlaceTeamIds.has("england"), {
+    final: [teamLabel(finalRow?.teamA), teamLabel(finalRow?.teamB)],
+    third_place: [teamLabel(thirdPlaceRow?.teamA), teamLabel(thirdPlaceRow?.teamB)]
+  });
+  addCheck(checks, failures, "final_round_slots_not_pending", [finalRow, thirdPlaceRow].every((match) => match && [match.teamA, match.teamB].every((team) => team?.sourceConfidence !== "pending")), {
+    final: finalRow?.bracketSlotId,
+    third_place: thirdPlaceRow?.bracketSlotId
+  });
   addCheck(checks, failures, "knockout_score_predictor_r32_coverage", (knockout.known_r32_predictions || []).length === 16, (knockout.known_r32_predictions || []).length);
   addCheck(checks, failures, "default_strategy_has_full_tree", Boolean(safeStrategy && (safeStrategy.matches || []).length === 31), safeStrategy ? `${safeStrategy.strategy_id}: ${(safeStrategy.matches || []).length}` : null);
 

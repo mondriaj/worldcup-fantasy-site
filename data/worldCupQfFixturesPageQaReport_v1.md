@@ -1,6 +1,6 @@
 # World Cup QF Fixtures Page QA v1
 
-Generated: 2026-07-12T12:43:11.770Z
+Generated: 2026-07-18T02:32:59.556Z
 
 Status: pass
 

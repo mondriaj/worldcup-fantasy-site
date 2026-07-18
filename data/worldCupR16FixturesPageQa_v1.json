@@ -1,0 +1,109 @@
+{
+  "schema_version": "world_cup_r16_fixtures_page_qa_v1",
+  "generated_at": "2026-07-18T02:32:59.560Z",
+  "status": "pass",
+  "summary": {
+    "r16_fixture_count": 8,
+    "r16_final_scores_visible": 8,
+    "rendered_console_errors": 0
+  },
+  "fixture_checks": [
+    {
+      "slot": "M89",
+      "fixture": "Paraguay vs France",
+      "expected_score": "PAR 0 - 1 FRA",
+      "advances_to": "M97",
+      "teams_visible": true,
+      "kickoff_visible": true,
+      "actual_score_visible": true,
+      "advances_visible": true,
+      "no_tbd": true,
+      "live_final": true
+    },
+    {
+      "slot": "M90",
+      "fixture": "Canada vs Morocco",
+      "expected_score": "CAN 0 - 3 MAR",
+      "advances_to": "M97",
+      "teams_visible": true,
+      "kickoff_visible": true,
+      "actual_score_visible": true,
+      "advances_visible": true,
+      "no_tbd": true,
+      "live_final": true
+    },
+    {
+      "slot": "M91",
+      "fixture": "Brazil vs Norway",
+      "expected_score": "BRA 1 - 2 NOR",
+      "advances_to": "M98",
+      "teams_visible": true,
+      "kickoff_visible": true,
+      "actual_score_visible": true,
+      "advances_visible": true,
+      "no_tbd": true,
+      "live_final": true
+    },
+    {
+      "slot": "M92",
+      "fixture": "Mexico vs England",
+      "expected_score": "MEX 2 - 3 ENG",
+      "advances_to": "M98",
+      "teams_visible": true,
+      "kickoff_visible": true,
+      "actual_score_visible": true,
+      "advances_visible": true,
+      "no_tbd": true,
+      "live_final": true
+    },
+    {
+      "slot": "M93",
+      "fixture": "Portugal vs Spain",
+      "expected_score": "POR 0 - 1 ESP",
+      "advances_to": "M99",
+      "teams_visible": true,
+      "kickoff_visible": true,
+      "actual_score_visible": true,
+      "advances_visible": true,
+      "no_tbd": true,
+      "live_final": true
+    },
+    {
+      "slot": "M94",
+      "fixture": "USA vs Belgium",
+      "expected_score": "USA 1 - 4 BEL",
+      "advances_to": "M99",
+      "teams_visible": true,
+      "kickoff_visible": true,
+      "actual_score_visible": true,
+      "advances_visible": true,
+      "no_tbd": true,
+      "live_final": true
+    },
+    {
+      "slot": "M95",
+      "fixture": "Argentina vs Egypt",
+      "expected_score": "ARG 3 - 2 EGY",
+      "advances_to": "M100",
+      "teams_visible": true,
+      "kickoff_visible": true,
+      "actual_score_visible": true,
+      "advances_visible": true,
+      "no_tbd": true,
+      "live_final": true
+    },
+    {
+      "slot": "M96",
+      "fixture": "Switzerland vs Colombia",
+      "expected_score": "SUI 0 - 0 COL",
+      "advances_to": "M100",
+      "teams_visible": true,
+      "kickoff_visible": true,
+      "actual_score_visible": true,
+      "advances_visible": true,
+      "no_tbd": true,
+      "live_final": true
+    }
+  ],
+  "errors": []
+}

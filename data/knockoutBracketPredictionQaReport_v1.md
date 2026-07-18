@@ -1,6 +1,6 @@
 # Knockout Bracket Prediction QA v1
 
-Generated: 2026-07-12T12:43:21.492Z
+Generated: 2026-07-18T02:29:04.416Z
 
 Status: **PASS**
 
@@ -11,11 +11,11 @@ Status: **PASS**
 | Predicted champion | Argentina |
 | Predicted finalists | Spain, Argentina |
 | Predicted semifinalists | France, Spain, England, Argentina |
-| Decided matches | 28 |
-| Correct | 22 |
+| Decided matches | 30 |
+| Correct | 24 |
 | Wrong | 6 |
-| Pending | 4 |
-| Accuracy | 78.6% |
+| Pending | 2 |
+| Accuracy | 80% |
 | Flags missing/fallback | 0 |
 
 ## Match Counts
@@ -61,6 +61,8 @@ Status: **PASS**
 | qf_rows_match_qf_authority | pass | {"missing_authority_teams":[],"unexpected_qf_teams":[],"pending_qf_slots":[]} |
 | qf_matches_marked_final_after_play | pass | [object Object]; [object Object]; [object Object]; [object Object] |
 | sf_rows_match_sf_authority | pass | {"missing_authority_teams":[],"unexpected_sf_teams":[],"pending_sf_slots":[]} |
-| sf_matches_not_marked_final_before_play | pass | [object Object]; [object Object] |
+| sf_matches_marked_final_after_play | pass | [object Object]; [object Object] |
+| final_round_actual_teams_resolved | pass | {"final":["Spain","Argentina"],"third_place":["France","England"]} |
+| final_round_slots_not_pending | pass | {"final":"M104","third_place":"M103"} |
 | knockout_score_predictor_r32_coverage | pass | 16 |
 | default_strategy_has_full_tree | pass | "safe: 31" |

@@ -1,0 +1,57 @@
+{
+  "schema_version": "pele_refresh_audit_final_round_v1",
+  "generated_at": "2026-07-18T02:28:29.468Z",
+  "status": "pass",
+  "source_files": [
+    "data/teamQuality.json",
+    "data/finalRoundFixtureAuthority_v1.json"
+  ],
+  "refresh_result": "no_source_change_documented_current_team_quality_used",
+  "summary": {
+    "teams_required": 4,
+    "teams_found": 4,
+    "missing_teams": 0,
+    "duplicate_team_keys": 0,
+    "invalid_numeric_values": 0,
+    "old_sf_only_team_list_active": false
+  },
+  "teams": [
+    {
+      "team_id": "france",
+      "team": "France",
+      "found": true,
+      "team_quality_v2_score": 86.69,
+      "pele_rating": 2032.3,
+      "invalid_numeric_values": 0,
+      "pele_status": "downloaded_from_silver_bulletin_datawrapper_csv"
+    },
+    {
+      "team_id": "england",
+      "team": "England",
+      "found": true,
+      "team_quality_v2_score": 84.51,
+      "pele_rating": 2043.8,
+      "invalid_numeric_values": 0,
+      "pele_status": "downloaded_from_silver_bulletin_datawrapper_csv"
+    },
+    {
+      "team_id": "spain",
+      "team": "Spain",
+      "found": true,
+      "team_quality_v2_score": 90.37,
+      "pele_rating": 2062.5,
+      "invalid_numeric_values": 0,
+      "pele_status": "downloaded_from_silver_bulletin_datawrapper_csv"
+    },
+    {
+      "team_id": "argentina",
+      "team": "Argentina",
+      "found": true,
+      "team_quality_v2_score": 92.41,
+      "pele_rating": 2079.2,
+      "invalid_numeric_values": 0,
+      "pele_status": "downloaded_from_silver_bulletin_datawrapper_csv"
+    }
+  ],
+  "errors": []
+}
