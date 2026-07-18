@@ -6,14 +6,14 @@ Status: pass
 
 | Metric | Value |
 | --- | --- |
-| selected_count_by_team | {"France":2,"Spain":4,"Argentina":8,"England":1} |
-| selected_count_by_fixture | {"third_place":3,"final":12} |
-| raw_expected_selected_count_by_team | {"France":1,"Spain":6,"Argentina":8} |
-| raw_projected_points_before | 60.681 |
-| raw_projected_points_after | 58.689 |
-| optionality_score | 6.814 |
-| optionality_gain | 5.291 |
-| composite_score_gain | 5.027 |
+| selected_count_by_team | {"Argentina":8,"Spain":5,"France":1,"England":1} |
+| selected_count_by_fixture | {"final":13,"third_place":2} |
+| raw_expected_selected_count_by_team | {"Argentina":8,"Spain":5,"France":1,"England":1} |
+| raw_projected_points_before | 59.552 |
+| raw_projected_points_after | 59.552 |
+| optionality_score | 5.291 |
+| optionality_gain | 0 |
+| composite_score_gain | 0 |
 | third_place_recommendation_rows | 72 |
 | early_option_rows | 25 |
 | third_place_risk_rows | 25 |

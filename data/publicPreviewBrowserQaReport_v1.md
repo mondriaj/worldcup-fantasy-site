@@ -1,6 +1,6 @@
 # Public Preview Browser QA Report v1
 
-Generated: 2026-07-18T11:13:36.635Z
+Generated: 2026-07-18T11:52:43.349Z
 
 ## Verdict
 
@@ -12,7 +12,7 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 
 | Item | Result |
 | --- | --- |
-| Base URL | http://127.0.0.1:8771 |
+| Base URL | http://127.0.0.1:8772 |
 | Runner | scripts/runPublicPreviewBrowserQa.mjs |
 | Browser executable | /Users/jordimondria/Library/Caches/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-mac-arm64/chrome-headless-shell |
 | Index viewports | 5 |
@@ -66,34 +66,34 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | Known eliminated text in picker | no |
 | Fixture exposure explanation | yes |
 | Third Place strategy text | yes |
-| Optionality text | Optionality Score 2.2 earlier kickoff flexibility; verify FIFA locks |
-| France selected / starters / bench | 1 / 0 / 1 |
-| Spain selected / starters / bench | 7 / 4 / 3 |
-| England selected / starters / bench | 0 / 0 / 0 |
-| Argentina selected / starters / bench | 7 / 7 / 0 |
+| Optionality text | Optionality Score 5.3 earlier kickoff flexibility; verify FIFA locks |
+| France selected / starters / bench | 1 / 1 / 0 |
+| Spain selected / starters / bench | 5 / 1 / 4 |
+| England selected / starters / bench | 1 / 1 / 0 |
+| Argentina selected / starters / bench | 8 / 8 / 0 |
 | Brazil selected | 0 |
 | Colombia selected | 0 |
-| Top country | Balanced Squad, Balanced safety, Final Round. Top country: Argentina 7/8. Fixture spread: Final Round: 0 hard, 0 favorable, 11 high-uncertainty. Early fixture: 1 squad / 0 starters. Optionality 2.2. |
+| Top country | Balanced Squad, Balanced safety, Final Round. Top country: Argentina 8/8. Fixture spread: Final Round: 0 hard, 0 favorable, 11 high-uncertainty. Early fixture: 2 squad / 2 starters. Optionality 5.3. |
 
 ## Team Builder Selected Squad
 
 | Area | Slot | Player | Pos | Country |
 | --- | --- | --- | --- | --- |
-| Starter | 1 | Lionel Messi | Forward | Argentina |
-| Starter | 2 | Julián Alvarez | Forward | Argentina |
+| Starter | 1 | Kylian Mbappé | Forward | France |
+| Starter | 2 | Harry Kane | Forward | England |
 | Starter | 3 | Mikel Oyarzabal | Forward | Spain |
-| Starter | 4 | Alexis Mac Allister | Midfielder | Argentina |
-| Starter | 5 | Enzo Fernández | Midfielder | Argentina |
-| Starter | 6 | Fabián Ruiz | Midfielder | Spain |
-| Starter | 7 | Lisandro Martínez | Defender | Argentina |
-| Starter | 8 | Nicolás Tagliafico | Defender | Argentina |
-| Starter | 9 | Marc Cucurella | Defender | Spain |
-| Starter | 10 | Aymeric Laporte | Defender | Spain |
+| Starter | 4 | Leandro Paredes | Midfielder | Argentina |
+| Starter | 5 | Alexis Mac Allister | Midfielder | Argentina |
+| Starter | 6 | Enzo Fernández | Midfielder | Argentina |
+| Starter | 7 | Nicolás Tagliafico | Defender | Argentina |
+| Starter | 8 | Nahuel Molina | Defender | Argentina |
+| Starter | 9 | Lisandro Martínez | Defender | Argentina |
+| Starter | 10 | Cristian Romero | Defender | Argentina |
 | Starter | 11 | Emiliano Martínez | Goalkeeper | Argentina |
 | Bench | 1 | Unai Simón | Goalkeeper | Spain |
 | Bench | 2 | Pau Cubarsí | Defender | Spain |
-| Bench | 3 | Rodrigo Hernández Cascante | Midfielder | Spain |
-| Bench | 4 | Adrien Rabiot | Midfielder | France |
+| Bench | 3 | Álex Baena | Midfielder | Spain |
+| Bench | 4 | Fabián Ruiz | Midfielder | Spain |
 
 ## Data Loaded
 

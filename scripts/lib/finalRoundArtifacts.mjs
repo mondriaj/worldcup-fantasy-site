@@ -1620,6 +1620,8 @@ function buildRecommendations({ projections }) {
 
 function buildTeamBuilder({ projections, recommendations, authority }) {
   const byPositionNeeded = { GK: 2, DEF: 5, MID: 5, FWD: 3 };
+  const officialRules = readJson("data/officialFantasyRules_v0.json", {}).officialFantasyRules || {};
+  const initialBudget = Number(officialRules.budget?.initialBudget || 100) + Number(officialRules.budget?.knockoutIncrease || 0);
   const finalCountryLimit = 8;
   const eligibleTeamIds = new Set((authority.fixtures || []).flatMap((fixture) => [
     fixture.team_a?.team_id,
@@ -1661,51 +1663,75 @@ function buildTeamBuilder({ projections, recommendations, authority }) {
     .filter((row) => row.selectable_status === "playing" && !row.thin_profile)
     .filter(isEligibleTeamRow);
   const eliminatedCandidateRows = knownEliminatedPlayerRows(candidateRows);
-  const buildSquadByScore = (scoredPool, minimumEarlyFixturePlayers = 0) => {
-    const selected = [];
-    for (const [position, count] of Object.entries(byPositionNeeded)) {
-      selected.push(...scoredPool.filter((row) => row.position === position).slice(0, count));
-    }
-    for (const earlyCandidate of scoredPool.filter((row) => row.fixture_stage === "third_place" && row.sfStarted)) {
-      const currentEarlyCount = selected.filter((row) => row.fixture_stage === "third_place").length;
-      if (currentEarlyCount >= minimumEarlyFixturePlayers) break;
-      if (selected.some((row) => row.official_fantasy_player_id === earlyCandidate.official_fantasy_player_id)) continue;
-      const samePositionLateRows = selected
-        .filter((row) => row.position === earlyCandidate.position && row.fixture_stage !== "third_place")
-        .sort((a, b) => scoredPool.indexOf(b) - scoredPool.indexOf(a));
-      const replaceTarget = samePositionLateRows[0];
-      if (!replaceTarget) continue;
-      const replaceIndex = selected.findIndex((row) => row.official_fantasy_player_id === replaceTarget.official_fantasy_player_id);
-      if (replaceIndex >= 0) selected[replaceIndex] = earlyCandidate;
-    }
-
-    let countryLimitChanged = true;
-    while (countryLimitChanged) {
-      countryLimitChanged = false;
-      const selectedByTeam = countByTeam(selected);
-      const overLimitTeam = Object.keys(selectedByTeam).find((teamName) => selectedByTeam[teamName] > finalCountryLimit);
-      if (!overLimitTeam) break;
-      const overLimitTeamId = Object.keys(TEAM_INFO).find((teamId) => TEAM_INFO[teamId].team === overLimitTeam) || overLimitTeam.toLowerCase();
-      const replaceTargets = selected
-        .filter((row) => row.team_id === overLimitTeamId || row.country === overLimitTeam)
-        .sort((a, b) => strategicRowScore(a) - strategicRowScore(b));
-      for (const replaceTarget of replaceTargets) {
-        const selectedIds = new Set(selected.map((row) => String(row.official_fantasy_player_id)));
-        const replacement = scoredPool
-          .filter((row) => row.position === replaceTarget.position)
-          .filter((row) => !selectedIds.has(String(row.official_fantasy_player_id)))
-          .filter((row) => row.team_id !== replaceTarget.team_id)
-          .filter((row) => (selectedByTeam[row.country] || 0) < finalCountryLimit)[0];
-        if (!replacement) continue;
-        const replaceIndex = selected.findIndex((row) => row.official_fantasy_player_id === replaceTarget.official_fantasy_player_id);
-        if (replaceIndex >= 0) {
-          selected[replaceIndex] = replacement;
-          countryLimitChanged = true;
-          break;
-        }
+  const buildSquadByScore = (scoredPool, minimumEarlyFixturePlayers = 0, scoreFn = strategicRowScore) => {
+    const slotOrder = Object.entries(byPositionNeeded).flatMap(([position, count]) => Array.from({ length: count }, () => position));
+    let states = [{
+      rows: [],
+      selectedIds: new Set(),
+      countryCounts: {},
+      price: 0,
+      score: 0,
+      earlyCount: 0
+    }];
+    const cheapestByPosition = Object.fromEntries(Object.keys(byPositionNeeded).map((position) => [
+      position,
+      scoredPool
+        .filter((row) => row.position === position)
+        .map((row) => Number(row.price || 0))
+        .sort((a, b) => a - b)
+    ]));
+    const remainingCheapestCost = (nextSlotIndex, state) => {
+      const needs = {};
+      for (let index = nextSlotIndex; index < slotOrder.length; index += 1) {
+        needs[slotOrder[index]] = (needs[slotOrder[index]] || 0) + 1;
       }
-    }
-    return selected;
+      return Object.entries(needs).reduce((sum, [position, count]) => {
+        const prices = cheapestByPosition[position] || [];
+        return sum + prices.slice(0, count).reduce((priceSum, price) => priceSum + price, 0);
+      }, 0);
+    };
+
+    slotOrder.forEach((position, slotIndex) => {
+      const nextStates = [];
+      const candidates = scoredPool.filter((row) => row.position === position);
+      states.forEach((state) => {
+        candidates.forEach((row) => {
+          const rowId = String(row.official_fantasy_player_id);
+          const team = row.country || TEAM_INFO[row.team_id]?.team || row.team_id || "Unknown";
+          const nextCountryCount = (state.countryCounts[team] || 0) + 1;
+          const nextPrice = round(state.price + Number(row.price || 0));
+          if (state.selectedIds.has(rowId)) return;
+          if (nextCountryCount > finalCountryLimit) return;
+          if (nextPrice > initialBudget + 0.001) return;
+
+          const nextState = {
+            rows: [...state.rows, row],
+            selectedIds: new Set([...state.selectedIds, rowId]),
+            countryCounts: { ...state.countryCounts, [team]: nextCountryCount },
+            price: nextPrice,
+            score: state.score + scoreFn(row),
+            earlyCount: state.earlyCount + (row.fixture_stage === "third_place" ? 1 : 0)
+          };
+          if (nextPrice + remainingCheapestCost(slotIndex + 1, nextState) > initialBudget + 0.001) return;
+          nextStates.push(nextState);
+        });
+      });
+      states = nextStates
+        .sort((a, b) =>
+          b.score - a.score ||
+          b.earlyCount - a.earlyCount ||
+          a.price - b.price
+        )
+        .slice(0, 8000);
+    });
+
+    const validStates = states.filter((state) =>
+      state.rows.length === 15 &&
+      state.price <= initialBudget + 0.001 &&
+      state.earlyCount >= minimumEarlyFixturePlayers
+    );
+    const fallbackStates = states.filter((state) => state.rows.length === 15 && state.price <= initialBudget + 0.001);
+    return (validStates[0] || fallbackStates[0] || { rows: [] }).rows;
   };
   const rawPool = candidateRows
     .filter((row) => row.start_probability >= 0.45)
@@ -1713,7 +1739,7 @@ function buildTeamBuilder({ projections, recommendations, authority }) {
   const pool = candidateRows
     .filter((row) => row.start_probability >= 0.45)
     .sort((a, b) => strategicRowScore(b) - strategicRowScore(a));
-  const rawExpectedSquad = buildSquadByScore(rawPool, 0);
+  const rawExpectedSquad = buildSquadByScore(rawPool, 0, rawRowScore);
   const viableEarlyFixturePlayers = pool.filter((row) =>
     row.fixture_stage === "third_place" &&
     row.sfStarted &&
@@ -1755,6 +1781,7 @@ function buildTeamBuilder({ projections, recommendations, authority }) {
   const errors = [];
   if (squad.length !== 15) errors.push("Balanced squad did not contain 15 players.");
   if (!Object.entries(byPositionNeeded).every(([position, count]) => squad.filter((row) => row.position === position).length === count)) errors.push("Balanced squad did not satisfy the 2/5/5/3 structure.");
+  if (squad.reduce((sum, row) => sum + Number(row.price || 0), 0) > initialBudget + 0.001) errors.push(`Balanced squad exceeded the ${initialBudget} budget.`);
   if (Object.values(countByTeam(squad)).some((count) => count > finalCountryLimit)) errors.push(`Balanced squad exceeded the Final country limit of ${finalCountryLimit}.`);
   if (eliminatedCandidateRows.length) errors.push("Final Round Team Builder candidate pool contains eliminated players.");
   if (eliminatedSelectedRows.length) errors.push("Final Round Team Builder selected squad contains eliminated players.");
@@ -1773,6 +1800,9 @@ function buildTeamBuilder({ projections, recommendations, authority }) {
       positions: Object.fromEntries(Object.keys(byPositionNeeded).map((position) => [position, squad.filter((row) => row.position === position).length])),
       defaultMatchday: MATCHDAY_ID,
       country_limit: finalCountryLimit,
+      initial_budget: initialBudget,
+      selected_total_price: round(squad.reduce((sum, row) => sum + Number(row.price || 0), 0)),
+      raw_expected_selected_total_price: round(rawExpectedSquad.reduce((sum, row) => sum + Number(row.price || 0), 0)),
       eligible_teams: eligibleTeamNames,
       candidate_count_by_team: countByTeam(candidateRows),
       selected_count_by_team: countByTeam(squad),
@@ -1840,6 +1870,81 @@ function buildTeamBuilder({ projections, recommendations, authority }) {
       lineupEvidenceType: row.lineupEvidenceType
     })),
     errors
+  };
+}
+
+function buildTeamBuilderArtifact(teamBuilder) {
+  const selectedSquad = teamBuilder.balancedSquad || [];
+  const starterRequirements = { GK: 1, DEF: 4, MID: 3, FWD: 3 };
+  const starters = [];
+  const starterIds = new Set();
+
+  Object.entries(starterRequirements).forEach(([position, count]) => {
+    selectedSquad
+      .filter((row) => row.position === position)
+      .sort((a, b) =>
+        Number(b.finalRoundStrategy?.strategicCompositeScore || 0) - Number(a.finalRoundStrategy?.strategicCompositeScore || 0) ||
+        Number(b.projectedPoints || 0) - Number(a.projectedPoints || 0)
+      )
+      .slice(0, count)
+      .forEach((row) => {
+        starters.push(row);
+        starterIds.add(String(row.official_fantasy_player_id));
+      });
+  });
+
+  const bench = selectedSquad.filter((row) => !starterIds.has(String(row.official_fantasy_player_id)));
+
+  return {
+    schema_version: "team_builder_final_round_artifact_v1",
+    generatedAt: teamBuilder.generated_at,
+    modelVersion: "team-builder-final-round-v1",
+    strategy: {
+      id: "balancedSquad",
+      name: "Recommended Balanced Squad",
+      label: "Recommended Balanced Squad",
+      matchday: "finalRound",
+      formation: "4-3-3"
+    },
+    objectiveExplanation: "Generated Final Round artifact optimizes the validated strategic composite score with active Final Round projections, eligible teams from finalRoundFixtureAuthority, Third Place optionality, replacement value, fixture diversification, Third Place risk, role volatility, budget, position, and country-limit constraints.",
+    constraintsUsed: {
+      matchday: "finalRound",
+      active_final_round_only: true,
+      eligible_teams: teamBuilder.summary.eligible_teams,
+      position_requirements: { GK: 2, DEF: 5, MID: 5, FWD: 3 },
+      starter_requirements: starterRequirements,
+      initial_budget: teamBuilder.summary.initial_budget,
+      country_limit: teamBuilder.summary.country_limit,
+      eliminated_player_guardrails: true,
+      ownership_used_as_signal: false,
+      final_squads_source_backed: false
+    },
+    selectedSquad,
+    starters,
+    bench,
+    captain: teamBuilder.captain,
+    viceCaptain: teamBuilder.viceCaptain,
+    summary: {
+      selected_count_by_team: teamBuilder.summary.selected_count_by_team,
+      selected_count_by_fixture: teamBuilder.summary.selected_count_by_fixture,
+      raw_projected_points: teamBuilder.summary.raw_projected_points_after,
+      raw_projected_points_before: teamBuilder.summary.raw_projected_points_before,
+      optionality_score: teamBuilder.summary.optionality_score,
+      optionality_score_before: teamBuilder.summary.optionality_score_before,
+      composite_score: teamBuilder.summary.composite_score,
+      composite_score_before: teamBuilder.summary.composite_score_before,
+      captain: teamBuilder.summary.captain,
+      viceCaptain: teamBuilder.summary.viceCaptain,
+      third_place_players: teamBuilder.summary.third_place_players,
+      final_players: teamBuilder.summary.final_players,
+      eliminated_player_selected: teamBuilder.summary.eliminated_player_selected
+    },
+    diagnostics: {
+      rawExpectedPointsSquad: teamBuilder.rawExpectedPointsSquad,
+      topOmittedByTeam: teamBuilder.topOmittedByTeam,
+      omittedStarDiagnostics: teamBuilder.omittedStarDiagnostics,
+      roleVolatilityDiagnostics: teamBuilder.roleVolatilityDiagnostics
+    }
   };
 }
 
@@ -2201,7 +2306,7 @@ function qaReports({ authority, role, score, projections, recommendations, teamB
   return { roleQa, scoreQa, projectionQa, recommendationQa, corePickQa, releaseQa };
 }
 
-async function writeBrowserWrappers({ authority, score, projections, recommendations }) {
+async function writeBrowserWrappers({ authority, score, projections, recommendations, teamBuilder }) {
   const qfScore = readJson("data/scorePredictions_fantasyPool_qf_v1.json", {});
   const r16Score = readJson("data/scorePredictions_fantasyPool_r16_v1.json", {});
   const r32Score = readJson("data/scorePredictions_fantasyPool_r32_v1.json", {});
@@ -2229,6 +2334,7 @@ async function writeBrowserWrappers({ authority, score, projections, recommendat
     recommendationCandidates: [...recommendations.recommendationCandidates, ...(sfRecommendations.recommendationCandidates || []), ...(qfRecommendations.recommendationCandidates || []), ...(r16Recommendations.recommendationCandidates || []), ...(r32Recommendations.recommendationCandidates || [])]
   };
   const { financeBrowser, bridgeQa } = buildFinalRoundFinanceBridge({ projections });
+  const teamBuilderArtifact = buildTeamBuilderArtifact(teamBuilder);
 
   await writeFile("finalRoundFixtureAuthorityData.js", [
     "// Generated by scripts/buildFinalRoundFixtureAuthorityV1.mjs.",
@@ -2263,6 +2369,12 @@ async function writeBrowserWrappers({ authority, score, projections, recommendat
     `window.FANTASY_POOL_FINANCE_METRICS_DATA = ${JSON.stringify(financeBrowser)};`,
     "window.FANTASY_POOL_PLAYER_FINANCE_METRICS = window.FANTASY_POOL_FINANCE_METRICS_DATA.playerFinanceMetrics;",
     "window.FANTASY_POOL_FINANCE_METRICS_SUMMARY = window.FANTASY_POOL_FINANCE_METRICS_DATA.summary;"
+  ].join("\n") + "\n", "utf8");
+  await writeJson("data/teamBuilderFinalRoundArtifact_v1.json", teamBuilderArtifact);
+  await writeFile("teamBuilderFinalRoundArtifactData.js", [
+    "// Generated by scripts/buildFinalRoundFantasyArtifactsV1.mjs.",
+    "// Browser-ready validated Final Round Team Builder artifact.",
+    `window.TEAM_BUILDER_FINAL_ROUND_ARTIFACT_DATA = ${JSON.stringify(teamBuilderArtifact)};`
   ].join("\n") + "\n", "utf8");
   await writeJson("data/finalRoundFinanceBridgeQa_v1.json", bridgeQa);
   await writeText("data/finalRoundFinanceBridgeQaReport_v1.md", `# Final Round Finance Bridge QA v1
@@ -2339,7 +2451,7 @@ export async function buildFinalRoundArtifacts() {
   await writeJson("data/knockoutModelPostmortem_for_finalRound_v1.json", postmortem);
   await writeJson("data/peleRefreshAudit_finalRound_v1.json", peleAudit);
   await writeReports({ authority, sfLineupEvidence, thirdPlaceProfile, thirdPlaceQa, lineupNewsAudit, role, score, projections, recommendations, teamBuilder, qas, peleAudit, postmortem });
-  await writeBrowserWrappers({ authority, score, projections, recommendations });
+  await writeBrowserWrappers({ authority, score, projections, recommendations, teamBuilder });
 
   return {
     authority,

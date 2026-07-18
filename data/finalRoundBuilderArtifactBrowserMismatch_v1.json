@@ -1,0 +1,146 @@
+{
+  "schema_version": "final_round_builder_artifact_browser_mismatch_v1",
+  "generated_at": "2026-07-18T11:52:26.573Z",
+  "status": "resolved",
+  "mismatch_reproduced_before_fix": true,
+  "browser_output_equals_generated_artifact_after_fix": true,
+  "public_users_affected_before_fix": true,
+  "previous_qa_was_insufficient": true,
+  "root_cause": {
+    "summary": "The Node artifact optimizer and browser Team Builder used separate source-of-truth logic. scripts/lib/finalRoundArtifacts.mjs generated a Final Round strategic-composite squad, while script.js built the public default through buildSuggestedSquad, optimizerStateRank, teamBuilderStrategyPlayerScore, and portfolioOptimizerAdjustment with different MD3-era weights/search pruning. The browser also treated Final Round as the base 100 budget instead of applying the official +5 knockout budget increase.",
+    "files_and_functions": [
+      "scripts/lib/finalRoundArtifacts.mjs buildTeamBuilder",
+      "script.js buildSuggestedSquad",
+      "script.js optimizerStateRank",
+      "script.js teamBuilderStrategyPlayerScore",
+      "script.js portfolioOptimizerAdjustment"
+    ],
+    "fixed_by": [
+      "data/teamBuilderFinalRoundArtifact_v1.json",
+      "teamBuilderFinalRoundArtifactData.js",
+      "script.js generatedFinalRoundBalancedSquad",
+      "script.js buildTeam default artifact path"
+    ]
+  },
+  "before_fix": {
+    "generated_selected_count_by_team": {
+      "France": 2,
+      "England": 1,
+      "Spain": 4,
+      "Argentina": 8
+    },
+    "generated_selected_count_by_fixture": {
+      "third_place": 3,
+      "final": 12
+    },
+    "generated_selected_total_price": 100.4,
+    "generated_budget_limit": 105,
+    "generated_selected_players": [
+      "Mike Maignan",
+      "Unai Simón",
+      "Cristian Romero",
+      "Nahuel Molina",
+      "Nicolás Tagliafico",
+      "Lisandro Martínez",
+      "Pedro Porro",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Álex Baena",
+      "Lamine Yamal Nasraoui Ebana",
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Lionel Messi"
+    ],
+    "browser_selected_count_by_team": {
+      "France": 1,
+      "Spain": 7,
+      "England": 0,
+      "Argentina": 7
+    },
+    "browser_selected_count_by_fixture": {
+      "third_place": 1,
+      "final": 14
+    },
+    "browser_selected_players": [
+      "Lionel Messi",
+      "Julián Alvarez",
+      "Mikel Oyarzabal",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Fabián Ruiz",
+      "Lisandro Martínez",
+      "Nicolás Tagliafico",
+      "Marc Cucurella",
+      "Aymeric Laporte",
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Pau Cubarsí",
+      "Rodrigo Hernández Cascante",
+      "Adrien Rabiot"
+    ]
+  },
+  "after_fix": {
+    "generated_selected_count_by_team": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "generated_selected_count_by_fixture": {
+      "final": 13,
+      "third_place": 2
+    },
+    "generated_selected_total_price": 94.8,
+    "generated_selected_players": [
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Pau Cubarsí",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Álex Baena",
+      "Fabián Ruiz",
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal"
+    ],
+    "browser_selected_count_by_team": {
+      "France": 1,
+      "England": 1,
+      "Spain": 5,
+      "Argentina": 8
+    },
+    "browser_selected_count_by_fixture": {
+      "third_place": 2,
+      "final": 13
+    },
+    "browser_selected_players": [
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Pau Cubarsí",
+      "Álex Baena",
+      "Fabián Ruiz"
+    ],
+    "browser_message": "Recommended Balanced Squad loaded from the validated Final Round Team Builder artifact: 11 starters on the field and 4 substitutes below. Raw projected points 59.6; optionality 5.3; composite 1014.9.",
+    "optionality_text": "Optionality Score 5.3 earlier kickoff flexibility; verify FIFA locks"
+  },
+  "player_diff_after_fix": {
+    "only_left": [],
+    "only_right": []
+  }
+}

@@ -31,6 +31,7 @@ const currentDataScripts = [
   "qfFixtureAuthorityData.js",
   "sfFixtureAuthorityData.js",
   "finalRoundFixtureAuthorityData.js",
+  "teamBuilderFinalRoundArtifactData.js",
   "script.js"
 ];
 const oldGlobalNames = [
@@ -62,7 +63,9 @@ const activeGlobalChecks = {
   SF_FIXTURE_AUTHORITY_DATA: (value) =>
     Boolean(value && Array.isArray(value.fixtures) && value.fixtures.length === 2),
   FINAL_ROUND_FIXTURE_AUTHORITY_DATA: (value) =>
-    Boolean(value && Array.isArray(value.fixtures) && value.fixtures.length === 2)
+    Boolean(value && Array.isArray(value.fixtures) && value.fixtures.length === 2),
+  TEAM_BUILDER_FINAL_ROUND_ARTIFACT_DATA: (value) =>
+    Boolean(value && value.schema_version === "team_builder_final_round_artifact_v1" && Array.isArray(value.selectedSquad) && value.selectedSquad.length === 15)
 };
 
 function firstExistingPath(paths) {

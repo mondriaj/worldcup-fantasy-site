@@ -12,7 +12,7 @@ Status: pass
 | core_pick_rows | 25 |
 | captain_watchlist_rows | 25 |
 | team_builder_candidate_count_by_team | {"Argentina":25,"Spain":26,"France":26,"England":24} |
-| team_builder_selected_count_by_team | {"France":2,"Spain":4,"Argentina":8,"England":1} |
+| team_builder_selected_count_by_team | {"Argentina":8,"Spain":5,"France":1,"England":1} |
 | eliminated_player_candidates | 0 |
 | eliminated_player_selected | 0 |
 | picks_eliminated_player_count | 0 |

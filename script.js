@@ -33,7 +33,8 @@ const ACTIVE_DATA = {
   liveMatchday: window.LIVE_MATCHDAY_STATUS_DATA || null,
   livePlayer: window.LIVE_PLAYER_STATUS_DATA || null,
   knockoutBracketPrediction: window.KNOCKOUT_BRACKET_PREDICTION_DATA || null,
-  finalRoundFixtureAuthority: window.FINAL_ROUND_FIXTURE_AUTHORITY_DATA || null
+  finalRoundFixtureAuthority: window.FINAL_ROUND_FIXTURE_AUTHORITY_DATA || null,
+  teamBuilderFinalRoundArtifact: window.TEAM_BUILDER_FINAL_ROUND_ARTIFACT_DATA || null
 };
 
 function scorePredictionSourceFromWindow() {
@@ -522,7 +523,7 @@ function finalRoundStrategicPlayerScore(player, role = "starter") {
 function activeDataBadgeHtml() {
   return `
     <span class="model-data-badge" title="Public Final Round page uses only the current active static data path.">
-      Final Round fantasy setup · Final + Third Place active data path · ${ACTIVE_DATA.version} · completed SF fixtures used 2/2 · Starting probability heavily weights semifinal starters where lineup data is available · Third Place game may have higher rotation risk · Official fantasy-pool data is used; independently source-backed final squads are not verified · Verify official locks/deadlines/lineups in FIFA
+      Final Round fantasy setup · Active static data path · ${ACTIVE_DATA.version}
     </span>
   `;
 }
@@ -694,6 +695,9 @@ const fantasyPoolPreviewPlayers = usingFantasyPoolPreview
 const fantasyPoolPreviewPlayerById = new Map(fantasyPoolPreviewPlayers.map((player) => [player.id, player]));
 const currentFantasyPoolPlayers = buildCurrentFantasyPoolPlayers();
 const players = currentFantasyPoolPlayers;
+const fantasyPoolPreviewPlayerByOfficialId = new Map(players
+  .filter((player) => player.official_fantasy_player_id)
+  .map((player) => [String(player.official_fantasy_player_id), player]));
 const teamBuilderDataSourceSummary = {
   source: "official_fantasy_pool_with_current_model_fields",
   official_player_rows: fantasyPoolPreviewStatus?.official_position_records?.length || 0,
@@ -1433,8 +1437,25 @@ function countryLimitForMatchday(rules, matchdayId = activeMatchdayId) {
   return fallbackLimit;
 }
 
+function budgetLimitForMatchday(rules, matchdayId = activeMatchdayId) {
+  const baseBudget = Number(rules?.budget?.initial_budget);
+  const knockoutIncrease = Number(rules?.budget?.knockout_increase || 0);
+  const id = String(matchdayId || "").toLowerCase();
+  const knockoutMatchdays = new Set(["r32", "r16", "qf", "quarter_final", "sf", "semi_final", "finalround", "final"]);
+
+  if (!Number.isFinite(baseBudget)) {
+    return 0;
+  }
+
+  return knockoutMatchdays.has(id) ? baseBudget + knockoutIncrease : baseBudget;
+}
+
 function refreshActiveCountryLimit() {
   groupStageCountryLimit = countryLimitForMatchday(fantasyRules, activeMatchdayId);
+}
+
+function refreshActiveBudgetLimit() {
+  initialBudget = budgetLimitForMatchday(fantasyRules, activeMatchdayId);
 }
 
 function activeCountryLimitLabel() {
@@ -1486,7 +1507,7 @@ function applyFantasyRules(rules) {
   squadTotalPlayers = totalPlayers;
   startingLineupTotal = starterTotal;
   benchTotalPlayers = Math.max(0, squadTotalPlayers - startingLineupTotal);
-  initialBudget = budgetLimit;
+  initialBudget = budgetLimitForMatchday(rules, activeMatchdayId);
   budgetCurrencyLabel = rules?.budget?.currency_label || "fantasy units";
   groupStageCountryLimit = countryLimitForMatchday(rules, activeMatchdayId);
   positionOrder = Object.values(positionCodeLabels);
@@ -6595,6 +6616,10 @@ function topByPosition(position, measure) {
 
 function playerById(playerId) {
   return fantasyPoolPreviewPlayerById.get(playerId) || players.find((player) => player.id === playerId);
+}
+
+function playerByOfficialFantasyId(officialFantasyPlayerId) {
+  return fantasyPoolPreviewPlayerByOfficialId.get(String(officialFantasyPlayerId || "")) || null;
 }
 
 function captainChangeMatchdayIds() {
@@ -12530,6 +12555,7 @@ function updateMatchdayView(nextMatchdayId) {
     ? nextMatchdayId
     : defaultActiveMatchdayId;
   refreshActiveCountryLimit();
+  refreshActiveBudgetLimit();
 
   [adviceMatchdaySelect, builderMatchdaySelect].filter(Boolean).forEach((select) => {
     select.value = activeMatchdayId;
@@ -13156,6 +13182,79 @@ function buildSuggestedSquad() {
   };
 }
 
+function finalRoundTeamBuilderArtifact() {
+  const artifact = ACTIVE_DATA.teamBuilderFinalRoundArtifact;
+  return artifact?.schema_version === "team_builder_final_round_artifact_v1"
+    ? artifact
+    : null;
+}
+
+function defaultFinalRoundArtifactInputsActive() {
+  const artifact = finalRoundTeamBuilderArtifact();
+  return Boolean(
+    artifact &&
+    activeMatchdayId === "finalRound" &&
+    normalizeTeamBuilderStrategyKey(measureSelect?.value) === "balancedSquad" &&
+    (tacticSelect?.value || "") === (artifact.strategy?.formation || "4-3-3") &&
+    activeTrustModeId === "balanced" &&
+    selectedCountryFilter === "All" &&
+    lockedPlayerIds.size === 0 &&
+    excludedPlayerIds.size === 0 &&
+    priceFilterValue(minPriceFilter) === null &&
+    priceFilterValue(maxPriceFilter) === null &&
+    !builderRiskControlsActive()
+  );
+}
+
+function artifactRowsToPlayers(rows = []) {
+  return rows
+    .map((row) => playerByOfficialFantasyId(row.official_fantasy_player_id))
+    .filter(Boolean);
+}
+
+function generatedFinalRoundBalancedSquad() {
+  if (!defaultFinalRoundArtifactInputsActive()) {
+    return null;
+  }
+
+  const artifact = finalRoundTeamBuilderArtifact();
+  const starters = artifactRowsToPlayers(artifact.starters || []);
+  const bench = artifactRowsToPlayers(artifact.bench || []);
+  const squad = [...starters, ...bench];
+  const artifactSelectedIds = new Set((artifact.selectedSquad || []).map((row) => String(row.official_fantasy_player_id)));
+  const renderedIds = new Set(squad.map((player) => String(player.official_fantasy_player_id)));
+  const selectedRowsResolved = artifactSelectedIds.size === renderedIds.size &&
+    [...artifactSelectedIds].every((id) => renderedIds.has(id));
+  const finalRoundEligible = squad.every((player) =>
+    playerAllowedForActiveMatchday(player, "finalRound") &&
+    recordMatchesActiveStageEligibleTeam(player, "finalRound")
+  );
+  const artifactHasValidShape =
+    starters.length === startingLineupTotal &&
+    squad.length === squadTotalPlayers &&
+    positionsMatchRequirements(countsByPosition(squad), squadRequirements) &&
+    positionsMatchRequirements(countsByPosition(starters), tactics[artifact.strategy?.formation || "4-3-3"] || {}) &&
+    countryLimitViolations(countryCountsFromPlayers(squad)).length === 0;
+
+  if (!selectedRowsResolved || !finalRoundEligible || !artifactHasValidShape) {
+    return null;
+  }
+
+  return {
+    starters,
+    bench,
+    squad,
+    ignoredLockedPlayers: [],
+    budgetCouldNotFit: false,
+    countryLimitCouldNotFit: false,
+    riskConstraintsCouldNotFit: false,
+    optimizerFoundValidSquad: true,
+    optimizerEvaluatedPaths: 1,
+    optimizerScore: Number(artifact.summary?.composite_score || 0),
+    generatedArtifact: artifact
+  };
+}
+
 function evenlySpacedPositions(count, top) {
   const gap = 100 / (count + 1);
 
@@ -13611,7 +13710,15 @@ function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built", optio
     teamMessage.textContent = `Team Builder built a ${squadLabel()} using ${activeBuilderStrategyLabel()}, ${trustModeLabel()}, and ${activeMatchdayLabel()}, but it is over the ${budgetText(initialBudget)} budget. Try removing expensive locked players or relaxing filters.`;
   } else {
     const riskText = builderRiskControlsActive() ? ` Risk controls: ${builderRiskSettingsSummary()}.` : "";
-    teamMessage.textContent = `Team Builder built a ${squadLabel()} within the ${budgetText(initialBudget)} budget using ${activeBuilderStrategyLabel()}, ${trustModeLabel()}, and ${activeMatchdayLabel()}: ${startingLineupTotal} starters on the field and ${benchLabel()} below.${riskText}`;
+    if (options.generatedArtifact) {
+      const artifact = options.generatedArtifact;
+      const rawProjected = displayNumber(artifact.summary?.raw_projected_points);
+      const optionality = displayNumber(artifact.summary?.optionality_score);
+      const composite = displayNumber(artifact.summary?.composite_score);
+      teamMessage.textContent = `Recommended Balanced Squad loaded from the validated Final Round Team Builder artifact: ${startingLineupTotal} starters on the field and ${benchLabel()} below. Raw projected points ${rawProjected}; optionality ${optionality}; composite ${composite}.${riskText}`;
+    } else {
+      teamMessage.textContent = `Team Builder built a ${squadLabel()} within the ${budgetText(initialBudget)} budget using ${activeBuilderStrategyLabel()}, ${trustModeLabel()}, and ${activeMatchdayLabel()}: ${startingLineupTotal} starters on the field and ${benchLabel()} below.${riskText}`;
+    }
   }
 
   renderWarning(
@@ -14777,6 +14884,7 @@ function buildTeam() {
   clearUserSquadSelections();
   clearMatchdayDecisionInputs();
 
+  const buildResult = generatedFinalRoundBalancedSquad() || buildSuggestedSquad();
   const {
     starters,
     bench,
@@ -14785,15 +14893,17 @@ function buildTeam() {
     countryLimitCouldNotFit,
     optimizerFoundValidSquad,
     optimizerEvaluatedPaths,
-    riskConstraintsCouldNotFit
-  } = buildSuggestedSquad();
+    riskConstraintsCouldNotFit,
+    generatedArtifact
+  } = buildResult;
   selectedSwap = null;
   renderTeam(starters, bench, ignoredLockedPlayers, "built", {
     budgetCouldNotFit,
     countryLimitCouldNotFit,
     optimizerFoundValidSquad,
     optimizerEvaluatedPaths,
-    riskConstraintsCouldNotFit
+    riskConstraintsCouldNotFit,
+    generatedArtifact
   });
   renderRemovedPlayers();
 }

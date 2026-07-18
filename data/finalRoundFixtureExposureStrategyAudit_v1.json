@@ -1,6 +1,6 @@
 {
   "schema_version": "final_round_fixture_exposure_strategy_audit_v1",
-  "generated_at": "2026-07-18T11:18:04.700Z",
+  "generated_at": "2026-07-18T11:52:22.620Z",
   "status": "pass",
   "summary": {
     "eligible_teams": [
@@ -10,35 +10,36 @@
       "Argentina"
     ],
     "raw_expected_selected_count_by_team": {
+      "Argentina": 8,
+      "Spain": 5,
       "France": 1,
-      "Spain": 6,
-      "Argentina": 8
+      "England": 1
     },
     "selected_count_by_team": {
-      "France": 2,
-      "Spain": 4,
       "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
       "England": 1
     },
     "selected_count_by_fixture": {
-      "third_place": 3,
-      "final": 12
+      "final": 13,
+      "third_place": 2
     },
     "raw_expected_selected_count_by_fixture": {
-      "third_place": 1,
-      "final": 14
+      "final": 13,
+      "third_place": 2
     },
-    "raw_projected_points_before": 60.681,
-    "raw_projected_points_after": 58.689,
-    "optionality_score": 6.814,
-    "optionality_gain": 5.291,
-    "composite_score_gain": 5.027,
+    "raw_projected_points_before": 59.552,
+    "raw_projected_points_after": 59.552,
+    "optionality_score": 5.291,
+    "optionality_gain": 0,
+    "composite_score_gain": 0,
     "third_place_recommendation_rows": 72,
     "early_option_rows": 25,
-    "france_england_before": 1,
-    "france_england_after": 3,
-    "builder_optimizes_raw_points_only_before_fix": true,
-    "early_kickoff_optionality_was_ignored_before_fix": true,
+    "france_england_before": 2,
+    "france_england_after": 2,
+    "builder_optimizes_raw_points_only_before_fix": false,
+    "early_kickoff_optionality_was_ignored_before_fix": false,
     "public_substitution_copy_cautious": true,
     "active_eliminated_player_leak_count": 0
   },
@@ -275,8 +276,8 @@
         "captain": 4
       },
       "team_builder_candidate_count": 26,
-      "team_builder_selected_count": 2,
-      "team_builder_starter_count": 2,
+      "team_builder_selected_count": 1,
+      "team_builder_starter_count": 1,
       "team_builder_bench_count": 0,
       "omitted_top_player": {
         "name": "Ousmane Dembélé",
@@ -748,14 +749,14 @@
         "captain": 10
       },
       "team_builder_candidate_count": 26,
-      "team_builder_selected_count": 4,
-      "team_builder_starter_count": 4,
+      "team_builder_selected_count": 5,
+      "team_builder_starter_count": 5,
       "team_builder_bench_count": 0,
       "omitted_top_player": {
-        "name": "Mikel Oyarzabal",
-        "position": "FWD",
-        "projected_points": 5.05,
-        "captain_score": 41.852,
+        "name": "Lamine Yamal Nasraoui Ebana",
+        "position": "MID",
+        "projected_points": 4.25,
+        "captain_score": 37.225,
         "reason": "Projection, position, country-limit, budget, or squad-balance tradeoff."
       }
     },
@@ -988,7 +989,7 @@
       "team_builder_starter_count": 8,
       "team_builder_bench_count": 0,
       "omitted_top_player": {
-        "name": "Julián Alvarez",
+        "name": "Lionel Messi",
         "position": "FWD",
         "projected_points": 5.19,
         "captain_score": 42.725,
@@ -998,13 +999,13 @@
   ],
   "selected_squad": [
     {
-      "name": "Mike Maignan",
-      "country": "France",
+      "name": "Emiliano Martínez",
+      "country": "Argentina",
       "position": "GK",
-      "fixture_stage": "third_place",
-      "projected_points": 2.147,
-      "optionality": 1.523,
-      "composite_score": 48.272
+      "fixture_stage": "final",
+      "projected_points": 3.15,
+      "optionality": 0,
+      "composite_score": 55.2
     },
     {
       "name": "Unai Simón",
@@ -1016,7 +1017,7 @@
       "composite_score": 54.361
     },
     {
-      "name": "Cristian Romero",
+      "name": "Nicolás Tagliafico",
       "country": "Argentina",
       "position": "DEF",
       "fixture_stage": "final",
@@ -1034,15 +1035,6 @@
       "composite_score": 62.509
     },
     {
-      "name": "Nicolás Tagliafico",
-      "country": "Argentina",
-      "position": "DEF",
-      "fixture_stage": "final",
-      "projected_points": 3.725,
-      "optionality": 0,
-      "composite_score": 62.509
-    },
-    {
       "name": "Lisandro Martínez",
       "country": "Argentina",
       "position": "DEF",
@@ -1052,7 +1044,16 @@
       "composite_score": 62.509
     },
     {
-      "name": "Pedro Porro",
+      "name": "Cristian Romero",
+      "country": "Argentina",
+      "position": "DEF",
+      "fixture_stage": "final",
+      "projected_points": 3.725,
+      "optionality": 0,
+      "composite_score": 62.509
+    },
+    {
+      "name": "Pau Cubarsí",
       "country": "Spain",
       "position": "DEF",
       "fixture_stage": "final",
@@ -1097,7 +1098,7 @@
       "composite_score": 69.21
     },
     {
-      "name": "Lamine Yamal Nasraoui Ebana",
+      "name": "Fabián Ruiz",
       "country": "Spain",
       "position": "MID",
       "fixture_stage": "final",
@@ -1124,13 +1125,13 @@
       "composite_score": 81.166
     },
     {
-      "name": "Lionel Messi",
-      "country": "Argentina",
+      "name": "Mikel Oyarzabal",
+      "country": "Spain",
       "position": "FWD",
       "fixture_stage": "final",
-      "projected_points": 5.19,
+      "projected_points": 5.05,
       "optionality": 0,
-      "composite_score": 81.161
+      "composite_score": 79.448
     }
   ],
   "active_eliminated_player_leaks": []

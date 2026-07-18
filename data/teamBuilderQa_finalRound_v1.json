@@ -1,6 +1,6 @@
 {
   "schema_version": "team_builder_qa_final_round_v1",
-  "generated_at": "2026-07-18T03:31:57.314Z",
+  "generated_at": "2026-07-18T11:51:53.035Z",
   "status": "pass",
   "summary": {
     "squad_size": 15,
@@ -13,6 +13,9 @@
     },
     "defaultMatchday": "finalRound",
     "country_limit": 8,
+    "initial_budget": 105,
+    "selected_total_price": 94.8,
+    "raw_expected_selected_total_price": 94.8,
     "eligible_teams": [
       "France",
       "England",
@@ -26,83 +29,84 @@
       "England": 24
     },
     "selected_count_by_team": {
-      "France": 2,
-      "Spain": 4,
       "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
       "England": 1
     },
     "raw_expected_selected_count_by_team": {
+      "Argentina": 8,
+      "Spain": 5,
       "France": 1,
-      "Spain": 6,
-      "Argentina": 8
+      "England": 1
     },
     "selected_count_by_fixture": {
-      "third_place": 3,
-      "final": 12
+      "final": 13,
+      "third_place": 2
     },
     "raw_expected_selected_count_by_fixture": {
-      "third_place": 1,
-      "final": 14
+      "final": 13,
+      "third_place": 2
     },
-    "early_fixture_selected_count": 3,
-    "late_fixture_selected_count": 12,
-    "raw_projected_points_before": 60.681,
-    "raw_projected_points_after": 58.689,
-    "raw_projected_points_delta": -1.992,
-    "optionality_score": 6.814,
-    "optionality_score_before": 1.523,
-    "optionality_gain": 5.291,
-    "composite_score": 1009.715,
-    "composite_score_before": 1004.688,
-    "composite_score_gain": 5.027,
+    "early_fixture_selected_count": 2,
+    "late_fixture_selected_count": 13,
+    "raw_projected_points_before": 59.552,
+    "raw_projected_points_after": 59.552,
+    "raw_projected_points_delta": 0,
+    "optionality_score": 5.291,
+    "optionality_score_before": 5.291,
+    "optionality_gain": 0,
+    "composite_score": 1014.93,
+    "composite_score_before": 1014.93,
+    "composite_score_gain": 0,
     "minimum_early_fixture_players_when_viable": 2,
     "eliminated_player_candidates": 0,
     "eliminated_player_selected": 0,
     "captain_team_eligible": true,
     "vice_team_eligible": true,
-    "captain": "Lionel Messi",
+    "captain": "Mikel Oyarzabal",
     "viceCaptain": "Leandro Paredes",
-    "third_place_players": 3,
-    "final_players": 12,
+    "third_place_players": 2,
+    "final_players": 13,
     "thin_profile_players": 0,
     "points_only_evidence_players": 0
   },
   "balancedSquad": [
     {
-      "official_fantasy_player_id": "506",
-      "name": "Mike Maignan",
-      "country": "France",
+      "official_fantasy_player_id": "45",
+      "name": "Emiliano Martínez",
+      "country": "Argentina",
       "position": "GK",
       "price": 5,
-      "opponent": "England",
-      "fixture_stage": "third_place",
-      "projectedPoints": 2.147,
-      "start_probability": 0.591,
-      "captainScore": 24.301,
+      "opponent": "Spain",
+      "fixture_stage": "final",
+      "projectedPoints": 3.15,
+      "start_probability": 0.888,
+      "captainScore": 30.972,
       "lineupEvidenceType": "explicit_sf_starter",
-      "thirdPlaceRisk": true,
-      "roleCaution": "Third Place game may have higher rotation risk.",
+      "thirdPlaceRisk": false,
+      "roleCaution": "",
       "finalRoundStrategy": {
-        "kickoff_order": 1,
-        "fixture_timing": "early",
-        "fixture_stage": "third_place",
-        "rawProjectedPoints": 2.147,
-        "startProbability": 0.591,
-        "expectedMinutes": 46.1,
-        "roleVolatility": 0.182,
-        "teamXg": 1.464,
-        "opponentXg": 1.451,
-        "cleanSheetProbability": 0.279,
-        "goalEnvironment": 2.915,
-        "earlyFixtureOptionalityBonus": 0.871,
-        "replacementOptionValue": 1.523,
-        "lateFixtureReplacementValue": 0,
-        "fixtureDiversificationValue": 0.65,
-        "thirdPlaceRiskPenalty": 1.057,
-        "thirdPlaceUpsideModifier": 0.907,
-        "roleVolatilityPenalty": 0.455,
-        "strategicCompositeScore": 48.272,
-        "recommendation_score": 56.272
+        "kickoff_order": 2,
+        "fixture_timing": "late",
+        "fixture_stage": "final",
+        "rawProjectedPoints": 3.15,
+        "startProbability": 0.888,
+        "expectedMinutes": 76.4,
+        "roleVolatility": 0.091,
+        "teamXg": 1.399,
+        "opponentXg": 1.341,
+        "cleanSheetProbability": 0.262,
+        "goalEnvironment": 2.74,
+        "earlyFixtureOptionalityBonus": 0,
+        "replacementOptionValue": 0,
+        "lateFixtureReplacementValue": 0.159,
+        "fixtureDiversificationValue": 0.2,
+        "thirdPlaceRiskPenalty": 0,
+        "thirdPlaceUpsideModifier": 0,
+        "roleVolatilityPenalty": 0.227,
+        "strategicCompositeScore": 55.2,
+        "recommendation_score": 63.2
       }
     },
     {
@@ -143,11 +147,11 @@
       }
     },
     {
-      "official_fantasy_player_id": "28",
-      "name": "Cristian Romero",
+      "official_fantasy_player_id": "34",
+      "name": "Nicolás Tagliafico",
       "country": "Argentina",
       "position": "DEF",
-      "price": 4.9,
+      "price": 4.3,
       "opponent": "Spain",
       "fixture_stage": "final",
       "projectedPoints": 3.725,
@@ -217,43 +221,6 @@
       }
     },
     {
-      "official_fantasy_player_id": "34",
-      "name": "Nicolás Tagliafico",
-      "country": "Argentina",
-      "position": "DEF",
-      "price": 4.3,
-      "opponent": "Spain",
-      "fixture_stage": "final",
-      "projectedPoints": 3.725,
-      "start_probability": 0.888,
-      "captainScore": 33.881,
-      "lineupEvidenceType": "explicit_sf_starter",
-      "thirdPlaceRisk": false,
-      "roleCaution": "",
-      "finalRoundStrategy": {
-        "kickoff_order": 2,
-        "fixture_timing": "late",
-        "fixture_stage": "final",
-        "rawProjectedPoints": 3.725,
-        "startProbability": 0.888,
-        "expectedMinutes": 76.4,
-        "roleVolatility": 0.091,
-        "teamXg": 1.399,
-        "opponentXg": 1.341,
-        "cleanSheetProbability": 0.262,
-        "goalEnvironment": 2.74,
-        "earlyFixtureOptionalityBonus": 0,
-        "replacementOptionValue": 0,
-        "lateFixtureReplacementValue": 0.205,
-        "fixtureDiversificationValue": 0.2,
-        "thirdPlaceRiskPenalty": 0,
-        "thirdPlaceUpsideModifier": 0,
-        "roleVolatilityPenalty": 0.227,
-        "strategicCompositeScore": 62.509,
-        "recommendation_score": 70.509
-      }
-    },
-    {
       "official_fantasy_player_id": "1318",
       "name": "Lisandro Martínez",
       "country": "Argentina",
@@ -291,11 +258,48 @@
       }
     },
     {
-      "official_fantasy_player_id": "1085",
-      "name": "Pedro Porro",
+      "official_fantasy_player_id": "28",
+      "name": "Cristian Romero",
+      "country": "Argentina",
+      "position": "DEF",
+      "price": 4.9,
+      "opponent": "Spain",
+      "fixture_stage": "final",
+      "projectedPoints": 3.725,
+      "start_probability": 0.888,
+      "captainScore": 33.881,
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false,
+      "roleCaution": "",
+      "finalRoundStrategy": {
+        "kickoff_order": 2,
+        "fixture_timing": "late",
+        "fixture_stage": "final",
+        "rawProjectedPoints": 3.725,
+        "startProbability": 0.888,
+        "expectedMinutes": 76.4,
+        "roleVolatility": 0.091,
+        "teamXg": 1.399,
+        "opponentXg": 1.341,
+        "cleanSheetProbability": 0.262,
+        "goalEnvironment": 2.74,
+        "earlyFixtureOptionalityBonus": 0,
+        "replacementOptionValue": 0,
+        "lateFixtureReplacementValue": 0.205,
+        "fixtureDiversificationValue": 0.2,
+        "thirdPlaceRiskPenalty": 0,
+        "thirdPlaceUpsideModifier": 0,
+        "roleVolatilityPenalty": 0.227,
+        "strategicCompositeScore": 62.509,
+        "recommendation_score": 70.509
+      }
+    },
+    {
+      "official_fantasy_player_id": "1089",
+      "name": "Pau Cubarsí",
       "country": "Spain",
       "position": "DEF",
-      "price": 5.5,
+      "price": 5,
       "opponent": "Argentina",
       "fixture_stage": "final",
       "projectedPoints": 3.636,
@@ -476,11 +480,11 @@
       }
     },
     {
-      "official_fantasy_player_id": "1092",
-      "name": "Lamine Yamal Nasraoui Ebana",
+      "official_fantasy_player_id": "1998",
+      "name": "Fabián Ruiz",
       "country": "Spain",
       "position": "MID",
-      "price": 10,
+      "price": 6.8,
       "opponent": "Argentina",
       "fixture_stage": "final",
       "projectedPoints": 4.25,
@@ -587,16 +591,16 @@
       }
     },
     {
-      "official_fantasy_player_id": "38",
-      "name": "Lionel Messi",
-      "country": "Argentina",
+      "official_fantasy_player_id": "1094",
+      "name": "Mikel Oyarzabal",
+      "country": "Spain",
       "position": "FWD",
-      "price": 10,
-      "opponent": "Spain",
+      "price": 8.1,
+      "opponent": "Argentina",
       "fixture_stage": "final",
-      "projectedPoints": 5.19,
-      "start_probability": 0.888,
-      "captainScore": 42.725,
+      "projectedPoints": 5.05,
+      "start_probability": 0.89,
+      "captainScore": 41.852,
       "lineupEvidenceType": "explicit_sf_starter",
       "thirdPlaceRisk": false,
       "roleCaution": "",
@@ -604,7 +608,39 @@
         "kickoff_order": 2,
         "fixture_timing": "late",
         "fixture_stage": "final",
-        "rawProjectedPoints": 5.19,
+        "rawProjectedPoints": 5.05,
+        "startProbability": 0.89,
+        "expectedMinutes": 76.5,
+        "roleVolatility": 0.08,
+        "teamXg": 1.341,
+        "opponentXg": 1.399,
+        "cleanSheetProbability": 0.247,
+        "goalEnvironment": 2.74,
+        "earlyFixtureOptionalityBonus": 0,
+        "replacementOptionValue": 0,
+        "lateFixtureReplacementValue": 0.311,
+        "fixtureDiversificationValue": 0.2,
+        "thirdPlaceRiskPenalty": 0,
+        "thirdPlaceUpsideModifier": 0,
+        "roleVolatilityPenalty": 0.2,
+        "strategicCompositeScore": 79.448,
+        "recommendation_score": 87.448
+      }
+    }
+  ],
+  "rawExpectedPointsSquad": [
+    {
+      "official_fantasy_player_id": "45",
+      "name": "Emiliano Martínez",
+      "country": "Argentina",
+      "position": "GK",
+      "fixture_stage": "final",
+      "projectedPoints": 3.15,
+      "finalRoundStrategy": {
+        "kickoff_order": 2,
+        "fixture_timing": "late",
+        "fixture_stage": "final",
+        "rawProjectedPoints": 3.15,
         "startProbability": 0.888,
         "expectedMinutes": 76.4,
         "roleVolatility": 0.091,
@@ -614,45 +650,13 @@
         "goalEnvironment": 2.74,
         "earlyFixtureOptionalityBonus": 0,
         "replacementOptionValue": 0,
-        "lateFixtureReplacementValue": 0.322,
+        "lateFixtureReplacementValue": 0.159,
         "fixtureDiversificationValue": 0.2,
         "thirdPlaceRiskPenalty": 0,
         "thirdPlaceUpsideModifier": 0,
         "roleVolatilityPenalty": 0.227,
-        "strategicCompositeScore": 81.161,
-        "recommendation_score": 89.161
-      }
-    }
-  ],
-  "rawExpectedPointsSquad": [
-    {
-      "official_fantasy_player_id": "506",
-      "name": "Mike Maignan",
-      "country": "France",
-      "position": "GK",
-      "fixture_stage": "third_place",
-      "projectedPoints": 2.147,
-      "finalRoundStrategy": {
-        "kickoff_order": 1,
-        "fixture_timing": "early",
-        "fixture_stage": "third_place",
-        "rawProjectedPoints": 2.147,
-        "startProbability": 0.591,
-        "expectedMinutes": 46.1,
-        "roleVolatility": 0.182,
-        "teamXg": 1.464,
-        "opponentXg": 1.451,
-        "cleanSheetProbability": 0.279,
-        "goalEnvironment": 2.915,
-        "earlyFixtureOptionalityBonus": 0.871,
-        "replacementOptionValue": 1.523,
-        "lateFixtureReplacementValue": 0,
-        "fixtureDiversificationValue": 0.65,
-        "thirdPlaceRiskPenalty": 1.057,
-        "thirdPlaceUpsideModifier": 0.907,
-        "roleVolatilityPenalty": 0.455,
-        "strategicCompositeScore": 48.272,
-        "recommendation_score": 56.272
+        "strategicCompositeScore": 55.2,
+        "recommendation_score": 63.2
       }
     },
     {
@@ -686,38 +690,8 @@
       }
     },
     {
-      "official_fantasy_player_id": "1086",
-      "name": "Aymeric Laporte",
-      "country": "Spain",
-      "position": "DEF",
-      "fixture_stage": "final",
-      "projectedPoints": 3.636,
-      "finalRoundStrategy": {
-        "kickoff_order": 2,
-        "fixture_timing": "late",
-        "fixture_stage": "final",
-        "rawProjectedPoints": 3.636,
-        "startProbability": 0.89,
-        "expectedMinutes": 76.5,
-        "roleVolatility": 0.08,
-        "teamXg": 1.341,
-        "opponentXg": 1.399,
-        "cleanSheetProbability": 0.247,
-        "goalEnvironment": 2.74,
-        "earlyFixtureOptionalityBonus": 0,
-        "replacementOptionValue": 0,
-        "lateFixtureReplacementValue": 0.198,
-        "fixtureDiversificationValue": 0.2,
-        "thirdPlaceRiskPenalty": 0,
-        "thirdPlaceUpsideModifier": 0,
-        "roleVolatilityPenalty": 0.2,
-        "strategicCompositeScore": 61.392,
-        "recommendation_score": 69.392
-      }
-    },
-    {
-      "official_fantasy_player_id": "30",
-      "name": "Nahuel Molina",
+      "official_fantasy_player_id": "34",
+      "name": "Nicolás Tagliafico",
       "country": "Argentina",
       "position": "DEF",
       "fixture_stage": "final",
@@ -746,8 +720,8 @@
       }
     },
     {
-      "official_fantasy_player_id": "34",
-      "name": "Nicolás Tagliafico",
+      "official_fantasy_player_id": "30",
+      "name": "Nahuel Molina",
       "country": "Argentina",
       "position": "DEF",
       "fixture_stage": "final",
@@ -806,8 +780,8 @@
       }
     },
     {
-      "official_fantasy_player_id": "1085",
-      "name": "Pedro Porro",
+      "official_fantasy_player_id": "1089",
+      "name": "Pau Cubarsí",
       "country": "Spain",
       "position": "DEF",
       "fixture_stage": "final",
@@ -833,6 +807,36 @@
         "roleVolatilityPenalty": 0.2,
         "strategicCompositeScore": 61.392,
         "recommendation_score": 69.392
+      }
+    },
+    {
+      "official_fantasy_player_id": "28",
+      "name": "Cristian Romero",
+      "country": "Argentina",
+      "position": "DEF",
+      "fixture_stage": "final",
+      "projectedPoints": 3.725,
+      "finalRoundStrategy": {
+        "kickoff_order": 2,
+        "fixture_timing": "late",
+        "fixture_stage": "final",
+        "rawProjectedPoints": 3.725,
+        "startProbability": 0.888,
+        "expectedMinutes": 76.4,
+        "roleVolatility": 0.091,
+        "teamXg": 1.399,
+        "opponentXg": 1.341,
+        "cleanSheetProbability": 0.262,
+        "goalEnvironment": 2.74,
+        "earlyFixtureOptionalityBonus": 0,
+        "replacementOptionValue": 0,
+        "lateFixtureReplacementValue": 0.205,
+        "fixtureDiversificationValue": 0.2,
+        "thirdPlaceRiskPenalty": 0,
+        "thirdPlaceUpsideModifier": 0,
+        "roleVolatilityPenalty": 0.227,
+        "strategicCompositeScore": 62.509,
+        "recommendation_score": 70.509
       }
     },
     {
@@ -956,8 +960,8 @@
       }
     },
     {
-      "official_fantasy_player_id": "1092",
-      "name": "Lamine Yamal Nasraoui Ebana",
+      "official_fantasy_player_id": "1998",
+      "name": "Fabián Ruiz",
       "country": "Spain",
       "position": "MID",
       "fixture_stage": "final",
@@ -983,66 +987,6 @@
         "roleVolatilityPenalty": 0.2,
         "strategicCompositeScore": 69.21,
         "recommendation_score": 77.21
-      }
-    },
-    {
-      "official_fantasy_player_id": "38",
-      "name": "Lionel Messi",
-      "country": "Argentina",
-      "position": "FWD",
-      "fixture_stage": "final",
-      "projectedPoints": 5.19,
-      "finalRoundStrategy": {
-        "kickoff_order": 2,
-        "fixture_timing": "late",
-        "fixture_stage": "final",
-        "rawProjectedPoints": 5.19,
-        "startProbability": 0.888,
-        "expectedMinutes": 76.4,
-        "roleVolatility": 0.091,
-        "teamXg": 1.399,
-        "opponentXg": 1.341,
-        "cleanSheetProbability": 0.262,
-        "goalEnvironment": 2.74,
-        "earlyFixtureOptionalityBonus": 0,
-        "replacementOptionValue": 0,
-        "lateFixtureReplacementValue": 0.322,
-        "fixtureDiversificationValue": 0.2,
-        "thirdPlaceRiskPenalty": 0,
-        "thirdPlaceUpsideModifier": 0,
-        "roleVolatilityPenalty": 0.227,
-        "strategicCompositeScore": 81.161,
-        "recommendation_score": 89.161
-      }
-    },
-    {
-      "official_fantasy_player_id": "39",
-      "name": "Julián Alvarez",
-      "country": "Argentina",
-      "position": "FWD",
-      "fixture_stage": "final",
-      "projectedPoints": 5.19,
-      "finalRoundStrategy": {
-        "kickoff_order": 2,
-        "fixture_timing": "late",
-        "fixture_stage": "final",
-        "rawProjectedPoints": 5.19,
-        "startProbability": 0.888,
-        "expectedMinutes": 76.4,
-        "roleVolatility": 0.091,
-        "teamXg": 1.399,
-        "opponentXg": 1.341,
-        "cleanSheetProbability": 0.262,
-        "goalEnvironment": 2.74,
-        "earlyFixtureOptionalityBonus": 0,
-        "replacementOptionValue": 0,
-        "lateFixtureReplacementValue": 0.322,
-        "fixtureDiversificationValue": 0.2,
-        "thirdPlaceRiskPenalty": 0,
-        "thirdPlaceUpsideModifier": 0,
-        "roleVolatilityPenalty": 0.227,
-        "strategicCompositeScore": 81.161,
-        "recommendation_score": 89.161
       }
     },
     {
@@ -1074,12 +1018,72 @@
         "strategicCompositeScore": 79.448,
         "recommendation_score": 87.448
       }
+    },
+    {
+      "official_fantasy_player_id": "500",
+      "name": "Kylian Mbappé",
+      "country": "France",
+      "position": "FWD",
+      "fixture_stage": "third_place",
+      "projectedPoints": 4.104,
+      "finalRoundStrategy": {
+        "kickoff_order": 1,
+        "fixture_timing": "early",
+        "fixture_stage": "third_place",
+        "rawProjectedPoints": 4.104,
+        "startProbability": 0.591,
+        "expectedMinutes": 46.1,
+        "roleVolatility": 0.182,
+        "teamXg": 1.464,
+        "opponentXg": 1.451,
+        "cleanSheetProbability": 0.279,
+        "goalEnvironment": 2.915,
+        "earlyFixtureOptionalityBonus": 1.575,
+        "replacementOptionValue": 2.658,
+        "lateFixtureReplacementValue": 0,
+        "fixtureDiversificationValue": 0.65,
+        "thirdPlaceRiskPenalty": 1.057,
+        "thirdPlaceUpsideModifier": 1.27,
+        "roleVolatilityPenalty": 0.455,
+        "strategicCompositeScore": 83.353,
+        "recommendation_score": 91.353
+      }
+    },
+    {
+      "official_fantasy_player_id": "468",
+      "name": "Harry Kane",
+      "country": "England",
+      "position": "FWD",
+      "fixture_stage": "third_place",
+      "projectedPoints": 4.055,
+      "finalRoundStrategy": {
+        "kickoff_order": 1,
+        "fixture_timing": "early",
+        "fixture_stage": "third_place",
+        "rawProjectedPoints": 4.055,
+        "startProbability": 0.586,
+        "expectedMinutes": 45.7,
+        "roleVolatility": 0.273,
+        "teamXg": 1.451,
+        "opponentXg": 1.464,
+        "cleanSheetProbability": 0.276,
+        "goalEnvironment": 2.915,
+        "earlyFixtureOptionalityBonus": 1.552,
+        "replacementOptionValue": 2.633,
+        "lateFixtureReplacementValue": 0,
+        "fixtureDiversificationValue": 0.65,
+        "thirdPlaceRiskPenalty": 1.236,
+        "thirdPlaceUpsideModifier": 1.269,
+        "roleVolatilityPenalty": 0.683,
+        "strategicCompositeScore": 81.166,
+        "recommendation_score": 89.166
+      }
     }
   ],
   "captain": {
-    "id": "38",
-    "name": "Lionel Messi",
-    "country": "Argentina"
+    "id": "1094",
+    "name": "Mikel Oyarzabal",
+    "country": "Spain"
   },
   "viceCaptain": {
     "id": "48",
@@ -1107,15 +1111,15 @@
     },
     {
       "team": "Spain",
-      "player": "Mikel Oyarzabal",
-      "position": "FWD",
-      "projectedPoints": 5.05,
-      "compositeScore": 79.448,
+      "player": "Lamine Yamal Nasraoui Ebana",
+      "position": "MID",
+      "projectedPoints": 4.25,
+      "compositeScore": 69.21,
       "reason": "Position, country-limit, budget, or squad-balance tradeoff."
     },
     {
       "team": "Argentina",
-      "player": "Julián Alvarez",
+      "player": "Lionel Messi",
       "position": "FWD",
       "projectedPoints": 5.19,
       "compositeScore": 81.161,
@@ -1123,6 +1127,14 @@
     }
   ],
   "omittedStarDiagnostics": [
+    {
+      "name": "Lionel Messi",
+      "country": "Argentina",
+      "position": "FWD",
+      "reason": "Squad balance/position limit.",
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false
+    },
     {
       "name": "Julián Alvarez",
       "country": "Argentina",
@@ -1132,9 +1144,9 @@
       "thirdPlaceRisk": false
     },
     {
-      "name": "Mikel Oyarzabal",
+      "name": "Lamine Yamal Nasraoui Ebana",
       "country": "Spain",
-      "position": "FWD",
+      "position": "MID",
       "reason": "Squad balance/position limit.",
       "lineupEvidenceType": "explicit_sf_starter",
       "thirdPlaceRisk": false
@@ -1156,18 +1168,18 @@
       "thirdPlaceRisk": false
     },
     {
-      "name": "Fabián Ruiz",
-      "country": "Spain",
-      "position": "MID",
-      "reason": "Squad balance/position limit.",
-      "lineupEvidenceType": "explicit_sf_starter",
-      "thirdPlaceRisk": false
-    },
-    {
       "name": "Giuliano Simeone",
       "country": "Argentina",
       "position": "MID",
       "reason": "Started SF after not starting QF; upgraded but role volatility remains.",
+      "lineupEvidenceType": "explicit_sf_starter",
+      "thirdPlaceRisk": false
+    },
+    {
+      "name": "Pedro Porro",
+      "country": "Spain",
+      "position": "DEF",
+      "reason": "Squad balance/position limit.",
       "lineupEvidenceType": "explicit_sf_starter",
       "thirdPlaceRisk": false
     },
@@ -1188,14 +1200,6 @@
       "thirdPlaceRisk": false
     },
     {
-      "name": "Pau Cubarsí",
-      "country": "Spain",
-      "position": "DEF",
-      "reason": "Squad balance/position limit.",
-      "lineupEvidenceType": "explicit_sf_starter",
-      "thirdPlaceRisk": false
-    },
-    {
       "name": "Ousmane Dembélé",
       "country": "France",
       "position": "MID",
@@ -1205,12 +1209,6 @@
     }
   ],
   "roleVolatilityDiagnostics": [
-    {
-      "name": "Mike Maignan",
-      "country": "France",
-      "roleCaution": "Third Place game may have higher rotation risk.",
-      "lineupEvidenceType": "explicit_sf_starter"
-    },
     {
       "name": "Kylian Mbappé",
       "country": "France",
