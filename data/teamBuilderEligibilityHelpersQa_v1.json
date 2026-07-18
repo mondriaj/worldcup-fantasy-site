@@ -1,0 +1,677 @@
+{
+  "schema_version": "team_builder_eligibility_helpers_qa_v1",
+  "generated_at": "2026-07-18T22:24:09.237Z",
+  "status": "pass",
+  "activeStage": "finalRound",
+  "fixtureAuthorityPath": "data/finalRoundFixtureAuthority_v1.json",
+  "officialStatusWrapperPath": "fantasyPoolOfficialDataStatusData.js",
+  "projectionPath": "data/fantasyPoolMatchdayProjections_finalRound_v1.json",
+  "summary": {
+    "eligible_teams": [
+      "France",
+      "England",
+      "Spain",
+      "Argentina"
+    ],
+    "final_fixture_teams": [
+      "Spain",
+      "Argentina"
+    ],
+    "third_place_fixture_teams": [
+      "France",
+      "England"
+    ],
+    "active_projection_rows": 134,
+    "official_playing_rows": 414,
+    "browser_seed_rows": 409,
+    "active_team_builder_candidates": 104,
+    "candidate_count_by_team": {
+      "France": 26,
+      "Spain": 26,
+      "Argentina": 26,
+      "England": 26
+    },
+    "existing_team_builder_qa_candidates": 101,
+    "existing_team_builder_qa_candidate_count_by_team": {
+      "Argentina": 25,
+      "Spain": 26,
+      "France": 26,
+      "England": 24
+    },
+    "downstream_filter_delta": 3,
+    "eliminated_candidate_count": 0,
+    "candidates_missing_active_projections": 0,
+    "candidates_excluded_due_to_non_eligible_team": 305,
+    "historical_fallback_candidates": 0
+  },
+  "checks": [
+    {
+      "id": "eligible_teams_equal_fixture_authority_teams",
+      "status": "pass",
+      "details": {
+        "eligibleTeams": [
+          "France",
+          "England",
+          "Spain",
+          "Argentina"
+        ]
+      }
+    },
+    {
+      "id": "final_fixture_teams_are_spain_argentina",
+      "status": "pass",
+      "details": {
+        "finalFixtureTeams": [
+          "Spain",
+          "Argentina"
+        ]
+      }
+    },
+    {
+      "id": "third_place_fixture_teams_are_france_england",
+      "status": "pass",
+      "details": {
+        "thirdPlaceFixtureTeams": [
+          "France",
+          "England"
+        ]
+      }
+    },
+    {
+      "id": "brazil_colombia_not_eligible",
+      "status": "pass",
+      "details": {
+        "eliminatedTeams": [
+          {
+            "team": "Brazil",
+            "eligible": false
+          },
+          {
+            "team": "Colombia",
+            "eligible": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "blocked_eliminated_player_names_not_active_candidates",
+      "status": "pass",
+      "details": {
+        "hits": []
+      }
+    },
+    {
+      "id": "golden_squad_players_all_pass_eligibility",
+      "status": "pass",
+      "details": {
+        "goldenDecisions": [
+          {
+            "player": "Emiliano Martínez",
+            "decision": {
+              "eligible": true,
+              "reason": "eligible",
+              "teamEligible": true,
+              "hasActiveProjection": true
+            }
+          },
+          {
+            "player": "Unai Simón",
+            "decision": {
+              "eligible": true,
+              "reason": "eligible",
+              "teamEligible": true,
+              "hasActiveProjection": true
+            }
+          },
+          {
+            "player": "Nicolás Tagliafico",
+            "decision": {
+              "eligible": true,
+              "reason": "eligible",
+              "teamEligible": true,
+              "hasActiveProjection": true
+            }
+          },
+          {
+            "player": "Nahuel Molina",
+            "decision": {
+              "eligible": true,
+              "reason": "eligible",
+              "teamEligible": true,
+              "hasActiveProjection": true
+            }
+          },
+          {
+            "player": "Lisandro Martínez",
+            "decision": {
+              "eligible": true,
+              "reason": "eligible",
+              "teamEligible": true,
+              "hasActiveProjection": true
+            }
+          },
+          {
+            "player": "Cristian Romero",
+            "decision": {
+              "eligible": true,
+              "reason": "eligible",
+              "teamEligible": true,
+              "hasActiveProjection": true
+            }
+          },
+          {
+            "player": "Pau Cubarsí",
+            "decision": {
+              "eligible": true,
+              "reason": "eligible",
+              "teamEligible": true,
+              "hasActiveProjection": true
+            }
+          },
+          {
+            "player": "Leandro Paredes",
+            "decision": {
+              "eligible": true,
+              "reason": "eligible",
+              "teamEligible": true,
+              "hasActiveProjection": true
+            }
+          },
+          {
+            "player": "Alexis Mac Allister",
+            "decision": {
+              "eligible": true,
+              "reason": "eligible",
+              "teamEligible": true,
+              "hasActiveProjection": true
+            }
+          },
+          {
+            "player": "Enzo Fernández",
+            "decision": {
+              "eligible": true,
+              "reason": "eligible",
+              "teamEligible": true,
+              "hasActiveProjection": true
+            }
+          },
+          {
+            "player": "Álex Baena",
+            "decision": {
+              "eligible": true,
+              "reason": "eligible",
+              "teamEligible": true,
+              "hasActiveProjection": true
+            }
+          },
+          {
+            "player": "Fabián Ruiz",
+            "decision": {
+              "eligible": true,
+              "reason": "eligible",
+              "teamEligible": true,
+              "hasActiveProjection": true
+            }
+          },
+          {
+            "player": "Kylian Mbappé",
+            "decision": {
+              "eligible": true,
+              "reason": "eligible",
+              "teamEligible": true,
+              "hasActiveProjection": true
+            }
+          },
+          {
+            "player": "Harry Kane",
+            "decision": {
+              "eligible": true,
+              "reason": "eligible",
+              "teamEligible": true,
+              "hasActiveProjection": true
+            }
+          },
+          {
+            "player": "Mikel Oyarzabal",
+            "decision": {
+              "eligible": true,
+              "reason": "eligible",
+              "teamEligible": true,
+              "hasActiveProjection": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "every_team_builder_candidate_has_active_final_round_projection",
+      "status": "pass",
+      "details": {
+        "candidateCount": 104,
+        "missingActiveProjectionCount": 0
+      }
+    },
+    {
+      "id": "no_candidate_admitted_only_through_historical_projection_fallback",
+      "status": "pass",
+      "details": {
+        "historicalFallbackCandidates": []
+      }
+    },
+    {
+      "id": "eligible_candidate_pool_covers_existing_team_builder_qa",
+      "status": "pass",
+      "details": {
+        "helper": {
+          "France": 26,
+          "Spain": 26,
+          "Argentina": 26,
+          "England": 26
+        },
+        "teamBuilderQa": {
+          "Argentina": 25,
+          "Spain": 26,
+          "France": 26,
+          "England": 24
+        },
+        "note": "Eligibility helpers own fixture-authority and active-projection admission; existing Team Builder QA count is after downstream risk/filter controls."
+      }
+    },
+    {
+      "id": "assert_no_eliminated_active_candidates_passes_for_candidates",
+      "status": "pass",
+      "details": {
+        "candidateCount": 104
+      }
+    },
+    {
+      "id": "assert_no_eliminated_active_candidates_rejects_blocked_candidate",
+      "status": "pass",
+      "details": {
+        "assertError": "Eliminated or inactive Team Builder candidates found: Blocked Brazil Player (non_eligible_team)"
+      }
+    },
+    {
+      "id": "helper_output_is_deterministic",
+      "status": "pass",
+      "details": {
+        "helperOutput": {
+          "eligibleTeams": [
+            "France",
+            "England",
+            "Spain",
+            "Argentina"
+          ],
+          "fixtureTeams": [
+            {
+              "stage": "third_place",
+              "label": "Third Place",
+              "teams": [
+                {
+                  "team": "France",
+                  "team_id": "france",
+                  "code": "FRA",
+                  "keys": [
+                    "france",
+                    "france",
+                    "france",
+                    "fra"
+                  ]
+                },
+                {
+                  "team": "England",
+                  "team_id": "england",
+                  "code": "ENG",
+                  "keys": [
+                    "england",
+                    "england",
+                    "england",
+                    "eng"
+                  ]
+                }
+              ]
+            },
+            {
+              "stage": "final",
+              "label": "Final",
+              "teams": [
+                {
+                  "team": "Spain",
+                  "team_id": "spain",
+                  "code": "ESP",
+                  "keys": [
+                    "spain",
+                    "spain",
+                    "spain",
+                    "esp"
+                  ]
+                },
+                {
+                  "team": "Argentina",
+                  "team_id": "argentina",
+                  "code": "ARG",
+                  "keys": [
+                    "argentina",
+                    "argentina",
+                    "argentina",
+                    "arg"
+                  ]
+                }
+              ]
+            }
+          ],
+          "candidates": [
+            "Adrien Rabiot",
+            "Alejandro Grimaldo",
+            "Álex Baena",
+            "Alexis Mac Allister",
+            "Anthony Gordon",
+            "Aurélien Tchouaméni",
+            "Aymeric Laporte",
+            "Borja Iglesias",
+            "Bradley Barcola",
+            "Brice Samba",
+            "Bukayo Saka",
+            "Cristian Romero",
+            "Dan Burn",
+            "Dani Olmo",
+            "David Raya",
+            "Dayot Upamecano",
+            "Dean Henderson",
+            "Declan Rice",
+            "Désiré Doué",
+            "Djed Spence",
+            "Eberechi Eze",
+            "Elliot Anderson",
+            "Emiliano Martínez",
+            "Enzo Fernández",
+            "Eric García",
+            "Exequiel Palacios",
+            "Ezri Konsa",
+            "Fabián Ruiz",
+            "Facundo Medina",
+            "Ferran Torres",
+            "Gerónimo Rulli",
+            "Giovani Lo Celso",
+            "Giuliano Simeone",
+            "Gonzalo Montiel",
+            "Harry Kane",
+            "Ibrahima Konaté",
+            "Ivan Toney",
+            "James Trafford",
+            "Jarell Quansah",
+            "Jean-Philippe Mateta",
+            "Joan García",
+            "John Stones",
+            "Jordan Henderson",
+            "Jordan Pickford",
+            "José Manuel López",
+            "Juan Musso",
+            "Jude Bellingham",
+            "Jules Koundé",
+            "Julián Alvarez",
+            "Kobbie Mainoo",
+            "Kylian Mbappé",
+            "Lamine Yamal Nasraoui Ebana",
+            "Lautaro Martínez",
+            "Leandro Paredes",
+            "Lionel Messi",
+            "Lisandro Martínez",
+            "Lucas Digne",
+            "Lucas Hernández",
+            "Maghnes Akliouche",
+            "Malo Gusto",
+            "Manu Koné",
+            "Marc Cucurella",
+            "Marc Guéhi",
+            "Marc Pubill",
+            "Marcos Llorente",
+            "Marcos Senesi",
+            "Marcus Rashford",
+            "Marcus Thuram",
+            "Martín Zubimendi",
+            "Maxence Lacroix",
+            "Michael Olise",
+            "Mike Maignan",
+            "Mikel Merino",
+            "Mikel Oyarzabal",
+            "Morgan Rogers",
+            "N'Golo Kanté",
+            "Nahuel Molina",
+            "Nico González",
+            "Nico O'Reilly",
+            "Nico Paz",
+            "Nico Williams",
+            "Nicolás Otamendi",
+            "Nicolás Tagliafico",
+            "Noni Madueke",
+            "Ollie Watkins",
+            "Ousmane Dembélé",
+            "Pablo Páez Gavira",
+            "Pau Cubarsí",
+            "Pedro González López",
+            "Pedro Porro",
+            "Rayan Cherki",
+            "Reece James",
+            "Robin Risser",
+            "Rodrigo De Paul",
+            "Rodrigo Hernández Cascante",
+            "Theo Hernández",
+            "Thiago Almada",
+            "Trevoh Chalobah",
+            "Unai Simón",
+            "Valentín Barco",
+            "Víctor Muñoz",
+            "Warren Zaïre-Emery",
+            "William Saliba",
+            "Yéremy Pino"
+          ]
+        },
+        "helperOutputAgain": {
+          "eligibleTeams": [
+            "France",
+            "England",
+            "Spain",
+            "Argentina"
+          ],
+          "fixtureTeams": [
+            {
+              "stage": "third_place",
+              "label": "Third Place",
+              "teams": [
+                {
+                  "team": "France",
+                  "team_id": "france",
+                  "code": "FRA",
+                  "keys": [
+                    "france",
+                    "france",
+                    "france",
+                    "fra"
+                  ]
+                },
+                {
+                  "team": "England",
+                  "team_id": "england",
+                  "code": "ENG",
+                  "keys": [
+                    "england",
+                    "england",
+                    "england",
+                    "eng"
+                  ]
+                }
+              ]
+            },
+            {
+              "stage": "final",
+              "label": "Final",
+              "teams": [
+                {
+                  "team": "Spain",
+                  "team_id": "spain",
+                  "code": "ESP",
+                  "keys": [
+                    "spain",
+                    "spain",
+                    "spain",
+                    "esp"
+                  ]
+                },
+                {
+                  "team": "Argentina",
+                  "team_id": "argentina",
+                  "code": "ARG",
+                  "keys": [
+                    "argentina",
+                    "argentina",
+                    "argentina",
+                    "arg"
+                  ]
+                }
+              ]
+            }
+          ],
+          "candidates": [
+            "Adrien Rabiot",
+            "Alejandro Grimaldo",
+            "Álex Baena",
+            "Alexis Mac Allister",
+            "Anthony Gordon",
+            "Aurélien Tchouaméni",
+            "Aymeric Laporte",
+            "Borja Iglesias",
+            "Bradley Barcola",
+            "Brice Samba",
+            "Bukayo Saka",
+            "Cristian Romero",
+            "Dan Burn",
+            "Dani Olmo",
+            "David Raya",
+            "Dayot Upamecano",
+            "Dean Henderson",
+            "Declan Rice",
+            "Désiré Doué",
+            "Djed Spence",
+            "Eberechi Eze",
+            "Elliot Anderson",
+            "Emiliano Martínez",
+            "Enzo Fernández",
+            "Eric García",
+            "Exequiel Palacios",
+            "Ezri Konsa",
+            "Fabián Ruiz",
+            "Facundo Medina",
+            "Ferran Torres",
+            "Gerónimo Rulli",
+            "Giovani Lo Celso",
+            "Giuliano Simeone",
+            "Gonzalo Montiel",
+            "Harry Kane",
+            "Ibrahima Konaté",
+            "Ivan Toney",
+            "James Trafford",
+            "Jarell Quansah",
+            "Jean-Philippe Mateta",
+            "Joan García",
+            "John Stones",
+            "Jordan Henderson",
+            "Jordan Pickford",
+            "José Manuel López",
+            "Juan Musso",
+            "Jude Bellingham",
+            "Jules Koundé",
+            "Julián Alvarez",
+            "Kobbie Mainoo",
+            "Kylian Mbappé",
+            "Lamine Yamal Nasraoui Ebana",
+            "Lautaro Martínez",
+            "Leandro Paredes",
+            "Lionel Messi",
+            "Lisandro Martínez",
+            "Lucas Digne",
+            "Lucas Hernández",
+            "Maghnes Akliouche",
+            "Malo Gusto",
+            "Manu Koné",
+            "Marc Cucurella",
+            "Marc Guéhi",
+            "Marc Pubill",
+            "Marcos Llorente",
+            "Marcos Senesi",
+            "Marcus Rashford",
+            "Marcus Thuram",
+            "Martín Zubimendi",
+            "Maxence Lacroix",
+            "Michael Olise",
+            "Mike Maignan",
+            "Mikel Merino",
+            "Mikel Oyarzabal",
+            "Morgan Rogers",
+            "N'Golo Kanté",
+            "Nahuel Molina",
+            "Nico González",
+            "Nico O'Reilly",
+            "Nico Paz",
+            "Nico Williams",
+            "Nicolás Otamendi",
+            "Nicolás Tagliafico",
+            "Noni Madueke",
+            "Ollie Watkins",
+            "Ousmane Dembélé",
+            "Pablo Páez Gavira",
+            "Pau Cubarsí",
+            "Pedro González López",
+            "Pedro Porro",
+            "Rayan Cherki",
+            "Reece James",
+            "Robin Risser",
+            "Rodrigo De Paul",
+            "Rodrigo Hernández Cascante",
+            "Theo Hernández",
+            "Thiago Almada",
+            "Trevoh Chalobah",
+            "Unai Simón",
+            "Valentín Barco",
+            "Víctor Muñoz",
+            "Warren Zaïre-Emery",
+            "William Saliba",
+            "Yéremy Pino"
+          ]
+        }
+      }
+    },
+    {
+      "id": "helpers_do_not_mutate_inputs",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "malformed_fixture_authority_fails_with_useful_error",
+      "status": "pass",
+      "details": {
+        "malformedError": "Invalid fixture authority: expected a fixtures array."
+      }
+    },
+    {
+      "id": "browser_wrapper_matches_module_eligibility",
+      "status": "pass",
+      "details": {
+        "browserEligibleTeams": [
+          "France",
+          "England",
+          "Spain",
+          "Argentina"
+        ],
+        "eligibleTeams": [
+          "France",
+          "England",
+          "Spain",
+          "Argentina"
+        ],
+        "browserCandidateCount": 104,
+        "candidateCount": 104
+      }
+    }
+  ]
+}

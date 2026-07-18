@@ -1,0 +1,115 @@
+{
+  "schema_version": "team_builder_eligibility_extraction_no_behavior_change_v1",
+  "generated_at": "2026-07-18T22:24:08.264Z",
+  "status": "pass",
+  "public_behavior_unchanged": true,
+  "model_outputs_unchanged": true,
+  "optimizer_behavior_changed": false,
+  "artifact_loading_changed": false,
+  "candidate_scoring_changed": false,
+  "public_copy_changed": false,
+  "public_wrappers_changed": {
+    "script_js": true,
+    "teamBuilderPublicHelpers_js": true,
+    "data_wrappers": false
+  },
+  "public_refereeing_conspiracy_exposure": false,
+  "active_qa_runner": {
+    "status": "pass",
+    "checks_run": 48,
+    "passed": 48,
+    "failed": 0,
+    "previous_checks_run": 46
+  },
+  "eligibility_validator": {
+    "status": "pass",
+    "checks_run": 15,
+    "eligible_teams": [
+      "France",
+      "England",
+      "Spain",
+      "Argentina"
+    ],
+    "final_fixture_teams": [
+      "Spain",
+      "Argentina"
+    ],
+    "third_place_fixture_teams": [
+      "France",
+      "England"
+    ],
+    "shared_eligibility_candidates": 104,
+    "existing_team_builder_qa_candidates": 101,
+    "downstream_filter_delta": 3,
+    "eliminated_candidate_count": 0,
+    "candidates_missing_active_projections": 0,
+    "historical_fallback_candidates": 0
+  },
+  "golden_validator": {
+    "status": "pass",
+    "protected_values": {
+      "budget": "94.8 / 105",
+      "captain": "Mikel Oyarzabal",
+      "viceCaptain": "Leandro Paredes",
+      "teamCounts": {
+        "Argentina": 8,
+        "Spain": 5,
+        "France": 1,
+        "England": 1
+      },
+      "fixtureCounts": {
+        "final": 13,
+        "third_place": 2
+      },
+      "rawProjectedPoints": 59.552,
+      "optionalityScore": 5.291,
+      "compositeScore": 1014.93,
+      "selectedSquad": [
+        "Emiliano Martínez",
+        "Unai Simón",
+        "Nicolás Tagliafico",
+        "Nahuel Molina",
+        "Lisandro Martínez",
+        "Cristian Romero",
+        "Pau Cubarsí",
+        "Leandro Paredes",
+        "Alexis Mac Allister",
+        "Enzo Fernández",
+        "Álex Baena",
+        "Fabián Ruiz",
+        "Kylian Mbappé",
+        "Harry Kane",
+        "Mikel Oyarzabal"
+      ]
+    }
+  },
+  "browser_qa": {
+    "local_team_builder_browser_equivalence": "pass",
+    "local_public_preview_browser_qa": "pass",
+    "visible_team_builder_squad_unchanged": true,
+    "browser_candidate_pool_after_downstream_filters": {
+      "Argentina": 25,
+      "Spain": 26,
+      "France": 26,
+      "England": 24
+    },
+    "console_errors": 0,
+    "blocking_failed_requests": 0
+  },
+  "search_checks": {
+    "old_globals_legacy_paths_public_files": "pass_zero_hits",
+    "active_eliminated_player_leakage": "pass_historical_hits_allowed",
+    "public_refereeing_conspiracy_leakage": "pass_manifest_guardrail_hits_only"
+  },
+  "unchanged_model_output_paths": [
+    "data/teamBuilderFinalRoundArtifact_v1.json",
+    "teamBuilderFinalRoundArtifactData.js",
+    "fantasyPoolRecommendationsData.js",
+    "fantasyPoolMatchdayProjectionsData.js",
+    "fantasyPoolScorePredictionsData.js"
+  ],
+  "line_counts": {
+    "script_js_before": 15305,
+    "script_js_after": 15273
+  }
+}

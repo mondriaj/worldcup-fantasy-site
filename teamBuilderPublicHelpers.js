@@ -145,7 +145,11 @@
   }
 
   function normalizeTeamBuilderFixtureKey(value) {
-    return normalizeText(value || "unknown");
+    return normalizeText(value || "unknown").replace(/\s+/g, "_");
+  }
+
+  function normalizeTeamBuilderEligibleTeam(value) {
+    return normalizeText(value);
   }
 
   function countSummaryText(counts = {}, labelForKey = (key) => key) {
@@ -181,20 +185,59 @@
       .filter(Boolean);
   }
 
+  function assertFixtureAuthority(fixtureAuthority) {
+    if (!fixtureAuthority || !Array.isArray(fixtureAuthority.fixtures)) {
+      throw new Error("Invalid fixture authority: expected a fixtures array.");
+    }
+  }
+
+  function getTeamBuilderEligibleFixtureKey(fixture) {
+    return normalizeTeamBuilderFixtureKey(fixture?.stage || fixture?.round || fixture?.public_label || "unknown");
+  }
+
+  function getFixtureAuthorityFixtureTeams(fixtureAuthority) {
+    assertFixtureAuthority(fixtureAuthority);
+
+    return fixtureAuthority.fixtures.map((fixture) => ({
+      stage: getTeamBuilderEligibleFixtureKey(fixture),
+      label: fixture.public_label || fixture.round || fixture.stage || "Fixture",
+      teams: [fixture.team_a, fixture.team_b]
+        .filter(Boolean)
+        .map((team) => ({
+          team: team.team || team.name || null,
+          team_id: team.team_id || null,
+          code: team.code || team.official_team_code || null,
+          keys: teamEligibilityKeys(team)
+        }))
+    }));
+  }
+
+  function getFixtureAuthorityEligibleTeams(fixtureAuthority) {
+    return [...new Set(getFixtureAuthorityFixtureTeams(fixtureAuthority)
+      .flatMap((fixture) => fixture.teams.map((team) => team.team))
+      .filter(Boolean))];
+  }
+
   function eligibleTeamKeysFromFixtureAuthority(fixtureAuthority) {
-    const fixtures = Array.isArray(fixtureAuthority?.fixtures)
-      ? fixtureAuthority.fixtures
-      : [];
+    const fixtureTeams = getFixtureAuthorityFixtureTeams(fixtureAuthority);
     const keys = new Set();
 
     // Eligible teams come from fixture authority, not hardcoded Final Round teams.
-    fixtures.forEach((fixture) => {
-      [fixture.team_a, fixture.team_b].filter(Boolean).forEach((team) => {
-        teamEligibilityKeys(team).forEach((key) => keys.add(key));
+    fixtureTeams.forEach((fixture) => {
+      fixture.teams.forEach((team) => {
+        team.keys.forEach((key) => keys.add(key));
       });
     });
 
     return keys;
+  }
+
+  function isFinalRoundEligibleTeam(record, fixtureAuthorityOrEligibleTeamKeys) {
+    const eligibleTeamKeys = fixtureAuthorityOrEligibleTeamKeys instanceof Set
+      ? fixtureAuthorityOrEligibleTeamKeys
+      : eligibleTeamKeysFromFixtureAuthority(fixtureAuthorityOrEligibleTeamKeys);
+
+    return recordMatchesEligibleTeam(record, eligibleTeamKeys);
   }
 
   function recordMatchesEligibleTeam(record, eligibleTeamKeys) {
@@ -203,6 +246,98 @@
     }
 
     return teamEligibilityKeys(record).some((key) => eligibleTeamKeys.has(key));
+  }
+
+  function isActiveStageProjection(projection, activeStage = "finalRound") {
+    if (!projection || projection.available === false) {
+      return false;
+    }
+
+    const matchday = projection.matchday || projection.matchday_id;
+    return matchday === activeStage;
+  }
+
+  function hasActiveTeamBuilderProjection(player, activeStage = "finalRound", projectionResolver = null) {
+    if (!player || activeStage === "group_stage_full") {
+      return true;
+    }
+
+    const projection = typeof projectionResolver === "function"
+      ? projectionResolver(player, activeStage)
+      : player?.preview_matchday_projections_by_matchday?.[activeStage];
+
+    return isActiveStageProjection(projection, activeStage);
+  }
+
+  function explainTeamBuilderEligibilityDecision(player, {
+    fixtureAuthority,
+    eligibleTeamKeys = fixtureAuthority ? eligibleTeamKeysFromFixtureAuthority(fixtureAuthority) : null,
+    activeStage = "finalRound",
+    projectionResolver = null
+  } = {}) {
+    if (!player) {
+      return {
+        eligible: false,
+        reason: "missing_player",
+        teamEligible: false,
+        hasActiveProjection: false
+      };
+    }
+
+    if (activeStage !== "finalRound") {
+      return {
+        eligible: true,
+        reason: "non_final_round_stage",
+        teamEligible: true,
+        hasActiveProjection: true
+      };
+    }
+
+    const teamEligible = eligibleTeamKeys
+      ? recordMatchesEligibleTeam(player, eligibleTeamKeys)
+      : true;
+    const hasActiveProjection = hasActiveTeamBuilderProjection(player, activeStage, projectionResolver);
+    const eligible = teamEligible && hasActiveProjection;
+    let reason = "eligible";
+
+    if (!teamEligible && !hasActiveProjection) {
+      reason = "non_eligible_team_and_missing_active_projection";
+    } else if (!teamEligible) {
+      reason = "non_eligible_team";
+    } else if (!hasActiveProjection) {
+      reason = "missing_active_projection";
+    }
+
+    return {
+      eligible,
+      reason,
+      teamEligible,
+      hasActiveProjection
+    };
+  }
+
+  function isFinalRoundTeamBuilderCandidate(player, options = {}) {
+    return explainTeamBuilderEligibilityDecision(player, options).eligible;
+  }
+
+  function filterFinalRoundTeamBuilderCandidates(players = [], options = {}) {
+    return (Array.isArray(players) ? players : [])
+      .filter((player) => isFinalRoundTeamBuilderCandidate(player, options));
+  }
+
+  function assertNoEliminatedActiveCandidates(players = [], options = {}) {
+    const rejected = (Array.isArray(players) ? players : [])
+      .map((player) => ({ player, decision: explainTeamBuilderEligibilityDecision(player, options) }))
+      .filter(({ decision }) => !decision.eligible);
+
+    if (rejected.length) {
+      const names = rejected.slice(0, 10).map(({ player, decision }) =>
+        `${player?.name || player?.display_name || player?.id || "unknown"} (${decision.reason})`
+      );
+      throw new Error(`Eliminated or inactive Team Builder candidates found: ${names.join(", ")}`);
+    }
+
+    return true;
   }
 
   function isFinalRoundTeamBuilderArtifact(artifact) {
@@ -479,11 +614,22 @@
     budgetDisplay,
     normalizeTeamBuilderTeamName,
     normalizeTeamBuilderFixtureKey,
+    normalizeTeamBuilderEligibleTeam,
     countSummaryText,
     objectiveSummaryText,
     teamEligibilityKeys,
+    getTeamBuilderEligibleFixtureKey,
+    getFixtureAuthorityFixtureTeams,
+    getFixtureAuthorityEligibleTeams,
     eligibleTeamKeysFromFixtureAuthority,
+    isFinalRoundEligibleTeam,
     recordMatchesEligibleTeam,
+    isActiveStageProjection,
+    hasActiveTeamBuilderProjection,
+    isFinalRoundTeamBuilderCandidate,
+    filterFinalRoundTeamBuilderCandidates,
+    explainTeamBuilderEligibilityDecision,
+    assertNoEliminatedActiveCandidates,
     isFinalRoundTeamBuilderArtifact,
     countByTeam,
     countByFixture,

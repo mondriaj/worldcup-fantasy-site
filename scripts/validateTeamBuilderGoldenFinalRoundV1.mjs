@@ -6,6 +6,7 @@ import {
   projectPath,
   readActiveStageManifest
 } from "./lib/readActiveStageManifest.mjs";
+import { getFixtureAuthorityEligibleTeams } from "./lib/teamBuilderPublicModel.mjs";
 
 const generatedAt = new Date().toISOString();
 const goldenPath = "data/teamBuilderGoldenFinalRound_v1.json";
@@ -137,12 +138,6 @@ function parseWrapper(relativePath, globalName) {
   return sandbox.window[globalName];
 }
 
-function eligibleTeamsFromFixtureAuthority(authority) {
-  return [...new Set((authority.fixtures || [])
-    .flatMap((fixture) => [fixture.team_a?.team, fixture.team_b?.team])
-    .filter(Boolean))];
-}
-
 function artifactSnapshot(artifact) {
   return {
     activeStage: artifact.strategy?.matchday || artifact.constraintsUsed?.matchday || null,
@@ -185,7 +180,7 @@ const projections = readJson(manifestFile(manifest, "matchdayProjections"));
 const browserEquivalence = readBrowserEquivalence();
 const artifactCurrent = artifactSnapshot(artifact);
 const wrapperCurrent = artifactSnapshot(wrapperArtifact || {});
-const eligibleTeams = eligibleTeamsFromFixtureAuthority(fixtureAuthority);
+const eligibleTeams = getFixtureAuthorityEligibleTeams(fixtureAuthority);
 const selectedNames = playerNames(artifactCurrent.selectedPlayers);
 const eliminatedNeedles = (golden.noEliminatedPlayerNames || []).map(normalizeText);
 const eliminatedHits = (artifact.selectedSquad || []).filter((row) => {

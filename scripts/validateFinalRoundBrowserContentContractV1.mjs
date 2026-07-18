@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import { manifestFile, projectPath, readActiveStageManifest } from "./lib/readActiveStageManifest.mjs";
+import { getFixtureAuthorityEligibleTeams } from "./lib/teamBuilderPublicModel.mjs";
 
 const generatedAt = new Date().toISOString();
 const contractPath = "data/finalRoundBrowserContentContract_v1.json";
@@ -57,10 +58,7 @@ const scorePredictions = readJson(manifestFile(manifest, "scorePredictions"));
 const golden = readJson(contract.teamBuilderGoldenPath);
 const pageText = `${fs.readFileSync(projectPath("index.html"), "utf8")}\n${fs.readFileSync(projectPath("script.js"), "utf8")}`;
 const authorityFixtures = authority.fixtures || [];
-const authorityTeams = [...new Set(authorityFixtures.flatMap((fixture) => [
-  fixture.team_a?.team,
-  fixture.team_b?.team
-]).filter(Boolean))];
+const authorityTeams = getFixtureAuthorityEligibleTeams(authority);
 const contractFixtureText = JSON.stringify(contract.matchEnvironment?.fixtures || []);
 const authorityFixtureText = JSON.stringify(authorityFixtures);
 const scorePredictionText = JSON.stringify(scorePredictions.fixtureScorePredictions || []);

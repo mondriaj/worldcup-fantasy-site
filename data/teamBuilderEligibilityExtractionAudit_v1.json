@@ -1,0 +1,125 @@
+{
+  "schema_version": "team_builder_eligibility_extraction_audit_v1",
+  "generated_at": "2026-07-18T22:14:25.691Z",
+  "status": "green_pending_full_qa",
+  "scope": "refactor_only",
+  "line_counts": {
+    "script_js_before": 15305,
+    "script_js_after": 15273,
+    "script_js_expected_reduction": 32
+  },
+  "answers": {
+    "browser_team_builder_currently_decides_candidate_eligibility": "script.js:getActiveStageEligibleTeams, recordMatchesActiveStageEligibleTeam, playerHasActiveMatchdayProjection, and playerAllowedForActiveMatchday gate renderPlayerPicker, availableFillCandidates, optimizerPriceFloorsByPosition, optimizerCandidatePools, locked-player validation, and portfolio analytics.",
+    "validators_currently_decide_eligibility": "scripts/validateFinalRoundEligiblePlayersV1.mjs, scripts/validateTeamBuilderGoldenFinalRoundV1.mjs, and scripts/validateFinalRoundBrowserContentContractV1.mjs had fixture-authority team extraction/checks; the new scripts/validateTeamBuilderEligibilityHelpersV1.mjs validates shared helper behavior directly.",
+    "rules_identical": "Now yes for fixture-authority teams and active projection availability. Downstream risk, price, lock, trust, country, and optimizer filters remain separate and unchanged.",
+    "hardcoded_rules": "Production eligibility does not hardcode eligible teams. Validator/golden assertions intentionally freeze France, England, Spain, Argentina and Brazil/Colombia block examples.",
+    "historical_fallback": "Active Final Round Team Builder eligibility requires an active finalRound projection and admits no historical fallback candidates.",
+    "fantasy_points_proxy": "Eligibility does not use fantasy points as a proxy for starter status.",
+    "eliminated_blocking_source": "Eliminated teams are blocked by fixture authority eligibility; string blocklists remain validator assertions for known regression examples.",
+    "safe_to_extract_now": "Pure fixture-authority normalization, active projection availability, candidate eligibility decision/explanation, candidate filtering, and no-eliminated-candidate assertion helpers."
+  },
+  "safe_extractions_completed": [
+    {
+      "logic": "fixture-authority eligible team and fixture-team extraction",
+      "shared_module_lines": "scripts/lib/teamBuilderPublicModel.mjs:194-233",
+      "browser_wrapper_lines": "teamBuilderPublicHelpers.js:194-233",
+      "risk": "low",
+      "why_safe": "Reads fixture authority only and replaces duplicate team extraction in browser and validators."
+    },
+    {
+      "logic": "Final Round eligible team matching",
+      "shared_module_lines": "scripts/lib/teamBuilderPublicModel.mjs:235-249",
+      "browser_wrapper_lines": "teamBuilderPublicHelpers.js:235-249",
+      "script_call_sites": "script.js:391-405",
+      "risk": "low",
+      "why_safe": "Uses the same identity keys already used by the browser, with eligible teams still derived from fixture authority."
+    },
+    {
+      "logic": "active projection availability for Team Builder eligibility",
+      "shared_module_lines": "scripts/lib/teamBuilderPublicModel.mjs:251-270",
+      "browser_wrapper_lines": "teamBuilderPublicHelpers.js:251-270",
+      "script_call_sites": "script.js:408-413",
+      "risk": "low",
+      "why_safe": "Requires projection.available !== false and matchday/matchday_id equal the active stage."
+    },
+    {
+      "logic": "Final Round Team Builder candidate decision/filtering",
+      "shared_module_lines": "scripts/lib/teamBuilderPublicModel.mjs:272-344",
+      "browser_wrapper_lines": "teamBuilderPublicHelpers.js:272-344",
+      "script_call_sites": "script.js:416-425",
+      "risk": "low",
+      "why_safe": "Combines only fixture-authority team eligibility and active projection availability; scoring and optimizer ordering remain untouched."
+    }
+  ],
+  "classified_blocks": [
+    {
+      "block": "renderPlayerPicker candidate filter",
+      "location": "script.js:12329-12335",
+      "classification": "safe_to_centralize_now",
+      "action": "Still calls playerAllowedForActiveMatchday; that wrapper now delegates to shared helper."
+    },
+    {
+      "block": "availableFillCandidates",
+      "location": "script.js:12302-12316",
+      "classification": "safe_to_centralize_now",
+      "action": "Eligibility wrapper now delegates to shared helper; other filters unchanged."
+    },
+    {
+      "block": "optimizerPriceFloorsByPosition",
+      "location": "script.js:12600-12608",
+      "classification": "safe_to_centralize_now",
+      "action": "Eligibility wrapper now delegates to shared helper; price and risk filters unchanged."
+    },
+    {
+      "block": "optimizerCandidatePools",
+      "location": "script.js:12750-12757",
+      "classification": "safe_to_centralize_now",
+      "action": "Eligibility wrapper now delegates to shared helper; optimizer scoring and ranking unchanged."
+    },
+    {
+      "block": "Picks and Captain Watchlist pools",
+      "location": "script.js:1251-1271 and pick rendering sections",
+      "classification": "should_stay_in_browser_rendering_code",
+      "action": "No behavior change; active recommendation rows are separately validated."
+    },
+    {
+      "block": "Player Profile active-stage guard",
+      "location": "script.js:14080-14127",
+      "classification": "should_stay_in_browser_rendering_code",
+      "action": "No behavior change; active projection/recommendation source eligibility is validator-covered."
+    },
+    {
+      "block": "optimizer scoring, locks, substitutions, risk controls, trust filters, price filters",
+      "location": "script.js:12302-13100",
+      "classification": "risky_to_centralize_now",
+      "action": "Left unchanged."
+    }
+  ],
+  "candidate_counts": {
+    "shared_eligibility_pool": 104,
+    "existing_team_builder_qa_pool_after_downstream_filters": 101,
+    "downstream_filter_delta": 3,
+    "note": "The shared helper owns only fixture-authority and active-projection eligibility; risk/filter controls still reduce the browser/QA pool."
+  },
+  "guardrails": {
+    "model_outputs_changed": false,
+    "public_squad_changed": false,
+    "optimizer_behavior_changed": false,
+    "candidate_scoring_changed": false,
+    "artifact_loading_changed": false,
+    "public_copy_changed": false,
+    "private_refereeing_artifacts_staged": false
+  },
+  "rollback_plan": [
+    "Restore local fixture-authority and projection eligibility logic in script.js.",
+    "Remove the new eligibility helper exports from scripts/lib/teamBuilderPublicModel.mjs and teamBuilderPublicHelpers.js.",
+    "Undo validator imports that call shared eligibility helpers.",
+    "Remove scripts/validateTeamBuilderEligibilityHelpersV1.mjs from the active-stage manifest command and syntax checks.",
+    "Remove the generated eligibility QA, audit, and no-behavior-change proof files."
+  ],
+  "remaining_cleanup_items": [
+    "deeper optimizer-loop extraction",
+    "generated-artifact builder/browser unification",
+    "final code elegance audit"
+  ]
+}

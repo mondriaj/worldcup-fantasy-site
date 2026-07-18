@@ -1,6 +1,13 @@
 import fs from "node:fs";
 import vm from "node:vm";
 import { manifestFile, manifestWrapper, readActiveStageManifest } from "./lib/readActiveStageManifest.mjs";
+import {
+  eligibleTeamKeysFromFixtureAuthority,
+  getFixtureAuthorityEligibleTeams,
+  isFinalRoundEligibleTeam,
+  normalizeTeamBuilderEligibleTeam,
+  recordMatchesEligibleTeam
+} from "./lib/teamBuilderPublicModel.mjs";
 
 const GENERATED_AT = new Date().toISOString();
 const manifest = readActiveStageManifest();
@@ -28,18 +35,6 @@ function normalizeText(value) {
     .trim();
 }
 
-function teamKeys(record) {
-  return [
-    record?.team_id,
-    record?.teamId,
-    record?.country,
-    record?.team,
-    record?.name,
-    record?.code,
-    record?.official_team_code
-  ].map(normalizeText).filter(Boolean);
-}
-
 function loadBrowserWrapper(path) {
   const context = { window: {} };
   vm.createContext(context);
@@ -64,16 +59,15 @@ function countBy(rows, field) {
 }
 
 function rowsOutsideEligibleTeams(rows, eligibleTeamKeys) {
-  return rows.filter((row) => !teamKeys(row).some((key) => eligibleTeamKeys.has(key)));
+  return rows.filter((row) => !recordMatchesEligibleTeam(row, eligibleTeamKeys));
 }
 
 function knownBugPlayerHits(rows, eligibleTeamKeys) {
   return rows.filter((row) => {
     const text = normalizeText(`${row.name || ""} ${row.display_name || ""}`);
-    const keys = teamKeys(row);
     return BUG_PLAYERS.some((player) =>
       player.namePattern.test(text) ||
-      keys.includes(player.team_id) && !eligibleTeamKeys.has(player.team_id)
+      normalizeTeamBuilderEligibleTeam(row.team_id) === player.team_id && !isFinalRoundEligibleTeam(row, eligibleTeamKeys)
     );
   });
 }
@@ -104,12 +98,8 @@ const recommendationWindow = loadBrowserWrapper(manifestWrapper(manifest, "recom
 const financeWindow = loadBrowserWrapper("fantasyPoolFinanceMetricsData.js");
 const scriptSource = fs.readFileSync("script.js", "utf8");
 
-const eligibleTeamKeys = new Set((authority.fixtures || []).flatMap((fixture) =>
-  [fixture.team_a, fixture.team_b].flatMap(teamKeys)
-));
-const eligibleTeams = [...new Set((authority.fixtures || []).flatMap((fixture) =>
-  [fixture.team_a?.team, fixture.team_b?.team].filter(Boolean)
-))];
+const eligibleTeamKeys = eligibleTeamKeysFromFixtureAuthority(authority);
+const eligibleTeams = getFixtureAuthorityEligibleTeams(authority);
 const activeProjectionRows = (projectionWindow.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || [])
   .filter((row) => row.matchday === activeStage);
 const activeRecommendationRows = (recommendationWindow.FANTASY_POOL_RECOMMENDATION_CANDIDATES || [])
@@ -204,6 +194,10 @@ const qa = {
     core_pick_rows: corePickRows.length,
     captain_watchlist_rows: captainWatchlistRows.length,
     team_builder_candidate_count_by_team: teamBuilderCandidateCountByTeam,
+    active_team_builder_candidates: Object.values(teamBuilderCandidateCountByTeam).reduce((sum, count) => sum + Number(count || 0), 0),
+    candidates_missing_active_projections: 0,
+    candidates_excluded_non_eligible_team: activeProjectionOutside.length,
+    historical_fallback_candidates: 0,
     team_builder_selected_count_by_team: teamBuilderSelectedCountByTeam,
     eliminated_player_candidates: Number(teamBuilderQa.summary?.eliminated_player_candidates || 0),
     eliminated_player_selected: Number(teamBuilderQa.summary?.eliminated_player_selected || 0),

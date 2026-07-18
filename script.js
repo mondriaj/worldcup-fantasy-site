@@ -388,45 +388,12 @@ let activeQuickPickModelKey = "expected";
 let activeQuickPickPosition = "All";
 const browserSquadStorageKey = "worldCupFantasyHelper.teamExport.v1";
 
-function teamEligibilityKeys(record) {
-  return [
-    record?.team_id,
-    record?.teamId,
-    record?.country,
-    record?.team,
-    record?.name,
-    record?.code,
-    record?.official_team_code,
-    record?.preview_candidate?.team_id,
-    record?.preview_candidate?.country,
-    record?.preview_candidate?.team,
-    record?.preview_candidate?.code
-  ]
-    .map(normalizeText)
-    .filter(Boolean);
-}
-
 function getActiveStageEligibleTeams(matchdayId = activeMatchdayId) {
   if (matchdayId !== "finalRound") {
     return null;
   }
 
-  if (typeof TEAM_BUILDER_PUBLIC_HELPERS.eligibleTeamKeysFromFixtureAuthority === "function") {
-    return TEAM_BUILDER_PUBLIC_HELPERS.eligibleTeamKeysFromFixtureAuthority(ACTIVE_DATA.finalRoundFixtureAuthority);
-  }
-
-  const fixtures = Array.isArray(ACTIVE_DATA.finalRoundFixtureAuthority?.fixtures)
-    ? ACTIVE_DATA.finalRoundFixtureAuthority.fixtures
-    : [];
-  const keys = new Set();
-
-  fixtures.forEach((fixture) => {
-    [fixture.team_a, fixture.team_b].filter(Boolean).forEach((team) => {
-      teamEligibilityKeys(team).forEach((key) => keys.add(key));
-    });
-  });
-
-  return keys;
+  return TEAM_BUILDER_PUBLIC_HELPERS.eligibleTeamKeysFromFixtureAuthority(ACTIVE_DATA.finalRoundFixtureAuthority);
 }
 
 function recordMatchesActiveStageEligibleTeam(record, matchdayId = activeMatchdayId) {
@@ -435,9 +402,7 @@ function recordMatchesActiveStageEligibleTeam(record, matchdayId = activeMatchda
     return true;
   }
 
-  return typeof TEAM_BUILDER_PUBLIC_HELPERS.recordMatchesEligibleTeam === "function"
-    ? TEAM_BUILDER_PUBLIC_HELPERS.recordMatchesEligibleTeam(record, eligibleTeams)
-    : teamEligibilityKeys(record).some((key) => eligibleTeams.has(key));
+  return TEAM_BUILDER_PUBLIC_HELPERS.isFinalRoundEligibleTeam(record, eligibleTeams);
 }
 
 function playerHasActiveMatchdayProjection(player, matchdayId = activeMatchdayId) {
@@ -445,7 +410,7 @@ function playerHasActiveMatchdayProjection(player, matchdayId = activeMatchdayId
     return true;
   }
 
-  return projectionIsAvailable(projectionForPlayerMatchday(player, matchdayId));
+  return TEAM_BUILDER_PUBLIC_HELPERS.hasActiveTeamBuilderProjection(player, matchdayId, projectionForPlayerMatchday);
 }
 
 function playerAllowedForActiveMatchday(player, matchdayId = activeMatchdayId) {
@@ -453,8 +418,11 @@ function playerAllowedForActiveMatchday(player, matchdayId = activeMatchdayId) {
     return true;
   }
 
-  return recordMatchesActiveStageEligibleTeam(player, matchdayId) &&
-    playerHasActiveMatchdayProjection(player, matchdayId);
+  return TEAM_BUILDER_PUBLIC_HELPERS.isFinalRoundTeamBuilderCandidate(player, {
+    activeStage: matchdayId,
+    eligibleTeamKeys: getActiveStageEligibleTeams(matchdayId),
+    projectionResolver: projectionForPlayerMatchday
+  });
 }
 
 function finalRoundPlayerStrategicMetrics(player) {
