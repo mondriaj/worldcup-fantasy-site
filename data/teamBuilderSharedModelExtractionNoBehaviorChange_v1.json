@@ -1,0 +1,92 @@
+{
+  "schema_version": "team_builder_shared_model_extraction_no_behavior_change_v1",
+  "generated_at": "2026-07-18T21:53:39.873Z",
+  "status": "pass",
+  "public_behavior_unchanged": true,
+  "model_outputs_unchanged": true,
+  "optimizer_behavior_changed": false,
+  "artifact_loading_changed": false,
+  "candidate_eligibility_changed": false,
+  "public_copy_changed": false,
+  "public_refereeing_conspiracy_exposure": false,
+  "active_qa_runner": {
+    "status": "pass",
+    "checks_run": 46,
+    "passed": 46,
+    "failed": 0,
+    "previous_checks_run": 44
+  },
+  "shared_helper_validator": {
+    "status": "pass",
+    "checks_run": 16,
+    "output_json": "data/teamBuilderSharedModelHelpersQa_v1.json",
+    "output_report": "data/teamBuilderSharedModelHelpersQaReport_v1.md"
+  },
+  "golden_validator": {
+    "status": "pass",
+    "protected_values": {
+      "budget": "94.8 / 105",
+      "captain": "Mikel Oyarzabal",
+      "viceCaptain": "Leandro Paredes",
+      "teamCounts": {
+        "Argentina": 8,
+        "Spain": 5,
+        "France": 1,
+        "England": 1
+      },
+      "fixtureCounts": {
+        "final": 13,
+        "third_place": 2
+      },
+      "rawProjectedPoints": 59.552,
+      "optionalityScore": 5.291,
+      "compositeScore": 1014.93,
+      "selectedSquad": [
+        "Emiliano Martínez",
+        "Unai Simón",
+        "Nicolás Tagliafico",
+        "Nahuel Molina",
+        "Lisandro Martínez",
+        "Cristian Romero",
+        "Pau Cubarsí",
+        "Leandro Paredes",
+        "Alexis Mac Allister",
+        "Enzo Fernández",
+        "Álex Baena",
+        "Fabián Ruiz",
+        "Kylian Mbappé",
+        "Harry Kane",
+        "Mikel Oyarzabal"
+      ]
+    }
+  },
+  "browser_qa": {
+    "local_team_builder_browser_equivalence": "pass",
+    "local_public_preview_browser_qa": "pass",
+    "console_errors": 0,
+    "blocking_failed_requests": 0
+  },
+  "syntax_checks": {
+    "requested_files": "pass"
+  },
+  "search_checks": {
+    "old_globals_legacy_paths_public_files": "pass_zero_hits",
+    "active_eliminated_player_leakage": "pass_historical_hits_allowed",
+    "public_refereeing_conspiracy_leakage": "pass_manifest_guardrail_hits_only"
+  },
+  "changed_public_files": [
+    "script.js",
+    "teamBuilderPublicHelpers.js"
+  ],
+  "unchanged_model_output_paths": [
+    "data/teamBuilderFinalRoundArtifact_v1.json",
+    "teamBuilderFinalRoundArtifactData.js",
+    "fantasyPoolRecommendationsData.js",
+    "fantasyPoolMatchdayProjectionsData.js",
+    "fantasyPoolScorePredictionsData.js"
+  ],
+  "line_counts": {
+    "script_js_before": 15307,
+    "script_js_after": 15305
+  }
+}

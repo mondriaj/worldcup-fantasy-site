@@ -1,0 +1,121 @@
+{
+  "schema_version": "team_builder_shared_model_extraction_audit_v1",
+  "generated_at": "2026-07-18T21:50:15.683Z",
+  "status": "green_pending_full_qa",
+  "scope": "refactor_only",
+  "line_counts": {
+    "script_js_before": 15307,
+    "script_js_after": 15305,
+    "script_js_expected_reduction": 2
+  },
+  "safe_extractions_completed": [
+    {
+      "logic": "objective display extraction for artifact-loaded Team Builder status",
+      "source_before": "script.js:13615-13624",
+      "source_after": "script.js:13615-13624",
+      "shared_module_lines": "scripts/lib/teamBuilderPublicModel.mjs:280-288",
+      "browser_wrapper_lines": "teamBuilderPublicHelpers.js:280-288",
+      "risk": "low",
+      "why_safe": "Reuses the existing display-number formatting and only moves raw projected, optionality, and composite summary formatting into a pure helper."
+    },
+    {
+      "logic": "selected squad, starter, and bench player name extraction",
+      "shared_module_lines": "scripts/lib/teamBuilderPublicModel.mjs:235-251",
+      "browser_wrapper_lines": "teamBuilderPublicHelpers.js:235-251",
+      "risk": "low",
+      "why_safe": "Reads arrays from the artifact without mutation, scoring, or candidate selection."
+    },
+    {
+      "logic": "budget summary calculation",
+      "shared_module_lines": "scripts/lib/teamBuilderPublicModel.mjs:253-263",
+      "browser_wrapper_lines": "teamBuilderPublicHelpers.js:253-263",
+      "risk": "low",
+      "why_safe": "Preserves the existing selected-squad price sum and display format."
+    },
+    {
+      "logic": "team and fixture count calculations",
+      "shared_module_lines": "scripts/lib/teamBuilderPublicModel.mjs:265-270",
+      "browser_wrapper_lines": "teamBuilderPublicHelpers.js:265-270",
+      "risk": "low",
+      "why_safe": "Counts from selectedSquad, matching the previous selectedSquadSummary behavior."
+    },
+    {
+      "logic": "captain and vice-captain summary extraction",
+      "shared_module_lines": "scripts/lib/teamBuilderPublicModel.mjs:273-277",
+      "browser_wrapper_lines": "teamBuilderPublicHelpers.js:273-277",
+      "risk": "low",
+      "why_safe": "Reads artifact captain fields and existing summary fallbacks only."
+    },
+    {
+      "logic": "artifact summary and golden comparison helper",
+      "shared_module_lines": "scripts/lib/teamBuilderPublicModel.mjs:309-358",
+      "browser_wrapper_lines": "teamBuilderPublicHelpers.js:309-358",
+      "risk": "low",
+      "why_safe": "Validation and comparison are deterministic, read-only, and covered by a new Node/browser wrapper validator."
+    }
+  ],
+  "classified_blocks": [
+    {
+      "block": "renderTeam generated-artifact status copy",
+      "location": "script.js:13615-13624",
+      "classification": "safe_to_extract_now",
+      "action": "Use getTeamBuilderObjectiveSummary for objective display support; keep DOM rendering in script.js."
+    },
+    {
+      "block": "countryCountsFromPlayers",
+      "location": "script.js:9608-9612",
+      "classification": "already_delegated",
+      "action": "No change; it already delegates count calculation to the public helper."
+    },
+    {
+      "block": "finalRoundTeamBuilderArtifact",
+      "location": "script.js:10156-10167",
+      "classification": "already_delegated",
+      "action": "No change; artifact validation already calls the shared helper."
+    },
+    {
+      "block": "generatedFinalRoundBalancedSquad",
+      "location": "script.js:10169-10212",
+      "classification": "risky_to_extract_now",
+      "action": "No change; it owns artifact selection and legacy fallback behavior."
+    },
+    {
+      "block": "Team Builder optimizer, lock handling, candidate filtering, and substitutions",
+      "location": "script.js:6320-10300",
+      "classification": "should_be_extracted_later_after_stronger_tests",
+      "action": "No change; this prompt forbids optimizer and eligibility behavior changes."
+    },
+    {
+      "block": "renderTeam, renderPortfolioAnalytics, renderSquadStrategyReport",
+      "location": "script.js:13200-14090",
+      "classification": "should_stay_in_dom_rendering_code",
+      "action": "No change except the pure objective summary call."
+    }
+  ],
+  "known_duplicate_logic": [
+    "displayNumber formatting mirrored between script.js and public helper files",
+    "selected-squad budget/count/captain/objective summaries needed by Node validators and browser wrapper",
+    "golden artifact comparison previously lived in validator-specific logic rather than a shared public model helper"
+  ],
+  "guardrails": {
+    "model_outputs_changed": false,
+    "public_squad_changed": false,
+    "optimizer_behavior_changed": false,
+    "candidate_eligibility_changed": false,
+    "artifact_loading_changed": false,
+    "public_copy_changed": false,
+    "private_refereeing_artifacts_staged": false
+  },
+  "rollback_plan": [
+    "Revert script.js to direct displayNumber calls in the generated-artifact status branch.",
+    "Remove the new helper exports from scripts/lib/teamBuilderPublicModel.mjs and teamBuilderPublicHelpers.js.",
+    "Remove scripts/validateTeamBuilderSharedModelHelpersV1.mjs from the active-stage manifest required command and syntax checks.",
+    "Delete the generated shared-helper QA files and audit/proof artifacts from the commit."
+  ],
+  "remaining_cleanup_items": [
+    "deeper optimizer-loop extraction",
+    "candidate eligibility shared model",
+    "generated-artifact builder/browser unification",
+    "final code elegance audit"
+  ]
+}

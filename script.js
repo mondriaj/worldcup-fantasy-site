@@ -13614,14 +13614,12 @@ function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built", optio
     const riskText = builderRiskControlsActive() ? ` Risk controls: ${builderRiskSettingsSummary()}.` : "";
     if (options.generatedArtifact) {
       const artifact = options.generatedArtifact;
-      const rawProjected = displayNumber(artifact.summary?.raw_projected_points);
-      const optionality = displayNumber(artifact.summary?.optionality_score);
-      const composite = displayNumber(artifact.summary?.composite_score);
+      const objective = TEAM_BUILDER_PUBLIC_HELPERS.getTeamBuilderObjectiveSummary(artifact);
       teamMessage.textContent = TEAM_BUILDER_PUBLIC_HELPERS.teamBuilderStatusMessage("artifact_loaded", {
         ...teamMessageContext,
-        rawProjected,
-        optionality,
-        composite,
+        rawProjected: objective.rawProjectedDisplay,
+        optionality: objective.optionalityDisplay,
+        composite: objective.compositeDisplay,
         riskText
       });
     } else {

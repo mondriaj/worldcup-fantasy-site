@@ -16,6 +16,7 @@ The site had the right Final Round behavior, but the active-stage contract was s
 - Active source data files and public wrappers
 - Final Round Team Builder artifact and validators
 - Final Round Team Builder golden-score fixture and validator
+- Final Round Team Builder shared-model helper validator
 - Final Round Team Builder public helper wrapper loaded before `script.js`
 - Required active validators and browser assertions
 - Final Round browser content contract for Picks, Captain Watchlist, Match Environment, Player Profile, and Team Builder golden visibility
@@ -34,13 +35,14 @@ The site had the right Final Round behavior, but the active-stage contract was s
 
 ## Future Stage Promotion
 
-Promotion should change the manifest first, then update builders, wrappers, and validators to match. A future stage is not ready until the manifest validator, active data-flow validator, browser content contract validator, Team Builder artifact validator, Team Builder golden-score validator, browser equivalence validator, and public browser QA all pass.
+Promotion should change the manifest first, then update builders, wrappers, and validators to match. A future stage is not ready until the manifest validator, active data-flow validator, browser content contract validator, Team Builder artifact validator, Team Builder golden-score validator, Team Builder shared-model helper validator, browser equivalence validator, and public browser QA all pass.
 
 ## Past Bug Prevention
 
 - Eliminated-player leakage: active eligible teams and blocked legacy globals are explicit.
 - Team Builder/browser mismatch: the active Team Builder artifact and browser equivalence validator are manifest-owned.
 - Accidental optimizer drift: the Team Builder golden-score validator freezes the public default squad, budget, captain/vice, counts, and objective scores.
+- Shared helper drift: the Team Builder shared-model helper validator freezes artifact summary helpers against the golden Final Round output and the browser wrapper.
 - Wrong budget: the active Team Builder artifact and validator are tied to `finalRound`.
 - Source fixture ID/bracket slot confusion: fixture authority is an explicit manifest-owned source.
 - Render-only browser QA gaps: the browser content contract requires exact Final Round Picks, Captain Watchlist, Match Environment, and Player Profile content.
@@ -54,6 +56,7 @@ Wired now:
 - `scripts/validateFinalRoundBrowserContentContractV1.mjs`
 - `scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs`
 - `scripts/validateTeamBuilderGoldenFinalRoundV1.mjs`
+- `scripts/validateTeamBuilderSharedModelHelpersV1.mjs`
 - `scripts/runPublicPreviewBrowserQa.mjs`
 
 Skipped for now:
@@ -64,7 +67,7 @@ Skipped for now:
 
 `scripts/runActiveStageQaFromManifestV1.mjs` reads the `qaRunner` section and provides the single active-stage gate for future cleanup prompts. The runner owns:
 
-- Required command checks for manifest validation, Final Round data validators, browser content contract validation, Team Builder artifact/browser equivalence, Team Builder golden-score validation, live score checks, bracket checks, public preview browser QA, and `git diff --check`.
+- Required command checks for manifest validation, Final Round data validators, browser content contract validation, Team Builder artifact/browser equivalence, Team Builder golden-score validation, Team Builder shared-model helper validation, live score checks, bracket checks, public preview browser QA, and `git diff --check`.
 - Syntax checks for active public app scripts, active public wrappers, the manifest validator, and the manifest helper.
 - Search checks for old globals/legacy paths, active eliminated-player leakage, and public refereeing/conspiracy leakage.
 - A local static server for browser QA checks that need a real URL.
@@ -73,7 +76,7 @@ The runner does not rebuild models, tune weights, change recommendations, change
 
 ## Team Builder Public Helpers
 
-`scripts/lib/teamBuilderPublicModel.mjs` and `teamBuilderPublicHelpers.js` hold the safe public Team Builder helper layer for artifact validation, fixture-authority eligible-team keys, count summaries, strategy display copy, objective summary labels, and artifact-backed explanation copy. The browser wrapper is loaded after `teamBuilderFinalRoundArtifactData.js` and before `script.js`, so the public default can keep rendering the generated artifact without turning the legacy app bundle into a module.
+`scripts/lib/teamBuilderPublicModel.mjs` and `teamBuilderPublicHelpers.js` hold the safe public Team Builder helper layer for artifact validation, fixture-authority eligible-team keys, selected-squad summaries, budget/team/fixture/captain/objective helpers, golden artifact comparison, count summaries, strategy display copy, objective summary labels, and artifact-backed explanation copy. The browser wrapper is loaded after `teamBuilderFinalRoundArtifactData.js` and before `script.js`, so the public default can keep rendering the generated artifact without turning the legacy app bundle into a module.
 
 ## Public Payload Contract
 

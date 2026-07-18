@@ -132,8 +132,20 @@ function displayNumber(value) {
   return number.toFixed(1).replace(".0", "");
 }
 
+export function formatTeamBuilderScoreNumber(value) {
+  return displayNumber(value);
+}
+
 export function budgetDisplay(used, limit) {
   return `${displayNumber(used)} / ${displayNumber(limit)}`;
+}
+
+export function normalizeTeamBuilderTeamName(value) {
+  return normalizeText(value);
+}
+
+export function normalizeTeamBuilderFixtureKey(value) {
+  return normalizeText(value || "unknown");
 }
 
 export function countSummaryText(counts = {}, labelForKey = (key) => key) {
@@ -220,20 +232,128 @@ export function countByFixture(rows = []) {
   return countByField(rows, "fixture_stage");
 }
 
-export function selectedSquadSummary(artifact) {
+export function getTeamBuilderSelectedPlayerNames(artifact) {
+  return (Array.isArray(artifact?.selectedSquad) ? artifact.selectedSquad : [])
+    .map((row) => row?.name)
+    .filter(Boolean);
+}
+
+export function getTeamBuilderStarterNames(artifact) {
+  return (Array.isArray(artifact?.starters) ? artifact.starters : [])
+    .map((row) => row?.name)
+    .filter(Boolean);
+}
+
+export function getTeamBuilderBenchNames(artifact) {
+  return (Array.isArray(artifact?.bench) ? artifact.bench : [])
+    .map((row) => row?.name)
+    .filter(Boolean);
+}
+
+export function getTeamBuilderBudgetSummary(artifact) {
   const selectedSquad = Array.isArray(artifact?.selectedSquad) ? artifact.selectedSquad : [];
-  const totalPrice = selectedSquad.reduce((sum, row) => sum + (Number(row?.price) || 0), 0);
+  const used = Number((selectedSquad.reduce((sum, row) => sum + (Number(row?.price) || 0), 0)).toFixed(1));
+  const limit = Number(artifact?.constraintsUsed?.initial_budget || artifact?.summary?.budget_limit || 0);
 
   return {
-    selectedPlayers: selectedSquad.map((row) => row.name).filter(Boolean),
-    selectedCountByTeam: countByTeam(selectedSquad),
-    selectedCountByFixture: countByFixture(selectedSquad),
-    totalPrice: Number(totalPrice.toFixed(1)),
+    used,
+    limit,
+    display: budgetDisplay(used, limit)
+  };
+}
+
+export function getTeamBuilderTeamCounts(artifact) {
+  return countByTeam(artifact?.selectedSquad || []);
+}
+
+export function getTeamBuilderFixtureCounts(artifact) {
+  return countByFixture(artifact?.selectedSquad || []);
+}
+
+export function getTeamBuilderCaptainSummary(artifact) {
+  return {
     captain: artifact?.captain?.name || artifact?.summary?.captain || null,
-    viceCaptain: artifact?.viceCaptain?.name || artifact?.summary?.viceCaptain || null,
+    viceCaptain: artifact?.viceCaptain?.name || artifact?.summary?.viceCaptain || null
+  };
+}
+
+export function getTeamBuilderObjectiveSummary(artifact) {
+  return {
     rawProjectedPoints: Number(artifact?.summary?.raw_projected_points || 0),
     optionalityScore: Number(artifact?.summary?.optionality_score || 0),
-    compositeScore: Number(artifact?.summary?.composite_score || 0)
+    compositeScore: Number(artifact?.summary?.composite_score || 0),
+    rawProjectedDisplay: displayNumber(artifact?.summary?.raw_projected_points),
+    optionalityDisplay: displayNumber(artifact?.summary?.optionality_score),
+    compositeDisplay: displayNumber(artifact?.summary?.composite_score)
+  };
+}
+
+export function selectedSquadSummary(artifact) {
+  const budget = getTeamBuilderBudgetSummary(artifact);
+  const captain = getTeamBuilderCaptainSummary(artifact);
+  const objective = getTeamBuilderObjectiveSummary(artifact);
+
+  return {
+    selectedPlayers: getTeamBuilderSelectedPlayerNames(artifact),
+    selectedCountByTeam: getTeamBuilderTeamCounts(artifact),
+    selectedCountByFixture: getTeamBuilderFixtureCounts(artifact),
+    totalPrice: budget.used,
+    captain: captain.captain,
+    viceCaptain: captain.viceCaptain,
+    rawProjectedPoints: objective.rawProjectedPoints,
+    optionalityScore: objective.optionalityScore,
+    compositeScore: objective.compositeScore
+  };
+}
+
+export function summarizeTeamBuilderArtifact(artifact) {
+  if (!isFinalRoundTeamBuilderArtifact(artifact)) {
+    throw new Error("Invalid Team Builder artifact: expected Final Round artifact with selectedSquad, starters, and bench arrays.");
+  }
+
+  return {
+    schemaVersion: artifact.schema_version,
+    modelVersion: artifact.modelVersion || artifact.model_version || null,
+    strategy: artifact.strategy || null,
+    budget: getTeamBuilderBudgetSummary(artifact),
+    teamCounts: getTeamBuilderTeamCounts(artifact),
+    fixtureCounts: getTeamBuilderFixtureCounts(artifact),
+    captain: getTeamBuilderCaptainSummary(artifact),
+    objective: getTeamBuilderObjectiveSummary(artifact),
+    selectedPlayerNames: getTeamBuilderSelectedPlayerNames(artifact),
+    starterNames: getTeamBuilderStarterNames(artifact),
+    benchNames: getTeamBuilderBenchNames(artifact)
+  };
+}
+
+export function compareTeamBuilderSummaryToGolden(summary, golden, tolerance = {}) {
+  const tolerances = {
+    rawProjectedPoints: 0.001,
+    optionalityScore: 0.001,
+    compositeScore: 0.01,
+    ...tolerance
+  };
+  const sameJson = (left, right) => JSON.stringify(left || {}) === JSON.stringify(right || {});
+  const sameArray = (left, right) => JSON.stringify(left || []) === JSON.stringify(right || []);
+  const numericMatch = (left, right, allowed) => Math.abs(Number(left) - Number(right)) <= allowed;
+  const checks = {
+    budget_used_matches: numericMatch(summary?.budget?.used, golden?.budgetUsed, 0.001),
+    budget_limit_matches: Number(summary?.budget?.limit) === Number(golden?.budgetLimit),
+    team_counts_match: sameJson(summary?.teamCounts, golden?.teamCounts),
+    fixture_counts_match: sameJson(summary?.fixtureCounts, golden?.fixtureCounts),
+    captain_matches: summary?.captain?.captain === golden?.captain,
+    vice_captain_matches: summary?.captain?.viceCaptain === golden?.viceCaptain,
+    raw_projected_points_match: numericMatch(summary?.objective?.rawProjectedPoints, golden?.rawProjectedPoints, tolerances.rawProjectedPoints),
+    optionality_score_matches: numericMatch(summary?.objective?.optionalityScore, golden?.optionalityScore, tolerances.optionalityScore),
+    composite_score_matches: numericMatch(summary?.objective?.compositeScore, golden?.compositeScore, tolerances.compositeScore),
+    selected_player_names_match: sameArray(summary?.selectedPlayerNames, (golden?.selectedPlayers || []).map((row) => row.name)),
+    starter_names_match: sameArray(summary?.starterNames, (golden?.starters || []).map((row) => row.name)),
+    bench_names_match: sameArray(summary?.benchNames, (golden?.bench || []).map((row) => row.name))
+  };
+
+  return {
+    status: Object.values(checks).every(Boolean) ? "pass" : "fail",
+    checks
   };
 }
 
