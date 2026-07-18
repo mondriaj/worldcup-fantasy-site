@@ -1,0 +1,83 @@
+{
+  "schema_version": "worktree_cleanup_no_behavior_change_v1",
+  "generated_at": "2026-07-18T19:35:00Z",
+  "status": "pass",
+  "cleanup_status": "green_scoped_cleanup_completed",
+  "public_behavior_unchanged": true,
+  "cleanup_performed": true,
+  "dirty_counts": {
+    "before_cleanup_status_entries": 85,
+    "before_cleanup_tracked_dirty": 54,
+    "before_cleanup_untracked_status_entries": 31,
+    "after_cleanup_before_reports_status_entries": 35,
+    "after_cleanup_before_reports_tracked_dirty": 3,
+    "after_cleanup_before_reports_untracked_status_entries": 32,
+    "after_cleanup_before_reports_untracked_files": 36
+  },
+  "files_reverted_count": 51,
+  "files_removed_count": 0,
+  "removed_untracked_generated_clutter": [],
+  "left_untouched": {
+    "gitignore": ".gitignore",
+    "manual_review_tracked_files": [
+      "data/activeStageQaRunReport_v1.md",
+      "data/publicPreviewBrowserQaReport_v1.md"
+    ],
+    "private_or_research_status_entries": 31,
+    "analysis_untouched": true,
+    "refereeing_conspiracy_files_untouched": true,
+    "research_referee_files_untouched": true
+  },
+  "qa_results": {
+    "active_stage_qa_runner": {
+      "status": "pass",
+      "checks_run": 44,
+      "passed": 44,
+      "failed": 0
+    },
+    "team_builder_golden_final_round": {
+      "status": "pass",
+      "budget": "94.8 / 105",
+      "captain": "Mikel Oyarzabal",
+      "vice_captain": "Leandro Paredes",
+      "team_counts": {
+        "Argentina": 8,
+        "Spain": 5,
+        "France": 1,
+        "England": 1
+      },
+      "fixture_counts": {
+        "final": 13,
+        "third_place": 2
+      },
+      "raw_projected_points": 59.552,
+      "optionality_score": 5.291,
+      "composite_score": 1014.93
+    },
+    "browser_equivalence": {
+      "status": "pass",
+      "public_preview_base_url": "http://127.0.0.1:8776",
+      "output_redirected_to_tmp": true
+    },
+    "public_preview_browser_qa": {
+      "status": "pass",
+      "index_viewports_tested": 5,
+      "world_cup_viewports_tested": 5,
+      "console_errors": 0,
+      "console_warnings": 0,
+      "blocking_failed_requests": 0,
+      "output_redirected_to_tmp": true
+    },
+    "git_diff_check": "pass"
+  },
+  "no_behavior_checks": {
+    "active_eligible_teams_unchanged": true,
+    "public_default_unchanged": true,
+    "no_eliminated_active_player_leakage": true,
+    "no_public_refereeing_conspiracy_exposure": true,
+    "model_output_values_unchanged": true,
+    "public_wrappers_clean_or_reverted_to_committed_state": true,
+    "active_public_files_dirty_after_cleanup": []
+  },
+  "commit_recommendation": "commit_cleanup_reports_only"
+}
