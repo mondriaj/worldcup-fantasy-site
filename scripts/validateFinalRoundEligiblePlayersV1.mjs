@@ -1,7 +1,10 @@
 import fs from "node:fs";
 import vm from "node:vm";
+import { manifestFile, manifestWrapper, readActiveStageManifest } from "./lib/readActiveStageManifest.mjs";
 
 const GENERATED_AT = new Date().toISOString();
+const manifest = readActiveStageManifest();
+const activeStage = manifest.activeStage;
 const BUG_PLAYERS = [
   { id: "lerma", label: "Lerma", team_id: "colombia", namePattern: /\blerma\b/i },
   { id: "raphinha", label: "Raphinha", team_id: "brazil", namePattern: /\braphinha\b|\braphael dias belloli\b/i },
@@ -92,12 +95,12 @@ function check(id, passed, details = {}) {
   return { id, status: passed ? "pass" : "fail", details };
 }
 
-const authority = readJson("data/finalRoundFixtureAuthority_v1.json");
-const teamBuilderQa = readJson("data/teamBuilderQa_finalRound_v1.json");
-const projectionSource = readJson("data/fantasyPoolMatchdayProjections_finalRound_v1.json");
-const recommendationSource = readJson("data/fantasyPoolRecommendations_finalRound_v1.json");
-const projectionWindow = loadBrowserWrapper("fantasyPoolMatchdayProjectionsData.js");
-const recommendationWindow = loadBrowserWrapper("fantasyPoolRecommendationsData.js");
+const authority = readJson(manifestFile(manifest, "finalRoundFixtureAuthority"));
+const teamBuilderQa = readJson(manifestFile(manifest, "teamBuilderQa"));
+const projectionSource = readJson(manifestFile(manifest, "matchdayProjections"));
+const recommendationSource = readJson(manifestFile(manifest, "recommendations"));
+const projectionWindow = loadBrowserWrapper(manifestWrapper(manifest, "matchdayProjections"));
+const recommendationWindow = loadBrowserWrapper(manifestWrapper(manifest, "recommendations"));
 const financeWindow = loadBrowserWrapper("fantasyPoolFinanceMetricsData.js");
 const scriptSource = fs.readFileSync("script.js", "utf8");
 
@@ -108,9 +111,9 @@ const eligibleTeams = [...new Set((authority.fixtures || []).flatMap((fixture) =
   [fixture.team_a?.team, fixture.team_b?.team].filter(Boolean)
 ))];
 const activeProjectionRows = (projectionWindow.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || [])
-  .filter((row) => row.matchday === "finalRound");
+  .filter((row) => row.matchday === activeStage);
 const activeRecommendationRows = (recommendationWindow.FANTASY_POOL_RECOMMENDATION_CANDIDATES || [])
-  .filter((row) => row.matchday === "finalRound");
+  .filter((row) => row.matchday === activeStage);
 const corePickRows = activeRecommendationRows.filter((row) => row.mode === "balanced");
 const captainWatchlistRows = activeRecommendationRows.filter((row) => row.mode === "captain");
 const teamBuilderSelectedRows = teamBuilderQa.balancedSquad || [];
@@ -132,10 +135,10 @@ const sourceProjectionBugHits = knownBugPlayerHits(projectionSource.playerMatchd
 const sourceRecommendationBugHits = knownBugPlayerHits(recommendationSource.recommendationCandidates || [], eligibleTeamKeys);
 
 const historicalProjectionBugHits = (projectionWindow.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || [])
-  .filter((row) => row.matchday !== "finalRound")
+  .filter((row) => row.matchday !== activeStage)
   .filter((row) => knownBugPlayerHits([row], eligibleTeamKeys).length);
 const historicalRecommendationBugHits = (recommendationWindow.FANTASY_POOL_RECOMMENDATION_CANDIDATES || [])
-  .filter((row) => row.matchday !== "finalRound")
+  .filter((row) => row.matchday !== activeStage)
   .filter((row) => knownBugPlayerHits([row], eligibleTeamKeys).length);
 const financeBugHits = knownBugPlayerHits(financeWindow.FANTASY_POOL_PLAYER_FINANCE_METRICS || [], eligibleTeamKeys);
 

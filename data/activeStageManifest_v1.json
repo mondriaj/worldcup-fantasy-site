@@ -1,0 +1,151 @@
+{
+  "schema_version": "active_stage_manifest_v1",
+  "generated_at": "2026-07-18T12:23:36.151Z",
+  "activeStage": "finalRound",
+  "publicVersion": "20260718-final-round",
+  "cacheBust": {
+    "default": "20260718-final-round",
+    "overrides": {
+      "teamBuilderFinalRoundArtifactData.js": "20260718-builder-artifact-equivalence",
+      "script.js": "20260718-builder-artifact-equivalence"
+    }
+  },
+  "pages": [
+    "index.html",
+    "world-cup.html"
+  ],
+  "files": {
+    "rules": "fantasyRules.json",
+    "officialFantasyPlayers": "data/officialFantasyPlayers_v0.json",
+    "officialFantasyStatus": "data/officialFantasyReadiness_finalRound_v1.json",
+    "finalRoundFixtureAuthority": "data/finalRoundFixtureAuthority_v1.json",
+    "matchdayProjections": "data/fantasyPoolMatchdayProjections_finalRound_v1.json",
+    "recommendations": "data/fantasyPoolRecommendations_finalRound_v1.json",
+    "scorePredictions": "data/scorePredictions_fantasyPool_finalRound_v1.json",
+    "teamBuilderArtifact": "data/teamBuilderFinalRoundArtifact_v1.json",
+    "teamBuilderQa": "data/teamBuilderQa_finalRound_v1.json",
+    "liveMatchdayStatus": "data/liveMatchdayStatus_v1.json",
+    "livePlayerStatus": "data/livePlayerStatus_v1.json",
+    "knockoutBracketPrediction": "data/knockoutBracketPrediction_v1.json",
+    "knockoutScorePredictor": "data/knockoutScorePredictor_v1.json"
+  },
+  "wrappers": {
+    "players": "playersData.js",
+    "rules": "fantasyRulesData.js",
+    "officialFantasyStatus": "fantasyPoolOfficialDataStatusData.js",
+    "finalRoundFixtureAuthority": "finalRoundFixtureAuthorityData.js",
+    "matchdayProjections": "fantasyPoolMatchdayProjectionsData.js",
+    "recommendations": "fantasyPoolRecommendationsData.js",
+    "scorePredictions": "fantasyPoolScorePredictionsData.js",
+    "teamBuilderArtifact": "teamBuilderFinalRoundArtifactData.js",
+    "liveMatchdayStatus": "liveMatchdayStatusData.js",
+    "livePlayerStatus": "livePlayerStatusData.js",
+    "knockoutBracketPrediction": "knockoutBracketPredictionData.js",
+    "r16FixtureAuthority": "r16FixtureAuthorityData.js",
+    "qfFixtureAuthority": "qfFixtureAuthorityData.js",
+    "sfFixtureAuthority": "sfFixtureAuthorityData.js",
+    "worldCupData": "worldCupData.js"
+  },
+  "publicWiring": {
+    "pages": {
+      "index.html": {
+        "scripts": [
+          "playersData.js",
+          "fantasyRulesData.js",
+          "fantasyPoolRecommendationsData.js",
+          "fantasyPoolMatchdayProjectionsData.js",
+          "fantasyPoolFinanceMetricsData.js",
+          "fantasyPoolScorePredictionsData.js",
+          "knockoutBracketPredictionData.js",
+          "fantasyPoolOfficialDataStatusData.js",
+          "liveMatchdayStatusData.js",
+          "livePlayerStatusData.js",
+          "r16FixtureAuthorityData.js",
+          "qfFixtureAuthorityData.js",
+          "sfFixtureAuthorityData.js",
+          "finalRoundFixtureAuthorityData.js",
+          "teamBuilderFinalRoundArtifactData.js",
+          "script.js"
+        ]
+      },
+      "world-cup.html": {
+        "scripts": [
+          "worldCupData.js",
+          "liveMatchdayStatusData.js",
+          "r32FixtureAuthorityData.js",
+          "r16FixtureAuthorityData.js",
+          "qfFixtureAuthorityData.js",
+          "sfFixtureAuthorityData.js",
+          "finalRoundFixtureAuthorityData.js",
+          "worldCupPage.js"
+        ]
+      }
+    }
+  },
+  "validators": {
+    "manifest": "scripts/validateActiveStageManifestV1.mjs",
+    "teamBuilderFinalRound": "scripts/validateTeamBuilderFinalRoundV1.mjs",
+    "teamBuilderBrowserEquivalence": "scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs",
+    "eligiblePlayers": "scripts/validateFinalRoundEligiblePlayersV1.mjs",
+    "fixtureExposureStrategy": "scripts/validateFinalRoundFixtureExposureStrategyV1.mjs",
+    "corePickLineupEvidence": "scripts/validateFinalRoundCorePickLineupEvidence.mjs",
+    "activeFantasyDataFlow": "scripts/validateActiveFantasyDataFlow.mjs",
+    "activeMd2DataFlowFallback": "scripts/validateActiveMd2DataFlow.mjs",
+    "liveFixtureMapping": "scripts/validateLiveFixtureMapping.mjs",
+    "matchEnvironmentLiveScores": "scripts/validateMatchEnvironmentLiveScores.mjs",
+    "worldCupFixturesPageLiveScores": "scripts/validateWorldCupFixturesPageLiveScores.mjs",
+    "finalRoundFixtureAuthority": "scripts/validateFinalRoundFixtureAuthorityV1.mjs",
+    "bracketPathIntegrity": "scripts/validateBracketPathIntegrityV1.mjs",
+    "knockoutBracketPrediction": "scripts/validateKnockoutBracketPredictionV1.mjs",
+    "publicPreviewBrowserQa": "scripts/runPublicPreviewBrowserQa.mjs"
+  },
+  "browserAssertions": [
+    "public default is Final Round",
+    "Team Builder artifact is loaded before script.js",
+    "visible Team Builder squad matches data/teamBuilderFinalRoundArtifact_v1.json",
+    "Team Builder budget is 105",
+    "active player surfaces contain no eliminated players",
+    "active eligible teams are France, England, Spain, Argentina from fixture authority",
+    "deprecated globals are absent",
+    "Refereeing Outcomes section is absent from public pages",
+    "no console or page errors"
+  ],
+  "knownCaveats": [
+    "Final squads are not independently source-backed.",
+    "Final XIs are not confirmed.",
+    "User locks, substitutions, boosters, captain state, and live official game state are not imported.",
+    "Third Place lineup uncertainty remains materially higher than the Final.",
+    "The site is planning help only and not official FIFA fantasy advice."
+  ],
+  "forbiddenPublicSurfaces": [
+    "Refereeing Outcomes",
+    "conspiracy",
+    "referee fairness",
+    "fouls received",
+    "yellow-card propensity",
+    "No unusual team-level pattern"
+  ],
+  "blockedGlobals": [
+    "FINANCE_PLAYERS_DATA",
+    "PLAYER_MATCHDAY_PROJECTIONS_DATA",
+    "MATCHDAY_MODEL_SUMMARY",
+    "FINANCE_MODEL_SUMMARY",
+    "SCORE_FIXTURE_PREDICTIONS_DATA",
+    "SCORE_PREDICTIONS_SUMMARY"
+  ],
+  "deprecatedFilesToBlock": [
+    "financePlayersData.js",
+    "matchdayProjectionsData.js",
+    "scorePredictionsData.js",
+    "data/scorePredictions_v0.json",
+    "data/scorePredictions_v1.json",
+    "data/scorePredictions_v2.json"
+  ],
+  "stagePromotionRules": [
+    "Change the manifest first, then update wrappers/build scripts against the manifest.",
+    "Do not promote a stage unless source artifacts, wrappers, validators, and browser assertions all pass.",
+    "Keep public default Team Builder artifact-backed for the active stage.",
+    "Do not treat source fixture IDs as bracket slots.",
+    "Keep historical stage data available only through explicit historical views."
+  ]
+}

@@ -1,9 +1,13 @@
 import fs from "fs";
 import { createRequire } from "module";
+import { manifestBlockedGlobals, manifestFile, readActiveStageManifest } from "./lib/readActiveStageManifest.mjs";
 
 const require = createRequire(import.meta.url);
 const { chromium } = require("playwright");
 
+const manifest = readActiveStageManifest();
+const activeStage = manifest.activeStage;
+const oldGlobalNames = manifestBlockedGlobals(manifest);
 const baseUrl = process.env.PUBLIC_PREVIEW_BASE_URL || "http://127.0.0.1:8772";
 const outputPath = process.env.BUILDER_EQUIVALENCE_QA_OUTPUT || "data/finalRoundBuilderBrowserEquivalenceQa_v1.json";
 const reportPath = process.env.BUILDER_EQUIVALENCE_QA_REPORT || "data/finalRoundBuilderBrowserEquivalenceQaReport_v1.md";
@@ -88,7 +92,7 @@ async function browserSnapshot() {
 
   await page.goto(`${baseUrl}/index.html`, { waitUntil: "load", timeout: 120000 });
   await page.waitForSelector("#build-team-btn-top", { timeout: 60000 });
-  await page.evaluate(() => {
+  await page.evaluate((activeStage) => {
     const setSelect = (selector, wantedValue) => {
       const select = document.querySelector(selector);
       if (!select) return;
@@ -105,7 +109,7 @@ async function browserSnapshot() {
       input.dispatchEvent(new Event("change", { bubbles: true }));
     };
 
-    setSelect("#builder-matchday-select", "finalRound");
+    setSelect("#builder-matchday-select", activeStage);
     setSelect("#measure-select", "balancedSquad");
     setSelect("#tactic-select", "4-3-3");
     setSelect("#country-filter", "All");
@@ -115,7 +119,7 @@ async function browserSnapshot() {
     clearInput("#min-minutes-filter");
     document.querySelector("#clear-locked-btn")?.click();
     document.querySelector("#build-team-btn-top")?.click();
-  });
+  }, activeStage);
   await page.waitForFunction(() => {
     const starters = document.querySelectorAll("#team-players .player-card:not(.player-card--placeholder)").length;
     const bench = document.querySelectorAll("#bench-players .bench-card:not(.bench-card--placeholder), #bench-players .player-card").length;
@@ -129,7 +133,7 @@ async function browserSnapshot() {
     return output.includes('"schema_version"') && output.includes('"team-export-v1"');
   }, null, { timeout: 60000 });
 
-  const snapshot = await page.evaluate((buildMessage) => {
+  const snapshot = await page.evaluate(({ buildMessage, activeStage, oldGlobalNames }) => {
     const normalizeText = (value) => String(value || "")
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
@@ -154,7 +158,7 @@ async function browserSnapshot() {
       .flatMap((fixture) => [fixture.team_a?.team_id, fixture.team_b?.team_id])
       .filter(Boolean));
     const finalRoundCandidateRows = projectionRows.filter((row) =>
-      row.matchday === "finalRound" &&
+      row.matchday === activeStage &&
       row.selectable_status === "playing" &&
       !row.thin_profile &&
       eligibleTeamIds.has(row.team_id)
@@ -176,23 +180,16 @@ async function browserSnapshot() {
         counts[row.country] = (counts[row.country] || 0) + 1;
         return counts;
       }, {}),
-      oldGlobalsPresent: [
-        "FINANCE_PLAYERS_DATA",
-        "PLAYER_MATCHDAY_PROJECTIONS_DATA",
-        "MATCHDAY_MODEL_SUMMARY",
-        "FINANCE_MODEL_SUMMARY",
-        "SCORE_FIXTURE_PREDICTIONS_DATA",
-        "SCORE_PREDICTIONS_SUMMARY"
-      ].filter((name) => window[name] !== undefined)
+      oldGlobalsPresent: oldGlobalNames.filter((name) => window[name] !== undefined)
     };
-  }, buildMessage);
+  }, { buildMessage, activeStage, oldGlobalNames });
 
   await browser.close();
   return { ...snapshot, consoleErrors, pageErrors, executablePath };
 }
 
-const generatedQa = readJson("data/teamBuilderQa_finalRound_v1.json");
-const artifact = readJson("data/teamBuilderFinalRoundArtifact_v1.json");
+const generatedQa = readJson(manifestFile(manifest, "teamBuilderQa"));
+const artifact = readJson(manifestFile(manifest, "teamBuilderArtifact"));
 const browser = await browserSnapshot();
 const artifactSelectedNames = nameSet(artifact.selectedSquad || []);
 const browserSelectedNames = nameSet(browser.selected || []);

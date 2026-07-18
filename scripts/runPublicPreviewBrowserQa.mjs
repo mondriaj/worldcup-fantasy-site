@@ -1,14 +1,20 @@
 import fs from "fs";
 import { createRequire } from "module";
+import {
+  manifestBlockedGlobals,
+  manifestPageScripts,
+  readActiveStageManifest
+} from "./lib/readActiveStageManifest.mjs";
 
 const require = createRequire(import.meta.url);
 const { chromium } = require("playwright");
 
+const manifest = readActiveStageManifest();
 const baseUrl = process.env.PUBLIC_PREVIEW_BASE_URL || "http://127.0.0.1:8766";
 const outputPath = process.env.PUBLIC_PREVIEW_QA_OUTPUT || "/private/tmp/public_preview_browser_qa_result.json";
 const reportPath = process.env.PUBLIC_PREVIEW_QA_REPORT || "data/publicPreviewBrowserQaReport_v1.md";
 const screenshotDir = process.env.PUBLIC_PREVIEW_QA_SCREENSHOT_DIR || "/private/tmp/public_preview_browser_qa_screenshots";
-const activePublicMatchdayId = "finalRound";
+const activePublicMatchdayId = manifest.activeStage;
 const executableCandidates = [
   process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE,
   "/Users/jordimondria/Library/Caches/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-mac-arm64/chrome-headless-shell",
@@ -16,32 +22,8 @@ const executableCandidates = [
 ].filter(Boolean);
 
 const viewports = [360, 390, 768, 1024, 1440].map((width) => ({ width, height: width < 768 ? 900 : 1000 }));
-const currentDataScripts = [
-  "playersData.js",
-  "fantasyRulesData.js",
-  "fantasyPoolRecommendationsData.js",
-  "fantasyPoolMatchdayProjectionsData.js",
-  "fantasyPoolFinanceMetricsData.js",
-  "fantasyPoolScorePredictionsData.js",
-  "knockoutBracketPredictionData.js",
-  "fantasyPoolOfficialDataStatusData.js",
-  "liveMatchdayStatusData.js",
-  "livePlayerStatusData.js",
-  "r16FixtureAuthorityData.js",
-  "qfFixtureAuthorityData.js",
-  "sfFixtureAuthorityData.js",
-  "finalRoundFixtureAuthorityData.js",
-  "teamBuilderFinalRoundArtifactData.js",
-  "script.js"
-];
-const oldGlobalNames = [
-  "FINANCE_PLAYERS_DATA",
-  "PLAYER_MATCHDAY_PROJECTIONS_DATA",
-  "MATCHDAY_MODEL_SUMMARY",
-  "FINANCE_MODEL_SUMMARY",
-  "SCORE_FIXTURE_PREDICTIONS_DATA",
-  "SCORE_PREDICTIONS_SUMMARY"
-];
+const currentDataScripts = manifestPageScripts(manifest, "index.html");
+const oldGlobalNames = manifestBlockedGlobals(manifest);
 const activeGlobalChecks = {
   PLAYERS_DATA: (value) => Array.isArray(value) || Array.isArray(value?.players),
   FANTASY_RULES_DATA: (value) => Boolean(value && Object.keys(value).length),

@@ -1,0 +1,417 @@
+{
+  "schema_version": "active_stage_manifest_qa_v1",
+  "generated_at": "2026-07-18T12:26:49.268Z",
+  "status": "pass",
+  "manifest": "data/activeStageManifest_v1.json",
+  "activeStage": "finalRound",
+  "publicVersion": "20260718-final-round",
+  "pages": [
+    "index.html",
+    "world-cup.html"
+  ],
+  "sourceFiles": [
+    "fantasyRules.json",
+    "data/officialFantasyPlayers_v0.json",
+    "data/officialFantasyReadiness_finalRound_v1.json",
+    "data/finalRoundFixtureAuthority_v1.json",
+    "data/fantasyPoolMatchdayProjections_finalRound_v1.json",
+    "data/fantasyPoolRecommendations_finalRound_v1.json",
+    "data/scorePredictions_fantasyPool_finalRound_v1.json",
+    "data/teamBuilderFinalRoundArtifact_v1.json",
+    "data/teamBuilderQa_finalRound_v1.json",
+    "data/liveMatchdayStatus_v1.json",
+    "data/livePlayerStatus_v1.json",
+    "data/knockoutBracketPrediction_v1.json",
+    "data/knockoutScorePredictor_v1.json"
+  ],
+  "publicWrappers": [
+    "playersData.js",
+    "fantasyRulesData.js",
+    "fantasyPoolOfficialDataStatusData.js",
+    "finalRoundFixtureAuthorityData.js",
+    "fantasyPoolMatchdayProjectionsData.js",
+    "fantasyPoolRecommendationsData.js",
+    "fantasyPoolScorePredictionsData.js",
+    "teamBuilderFinalRoundArtifactData.js",
+    "liveMatchdayStatusData.js",
+    "livePlayerStatusData.js",
+    "knockoutBracketPredictionData.js",
+    "r16FixtureAuthorityData.js",
+    "qfFixtureAuthorityData.js",
+    "sfFixtureAuthorityData.js",
+    "worldCupData.js"
+  ],
+  "validators": [
+    "scripts/validateActiveStageManifestV1.mjs",
+    "scripts/validateTeamBuilderFinalRoundV1.mjs",
+    "scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs",
+    "scripts/validateFinalRoundEligiblePlayersV1.mjs",
+    "scripts/validateFinalRoundFixtureExposureStrategyV1.mjs",
+    "scripts/validateFinalRoundCorePickLineupEvidence.mjs",
+    "scripts/validateActiveFantasyDataFlow.mjs",
+    "scripts/validateActiveMd2DataFlow.mjs",
+    "scripts/validateLiveFixtureMapping.mjs",
+    "scripts/validateMatchEnvironmentLiveScores.mjs",
+    "scripts/validateWorldCupFixturesPageLiveScores.mjs",
+    "scripts/validateFinalRoundFixtureAuthorityV1.mjs",
+    "scripts/validateBracketPathIntegrityV1.mjs",
+    "scripts/validateKnockoutBracketPredictionV1.mjs",
+    "scripts/runPublicPreviewBrowserQa.mjs"
+  ],
+  "blockedGlobals": [
+    "FINANCE_PLAYERS_DATA",
+    "PLAYER_MATCHDAY_PROJECTIONS_DATA",
+    "MATCHDAY_MODEL_SUMMARY",
+    "FINANCE_MODEL_SUMMARY",
+    "SCORE_FIXTURE_PREDICTIONS_DATA",
+    "SCORE_PREDICTIONS_SUMMARY"
+  ],
+  "pageScripts": {
+    "index.html": [
+      {
+        "order": 1,
+        "src": "https://www.googletagmanager.com/gtag/js?id=G-MSZET05H11",
+        "file": "https://www.googletagmanager.com/gtag/js",
+        "cacheBust": null
+      },
+      {
+        "order": 2,
+        "src": "playersData.js?v=20260718-final-round",
+        "file": "playersData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 3,
+        "src": "fantasyRulesData.js?v=20260718-final-round",
+        "file": "fantasyRulesData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 4,
+        "src": "fantasyPoolRecommendationsData.js?v=20260718-final-round",
+        "file": "fantasyPoolRecommendationsData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 5,
+        "src": "fantasyPoolMatchdayProjectionsData.js?v=20260718-final-round",
+        "file": "fantasyPoolMatchdayProjectionsData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 6,
+        "src": "fantasyPoolFinanceMetricsData.js?v=20260718-final-round",
+        "file": "fantasyPoolFinanceMetricsData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 7,
+        "src": "fantasyPoolScorePredictionsData.js?v=20260718-final-round",
+        "file": "fantasyPoolScorePredictionsData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 8,
+        "src": "knockoutBracketPredictionData.js?v=20260718-final-round",
+        "file": "knockoutBracketPredictionData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 9,
+        "src": "fantasyPoolOfficialDataStatusData.js?v=20260718-final-round",
+        "file": "fantasyPoolOfficialDataStatusData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 10,
+        "src": "liveMatchdayStatusData.js?v=20260718-final-round",
+        "file": "liveMatchdayStatusData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 11,
+        "src": "livePlayerStatusData.js?v=20260718-final-round",
+        "file": "livePlayerStatusData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 12,
+        "src": "r16FixtureAuthorityData.js?v=20260718-final-round",
+        "file": "r16FixtureAuthorityData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 13,
+        "src": "qfFixtureAuthorityData.js?v=20260718-final-round",
+        "file": "qfFixtureAuthorityData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 14,
+        "src": "sfFixtureAuthorityData.js?v=20260718-final-round",
+        "file": "sfFixtureAuthorityData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 15,
+        "src": "finalRoundFixtureAuthorityData.js?v=20260718-final-round",
+        "file": "finalRoundFixtureAuthorityData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 16,
+        "src": "teamBuilderFinalRoundArtifactData.js?v=20260718-builder-artifact-equivalence",
+        "file": "teamBuilderFinalRoundArtifactData.js",
+        "cacheBust": "20260718-builder-artifact-equivalence"
+      },
+      {
+        "order": 17,
+        "src": "script.js?v=20260718-builder-artifact-equivalence",
+        "file": "script.js",
+        "cacheBust": "20260718-builder-artifact-equivalence"
+      }
+    ],
+    "world-cup.html": [
+      {
+        "order": 1,
+        "src": "https://www.googletagmanager.com/gtag/js?id=G-MSZET05H11",
+        "file": "https://www.googletagmanager.com/gtag/js",
+        "cacheBust": null
+      },
+      {
+        "order": 2,
+        "src": "worldCupData.js?v=20260718-final-round",
+        "file": "worldCupData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 3,
+        "src": "liveMatchdayStatusData.js?v=20260718-final-round",
+        "file": "liveMatchdayStatusData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 4,
+        "src": "r32FixtureAuthorityData.js?v=20260718-final-round",
+        "file": "r32FixtureAuthorityData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 5,
+        "src": "r16FixtureAuthorityData.js?v=20260718-final-round",
+        "file": "r16FixtureAuthorityData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 6,
+        "src": "qfFixtureAuthorityData.js?v=20260718-final-round",
+        "file": "qfFixtureAuthorityData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 7,
+        "src": "sfFixtureAuthorityData.js?v=20260718-final-round",
+        "file": "sfFixtureAuthorityData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 8,
+        "src": "finalRoundFixtureAuthorityData.js?v=20260718-final-round",
+        "file": "finalRoundFixtureAuthorityData.js",
+        "cacheBust": "20260718-final-round"
+      },
+      {
+        "order": 9,
+        "src": "worldCupPage.js?v=20260718-final-round",
+        "file": "worldCupPage.js",
+        "cacheBust": "20260718-final-round"
+      }
+    ]
+  },
+  "checks": [
+    {
+      "id": "manifest_exists_and_parses",
+      "status": "pass",
+      "details": {
+        "parseErrors": []
+      }
+    },
+    {
+      "id": "active_stage_is_final_round",
+      "status": "pass",
+      "details": {
+        "activeStage": "finalRound"
+      }
+    },
+    {
+      "id": "cache_bust_present",
+      "status": "pass",
+      "details": {
+        "publicVersion": "20260718-final-round",
+        "cacheBust": {
+          "default": "20260718-final-round",
+          "overrides": {
+            "teamBuilderFinalRoundArtifactData.js": "20260718-builder-artifact-equivalence",
+            "script.js": "20260718-builder-artifact-equivalence"
+          }
+        }
+      }
+    },
+    {
+      "id": "all_listed_source_files_exist",
+      "status": "pass",
+      "details": {
+        "missing": []
+      }
+    },
+    {
+      "id": "all_listed_public_wrappers_exist",
+      "status": "pass",
+      "details": {
+        "missing": []
+      }
+    },
+    {
+      "id": "all_listed_validators_exist",
+      "status": "pass",
+      "details": {
+        "missing": []
+      }
+    },
+    {
+      "id": "required_manifest_entries_present",
+      "status": "pass",
+      "details": {
+        "entries": [
+          {
+            "id": "finalRoundFixtureAuthority",
+            "value": "data/finalRoundFixtureAuthority_v1.json",
+            "ok": true
+          },
+          {
+            "id": "teamBuilderArtifact",
+            "value": "data/teamBuilderFinalRoundArtifact_v1.json",
+            "ok": true
+          },
+          {
+            "id": "teamBuilderArtifactWrapper",
+            "value": "teamBuilderFinalRoundArtifactData.js",
+            "ok": true
+          },
+          {
+            "id": "teamBuilderBrowserEquivalenceValidator",
+            "value": "scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs",
+            "ok": true
+          },
+          {
+            "id": "eligiblePlayersValidator",
+            "value": "scripts/validateFinalRoundEligiblePlayersV1.mjs",
+            "ok": true
+          },
+          {
+            "id": "fixtureAuthorityValidator",
+            "value": "scripts/validateFinalRoundFixtureAuthorityV1.mjs",
+            "ok": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "html_references_expected_active_wrappers",
+      "status": "pass",
+      "details": {
+        "missingExpectedScripts": []
+      }
+    },
+    {
+      "id": "team_builder_artifact_wrapper_loaded_by_index",
+      "status": "pass",
+      "details": {
+        "indexScripts": [
+          "https://www.googletagmanager.com/gtag/js",
+          "playersData.js",
+          "fantasyRulesData.js",
+          "fantasyPoolRecommendationsData.js",
+          "fantasyPoolMatchdayProjectionsData.js",
+          "fantasyPoolFinanceMetricsData.js",
+          "fantasyPoolScorePredictionsData.js",
+          "knockoutBracketPredictionData.js",
+          "fantasyPoolOfficialDataStatusData.js",
+          "liveMatchdayStatusData.js",
+          "livePlayerStatusData.js",
+          "r16FixtureAuthorityData.js",
+          "qfFixtureAuthorityData.js",
+          "sfFixtureAuthorityData.js",
+          "finalRoundFixtureAuthorityData.js",
+          "teamBuilderFinalRoundArtifactData.js",
+          "script.js"
+        ]
+      }
+    },
+    {
+      "id": "manifest_stage_matches_script_default",
+      "status": "pass",
+      "details": {
+        "manifestStage": "finalRound",
+        "scriptDefaultStage": "finalRound"
+      }
+    },
+    {
+      "id": "cache_bust_matches_html_for_manifest_scripts",
+      "status": "pass",
+      "details": {
+        "cacheBustMismatches": []
+      }
+    },
+    {
+      "id": "browser_equivalence_validator_listed",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "eligible_player_validator_listed",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "final_round_fixture_authority_listed",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "old_deprecated_globals_blocked",
+      "status": "pass",
+      "details": {
+        "missingBlockedGlobals": []
+      }
+    },
+    {
+      "id": "known_caveats_present",
+      "status": "pass",
+      "details": {
+        "missingCaveats": []
+      }
+    },
+    {
+      "id": "forbidden_refereeing_conspiracy_surface_listed",
+      "status": "pass",
+      "details": {
+        "forbiddenPublicSurfaces": [
+          "Refereeing Outcomes",
+          "conspiracy",
+          "referee fairness",
+          "fouls received",
+          "yellow-card propensity",
+          "No unusual team-level pattern"
+        ]
+      }
+    },
+    {
+      "id": "forbidden_refereeing_conspiracy_absent_from_public_pages",
+      "status": "pass",
+      "details": {
+        "forbiddenHits": []
+      }
+    }
+  ]
+}
