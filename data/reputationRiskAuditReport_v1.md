@@ -1,0 +1,55 @@
+# Security, Safety, And Reputation Audit v1
+
+Generated: 2026-07-18T12:16:55.432Z
+
+Status: **pass**
+
+## Source Discipline
+
+- Public footer says not official FIFA fantasy advice and not betting/gambling advice.
+- World Cup Guide separates tournament facts from fantasy recommendations.
+- Final squads are caveated as not source-backed in Team Builder artifact constraints.
+- Ownership is explicitly marked as not used as model signal in active artifact constraints.
+
+## Public Claim Scan
+
+- `confirmed XI`: 0
+- `final squad`: 3
+- `guarantee`: 2
+- `betting`: 2
+- `gambling`: 2
+- `conspiracy`: 0
+- `referee`: 0
+
+## Reputation Risks
+
+- Over-precise model scores can be misread as certainty.
+- Long caveat stacks can reduce polish even when they improve safety.
+- Legacy historical rows and old stage controls can confuse the current public scope.
+- Any accidental publication of refereeing/conspiracy artifacts would be reputationally off-scope for this site.
+
+## Unpublished Refereeing/Research Files Detected
+
+- `data/refereeingOutcomesAnalysisValidation_v1.json`
+- `data/refereeingOutcomesAnalysisValidation_v1.md`
+- `data/refereeingOutcomesCalledEvents_v1.json`
+- `data/refereeingOutcomesFeatureQa_v1.json`
+- `data/refereeingOutcomesFeatureQa_v1.md`
+- `data/refereeingOutcomesMeasurementContract_v1.md`
+- `data/refereeingOutcomesModelData_v1.json`
+- `data/refereeingOutcomesModelReport_v1.md`
+- `data/refereeingOutcomesResults_v1.json`
+- `data/refereeingOutcomesResults_v1.md`
+- `data/refereeingOutcomesRobustness_v1.json`
+- `data/refereeingOutcomesRobustness_v1.md`
+- `data/refereeingOutcomesSourceManifest_v1.json`
+- `data/refereeingOutcomesSourceQA_v1.json`
+- `data/refereeingOutcomesSourceQA_v1.md`
+- `data/refereeingOutcomesStrengthSnapshot_v1.json`
+- `data/refereeingOutcomesTeamMatches_v1.json`
+- `analysis/refereeing_outcomes_model_v1.ipynb`
+- `analysis/requirements-refereeing-outcomes-v1.txt`
+
+## Issues
+
+- None found.

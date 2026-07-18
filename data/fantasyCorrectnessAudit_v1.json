@@ -1,0 +1,61 @@
+{
+  "schema_version": "fantasy_correctness_audit_v1",
+  "generated_at": "2026-07-18T12:16:55.247Z",
+  "status": "pass",
+  "eligible_teams_from_fixture_authority": [
+    "Argentina",
+    "England",
+    "France",
+    "Spain"
+  ],
+  "final_round_fixtures": [
+    {
+      "bracket_slot_id": "M103",
+      "round": "Third Place",
+      "teams": [
+        "France",
+        "England"
+      ],
+      "status": "scheduled",
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot"
+    },
+    {
+      "bracket_slot_id": "M104",
+      "round": "Final",
+      "teams": [
+        "Spain",
+        "Argentina"
+      ],
+      "status": "scheduled",
+      "source_fixture_id_role": "feed_source_id_only_not_bracket_slot"
+    }
+  ],
+  "checks": {
+    "team_builder_budget": 105,
+    "team_builder_selected_count": 15,
+    "browser_equivalence_status": "pass",
+    "core_pick_lineup_evidence_status": "pass",
+    "thin_profile_status": "GREEN",
+    "targeted_eliminated_player_hits": [],
+    "targeted_eliminated_team_hits": [],
+    "score_prediction_fixture_count": 2
+  },
+  "issues": [
+    {
+      "severity": "warn",
+      "area": "Fallback discipline",
+      "message": "script.js contains many fallback paths; Final Round is currently safe, but hidden fallbacks reduce auditability.",
+      "evidence": {
+        "fallbackMentions": 78
+      }
+    },
+    {
+      "severity": "warn",
+      "area": "Public copy",
+      "message": "Stats Notes still say $100m starting budget while Final Round budget is 105.",
+      "evidence": {
+        "file": "index.html"
+      }
+    }
+  ]
+}

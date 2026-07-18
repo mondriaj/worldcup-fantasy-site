@@ -1,0 +1,187 @@
+{
+  "schema_version": "model_elegance_audit_v1",
+  "generated_at": "2026-07-18T12:16:55.342Z",
+  "status": "pass",
+  "model_docs_found": [
+    "data/scorePredictionModel_finalRound_v1.md",
+    "data/playerRoleModel_finalRound_v1.md",
+    "data/playerProjectionModel_finalRound_v1.md",
+    "data/recommendationModel_finalRound_v1.md",
+    "data/teamBuilderModel_finalRound_v1.md",
+    "data/knockoutBracketPredictionModel_v1.md",
+    "data/knockoutScorePredictor_v1.json",
+    "data/thirdPlaceHistoricalProfileReport_v1.md"
+  ],
+  "models": [
+    {
+      "purpose": "score prediction model",
+      "source_of_truth": "data/scorePredictionModel_finalRound_v1.md",
+      "primary_output": "data/scorePredictions_fantasyPool_finalRound_v1.json",
+      "assumptions": "Documented in source artifact/model note; verify any weights against implementation before client handoff.",
+      "qa_coverage": "Covered by phase-specific QA where available; browser QA strongest for Team Builder equivalence.",
+      "public_explanation": "Explained in Stats Notes and public section copy, but model internals are verbose.",
+      "risks": [
+        "artifact/doc split can drift",
+        "magic numbers need central rationale table"
+      ]
+    },
+    {
+      "purpose": "PELE/team-quality layer",
+      "source_of_truth": "data/peleRefreshAudit_finalRound_v1.json",
+      "primary_output": "data/teamQuality_fantasyPool_v3.json",
+      "assumptions": "Documented in source artifact/model note; verify any weights against implementation before client handoff.",
+      "qa_coverage": "Covered by phase-specific QA where available; browser QA strongest for Team Builder equivalence.",
+      "public_explanation": "Explained in Stats Notes and public section copy, but model internals are verbose.",
+      "risks": [
+        "artifact/doc split can drift",
+        "magic numbers need central rationale table"
+      ]
+    },
+    {
+      "purpose": "player role/start probability model",
+      "source_of_truth": "data/playerRoleModel_finalRound_v1.md",
+      "primary_output": "data/playerRoleModel_finalRound_v1.json",
+      "assumptions": "Documented in source artifact/model note; verify any weights against implementation before client handoff.",
+      "qa_coverage": "Covered by phase-specific QA where available; browser QA strongest for Team Builder equivalence.",
+      "public_explanation": "Explained in Stats Notes and public section copy, but model internals are verbose.",
+      "risks": [
+        "artifact/doc split can drift",
+        "magic numbers need central rationale table"
+      ]
+    },
+    {
+      "purpose": "lineup evidence model",
+      "source_of_truth": "data/sfLineupEvidenceForFinalRound_v1.json",
+      "primary_output": "data/finalRoundCorePickLineupEvidenceQa_v1.json",
+      "assumptions": "Documented in source artifact/model note; verify any weights against implementation before client handoff.",
+      "qa_coverage": "Covered by phase-specific QA where available; browser QA strongest for Team Builder equivalence.",
+      "public_explanation": "Explained in Stats Notes and public section copy, but model internals are verbose.",
+      "risks": [
+        "artifact/doc split can drift",
+        "magic numbers need central rationale table"
+      ]
+    },
+    {
+      "purpose": "player projection model",
+      "source_of_truth": "data/playerProjectionModel_finalRound_v1.md",
+      "primary_output": "data/fantasyPoolMatchdayProjections_finalRound_v1.json",
+      "assumptions": "Documented in source artifact/model note; verify any weights against implementation before client handoff.",
+      "qa_coverage": "Covered by phase-specific QA where available; browser QA strongest for Team Builder equivalence.",
+      "public_explanation": "Explained in Stats Notes and public section copy, but model internals are verbose.",
+      "risks": [
+        "artifact/doc split can drift",
+        "magic numbers need central rationale table"
+      ]
+    },
+    {
+      "purpose": "recommendation model",
+      "source_of_truth": "data/recommendationModel_finalRound_v1.md",
+      "primary_output": "data/fantasyPoolRecommendations_finalRound_v1.json",
+      "assumptions": "Documented in source artifact/model note; verify any weights against implementation before client handoff.",
+      "qa_coverage": "Covered by phase-specific QA where available; browser QA strongest for Team Builder equivalence.",
+      "public_explanation": "Explained in Stats Notes and public section copy, but model internals are verbose.",
+      "risks": [
+        "artifact/doc split can drift",
+        "magic numbers need central rationale table"
+      ]
+    },
+    {
+      "purpose": "Team Builder objective",
+      "source_of_truth": "data/teamBuilderModel_finalRound_v1.md",
+      "primary_output": "data/teamBuilderFinalRoundArtifact_v1.json",
+      "assumptions": "Documented in source artifact/model note; verify any weights against implementation before client handoff.",
+      "qa_coverage": "Covered by phase-specific QA where available; browser QA strongest for Team Builder equivalence.",
+      "public_explanation": "Explained in Stats Notes and public section copy, but model internals are verbose.",
+      "risks": [
+        "artifact/doc split can drift",
+        "magic numbers need central rationale table"
+      ]
+    },
+    {
+      "purpose": "Final Round fixture optionality layer",
+      "source_of_truth": "scripts/buildFinalRoundFantasyArtifactsV1.mjs",
+      "primary_output": "data/teamBuilderFinalRoundArtifact_v1.json",
+      "assumptions": "Documented in source artifact/model note; verify any weights against implementation before client handoff.",
+      "qa_coverage": "Covered by phase-specific QA where available; browser QA strongest for Team Builder equivalence.",
+      "public_explanation": "Explained in Stats Notes and public section copy, but model internals are verbose.",
+      "risks": [
+        "model logic sits in browser/runtime code",
+        "magic numbers need central rationale table"
+      ]
+    },
+    {
+      "purpose": "Third Place historical modifier",
+      "source_of_truth": "data/thirdPlaceHistoricalProfileReport_v1.md",
+      "primary_output": "data/thirdPlaceHistoricalProfile_v1.json",
+      "assumptions": "Documented in source artifact/model note; verify any weights against implementation before client handoff.",
+      "qa_coverage": "Covered by phase-specific QA where available; browser QA strongest for Team Builder equivalence.",
+      "public_explanation": "Explained in Stats Notes and public section copy, but model internals are verbose.",
+      "risks": [
+        "artifact/doc split can drift",
+        "magic numbers need central rationale table"
+      ]
+    },
+    {
+      "purpose": "knockout prediction model",
+      "source_of_truth": "data/knockoutScorePredictor_v1.json",
+      "primary_output": "knockoutScorePredictorData.js",
+      "assumptions": "Documented in source artifact/model note; verify any weights against implementation before client handoff.",
+      "qa_coverage": "Covered by phase-specific QA where available; browser QA strongest for Team Builder equivalence.",
+      "public_explanation": "Explained in Stats Notes and public section copy, but model internals are verbose.",
+      "risks": [
+        "artifact/doc split can drift",
+        "magic numbers need central rationale table"
+      ]
+    },
+    {
+      "purpose": "bracket prediction model",
+      "source_of_truth": "data/knockoutBracketPredictionModel_v1.md",
+      "primary_output": "data/knockoutBracketPrediction_v1.json",
+      "assumptions": "Documented in source artifact/model note; verify any weights against implementation before client handoff.",
+      "qa_coverage": "Covered by phase-specific QA where available; browser QA strongest for Team Builder equivalence.",
+      "public_explanation": "Explained in Stats Notes and public section copy, but model internals are verbose.",
+      "risks": [
+        "artifact/doc split can drift",
+        "magic numbers need central rationale table"
+      ]
+    }
+  ],
+  "implementation_observations": {
+    "script_js_numeric_literal_mentions": 1048,
+    "fallback_mentions": 78,
+    "ownership_mentions": 0
+  },
+  "issues": [
+    {
+      "severity": "warn",
+      "area": "Magic numbers",
+      "message": "script.js contains many numeric weights/thresholds. Several are likely legitimate strategy weights, but they are not centralized in a single model contract.",
+      "evidence": {
+        "numericLiteralMentions": 1048
+      }
+    },
+    {
+      "severity": "warn",
+      "area": "Browser model logic",
+      "message": "Team Builder ranking, portfolio adjustment, and fallback scoring still live in script.js alongside UI rendering.",
+      "evidence": {
+        "file": "script.js"
+      }
+    },
+    {
+      "severity": "warn",
+      "area": "Duplicated logic risk",
+      "message": "Generated artifact and browser optimizer are kept equivalent by QA, but two executable paths remain for the same concept.",
+      "evidence": {
+        "artifact": "data/teamBuilderFinalRoundArtifact_v1.json",
+        "browser": "script.js"
+      }
+    },
+    {
+      "severity": "warn",
+      "area": "Public precision",
+      "message": "Public copy generally uses caveats, but detailed numeric indices can read more precise than the evidence supports unless the caveat remains nearby.",
+      "evidence": {}
+    }
+  ]
+}

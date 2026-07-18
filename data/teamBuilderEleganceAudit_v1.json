@@ -1,0 +1,55 @@
+{
+  "schema_version": "team_builder_elegance_audit_v1",
+  "generated_at": "2026-07-18T12:16:55.400Z",
+  "status": "pass",
+  "objective_plain_english": "Generated Final Round artifact optimizes the validated strategic composite score with active Final Round projections, eligible teams from finalRoundFixtureAuthority, Third Place optionality, replacement value, fixture diversification, Third Place risk, role volatility, budget, position, and country-limit constraints.",
+  "constraints_plain_english": {
+    "squad_size": 15,
+    "formation": "4-3-3",
+    "budget": 105,
+    "country_limit": 8,
+    "eligible_teams": [
+      "France",
+      "England",
+      "Spain",
+      "Argentina"
+    ],
+    "active_stage": "finalRound",
+    "ownership_used_as_signal": false,
+    "final_squads_source_backed": false
+  },
+  "selected_squad_summary": {
+    "count": 15,
+    "total_price": 94.8,
+    "by_team": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "captain": "Mikel Oyarzabal",
+    "vice_captain": "Leandro Paredes"
+  },
+  "browser_equivalence": {
+    "status": "pass",
+    "checks": {
+      "artifact_loaded_in_browser": true,
+      "browser_default_uses_generated_artifact_objective": true,
+      "generated_and_browser_selected_players_match": true,
+      "selected_count_by_team_matches": true,
+      "selected_count_by_fixture_matches": true,
+      "captain_matches": true,
+      "vice_captain_matches": true,
+      "generated_artifact_matches_team_builder_qa": true,
+      "candidate_pool_by_team_matches_generated_qa": true,
+      "optionality_visible": true,
+      "old_globals_absent": true,
+      "no_console_or_page_errors": true
+    },
+    "browser_message": "Recommended Balanced Squad loaded from the validated Final Round Team Builder artifact: 11 starters on the field and 4 substitutes below. Raw projected points 59.6; optionality 5.3; composite 1014.9."
+  },
+  "team_builder_qa_status": "pass",
+  "artifact_traceability": "Public default loads teamBuilderFinalRoundArtifactData.js before script.js; script.js checks finalRoundTeamBuilderArtifact() for active Final Round default.",
+  "remaining_duplicate_optimizer_logic": true,
+  "issues": []
+}

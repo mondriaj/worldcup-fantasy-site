@@ -1,0 +1,784 @@
+{
+  "schema_version": "qa_coverage_audit_v1",
+  "generated_at": "2026-07-18T12:16:55.407Z",
+  "status": "pass",
+  "qa_scripts": [
+    {
+      "file": "scripts/auditCodeEleganceV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/auditDataModelEleganceV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/auditFantasyCorrectnessV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/auditFinalRoundFixtureExposureStrategyV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/auditFinalRoundLineupNewsV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/auditModelEleganceV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/auditOfficialFinalRoundRolloverV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/auditPerformanceDeploymentV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": true
+    },
+    {
+      "file": "scripts/auditPublicDesignV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/auditPublicSiteArchitectureV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/auditQaCoverageV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/auditR16FullTeamExposureModelTrust.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/auditR16TeamExposureAndBuilderBias.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/auditReputationRiskV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/auditSfLineupNewsV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/auditTeamBuilderEleganceV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/buildMd3ReleaseQaV1.mjs",
+      "validates_generated_data": false,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/runLaunchBrowserQa.mjs",
+      "validates_generated_data": false,
+      "validates_public_wrappers": true,
+      "validates_browser_rendered_content": true,
+      "validates_deployed_site": true
+    },
+    {
+      "file": "scripts/runPublicPreviewBrowserQa.mjs",
+      "validates_generated_data": false,
+      "validates_public_wrappers": true,
+      "validates_browser_rendered_content": true,
+      "validates_deployed_site": true
+    },
+    {
+      "file": "scripts/validateActiveFantasyDataFlow.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": true,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateActiveMd2DataFlow.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": true,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateBracketPathIntegrityV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": true,
+      "validates_browser_rendered_content": true,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateFinalRoundCorePickLineupEvidence.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateFinalRoundEligiblePlayersV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateFinalRoundFixtureAuthorityV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateFinalRoundFixtureExposureStrategyV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateKnockoutBracketPredictionV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateLiveFixtureMapping.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateMatchEnvironmentLiveScores.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateOfficialDataReadiness.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateOfficialFantasyPositions.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateQfCorePickLineupEvidence.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateQfFixtureAuthorityV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateR16FixtureAuthorityV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateR32RecommendationFixtureAlignment.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateRefereeingOutcomesAnalysisV1.py",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateRefereeingOutcomesSourceSnapshotV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateSfCorePickLineupEvidence.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateSfFixtureAuthorityV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateTeamBuilderDataCoverage.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateTeamBuilderFinalRoundV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateTeamBuilderMd2V4.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateTeamBuilderMd3V5.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateTeamBuilderQfV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateTeamBuilderR16ProvisionalV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateTeamBuilderR16V1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateTeamBuilderR32ProvisionalV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateTeamBuilderR32V1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateTeamBuilderSfV1.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": false,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateWorldCupFinalRoundFixturesPage.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": true,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateWorldCupFixturesPageLiveScores.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": true,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateWorldCupQfFixturesPage.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": true,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateWorldCupR16FixturesPage.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": true,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateWorldCupR32FixturesPage.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": true,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    },
+    {
+      "file": "scripts/validateWorldCupSfFixturesPage.mjs",
+      "validates_generated_data": true,
+      "validates_public_wrappers": true,
+      "validates_browser_rendered_content": false,
+      "validates_deployed_site": false
+    }
+  ],
+  "qa_reports": [
+    "data/activeFantasyDataFlowQa.json",
+    "data/activeFantasyDataFlowQaReport.md",
+    "data/activeMd2DataFlowQa.json",
+    "data/activeMd2DataFlowQaReport.md",
+    "data/bracketPathIntegrityAuditReport_v1.md",
+    "data/bracketPathIntegrityAudit_v1.json",
+    "data/bracketPoolStrategyQaReport_v1.md",
+    "data/bracketPoolStrategyQa_v1.json",
+    "data/codeEleganceAuditReport_v1.md",
+    "data/codeEleganceAudit_v1.json",
+    "data/dailyMatchdayUpdateAudit_v1.md",
+    "data/dataModelEleganceAuditReport_v1.md",
+    "data/dataModelEleganceAudit_v1.json",
+    "data/decisionToolsQaPolish_v0.md",
+    "data/fantasyCorrectnessAuditReport_v1.md",
+    "data/fantasyCorrectnessAudit_v1.json",
+    "data/fantasyEconomistFullAuditReport_v1.md",
+    "data/fantasyEconomistFullAudit_v1.json",
+    "data/finalRoundBuilderBrowserEquivalenceQaReport_v1.md",
+    "data/finalRoundBuilderBrowserEquivalenceQa_v1.json",
+    "data/finalRoundCorePickLineupEvidenceQaReport_v1.md",
+    "data/finalRoundCorePickLineupEvidenceQa_v1.json",
+    "data/finalRoundEligiblePlayersQaReport_v1.md",
+    "data/finalRoundEligiblePlayersQa_v1.json",
+    "data/finalRoundEliminatedPlayerBugAuditReport_v1.md",
+    "data/finalRoundEliminatedPlayerBugAudit_v1.json",
+    "data/finalRoundFinanceBridgeQaReport_v1.md",
+    "data/finalRoundFinanceBridgeQa_v1.json",
+    "data/finalRoundFixtureAuthorityQaReport_v1.md",
+    "data/finalRoundFixtureAuthorityQa_v1.json",
+    "data/finalRoundFixtureExposureStrategyAuditReport_v1.md",
+    "data/finalRoundFixtureExposureStrategyAudit_v1.json",
+    "data/finalRoundFixtureExposureStrategyQaReport_v1.md",
+    "data/finalRoundFixtureExposureStrategyQa_v1.json",
+    "data/finalRoundLineupNewsAuditReport_v1.md",
+    "data/finalRoundLineupNewsAudit_v1.json",
+    "data/finalRoundReleaseQaReport_v1.md",
+    "data/finalRoundReleaseQa_v1.json",
+    "data/finalRoundThinProfilePlayerAuditReport_v1.md",
+    "data/finalRoundThinProfilePlayerAudit_v1.json",
+    "data/groupIncentiveQaReport_md3_v1.md",
+    "data/groupIncentiveQa_md3_v1.json",
+    "data/highRiskMissingDataAudit_v1.md",
+    "data/knockoutBracketPredictionQaReport_v1.md",
+    "data/knockoutBracketPredictionQa_v1.json",
+    "data/knockoutScorePredictorQaReport_v1.md",
+    "data/knockoutScorePredictorQa_v1.json",
+    "data/lineupEvidenceAudit_qf_v1.json",
+    "data/lineupEvidenceAudit_qf_v1.md",
+    "data/liveFixtureMappingQaReport_v1.md",
+    "data/liveFixtureMappingQa_v1.json",
+    "data/matchEnvironmentLiveScoresQaReport_v1.md",
+    "data/matchEnvironmentLiveScoresQa_v1.json",
+    "data/md2RecommendationQa_v1.md",
+    "data/md2ReleaseQaReport_v1.md",
+    "data/md2ReleaseQa_v1.json",
+    "data/md2ReleaseQa_v1.md",
+    "data/md2ScorePredictionQa_v1.md",
+    "data/md3ReleaseQaReport_v1.md",
+    "data/md3ReleaseQa_v1.json",
+    "data/mobileAudit_v1.md",
+    "data/modelEleganceAuditReport_v1.md",
+    "data/modelEleganceAudit_v1.json",
+    "data/officialFantasyPositionAudit_v1.json",
+    "data/officialFantasyPositionAudit_v1.md",
+    "data/officialFinalRoundRolloverAuditReport_v1.md",
+    "data/officialFinalRoundRolloverAudit_v1.json",
+    "data/oneFootballKoreaQatarImportReport.json",
+    "data/oneFootballKoreaQatarLeagueStats.json",
+    "data/oneFootballKoreaQatarMatchPlayerStats.json",
+    "data/oneFootballKoreaQatarRosterMatches.json",
+    "data/oneFootballKoreaQatarSeasonPlayerStats.json",
+    "data/peleRefreshAudit_finalRound_v1.json",
+    "data/peleRefreshAudit_finalRound_v1.md",
+    "data/peleRefreshAudit_md2_v1.json",
+    "data/peleRefreshAudit_md2_v1.md",
+    "data/peleRefreshAudit_md3_v1.json",
+    "data/peleRefreshAudit_md3_v1.md",
+    "data/peleRefreshAudit_qf_v1.json",
+    "data/peleRefreshAudit_qf_v1.md",
+    "data/peleRefreshAudit_r32_final_v1.json",
+    "data/peleRefreshAudit_r32_final_v1.md",
+    "data/peleRefreshAudit_r32_provisional_v1.json",
+    "data/peleRefreshAudit_r32_provisional_v1.md",
+    "data/peleRefreshAudit_r32_v1.json",
+    "data/peleRefreshAudit_r32_v1.md",
+    "data/peleRefreshAudit_sf_v1.json",
+    "data/peleRefreshAudit_sf_v1.md",
+    "data/performanceDeploymentAuditReport_v1.md",
+    "data/performanceDeploymentAudit_v1.json",
+    "data/playerFinanceMetricsQa_fantasyPool_v1.json",
+    "data/playerMatchdayProjectionQa_fantasyPool_v3.json",
+    "data/playerMinutesModel_fantasyPoolQa_v0.json",
+    "data/playerProjectionQaReport_finalRound_v1.md",
+    "data/playerProjectionQaReport_md2_v4.md",
+    "data/playerProjectionQaReport_md3_v5.md",
+    "data/playerProjectionQaReport_qf_v1.md",
+    "data/playerProjectionQaReport_r16_provisional_v1.md",
+    "data/playerProjectionQaReport_r16_v1.md",
+    "data/playerProjectionQaReport_r32_provisional_v1.md",
+    "data/playerProjectionQaReport_r32_v1.md",
+    "data/playerProjectionQaReport_sf_v1.md",
+    "data/playerProjectionQa_finalRound_v1.json",
+    "data/playerProjectionQa_md2_v4.json",
+    "data/playerProjectionQa_md3_v5.json",
+    "data/playerProjectionQa_qf_v1.json",
+    "data/playerProjectionQa_r16_provisional_v1.json",
+    "data/playerProjectionQa_r16_v1.json",
+    "data/playerProjectionQa_r32_provisional_v1.json",
+    "data/playerProjectionQa_r32_v1.json",
+    "data/playerProjectionQa_sf_v1.json",
+    "data/playerRecommendationInputsQa_v1.json",
+    "data/playerRoleModelQaReport_finalRound_v1.md",
+    "data/playerRoleModelQaReport_md2_v2.md",
+    "data/playerRoleModelQaReport_md3_v3.md",
+    "data/playerRoleModelQaReport_qf_v1.md",
+    "data/playerRoleModelQaReport_r16_provisional_v1.md",
+    "data/playerRoleModelQaReport_r16_v1.md",
+    "data/playerRoleModelQaReport_r32_provisional_v1.md",
+    "data/playerRoleModelQaReport_r32_v1.md",
+    "data/playerRoleModelQaReport_sf_v1.md",
+    "data/playerRoleModelQa_finalRound_v1.json",
+    "data/playerRoleModelQa_md2_v2.json",
+    "data/playerRoleModelQa_md3_v3.json",
+    "data/playerRoleModelQa_qf_v1.json",
+    "data/playerRoleModelQa_r16_provisional_v1.json",
+    "data/playerRoleModelQa_r16_v1.json",
+    "data/playerRoleModelQa_r32_provisional_v1.json",
+    "data/playerRoleModelQa_r32_v1.json",
+    "data/playerRoleModelQa_sf_v1.json",
+    "data/projectionScoringCoverageAudit_fantasyPool_v3.md",
+    "data/publicDesignAuditReport_v1.md",
+    "data/publicDesignAudit_v1.json",
+    "data/publicPerformanceQaReport_r32_final_v1.md",
+    "data/publicPerformanceQaReport_r32_v1.md",
+    "data/publicPerformanceQa_r32_final_v1.json",
+    "data/publicPerformanceQa_r32_v1.json",
+    "data/publicPreviewBrowserQaReport_v1.md",
+    "data/publicPreviewPromotionReadinessAudit_v1.md",
+    "data/publicPreviewPromotionReadinessQa_v1.json",
+    "data/publicProfileMetricAudit_v1.md",
+    "data/publicSiteArchitectureAuditReport_v1.md",
+    "data/publicSiteArchitectureAudit_v1.json",
+    "data/qaCoverageAuditReport_v1.md",
+    "data/qaCoverageAudit_v1.json",
+    "data/qfCorePickLineupEvidenceQaReport_v1.md",
+    "data/qfCorePickLineupEvidenceQa_v1.json",
+    "data/qfFixtureAuthorityQa_v1.json",
+    "data/qfReleaseQaReport_v1.md",
+    "data/qfReleaseQa_v1.json",
+    "data/r16FixtureAuthorityQaReport_v1.md",
+    "data/r16FixtureAuthorityQa_v1.json",
+    "data/r16FullTeamExposureAuditReport_v1.md",
+    "data/r16FullTeamExposureAudit_v1.json",
+    "data/r16ProvisionalReleaseQaReport_v1.md",
+    "data/r16ProvisionalReleaseQa_v1.json",
+    "data/r16ReleaseQaReport_v1.md",
+    "data/r16ReleaseQa_v1.json",
+    "data/r16TeamExposureAuditReport_v1.md",
+    "data/r16TeamExposureAudit_v1.json",
+    "data/r32BracketPathQaReport_v1.md",
+    "data/r32BracketPathQa_v1.json",
+    "data/r32ProvisionalBracketPathQaReport_v1.md",
+    "data/r32ProvisionalBracketPathQa_v1.json",
+    "data/r32ProvisionalReleaseQaReport_v1.md",
+    "data/r32ProvisionalReleaseQa_v1.json",
+    "data/r32RecommendationFixtureAlignmentQaReport_v1.md",
+    "data/r32RecommendationFixtureAlignmentQa_v1.json",
+    "data/r32ReleaseQaReport_v1.md",
+    "data/r32ReleaseQa_v1.json",
+    "data/recommendationCalibrationAudit_fantasyPool_v3.md",
+    "data/recommendationFinanceValueAudit_fantasyPool_v3.md",
+    "data/recommendationModeSeparationAudit_fantasyPool_v3.md",
+    "data/recommendationQaReport_fantasyPool_v3.md",
+    "data/recommendationQaReport_finalRound_v1.md",
+    "data/recommendationQaReport_md2_v4.md",
+    "data/recommendationQaReport_md3_v5.md",
+    "data/recommendationQaReport_qf_v1.md",
+    "data/recommendationQaReport_r16_provisional_v1.md",
+    "data/recommendationQaReport_r16_v1.md",
+    "data/recommendationQaReport_r32_provisional_v1.md",
+    "data/recommendationQaReport_r32_v1.md",
+    "data/recommendationQaReport_sf_v1.md",
+    "data/recommendationQaReport_v0.md",
+    "data/recommendationQaReport_v1.md",
+    "data/recommendationQaReport_v2.md",
+    "data/recommendationQa_fantasyPool_v3.json",
+    "data/recommendationQa_finalRound_v1.json",
+    "data/recommendationQa_md2_v4.json",
+    "data/recommendationQa_md3_v5.json",
+    "data/recommendationQa_qf_v1.json",
+    "data/recommendationQa_r16_provisional_v1.json",
+    "data/recommendationQa_r16_v1.json",
+    "data/recommendationQa_r32_provisional_v1.json",
+    "data/recommendationQa_r32_v1.json",
+    "data/recommendationQa_sf_v1.json",
+    "data/recommendationQa_v0.json",
+    "data/recommendationQa_v1.json",
+    "data/recommendationQa_v2.json",
+    "data/reputationRiskAuditReport_v1.md",
+    "data/reputationRiskAudit_v1.json",
+    "data/scorePredictionQaReport_fantasyPool_v3.md",
+    "data/scorePredictionQaReport_finalRound_v1.md",
+    "data/scorePredictionQaReport_qf_v1.md",
+    "data/scorePredictionQaReport_r16_provisional_v1.md",
+    "data/scorePredictionQaReport_r16_v1.md",
+    "data/scorePredictionQaReport_r32_provisional_v1.md",
+    "data/scorePredictionQaReport_r32_v1.md",
+    "data/scorePredictionQaReport_sf_v1.md",
+    "data/scorePredictionQaReport_v0.md",
+    "data/scorePredictionQaReport_v1.md",
+    "data/scorePredictionQaReport_v2.md",
+    "data/scorePredictionQaReport_v4_md2.md",
+    "data/scorePredictionQaReport_v5_md3.md",
+    "data/scorePredictionQa_fantasyPool_v3.json",
+    "data/scorePredictionQa_finalRound_v1.json",
+    "data/scorePredictionQa_qf_v1.json",
+    "data/scorePredictionQa_r16_provisional_v1.json",
+    "data/scorePredictionQa_r16_v1.json",
+    "data/scorePredictionQa_r32_provisional_v1.json",
+    "data/scorePredictionQa_r32_v1.json",
+    "data/scorePredictionQa_sf_v1.json",
+    "data/scorePredictionQa_v0.json",
+    "data/scorePredictionQa_v1.json",
+    "data/scorePredictionQa_v2.json",
+    "data/scorePredictionQa_v4_md2.json",
+    "data/scorePredictionQa_v5_md3.json",
+    "data/sfCorePickLineupEvidenceQaReport_v1.md",
+    "data/sfCorePickLineupEvidenceQa_v1.json",
+    "data/sfFixtureAuthorityQaReport_v1.md",
+    "data/sfFixtureAuthorityQa_v1.json",
+    "data/sfLineupNewsAuditReport_v1.md",
+    "data/sfLineupNewsAudit_v1.json",
+    "data/sfReleaseQaReport_v1.md",
+    "data/sfReleaseQa_v1.json",
+    "data/teamBuilderDataSourceAudit_v1.md",
+    "data/teamBuilderEleganceAuditReport_v1.md",
+    "data/teamBuilderEleganceAudit_v1.json",
+    "data/teamBuilderQaReport_finalRound_v1.md",
+    "data/teamBuilderQaReport_md2_v4.md",
+    "data/teamBuilderQaReport_md3_v5.md",
+    "data/teamBuilderQaReport_qf_v1.md",
+    "data/teamBuilderQaReport_r16_provisional_v1.md",
+    "data/teamBuilderQaReport_r16_v1.md",
+    "data/teamBuilderQaReport_r32_provisional_v1.md",
+    "data/teamBuilderQaReport_r32_v1.md",
+    "data/teamBuilderQaReport_sf_v1.md",
+    "data/teamBuilderQa_finalRound_v1.json",
+    "data/teamBuilderQa_md2_v4.json",
+    "data/teamBuilderQa_md3_v5.json",
+    "data/teamBuilderQa_qf_v1.json",
+    "data/teamBuilderQa_r16_provisional_v1.json",
+    "data/teamBuilderQa_r16_v1.json",
+    "data/teamBuilderQa_r32_provisional_v1.json",
+    "data/teamBuilderQa_r32_v1.json",
+    "data/teamBuilderQa_sf_v1.json",
+    "data/thirdPlaceHistoricalProfileQaReport_v1.md",
+    "data/thirdPlaceHistoricalProfileQa_v1.json",
+    "data/worldCupFinalRoundFixturesPageQaReport_v1.md",
+    "data/worldCupFinalRoundFixturesPageQa_v1.json",
+    "data/worldCupFixturesPageLiveScoresQaReport_v1.md",
+    "data/worldCupFixturesPageLiveScoresQa_v1.json",
+    "data/worldCupLineupEvidenceQaReport_v1.md",
+    "data/worldCupLineupEvidenceQa_v1.json",
+    "data/worldCupQfFixturesPageQaReport_v1.md",
+    "data/worldCupQfFixturesPageQa_v1.json",
+    "data/worldCupR16FixturesPageQaReport_v1.md",
+    "data/worldCupR16FixturesPageQa_v1.json",
+    "data/worldCupR32FixturesPageQaReport_v1.md",
+    "data/worldCupR32FixturesPageQa_v1.json",
+    "data/worldCupSfFixturesPageQaReport_v1.md",
+    "data/worldCupSfFixturesPageQa_v1.json"
+  ],
+  "past_bug_coverage": [
+    {
+      "bug": "stale MD2/MD3 data path",
+      "evidence": [
+        "scripts/validateActiveFantasyDataFlow.mjs",
+        "data/activeFantasyDataFlowQa.json",
+        "data/activeFantasyDataFlowQaReport.md"
+      ],
+      "covered": true
+    },
+    {
+      "bug": "wrong source fixture ID as bracket slot",
+      "evidence": [
+        "scripts/validateBracketPathIntegrityV1.mjs",
+        "data/bracketPathIntegrityAuditReport_v1.md",
+        "data/bracketPathIntegrityAudit_v1.json"
+      ],
+      "covered": true
+    },
+    {
+      "bug": "France/Argentina impossible bracket path",
+      "evidence": [
+        "scripts/validateBracketPathIntegrityV1.mjs",
+        "data/knockoutBracketPredictionQaReport_v1.md",
+        "data/knockoutBracketPredictionQa_v1.json"
+      ],
+      "covered": true
+    },
+    {
+      "bug": "Medina Core Pick despite non-start",
+      "evidence": [
+        "scripts/validateFinalRoundCorePickLineupEvidence.mjs",
+        "data/finalRoundCorePickLineupEvidenceQaReport_v1.md",
+        "data/finalRoundCorePickLineupEvidenceQa_v1.json"
+      ],
+      "covered": true
+    },
+    {
+      "bug": "eliminated players in Final Round Builder",
+      "evidence": [
+        "scripts/validateFinalRoundEligiblePlayersV1.mjs",
+        "data/finalRoundEliminatedPlayerBugAuditReport_v1.md",
+        "data/finalRoundEliminatedPlayerBugAudit_v1.json"
+      ],
+      "covered": true
+    },
+    {
+      "bug": "generated/browser Team Builder mismatch",
+      "evidence": [
+        "scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs",
+        "data/finalRoundBuilderBrowserEquivalenceQaReport_v1.md",
+        "data/finalRoundBuilderBrowserEquivalenceQa_v1.json"
+      ],
+      "covered": true
+    },
+    {
+      "bug": "Final Round budget 100 instead of 105",
+      "evidence": [
+        "scripts/validateTeamBuilderFinalRoundV1.mjs",
+        "data/teamBuilderQa_finalRound_v1.json"
+      ],
+      "covered": true
+    },
+    {
+      "bug": "browser fallback to historical projection rows",
+      "evidence": [
+        "scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs",
+        "data/activeFantasyDataFlowQa.json",
+        "data/activeFantasyDataFlowQaReport.md"
+      ],
+      "covered": true
+    },
+    {
+      "bug": "no Third Place exposure without explanation",
+      "evidence": [
+        "scripts/validateFinalRoundFixtureExposureStrategyV1.mjs",
+        "data/finalRoundFixtureExposureStrategyQaReport_v1.md",
+        "data/finalRoundFixtureExposureStrategyQa_v1.json"
+      ],
+      "covered": true
+    }
+  ],
+  "top_five_improvements": [
+    "Add one active-stage QA manifest that declares every public surface, source artifact, wrapper, and browser assertion.",
+    "Extend browser assertions for Picks, Captain Watchlist, Match Environment, and World Cup Guide to verify exact expected names/fixtures, not just rendered content.",
+    "Add deployed-site parity checks against local validated artifacts after every cache-bust promotion.",
+    "Centralize eliminated-team/player leakage checks across recommendations, projections, score predictions, Team Builder artifact, and rendered DOM.",
+    "Retire or archive historical stage QA from the default active-stage command so reviewers see one current gate first."
+  ],
+  "issues": [
+    {
+      "severity": "warn",
+      "area": "Browser assertions",
+      "message": "Team Builder equivalence has strong content assertions; other surfaces rely more on render/status QA and should assert actual player/fixture text.",
+      "evidence": {}
+    },
+    {
+      "severity": "warn",
+      "area": "QA sprawl",
+      "message": "There are many stage-specific QA scripts with similar responsibilities. A top-client codebase would benefit from a single manifest-driven active-stage QA runner.",
+      "evidence": {
+        "qaScriptCount": 56
+      }
+    },
+    {
+      "severity": "warn",
+      "area": "Deployment assertions",
+      "message": "GitHub Pages smoke coverage is present historically, but the active audit found no single current deployment gate that replays all public Final Round content assertions.",
+      "evidence": {}
+    }
+  ]
+}

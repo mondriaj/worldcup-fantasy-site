@@ -1,0 +1,478 @@
+{
+  "schema_version": "code_elegance_audit_v1",
+  "generated_at": "2026-07-18T12:16:55.421Z",
+  "status": "pass",
+  "scores": {
+    "correctness": 4,
+    "elegance": 3,
+    "maintainability": 3,
+    "testability": 3,
+    "data_architecture": 3,
+    "model_transparency": 3,
+    "ui_polish": 4,
+    "performance": 3,
+    "client_readiness": 3
+  },
+  "file_metrics": [
+    {
+      "file": "script.js",
+      "lines": 15400,
+      "bytes": 599320
+    },
+    {
+      "file": "style.css",
+      "lines": 6295,
+      "bytes": 116285
+    },
+    {
+      "file": "scripts/buildFantasyPoolRecommendationsV3.mjs",
+      "lines": 3894,
+      "bytes": 186543
+    },
+    {
+      "file": "scripts/buildFantasyPoolScorePredictionsV3.mjs",
+      "lines": 1849,
+      "bytes": 90999
+    },
+    {
+      "file": "scripts/buildPlayerEnrichmentLayer.mjs",
+      "lines": 1771,
+      "bytes": 84163
+    },
+    {
+      "file": "scripts/step66PeleForwardRecalibration.mjs",
+      "lines": 1681,
+      "bytes": 94450
+    },
+    {
+      "file": "scripts/step65PeleIntegration.mjs",
+      "lines": 1666,
+      "bytes": 93183
+    },
+    {
+      "file": "scripts/buildFantasyPoolMatchdayProjectionsV3.mjs",
+      "lines": 1552,
+      "bytes": 74215
+    },
+    {
+      "file": "scripts/buildFantasyPoolMinutesModel.mjs",
+      "lines": 1499,
+      "bytes": 62845
+    },
+    {
+      "file": "scripts/buildFantasyPoolRecommendationsV4Md2.mjs",
+      "lines": 1492,
+      "bytes": 71787
+    },
+    {
+      "file": "scripts/matchOfficialFantasyPlayers.mjs",
+      "lines": 1444,
+      "bytes": 59157
+    },
+    {
+      "file": "scripts/buildFantasyPoolMatchdayProjectionsV4Md2.mjs",
+      "lines": 1436,
+      "bytes": 69036
+    },
+    {
+      "file": "scripts/importLiveMatchdayStatus.mjs",
+      "lines": 1431,
+      "bytes": 57370
+    },
+    {
+      "file": "scripts/buildScorePredictionsFantasyPoolV4Md2.mjs",
+      "lines": 1369,
+      "bytes": 59975
+    },
+    {
+      "file": "scripts/buildMd1PostmortemV1.mjs",
+      "lines": 1360,
+      "bytes": 62839
+    },
+    {
+      "file": "scripts/runPublicPreviewBrowserQa.mjs",
+      "lines": 1320,
+      "bytes": 76409
+    },
+    {
+      "file": "scripts/buildPlayerRoleModelMd2V2.mjs",
+      "lines": 1194,
+      "bytes": 57670
+    },
+    {
+      "file": "scripts/auditOfficialFinalRoundRolloverV1.mjs",
+      "lines": 1146,
+      "bytes": 52013
+    },
+    {
+      "file": "scripts/buildFantasyPoolFinanceMetrics.mjs",
+      "lines": 1115,
+      "bytes": 48696
+    },
+    {
+      "file": "scripts/buildMd2EmergencyRefresh.mjs",
+      "lines": 1108,
+      "bytes": 49252
+    },
+    {
+      "file": "scripts/validateActiveFantasyDataFlow.mjs",
+      "lines": 1095,
+      "bytes": 49212
+    },
+    {
+      "file": "scripts/checkOfficialFantasyDataUpdates.mjs",
+      "lines": 1082,
+      "bytes": 40303
+    },
+    {
+      "file": "scripts/validateActiveMd2DataFlow.mjs",
+      "lines": 1041,
+      "bytes": 45043
+    },
+    {
+      "file": "scripts/buildTargetedNationalTeamUsageSourcing.mjs",
+      "lines": 990,
+      "bytes": 40849
+    },
+    {
+      "file": "scripts/buildBracketPoolStrategyModelV1.mjs",
+      "lines": 981,
+      "bytes": 39093
+    },
+    {
+      "file": "scripts/auditR16FullTeamExposureModelTrust.mjs",
+      "lines": 979,
+      "bytes": 45237
+    },
+    {
+      "file": "scripts/validateTeamBuilderMd3V5.mjs",
+      "lines": 912,
+      "bytes": 36714
+    },
+    {
+      "file": "scripts/validateTeamBuilderMd2V4.mjs",
+      "lines": 888,
+      "bytes": 35759
+    },
+    {
+      "file": "scripts/buildWorldCupLineupEvidenceV1.mjs",
+      "lines": 839,
+      "bytes": 35079
+    },
+    {
+      "file": "scripts/buildOfficialPlayerModelInputs.mjs",
+      "lines": 742,
+      "bytes": 30025
+    },
+    {
+      "file": "scripts/importOfficialSquads.mjs",
+      "lines": 724,
+      "bytes": 29016
+    },
+    {
+      "file": "scripts/auditR16TeamExposureAndBuilderBias.mjs",
+      "lines": 715,
+      "bytes": 32248
+    },
+    {
+      "file": "scripts/buildKnockoutBracketPredictionV1.mjs",
+      "lines": 703,
+      "bytes": 29955
+    },
+    {
+      "file": "scripts/validateLiveFixtureMapping.mjs",
+      "lines": 698,
+      "bytes": 32754
+    },
+    {
+      "file": "scripts/buildMd3ReadinessDaily.mjs",
+      "lines": 687,
+      "bytes": 31488
+    },
+    {
+      "file": "scripts/validateBracketPathIntegrityV1.mjs",
+      "lines": 635,
+      "bytes": 26166
+    },
+    {
+      "file": "worldCupPage.js",
+      "lines": 627,
+      "bytes": 24519
+    },
+    {
+      "file": "scripts/validateTeamBuilderDataCoverage.mjs",
+      "lines": 538,
+      "bytes": 25546
+    },
+    {
+      "file": "scripts/importOfficialFantasyPlayers.mjs",
+      "lines": 535,
+      "bytes": 18413
+    },
+    {
+      "file": "scripts/validateOfficialFantasyPositions.mjs",
+      "lines": 525,
+      "bytes": 20075
+    }
+  ],
+  "longest_functions": [
+    {
+      "file": "script.js",
+      "name": "formationListText",
+      "start": 1536,
+      "lines": 736
+    },
+    {
+      "file": "script.js",
+      "name": "financeContextScore",
+      "start": 2417,
+      "lines": 565
+    },
+    {
+      "file": "script.js",
+      "name": "currentFantasyPoolPlayerFromOfficialRecord",
+      "start": 1080,
+      "lines": 181
+    },
+    {
+      "file": "script.js",
+      "name": "setupBuilder",
+      "start": 15184,
+      "lines": 175
+    },
+    {
+      "file": "script.js",
+      "name": "optimizerCandidatePools",
+      "start": 12888,
+      "lines": 171
+    },
+    {
+      "file": "script.js",
+      "name": "renderSubstitutionAdvisor",
+      "start": 9198,
+      "lines": 156
+    },
+    {
+      "file": "script.js",
+      "name": "renderCaptainChangeAdvisor",
+      "start": 8952,
+      "lines": 152
+    },
+    {
+      "file": "script.js",
+      "name": "isUnavailableInOfficialFantasy",
+      "start": 628,
+      "lines": 149
+    },
+    {
+      "file": "script.js",
+      "name": "publicProfileTagHelpHtml",
+      "start": 4306,
+      "lines": 141
+    },
+    {
+      "file": "script.js",
+      "name": "squadStrategyReportData",
+      "start": 10509,
+      "lines": 139
+    },
+    {
+      "file": "script.js",
+      "name": "portfolioOptimizerAdjustment",
+      "start": 10231,
+      "lines": 125
+    },
+    {
+      "file": "script.js",
+      "name": "squadPortfolioAnalytics",
+      "start": 9900,
+      "lines": 122
+    },
+    {
+      "file": "script.js",
+      "name": "fantasyPoolCandidateToPlayer",
+      "start": 892,
+      "lines": 108
+    },
+    {
+      "file": "script.js",
+      "name": "qaFlagsForPlayer",
+      "start": 4481,
+      "lines": 103
+    },
+    {
+      "file": "script.js",
+      "name": "buildSuggestedSquad",
+      "start": 13083,
+      "lines": 102
+    },
+    {
+      "file": "script.js",
+      "name": "playerRecommendationLabels",
+      "start": 5200,
+      "lines": 90
+    },
+    {
+      "file": "script.js",
+      "name": "matchdayDecisionSubstitutionVerdict",
+      "start": 7760,
+      "lines": 89
+    },
+    {
+      "file": "script.js",
+      "name": "profileTag",
+      "start": 4218,
+      "lines": 88
+    },
+    {
+      "file": "script.js",
+      "name": "styleReason",
+      "start": 9396,
+      "lines": 86
+    },
+    {
+      "file": "script.js",
+      "name": "renderTeam",
+      "start": 13665,
+      "lines": 86
+    }
+  ],
+  "top_10_elegance_problems": [
+    "Large monolithic script.js mixes public UI, model logic, Team Builder optimization, export/import, and caveat rendering.",
+    "Team Builder has both generated artifact default and browser optimizer path.",
+    "Fallback logic is scattered and hard to audit globally.",
+    "Stage-specific concepts are represented by strings across code and data rather than a single stage manifest.",
+    "Budget/rules copy and budget/rules execution can drift.",
+    "Generated data contains internal diagnostics in public wrappers.",
+    "Historical stage artifacts remain close to active artifacts in naming and load logic.",
+    "QA scripts are numerous and phase-specific, with no single active public contract.",
+    "CSS is a single large file with many feature-specific selectors.",
+    "Model weights live across docs, generated artifacts, and browser constants."
+  ],
+  "easiest_cleanup_wins": [
+    "Update Stats Notes budget copy for Final Round.",
+    "Add an activePublicStageManifest_v1.json consumed by build and QA scripts.",
+    "Centralize fallback declarations in one reportable object.",
+    "Split Team Builder browser optimizer from DOM rendering.",
+    "Move current-stage source/caveat copy into generated public metadata.",
+    "Add wrapper/source parity checks to one command.",
+    "Create compact public projections and keep diagnostics internal.",
+    "Archive old stage scripts from default QA docs.",
+    "Add file headers to active wrapper builders naming source and validator.",
+    "Create a short client-readable model weights appendix."
+  ],
+  "structural_refactors": [
+    "Introduce scripts/lib/stageManifest.mjs as the only active-stage source.",
+    "Move Team Builder scoring profiles and optimizer into scripts/lib/teamBuilderModel.mjs.",
+    "Generate public Team Builder artifacts for every strategy instead of recomputing defaults in the browser.",
+    "Split script.js into data-access, renderers, decision tools, and Team Builder modules.",
+    "Split public wrapper data into display and diagnostics payloads.",
+    "Create a manifest-driven QA runner that executes source, wrapper, browser, and deployment gates.",
+    "Normalize player identity fields across official and legacy rows.",
+    "Normalize fixture identity into bracket_slot_id plus source_fixture_id metadata.",
+    "Move long Stats Notes into versioned docs with short in-page summaries.",
+    "Retire old stage paths from public controls when active stage is Final Round."
+  ],
+  "issues": [
+    {
+      "severity": "warn",
+      "area": "Large files",
+      "message": "script.js and style.css are large, combining UI rendering, model joins, optimizer logic, and copy in files that are hard to review end to end.",
+      "evidence": [
+        {
+          "file": "script.js",
+          "lines": 15400,
+          "bytes": 599320
+        },
+        {
+          "file": "style.css",
+          "lines": 6295,
+          "bytes": 116285
+        }
+      ]
+    },
+    {
+      "severity": "warn",
+      "area": "Function length",
+      "message": "Several browser functions are long enough to hide stage-specific behavior and fallback decisions.",
+      "evidence": {
+        "longestFunctions": [
+          {
+            "file": "script.js",
+            "name": "formationListText",
+            "start": 1536,
+            "lines": 736
+          },
+          {
+            "file": "script.js",
+            "name": "financeContextScore",
+            "start": 2417,
+            "lines": 565
+          },
+          {
+            "file": "script.js",
+            "name": "currentFantasyPoolPlayerFromOfficialRecord",
+            "start": 1080,
+            "lines": 181
+          },
+          {
+            "file": "script.js",
+            "name": "setupBuilder",
+            "start": 15184,
+            "lines": 175
+          },
+          {
+            "file": "script.js",
+            "name": "optimizerCandidatePools",
+            "start": 12888,
+            "lines": 171
+          },
+          {
+            "file": "script.js",
+            "name": "renderSubstitutionAdvisor",
+            "start": 9198,
+            "lines": 156
+          },
+          {
+            "file": "script.js",
+            "name": "renderCaptainChangeAdvisor",
+            "start": 8952,
+            "lines": 152
+          },
+          {
+            "file": "script.js",
+            "name": "isUnavailableInOfficialFantasy",
+            "start": 628,
+            "lines": 149
+          },
+          {
+            "file": "script.js",
+            "name": "publicProfileTagHelpHtml",
+            "start": 4306,
+            "lines": 141
+          },
+          {
+            "file": "script.js",
+            "name": "squadStrategyReportData",
+            "start": 10509,
+            "lines": 139
+          }
+        ]
+      }
+    },
+    {
+      "severity": "warn",
+      "area": "Hidden fallback logic",
+      "message": "Fallback behavior exists across data loading, score labels, pick modes, and optimizer candidate pools. Most is defensive, but it is scattered.",
+      "evidence": {
+        "fallbackMentions": 78
+      }
+    },
+    {
+      "severity": "warn",
+      "area": "Generated/UI boundary",
+      "message": "Generated model data is cleanly wrapped, but browser code still computes many strategic scores and squad adjustments.",
+      "evidence": {}
+    }
+  ]
+}

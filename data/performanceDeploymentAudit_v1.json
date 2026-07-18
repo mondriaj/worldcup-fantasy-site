@@ -1,0 +1,423 @@
+{
+  "schema_version": "performance_deployment_audit_v1",
+  "generated_at": "2026-07-18T12:16:55.422Z",
+  "status": "pass",
+  "public_file_sizes": [
+    {
+      "file": "fantasyPoolFinanceMetricsData.js",
+      "bytes": 8282613
+    },
+    {
+      "file": "fantasyPoolMatchdayProjectionsData.js",
+      "bytes": 4641345
+    },
+    {
+      "file": "fantasyPoolRecommendationsData.js",
+      "bytes": 2508699
+    },
+    {
+      "file": "fantasyPoolScorePredictionsData.js",
+      "bytes": 1846419
+    },
+    {
+      "file": "livePlayerStatusData.js",
+      "bytes": 985154
+    },
+    {
+      "file": "fantasyPoolOfficialDataStatusData.js",
+      "bytes": 798676
+    },
+    {
+      "file": "script.js",
+      "bytes": 599320
+    },
+    {
+      "file": "playersData.js",
+      "bytes": 409591
+    },
+    {
+      "file": "liveMatchdayStatusData.js",
+      "bytes": 220263
+    },
+    {
+      "file": "style.css",
+      "bytes": 116285
+    },
+    {
+      "file": "index.html",
+      "bytes": 93709
+    },
+    {
+      "file": "knockoutBracketPredictionData.js",
+      "bytes": 58083
+    },
+    {
+      "file": "worldCupData.js",
+      "bytes": 42069
+    },
+    {
+      "file": "teamBuilderFinalRoundArtifactData.js",
+      "bytes": 41340
+    },
+    {
+      "file": "worldCupPage.js",
+      "bytes": 24519
+    },
+    {
+      "file": "r32FixtureAuthorityData.js",
+      "bytes": 21759
+    },
+    {
+      "file": "fantasyRulesData.js",
+      "bytes": 18221
+    },
+    {
+      "file": "r16FixtureAuthorityData.js",
+      "bytes": 12080
+    },
+    {
+      "file": "qfFixtureAuthorityData.js",
+      "bytes": 7755
+    },
+    {
+      "file": "world-cup.html",
+      "bytes": 7648
+    },
+    {
+      "file": "sfFixtureAuthorityData.js",
+      "bytes": 4568
+    },
+    {
+      "file": "finalRoundFixtureAuthorityData.js",
+      "bytes": 3947
+    }
+  ],
+  "index_load_order": [
+    {
+      "order": 1,
+      "page": "index.html",
+      "src": "https://www.googletagmanager.com/gtag/js?id=G-MSZET05H11",
+      "file": "https://www.googletagmanager.com/gtag/js",
+      "cacheBust": null,
+      "exists": false
+    },
+    {
+      "order": 2,
+      "page": "index.html",
+      "src": "playersData.js?v=20260718-final-round",
+      "file": "playersData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 3,
+      "page": "index.html",
+      "src": "fantasyRulesData.js?v=20260718-final-round",
+      "file": "fantasyRulesData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 4,
+      "page": "index.html",
+      "src": "fantasyPoolRecommendationsData.js?v=20260718-final-round",
+      "file": "fantasyPoolRecommendationsData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 5,
+      "page": "index.html",
+      "src": "fantasyPoolMatchdayProjectionsData.js?v=20260718-final-round",
+      "file": "fantasyPoolMatchdayProjectionsData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 6,
+      "page": "index.html",
+      "src": "fantasyPoolFinanceMetricsData.js?v=20260718-final-round",
+      "file": "fantasyPoolFinanceMetricsData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 7,
+      "page": "index.html",
+      "src": "fantasyPoolScorePredictionsData.js?v=20260718-final-round",
+      "file": "fantasyPoolScorePredictionsData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 8,
+      "page": "index.html",
+      "src": "knockoutBracketPredictionData.js?v=20260718-final-round",
+      "file": "knockoutBracketPredictionData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 9,
+      "page": "index.html",
+      "src": "fantasyPoolOfficialDataStatusData.js?v=20260718-final-round",
+      "file": "fantasyPoolOfficialDataStatusData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 10,
+      "page": "index.html",
+      "src": "liveMatchdayStatusData.js?v=20260718-final-round",
+      "file": "liveMatchdayStatusData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 11,
+      "page": "index.html",
+      "src": "livePlayerStatusData.js?v=20260718-final-round",
+      "file": "livePlayerStatusData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 12,
+      "page": "index.html",
+      "src": "r16FixtureAuthorityData.js?v=20260718-final-round",
+      "file": "r16FixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 13,
+      "page": "index.html",
+      "src": "qfFixtureAuthorityData.js?v=20260718-final-round",
+      "file": "qfFixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 14,
+      "page": "index.html",
+      "src": "sfFixtureAuthorityData.js?v=20260718-final-round",
+      "file": "sfFixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 15,
+      "page": "index.html",
+      "src": "finalRoundFixtureAuthorityData.js?v=20260718-final-round",
+      "file": "finalRoundFixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 16,
+      "page": "index.html",
+      "src": "teamBuilderFinalRoundArtifactData.js?v=20260718-builder-artifact-equivalence",
+      "file": "teamBuilderFinalRoundArtifactData.js",
+      "cacheBust": "20260718-builder-artifact-equivalence",
+      "exists": true
+    },
+    {
+      "order": 17,
+      "page": "index.html",
+      "src": "script.js?v=20260718-builder-artifact-equivalence",
+      "file": "script.js",
+      "cacheBust": "20260718-builder-artifact-equivalence",
+      "exists": true
+    }
+  ],
+  "world_cup_load_order": [
+    {
+      "order": 1,
+      "page": "world-cup.html",
+      "src": "https://www.googletagmanager.com/gtag/js?id=G-MSZET05H11",
+      "file": "https://www.googletagmanager.com/gtag/js",
+      "cacheBust": null,
+      "exists": false
+    },
+    {
+      "order": 2,
+      "page": "world-cup.html",
+      "src": "worldCupData.js?v=20260718-final-round",
+      "file": "worldCupData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 3,
+      "page": "world-cup.html",
+      "src": "liveMatchdayStatusData.js?v=20260718-final-round",
+      "file": "liveMatchdayStatusData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 4,
+      "page": "world-cup.html",
+      "src": "r32FixtureAuthorityData.js?v=20260718-final-round",
+      "file": "r32FixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 5,
+      "page": "world-cup.html",
+      "src": "r16FixtureAuthorityData.js?v=20260718-final-round",
+      "file": "r16FixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 6,
+      "page": "world-cup.html",
+      "src": "qfFixtureAuthorityData.js?v=20260718-final-round",
+      "file": "qfFixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 7,
+      "page": "world-cup.html",
+      "src": "sfFixtureAuthorityData.js?v=20260718-final-round",
+      "file": "sfFixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 8,
+      "page": "world-cup.html",
+      "src": "finalRoundFixtureAuthorityData.js?v=20260718-final-round",
+      "file": "finalRoundFixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 9,
+      "page": "world-cup.html",
+      "src": "worldCupPage.js?v=20260718-final-round",
+      "file": "worldCupPage.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    }
+  ],
+  "largest_public_files": [
+    {
+      "file": "fantasyPoolFinanceMetricsData.js",
+      "bytes": 8282613
+    },
+    {
+      "file": "fantasyPoolMatchdayProjectionsData.js",
+      "bytes": 4641345
+    },
+    {
+      "file": "fantasyPoolRecommendationsData.js",
+      "bytes": 2508699
+    },
+    {
+      "file": "fantasyPoolScorePredictionsData.js",
+      "bytes": 1846419
+    },
+    {
+      "file": "livePlayerStatusData.js",
+      "bytes": 985154
+    },
+    {
+      "file": "fantasyPoolOfficialDataStatusData.js",
+      "bytes": 798676
+    },
+    {
+      "file": "script.js",
+      "bytes": 599320
+    },
+    {
+      "file": "playersData.js",
+      "bytes": 409591
+    },
+    {
+      "file": "liveMatchdayStatusData.js",
+      "bytes": 220263
+    },
+    {
+      "file": "style.css",
+      "bytes": 116285
+    }
+  ],
+  "files_safe_to_compact": [
+    "fantasyPoolFinanceMetricsData.js",
+    "fantasyPoolMatchdayProjectionsData.js",
+    "fantasyPoolRecommendationsData.js",
+    "fantasyPoolScorePredictionsData.js",
+    "livePlayerStatusData.js",
+    "fantasyPoolOfficialDataStatusData.js",
+    "playersData.js"
+  ],
+  "internal_only_candidates": [
+    "model diagnostics embedded inside generated public player rows",
+    "historical stage artifacts not needed for active Final Round default",
+    "QA detail payloads not used by browser rendering"
+  ],
+  "deployment_smoke_test_gaps": [
+    "No single current deployed-site command found that asserts every active Final Round player/fixture name against artifacts.",
+    "Cache-bust versions are present, but index.html and world-cup.html use different final cache-bust labels for script.js/teamBuilder artifact."
+  ],
+  "issues": [
+    {
+      "severity": "warn",
+      "area": "Large public payload",
+      "message": "Largest public files exceed 1.5 MB and should be compacted or split before a top-client handoff.",
+      "evidence": {
+        "largest": [
+          {
+            "file": "fantasyPoolFinanceMetricsData.js",
+            "bytes": 8282613
+          },
+          {
+            "file": "fantasyPoolMatchdayProjectionsData.js",
+            "bytes": 4641345
+          },
+          {
+            "file": "fantasyPoolRecommendationsData.js",
+            "bytes": 2508699
+          },
+          {
+            "file": "fantasyPoolScorePredictionsData.js",
+            "bytes": 1846419
+          },
+          {
+            "file": "livePlayerStatusData.js",
+            "bytes": 985154
+          }
+        ]
+      }
+    },
+    {
+      "severity": "warn",
+      "area": "Cache busting",
+      "message": "Some loaded scripts/styles do not have explicit cache-bust versions.",
+      "evidence": {
+        "cacheIssues": [
+          {
+            "order": 1,
+            "page": "index.html",
+            "src": "https://www.googletagmanager.com/gtag/js?id=G-MSZET05H11",
+            "file": "https://www.googletagmanager.com/gtag/js",
+            "cacheBust": null,
+            "exists": false
+          },
+          {
+            "order": 1,
+            "page": "world-cup.html",
+            "src": "https://www.googletagmanager.com/gtag/js?id=G-MSZET05H11",
+            "file": "https://www.googletagmanager.com/gtag/js",
+            "cacheBust": null,
+            "exists": false
+          }
+        ]
+      }
+    }
+  ]
+}

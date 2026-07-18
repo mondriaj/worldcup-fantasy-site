@@ -1,0 +1,582 @@
+{
+  "schema_version": "public_site_architecture_audit_v1",
+  "generated_at": "2026-07-18T12:16:55.188Z",
+  "status": "pass",
+  "pages": [
+    "index.html",
+    "world-cup.html"
+  ],
+  "active_data_version": "20260718-final-round",
+  "active_default_stage": "finalRound",
+  "script_load_order": [
+    {
+      "order": 1,
+      "page": "index.html",
+      "src": "https://www.googletagmanager.com/gtag/js?id=G-MSZET05H11",
+      "file": "https://www.googletagmanager.com/gtag/js",
+      "cacheBust": null,
+      "exists": false
+    },
+    {
+      "order": 2,
+      "page": "index.html",
+      "src": "playersData.js?v=20260718-final-round",
+      "file": "playersData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 3,
+      "page": "index.html",
+      "src": "fantasyRulesData.js?v=20260718-final-round",
+      "file": "fantasyRulesData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 4,
+      "page": "index.html",
+      "src": "fantasyPoolRecommendationsData.js?v=20260718-final-round",
+      "file": "fantasyPoolRecommendationsData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 5,
+      "page": "index.html",
+      "src": "fantasyPoolMatchdayProjectionsData.js?v=20260718-final-round",
+      "file": "fantasyPoolMatchdayProjectionsData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 6,
+      "page": "index.html",
+      "src": "fantasyPoolFinanceMetricsData.js?v=20260718-final-round",
+      "file": "fantasyPoolFinanceMetricsData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 7,
+      "page": "index.html",
+      "src": "fantasyPoolScorePredictionsData.js?v=20260718-final-round",
+      "file": "fantasyPoolScorePredictionsData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 8,
+      "page": "index.html",
+      "src": "knockoutBracketPredictionData.js?v=20260718-final-round",
+      "file": "knockoutBracketPredictionData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 9,
+      "page": "index.html",
+      "src": "fantasyPoolOfficialDataStatusData.js?v=20260718-final-round",
+      "file": "fantasyPoolOfficialDataStatusData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 10,
+      "page": "index.html",
+      "src": "liveMatchdayStatusData.js?v=20260718-final-round",
+      "file": "liveMatchdayStatusData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 11,
+      "page": "index.html",
+      "src": "livePlayerStatusData.js?v=20260718-final-round",
+      "file": "livePlayerStatusData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 12,
+      "page": "index.html",
+      "src": "r16FixtureAuthorityData.js?v=20260718-final-round",
+      "file": "r16FixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 13,
+      "page": "index.html",
+      "src": "qfFixtureAuthorityData.js?v=20260718-final-round",
+      "file": "qfFixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 14,
+      "page": "index.html",
+      "src": "sfFixtureAuthorityData.js?v=20260718-final-round",
+      "file": "sfFixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 15,
+      "page": "index.html",
+      "src": "finalRoundFixtureAuthorityData.js?v=20260718-final-round",
+      "file": "finalRoundFixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 16,
+      "page": "index.html",
+      "src": "teamBuilderFinalRoundArtifactData.js?v=20260718-builder-artifact-equivalence",
+      "file": "teamBuilderFinalRoundArtifactData.js",
+      "cacheBust": "20260718-builder-artifact-equivalence",
+      "exists": true
+    },
+    {
+      "order": 17,
+      "page": "index.html",
+      "src": "script.js?v=20260718-builder-artifact-equivalence",
+      "file": "script.js",
+      "cacheBust": "20260718-builder-artifact-equivalence",
+      "exists": true
+    },
+    {
+      "order": 1,
+      "page": "world-cup.html",
+      "src": "https://www.googletagmanager.com/gtag/js?id=G-MSZET05H11",
+      "file": "https://www.googletagmanager.com/gtag/js",
+      "cacheBust": null,
+      "exists": false
+    },
+    {
+      "order": 2,
+      "page": "world-cup.html",
+      "src": "worldCupData.js?v=20260718-final-round",
+      "file": "worldCupData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 3,
+      "page": "world-cup.html",
+      "src": "liveMatchdayStatusData.js?v=20260718-final-round",
+      "file": "liveMatchdayStatusData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 4,
+      "page": "world-cup.html",
+      "src": "r32FixtureAuthorityData.js?v=20260718-final-round",
+      "file": "r32FixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 5,
+      "page": "world-cup.html",
+      "src": "r16FixtureAuthorityData.js?v=20260718-final-round",
+      "file": "r16FixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 6,
+      "page": "world-cup.html",
+      "src": "qfFixtureAuthorityData.js?v=20260718-final-round",
+      "file": "qfFixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 7,
+      "page": "world-cup.html",
+      "src": "sfFixtureAuthorityData.js?v=20260718-final-round",
+      "file": "sfFixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 8,
+      "page": "world-cup.html",
+      "src": "finalRoundFixtureAuthorityData.js?v=20260718-final-round",
+      "file": "finalRoundFixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    },
+    {
+      "order": 9,
+      "page": "world-cup.html",
+      "src": "worldCupPage.js?v=20260718-final-round",
+      "file": "worldCupPage.js",
+      "cacheBust": "20260718-final-round",
+      "exists": true
+    }
+  ],
+  "cache_bust_versions": [
+    {
+      "page": "index.html",
+      "file": "https://www.googletagmanager.com/gtag/js",
+      "cacheBust": null
+    },
+    {
+      "page": "index.html",
+      "file": "playersData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "index.html",
+      "file": "fantasyRulesData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "index.html",
+      "file": "fantasyPoolRecommendationsData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "index.html",
+      "file": "fantasyPoolMatchdayProjectionsData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "index.html",
+      "file": "fantasyPoolFinanceMetricsData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "index.html",
+      "file": "fantasyPoolScorePredictionsData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "index.html",
+      "file": "knockoutBracketPredictionData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "index.html",
+      "file": "fantasyPoolOfficialDataStatusData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "index.html",
+      "file": "liveMatchdayStatusData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "index.html",
+      "file": "livePlayerStatusData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "index.html",
+      "file": "r16FixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "index.html",
+      "file": "qfFixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "index.html",
+      "file": "sfFixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "index.html",
+      "file": "finalRoundFixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "index.html",
+      "file": "teamBuilderFinalRoundArtifactData.js",
+      "cacheBust": "20260718-builder-artifact-equivalence"
+    },
+    {
+      "page": "index.html",
+      "file": "script.js",
+      "cacheBust": "20260718-builder-artifact-equivalence"
+    },
+    {
+      "page": "world-cup.html",
+      "file": "https://www.googletagmanager.com/gtag/js",
+      "cacheBust": null
+    },
+    {
+      "page": "world-cup.html",
+      "file": "worldCupData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "world-cup.html",
+      "file": "liveMatchdayStatusData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "world-cup.html",
+      "file": "r32FixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "world-cup.html",
+      "file": "r16FixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "world-cup.html",
+      "file": "qfFixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "world-cup.html",
+      "file": "sfFixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "world-cup.html",
+      "file": "finalRoundFixtureAuthorityData.js",
+      "cacheBust": "20260718-final-round"
+    },
+    {
+      "page": "world-cup.html",
+      "file": "worldCupPage.js",
+      "cacheBust": "20260718-final-round"
+    }
+  ],
+  "exposed_globals": [
+    "FANTASY_POOL_FINANCE_METRICS_DATA",
+    "FANTASY_POOL_FINANCE_METRICS_SUMMARY",
+    "FANTASY_POOL_MATCHDAY_PROJECTIONS_DATA",
+    "FANTASY_POOL_MATCHDAY_PROJECTIONS_SUMMARY",
+    "FANTASY_POOL_OFFICIAL_DATA_STATUS",
+    "FANTASY_POOL_PLAYER_FINANCE_METRICS",
+    "FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS",
+    "FANTASY_POOL_RECOMMENDATIONS_DATA",
+    "FANTASY_POOL_RECOMMENDATIONS_SUMMARY",
+    "FANTASY_POOL_RECOMMENDATION_CANDIDATES",
+    "FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS",
+    "FANTASY_POOL_SCORE_PREDICTIONS_DATA",
+    "FANTASY_POOL_SCORE_PREDICTIONS_SUMMARY",
+    "FANTASY_POOL_TEAM_FIXTURE_PREDICTIONS",
+    "FANTASY_RULES_DATA",
+    "FINAL_ROUND_FIXTURE_AUTHORITY_DATA",
+    "KNOCKOUT_BRACKET_PREDICTION_DATA",
+    "LIVE_MATCHDAY_STATUS_DATA",
+    "LIVE_PLAYER_STATUS_DATA",
+    "PLAYERS_DATA",
+    "QF_FIXTURE_AUTHORITY_DATA",
+    "R16_FIXTURE_AUTHORITY_DATA",
+    "R32_FIXTURE_AUTHORITY_DATA",
+    "SF_FIXTURE_AUTHORITY_DATA",
+    "TEAM_BUILDER_FINAL_ROUND_ARTIFACT_DATA",
+    "WORLD_CUP_DATA"
+  ],
+  "script_active_data_globals": [
+    "FANTASY_POOL_OFFICIAL_DATA_STATUS",
+    "FANTASY_POOL_PLAYER_FINANCE_METRICS",
+    "FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS",
+    "FANTASY_POOL_RECOMMENDATION_CANDIDATES",
+    "FANTASY_POOL_SCORE_FIXTURE_PREDICTIONS",
+    "FANTASY_POOL_SCORE_PREDICTIONS_DATA",
+    "FANTASY_POOL_SCORE_PREDICTIONS_SUMMARY",
+    "FANTASY_POOL_TEAM_FIXTURE_PREDICTIONS",
+    "FANTASY_RULES_DATA",
+    "FINAL_ROUND_FIXTURE_AUTHORITY_DATA",
+    "KNOCKOUT_BRACKET_PREDICTION_DATA",
+    "LIVE_MATCHDAY_STATUS_DATA",
+    "LIVE_PLAYER_STATUS_DATA",
+    "PLAYERS_DATA",
+    "TEAM_BUILDER_FINAL_ROUND_ARTIFACT_DATA"
+  ],
+  "world_cup_page_globals": [
+    "FINAL_ROUND_FIXTURE_AUTHORITY_DATA",
+    "LIVE_MATCHDAY_STATUS_DATA",
+    "QF_FIXTURE_AUTHORITY_DATA",
+    "R16_FIXTURE_AUTHORITY_DATA",
+    "R32_FIXTURE_AUTHORITY_DATA",
+    "SF_FIXTURE_AUTHORITY_DATA",
+    "WORLD_CUP_DATA"
+  ],
+  "public_features": [
+    {
+      "feature": "Homepage shell",
+      "sourceDataFile": "index.html",
+      "publicWrapper": "none",
+      "buildScript": "manual HTML",
+      "validationScript": "scripts/runLaunchBrowserQa.mjs / scripts/runPublicPreviewBrowserQa.mjs",
+      "browserQaCoverage": "public preview and launch browser smoke coverage, plus phase-specific browser QA reports",
+      "sourceOfTruth": "index.html",
+      "knownFallbackBehavior": "noscript cards only"
+    },
+    {
+      "feature": "Picks / Squad Builder Starter",
+      "sourceDataFile": "data/fantasyPoolRecommendations_finalRound_v1.json",
+      "publicWrapper": "fantasyPoolRecommendationsData.js",
+      "buildScript": "scripts/buildFantasyPoolRecommendationsFinalRoundV1.mjs",
+      "validationScript": "scripts/validateFinalRoundCorePickLineupEvidence.mjs, scripts/validateFinalRoundEligiblePlayersV1.mjs",
+      "browserQaCoverage": "included in public preview browser QA, but content-specific coverage is thinner than Team Builder equivalence",
+      "sourceOfTruth": "data/fantasyPoolRecommendations_finalRound_v1.json via fantasyPoolRecommendationsData.js.",
+      "knownFallbackBehavior": "script.js has historical matchday fallback copy for unavailable modes"
+    },
+    {
+      "feature": "Captain Watchlist",
+      "sourceDataFile": "data/fantasyPoolRecommendations_finalRound_v1.json",
+      "publicWrapper": "fantasyPoolRecommendationsData.js",
+      "buildScript": "scripts/buildFantasyPoolRecommendationsFinalRoundV1.mjs",
+      "validationScript": "scripts/validateFinalRoundCorePickLineupEvidence.mjs",
+      "browserQaCoverage": "public page render coverage; no dedicated captain-card content diff found",
+      "sourceOfTruth": "data/fantasyPoolRecommendations_finalRound_v1.json via fantasyPoolRecommendationsData.js.",
+      "knownFallbackBehavior": "derived in browser from recommendation rows"
+    },
+    {
+      "feature": "Player Profile",
+      "sourceDataFile": "players.json plus active recommendation/projection/finance wrappers",
+      "publicWrapper": "playersData.js, fantasyPoolRecommendationsData.js, fantasyPoolMatchdayProjectionsData.js, fantasyPoolFinanceMetricsData.js",
+      "buildScript": "scripts/buildFinalRoundFantasyArtifactsV1.mjs and upstream player-role/projection builders",
+      "validationScript": "data/playerProjectionQa_finalRound_v1.json and data/playerRoleModelQa_finalRound_v1.json",
+      "browserQaCoverage": "public browser QA renders profile surface, but source-field assertions are limited",
+      "sourceOfTruth": "generated active wrappers joined in script.js",
+      "knownFallbackBehavior": "display helpers use 'Needs check' fallbacks for missing detail values"
+    },
+    {
+      "feature": "Team Builder",
+      "sourceDataFile": "data/teamBuilderFinalRoundArtifact_v1.json",
+      "publicWrapper": "teamBuilderFinalRoundArtifactData.js",
+      "buildScript": "scripts/buildFinalRoundFantasyArtifactsV1.mjs",
+      "validationScript": "scripts/validateTeamBuilderFinalRoundV1.mjs, scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs",
+      "browserQaCoverage": "data/finalRoundBuilderBrowserEquivalenceQa_v1.json asserts artifact/browser player, captain, vice, and candidate-pool equivalence",
+      "sourceOfTruth": "data/teamBuilderFinalRoundArtifact_v1.json via teamBuilderFinalRoundArtifactData.js.",
+      "knownFallbackBehavior": "browser optimizer remains available for user locks/filters and historical matchday views"
+    },
+    {
+      "feature": "Match Environment / Score Prediction",
+      "sourceDataFile": "data/scorePredictions_fantasyPool_finalRound_v1.json",
+      "publicWrapper": "fantasyPoolScorePredictionsData.js",
+      "buildScript": "scripts/buildScorePredictionsFantasyPoolFinalRoundV1.mjs",
+      "validationScript": "scripts/validateMatchEnvironmentLiveScores.mjs and score QA reports",
+      "browserQaCoverage": "match-environment live-score QA exists; browser content assertions appear less complete than Team Builder",
+      "sourceOfTruth": "data/scorePredictions_fantasyPool_finalRound_v1.json via fantasyPoolScorePredictionsData.js.",
+      "knownFallbackBehavior": "score context helper defaults missing labels to neutral/needs-check text"
+    },
+    {
+      "feature": "Knockout Bracket Prediction",
+      "sourceDataFile": "data/knockoutBracketPrediction_v1.json",
+      "publicWrapper": "knockoutBracketPredictionData.js",
+      "buildScript": "scripts/buildKnockoutBracketPredictionV1.mjs",
+      "validationScript": "scripts/validateKnockoutBracketPredictionV1.mjs, scripts/validateBracketPathIntegrityV1.mjs",
+      "browserQaCoverage": "bracket QA reports plus public browser render checks",
+      "sourceOfTruth": "stage fixture-authority files and data/knockoutBracketPrediction_v1.json.",
+      "knownFallbackBehavior": "actual-result overlay coexists with modeled historical path rows"
+    },
+    {
+      "feature": "Knockout Predictor",
+      "sourceDataFile": "data/knockoutScorePredictor_v1.json and active score predictions",
+      "publicWrapper": "knockoutScorePredictorData.js, fantasyPoolScorePredictionsData.js",
+      "buildScript": "scripts/buildKnockoutScorePredictorV1.mjs / scripts/buildScorePredictionsFantasyPoolFinalRoundV1.mjs",
+      "validationScript": "scripts/validateKnockoutBracketPredictionV1.mjs",
+      "browserQaCoverage": "render-level QA; model-specific browser assertions should be expanded",
+      "sourceOfTruth": "score prediction and knockout predictor generated artifacts",
+      "knownFallbackBehavior": "historical knockout model data remains loaded for explanatory bracket contexts"
+    },
+    {
+      "feature": "World Cup fixtures page",
+      "sourceDataFile": "worldCupData.js and fixture-authority wrappers",
+      "publicWrapper": "worldCupData.js, liveMatchdayStatusData.js, r32/r16/qf/sf/finalRoundFixtureAuthorityData.js",
+      "buildScript": "fixture authority builders by stage",
+      "validationScript": "scripts/validateWorldCupFixturesPageLiveScores.mjs and stage page validators",
+      "browserQaCoverage": "world-cup fixture page QA validates live-score display and final-round fixture mapping",
+      "sourceOfTruth": "worldCupData.js for schedule, stage fixture-authority files for knockout resolutions",
+      "knownFallbackBehavior": "falls back to placeholder bracket matches when an authority fixture is missing"
+    },
+    {
+      "feature": "Official fantasy wrappers / live status",
+      "sourceDataFile": "data/officialFantasyReadiness_finalRound_v1.json, data/liveMatchdayStatus_v1.json, data/livePlayerStatus_v1.json",
+      "publicWrapper": "fantasyPoolOfficialDataStatusData.js, liveMatchdayStatusData.js, livePlayerStatusData.js",
+      "buildScript": "scripts/refreshOfficialFantasyRoundStatuses.mjs, scripts/importLiveMatchdayStatus.mjs",
+      "validationScript": "scripts/validateOfficialDataReadiness.mjs, scripts/validateLiveFixtureMapping.mjs",
+      "browserQaCoverage": "used by public render checks, no dedicated live-official browser trace report found",
+      "sourceOfTruth": "official import/status artifacts with manual confirmation caveats",
+      "knownFallbackBehavior": "manual confirmation caveats when live rules/status are uncertain"
+    }
+  ],
+  "source_of_truth_by_concept": [
+    {
+      "concept": "fixtureAuthority",
+      "source": "data/finalRoundFixtureAuthority_v1.json"
+    },
+    {
+      "concept": "playerIdentity",
+      "source": "official_fantasy_player_id for official fantasy data; local player id for legacy players.json."
+    },
+    {
+      "concept": "activeStage",
+      "source": "script.js defaultPublicMatchdayId = finalRound plus Final Round wrapper load order."
+    },
+    {
+      "concept": "teamBuilderSquad",
+      "source": "data/teamBuilderFinalRoundArtifact_v1.json via teamBuilderFinalRoundArtifactData.js."
+    },
+    {
+      "concept": "budgetRules",
+      "source": "fantasyRules.json and fantasyRulesData.js."
+    },
+    {
+      "concept": "eligibleTeams",
+      "source": "data/finalRoundFixtureAuthority_v1.json fixtures[].team_a/team_b."
+    },
+    {
+      "concept": "lineupEvidence",
+      "source": "data/sfLineupEvidenceForFinalRound_v1.json and data/playerRoleModel_finalRound_v1.json."
+    },
+    {
+      "concept": "projections",
+      "source": "data/fantasyPoolMatchdayProjections_finalRound_v1.json via fantasyPoolMatchdayProjectionsData.js."
+    },
+    {
+      "concept": "recommendations",
+      "source": "data/fantasyPoolRecommendations_finalRound_v1.json via fantasyPoolRecommendationsData.js."
+    },
+    {
+      "concept": "bracketSlots",
+      "source": "stage fixture-authority files and data/knockoutBracketPrediction_v1.json."
+    },
+    {
+      "concept": "scorePredictions",
+      "source": "data/scorePredictions_fantasyPool_finalRound_v1.json via fantasyPoolScorePredictionsData.js."
+    }
+  ],
+  "competing_source_findings": [
+    {
+      "severity": "warn",
+      "area": "Team Builder",
+      "message": "Generated Final Round artifact is the public default, but a full browser optimizer remains in script.js for user locks and historical views.",
+      "evidence": {
+        "artifact": "data/teamBuilderFinalRoundArtifact_v1.json",
+        "browserLogic": "script.js"
+      }
+    },
+    {
+      "severity": "warn",
+      "area": "Active stage",
+      "message": "Historical matchday options and fallback wording remain in the active Team Builder controls; acceptable if intentionally historical, but not elegant for a stage-scoped public default.",
+      "evidence": {
+        "defaultStage": "finalRound"
+      }
+    },
+    {
+      "severity": "warn",
+      "area": "Budget/rules",
+      "message": "Budget source is rules-driven in code, but Stats Notes still contain legacy $100m copy that can confuse the Final Round 105 rule.",
+      "evidence": {
+        "file": "index.html"
+      }
+    }
+  ]
+}

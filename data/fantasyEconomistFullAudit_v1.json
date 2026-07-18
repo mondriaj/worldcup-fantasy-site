@@ -1,0 +1,686 @@
+{
+  "schema_version": "fantasy_economist_full_audit_v1",
+  "generated_at": "2026-07-18T12:16:55.542Z",
+  "status": "pass",
+  "worktree_scope_gate": {
+    "git_status_short": " M .gitignore\n M data/activeFantasyDataFlowQa.json\n M data/activeFantasyDataFlowQaReport.md\n M data/bracketPathIntegrityAuditReport_v1.md\n M data/bracketPathIntegrityAudit_v1.json\nAM data/codeEleganceAuditReport_v1.md\nAM data/codeEleganceAudit_v1.json\nAM data/dataModelEleganceAuditReport_v1.md\nAM data/dataModelEleganceAudit_v1.json\nAM data/fantasyCorrectnessAuditReport_v1.md\nAM data/fantasyCorrectnessAudit_v1.json\nA  data/fantasyEconomistFullAuditReport_v1.md\nA  data/fantasyEconomistFullAudit_v1.json\n M data/fantasyPoolMatchdayProjections_finalRound_v1.json\n M data/fantasyPoolRecommendations_finalRound_v1.json\n M data/finalRoundCorePickLineupEvidenceQa_v1.json\n M data/finalRoundEliminatedPlayerBugAudit_v1.json\n M data/finalRoundFinanceBridgeQa_v1.json\n M data/finalRoundFixtureAuthorityQa_v1.json\n M data/finalRoundFixtureAuthority_v1.json\n M data/finalRoundLineupNewsAudit_v1.json\n M data/finalRoundReleaseQa_v1.json\n M data/knockoutBracketPredictionQaReport_v1.md\n M data/knockoutBracketPredictionQa_v1.json\n M data/knockoutCalibrationDataset_for_finalRound_v1.json\n M data/knockoutModelPostmortem_for_finalRound_v1.json\n M data/liveFixtureMappingQaReport_v1.md\n M data/liveFixtureMappingQa_v1.json\n M data/matchEnvironmentLiveScoresQaReport_v1.md\n M data/matchEnvironmentLiveScoresQa_v1.json\nAM data/modelEleganceAuditReport_v1.md\nAM data/modelEleganceAudit_v1.json\n M data/peleRefreshAudit_finalRound_v1.json\nAM data/performanceDeploymentAuditReport_v1.md\nAM data/performanceDeploymentAudit_v1.json\n M data/playerProjectionQa_finalRound_v1.json\n M data/playerRoleModelQa_finalRound_v1.json\n M data/playerRoleModel_finalRound_v1.json\nAM data/publicDesignAuditReport_v1.md\nAM data/publicDesignAudit_v1.json\nAM data/publicSiteArchitectureAuditReport_v1.md\nAM data/publicSiteArchitectureAudit_v1.json\nAM data/qaCoverageAuditReport_v1.md\nAM data/qaCoverageAudit_v1.json\n M data/recommendationQa_finalRound_v1.json\nAM data/reputationRiskAuditReport_v1.md\nAM data/reputationRiskAudit_v1.json\n M data/scorePredictionQa_finalRound_v1.json\n M data/scorePredictions_fantasyPool_finalRound_v1.json\n M data/sfLineupEvidenceForFinalRound_v1.json\nAM data/teamBuilderEleganceAuditReport_v1.md\nAM data/teamBuilderEleganceAudit_v1.json\n M data/thirdPlaceHistoricalProfileQa_v1.json\n M data/thirdPlaceHistoricalProfile_v1.json\n M data/worldCupFixturesPageLiveScoresQaReport_v1.md\n M data/worldCupFixturesPageLiveScoresQa_v1.json\n M fantasyPoolFinanceMetricsData.js\n M fantasyPoolMatchdayProjectionsData.js\n M fantasyPoolRecommendationsData.js\n M fantasyPoolScorePredictionsData.js\n M finalRoundFixtureAuthorityData.js\nA  scripts/auditCodeEleganceV1.mjs\nA  scripts/auditDataModelEleganceV1.mjs\nA  scripts/auditFantasyCorrectnessV1.mjs\nA  scripts/auditModelEleganceV1.mjs\nA  scripts/auditPerformanceDeploymentV1.mjs\nA  scripts/auditPublicDesignV1.mjs\nA  scripts/auditPublicSiteArchitectureV1.mjs\nA  scripts/auditQaCoverageV1.mjs\nA  scripts/auditReputationRiskV1.mjs\nA  scripts/auditTeamBuilderEleganceV1.mjs\nA  scripts/lib/publicAuditV1.mjs\nA  scripts/runFantasyEconomistFullAuditV1.mjs\n?? analysis/\n?? data/refereeingOutcomesAnalysisValidation_v1.json\n?? data/refereeingOutcomesAnalysisValidation_v1.md\n?? data/refereeingOutcomesCalledEvents_v1.json\n?? data/refereeingOutcomesFeatureQa_v1.json\n?? data/refereeingOutcomesFeatureQa_v1.md\n?? data/refereeingOutcomesFigures_v1/\n?? data/refereeingOutcomesMeasurementContract_v1.md\n?? data/refereeingOutcomesModelData_v1.json\n?? data/refereeingOutcomesModelReport_v1.md\n?? data/refereeingOutcomesModels_v1/\n?? data/refereeingOutcomesResults_v1.json\n?? data/refereeingOutcomesResults_v1.md\n?? data/refereeingOutcomesRobustness_v1.json\n?? data/refereeingOutcomesRobustness_v1.md\n?? data/refereeingOutcomesSourceManifest_v1.json\n?? data/refereeingOutcomesSourceQA_v1.json\n?? data/refereeingOutcomesSourceQA_v1.md\n?? data/refereeingOutcomesStrengthSnapshot_v1.json\n?? data/refereeingOutcomesTeamMatches_v1.json\n?? scripts/analyzeRefereeingOutcomesModelsV1.py\n?? scripts/buildRefereeingOutcomesFeaturesV1.mjs\n?? scripts/buildRefereeingOutcomesFiguresV1.py\n?? scripts/buildRefereeingOutcomesNotebookV1.py\n?? scripts/buildRefereeingOutcomesReportV1.py\n?? scripts/buildRefereeingOutcomesSourceSnapshotV1.mjs\n?? scripts/fitRefereeingOutcomesModelsV1.py\n?? scripts/runRefereeingOutcomesPipelineV1.sh\n?? scripts/runRefereeingOutcomesRobustnessV1.py\n?? scripts/validateRefereeingOutcomesAnalysisV1.py\n?? scripts/validateRefereeingOutcomesSourceSnapshotV1.mjs",
+    "git_diff_stat": " .gitignore                                         |  2 ++\n data/activeFantasyDataFlowQa.json                  | 26 +++++++++++-----------\n data/activeFantasyDataFlowQaReport.md              | 10 ++++-----\n data/bracketPathIntegrityAuditReport_v1.md         |  2 +-\n data/bracketPathIntegrityAudit_v1.json             |  2 +-\n data/codeEleganceAuditReport_v1.md                 |  2 +-\n data/codeEleganceAudit_v1.json                     |  2 +-\n data/dataModelEleganceAuditReport_v1.md            |  2 +-\n data/dataModelEleganceAudit_v1.json                |  2 +-\n data/fantasyCorrectnessAuditReport_v1.md           |  2 +-\n data/fantasyCorrectnessAudit_v1.json               |  2 +-\n ...ntasyPoolMatchdayProjections_finalRound_v1.json |  2 +-\n data/fantasyPoolRecommendations_finalRound_v1.json |  2 +-\n data/finalRoundCorePickLineupEvidenceQa_v1.json    |  2 +-\n data/finalRoundEliminatedPlayerBugAudit_v1.json    |  8 +++----\n data/finalRoundFinanceBridgeQa_v1.json             |  2 +-\n data/finalRoundFixtureAuthorityQa_v1.json          |  2 +-\n data/finalRoundFixtureAuthority_v1.json            |  2 +-\n data/finalRoundLineupNewsAudit_v1.json             |  2 +-\n data/finalRoundReleaseQa_v1.json                   |  2 +-\n data/knockoutBracketPredictionQaReport_v1.md       |  2 +-\n data/knockoutBracketPredictionQa_v1.json           |  2 +-\n ...ockoutCalibrationDataset_for_finalRound_v1.json |  2 +-\n .../knockoutModelPostmortem_for_finalRound_v1.json |  2 +-\n data/liveFixtureMappingQaReport_v1.md              |  2 +-\n data/liveFixtureMappingQa_v1.json                  |  2 +-\n data/matchEnvironmentLiveScoresQaReport_v1.md      |  2 +-\n data/matchEnvironmentLiveScoresQa_v1.json          |  2 +-\n data/modelEleganceAuditReport_v1.md                |  2 +-\n data/modelEleganceAudit_v1.json                    |  2 +-\n data/peleRefreshAudit_finalRound_v1.json           |  2 +-\n data/performanceDeploymentAuditReport_v1.md        |  2 +-\n data/performanceDeploymentAudit_v1.json            |  2 +-\n data/playerProjectionQa_finalRound_v1.json         |  2 +-\n data/playerRoleModelQa_finalRound_v1.json          |  2 +-\n data/playerRoleModel_finalRound_v1.json            |  4 ++--\n data/publicDesignAuditReport_v1.md                 |  2 +-\n data/publicDesignAudit_v1.json                     |  2 +-\n data/publicSiteArchitectureAuditReport_v1.md       |  2 +-\n data/publicSiteArchitectureAudit_v1.json           |  2 +-\n data/qaCoverageAuditReport_v1.md                   |  2 +-\n data/qaCoverageAudit_v1.json                       |  2 +-\n data/recommendationQa_finalRound_v1.json           |  2 +-\n data/reputationRiskAuditReport_v1.md               |  2 +-\n data/reputationRiskAudit_v1.json                   |  2 +-\n data/scorePredictionQa_finalRound_v1.json          |  2 +-\n ...scorePredictions_fantasyPool_finalRound_v1.json |  2 +-\n data/sfLineupEvidenceForFinalRound_v1.json         |  2 +-\n data/teamBuilderEleganceAuditReport_v1.md          |  2 +-\n data/teamBuilderEleganceAudit_v1.json              |  2 +-\n data/thirdPlaceHistoricalProfileQa_v1.json         |  2 +-\n data/thirdPlaceHistoricalProfile_v1.json           |  2 +-\n data/worldCupFixturesPageLiveScoresQaReport_v1.md  |  2 +-\n data/worldCupFixturesPageLiveScoresQa_v1.json      |  2 +-\n fantasyPoolFinanceMetricsData.js                   |  2 +-\n fantasyPoolMatchdayProjectionsData.js              |  2 +-\n fantasyPoolRecommendationsData.js                  |  2 +-\n fantasyPoolScorePredictionsData.js                 |  2 +-\n finalRoundFixtureAuthorityData.js                  |  2 +-\n 59 files changed, 80 insertions(+), 78 deletions(-)",
+    "git_diff_name_only": ".gitignore\ndata/activeFantasyDataFlowQa.json\ndata/activeFantasyDataFlowQaReport.md\ndata/bracketPathIntegrityAuditReport_v1.md\ndata/bracketPathIntegrityAudit_v1.json\ndata/codeEleganceAuditReport_v1.md\ndata/codeEleganceAudit_v1.json\ndata/dataModelEleganceAuditReport_v1.md\ndata/dataModelEleganceAudit_v1.json\ndata/fantasyCorrectnessAuditReport_v1.md\ndata/fantasyCorrectnessAudit_v1.json\ndata/fantasyPoolMatchdayProjections_finalRound_v1.json\ndata/fantasyPoolRecommendations_finalRound_v1.json\ndata/finalRoundCorePickLineupEvidenceQa_v1.json\ndata/finalRoundEliminatedPlayerBugAudit_v1.json\ndata/finalRoundFinanceBridgeQa_v1.json\ndata/finalRoundFixtureAuthorityQa_v1.json\ndata/finalRoundFixtureAuthority_v1.json\ndata/finalRoundLineupNewsAudit_v1.json\ndata/finalRoundReleaseQa_v1.json\ndata/knockoutBracketPredictionQaReport_v1.md\ndata/knockoutBracketPredictionQa_v1.json\ndata/knockoutCalibrationDataset_for_finalRound_v1.json\ndata/knockoutModelPostmortem_for_finalRound_v1.json\ndata/liveFixtureMappingQaReport_v1.md\ndata/liveFixtureMappingQa_v1.json\ndata/matchEnvironmentLiveScoresQaReport_v1.md\ndata/matchEnvironmentLiveScoresQa_v1.json\ndata/modelEleganceAuditReport_v1.md\ndata/modelEleganceAudit_v1.json\ndata/peleRefreshAudit_finalRound_v1.json\ndata/performanceDeploymentAuditReport_v1.md\ndata/performanceDeploymentAudit_v1.json\ndata/playerProjectionQa_finalRound_v1.json\ndata/playerRoleModelQa_finalRound_v1.json\ndata/playerRoleModel_finalRound_v1.json\ndata/publicDesignAuditReport_v1.md\ndata/publicDesignAudit_v1.json\ndata/publicSiteArchitectureAuditReport_v1.md\ndata/publicSiteArchitectureAudit_v1.json\ndata/qaCoverageAuditReport_v1.md\ndata/qaCoverageAudit_v1.json\ndata/recommendationQa_finalRound_v1.json\ndata/reputationRiskAuditReport_v1.md\ndata/reputationRiskAudit_v1.json\ndata/scorePredictionQa_finalRound_v1.json\ndata/scorePredictions_fantasyPool_finalRound_v1.json\ndata/sfLineupEvidenceForFinalRound_v1.json\ndata/teamBuilderEleganceAuditReport_v1.md\ndata/teamBuilderEleganceAudit_v1.json\ndata/thirdPlaceHistoricalProfileQa_v1.json\ndata/thirdPlaceHistoricalProfile_v1.json\ndata/worldCupFixturesPageLiveScoresQaReport_v1.md\ndata/worldCupFixturesPageLiveScoresQa_v1.json\nfantasyPoolFinanceMetricsData.js\nfantasyPoolMatchdayProjectionsData.js\nfantasyPoolRecommendationsData.js\nfantasyPoolScorePredictionsData.js\nfinalRoundFixtureAuthorityData.js",
+    "entries": [
+      {
+        "status": "M",
+        "file": ".gitignore",
+        "classification": "unrelated .gitignore"
+      },
+      {
+        "status": "M",
+        "file": "data/activeFantasyDataFlowQa.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/activeFantasyDataFlowQaReport.md",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/bracketPathIntegrityAuditReport_v1.md",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/bracketPathIntegrityAudit_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "AM",
+        "file": "data/codeEleganceAuditReport_v1.md",
+        "classification": "audit-related"
+      },
+      {
+        "status": "AM",
+        "file": "data/codeEleganceAudit_v1.json",
+        "classification": "audit-related"
+      },
+      {
+        "status": "AM",
+        "file": "data/dataModelEleganceAuditReport_v1.md",
+        "classification": "audit-related"
+      },
+      {
+        "status": "AM",
+        "file": "data/dataModelEleganceAudit_v1.json",
+        "classification": "audit-related"
+      },
+      {
+        "status": "AM",
+        "file": "data/fantasyCorrectnessAuditReport_v1.md",
+        "classification": "audit-related"
+      },
+      {
+        "status": "AM",
+        "file": "data/fantasyCorrectnessAudit_v1.json",
+        "classification": "audit-related"
+      },
+      {
+        "status": "A",
+        "file": "data/fantasyEconomistFullAuditReport_v1.md",
+        "classification": "audit-related"
+      },
+      {
+        "status": "A",
+        "file": "data/fantasyEconomistFullAudit_v1.json",
+        "classification": "audit-related"
+      },
+      {
+        "status": "M",
+        "file": "data/fantasyPoolMatchdayProjections_finalRound_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/fantasyPoolRecommendations_finalRound_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/finalRoundCorePickLineupEvidenceQa_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/finalRoundEliminatedPlayerBugAudit_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/finalRoundFinanceBridgeQa_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/finalRoundFixtureAuthorityQa_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/finalRoundFixtureAuthority_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/finalRoundLineupNewsAudit_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/finalRoundReleaseQa_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/knockoutBracketPredictionQaReport_v1.md",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/knockoutBracketPredictionQa_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/knockoutCalibrationDataset_for_finalRound_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/knockoutModelPostmortem_for_finalRound_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/liveFixtureMappingQaReport_v1.md",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/liveFixtureMappingQa_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/matchEnvironmentLiveScoresQaReport_v1.md",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/matchEnvironmentLiveScoresQa_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "AM",
+        "file": "data/modelEleganceAuditReport_v1.md",
+        "classification": "audit-related"
+      },
+      {
+        "status": "AM",
+        "file": "data/modelEleganceAudit_v1.json",
+        "classification": "audit-related"
+      },
+      {
+        "status": "M",
+        "file": "data/peleRefreshAudit_finalRound_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "AM",
+        "file": "data/performanceDeploymentAuditReport_v1.md",
+        "classification": "audit-related"
+      },
+      {
+        "status": "AM",
+        "file": "data/performanceDeploymentAudit_v1.json",
+        "classification": "audit-related"
+      },
+      {
+        "status": "M",
+        "file": "data/playerProjectionQa_finalRound_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/playerRoleModelQa_finalRound_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/playerRoleModel_finalRound_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "AM",
+        "file": "data/publicDesignAuditReport_v1.md",
+        "classification": "audit-related"
+      },
+      {
+        "status": "AM",
+        "file": "data/publicDesignAudit_v1.json",
+        "classification": "audit-related"
+      },
+      {
+        "status": "AM",
+        "file": "data/publicSiteArchitectureAuditReport_v1.md",
+        "classification": "audit-related"
+      },
+      {
+        "status": "AM",
+        "file": "data/publicSiteArchitectureAudit_v1.json",
+        "classification": "audit-related"
+      },
+      {
+        "status": "AM",
+        "file": "data/qaCoverageAuditReport_v1.md",
+        "classification": "audit-related"
+      },
+      {
+        "status": "AM",
+        "file": "data/qaCoverageAudit_v1.json",
+        "classification": "audit-related"
+      },
+      {
+        "status": "M",
+        "file": "data/recommendationQa_finalRound_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "AM",
+        "file": "data/reputationRiskAuditReport_v1.md",
+        "classification": "audit-related"
+      },
+      {
+        "status": "AM",
+        "file": "data/reputationRiskAudit_v1.json",
+        "classification": "audit-related"
+      },
+      {
+        "status": "M",
+        "file": "data/scorePredictionQa_finalRound_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/scorePredictions_fantasyPool_finalRound_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/sfLineupEvidenceForFinalRound_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "AM",
+        "file": "data/teamBuilderEleganceAuditReport_v1.md",
+        "classification": "audit-related"
+      },
+      {
+        "status": "AM",
+        "file": "data/teamBuilderEleganceAudit_v1.json",
+        "classification": "audit-related"
+      },
+      {
+        "status": "M",
+        "file": "data/thirdPlaceHistoricalProfileQa_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/thirdPlaceHistoricalProfile_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/worldCupFixturesPageLiveScoresQaReport_v1.md",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "data/worldCupFixturesPageLiveScoresQa_v1.json",
+        "classification": "generated data"
+      },
+      {
+        "status": "M",
+        "file": "fantasyPoolFinanceMetricsData.js",
+        "classification": "public wrappers"
+      },
+      {
+        "status": "M",
+        "file": "fantasyPoolMatchdayProjectionsData.js",
+        "classification": "public wrappers"
+      },
+      {
+        "status": "M",
+        "file": "fantasyPoolRecommendationsData.js",
+        "classification": "public wrappers"
+      },
+      {
+        "status": "M",
+        "file": "fantasyPoolScorePredictionsData.js",
+        "classification": "public wrappers"
+      },
+      {
+        "status": "M",
+        "file": "finalRoundFixtureAuthorityData.js",
+        "classification": "public wrappers"
+      },
+      {
+        "status": "A",
+        "file": "scripts/auditCodeEleganceV1.mjs",
+        "classification": "audit-related"
+      },
+      {
+        "status": "A",
+        "file": "scripts/auditDataModelEleganceV1.mjs",
+        "classification": "audit-related"
+      },
+      {
+        "status": "A",
+        "file": "scripts/auditFantasyCorrectnessV1.mjs",
+        "classification": "audit-related"
+      },
+      {
+        "status": "A",
+        "file": "scripts/auditModelEleganceV1.mjs",
+        "classification": "audit-related"
+      },
+      {
+        "status": "A",
+        "file": "scripts/auditPerformanceDeploymentV1.mjs",
+        "classification": "audit-related"
+      },
+      {
+        "status": "A",
+        "file": "scripts/auditPublicDesignV1.mjs",
+        "classification": "audit-related"
+      },
+      {
+        "status": "A",
+        "file": "scripts/auditPublicSiteArchitectureV1.mjs",
+        "classification": "audit-related"
+      },
+      {
+        "status": "A",
+        "file": "scripts/auditQaCoverageV1.mjs",
+        "classification": "audit-related"
+      },
+      {
+        "status": "A",
+        "file": "scripts/auditReputationRiskV1.mjs",
+        "classification": "audit-related"
+      },
+      {
+        "status": "A",
+        "file": "scripts/auditTeamBuilderEleganceV1.mjs",
+        "classification": "audit-related"
+      },
+      {
+        "status": "A",
+        "file": "scripts/lib/publicAuditV1.mjs",
+        "classification": "audit-related"
+      },
+      {
+        "status": "A",
+        "file": "scripts/runFantasyEconomistFullAuditV1.mjs",
+        "classification": "audit-related"
+      },
+      {
+        "status": "??",
+        "file": "analysis/",
+        "classification": "unrelated refereeing/conspiracy analysis"
+      },
+      {
+        "status": "??",
+        "file": "data/refereeingOutcomesAnalysisValidation_v1.json",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "data/refereeingOutcomesAnalysisValidation_v1.md",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "data/refereeingOutcomesCalledEvents_v1.json",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "data/refereeingOutcomesFeatureQa_v1.json",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "data/refereeingOutcomesFeatureQa_v1.md",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "data/refereeingOutcomesFigures_v1/",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "data/refereeingOutcomesMeasurementContract_v1.md",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "data/refereeingOutcomesModelData_v1.json",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "data/refereeingOutcomesModelReport_v1.md",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "data/refereeingOutcomesModels_v1/",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "data/refereeingOutcomesResults_v1.json",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "data/refereeingOutcomesResults_v1.md",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "data/refereeingOutcomesRobustness_v1.json",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "data/refereeingOutcomesRobustness_v1.md",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "data/refereeingOutcomesSourceManifest_v1.json",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "data/refereeingOutcomesSourceQA_v1.json",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "data/refereeingOutcomesSourceQA_v1.md",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "data/refereeingOutcomesStrengthSnapshot_v1.json",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "data/refereeingOutcomesTeamMatches_v1.json",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "scripts/analyzeRefereeingOutcomesModelsV1.py",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "scripts/buildRefereeingOutcomesFeaturesV1.mjs",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "scripts/buildRefereeingOutcomesFiguresV1.py",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "scripts/buildRefereeingOutcomesNotebookV1.py",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "scripts/buildRefereeingOutcomesReportV1.py",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "scripts/buildRefereeingOutcomesSourceSnapshotV1.mjs",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "scripts/fitRefereeingOutcomesModelsV1.py",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "scripts/runRefereeingOutcomesPipelineV1.sh",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "scripts/runRefereeingOutcomesRobustnessV1.py",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "scripts/validateRefereeingOutcomesAnalysisV1.py",
+        "classification": "unrelated research/referee files"
+      },
+      {
+        "status": "??",
+        "file": "scripts/validateRefereeingOutcomesSourceSnapshotV1.mjs",
+        "classification": "unrelated research/referee files"
+      }
+    ],
+    "by_classification": {
+      "unrelated .gitignore": [
+        ".gitignore"
+      ],
+      "generated data": [
+        "data/activeFantasyDataFlowQa.json",
+        "data/activeFantasyDataFlowQaReport.md",
+        "data/bracketPathIntegrityAuditReport_v1.md",
+        "data/bracketPathIntegrityAudit_v1.json",
+        "data/fantasyPoolMatchdayProjections_finalRound_v1.json",
+        "data/fantasyPoolRecommendations_finalRound_v1.json",
+        "data/finalRoundCorePickLineupEvidenceQa_v1.json",
+        "data/finalRoundEliminatedPlayerBugAudit_v1.json",
+        "data/finalRoundFinanceBridgeQa_v1.json",
+        "data/finalRoundFixtureAuthorityQa_v1.json",
+        "data/finalRoundFixtureAuthority_v1.json",
+        "data/finalRoundLineupNewsAudit_v1.json",
+        "data/finalRoundReleaseQa_v1.json",
+        "data/knockoutBracketPredictionQaReport_v1.md",
+        "data/knockoutBracketPredictionQa_v1.json",
+        "data/knockoutCalibrationDataset_for_finalRound_v1.json",
+        "data/knockoutModelPostmortem_for_finalRound_v1.json",
+        "data/liveFixtureMappingQaReport_v1.md",
+        "data/liveFixtureMappingQa_v1.json",
+        "data/matchEnvironmentLiveScoresQaReport_v1.md",
+        "data/matchEnvironmentLiveScoresQa_v1.json",
+        "data/peleRefreshAudit_finalRound_v1.json",
+        "data/playerProjectionQa_finalRound_v1.json",
+        "data/playerRoleModelQa_finalRound_v1.json",
+        "data/playerRoleModel_finalRound_v1.json",
+        "data/recommendationQa_finalRound_v1.json",
+        "data/scorePredictionQa_finalRound_v1.json",
+        "data/scorePredictions_fantasyPool_finalRound_v1.json",
+        "data/sfLineupEvidenceForFinalRound_v1.json",
+        "data/thirdPlaceHistoricalProfileQa_v1.json",
+        "data/thirdPlaceHistoricalProfile_v1.json",
+        "data/worldCupFixturesPageLiveScoresQaReport_v1.md",
+        "data/worldCupFixturesPageLiveScoresQa_v1.json"
+      ],
+      "audit-related": [
+        "data/codeEleganceAuditReport_v1.md",
+        "data/codeEleganceAudit_v1.json",
+        "data/dataModelEleganceAuditReport_v1.md",
+        "data/dataModelEleganceAudit_v1.json",
+        "data/fantasyCorrectnessAuditReport_v1.md",
+        "data/fantasyCorrectnessAudit_v1.json",
+        "data/fantasyEconomistFullAuditReport_v1.md",
+        "data/fantasyEconomistFullAudit_v1.json",
+        "data/modelEleganceAuditReport_v1.md",
+        "data/modelEleganceAudit_v1.json",
+        "data/performanceDeploymentAuditReport_v1.md",
+        "data/performanceDeploymentAudit_v1.json",
+        "data/publicDesignAuditReport_v1.md",
+        "data/publicDesignAudit_v1.json",
+        "data/publicSiteArchitectureAuditReport_v1.md",
+        "data/publicSiteArchitectureAudit_v1.json",
+        "data/qaCoverageAuditReport_v1.md",
+        "data/qaCoverageAudit_v1.json",
+        "data/reputationRiskAuditReport_v1.md",
+        "data/reputationRiskAudit_v1.json",
+        "data/teamBuilderEleganceAuditReport_v1.md",
+        "data/teamBuilderEleganceAudit_v1.json",
+        "scripts/auditCodeEleganceV1.mjs",
+        "scripts/auditDataModelEleganceV1.mjs",
+        "scripts/auditFantasyCorrectnessV1.mjs",
+        "scripts/auditModelEleganceV1.mjs",
+        "scripts/auditPerformanceDeploymentV1.mjs",
+        "scripts/auditPublicDesignV1.mjs",
+        "scripts/auditPublicSiteArchitectureV1.mjs",
+        "scripts/auditQaCoverageV1.mjs",
+        "scripts/auditReputationRiskV1.mjs",
+        "scripts/auditTeamBuilderEleganceV1.mjs",
+        "scripts/lib/publicAuditV1.mjs",
+        "scripts/runFantasyEconomistFullAuditV1.mjs"
+      ],
+      "public wrappers": [
+        "fantasyPoolFinanceMetricsData.js",
+        "fantasyPoolMatchdayProjectionsData.js",
+        "fantasyPoolRecommendationsData.js",
+        "fantasyPoolScorePredictionsData.js",
+        "finalRoundFixtureAuthorityData.js"
+      ],
+      "unrelated refereeing/conspiracy analysis": [
+        "analysis/"
+      ],
+      "unrelated research/referee files": [
+        "data/refereeingOutcomesAnalysisValidation_v1.json",
+        "data/refereeingOutcomesAnalysisValidation_v1.md",
+        "data/refereeingOutcomesCalledEvents_v1.json",
+        "data/refereeingOutcomesFeatureQa_v1.json",
+        "data/refereeingOutcomesFeatureQa_v1.md",
+        "data/refereeingOutcomesFigures_v1/",
+        "data/refereeingOutcomesMeasurementContract_v1.md",
+        "data/refereeingOutcomesModelData_v1.json",
+        "data/refereeingOutcomesModelReport_v1.md",
+        "data/refereeingOutcomesModels_v1/",
+        "data/refereeingOutcomesResults_v1.json",
+        "data/refereeingOutcomesResults_v1.md",
+        "data/refereeingOutcomesRobustness_v1.json",
+        "data/refereeingOutcomesRobustness_v1.md",
+        "data/refereeingOutcomesSourceManifest_v1.json",
+        "data/refereeingOutcomesSourceQA_v1.json",
+        "data/refereeingOutcomesSourceQA_v1.md",
+        "data/refereeingOutcomesStrengthSnapshot_v1.json",
+        "data/refereeingOutcomesTeamMatches_v1.json",
+        "scripts/analyzeRefereeingOutcomesModelsV1.py",
+        "scripts/buildRefereeingOutcomesFeaturesV1.mjs",
+        "scripts/buildRefereeingOutcomesFiguresV1.py",
+        "scripts/buildRefereeingOutcomesNotebookV1.py",
+        "scripts/buildRefereeingOutcomesReportV1.py",
+        "scripts/buildRefereeingOutcomesSourceSnapshotV1.mjs",
+        "scripts/fitRefereeingOutcomesModelsV1.py",
+        "scripts/runRefereeingOutcomesPipelineV1.sh",
+        "scripts/runRefereeingOutcomesRobustnessV1.py",
+        "scripts/validateRefereeingOutcomesAnalysisV1.py",
+        "scripts/validateRefereeingOutcomesSourceSnapshotV1.mjs"
+      ]
+    },
+    "unrelated_files_present": true,
+    "scoped_commit_possible": true,
+    "commit_scope_instruction": "Stage only audit-related scripts/reports for this audit. Do not stage refereeing, analysis, .gitignore, public wrapper, or pre-existing generated-data changes."
+  },
+  "phase_statuses": {
+    "architecture": "pass",
+    "correctness": "pass",
+    "dataModel": "pass",
+    "model": "pass",
+    "teamBuilder": "pass",
+    "qaCoverage": "pass",
+    "publicDesign": "pass",
+    "codeElegance": "pass",
+    "performanceDeployment": "pass",
+    "reputationRisk": "pass"
+  },
+  "critical_correctness_bugs_found": [],
+  "top_recommendations": [
+    "Keep the Final Round public default artifact-backed; do not return to browser-only default optimization.",
+    "Introduce one active-stage manifest for source files, wrappers, validators, cache-bust versions, and browser assertions.",
+    "Separate public display payloads from internal model diagnostics.",
+    "Move Team Builder optimizer/model weights out of script.js and into a shared generated/model module.",
+    "Update legacy budget copy and shorten current-stage caveats for a more polished client-facing experience."
+  ],
+  "generated_reports": [
+    "data/publicSiteArchitectureAuditReport_v1.md",
+    "data/fantasyCorrectnessAuditReport_v1.md",
+    "data/dataModelEleganceAuditReport_v1.md",
+    "data/modelEleganceAuditReport_v1.md",
+    "data/teamBuilderEleganceAuditReport_v1.md",
+    "data/qaCoverageAuditReport_v1.md",
+    "data/publicDesignAuditReport_v1.md",
+    "data/codeEleganceAuditReport_v1.md",
+    "data/performanceDeploymentAuditReport_v1.md",
+    "data/reputationRiskAuditReport_v1.md",
+    "data/fantasyEconomistFullAuditReport_v1.md"
+  ]
+}

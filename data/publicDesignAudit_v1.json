@@ -1,0 +1,46 @@
+{
+  "schema_version": "public_design_audit_v1",
+  "generated_at": "2026-07-18T12:16:55.408Z",
+  "status": "pass",
+  "surfaces_audited": [
+    "homepage",
+    "Picks",
+    "Captain Watchlist",
+    "Player Profile",
+    "Team Builder",
+    "Match Environment",
+    "Knockout Bracket",
+    "Knockout Prediction",
+    "World Cup fixtures page",
+    "Sources/caveats",
+    "mobile layout via CSS structure"
+  ],
+  "strengths": [
+    "Final Round framing is prominent in hero, Team Builder, Match Environment, and World Cup status copy.",
+    "Risk/caveat language is visible and avoids official/FIFA overclaiming.",
+    "World Cup facts are separated from fantasy recommendations.",
+    "Team Builder workflow is ordered and user-action oriented."
+  ],
+  "weaknesses": [
+    "Stats Notes are long and contain legacy group-stage budget copy that can confuse Final Round users.",
+    "Many badges, caveats, and explanatory panels compete for attention.",
+    "Several sections expose model vocabulary that casual fantasy users may not immediately understand.",
+    "The site has a credible tool feel, but could be cleaner with a shorter current-stage summary and archived methodology details."
+  ],
+  "recommended_cleanup": [
+    "Move historical/group-stage method notes behind an archive/details layer for Final Round.",
+    "Update budget copy to explicitly say base 100 plus Final Round increase to 105.",
+    "Make each active surface show one concise source/caveat line and link to deeper notes.",
+    "Add content-specific mobile QA screenshots for Team Builder, Picks, and Match Environment."
+  ],
+  "issues": [
+    {
+      "severity": "warn",
+      "area": "Copy accuracy",
+      "message": "Stats Notes still explain the base $100m squad rule without nearby Final Round +5 context.",
+      "evidence": {
+        "text": "$100m starting budget"
+      }
+    }
+  ]
+}
