@@ -116,7 +116,7 @@ export const TEAM_BUILDER_COMPARISON_STRATEGY_KEYS = [
 ];
 
 export const TEAM_BUILDER_PUBLIC_SOURCE_OF_TRUTH_NOTE =
-  "The generated Final Round Team Builder artifact is the public source of truth.";
+  "The saved Final Round Team Builder output is the public source of truth.";
 
 function normalizeText(value) {
   return String(value || "")
@@ -148,7 +148,7 @@ export function objectiveSummaryText({
   optionality,
   composite
 }) {
-  return `Raw projected points ${rawProjected}; optionality ${optionality}; composite ${composite}.`;
+  return `Projection ${rawProjected}; optionality ${optionality}; squad score ${composite}.`;
 }
 
 export function teamEligibilityKeys(record) {
@@ -246,9 +246,9 @@ export function optionalityLabel(score) {
 
 export function riskLabel({ thirdPlaceRisk = false, roleVolatility = 0 } = {}) {
   if (thirdPlaceRisk || Number(roleVolatility) >= 0.2) {
-    return "rotation-risk watch";
+    return "lineup-risk watch";
   }
-  return "standard role-risk watch";
+  return "standard role watch";
 }
 
 export function artifactLoadedMessage({
@@ -261,7 +261,7 @@ export function artifactLoadedMessage({
 }) {
   // Browser renders the generated artifact by default. This copy must not
   // become an alternate optimizer explanation or use historical fallback rows.
-  return `Recommended Balanced Squad loaded from the validated Final Round Team Builder artifact: ${startingLineupTotal} starters on the field and ${benchLabel} below. ${objectiveSummaryText({ rawProjected, optionality, composite })}${riskText}`;
+  return `Balanced Squad loaded for the Final Round: ${startingLineupTotal} starters on the field and ${benchLabel} below. ${objectiveSummaryText({ rawProjected, optionality, composite })}${riskText}`;
 }
 
 export function teamBuilderStatusMessage(kind, details = {}) {
@@ -274,7 +274,7 @@ export function teamBuilderStatusMessage(kind, details = {}) {
   }
 
   if (kind === "partial") {
-    return `Team Builder found ${details.squadLength} squad player${details.squadLength === 1 ? "" : "s"} using ${details.strategyLabel}, ${details.trustLabel}, and ${details.matchdayLabel}. Some spots are still open because the current locks, filters, removals, safety preference, budget, country limit, or risk controls are too tight.${details.riskText || ""}`;
+    return `Team Builder found ${details.squadLength} squad player${details.squadLength === 1 ? "" : "s"} using ${details.strategyLabel}, ${details.trustLabel}, and ${details.matchdayLabel}. Some spots are still open because the current settings are too tight.${details.riskText || ""}`;
   }
 
   if (kind === "over_budget") {
@@ -282,7 +282,7 @@ export function teamBuilderStatusMessage(kind, details = {}) {
   }
 
   if (kind === "built") {
-    return `Team Builder built a ${details.squadLabel} within the ${details.budgetLimit} budget using ${details.strategyLabel}, ${details.trustLabel}, and ${details.matchdayLabel}: ${details.startingLineupTotal} starters on the field and ${details.benchLabel} below.${details.riskText || ""}`;
+    return `Team Builder built a ${details.squadLabel} within the ${details.budgetLimit} budget: ${details.startingLineupTotal} starters on the field and ${details.benchLabel} below.${details.riskText || ""}`;
   }
 
   if (kind === "artifact_loaded") {

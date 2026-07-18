@@ -18,7 +18,7 @@ This contract defines the exact public Final Round content that browser QA must 
 
 ## Caveats
 
-The public page must continue to communicate that final squads are not independently source-backed, final XIs are not confirmed, user locks/substitutions/boosters are not imported, and Third Place lineups carry extra risk.
+The public page must continue to communicate that official fantasy-pool data is used, independently source-backed final squads are not verified, final XIs are not confirmed, official locks/substitutions/lineups must be checked before final decisions, and Third Place lineups carry extra risk.
 
 ## Intentional Updates
 

@@ -1,0 +1,59 @@
+{
+  "schema_version": "public_copy_polish_no_model_change_v1",
+  "generated_at": "2026-07-18T00:00:00.000Z",
+  "status": "green",
+  "protected_files_not_edited_by_this_pass": [
+    "data/teamBuilderGoldenFinalRound_v1.json",
+    "data/fantasyPoolRecommendations_finalRound_v1.json",
+    "data/fantasyPoolMatchdayProjections_finalRound_v1.json",
+    "data/scorePredictions_fantasyPool_finalRound_v1.json",
+    "data/finalRoundFixtureAuthority_v1.json",
+    "teamBuilderFinalRoundArtifactData.js",
+    "fantasyPoolRecommendationsData.js",
+    "fantasyPoolMatchdayProjectionsData.js",
+    "fantasyPoolScorePredictionsData.js",
+    "finalRoundFixtureAuthorityData.js"
+  ],
+  "protected_file_hashes_after_copy_edit": {
+    "data/teamBuilderGoldenFinalRound_v1.json": "95dec9613a3993be5fc78defc5d73a303f5efbb96b8e630276bbe40b82668dba",
+    "data/fantasyPoolRecommendations_finalRound_v1.json": "e4e1f67ce1c05133ece3db14c2328830fc655878330b5489f42af785ce414142",
+    "data/fantasyPoolMatchdayProjections_finalRound_v1.json": "e47ebc9c179729ee39761074fe722d7641c91fee76bcf4d4525348d1ef96320f",
+    "data/scorePredictions_fantasyPool_finalRound_v1.json": "d060385db1c9e5780315733a3f8231124ce4cb19a5cddc779c80cf470a799251",
+    "data/finalRoundFixtureAuthority_v1.json": "8a035985af35d37c994bffe2fdaff343f7af579cb52326db27a23b7a3fae9d98",
+    "teamBuilderFinalRoundArtifactData.js": "e8fa0b91a0ed81184d9aaa815ed9fa051ddb1ddd199da09e1230c713d27c5d85",
+    "fantasyPoolRecommendationsData.js": "6b7f8829df79c8aaa830b09e00ceaa671f08e3b32d3b42cd319bacae304dfa66",
+    "fantasyPoolMatchdayProjectionsData.js": "3f986fe463246fcb908b2456376a6bb125a96cca4b81e6c5b2bec4b1a021609f",
+    "fantasyPoolScorePredictionsData.js": "17dec440707a18ae29d29e9a3845573d7da7da159bec0df56f555333ec3757e5",
+    "finalRoundFixtureAuthorityData.js": "22e6dea3a1eccbf77b32f84aef926f3652bf5a5b148b41d6885ef53b6e940f5b"
+  },
+  "checks": {
+    "teamBuilderArtifactUnchangedByThisPass": true,
+    "teamBuilderGoldenValuesUnchangedByThisPass": true,
+    "recommendationsUnchangedByThisPass": true,
+    "projectionsUnchangedByThisPass": true,
+    "scorePredictionsUnchangedByThisPass": true,
+    "fixturesUnchangedByThisPass": true,
+    "activeEligibleTeamsUnchanged": true,
+    "publicBehaviorChangedOnlyByWording": true,
+    "noModelTuning": true,
+    "noTeamBuilderObjectiveChange": true,
+    "noBrowserOptimizerChange": true,
+    "noPublicRefereeingOrConspiracyCopyAdded": true
+  },
+  "protected_team_builder_golden": {
+    "budget": "94.8 / 105",
+    "captain": "Mikel Oyarzabal",
+    "viceCaptain": "Leandro Paredes",
+    "selectedPlayers": 15,
+    "eligibleTeams": ["France", "England", "Spain", "Argentina"]
+  },
+  "qa_status": {
+    "activeStageQa": "pass_44_of_44",
+    "teamBuilderGolden": "pass",
+    "browserEquivalence": "pass",
+    "eligiblePlayers": "pass",
+    "browserContentContract": "pass",
+    "publicPreviewBrowserQa": "pass",
+    "deployedBrowserQa": "pending_until_after_push"
+  }
+}

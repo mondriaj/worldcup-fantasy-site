@@ -1,6 +1,6 @@
 {
   "schema_version": "final_round_builder_artifact_browser_mismatch_v1",
-  "generated_at": "2026-07-18T11:52:26.573Z",
+  "generated_at": "2026-07-18T17:28:45.903Z",
   "status": "resolved",
   "mismatch_reproduced_before_fix": true,
   "browser_output_equals_generated_artifact_after_fix": true,
@@ -136,8 +136,8 @@
       "Álex Baena",
       "Fabián Ruiz"
     ],
-    "browser_message": "Recommended Balanced Squad loaded from the validated Final Round Team Builder artifact: 11 starters on the field and 4 substitutes below. Raw projected points 59.6; optionality 5.3; composite 1014.9.",
-    "optionality_text": "Optionality Score 5.3 earlier kickoff flexibility; verify FIFA locks"
+    "browser_message": "Balanced Squad loaded for the Final Round: 11 starters on the field and 4 substitutes below. Projection 59.6; optionality 5.3; squad score 1014.9.",
+    "optionality_text": "Optionality Score 5.3 earlier kickoff flexibility; verify official locks"
   },
   "player_diff_after_fix": {
     "only_left": [],

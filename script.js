@@ -529,8 +529,8 @@ function finalRoundStrategicPlayerScore(player, role = "starter") {
 
 function activeDataBadgeHtml() {
   return `
-    <span class="model-data-badge" title="Public Final Round page uses only the current active static data path.">
-      Final Round fantasy setup · Active static data path · ${ACTIVE_DATA.version}
+    <span class="model-data-badge" title="Public Final Round page uses the current active data bundle.">
+      Final Round fantasy setup · Current data · ${ACTIVE_DATA.version}
     </span>
   `;
 }
@@ -4173,12 +4173,12 @@ const publicProfileTagDefinitions = [
   {
     label: "Early game option",
     kind: "fixture",
-    explanation: "A player in the earlier Final Round fixture who may offer manual-substitution flexibility if FIFA rules and locks allow it."
+    explanation: "A player in the earlier Final Round fixture. Earlier kickoff can add flexibility if FIFA rules allow substitutions."
   },
   {
     label: "Replacement flexibility",
     kind: "fixture",
-    explanation: "A player whose earlier kickoff can create a replace-or-hold decision point; verify live lock rules before acting."
+    explanation: "A player whose earlier kickoff can create a replace-or-hold decision point; verify official FIFA locks before acting."
   },
   {
     label: "Third Place risk",
@@ -4188,7 +4188,7 @@ const publicProfileTagDefinitions = [
   {
     label: "Role caution",
     kind: "risk",
-    explanation: "A player with a specific role or lineup caution in the current model."
+    explanation: "A player with a specific role or lineup caution in the current setup."
   },
   {
     label: "Minutes Risk",
@@ -10080,13 +10080,13 @@ function portfolioWarningsForAnalytics(analytics) {
       warnings.push({
         kind: "review",
         label: "Early Fixture Exposure",
-        detail: "The squad has no earlier Third Place exposure despite viable early-fixture candidates. Earlier kickoff can add manual-substitution flexibility if FIFA rules and locks allow it."
+        detail: "The squad has no earlier Third Place exposure despite viable early-fixture candidates. Earlier kickoff can add flexibility if FIFA rules allow substitutions."
       });
     } else if (analytics.finalRoundEarlyFixturePlayers > 0) {
       warnings.push({
         kind: "watch",
         label: "Early Fixture Optionality",
-        detail: `${analytics.finalRoundEarlyFixturePlayers} squad player${analytics.finalRoundEarlyFixturePlayers === 1 ? "" : "s"} come from the earlier fixture. Treat this as strategic flexibility and verify FIFA substitution, captain, and lock rules.`
+        detail: `${analytics.finalRoundEarlyFixturePlayers} squad player${analytics.finalRoundEarlyFixturePlayers === 1 ? "" : "s"} come from the earlier fixture. Treat this as flexibility, then verify FIFA substitution, captain, and lock rules.`
       });
     }
   }
@@ -10323,7 +10323,7 @@ function renderPortfolioAnalytics(starters = [], bench = []) {
     portfolioMetric("Projected Points", portfolioNumber(analytics.starterExpected), "starting XI"),
     portfolioMetric("Risk-Aware Points", portfolioNumber(analytics.starterRiskAdjusted), "starting XI"),
     activeMatchdayId === "finalRound"
-      ? portfolioMetric("Optionality Score", portfolioNumber(analytics.finalRoundOptionalityScore), "earlier kickoff flexibility; verify FIFA locks")
+      ? portfolioMetric("Optionality Score", portfolioNumber(analytics.finalRoundOptionalityScore), "earlier kickoff flexibility; verify official locks")
       : "",
     portfolioMetric("Avg Start", portfolioNumber(analytics.startAverage, "%"), "starting XI"),
     portfolioMetric("Expected Minutes", portfolioNumber(analytics.expectedMinutesTotal), "starting XI total"),

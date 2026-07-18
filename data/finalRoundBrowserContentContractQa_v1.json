@@ -1,6 +1,6 @@
 {
   "schema_version": "final_round_browser_content_contract_qa_v1",
-  "generated_at": "2026-07-18T16:43:59.820Z",
+  "generated_at": "2026-07-18T17:28:45.278Z",
   "status": "pass",
   "contract": "data/finalRoundBrowserContentContract_v1.json",
   "activeStage": "finalRound",
@@ -162,9 +162,9 @@
       "status": "pass",
       "details": {
         "requiredCaveats": [
-          "final squads not independently source-backed",
+          "Official fantasy-pool data is used; independently source-backed final squads are not verified",
           "final XIs not confirmed",
-          "user locks/substitutions/boosters not imported",
+          "Verify official FIFA locks, substitutions, and lineups before final decisions",
           "Third Place lineup risk"
         ]
       }

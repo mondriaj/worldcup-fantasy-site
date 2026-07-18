@@ -125,7 +125,7 @@ async function browserSnapshot() {
     const starters = document.querySelectorAll("#team-players .player-card:not(.player-card--placeholder)").length;
     const bench = document.querySelectorAll("#bench-players .bench-card:not(.bench-card--placeholder), #bench-players .player-card").length;
     const message = document.querySelector("#team-message")?.textContent || "";
-    return starters === 11 && bench === 4 && /Recommended Balanced Squad|Team Builder built/i.test(message);
+    return starters === 11 && bench === 4 && /Balanced Squad loaded for the Final Round|Recommended Balanced Squad|Team Builder built/i.test(message);
   }, null, { timeout: 60000 });
   const buildMessage = await page.locator("#team-message").textContent();
   await page.locator("#export-team-json-btn").click();
@@ -208,7 +208,7 @@ const browserViceCaptain = browser.exportPayload?.vice_captain || null;
 const expectedOptionalityDisplay = Number(artifact.summary.optionality_score || 0).toFixed(1);
 const checks = {
   artifact_loaded_in_browser: browser.artifactLoaded && browser.artifactSchema === artifact.schema_version,
-  browser_default_uses_generated_artifact_objective: /Recommended Balanced Squad loaded from the validated Final Round Team Builder artifact/i.test(browser.message),
+  browser_default_uses_generated_artifact_objective: /Balanced Squad loaded for the Final Round|Recommended Balanced Squad loaded from the validated Final Round Team Builder artifact/i.test(browser.message),
   generated_and_browser_selected_players_match: playerDiff.only_left.length === 0 && playerDiff.only_right.length === 0,
   selected_count_by_team_matches: sameJson(browserTeamCounts, artifact.summary.selected_count_by_team),
   selected_count_by_fixture_matches: sameJson(browserFixtureCounts, artifact.summary.selected_count_by_fixture),

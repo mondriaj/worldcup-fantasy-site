@@ -1,6 +1,6 @@
 {
   "schema_version": "final_round_builder_browser_equivalence_qa_v1",
-  "generated_at": "2026-07-18T16:10:16.398Z",
+  "generated_at": "2026-07-18T17:28:45.903Z",
   "status": "pass",
   "baseUrl": "http://127.0.0.1:8772",
   "checks": {
@@ -81,8 +81,8 @@
     },
     "captain": "Mikel Oyarzabal",
     "viceCaptain": "Leandro Paredes",
-    "optionality_text": "Optionality Score 5.3 earlier kickoff flexibility; verify FIFA locks",
-    "message": "Recommended Balanced Squad loaded from the validated Final Round Team Builder artifact: 11 starters on the field and 4 substitutes below. Raw projected points 59.6; optionality 5.3; composite 1014.9.",
+    "optionality_text": "Optionality Score 5.3 earlier kickoff flexibility; verify official locks",
+    "message": "Balanced Squad loaded for the Final Round: 11 starters on the field and 4 substitutes below. Projection 59.6; optionality 5.3; squad score 1014.9.",
     "selected_players": [
       "Kylian Mbappé",
       "Harry Kane",

@@ -7,9 +7,9 @@
   "eligibleTeams": ["France", "England", "Spain", "Argentina"],
   "eliminatedBlocklist": ["Lerma", "Raphinha", "Raphael Dias Belloli", "Vinicius", "Vinícius", "Brazil", "Colombia", "BRA", "COL"],
   "requiredCaveats": [
-    "final squads not independently source-backed",
+    "Official fantasy-pool data is used; independently source-backed final squads are not verified",
     "final XIs not confirmed",
-    "user locks/substitutions/boosters not imported",
+    "Verify official FIFA locks, substitutions, and lineups before final decisions",
     "Third Place lineup risk"
   ],
   "picks": {
@@ -18,7 +18,7 @@
     "requiredThirdPlacePlayers": ["Kylian Mbappé", "Harry Kane"],
     "requiredVisibleNeedles": ["Final Round", "Third Place", "SF starter"],
     "requiredRiskNeedles": ["Third Place risk", "Role caution", "rotation risk"],
-    "requiredCaveatNeedles": ["final squads not source-backed", "Verify official locks"]
+    "requiredCaveatNeedles": ["final squads", "Verify official FIFA locks"]
   },
   "captainWatchlist": {
     "expectedStage": "Final Round",

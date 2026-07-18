@@ -11,7 +11,7 @@ Model behavior is unchanged. The Team Builder artifact, golden values, recommend
 This pass intentionally made two existing Final Round facts visible because the new browser content contract requires them:
 
 - Match Environment rows now show source SF scores for Final Round fixtures.
-- A visible caveat now says final squads are not independently source-backed and final XIs are not confirmed.
+- Visible caveats now use concise planning-help wording while preserving final-squad and lineup verification warnings.
 
 ## Unchanged Model Counts
 

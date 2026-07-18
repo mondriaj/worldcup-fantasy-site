@@ -1,6 +1,6 @@
 # Public Preview Browser QA Report v1
 
-Generated: 2026-07-18T16:43:07.685Z
+Generated: 2026-07-18T17:28:55.709Z
 
 ## Verdict
 
@@ -87,7 +87,7 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | Known eliminated text in picker | no |
 | Fixture exposure explanation | yes |
 | Third Place strategy text | yes |
-| Optionality text | Optionality Score 5.3 earlier kickoff flexibility; verify FIFA locks |
+| Optionality text | Optionality Score 5.3 earlier kickoff flexibility; verify official locks |
 | France selected / starters / bench | 1 / 1 / 0 |
 | Spain selected / starters / bench | 5 / 1 / 4 |
 | England selected / starters / bench | 1 / 1 / 0 |

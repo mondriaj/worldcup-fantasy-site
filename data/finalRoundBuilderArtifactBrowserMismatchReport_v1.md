@@ -29,8 +29,8 @@ Status: resolved
 | Selected count by fixture | {"final":13,"third_place":2} | {"third_place":2,"final":13} |
 | Selected total price | 94.8 | matches generated artifact |
 | Selected players | ["Emiliano Martínez","Unai Simón","Nicolás Tagliafico","Nahuel Molina","Lisandro Martínez","Cristian Romero","Pau Cubarsí","Leandro Paredes","Alexis Mac Allister","Enzo Fernández","Álex Baena","Fabián Ruiz","Kylian Mbappé","Harry Kane","Mikel Oyarzabal"] | ["Kylian Mbappé","Harry Kane","Mikel Oyarzabal","Leandro Paredes","Alexis Mac Allister","Enzo Fernández","Nicolás Tagliafico","Nahuel Molina","Lisandro Martínez","Cristian Romero","Emiliano Martínez","Unai Simón","Pau Cubarsí","Álex Baena","Fabián Ruiz"] |
-| Message |  | Recommended Balanced Squad loaded from the validated Final Round Team Builder artifact: 11 starters on the field and 4 substitutes below. Raw projected points 59.6; optionality 5.3; composite 1014.9. |
-| Optionality |  | Optionality Score 5.3 earlier kickoff flexibility; verify FIFA locks |
+| Message |  | Balanced Squad loaded for the Final Round: 11 starters on the field and 4 substitutes below. Projection 59.6; optionality 5.3; squad score 1014.9. |
+| Optionality |  | Optionality Score 5.3 earlier kickoff flexibility; verify official locks |
 
 ## Responsible Files And Functions
 

@@ -1,0 +1,102 @@
+{
+  "schema_version": "public_copy_polish_audit_v1",
+  "generated_at": "2026-07-18T00:00:00.000Z",
+  "status": "green",
+  "scope_gate": {
+    "copy_polish_work": [
+      "index.html",
+      "script.js",
+      "teamBuilderPublicHelpers.js",
+      "scripts/lib/teamBuilderPublicModel.mjs",
+      "world-cup.html",
+      "data/finalRoundBrowserContentContract_v1.json",
+      "data/finalRoundBrowserContentContractReport_v1.md",
+      "data/exactBrowserAssertionsNoBehaviorChange_v1.json",
+      "data/exactBrowserAssertionsNoBehaviorChangeReport_v1.md"
+    ],
+    "public_site_files": ["index.html", "script.js", "teamBuilderPublicHelpers.js", "world-cup.html"],
+    "team_builder_helper_copy_files": ["teamBuilderPublicHelpers.js", "scripts/lib/teamBuilderPublicModel.mjs"],
+    "manifest_browser_contract_files": [
+      "data/finalRoundBrowserContentContract_v1.json",
+      "data/finalRoundBrowserContentContractReport_v1.md"
+    ],
+    "qa_reports_expected_to_change_after_validation": [
+      "data/finalRoundBrowserContentContractQa_v1.json",
+      "data/finalRoundBrowserContentContractQaReport_v1.md",
+      "data/publicPreviewBrowserQaReport_v1.md",
+      "data/activeStageQaRun_v1.json",
+      "data/activeStageQaRunReport_v1.md"
+    ],
+    "unrelated_gitignore": [".gitignore"],
+    "unrelated_refereeing_or_research": ["analysis/", "data/refereeingOutcomes*", "scripts/*RefereeingOutcomes*"],
+    "unrelated_generated_data": [
+      "data/activeFantasyDataFlowQa*",
+      "data/bracketPathIntegrity*",
+      "data/fantasyPoolRecommendations_finalRound_v1.json",
+      "data/fantasyPoolMatchdayProjections_finalRound_v1.json",
+      "data/scorePredictions_fantasyPool_finalRound_v1.json",
+      "data/finalRoundFixtureAuthority_v1.json",
+      "fantasyPoolFinanceMetricsData.js",
+      "finalRoundFixtureAuthorityData.js"
+    ],
+    "unknown": []
+  },
+  "findings": [
+    {
+      "surface": "Home hero",
+      "finding": "Hero repeated Final Round fantasy setup.",
+      "classification": "safe_to_polish_now",
+      "action": "Shortened to a single Final Round decision-focused sentence."
+    },
+    {
+      "surface": "Picks",
+      "finding": "Intro used internal PELE-forward and older continuity phrasing.",
+      "classification": "safe_to_polish_now",
+      "action": "Replaced with completed semifinal evidence, official fantasy-pool data, role caution, and Third Place lineup risk."
+    },
+    {
+      "surface": "Captain Watchlist",
+      "finding": "Captain copy was accurate but wordy.",
+      "classification": "safe_to_polish_now",
+      "action": "Shortened comparison copy and made Third Place risk clearer."
+    },
+    {
+      "surface": "Team Builder",
+      "finding": "Visible caveat and status copy exposed artifact/optimizer language.",
+      "classification": "safe_to_polish_now",
+      "action": "Reframed as planning help and kept official-lock/final-squad caveats concise."
+    },
+    {
+      "surface": "Match Environment",
+      "finding": "Intro leaned on xG/model phrasing.",
+      "classification": "safe_to_polish_now",
+      "action": "Changed to expected goals, likely scorelines, and uncertainty context."
+    },
+    {
+      "surface": "Player Profile",
+      "finding": "Safety caveats must remain present for final squads, lineups, and role estimates.",
+      "classification": "should_remain_unchanged_for_qa_stability",
+      "action": "Kept profile data behavior and exact player assertions unchanged."
+    },
+    {
+      "surface": "World Cup guide",
+      "finding": "Tournament status copy was longer than needed.",
+      "classification": "safe_to_polish_now",
+      "action": "Shortened while keeping the separation between tournament facts and fantasy recommendations."
+    },
+    {
+      "surface": "Public refereeing/conspiracy wording",
+      "finding": "No public section should be introduced.",
+      "classification": "should_remain_unchanged_for_qa_stability",
+      "action": "No refereeing or conspiracy copy added."
+    },
+    {
+      "surface": "Risky future copy",
+      "finding": "Final squads, confirmed XIs, and live rule behavior remain unsourced.",
+      "classification": "should_be_handled_after_tournament",
+      "action": "Left as caveats rather than claims."
+    }
+  ],
+  "public_copy_changed_only": true,
+  "model_change_intended": false
+}

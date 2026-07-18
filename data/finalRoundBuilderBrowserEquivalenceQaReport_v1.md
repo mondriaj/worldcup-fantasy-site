@@ -44,8 +44,8 @@ Status: pass
 | selected_count_by_fixture | {"third_place":2,"final":13} |
 | captain | Mikel Oyarzabal |
 | viceCaptain | Leandro Paredes |
-| optionality_text | Optionality Score 5.3 earlier kickoff flexibility; verify FIFA locks |
-| message | Recommended Balanced Squad loaded from the validated Final Round Team Builder artifact: 11 starters on the field and 4 substitutes below. Raw projected points 59.6; optionality 5.3; composite 1014.9. |
+| optionality_text | Optionality Score 5.3 earlier kickoff flexibility; verify official locks |
+| message | Balanced Squad loaded for the Final Round: 11 starters on the field and 4 substitutes below. Projection 59.6; optionality 5.3; squad score 1014.9. |
 | selected_players | ["Kylian Mbappé","Harry Kane","Mikel Oyarzabal","Leandro Paredes","Alexis Mac Allister","Enzo Fernández","Nicolás Tagliafico","Nahuel Molina","Lisandro Martínez","Cristian Romero","Emiliano Martínez","Unai Simón","Pau Cubarsí","Álex Baena","Fabián Ruiz"] |
 | starters | ["Kylian Mbappé","Harry Kane","Mikel Oyarzabal","Leandro Paredes","Alexis Mac Allister","Enzo Fernández","Nicolás Tagliafico","Nahuel Molina","Lisandro Martínez","Cristian Romero","Emiliano Martínez"] |
 | bench | ["Unai Simón","Pau Cubarsí","Álex Baena","Fabián Ruiz"] |
