@@ -1,6 +1,6 @@
 {
   "schema_version": "active_stage_manifest_qa_v1",
-  "generated_at": "2026-07-18T16:10:15.734Z",
+  "generated_at": "2026-07-18T16:42:56.879Z",
   "status": "pass",
   "manifest": "data/activeStageManifest_v1.json",
   "activeStage": "finalRound",
@@ -47,6 +47,7 @@
     "scripts/validateTeamBuilderFinalRoundV1.mjs",
     "scripts/validateTeamBuilderGoldenFinalRoundV1.mjs",
     "scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs",
+    "scripts/validateFinalRoundBrowserContentContractV1.mjs",
     "scripts/validateFinalRoundEligiblePlayersV1.mjs",
     "scripts/validateFinalRoundFixtureExposureStrategyV1.mjs",
     "scripts/validateFinalRoundCorePickLineupEvidence.mjs",
@@ -73,6 +74,10 @@
       {
         "id": "manifest_validation",
         "command": "node scripts/validateActiveStageManifestV1.mjs"
+      },
+      {
+        "id": "final_round_browser_content_contract",
+        "command": "node scripts/validateFinalRoundBrowserContentContractV1.mjs"
       },
       {
         "id": "team_builder_browser_equivalence",
@@ -161,6 +166,7 @@
       "scripts/lib/publicPayloadSlimming.mjs",
       "scripts/validatePublicPayloadContractV1.mjs",
       "scripts/runActiveStageQaFromManifestV1.mjs",
+      "scripts/validateFinalRoundBrowserContentContractV1.mjs",
       "scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs",
       "scripts/validateTeamBuilderGoldenFinalRoundV1.mjs",
       "scripts/validateActiveStageManifestV1.mjs",
@@ -209,6 +215,7 @@
       "Team Builder remains artifact-backed",
       "Team Builder budget remains 94.8 / 105",
       "Team Builder golden squad, captain/vice, counts, and scores remain unchanged",
+      "exact Picks, Captain Watchlist, Match Environment, and Player Profile browser content remains unchanged",
       "active eligible teams remain France, England, Spain, Argentina",
       "no active eliminated players",
       "no old globals",

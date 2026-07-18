@@ -1,0 +1,213 @@
+{
+  "schema_version": "final_round_browser_content_contract_qa_v1",
+  "generated_at": "2026-07-18T16:43:59.820Z",
+  "status": "pass",
+  "contract": "data/finalRoundBrowserContentContract_v1.json",
+  "activeStage": "finalRound",
+  "checks": [
+    {
+      "id": "contract_active_stage_matches_manifest",
+      "status": "pass",
+      "details": {
+        "contract": "finalRound",
+        "manifest": "finalRound"
+      }
+    },
+    {
+      "id": "contract_eligible_teams_match_fixture_authority",
+      "status": "pass",
+      "details": {
+        "contract": [
+          "France",
+          "England",
+          "Spain",
+          "Argentina"
+        ],
+        "authorityTeams": [
+          "France",
+          "England",
+          "Spain",
+          "Argentina"
+        ]
+      }
+    },
+    {
+      "id": "fixture_authority_has_final_and_third_place",
+      "status": "pass",
+      "details": {
+        "stages": [
+          "third_place",
+          "final"
+        ]
+      }
+    },
+    {
+      "id": "contract_fixtures_match_fixture_authority",
+      "status": "pass",
+      "details": {
+        "contractFixtures": [
+          {
+            "stage": "third_place",
+            "label": "Third Place",
+            "matchNumber": 103,
+            "teams": [
+              "France",
+              "England"
+            ],
+            "visibleText": "France vs England"
+          },
+          {
+            "stage": "final",
+            "label": "Final",
+            "matchNumber": 104,
+            "teams": [
+              "Spain",
+              "Argentina"
+            ],
+            "visibleText": "Spain vs Argentina"
+          }
+        ],
+        "authorityFixtures": [
+          {
+            "stage": "third_place",
+            "matchNumber": 103,
+            "teams": [
+              "France",
+              "England"
+            ]
+          },
+          {
+            "stage": "final",
+            "matchNumber": 104,
+            "teams": [
+              "Spain",
+              "Argentina"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "completed_sf_scores_match_fixture_authority",
+      "status": "pass",
+      "details": {
+        "contractScores": [
+          "France 0-2 Spain",
+          "England 1-2 Argentina"
+        ],
+        "completedScores": [
+          "France 0-2 Spain",
+          "England 1-2 Argentina",
+          "France 0-2 Spain",
+          "England 1-2 Argentina"
+        ]
+      }
+    },
+    {
+      "id": "score_predictions_have_final_and_third_place",
+      "status": "pass",
+      "details": {
+        "stages": [
+          "third_place",
+          "final"
+        ]
+      }
+    },
+    {
+      "id": "contract_match_text_present_in_sources",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "contract_expected_players_exist_in_active_rows",
+      "status": "pass",
+      "details": {
+        "missingContractPlayers": []
+      }
+    },
+    {
+      "id": "team_builder_golden_file_exists_and_matches_budget",
+      "status": "pass",
+      "details": {
+        "budgetUsed": 94.8,
+        "budgetLimit": 105
+      }
+    },
+    {
+      "id": "team_builder_golden_squad_has_expected_size",
+      "status": "pass",
+      "details": {
+        "selectedPlayers": 15
+      }
+    },
+    {
+      "id": "eliminated_blocklist_present",
+      "status": "pass",
+      "details": {
+        "eliminatedBlocklist": [
+          "Lerma",
+          "Raphinha",
+          "Raphael Dias Belloli",
+          "Vinicius",
+          "Vinícius",
+          "Brazil",
+          "Colombia",
+          "BRA",
+          "COL"
+        ]
+      }
+    },
+    {
+      "id": "required_caveats_defined",
+      "status": "pass",
+      "details": {
+        "requiredCaveats": [
+          "final squads not independently source-backed",
+          "final XIs not confirmed",
+          "user locks/substitutions/boosters not imported",
+          "Third Place lineup risk"
+        ]
+      }
+    },
+    {
+      "id": "public_caveat_copy_source_exists",
+      "status": "pass",
+      "details": {}
+    }
+  ],
+  "summary": {
+    "eligibleTeams": [
+      "France",
+      "England",
+      "Spain",
+      "Argentina"
+    ],
+    "fixtures": [
+      {
+        "stage": "third_place",
+        "label": "Third Place",
+        "matchNumber": 103,
+        "teams": [
+          "France",
+          "England"
+        ],
+        "visibleText": "France vs England"
+      },
+      {
+        "stage": "final",
+        "label": "Final",
+        "matchNumber": 104,
+        "teams": [
+          "Spain",
+          "Argentina"
+        ],
+        "visibleText": "Spain vs Argentina"
+      }
+    ],
+    "completedSfScores": [
+      "France 0-2 Spain",
+      "England 1-2 Argentina"
+    ],
+    "protectedTeamBuilderBudget": "94.8 / 105"
+  }
+}

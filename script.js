@@ -5832,6 +5832,7 @@ function renderMatchEnvironmentTable() {
     const scorelineAlternatives = topScorelineAlternativesText(row);
     const liveFixture = liveFixtureForScorePrediction(row);
     const liveFixtureContext = liveFixtureContextHtml(liveFixture);
+    const sourceScoreText = finalRoundFixtureSourceScoreText(row);
 
     return `
       <tr>
@@ -5839,6 +5840,7 @@ function renderMatchEnvironmentTable() {
           <strong>${row.home_team} vs ${row.away_team}</strong>
           <small>Group ${row.group} · ${matchdayLabelFromId(row.fantasy_matchday_id)} · ${row.eastern_datetime_label || row.date}</small>
           ${liveFixtureContext ? `<small class="live-score-context">${liveFixtureContext}</small>` : ""}
+          ${sourceScoreText ? `<small>${escapeHtml(sourceScoreText)}</small>` : ""}
         </td>
         <td>
           <strong class="match-projected-xg" title="Expected goals for this matchup.">${projectedXgText(row)}</strong>
@@ -5863,6 +5865,25 @@ function renderMatchEnvironmentTable() {
       </tr>
     `;
   }).join("");
+}
+
+function finalRoundFixtureSourceScoreText(row) {
+  if (row?.fantasy_matchday_id !== "finalRound") {
+    return "";
+  }
+
+  const fixtures = Array.isArray(ACTIVE_DATA.finalRoundFixtureAuthority?.fixtures)
+    ? ACTIVE_DATA.finalRoundFixtureAuthority.fixtures
+    : [];
+  const fixture = fixtures.find((entry) =>
+    String(entry.fixture_id || "") === String(row.fixture_id || row.match_id || "") ||
+    Number(entry.bracket_match_number) === Number(row.match_number)
+  );
+  const sourceScores = (fixture?.source_matches || [])
+    .map((source) => source.score)
+    .filter(Boolean);
+
+  return sourceScores.length ? `Source SF scores: ${sourceScores.join(" · ")}` : "";
 }
 
 function knockoutScorelineText(row) {

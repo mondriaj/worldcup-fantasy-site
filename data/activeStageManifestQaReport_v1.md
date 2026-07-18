@@ -1,6 +1,6 @@
 # Active Stage Manifest QA Report v1
 
-Generated: 2026-07-18T16:10:15.734Z
+Generated: 2026-07-18T16:42:56.879Z
 
 Status: **pass**
 
@@ -13,7 +13,7 @@ Status: **pass**
 | Pages | index.html, world-cup.html |
 | Source files | 13 |
 | Wrappers | 16 |
-| Validators | 17 |
+| Validators | 18 |
 | Blocked globals | 6 |
 
 ## Checks

@@ -1,0 +1,32 @@
+{
+  "schema_version": "exact_browser_assertions_audit_v1",
+  "generatedAt": "2026-07-18T00:00:00.000Z",
+  "status": "complete",
+  "currentCoverage": {
+    "homepageLoads": "checked",
+    "finalRoundDefault": "checked",
+    "picks": "rendering and eliminated-player leakage checked; exact visible player/content contract added in this pass",
+    "captainWatchlist": "rendering and eliminated-player leakage checked; exact visible player/content contract added in this pass",
+    "playerProfile": "profile opening checked; exact Final/Third Place profile contract added in this pass",
+    "teamBuilder": "artifact/golden/browser equivalence checked; visible golden squad assertion added to public preview QA",
+    "matchEnvironment": "rendering and matchday access checked; exact fixture/SF score/prediction contract added in this pass",
+    "knockoutBracket": "rendered card counts and path guard checked",
+    "knockoutPrediction": "known Final Round fixtures and predictor rendering checked",
+    "worldCupPage": "rendering, fixture authority, bracket card counts, known final fixtures checked",
+    "consoleErrors": "checked",
+    "failedRequests": "checked with non-blocking analytics failures ignored"
+  },
+  "renderOnlyGapsBeforeThisPass": [
+    "Picks did not require specific visible Final and Third Place players.",
+    "Captain Watchlist did not require specific visible Final and Third Place options.",
+    "Match Environment did not require the exact Final/Third Place pairings and completed SF scores in the index-page browser QA.",
+    "Player Profile did not require one exact Final player and one exact Third Place player.",
+    "Public preview QA did not report sampled visible content per covered surface."
+  ],
+  "filesInspected": [
+    "scripts/runPublicPreviewBrowserQa.mjs",
+    "scripts/runActiveStageQaFromManifestV1.mjs",
+    "data/activeStageManifest_v1.json",
+    "data/activeStageQaRunReport_v1.md"
+  ]
+}

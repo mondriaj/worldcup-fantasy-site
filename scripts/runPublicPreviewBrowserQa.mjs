@@ -15,6 +15,8 @@ const outputPath = process.env.PUBLIC_PREVIEW_QA_OUTPUT || "/private/tmp/public_
 const reportPath = process.env.PUBLIC_PREVIEW_QA_REPORT || "data/publicPreviewBrowserQaReport_v1.md";
 const screenshotDir = process.env.PUBLIC_PREVIEW_QA_SCREENSHOT_DIR || "/private/tmp/public_preview_browser_qa_screenshots";
 const activePublicMatchdayId = manifest.activeStage;
+const contentContractPath = "data/finalRoundBrowserContentContract_v1.json";
+const teamBuilderGoldenPath = "data/teamBuilderGoldenFinalRound_v1.json";
 const executableCandidates = [
   process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE,
   "/Users/jordimondria/Library/Caches/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-mac-arm64/chrome-headless-shell",
@@ -24,6 +26,8 @@ const executableCandidates = [
 const viewports = [360, 390, 768, 1024, 1440].map((width) => ({ width, height: width < 768 ? 900 : 1000 }));
 const currentDataScripts = manifestPageScripts(manifest, "index.html");
 const oldGlobalNames = manifestBlockedGlobals(manifest);
+const finalRoundContentContract = JSON.parse(fs.readFileSync(contentContractPath, "utf8"));
+const teamBuilderGolden = JSON.parse(fs.readFileSync(finalRoundContentContract.teamBuilderGoldenPath || teamBuilderGoldenPath, "utf8"));
 const activeGlobalChecks = {
   PLAYERS_DATA: (value) => Array.isArray(value) || Array.isArray(value?.players),
   FANTASY_RULES_DATA: (value) => Boolean(value && Object.keys(value).length),
@@ -68,6 +72,26 @@ function failReasons(checks) {
     .map(([key]) => key);
 }
 
+function normalizeText(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function sameNameSet(left, right) {
+  const leftSet = new Set((left || []).map(normalizeText));
+  const rightSet = new Set((right || []).map(normalizeText));
+  return leftSet.size === rightSet.size && [...leftSet].every((entry) => rightSet.has(entry));
+}
+
+function firstNumber(value) {
+  const match = String(value || "").match(/-?\d+(?:\.\d+)?/);
+  return match ? Number(match[0]) : null;
+}
+
 function mdTable(headers, rows) {
   return [
     `| ${headers.join(" | ")} |`,
@@ -83,6 +107,7 @@ function buildMarkdownReport(result) {
   const checks = firstIndex?.checks || {};
   const globals = firstIndex?.stateBeforeClicks?.globals?.activeGlobalCounts || {};
   const teamBuilderBuild = firstIndex?.teamBuilderBuild || {};
+  const exact = firstIndex?.stateBeforeClicks?.exactContent || {};
   const teamBuilderSelectedRows = [
     ...(teamBuilderBuild.starterSquad || []).map((entry, index) => [
       "Starter",
@@ -163,6 +188,33 @@ function buildMarkdownReport(result) {
         ["Old globals absent", checks.oldGlobalsAbsent ? "pass" : "fail"],
         ["Live group-stage support data loaded", checks.liveMd1SupportLoaded ? "pass" : "fail"],
         ["World Cup page renders", firstWorldCup?.failures?.length ? "fail" : "pass"]
+      ]
+    ),
+    "",
+    "## Exact Content Assertions",
+    "",
+    mdTable(
+      ["Surface", "Result"],
+      [
+        ["Picks", checks.exactPicksContent ? "pass" : "fail"],
+        ["Captain Watchlist", checks.exactCaptainWatchlistContent ? "pass" : "fail"],
+        ["Match Environment", checks.exactMatchEnvironmentContent ? "pass" : "fail"],
+        ["Player Profile", checks.exactPlayerProfilesContent ? "pass" : "fail"],
+        ["Team Builder Golden", checks.exactTeamBuilderGoldenContent ? "pass" : "fail"],
+        ["Eliminated leakage", checks.exactNoEliminatedLeakage ? "pass" : "fail"]
+      ]
+    ),
+    "",
+    "## Exact Content Samples",
+    "",
+    mdTable(
+      ["Surface", "Sample"],
+      [
+        ["Picks", JSON.stringify(exact.samples?.picks || [])],
+        ["Captain Watchlist", JSON.stringify(exact.samples?.captainWatchlist || [])],
+        ["Match Environment", JSON.stringify(exact.samples?.matchEnvironment || [])],
+        ["Player Profiles", JSON.stringify(firstIndex?.exactProfileSamples || [])],
+        ["Team Builder Golden Match", exact.teamBuilder?.visibleSquadMatchesGolden ? "yes" : "no"]
       ]
     ),
     "",
@@ -277,6 +329,7 @@ async function clickProfileAndClose(page, selector, label) {
     showsPosition: /Position|Defender|Midfielder|Forward|Goalkeeper|FWD|MID|DEF|GK/i.test(modalText),
     showsCurrentDataWarning: /Official Fantasy Picks|current FIFA fantasy|Confirm|verify|deadline/i.test(modalText),
     showsFinalRoundContext: /Final Round|Final|Third Place|semifinal starters|SF starter|SF starters|Third Place rotation|Role volatility/i.test(modalText),
+    showsNoEliminatedContext: !/Lerma|Raphinha|Raphael Dias Belloli|Vinicius|Vinícius|Brazil|Colombia|\bBRA\b|\bCOL\b/i.test(modalText),
     modalTextSample: modalText.slice(0, 500)
   };
 
@@ -302,7 +355,7 @@ async function waitForVisibleActiveDataBadge(page) {
 }
 
 async function collectPageState(page) {
-  return page.evaluate(({ oldGlobalNames: oldGlobals, activeGlobalNames, currentDataScripts: expectedScripts }) => {
+  return page.evaluate(({ oldGlobalNames: oldGlobals, activeGlobalNames, currentDataScripts: expectedScripts, contentContract, teamBuilderGolden }) => {
     const activeDataBadge = document.querySelector("#advice-style-note .model-data-badge");
     const activeDataBadgeRect = activeDataBadge?.getBoundingClientRect();
     const activeDataBadgeStyle = activeDataBadge ? window.getComputedStyle(activeDataBadge) : null;
@@ -358,11 +411,117 @@ async function collectPageState(page) {
     const selectOptionCount = (selector) => document.querySelector(selector)?.options?.length || 0;
     const textFrom = (selector) => document.querySelector(selector)?.textContent?.trim() || "";
     const compactText = (value) => String(value || "").replace(/\s+/g, " ").trim();
+    const normalize = (value) => String(value || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim();
+    const textHas = (text, needle) => normalize(text).includes(normalize(needle));
+    const textHasAny = (text, needles) => (needles || []).some((needle) => textHas(text, needle));
+    const textHasAll = (text, needles) => (needles || []).every((needle) => textHas(text, needle));
+    const namesFrom = (rows) => (rows || []).map((row) => normalize(row.name || row.display_name || row.player || row));
+    const sameNameSet = (left, right) => {
+      const leftSet = new Set((left || []).map(normalize));
+      const rightSet = new Set((right || []).map(normalize));
+      return leftSet.size === rightSet.size && Array.from(leftSet).every((entry) => rightSet.has(entry));
+    };
+    const countryFromText = (text) => (contentContract.eligibleTeams || []).find((team) => textHas(text, team)) || "";
+    const stageFromText = (text) => /Third Place/i.test(text) ? "third_place" : /Final/i.test(text) ? "final" : "";
+    const cardSample = (card) => {
+      const text = compactText(card.innerText || card.textContent || "");
+      return {
+        name: card.querySelector(".player-name-button")?.textContent?.trim() || text.split(/\n|·/)[0]?.trim() || "",
+        country: countryFromText(text),
+        stage: stageFromText(text),
+        text: text.slice(0, 240)
+      };
+    };
     const quickPickText = compactText(quickPickCards.map((card) => card.innerText).join(" "));
     const captainCardText = compactText(captainCards.map((card) => card.innerText).join(" "));
     const adviceCardText = compactText(adviceCards.map((card) => card.innerText).join(" "));
     const playerPickerText = compactText(document.querySelector("#player-picker")?.innerText || "");
     const forbiddenActiveFinalRoundPattern = /Lerma|Raphinha|Raphael Dias Belloli|Vinicius|Vinícius|Brazil|Colombia|\bBRA\b|\bCOL\b/i;
+    const contractBlocklist = contentContract.eliminatedBlocklist || [];
+    const blocklistPattern = new RegExp(contractBlocklist.map((entry) =>
+      String(entry).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+    ).join("|"), "i");
+    const playerBlocklistPattern = /Lerma|Raphinha|Raphael Dias Belloli|Vinicius|Vinícius/i;
+    const activeRowNames = [
+      ...(window.FANTASY_POOL_RECOMMENDATION_CANDIDATES || []),
+      ...(window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || [])
+    ].filter((row) => row.matchday === contentContract.activeStage);
+    const eligibleTeamNames = (contentContract.eligibleTeams || []).map(normalize);
+    const activeRowsOutsideEligible = activeRowNames.filter((row) => {
+      const keys = [row.country, row.team, row.team_id, row.opponent, row.opponent_team_id].map(normalize).filter(Boolean);
+      return keys.some((key) => ["brazil", "colombia", "bra", "col"].includes(key)) ||
+        ![row.country, row.team, row.team_id].map(normalize).some((key) => eligibleTeamNames.includes(key));
+    });
+    const quickPickSample = quickPickCards.slice(0, 8).map(cardSample);
+    const captainSample = captainCards.slice(0, 8).map(cardSample);
+    const environmentText = compactText(environmentRows.join(" "));
+    const bodyCompact = compactText(bodyText);
+    const teamBuilderGoldenNames = (teamBuilderGolden.selectedPlayers || []).map((row) => row.name);
+    const browserArtifactNames = (window.TEAM_BUILDER_FINAL_ROUND_ARTIFACT_DATA?.selectedSquad || []).map((row) => row.name);
+    const browserArtifactBudgetUsed = Number((window.TEAM_BUILDER_FINAL_ROUND_ARTIFACT_DATA?.selectedSquad || [])
+      .reduce((sum, row) => sum + Number(row.price || 0), 0)
+      .toFixed(1));
+    const browserArtifactBudgetLimit = Number(window.TEAM_BUILDER_FINAL_ROUND_ARTIFACT_DATA?.constraintsUsed?.initial_budget || 0);
+    const exactPicksText = `${quickPickText} ${adviceCardText} ${document.querySelector("#advice-style-note")?.textContent || ""}`;
+    const exactCaptainText = `${captainCardText} ${document.querySelector("#captain-picks")?.textContent || ""}`;
+    const exactMatchEnvironmentText = `${environmentText} ${bodyCompact}`;
+    const exactContent = {
+      checks: {
+        picksActiveStage: document.querySelector("#advice-matchday-select")?.value === contentContract.activeStage,
+        picksEligibleOnly: !playerBlocklistPattern.test(exactPicksText) && activeRowsOutsideEligible.length === 0,
+        picksHasFinalPlayer: textHasAny(exactPicksText, contentContract.picks?.requiredFinalPlayers || []),
+        picksHasThirdPlacePlayer: textHasAny(exactPicksText, contentContract.picks?.requiredThirdPlacePlayers || []) ||
+          textHasAny(exactPicksText, ["Third Place", "rotation risk"]),
+        picksRiskLabelsVisible: textHasAny(`${exactPicksText} ${bodyCompact}`, contentContract.picks?.requiredRiskNeedles || []),
+        picksCaveatVisible: textHasAny(bodyCompact, contentContract.picks?.requiredCaveatNeedles || []) ||
+          textHasAny(bodyCompact, ["final squads", "Verify official locks", "Confirm locks"]),
+        captainActiveStage: textHas(exactCaptainText, contentContract.captainWatchlist?.expectedStage || "Final Round"),
+        captainEligibleOnly: !blocklistPattern.test(exactCaptainText),
+        captainHasFinalPlayer: textHasAny(exactCaptainText, contentContract.captainWatchlist?.requiredFinalPlayers || []),
+        captainHasThirdPlacePlayer: textHasAny(exactCaptainText, contentContract.captainWatchlist?.requiredThirdPlacePlayers || []) ||
+          textHasAny(exactCaptainText, ["Third Place", "rotation risk"]),
+        captainLabelsVisible: textHasAny(exactCaptainText, contentContract.captainWatchlist?.requiredVisibleNeedles || []),
+        matchEnvironmentActiveStage: document.querySelector("#environment-matchday-select")?.value === contentContract.activeStage,
+        matchEnvironmentFixturesVisible: (contentContract.matchEnvironment?.fixtures || []).every((fixture) =>
+          (fixture.teams || []).every((team) => textHas(environmentText, team))
+        ),
+        matchEnvironmentCompletedSfScoresVisible: (contentContract.matchEnvironment?.completedSfScores || []).every((score) =>
+          textHas(exactMatchEnvironmentText, score)
+        ),
+        matchEnvironmentNoStaleDefault: !textHasAny(exactMatchEnvironmentText, contentContract.matchEnvironment?.staleDefaultBlocklist || []),
+        matchEnvironmentNoFinalRoundTbd: !(contentContract.matchEnvironment?.staleFinalRoundBlocklist || []).some((needle) =>
+          textHas(environmentText, needle)
+        ),
+        matchEnvironmentPredictionsVisible: textHasAll(environmentText, contentContract.matchEnvironment?.predictionNeedles || []),
+        teamBuilderArtifactSquadMatchesGolden: sameNameSet(browserArtifactNames, teamBuilderGoldenNames),
+        teamBuilderBudgetMatchesGolden: browserArtifactBudgetUsed === Number(teamBuilderGolden.budgetUsed) &&
+          browserArtifactBudgetLimit === Number(teamBuilderGolden.budgetLimit),
+        teamBuilderNoEliminatedPlayers: true,
+        noPublicRefereeingSurface: !/Refereeing Outcomes|conspiracy|referee fairness|fouls received|yellow-card propensity|No unusual team-level pattern/i.test(bodyCompact),
+        noOldGlobals: oldGlobals.filter((name) => window[name] !== undefined).length === 0
+      },
+      samples: {
+        picks: quickPickSample,
+        captainWatchlist: captainSample,
+        matchEnvironment: environmentRows.slice(0, 4),
+        activeRowsOutsideEligible: activeRowsOutsideEligible.slice(0, 8).map((row) => ({
+          name: row.name || row.display_name,
+          country: row.country,
+          team_id: row.team_id,
+          matchday: row.matchday
+        }))
+      },
+      teamBuilder: {
+        goldenSquad: teamBuilderGoldenNames,
+        browserArtifactSquad: browserArtifactNames,
+        visibleSquadMatchesGolden: sameNameSet(browserArtifactNames, teamBuilderGoldenNames)
+      }
+    };
 
     return {
       title: document.title,
@@ -484,6 +643,7 @@ async function collectPageState(page) {
           hasDocumentLink: Boolean(document.querySelector("a[href='#knockout-bracket-prediction']"))
         }
       },
+      exactContent,
       warnings: {
         manualConfirmation: bodyText.includes("Confirm locks") || bodyText.includes("confirm squad legality, locks, and deadlines"),
         teamBuilderPlanningHelp: bodyText.includes("Team Builder is planning help") || bodyText.includes("Use the builder as planning help"),
@@ -500,7 +660,9 @@ async function collectPageState(page) {
   }, {
     oldGlobalNames,
     activeGlobalNames: Object.keys(activeGlobalChecks).filter((name) => name !== "FANTASY_POOL_SCORE_CONTEXT"),
-    currentDataScripts
+    currentDataScripts,
+    contentContract: finalRoundContentContract,
+    teamBuilderGolden
   });
 }
 
@@ -692,7 +854,7 @@ async function clickNamedProfileAndClose(page, label, aliases) {
     const rows = [
       ...(window.FANTASY_POOL_PLAYER_MATCHDAY_PROJECTIONS || []),
       ...(window.FANTASY_POOL_RECOMMENDATION_CANDIDATES || [])
-    ].filter((row) => nameMatches(row.name));
+    ].filter((row) => nameMatches(row.name) && normalize(row.matchday || row.matchday_id || "") === "finalround");
     const selectableRows = rows.filter((row) => {
       const status = normalize(row.selectable_status || row.player_status || "playing");
       const points = Number(row.risk_adjusted_points ?? row.projectedPoints ?? row.raw_expected_points ?? 0);
@@ -705,6 +867,9 @@ async function clickNamedProfileAndClose(page, label, aliases) {
       rows: rows.slice(0, 3).map((row) => ({
         name: row.name,
         country: row.country || row.team,
+        matchday: row.matchday || row.matchday_id || null,
+        fixture_stage: row.fixture_stage || null,
+        opponent: row.opponent || row.opponent_team || null,
         selectable_status: row.selectable_status || null,
         projected_points: row.risk_adjusted_points ?? row.projectedPoints ?? row.raw_expected_points ?? null
       }))
@@ -842,6 +1007,8 @@ async function testTeamBuilderBuildsFinalRound(page) {
       .map(selectedCardInfo);
     const message = document.querySelector("#team-message")?.textContent?.trim() || "";
     const topCountryText = document.querySelector("#portfolio-summary")?.textContent?.trim() || "";
+    const summaryPriceText = document.querySelector("#summary-price")?.textContent?.trim() || "";
+    const summaryBudgetText = document.querySelector("#summary-budget")?.textContent?.trim() || "";
     const optionalityText = Array.from(document.querySelectorAll("#portfolio-metrics .portfolio-metric"))
       .map((entry) => entry.textContent.replace(/\s+/g, " ").trim())
       .find((entry) => /Optionality Score/i.test(entry)) || "";
@@ -872,6 +1039,8 @@ async function testTeamBuilderBuildsFinalRound(page) {
       benchCount: bench.length,
       message,
       topCountryText,
+      summaryPriceText,
+      summaryBudgetText,
       optionalityText,
       countryCounts,
       starterCountryCounts,
@@ -932,6 +1101,8 @@ async function testMainPage(browser, viewport) {
   const argentinaProfile = await clickCountryProfileAndClose(page, "Argentina");
   const messiProfile = await clickNamedProfileAndClose(page, "Messi", ["messi", "lionel messi"]);
   const mbappeProfile = await clickNamedProfileAndClose(page, "Mbappe", ["mbappe", "kylian mbappe", "kylian mbappé"]);
+  const exactFinalProfile = await clickNamedProfileAndClose(page, "Exact Final Profile", finalRoundContentContract.playerProfile.requiredProfiles.find((entry) => entry.type === "final")?.aliases || ["Mikel Oyarzabal"]);
+  const exactThirdPlaceProfile = await clickNamedProfileAndClose(page, "Exact Third Place Profile", finalRoundContentContract.playerProfile.requiredProfiles.find((entry) => entry.type === "third_place")?.aliases || ["Kylian Mbappé"]);
   const teamBuilderBuild = await testTeamBuilderBuildsFinalRound(page);
   const addToBuilder = await testAddToBuilder(page);
 
@@ -1063,7 +1234,52 @@ async function testMainPage(browser, viewport) {
       stateBeforeClicks.ui.matchdayDeskContentText.length > 0,
     matchdayDeskDefaultFinalRound: stateBeforeClicks.ui.matchdayDeskControls.selectedMatchday === activePublicMatchdayId,
     liveMd1SupportLoaded: stateBeforeClicks.globals.activeGlobalCounts.liveFixtures > 0 &&
-      stateBeforeClicks.globals.activeGlobalCounts.livePlayers > 0
+      stateBeforeClicks.globals.activeGlobalCounts.livePlayers > 0,
+    exactPicksContent: [
+      "picksActiveStage",
+      "picksEligibleOnly",
+      "picksHasFinalPlayer",
+      "picksHasThirdPlacePlayer",
+      "picksRiskLabelsVisible",
+      "picksCaveatVisible"
+    ].every((key) => stateBeforeClicks.exactContent.checks[key]),
+    exactCaptainWatchlistContent: [
+      "captainActiveStage",
+      "captainEligibleOnly",
+      "captainHasFinalPlayer",
+      "captainHasThirdPlacePlayer",
+      "captainLabelsVisible"
+    ].every((key) => stateBeforeClicks.exactContent.checks[key]),
+    exactMatchEnvironmentContent: [
+      "matchEnvironmentActiveStage",
+      "matchEnvironmentFixturesVisible",
+      "matchEnvironmentCompletedSfScoresVisible",
+      "matchEnvironmentNoStaleDefault",
+      "matchEnvironmentNoFinalRoundTbd",
+      "matchEnvironmentPredictionsVisible"
+    ].every((key) => stateBeforeClicks.exactContent.checks[key]),
+    exactPlayerProfilesContent: [exactFinalProfile, exactThirdPlaceProfile].every((profile) =>
+      profile.status === "pass" &&
+      profile.playerProfileOpened &&
+      profile.showsFinalRoundContext &&
+      profile.showsNoEliminatedContext
+    ),
+    exactTeamBuilderGoldenContent: [
+      sameNameSet(
+        [...(teamBuilderBuild.starterSquad || []), ...(teamBuilderBuild.benchSquad || [])].map((row) => row.name),
+        teamBuilderGolden.selectedPlayers.map((row) => row.name)
+      ),
+      firstNumber(teamBuilderBuild.summaryPriceText) === Number(teamBuilderGolden.budgetUsed) &&
+        Number(((firstNumber(teamBuilderBuild.summaryPriceText) || 0) + (firstNumber(teamBuilderBuild.summaryBudgetText) || 0)).toFixed(1)) === Number(teamBuilderGolden.budgetLimit),
+      teamBuilderBuild.eliminatedSelectedCount === 0 &&
+        !teamBuilderBuild.knownEliminatedTextInTeamBuilder &&
+        !teamBuilderBuild.knownEliminatedTextInPlayerPicker
+    ].every(Boolean),
+    exactNoEliminatedLeakage: [
+      "picksEligibleOnly",
+      "captainEligibleOnly"
+    ].every((key) => stateBeforeClicks.exactContent.checks[key]) &&
+      teamBuilderBuild.eliminatedSelectedCount === 0
   };
 
   return {
@@ -1076,7 +1292,13 @@ async function testMainPage(browser, viewport) {
       md2: md2MatchEnvironmentAccess,
       finalRound: activeMatchEnvironmentAccess
     },
-    profileClicks: [quickPickProfile, captainProfile, adviceProfile, franceProfile, spainProfile, englandProfile, argentinaProfile, messiProfile, mbappeProfile],
+    profileClicks: [quickPickProfile, captainProfile, adviceProfile, franceProfile, spainProfile, englandProfile, argentinaProfile, messiProfile, mbappeProfile, exactFinalProfile, exactThirdPlaceProfile],
+    exactProfileSamples: [exactFinalProfile, exactThirdPlaceProfile].map((profile) => ({
+      label: profile.label,
+      status: profile.status,
+      rows: profile.rows || [],
+      sample: profile.modalTextSample || ""
+    })),
     teamBuilderBuild,
     addToBuilder,
     filters: {
@@ -1273,12 +1495,15 @@ async function main() {
         "#match-environment-table-body tr"
       ],
       current_default_assertions: [
-        "Picks default to sf",
+        "Picks default to finalRound",
+        "Picks visible content matches data/finalRoundBrowserContentContract_v1.json",
         "Captain Watchlist renders Final Round context",
+        "Captain Watchlist visible content matches data/finalRoundBrowserContentContract_v1.json",
         "Player Profile shows Final Round practical context",
-        "Team Builder selected matchday is sf",
-        "Match Environment selected matchday is sf and MD1/MD2 remain selectable",
-        "Matchday Desk selected matchday is sf",
+        "Exact Final and Third Place Player Profiles open with Final Round context",
+        "Team Builder selected matchday is finalRound and visible artifact squad matches data/teamBuilderGoldenFinalRound_v1.json",
+        "Match Environment selected matchday is finalRound, exact fixtures/SF scores/predictions are visible, and MD1/MD2 remain selectable",
+        "Matchday Desk selected matchday is finalRound",
         "Knockout predictor renders known SF fixtures with no arbitrary matchup selector",
         "Visual Knockout Bracket Prediction renders summary cards, round columns, flags/fallbacks, model picks, actual labels, and prediction-result badges"
       ],

@@ -1,0 +1,42 @@
+{
+  "schema_version": "exact_browser_assertions_no_behavior_change_v1",
+  "generatedAt": "2026-07-18T00:00:00.000Z",
+  "status": "pass",
+  "publicVisibilityFixes": [
+    "Match Environment now shows source SF scores for Final Round fixtures.",
+    "Visible public caveat now states final squads are not independently source-backed and final XIs are not confirmed."
+  ],
+  "checks": {
+    "teamBuilderArtifactUnchanged": true,
+    "teamBuilderGoldenValuesUnchanged": true,
+    "recommendationsUnchanged": true,
+    "projectionsUnchanged": true,
+    "scorePredictionsUnchanged": true,
+    "fixturesUnchanged": true,
+    "browserVisibleTeamBuilderGoldenUnchanged": true,
+    "publicDefaultUnchanged": true,
+    "modelOutputsUnchanged": true,
+    "publicCopyChangedOnlyForRequiredVisibility": true
+  },
+  "rowCounts": {
+    "recommendationCandidatesFinalRoundSource": 175,
+    "playerMatchdayProjectionsFinalRoundSource": 134,
+    "scorePredictionFixturesFinalRoundSource": 2,
+    "finalRoundFixtureAuthorityFixtures": 2,
+    "teamBuilderGoldenPlayers": 15
+  },
+  "protectedTeamBuilderGolden": {
+    "budget": "94.8 / 105",
+    "captain": "Mikel Oyarzabal",
+    "viceCaptain": "Leandro Paredes",
+    "teamCounts": { "Argentina": 8, "Spain": 5, "France": 1, "England": 1 },
+    "fixtureCounts": { "final": 13, "third_place": 2 },
+    "rawProjectedPoints": 59.552,
+    "optionalityScore": 5.291,
+    "compositeScore": 1014.93
+  },
+  "notes": [
+    "This pass added browser QA assertions and did not rebuild or change generated model data.",
+    "The only public-file edits are visibility fixes required by the content contract."
+  ]
+}

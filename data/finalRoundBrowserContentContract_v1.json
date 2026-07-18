@@ -1,0 +1,83 @@
+{
+  "schema_version": "final_round_browser_content_contract_v1",
+  "generatedAt": "2026-07-18T00:00:00.000Z",
+  "activeStage": "finalRound",
+  "sourceManifestPath": "data/activeStageManifest_v1.json",
+  "teamBuilderGoldenPath": "data/teamBuilderGoldenFinalRound_v1.json",
+  "eligibleTeams": ["France", "England", "Spain", "Argentina"],
+  "eliminatedBlocklist": ["Lerma", "Raphinha", "Raphael Dias Belloli", "Vinicius", "Vinícius", "Brazil", "Colombia", "BRA", "COL"],
+  "requiredCaveats": [
+    "final squads not independently source-backed",
+    "final XIs not confirmed",
+    "user locks/substitutions/boosters not imported",
+    "Third Place lineup risk"
+  ],
+  "picks": {
+    "expectedStage": "Final Round",
+    "requiredFinalPlayers": ["Lionel Messi", "Mikel Oyarzabal"],
+    "requiredThirdPlacePlayers": ["Kylian Mbappé", "Harry Kane"],
+    "requiredVisibleNeedles": ["Final Round", "Third Place", "SF starter"],
+    "requiredRiskNeedles": ["Third Place risk", "Role caution", "rotation risk"],
+    "requiredCaveatNeedles": ["final squads not source-backed", "Verify official locks"]
+  },
+  "captainWatchlist": {
+    "expectedStage": "Final Round",
+    "requiredFinalPlayers": ["Lionel Messi", "Mikel Oyarzabal"],
+    "requiredThirdPlacePlayers": ["Kylian Mbappé", "Harry Kane"],
+    "requiredVisibleNeedles": ["Captain", "Watchlist", "Final Round"],
+    "requiredRiskNeedles": ["Third Place", "captain"]
+  },
+  "matchEnvironment": {
+    "expectedStage": "Final Round",
+    "fixtures": [
+      {
+        "stage": "third_place",
+        "label": "Third Place",
+        "matchNumber": 103,
+        "teams": ["France", "England"],
+        "visibleText": "France vs England"
+      },
+      {
+        "stage": "final",
+        "label": "Final",
+        "matchNumber": 104,
+        "teams": ["Spain", "Argentina"],
+        "visibleText": "Spain vs Argentina"
+      }
+    ],
+    "completedSfScores": ["France 0-2 Spain", "England 1-2 Argentina"],
+    "staleDefaultBlocklist": ["Semifinal default", "Semifinals default", "Matchday 2 default", "Matchday 3 default"],
+    "staleFinalRoundBlocklist": ["TBD", "to be decided"],
+    "predictionNeedles": ["Expected goals", "1-1", "High"]
+  },
+  "playerProfile": {
+    "expectedStage": "Final Round",
+    "requiredProfiles": [
+      {
+        "type": "final",
+        "player": "Mikel Oyarzabal",
+        "aliases": ["Mikel Oyarzabal", "Oyarzabal"],
+        "team": "Spain",
+        "opponent": "Argentina",
+        "stage": "final"
+      },
+      {
+        "type": "third_place",
+        "player": "Kylian Mbappé",
+        "aliases": ["Kylian Mbappé", "Kylian Mbappe", "Mbappe"],
+        "team": "France",
+        "opponent": "England",
+        "stage": "third_place"
+      }
+    ],
+    "requiredContextNeedles": ["Final Round", "Position", "Price"],
+    "requiredEvidenceNeedles": ["SF starter", "Third Place rotation", "Role volatility", "Verify"]
+  },
+  "teamBuilder": {
+    "expectedBudgetText": "94.8 / 105",
+    "expectedCaptain": "Mikel Oyarzabal",
+    "expectedViceCaptain": "Leandro Paredes",
+    "visibleSquadMustMatchGolden": true,
+    "noEliminatedPlayers": true
+  }
+}
