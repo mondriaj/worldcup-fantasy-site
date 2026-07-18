@@ -150,6 +150,8 @@ const requiredSyntaxChecks = [
   "liveMatchdayStatusData.js",
   "livePlayerStatusData.js",
   "teamBuilderFinalRoundArtifactData.js",
+  "teamBuilderPublicHelpers.js",
+  "scripts/lib/teamBuilderPublicModel.mjs",
   "scripts/auditPublicPayloadSlimmingV1.mjs",
   "scripts/lib/publicPayloadSlimming.mjs",
   "scripts/validatePublicPayloadContractV1.mjs",
@@ -213,6 +215,13 @@ const checks = [
     missingExpectedScripts
   }),
   check("team_builder_artifact_wrapper_loaded_by_index", loadedByPage("index.html").has("teamBuilderFinalRoundArtifactData.js"), {
+    indexScripts: [...loadedByPage("index.html")]
+  }),
+  check("team_builder_public_helper_loaded_before_script", (() => {
+    const indexScripts = [...loadedByPage("index.html")];
+    return indexScripts.includes("teamBuilderPublicHelpers.js") &&
+      indexScripts.indexOf("teamBuilderPublicHelpers.js") < indexScripts.indexOf("script.js");
+  })(), {
     indexScripts: [...loadedByPage("index.html")]
   }),
   check("manifest_stage_matches_script_default", manifest.activeStage === defaultStage, {

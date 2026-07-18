@@ -7,6 +7,7 @@
     "default": "20260718-final-round",
     "overrides": {
       "teamBuilderFinalRoundArtifactData.js": "20260718-builder-artifact-equivalence",
+      "teamBuilderPublicHelpers.js": "20260718-team-builder-public-helpers",
       "script.js": "20260718-builder-artifact-equivalence"
     }
   },
@@ -38,6 +39,7 @@
     "recommendations": "fantasyPoolRecommendationsData.js",
     "scorePredictions": "fantasyPoolScorePredictionsData.js",
     "teamBuilderArtifact": "teamBuilderFinalRoundArtifactData.js",
+    "teamBuilderPublicHelpers": "teamBuilderPublicHelpers.js",
     "liveMatchdayStatus": "liveMatchdayStatusData.js",
     "livePlayerStatus": "livePlayerStatusData.js",
     "knockoutBracketPrediction": "knockoutBracketPredictionData.js",
@@ -65,6 +67,7 @@
           "sfFixtureAuthorityData.js",
           "finalRoundFixtureAuthorityData.js",
           "teamBuilderFinalRoundArtifactData.js",
+          "teamBuilderPublicHelpers.js",
           "script.js"
         ]
       },
@@ -157,6 +160,8 @@
       "liveMatchdayStatusData.js",
       "livePlayerStatusData.js",
       "teamBuilderFinalRoundArtifactData.js",
+      "teamBuilderPublicHelpers.js",
+      "scripts/lib/teamBuilderPublicModel.mjs",
       "scripts/auditPublicPayloadSlimmingV1.mjs",
       "scripts/lib/publicPayloadSlimming.mjs",
       "scripts/validatePublicPayloadContractV1.mjs",

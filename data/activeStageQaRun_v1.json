@@ -1,6 +1,6 @@
 {
   "schema_version": "active_stage_qa_run_v1",
-  "generated_at": "2026-07-18T13:24:43.602Z",
+  "generated_at": "2026-07-18T15:39:30.750Z",
   "status": "pass",
   "activeStage": "finalRound",
   "runnerScript": "scripts/runActiveStageQaFromManifestV1.mjs",
@@ -12,8 +12,8 @@
     "detail": "Started local static server."
   },
   "summary": {
-    "total": 37,
-    "passed": 37,
+    "total": 39,
+    "passed": 39,
     "failed": 0,
     "skipped": 0,
     "requiredFailed": 0,
@@ -44,7 +44,7 @@
           "durationMs": 32,
           "exitCode": 0,
           "signal": null,
-          "outputExcerpt": "{\n  \"status\": \"pass\",\n  \"checks\": [\n    {\n      \"id\": \"manifest_exists_and_parses\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"active_stage_is_final_round\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"cache_bust_present\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"all_listed_source_files_exist\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"all_listed_public_wrappers_exist\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"all_listed_validators_exist\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"required_manifest_entries_present\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"html_references_expected_active_wrappers\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"team_builder_artifact_wrapper_loaded_by_index\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"manifest_stage_matches_script_default\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"cache_bust_matches_html_for_manifest_scripts\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"browser_equivalence_validator_listed\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"eligible_player_validator_listed\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"final_round_fixture_authority_listed\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"old_deprecated_globals_blocked\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"known_caveats_present\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"forbidden_refereeing_conspiracy_surface_listed\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"forbidden_refereeing_conspiracy_absent_from_public_pages\",\n      \"status\": \"pass\"\n    },\n    {\n      \"\n...<truncated>"
+          "outputExcerpt": "{\n  \"status\": \"pass\",\n  \"checks\": [\n    {\n      \"id\": \"manifest_exists_and_parses\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"active_stage_is_final_round\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"cache_bust_present\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"all_listed_source_files_exist\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"all_listed_public_wrappers_exist\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"all_listed_validators_exist\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"required_manifest_entries_present\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"html_references_expected_active_wrappers\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"team_builder_artifact_wrapper_loaded_by_index\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"team_builder_public_helper_loaded_before_script\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"manifest_stage_matches_script_default\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"cache_bust_matches_html_for_manifest_scripts\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"browser_equivalence_validator_listed\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"eligible_player_validator_listed\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"final_round_fixture_authority_listed\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"old_deprecated_globals_blocked\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"known_caveats_present\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"forbidden_refereeing_conspiracy_surface_listed\",\n      \"status\": \"pass\"\n    },\n    {\n      \"id\": \"for\n...<truncated>"
         }
       ]
     },
@@ -55,12 +55,12 @@
       "status": "pass",
       "command": "node scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs",
       "fallbackCommand": null,
-      "durationMs": 642,
+      "durationMs": 668,
       "attempts": [
         {
           "command": "node scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs",
           "status": "pass",
-          "durationMs": 642,
+          "durationMs": 668,
           "exitCode": 0,
           "signal": null,
           "outputExcerpt": "{\n  \"status\": \"pass\",\n  \"checks\": {\n    \"artifact_loaded_in_browser\": true,\n    \"browser_default_uses_generated_artifact_objective\": true,\n    \"generated_and_browser_selected_players_match\": true,\n    \"selected_count_by_team_matches\": true,\n    \"selected_count_by_fixture_matches\": true,\n    \"captain_matches\": true,\n    \"vice_captain_matches\": true,\n    \"generated_artifact_matches_team_builder_qa\": true,\n    \"candidate_pool_by_team_matches_generated_qa\": true,\n    \"optionality_visible\": true,\n    \"old_globals_absent\": true,\n    \"no_console_or_page_errors\": true\n  },\n  \"errors\": [],\n  \"generated\": {\n    \"strategy\": {\n      \"id\": \"balancedSquad\",\n      \"name\": \"Recommended Balanced Squad\",\n      \"label\": \"Recommended Balanced Squad\",\n      \"matchday\": \"finalRound\",\n      \"formation\": \"4-3-3\"\n    },\n    \"selected_count_by_team\": {\n      \"Argentina\": 8,\n      \"Spain\": 5,\n      \"France\": 1,\n      \"England\": 1\n    },\n    \"selected_count_by_fixture\": {\n      \"final\": 13,\n      \"third_place\": 2\n    },\n    \"captain\": \"Mikel Oyarzabal\",\n    \"viceCaptain\": \"Leandro Paredes\",\n    \"raw_projected_points\": 59.552,\n    \"optionality_score\": 5.291,\n    \"composite_score\": 1014.93,\n    \"selected_players\": [\n      \"Emiliano Martínez\",\n      \"Unai Simón\",\n      \"Nicolás Tagliafico\",\n      \"Nahuel Molina\",\n      \"Lisandro Martínez\",\n      \"Cristian Romero\",\n      \"Pau Cubarsí\",\n      \"Leandro Paredes\",\n      \"Alexis Mac Allister\",\n      \"Enzo Fernández\",\n      \"Álex Baena\",\n      \"Fabián Ruiz\",\n      \"Kylian Mbappé\",\n      \"Harry Kane\",\n      \"Mikel Oyarzabal\"\n    ]\n  },\n  \"browser\": {\n    \"strate\n...<truncated>"
@@ -74,12 +74,12 @@
       "status": "pass",
       "command": "node scripts/validateFinalRoundEligiblePlayersV1.mjs",
       "fallbackCommand": null,
-      "durationMs": 133,
+      "durationMs": 135,
       "attempts": [
         {
           "command": "node scripts/validateFinalRoundEligiblePlayersV1.mjs",
           "status": "pass",
-          "durationMs": 133,
+          "durationMs": 135,
           "exitCode": 0,
           "signal": null,
           "outputExcerpt": "{\n  \"status\": \"pass\",\n  \"summary\": {\n    \"eligible_teams\": [\n      \"France\",\n      \"England\",\n      \"Spain\",\n      \"Argentina\"\n    ],\n    \"active_projection_rows\": 134,\n    \"active_recommendation_rows\": 175,\n    \"core_pick_rows\": 25,\n    \"captain_watchlist_rows\": 25,\n    \"team_builder_candidate_count_by_team\": {\n      \"Argentina\": 25,\n      \"Spain\": 26,\n      \"France\": 26,\n      \"England\": 24\n    },\n    \"team_builder_selected_count_by_team\": {\n      \"Argentina\": 8,\n      \"Spain\": 5,\n      \"France\": 1,\n      \"England\": 1\n    },\n    \"eliminated_player_candidates\": 0,\n    \"eliminated_player_selected\": 0,\n    \"picks_eliminated_player_count\": 0,\n    \"captain_watchlist_eliminated_player_count\": 0,\n    \"player_profile_active_stage_eliminated_leakage\": false,\n    \"source_final_round_projection_bug_hits\": 0,\n    \"source_final_round_recommendation_bug_hits\": 0,\n    \"historical_projection_bug_hits_allowed\": 102,\n    \"historical_recommendation_bug_hits_allowed\": 27,\n    \"finance_bug_hits_not_active_surface\": 51\n  },\n  \"failed_checks\": []\n}"
@@ -93,12 +93,12 @@
       "status": "pass",
       "command": "node scripts/validateFinalRoundFixtureExposureStrategyV1.mjs",
       "fallbackCommand": null,
-      "durationMs": 29,
+      "durationMs": 33,
       "attempts": [
         {
           "command": "node scripts/validateFinalRoundFixtureExposureStrategyV1.mjs",
           "status": "pass",
-          "durationMs": 29,
+          "durationMs": 33,
           "exitCode": 0,
           "signal": null,
           "outputExcerpt": "{\n  \"status\": \"pass\",\n  \"summary\": {\n    \"selected_count_by_team\": {\n      \"Argentina\": 8,\n      \"Spain\": 5,\n      \"France\": 1,\n      \"England\": 1\n    },\n    \"selected_count_by_fixture\": {\n      \"final\": 13,\n      \"third_place\": 2\n    },\n    \"raw_expected_selected_count_by_team\": {\n      \"Argentina\": 8,\n      \"Spain\": 5,\n      \"France\": 1,\n      \"England\": 1\n    },\n    \"raw_projected_points_before\": 59.552,\n    \"raw_projected_points_after\": 59.552,\n    \"optionality_score\": 5.291,\n    \"optionality_gain\": 0,\n    \"composite_score_gain\": 0,\n    \"third_place_recommendation_rows\": 72,\n    \"early_option_rows\": 25,\n    \"third_place_risk_rows\": 25\n  },\n  \"errors\": []\n}"
@@ -112,12 +112,12 @@
       "status": "pass",
       "command": "node scripts/validateTeamBuilderFinalRoundV1.mjs",
       "fallbackCommand": null,
-      "durationMs": 22,
+      "durationMs": 21,
       "attempts": [
         {
           "command": "node scripts/validateTeamBuilderFinalRoundV1.mjs",
           "status": "pass",
-          "durationMs": 22,
+          "durationMs": 21,
           "exitCode": 0,
           "signal": null,
           "outputExcerpt": "{\n  \"status\": \"pass\",\n  \"summary\": {\n    \"squad_size\": 15,\n    \"required_squad_size\": 15,\n    \"positions\": {\n      \"GK\": 2,\n      \"DEF\": 5,\n      \"MID\": 5,\n      \"FWD\": 3\n    },\n    \"defaultMatchday\": \"finalRound\",\n    \"country_limit\": 8,\n    \"initial_budget\": 105,\n    \"selected_total_price\": 94.8,\n    \"raw_expected_selected_total_price\": 94.8,\n    \"eligible_teams\": [\n      \"France\",\n      \"England\",\n      \"Spain\",\n      \"Argentina\"\n    ],\n    \"candidate_count_by_team\": {\n      \"Argentina\": 25,\n      \"Spain\": 26,\n      \"France\": 26,\n      \"England\": 24\n    },\n    \"selected_count_by_team\": {\n      \"Argentina\": 8,\n      \"Spain\": 5,\n      \"France\": 1,\n      \"England\": 1\n    },\n    \"raw_expected_selected_count_by_team\": {\n      \"Argentina\": 8,\n      \"Spain\": 5,\n      \"France\": 1,\n      \"England\": 1\n    },\n    \"selected_count_by_fixture\": {\n      \"final\": 13,\n      \"third_place\": 2\n    },\n    \"raw_expected_selected_count_by_fixture\": {\n      \"final\": 13,\n      \"third_place\": 2\n    },\n    \"early_fixture_selected_count\": 2,\n    \"late_fixture_selected_count\": 13,\n    \"raw_projected_points_before\": 59.552,\n    \"raw_projected_points_after\": 59.552,\n    \"raw_projected_points_delta\": 0,\n    \"optionality_score\": 5.291,\n    \"optionality_score_before\": 5.291,\n    \"optionality_gain\": 0,\n    \"composite_score\": 1014.93,\n    \"composite_score_before\": 1014.93,\n    \"composite_score_gain\": 0,\n    \"minimum_early_fixture_players_when_viable\": 2,\n    \"eliminated_player_candidates\": 0,\n    \"eliminated_player_selected\": 0,\n    \"captain_team_eligible\": true,\n    \"vice_team_eligible\": true,\n    \"captai\n...<truncated>"
@@ -131,12 +131,12 @@
       "status": "pass",
       "command": "node scripts/validateFinalRoundCorePickLineupEvidence.mjs",
       "fallbackCommand": null,
-      "durationMs": 22,
+      "durationMs": 21,
       "attempts": [
         {
           "command": "node scripts/validateFinalRoundCorePickLineupEvidence.mjs",
           "status": "pass",
-          "durationMs": 22,
+          "durationMs": 21,
           "exitCode": 0,
           "signal": null,
           "outputExcerpt": "{\n  \"status\": \"pass\",\n  \"summary\": {\n    \"core_pick_rows\": 25,\n    \"core_without_explicit_sf_starter\": 0,\n    \"thin_profile_core_picks\": 0,\n    \"third_place_core_without_rotation_check\": 0,\n    \"points_only_core_picks\": 0\n  },\n  \"errors\": []\n}"
@@ -150,12 +150,12 @@
       "status": "pass",
       "command": "node scripts/validateActiveFantasyDataFlow.mjs",
       "fallbackCommand": "node scripts/validateActiveMd2DataFlow.mjs",
-      "durationMs": 169,
+      "durationMs": 176,
       "attempts": [
         {
           "command": "node scripts/validateActiveFantasyDataFlow.mjs",
           "status": "pass",
-          "durationMs": 169,
+          "durationMs": 176,
           "exitCode": 0,
           "signal": null,
           "outputExcerpt": "data/activeFantasyDataFlowQa.json: pass\nfailures: 0\nwarnings: 0"
@@ -169,12 +169,12 @@
       "status": "pass",
       "command": "node scripts/validateLiveFixtureMapping.mjs",
       "fallbackCommand": null,
-      "durationMs": 39,
+      "durationMs": 40,
       "attempts": [
         {
           "command": "node scripts/validateLiveFixtureMapping.mjs",
           "status": "pass",
-          "durationMs": 39,
+          "durationMs": 40,
           "exitCode": 0,
           "signal": null,
           "outputExcerpt": "{\n  \"status\": \"passed\",\n  \"outputs\": [\n    \"data/liveFixtureMappingQa_v1.json\",\n    \"data/liveFixtureMappingQaReport_v1.md\"\n  ],\n  \"summary\": {\n    \"total_local_fixtures\": 102,\n    \"group_stage_local_fixtures\": 72,\n    \"r32_authority_fixtures\": 16,\n    \"r16_authority_fixtures\": 8,\n    \"qf_authority_fixtures\": 4,\n    \"sf_authority_fixtures\": 2,\n    \"total_live_fixtures\": 104,\n    \"group_stage_live_fixtures\": 72,\n    \"extra_live_fixtures\": 32,\n    \"total_score_prediction_fixtures\": 102,\n    \"r32_score_prediction_fixtures\": 88,\n    \"r16_score_prediction_fixtures\": 8,\n    \"qf_score_prediction_fixtures\": 4,\n    \"sf_score_prediction_fixtures\": 2,\n    \"matched_fixtures\": 102,\n    \"final_fixtures_shown\": 102,\n    \"in_progress_fixtures_suppressed\": 0,\n    \"scheduled_fixtures\": 2,\n    \"unmatched_fixtures\": 2,\n    \"ambiguous_fixtures\": 0,\n    \"reversed_mappings\": 0,\n    \"mapping_status_counts\": {\n      \"matched\": 102,\n      \"unmatched\": 2\n    },\n    \"mapping_orientation_counts\": {\n      \"direct\": 102,\n      \"unknown\": 2\n    },\n    \"unsafe_fixture_player_point_leak_count\": 0\n  },\n  \"errors\": []\n}"
@@ -226,12 +226,12 @@
       "status": "pass",
       "command": "node scripts/validateFinalRoundFixtureAuthorityV1.mjs",
       "fallbackCommand": null,
-      "durationMs": 23,
+      "durationMs": 25,
       "attempts": [
         {
           "command": "node scripts/validateFinalRoundFixtureAuthorityV1.mjs",
           "status": "pass",
-          "durationMs": 23,
+          "durationMs": 25,
           "exitCode": 0,
           "signal": null,
           "outputExcerpt": "{\n  \"status\": \"pass\",\n  \"errors\": []\n}"
@@ -245,12 +245,12 @@
       "status": "pass",
       "command": "node scripts/validateBracketPathIntegrityV1.mjs",
       "fallbackCommand": null,
-      "durationMs": 32,
+      "durationMs": 31,
       "attempts": [
         {
           "command": "node scripts/validateBracketPathIntegrityV1.mjs",
           "status": "pass",
-          "durationMs": 32,
+          "durationMs": 31,
           "exitCode": 0,
           "signal": null,
           "outputExcerpt": "data/bracketPathIntegrityAudit_v1.json: pass"
@@ -264,12 +264,12 @@
       "status": "pass",
       "command": "node scripts/validateKnockoutBracketPredictionV1.mjs",
       "fallbackCommand": null,
-      "durationMs": 44,
+      "durationMs": 31,
       "attempts": [
         {
           "command": "node scripts/validateKnockoutBracketPredictionV1.mjs",
           "status": "pass",
-          "durationMs": 44,
+          "durationMs": 31,
           "exitCode": 0,
           "signal": null,
           "outputExcerpt": "data/knockoutBracketPredictionQa_v1.json: pass"
@@ -283,15 +283,15 @@
       "status": "pass",
       "command": "node scripts/validatePublicPayloadContractV1.mjs",
       "fallbackCommand": null,
-      "durationMs": 310,
+      "durationMs": 293,
       "attempts": [
         {
           "command": "node scripts/validatePublicPayloadContractV1.mjs",
           "status": "pass",
-          "durationMs": 310,
+          "durationMs": 293,
           "exitCode": 0,
           "signal": null,
-          "outputExcerpt": "{\n  \"schema_version\": \"public_payload_contract_qa_v1\",\n  \"generated_at\": \"2026-07-18T13:24:45.129Z\",\n  \"status\": \"pass\",\n  \"activeStage\": \"finalRound\",\n  \"checks\": [\n    {\n      \"id\": \"recommendations_wrapper_parses\",\n      \"status\": \"pass\",\n      \"wrapper\": \"fantasyPoolRecommendationsData.js\"\n    },\n    {\n      \"id\": \"recommendations_required_top_level_fields\",\n      \"status\": \"pass\",\n      \"missing\": []\n    },\n    {\n      \"id\": \"recommendations_required_row_fields\",\n      \"status\": \"pass\",\n      \"missing\": []\n    },\n    {\n      \"id\": \"recommendations_active_rows_available\",\n      \"status\": \"pass\",\n      \"activeRows\": 175,\n      \"totalRows\": 675\n    },\n    {\n      \"id\": \"recommendations_internal_only_fields_absent\",\n      \"status\": \"pass\",\n      \"present\": []\n    },\n    {\n      \"id\": \"projections_wrapper_parses\",\n      \"status\": \"pass\",\n      \"wrapper\": \"fantasyPoolMatchdayProjectionsData.js\"\n    },\n    {\n      \"id\": \"projections_required_top_level_fields\",\n      \"status\": \"pass\",\n      \"missing\": []\n    },\n    {\n      \"id\": \"projections_required_row_fields\",\n      \"status\": \"pass\",\n      \"missing\": []\n    },\n    {\n      \"id\": \"projections_active_rows_available\",\n      \"status\": \"pass\",\n      \"activeRows\": 134,\n      \"totalRows\": 1659\n    },\n    {\n      \"id\": \"projections_internal_only_fields_absent\",\n      \"status\": \"pass\",\n      \"present\": []\n    },\n    {\n      \"id\": \"scorePredictions_wrapper_parses\",\n      \"status\": \"pass\",\n      \"wrapper\": \"fantasyPoolScorePredictionsData.js\"\n    },\n    {\n      \"id\": \"scorePredictions_required_top_level_fields\",\n      \"status\": \"pass\",\n...<truncated>"
+          "outputExcerpt": "{\n  \"schema_version\": \"public_payload_contract_qa_v1\",\n  \"generated_at\": \"2026-07-18T15:39:32.300Z\",\n  \"status\": \"pass\",\n  \"activeStage\": \"finalRound\",\n  \"checks\": [\n    {\n      \"id\": \"recommendations_wrapper_parses\",\n      \"status\": \"pass\",\n      \"wrapper\": \"fantasyPoolRecommendationsData.js\"\n    },\n    {\n      \"id\": \"recommendations_required_top_level_fields\",\n      \"status\": \"pass\",\n      \"missing\": []\n    },\n    {\n      \"id\": \"recommendations_required_row_fields\",\n      \"status\": \"pass\",\n      \"missing\": []\n    },\n    {\n      \"id\": \"recommendations_active_rows_available\",\n      \"status\": \"pass\",\n      \"activeRows\": 175,\n      \"totalRows\": 675\n    },\n    {\n      \"id\": \"recommendations_internal_only_fields_absent\",\n      \"status\": \"pass\",\n      \"present\": []\n    },\n    {\n      \"id\": \"projections_wrapper_parses\",\n      \"status\": \"pass\",\n      \"wrapper\": \"fantasyPoolMatchdayProjectionsData.js\"\n    },\n    {\n      \"id\": \"projections_required_top_level_fields\",\n      \"status\": \"pass\",\n      \"missing\": []\n    },\n    {\n      \"id\": \"projections_required_row_fields\",\n      \"status\": \"pass\",\n      \"missing\": []\n    },\n    {\n      \"id\": \"projections_active_rows_available\",\n      \"status\": \"pass\",\n      \"activeRows\": 134,\n      \"totalRows\": 1659\n    },\n    {\n      \"id\": \"projections_internal_only_fields_absent\",\n      \"status\": \"pass\",\n      \"present\": []\n    },\n    {\n      \"id\": \"scorePredictions_wrapper_parses\",\n      \"status\": \"pass\",\n      \"wrapper\": \"fantasyPoolScorePredictionsData.js\"\n    },\n    {\n      \"id\": \"scorePredictions_required_top_level_fields\",\n      \"status\": \"pass\",\n...<truncated>"
         }
       ]
     },
@@ -302,15 +302,15 @@
       "status": "pass",
       "command": "node scripts/runPublicPreviewBrowserQa.mjs",
       "fallbackCommand": null,
-      "durationMs": 8400,
+      "durationMs": 8313,
       "attempts": [
         {
           "command": "node scripts/runPublicPreviewBrowserQa.mjs",
           "status": "pass",
-          "durationMs": 8400,
+          "durationMs": 8313,
           "exitCode": 0,
           "signal": null,
-          "outputExcerpt": "{\n  \"indexViewportsTested\": 5,\n  \"worldCupViewportsTested\": 5,\n  \"consoleErrorCount\": 0,\n  \"consoleWarningCount\": 0,\n  \"failedRequestCount\": 5,\n  \"blockingFailedRequestCount\": 0,\n  \"blockingFailedRequests\": [],\n  \"indexOverflowViewports\": [],\n  \"worldCupOverflowViewports\": [],\n  \"indexFailures\": [],\n  \"worldCupFailures\": [],\n  \"profileClickFailures\": [],\n  \"oldGlobalsPresent\": [],\n  \"missingActiveGlobals\": [],\n  \"status\": \"pass\"\n}"
+          "outputExcerpt": "{\n  \"indexViewportsTested\": 5,\n  \"worldCupViewportsTested\": 5,\n  \"consoleErrorCount\": 0,\n  \"consoleWarningCount\": 0,\n  \"failedRequestCount\": 6,\n  \"blockingFailedRequestCount\": 0,\n  \"blockingFailedRequests\": [],\n  \"indexOverflowViewports\": [],\n  \"worldCupOverflowViewports\": [],\n  \"indexFailures\": [],\n  \"worldCupFailures\": [],\n  \"profileClickFailures\": [],\n  \"oldGlobalsPresent\": [],\n  \"missingActiveGlobals\": [],\n  \"status\": \"pass\"\n}"
         }
       ]
     },
@@ -321,12 +321,12 @@
       "status": "pass",
       "command": "git diff --check",
       "fallbackCommand": null,
-      "durationMs": 67,
+      "durationMs": 50,
       "attempts": [
         {
           "command": "git diff --check",
           "status": "pass",
-          "durationMs": 67,
+          "durationMs": 50,
           "exitCode": 0,
           "signal": null,
           "outputExcerpt": ""
@@ -339,7 +339,7 @@
       "required": true,
       "status": "pass",
       "command": "node --check script.js",
-      "durationMs": 22,
+      "durationMs": 21,
       "exitCode": 0,
       "outputExcerpt": ""
     },
@@ -349,7 +349,7 @@
       "required": true,
       "status": "pass",
       "command": "node --check worldCupPage.js",
-      "durationMs": 17,
+      "durationMs": 16,
       "exitCode": 0,
       "outputExcerpt": ""
     },
@@ -359,7 +359,7 @@
       "required": true,
       "status": "pass",
       "command": "node --check worldCupData.js",
-      "durationMs": 18,
+      "durationMs": 16,
       "exitCode": 0,
       "outputExcerpt": ""
     },
@@ -369,7 +369,7 @@
       "required": true,
       "status": "pass",
       "command": "node --check knockoutBracketPredictionData.js",
-      "durationMs": 18,
+      "durationMs": 17,
       "exitCode": 0,
       "outputExcerpt": ""
     },
@@ -389,7 +389,7 @@
       "required": true,
       "status": "pass",
       "command": "node --check fantasyPoolMatchdayProjectionsData.js",
-      "durationMs": 38,
+      "durationMs": 37,
       "exitCode": 0,
       "outputExcerpt": ""
     },
@@ -399,7 +399,7 @@
       "required": true,
       "status": "pass",
       "command": "node --check fantasyPoolScorePredictionsData.js",
-      "durationMs": 19,
+      "durationMs": 18,
       "exitCode": 0,
       "outputExcerpt": ""
     },
@@ -419,7 +419,7 @@
       "required": true,
       "status": "pass",
       "command": "node --check liveMatchdayStatusData.js",
-      "durationMs": 18,
+      "durationMs": 28,
       "exitCode": 0,
       "outputExcerpt": ""
     },
@@ -429,7 +429,7 @@
       "required": true,
       "status": "pass",
       "command": "node --check livePlayerStatusData.js",
-      "durationMs": 27,
+      "durationMs": 28,
       "exitCode": 0,
       "outputExcerpt": ""
     },
@@ -439,6 +439,26 @@
       "required": true,
       "status": "pass",
       "command": "node --check teamBuilderFinalRoundArtifactData.js",
+      "durationMs": 19,
+      "exitCode": 0,
+      "outputExcerpt": ""
+    },
+    {
+      "id": "syntax:teamBuilderPublicHelpers.js",
+      "type": "syntaxCheck",
+      "required": true,
+      "status": "pass",
+      "command": "node --check teamBuilderPublicHelpers.js",
+      "durationMs": 18,
+      "exitCode": 0,
+      "outputExcerpt": ""
+    },
+    {
+      "id": "syntax:scripts/lib/teamBuilderPublicModel.mjs",
+      "type": "syntaxCheck",
+      "required": true,
+      "status": "pass",
+      "command": "node --check scripts/lib/teamBuilderPublicModel.mjs",
       "durationMs": 17,
       "exitCode": 0,
       "outputExcerpt": ""
@@ -449,7 +469,7 @@
       "required": true,
       "status": "pass",
       "command": "node --check scripts/auditPublicPayloadSlimmingV1.mjs",
-      "durationMs": 20,
+      "durationMs": 17,
       "exitCode": 0,
       "outputExcerpt": ""
     },
@@ -459,7 +479,7 @@
       "required": true,
       "status": "pass",
       "command": "node --check scripts/lib/publicPayloadSlimming.mjs",
-      "durationMs": 24,
+      "durationMs": 17,
       "exitCode": 0,
       "outputExcerpt": ""
     },
@@ -469,7 +489,7 @@
       "required": true,
       "status": "pass",
       "command": "node --check scripts/validatePublicPayloadContractV1.mjs",
-      "durationMs": 18,
+      "durationMs": 17,
       "exitCode": 0,
       "outputExcerpt": ""
     },
@@ -479,7 +499,7 @@
       "required": true,
       "status": "pass",
       "command": "node --check scripts/runActiveStageQaFromManifestV1.mjs",
-      "durationMs": 18,
+      "durationMs": 17,
       "exitCode": 0,
       "outputExcerpt": ""
     },
@@ -489,7 +509,7 @@
       "required": true,
       "status": "pass",
       "command": "node --check scripts/validateActiveStageManifestV1.mjs",
-      "durationMs": 19,
+      "durationMs": 17,
       "exitCode": 0,
       "outputExcerpt": ""
     },
@@ -499,7 +519,7 @@
       "required": true,
       "status": "pass",
       "command": "node --check scripts/lib/readActiveStageManifest.mjs",
-      "durationMs": 17,
+      "durationMs": 16,
       "exitCode": 0,
       "outputExcerpt": ""
     },
@@ -516,7 +536,7 @@
         "world-cup.html",
         "worldCupPage.js"
       ],
-      "durationMs": 3,
+      "durationMs": 2,
       "hitCount": 0,
       "activeLeakHits": [],
       "explanation": "",
@@ -548,12 +568,12 @@
         },
         {
           "file": "script.js",
-          "line": 3239,
+          "line": 3246,
           "text": "\"brazil\": \"BRA\","
         },
         {
           "file": "script.js",
-          "line": 3242,
+          "line": 3249,
           "text": "\"colombia\": \"COL\","
         },
         {

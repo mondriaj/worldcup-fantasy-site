@@ -15,6 +15,7 @@ The site had the right Final Round behavior, but the active-stage contract was s
 - Public page script wiring for `index.html` and `world-cup.html`
 - Active source data files and public wrappers
 - Final Round Team Builder artifact and validators
+- Final Round Team Builder public helper wrapper loaded before `script.js`
 - Required active validators and browser assertions
 - Manifest-driven active QA runner commands, syntax checks, search checks, and expected public behavior assertions
 - Public payload slimming audit, contract, validator, and wrapper size metadata
@@ -63,6 +64,10 @@ Skipped for now:
 - A local static server for browser QA checks that need a real URL.
 
 The runner does not rebuild models, tune weights, change recommendations, change projections, change score predictions, change Team Builder output, stage files, commit files, or push.
+
+## Team Builder Public Helpers
+
+`scripts/lib/teamBuilderPublicModel.mjs` and `teamBuilderPublicHelpers.js` hold the safe public Team Builder helper layer for artifact validation, fixture-authority eligible-team keys, count summaries, and artifact-backed explanation copy. The browser wrapper is loaded after `teamBuilderFinalRoundArtifactData.js` and before `script.js`, so the public default can keep rendering the generated artifact without turning the legacy app bundle into a module.
 
 ## Public Payload Contract
 

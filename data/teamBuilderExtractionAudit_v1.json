@@ -1,0 +1,185 @@
+{
+  "schema_version": "team_builder_extraction_audit_v1",
+  "generated_at": "2026-07-18T13:05:00.000Z",
+  "status": "pass",
+  "active_stage": "finalRound",
+  "scope_gate": {
+    "model_change": false,
+    "generated_artifact_changed": false,
+    "recommendations_changed": false,
+    "projections_changed": false,
+    "score_predictions_changed": false,
+    "pele_changed": false,
+    "fixtures_changed": false,
+    "public_rankings_changed": false,
+    "unrelated_dirty_files_left_unstaged": true
+  },
+  "current_public_behavior": {
+    "browser_default_artifact_backed": true,
+    "browser_optimizer_still_exists": true,
+    "browser_optimizer_can_affect_default_squad": false,
+    "default_artifact_gate": "finalRound, Balanced Squad, artifact formation, balanced trust mode, All countries, no locked/removed players, no price filters, no risk controls",
+    "budget": "94.8 / 105",
+    "eligible_teams": [
+      "France",
+      "England",
+      "Spain",
+      "Argentina"
+    ],
+    "artifact_schema": "team_builder_final_round_artifact_v1"
+  },
+  "audited_blocks": [
+    {
+      "block": "ACTIVE_DATA Team Builder globals",
+      "script_js_area": "top-level static wrapper binding",
+      "classification": "safe to extract now",
+      "decision": "centralize public helper binding only",
+      "reason": "Read-only wrapper access and artifact schema checks are pure public contract logic."
+    },
+    {
+      "block": "Final Round eligible-team filtering",
+      "script_js_area": "getActiveStageEligibleTeams, recordMatchesActiveStageEligibleTeam",
+      "classification": "safe to extract now",
+      "decision": "helper wrapper now derives eligible keys from fixture authority",
+      "reason": "The helper reads fixture authority input and does not hardcode France, England, Spain, or Argentina as logic."
+    },
+    {
+      "block": "artifact loading/rendering gate",
+      "script_js_area": "finalRoundTeamBuilderArtifact, defaultFinalRoundArtifactInputsActive, generatedFinalRoundBalancedSquad",
+      "classification": "partly safe to extract now",
+      "decision": "schema/shape validation moved; DOM-independent gate remains in script.js",
+      "reason": "The default gate depends on current browser controls, locks, filters, and risk-control state."
+    },
+    {
+      "block": "artifact row resolution",
+      "script_js_area": "artifactRowsToPlayers",
+      "classification": "should remain in script.js for rendering",
+      "decision": "left in place",
+      "reason": "It depends on browser player lookup maps and should stay near render-time resolution."
+    },
+    {
+      "block": "candidate filtering",
+      "script_js_area": "availableFillCandidates, optimizerCandidatePools",
+      "classification": "risky to extract now",
+      "decision": "left in place",
+      "reason": "It mixes active-stage filtering, locks, avoids, price filters, trust modes, risk controls, and ranking fallback."
+    },
+    {
+      "block": "budget logic",
+      "script_js_area": "budgetText, squadCost, optimizer price-floor helpers",
+      "classification": "should become shared model module later",
+      "decision": "only display helper added to module; optimizer budget math left in script.js",
+      "reason": "Budget calculations participate in optimizer legality and should move only with a full equivalence harness."
+    },
+    {
+      "block": "formation/position constraints",
+      "script_js_area": "positionsMatchRequirements, tactics, chooseStartersFromSquad, optimizer state",
+      "classification": "risky to extract now",
+      "decision": "left in place",
+      "reason": "The logic controls legal squad selection and starter composition."
+    },
+    {
+      "block": "captain and vice selection",
+      "script_js_area": "normalizeUserSquadSelections, export payload, captain recommendation score",
+      "classification": "risky to extract now",
+      "decision": "left in place",
+      "reason": "Captain and vice are user-visible behavior and depend on current squad/render state."
+    },
+    {
+      "block": "objective/scoring weights",
+      "script_js_area": "teamBuilderStrategyScoringProfiles, portfolioOptimizerWeights, teamBuilderStrategyPlayerScore",
+      "classification": "should become shared model module later",
+      "decision": "left in place",
+      "reason": "Moving weights is behavior-sensitive and was not needed for this first public-helper extraction."
+    },
+    {
+      "block": "optionality scoring",
+      "script_js_area": "finalRoundPlayerStrategicMetrics, squadPortfolioAnalytics, portfolioOptimizerAdjustment",
+      "classification": "should become generated artifact logic later",
+      "decision": "left in place",
+      "reason": "It is model logic and should be unified with artifact generation in a later audited pass."
+    },
+    {
+      "block": "Third Place risk logic",
+      "script_js_area": "finalRoundPlayerStrategicMetrics, portfolio warnings, QA flags",
+      "classification": "should become shared model module later",
+      "decision": "only public risk-label helper added; formulas left in script.js",
+      "reason": "Risk math affects optimizer and warnings."
+    },
+    {
+      "block": "role volatility logic",
+      "script_js_area": "finalRoundPlayerStrategicMetrics and score cards",
+      "classification": "risky to extract now",
+      "decision": "left in place",
+      "reason": "Volatility affects strategic score and visible risk language."
+    },
+    {
+      "block": "lock/picker logic",
+      "script_js_area": "lockedPlayerIds, player picker, pick-card lock handlers",
+      "classification": "should remain in script.js for rendering",
+      "decision": "left in place",
+      "reason": "It is browser interaction state and DOM event handling."
+    },
+    {
+      "block": "bench/starter display",
+      "script_js_area": "renderTeam, renderBench, field layout helpers",
+      "classification": "should remain in script.js for rendering",
+      "decision": "left in place",
+      "reason": "This is view composition and depends on DOM structure."
+    },
+    {
+      "block": "player-card rendering",
+      "script_js_area": "renderPickCard, renderPlayerPicker, playerDetailButton",
+      "classification": "should remain in script.js for rendering",
+      "decision": "left in place",
+      "reason": "It is HTML generation and interactivity."
+    },
+    {
+      "block": "diagnostics/explanations",
+      "script_js_area": "renderTeam generated-artifact message, portfolio labels",
+      "classification": "safe to extract now",
+      "decision": "artifact-backed explanation string moved to helper",
+      "reason": "The copy is deterministic and does not affect model output."
+    },
+    {
+      "block": "fallback behavior",
+      "script_js_area": "buildSuggestedSquad path when artifact gate is inactive",
+      "classification": "should be deleted later",
+      "decision": "left in place",
+      "reason": "It is not used for the public default but still supports custom locks/filters; deleting it now would be a feature change."
+    }
+  ],
+  "risk_findings": {
+    "duplicate_objective_logic_remains": true,
+    "hidden_fallback_could_reintroduce_old_bugs": true,
+    "hidden_fallback_context": "The browser optimizer still exists for non-default inputs. Active eligible-team and projection gates reduce leakage risk, but a future pass should replace fallback selection with shared artifact/model logic.",
+    "too_long_or_mixed_purpose_functions": [
+      "buildSuggestedSquad",
+      "optimizerCandidatePools",
+      "portfolioOptimizerAdjustment",
+      "squadPortfolioAnalytics",
+      "renderTeam",
+      "renderPlayerPicker",
+      "renderPickCard",
+      "renderSquadStrategyReport",
+      "strategyComparisonResult",
+      "finalRoundPlayerStrategicMetrics"
+    ],
+    "safest_extraction_now": "Move public artifact validation, fixture-authority eligible-team helpers, count summaries, labels, and generated-artifact explanation copy into a small helper layer loaded before script.js."
+  },
+  "extraction_result": {
+    "completed": "partial",
+    "created_files": [
+      "scripts/lib/teamBuilderPublicModel.mjs",
+      "teamBuilderPublicHelpers.js"
+    ],
+    "script_js_uses_helper_for": [
+      "Final Round fixture-authority eligible team keys",
+      "eligible-team record matching",
+      "country count helper path",
+      "Final Round artifact validation",
+      "generated-artifact default explanation message"
+    ],
+    "least_invasive_option_used": true
+  }
+}

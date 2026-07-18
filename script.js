@@ -36,6 +36,7 @@ const ACTIVE_DATA = {
   finalRoundFixtureAuthority: window.FINAL_ROUND_FIXTURE_AUTHORITY_DATA || null,
   teamBuilderFinalRoundArtifact: window.TEAM_BUILDER_FINAL_ROUND_ARTIFACT_DATA || null
 };
+const TEAM_BUILDER_PUBLIC_HELPERS = window.TEAM_BUILDER_PUBLIC_HELPERS || {};
 
 function scorePredictionSourceFromWindow() {
   const fantasyPoolData = ACTIVE_DATA.score.data;
@@ -410,6 +411,10 @@ function getActiveStageEligibleTeams(matchdayId = activeMatchdayId) {
     return null;
   }
 
+  if (typeof TEAM_BUILDER_PUBLIC_HELPERS.eligibleTeamKeysFromFixtureAuthority === "function") {
+    return TEAM_BUILDER_PUBLIC_HELPERS.eligibleTeamKeysFromFixtureAuthority(ACTIVE_DATA.finalRoundFixtureAuthority);
+  }
+
   const fixtures = Array.isArray(ACTIVE_DATA.finalRoundFixtureAuthority?.fixtures)
     ? ACTIVE_DATA.finalRoundFixtureAuthority.fixtures
     : [];
@@ -430,7 +435,9 @@ function recordMatchesActiveStageEligibleTeam(record, matchdayId = activeMatchda
     return true;
   }
 
-  return teamEligibilityKeys(record).some((key) => eligibleTeams.has(key));
+  return typeof TEAM_BUILDER_PUBLIC_HELPERS.recordMatchesEligibleTeam === "function"
+    ? TEAM_BUILDER_PUBLIC_HELPERS.recordMatchesEligibleTeam(record, eligibleTeams)
+    : teamEligibilityKeys(record).some((key) => eligibleTeams.has(key));
 }
 
 function playerHasActiveMatchdayProjection(player, matchdayId = activeMatchdayId) {
@@ -9575,11 +9582,15 @@ function updateTeamSummary(tacticName, totalPrice, averageRisk, squadCount) {
 }
 
 function countryCountsFromPlayers(playerList) {
-  return playerList.reduce((counts, player) => {
-    const countryKey = playerCountryKey(player);
-    counts[countryKey] = (counts[countryKey] || 0) + 1;
-    return counts;
-  }, {});
+  return typeof TEAM_BUILDER_PUBLIC_HELPERS.countByTeam === "function"
+    ? TEAM_BUILDER_PUBLIC_HELPERS.countByTeam(playerList.map((player) => ({
+      country: playerCountryKey(player)
+    })))
+    : playerList.reduce((counts, player) => {
+      const countryKey = playerCountryKey(player);
+      counts[countryKey] = (counts[countryKey] || 0) + 1;
+      return counts;
+    }, {});
 }
 
 function countryCountEntries(countryCounts) {
@@ -13184,7 +13195,11 @@ function buildSuggestedSquad() {
 
 function finalRoundTeamBuilderArtifact() {
   const artifact = ACTIVE_DATA.teamBuilderFinalRoundArtifact;
-  return artifact?.schema_version === "team_builder_final_round_artifact_v1"
+  const artifactIsValid = typeof TEAM_BUILDER_PUBLIC_HELPERS.isFinalRoundTeamBuilderArtifact === "function"
+    ? TEAM_BUILDER_PUBLIC_HELPERS.isFinalRoundTeamBuilderArtifact(artifact)
+    : artifact?.schema_version === "team_builder_final_round_artifact_v1";
+
+  return artifactIsValid
     ? artifact
     : null;
 }
@@ -13715,7 +13730,16 @@ function renderTeam(starters, bench, ignoredLockedPlayers, mode = "built", optio
       const rawProjected = displayNumber(artifact.summary?.raw_projected_points);
       const optionality = displayNumber(artifact.summary?.optionality_score);
       const composite = displayNumber(artifact.summary?.composite_score);
-      teamMessage.textContent = `Recommended Balanced Squad loaded from the validated Final Round Team Builder artifact: ${startingLineupTotal} starters on the field and ${benchLabel()} below. Raw projected points ${rawProjected}; optionality ${optionality}; composite ${composite}.${riskText}`;
+      teamMessage.textContent = typeof TEAM_BUILDER_PUBLIC_HELPERS.artifactLoadedMessage === "function"
+        ? TEAM_BUILDER_PUBLIC_HELPERS.artifactLoadedMessage({
+          startingLineupTotal,
+          benchLabel: benchLabel(),
+          rawProjected,
+          optionality,
+          composite,
+          riskText
+        })
+        : `Recommended Balanced Squad loaded from the validated Final Round Team Builder artifact: ${startingLineupTotal} starters on the field and ${benchLabel()} below. Raw projected points ${rawProjected}; optionality ${optionality}; composite ${composite}.${riskText}`;
     } else {
       teamMessage.textContent = `Team Builder built a ${squadLabel()} within the ${budgetText(initialBudget)} budget using ${activeBuilderStrategyLabel()}, ${trustModeLabel()}, and ${activeMatchdayLabel()}: ${startingLineupTotal} starters on the field and ${benchLabel()} below.${riskText}`;
     }

@@ -1,0 +1,142 @@
+{
+  "schema_version": "team_builder_extraction_no_behavior_change_v1",
+  "generated_at": "2026-07-18T13:05:00.000Z",
+  "status": "pass",
+  "baseline_source": "data/teamBuilderFinalRoundArtifact_v1.json",
+  "expected_result": "no public behavior change",
+  "before": {
+    "artifact_player_list": [
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Pau Cubarsí",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Álex Baena",
+      "Fabián Ruiz",
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal"
+    ],
+    "budget": "94.8 / 105",
+    "team_counts": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "fixture_counts": {
+      "final": 13,
+      "third_place": 2
+    },
+    "captain": "Mikel Oyarzabal",
+    "vice_captain": "Leandro Paredes",
+    "raw_projected_points": 59.552,
+    "optionality_score": 5.291,
+    "composite_score": 1014.93,
+    "recommendations_row_count": 175,
+    "public_recommendations_row_count": 675,
+    "public_active_recommendations_row_count": 175,
+    "projections_row_count": 134,
+    "public_projections_row_count": 1659,
+    "public_active_projections_row_count": 134,
+    "active_eligible_teams": [
+      "France",
+      "England",
+      "Spain",
+      "Argentina"
+    ],
+    "public_loaded_wrapper_list_addition": null,
+    "browser_console_errors": 0
+  },
+  "after": {
+    "artifact_player_list": [
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Pau Cubarsí",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Álex Baena",
+      "Fabián Ruiz",
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal"
+    ],
+    "visible_browser_squad": [
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Pau Cubarsí",
+      "Álex Baena",
+      "Fabián Ruiz"
+    ],
+    "budget": "94.8 / 105",
+    "team_counts": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "fixture_counts": {
+      "final": 13,
+      "third_place": 2
+    },
+    "captain": "Mikel Oyarzabal",
+    "vice_captain": "Leandro Paredes",
+    "raw_projected_points": 59.552,
+    "optionality_score": 5.291,
+    "composite_score": 1014.93,
+    "recommendations_row_count": 175,
+    "public_recommendations_row_count": 675,
+    "public_active_recommendations_row_count": 175,
+    "projections_row_count": 134,
+    "public_projections_row_count": 1659,
+    "public_active_projections_row_count": 134,
+    "active_eligible_teams": [
+      "France",
+      "England",
+      "Spain",
+      "Argentina"
+    ],
+    "public_loaded_wrapper_list_addition": "teamBuilderPublicHelpers.js",
+    "browser_console_errors": 0
+  },
+  "comparisons": {
+    "artifact_player_list_changed": false,
+    "budget_changed": false,
+    "team_counts_changed": false,
+    "fixture_counts_changed": false,
+    "captain_changed": false,
+    "vice_captain_changed": false,
+    "raw_projected_points_changed": false,
+    "optionality_score_changed": false,
+    "composite_score_changed": false,
+    "recommendations_row_count_changed": false,
+    "projections_row_count_changed": false,
+    "active_eligible_teams_changed": false,
+    "public_loaded_wrapper_list_changed": true,
+    "public_loaded_wrapper_list_change_explanation": "New helper wrapper is load-order-only support for public Team Builder helpers; it does not contain model output or selected-player data.",
+    "behavior_changed": false,
+    "browser_generated_equivalence_passed": true,
+    "public_preview_browser_qa_passed": true,
+    "active_stage_qa_runner_passed": true
+  }
+}
