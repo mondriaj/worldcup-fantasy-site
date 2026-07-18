@@ -2,11 +2,15 @@
 
 | Metric | Value |
 | --- | --- |
-| recommendationCandidates | 125 |
-| finalRoundCandidates | 125 |
+| recommendationCandidates | 175 |
+| finalRoundCandidates | 175 |
 | corePickRows | 25 |
 | corePickRowsWithoutExplicitSfStart | 0 |
-| modes | ["balanced","safe","upside","differential","captain"] |
+| modes | ["balanced","safe","upside","differential","early_option","third_place_risk","captain"] |
+| recommendationCountBySurface | {"balanced":25,"safe":25,"upside":25,"differential":25,"early_option":25,"third_place_risk":25,"captain":25} |
+| thirdPlaceRecommendationRows | 72 |
+| thirdPlaceCorePickRows | 11 |
+| earlyOptionRows | 25 |
 | knownFinalRoundFixturesUsed | 2 |
 | defaultMatchday | finalRound |
 | ownershipUsedAsSignal | false |

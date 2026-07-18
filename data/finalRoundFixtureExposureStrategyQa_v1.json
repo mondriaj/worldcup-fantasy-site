@@ -1,0 +1,113 @@
+{
+  "schema_version": "final_round_fixture_exposure_strategy_qa_v1",
+  "generated_at": "2026-07-18T11:18:04.700Z",
+  "status": "pass",
+  "summary": {
+    "selected_count_by_team": {
+      "France": 2,
+      "Spain": 4,
+      "Argentina": 8,
+      "England": 1
+    },
+    "selected_count_by_fixture": {
+      "third_place": 3,
+      "final": 12
+    },
+    "raw_expected_selected_count_by_team": {
+      "France": 1,
+      "Spain": 6,
+      "Argentina": 8
+    },
+    "raw_projected_points_before": 60.681,
+    "raw_projected_points_after": 58.689,
+    "optionality_score": 6.814,
+    "optionality_gain": 5.291,
+    "composite_score_gain": 5.027,
+    "third_place_recommendation_rows": 72,
+    "early_option_rows": 25,
+    "third_place_risk_rows": 25
+  },
+  "checks": [
+    {
+      "id": "audit_pass",
+      "status": "pass",
+      "detail": "Fixture exposure strategy audit failed."
+    },
+    {
+      "id": "eligible_candidate_teams",
+      "status": "pass",
+      "detail": "Final Round projection candidate outside fixture authority."
+    },
+    {
+      "id": "recommendation_teams",
+      "status": "pass",
+      "detail": "Final Round recommendation outside fixture authority."
+    },
+    {
+      "id": "team_builder_selected_teams",
+      "status": "pass",
+      "detail": "Team Builder selected squad contains a team outside fixture authority."
+    },
+    {
+      "id": "no_active_eliminated_leakage",
+      "status": "pass",
+      "detail": "Eliminated player/team leaked into an active Final Round row."
+    },
+    {
+      "id": "team_builder_uses_final_round_rows",
+      "status": "pass",
+      "detail": "Team Builder selected squad is missing Final Round fixture_stage metadata."
+    },
+    {
+      "id": "fixture_counts_present",
+      "status": "pass",
+      "detail": "Team Builder QA missing selected count by fixture."
+    },
+    {
+      "id": "optionality_fields_present",
+      "status": "pass",
+      "detail": "Team Builder QA missing optionality/composite fields."
+    },
+    {
+      "id": "raw_comparison_present",
+      "status": "pass",
+      "detail": "Team Builder QA missing raw expected-points comparison."
+    },
+    {
+      "id": "early_fixture_exposure_or_explanation",
+      "status": "pass",
+      "detail": "Balanced Squad has 0 earlier-fixture players without explanation."
+    },
+    {
+      "id": "france_england_not_both_zero",
+      "status": "pass",
+      "detail": "France and England both have 0 selected players."
+    },
+    {
+      "id": "third_place_recommendations_present",
+      "status": "pass",
+      "detail": "Third Place players have no recommendation exposure."
+    },
+    {
+      "id": "early_option_surface_present",
+      "status": "pass",
+      "detail": "Early-game option recommendation surface missing."
+    },
+    {
+      "id": "third_place_risk_surface_present",
+      "status": "pass",
+      "detail": "Third Place risk recommendation surface missing."
+    },
+    {
+      "id": "recommendation_tags_present",
+      "status": "pass",
+      "detail": "Third Place recommendation tags missing Early game option."
+    },
+    {
+      "id": "public_copy_cautious",
+      "status": "pass",
+      "detail": "Public copy does not clearly caution that substitution flexibility depends on FIFA rules/locks."
+    }
+  ],
+  "errors": []
+}

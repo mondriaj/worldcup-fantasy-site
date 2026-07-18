@@ -1,6 +1,6 @@
 {
   "schema_version": "final_round_eligible_players_qa_v1",
-  "generated_at": "2026-07-18T03:11:24.153Z",
+  "generated_at": "2026-07-18T11:18:04.707Z",
   "status": "pass",
   "summary": {
     "eligible_teams": [
@@ -10,7 +10,7 @@
       "Argentina"
     ],
     "active_projection_rows": 134,
-    "active_recommendation_rows": 125,
+    "active_recommendation_rows": 175,
     "core_pick_rows": 25,
     "captain_watchlist_rows": 25,
     "team_builder_candidate_count_by_team": {
@@ -20,8 +20,8 @@
       "England": 24
     },
     "team_builder_selected_count_by_team": {
-      "France": 4,
-      "Spain": 2,
+      "France": 2,
+      "Spain": 4,
       "Argentina": 8,
       "England": 1
     },
@@ -107,8 +107,8 @@
       "status": "pass",
       "details": {
         "selectedCountByTeam": {
-          "France": 4,
-          "Spain": 2,
+          "France": 2,
+          "Spain": 4,
           "Argentina": 8,
           "England": 1
         },
@@ -120,8 +120,8 @@
       "id": "team_builder_captain_eligible",
       "status": "pass",
       "details": {
-        "id": "39",
-        "name": "Julián Alvarez",
+        "id": "38",
+        "name": "Lionel Messi",
         "country": "Argentina"
       }
     },

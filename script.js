@@ -449,6 +449,76 @@ function playerAllowedForActiveMatchday(player, matchdayId = activeMatchdayId) {
     playerHasActiveMatchdayProjection(player, matchdayId);
 }
 
+function finalRoundPlayerStrategicMetrics(player) {
+  const projection = activeMatchdayId === "finalRound" ? activeProjection(player) : null;
+  const fixtureStage = projection?.fixture_stage || player?.preview_candidate?.fixture_stage || "";
+  const isEarlyFixture = fixtureStage === "third_place";
+  const raw = scoreValue(player, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate");
+  const start = scoreValue(player, "start_probability_percent") / 100;
+  const minutes = scoreValue(player, "expected_minutes_v0");
+  const captain = scoreValue(player, "finance_captain_score");
+  const ceiling = scoreValue(player, "finance_upside_p90_points", "euro_style_points_per90_estimate");
+  const floor = scoreValue(player, "finance_var10_points");
+  const roleVolatility = Number(projection?.role_volatility_score ?? (projection?.third_place_rotation_risk ? 0.24 : 0.08));
+  const fixture = projection?.fixture_context || {};
+  const teamXg = firstFiniteNumberOrMissing(fixture.expected_goals, projection?.team_expected_goals) || 0;
+  const opponentXg = firstFiniteNumberOrMissing(fixture.expected_goals_against, projection?.team_expected_goals_against) || 0;
+  const cleanSheet = firstFiniteNumberOrMissing(fixture.clean_sheet_probability, projection?.team_clean_sheet_probability) || 0;
+  const goalEnvironment = teamXg + opponentXg;
+  const earlyFixtureOptionalityBonus = isEarlyFixture
+    ? Math.min(2.35, Math.max(0, raw - 1.6) * 0.36 + start * 0.75 + Math.min(1, minutes / 90) * 0.45)
+    : 0;
+  const replacementOptionValue = isEarlyFixture
+    ? earlyFixtureOptionalityBonus + Math.max(0, ceiling - raw) * 0.18 + Math.max(0, floor) * 0.04
+    : 0;
+  const lateFixtureReplacementValue = isEarlyFixture
+    ? 0
+    : Math.min(0.45, Math.max(0, raw - 2.5) * 0.08 + start * 0.12);
+  const thirdPlaceUpsideModifier = isEarlyFixture
+    ? Math.max(0, goalEnvironment - 2.45) * 0.75 + Math.max(0, ceiling - raw) * 0.16
+    : 0;
+  const thirdPlaceRiskPenalty = isEarlyFixture
+    ? 0.55 + Math.max(0, 0.72 - start) * 1.25 + roleVolatility * 1.9
+    : 0;
+  const roleVolatilityPenalty = roleVolatility * 2.5 + (projection?.majorRoleCaution ? 1.4 : 0);
+  const strategicScore =
+    earlyFixtureOptionalityBonus * 7.5 +
+    replacementOptionValue * 5.2 +
+    lateFixtureReplacementValue * 1.2 +
+    thirdPlaceUpsideModifier * 4.8 +
+    (["Goalkeeper", "Defender"].includes(player.position) ? Math.max(0, cleanSheet - 0.22) * 3.2 : 0) +
+    Math.max(0, goalEnvironment - 2.25) * 2.4 -
+    thirdPlaceRiskPenalty * 4.1 -
+    roleVolatilityPenalty * 1.8;
+
+  return {
+    fixtureStage,
+    fixtureTiming: isEarlyFixture ? "early" : "late",
+    kickoffOrder: isEarlyFixture ? 1 : 2,
+    earlyFixtureOptionalityBonus,
+    replacementOptionValue,
+    lateFixtureReplacementValue,
+    thirdPlaceUpsideModifier,
+    thirdPlaceRiskPenalty,
+    roleVolatilityPenalty,
+    strategicScore,
+    rawProjectedPoints: raw,
+    teamXg,
+    opponentXg,
+    cleanSheet
+  };
+}
+
+function finalRoundStrategicPlayerScore(player, role = "starter") {
+  if (activeMatchdayId !== "finalRound") {
+    return 0;
+  }
+
+  const metrics = finalRoundPlayerStrategicMetrics(player);
+  const roleMultiplier = role === "bench" ? 0.82 : 1;
+  return metrics.strategicScore * roleMultiplier;
+}
+
 function activeDataBadgeHtml() {
   return `
     <span class="model-data-badge" title="Public Final Round page uses only the current active static data path.">
@@ -1469,9 +1539,10 @@ const measures = {
   balanced: {
     label: "Core Picks",
     optionLabel: "Core Picks",
-    description: "Best all-around option. It balances expected return, reliable starts, minutes, and risk.",
-    formula: "Player signal used: blends projected fantasy return, reliability, minutes security, and lower downside.",
-    score: (player) => scoreValue(player, "finance_strategy_risk_adjusted", "risk_adjusted_overall_score")
+    description: "Best all-around option. It balances expected return, reliable starts, minutes, risk, and Final Round fixture optionality.",
+    formula: "Player signal used: blends projected fantasy return, reliability, minutes security, lower downside, and early-fixture substitution flexibility when the active round supports it.",
+    score: (player) => scoreValue(player, "finance_strategy_risk_adjusted", "risk_adjusted_overall_score") +
+      finalRoundStrategicPlayerScore(player) * 1.8
   },
   expected: {
     label: "Projected Points",
@@ -1662,8 +1733,8 @@ const pickModelOptions = {
     group: "basic",
     sourceMode: "balanced",
     measureKey: "balanced",
-    help: "Balances projected return with reliable starts and minutes.",
-    cardDescription: "Core Picks balance projected return with reliable starts and minutes."
+    help: "Balances projected return with reliable starts, minutes, and Final Round fixture optionality.",
+    cardDescription: "Core Picks balance projected return with reliable starts, minutes, and fixture optionality."
   },
   safe: {
     id: "safe",
@@ -1781,13 +1852,13 @@ const teamBuilderStrategyOptions = {
     id: "balancedSquad",
     label: "Balanced Squad",
     measureKey: "balanced",
-    description: "Strong all-around squad with a mix of starters, bench depth, budget efficiency, and moderate diversification.",
+    description: "Strong all-around squad with a mix of starters, bench depth, budget efficiency, Final Round optionality, and moderate diversification.",
     whatItBuilds: "A strong all-around 15-player squad.",
-    howItChooses: "Balances starter quality, reliable minutes, playable bench depth, budget efficiency, moderate upside, and moderate diversification.",
-    mainTradeoff: "May pass on a sharper stack or extra premium if that weakens the bench or concentrates too much risk.",
+    howItChooses: "Balances starter quality, reliable minutes, playable bench depth, budget efficiency, moderate upside, Final Round kickoff optionality, and moderate diversification.",
+    mainTradeoff: "May pass on a sharper stack or extra premium if that weakens the bench, ignores the earlier fixture, or concentrates too much risk.",
     bestFor: "the default squad plan with no single extreme.",
-    playerSignal: "Uses Core Picks as the main player signal, then checks the full squad shape.",
-    optimizationNote: "Balanced Squad is the default all-around optimizer profile."
+    playerSignal: "Uses Core Picks as the main player signal, then checks the full squad shape and fixture order.",
+    optimizationNote: "Balanced Squad is the default all-around optimizer profile. Earlier kickoff gives substitution flexibility if your game rules allow manual changes; verify FIFA substitution and lock rules."
   },
   diversifiedSquad: {
     id: "diversifiedSquad",
@@ -1929,7 +2000,10 @@ const teamBuilderStrategyScoringProfiles = {
       cleanSheetContextReward: 0.34,
       lowXgPenalty: 0.55,
       difficultCleanSheetPenalty: 0.4,
-      excessiveStackPenalty: 0.75
+      excessiveStackPenalty: 0.75,
+      finalRoundOptionalityReward: 3.8,
+      finalRoundEarlyFixtureReward: 2.4,
+      finalRoundMissingEarlyFixturePenalty: 18
     }
   },
   diversifiedSquad: {
@@ -4165,6 +4239,26 @@ const publicProfileTagDefinitions = [
     explanation: "A player helped by the match environment."
   },
   {
+    label: "Early game option",
+    kind: "fixture",
+    explanation: "A player in the earlier Final Round fixture who may offer manual-substitution flexibility if FIFA rules and locks allow it."
+  },
+  {
+    label: "Replacement flexibility",
+    kind: "fixture",
+    explanation: "A player whose earlier kickoff can create a replace-or-hold decision point; verify live lock rules before acting."
+  },
+  {
+    label: "Third Place risk",
+    kind: "risk",
+    explanation: "A Third Place player with useful upside but higher rotation or role volatility."
+  },
+  {
+    label: "Role caution",
+    kind: "risk",
+    explanation: "A player with a specific role or lineup caution in the current model."
+  },
+  {
     label: "Minutes Risk",
     kind: "risk",
     explanation: "A player whose playing time may be less secure."
@@ -5121,6 +5215,24 @@ function playerRecommendationLabels(player, measureKey = measureKeyForTrust(acti
 
   if (fixtureContext.difficulty !== null && fixtureContext.difficulty <= 35) {
     addTag("Fixture Boost");
+  }
+
+  const activeFinalRoundProjection = activeMatchdayId === "finalRound" ? activeProjection(player) : null;
+  const strategyTags = Array.isArray(player.preview_candidate?.recommendation_tags)
+    ? player.preview_candidate.recommendation_tags
+    : [];
+
+  strategyTags.forEach(addTag);
+
+  if (activeFinalRoundProjection?.fixture_stage === "third_place") {
+    addTag("Early game option");
+    addTag("Replacement flexibility");
+    if (activeFinalRoundProjection.third_place_rotation_risk) {
+      addTag("Third Place risk");
+    }
+    if (activeFinalRoundProjection.roleCaution || activeFinalRoundProjection.role_caution) {
+      addTag("Role caution");
+    }
   }
 
   if (startProbability < 60 || expectedMinutes < 55) {
@@ -6422,6 +6534,7 @@ function teamBuilderStrategyPlayerScore(player, measure = activeMeasure(), role 
     attackingContext * (weights.attackingContext || 0) +
     matchEnvironmentAdjustment +
     md3V5ProjectionAdjustment +
+    finalRoundStrategicPlayerScore(player, role) +
     captainSignal * (weights.captain || 0) +
     priceScore * (weights.price || 0) -
     playerFragilityPenalty(player) * fragilityWeight;
@@ -9797,6 +9910,33 @@ function squadPortfolioAnalytics(starters = [], bench = []) {
   const defensiveStarterContexts = starterContexts.filter((entry) =>
     ["Goalkeeper", "Defender"].includes(entry.player.position)
   );
+  const finalRoundTimingRows = activeMatchdayId === "finalRound"
+    ? squad.map((player) => ({ player, metrics: finalRoundPlayerStrategicMetrics(player) }))
+    : [];
+  const finalRoundStarterTimingRows = activeMatchdayId === "finalRound"
+    ? starters.map((player) => ({ player, metrics: finalRoundPlayerStrategicMetrics(player) }))
+    : [];
+  const finalRoundEligibleCandidates = activeMatchdayId === "finalRound"
+    ? players.filter((player) =>
+      playerAllowedForActiveMatchday(player) &&
+      !excludedPlayerIds.has(player.id) &&
+      scoreValue(player, "start_probability_percent") >= 52 &&
+      scoreValue(player, "finance_risk_adjusted_return_points", "risk_adjusted_expected_points_estimate") >= 2.6
+    )
+    : [];
+  const viableEarlyFixtureCandidates = finalRoundEligibleCandidates.filter((player) =>
+    finalRoundPlayerStrategicMetrics(player).fixtureTiming === "early"
+  ).length;
+  const finalRoundOptionalityScore = finalRoundTimingRows.reduce((sum, entry) =>
+    sum + entry.metrics.replacementOptionValue,
+  0);
+  const finalRoundStarterOptionalityScore = finalRoundStarterTimingRows.reduce((sum, entry) =>
+    sum + entry.metrics.replacementOptionValue,
+  0);
+  const earlyFixturePlayers = finalRoundTimingRows.filter((entry) => entry.metrics.fixtureTiming === "early").length;
+  const lateFixturePlayers = finalRoundTimingRows.filter((entry) => entry.metrics.fixtureTiming === "late").length;
+  const earlyFixtureStarters = finalRoundStarterTimingRows.filter((entry) => entry.metrics.fixtureTiming === "early").length;
+  const lateFixtureStarters = finalRoundStarterTimingRows.filter((entry) => entry.metrics.fixtureTiming === "late").length;
 
   return {
     squad,
@@ -9842,6 +9982,14 @@ function squadPortfolioAnalytics(starters = [], bench = []) {
     ).length,
     averageMatchUncertaintyScore: averageFiniteValues(starterContexts.map((entry) => entry.context.matchUncertaintyScore)) ?? 0,
     uncertainFixtureStackLoad: fixtureStackEntries.reduce((sum, entry) => sum + entry.uncertainStackLoad, 0),
+    finalRoundOptionalityScore,
+    finalRoundStarterOptionalityScore,
+    finalRoundEarlyFixturePlayers: earlyFixturePlayers,
+    finalRoundLateFixturePlayers: lateFixturePlayers,
+    finalRoundEarlyFixtureStarters: earlyFixtureStarters,
+    finalRoundLateFixtureStarters: lateFixtureStarters,
+    finalRoundViableEarlyFixtureCandidates: viableEarlyFixtureCandidates,
+    finalRoundMissingEarlyFixture: activeMatchdayId === "finalRound" && viableEarlyFixtureCandidates > 0 && earlyFixturePlayers === 0,
     hardestMatchday
   };
 }
@@ -9966,6 +10114,22 @@ function portfolioWarningsForAnalytics(analytics) {
     });
   }
 
+  if (activeMatchdayId === "finalRound") {
+    if (analytics.finalRoundMissingEarlyFixture) {
+      warnings.push({
+        kind: "review",
+        label: "Early Fixture Exposure",
+        detail: "The squad has no earlier Third Place exposure despite viable early-fixture candidates. Earlier kickoff can add manual-substitution flexibility if FIFA rules and locks allow it."
+      });
+    } else if (analytics.finalRoundEarlyFixturePlayers > 0) {
+      warnings.push({
+        kind: "watch",
+        label: "Early Fixture Optionality",
+        detail: `${analytics.finalRoundEarlyFixturePlayers} squad player${analytics.finalRoundEarlyFixturePlayers === 1 ? "" : "s"} come from the earlier fixture. Treat this as strategic flexibility and verify FIFA substitution, captain, and lock rules.`
+      });
+    }
+  }
+
   if (!warnings.length) {
     warnings.push({
       kind: "pass",
@@ -10056,6 +10220,13 @@ function portfolioOptimizerAdjustment(starters, bench, measure = activeMeasure()
   const premiumConcentrationLoad = Math.max(0, analytics.premiumPlayers - 2);
   const startLift = analytics.startAverage - 55;
   const minutesLift = analytics.expectedMinutesTotal - 600;
+  const finalRoundOptionalityReward = activeMatchdayId === "finalRound"
+    ? analytics.finalRoundOptionalityScore * (weights.finalRoundOptionalityReward || 0) +
+      analytics.finalRoundEarlyFixturePlayers * (weights.finalRoundEarlyFixtureReward || 0)
+    : 0;
+  const finalRoundMissingEarlyFixturePenalty = activeMatchdayId === "finalRound" && analytics.finalRoundMissingEarlyFixture
+    ? weights.finalRoundMissingEarlyFixturePenalty || 0
+    : 0;
   const score =
     analytics.starterExpected * weights.expected +
     analytics.starterRiskAdjusted * weights.riskAdjusted +
@@ -10081,6 +10252,8 @@ function portfolioOptimizerAdjustment(starters, bench, measure = activeMeasure()
     analytics.goodCleanSheetDefenders * (weights.cleanSheetContextReward || 0) -
     analytics.lowProjectedXgAttackers * (weights.lowXgPenalty || 0) -
     analytics.difficultCleanSheetDefenders * (weights.difficultCleanSheetPenalty || 0) -
+    finalRoundMissingEarlyFixturePenalty +
+    finalRoundOptionalityReward -
     volatilityLoad * weights.volatilityPenalty -
     tailLoad * weights.tailPenalty -
     compositeLoad * weights.compositePenalty -
@@ -10140,9 +10313,18 @@ function portfolioOptimizerAdjustment(starters, bench, measure = activeMeasure()
       strong_projected_xg_starter_spots: analytics.strongProjectedXgStarters,
       good_clean_sheet_defender_spots: analytics.goodCleanSheetDefenders,
       low_projected_xg_attacker_spots: analytics.lowProjectedXgAttackers,
-      difficult_clean_sheet_defender_spots: analytics.difficultCleanSheetDefenders
+      difficult_clean_sheet_defender_spots: analytics.difficultCleanSheetDefenders,
+      final_round_optionality_score: Number(analytics.finalRoundOptionalityScore.toFixed(2)),
+      final_round_starter_optionality_score: Number(analytics.finalRoundStarterOptionalityScore.toFixed(2)),
+      final_round_early_fixture_players: analytics.finalRoundEarlyFixturePlayers,
+      final_round_late_fixture_players: analytics.finalRoundLateFixturePlayers,
+      final_round_early_fixture_starters: analytics.finalRoundEarlyFixtureStarters,
+      final_round_late_fixture_starters: analytics.finalRoundLateFixtureStarters,
+      final_round_viable_early_fixture_candidates: analytics.finalRoundViableEarlyFixtureCandidates,
+      final_round_missing_early_fixture_penalty: Number(finalRoundMissingEarlyFixturePenalty.toFixed(2)),
+      final_round_optionality_reward: Number(finalRoundOptionalityReward.toFixed(2))
     },
-    note: "Strategy-aware optimizer adjustment that nudges completed legal squads toward the selected public Team Builder strategy, including fixture xG, clean-sheet context, and match uncertainty, without changing budget, position, country-limit, lock, avoid, or risk-control constraints."
+    note: "Strategy-aware optimizer adjustment that nudges completed legal squads toward the selected public Team Builder strategy, including fixture xG, clean-sheet context, match uncertainty, and Final Round early-fixture optionality. Earlier kickoff can support manual replacement decisions only if FIFA substitution and lock rules allow it; verify rules before acting. Budget, position, country-limit, lock, avoid, and risk-control constraints are unchanged."
   };
 }
 
@@ -10168,14 +10350,20 @@ function renderPortfolioAnalytics(starters = [], bench = []) {
   const fixtureSummary = analytics.fixtureRows
     .map((row) => `${row.label}: ${row.hardFixtures} hard, ${row.favorableFixtures} favorable, ${row.highUncertaintyStarters} high-uncertainty`)
     .join(" | ");
+  const finalRoundTimingSummary = activeMatchdayId === "finalRound"
+    ? ` Early fixture: ${analytics.finalRoundEarlyFixturePlayers} squad / ${analytics.finalRoundEarlyFixtureStarters} starters. Optionality ${displayNumber(analytics.finalRoundOptionalityScore)}.`
+    : "";
 
   portfolioAnalytics.classList.remove("portfolio-analytics--low", "portfolio-analytics--medium", "portfolio-analytics--high");
   portfolioAnalytics.classList.add(`portfolio-analytics--${riskLevel.id}`);
   portfolioRiskLabel.textContent = riskLevel.label;
-  portfolioSummary.textContent = `${activeBuilderStrategyLabel()}, ${trustModeLabel()}, ${activeMatchdayLabel()}. Top country: ${topCountryLabel} ${analytics.topCountry[1]}/${groupStageCountryLimit}. Fixture spread: ${fixtureSummary}.`;
+  portfolioSummary.textContent = `${activeBuilderStrategyLabel()}, ${trustModeLabel()}, ${activeMatchdayLabel()}. Top country: ${topCountryLabel} ${analytics.topCountry[1]}/${groupStageCountryLimit}. Fixture spread: ${fixtureSummary}.${finalRoundTimingSummary}`;
   portfolioMetrics.innerHTML = [
     portfolioMetric("Projected Points", portfolioNumber(analytics.starterExpected), "starting XI"),
     portfolioMetric("Risk-Aware Points", portfolioNumber(analytics.starterRiskAdjusted), "starting XI"),
+    activeMatchdayId === "finalRound"
+      ? portfolioMetric("Optionality Score", portfolioNumber(analytics.finalRoundOptionalityScore), "earlier kickoff flexibility; verify FIFA locks")
+      : "",
     portfolioMetric("Avg Start", portfolioNumber(analytics.startAverage, "%"), "starting XI"),
     portfolioMetric("Expected Minutes", portfolioNumber(analytics.expectedMinutesTotal), "starting XI total"),
     portfolioMetric("Portfolio Health", portfolioNumber(Math.max(0, 100 - analytics.starterVolatility)), "higher is steadier"),
@@ -10964,6 +11152,14 @@ function portfolioAnalyticsForExport(starters, bench) {
     qa_watch_players: analytics.qaWatchCount,
     premium_players: analytics.premiumPlayers,
     weak_bench_players: analytics.benchWeakCount,
+    final_round_optionality_score: Number(analytics.finalRoundOptionalityScore.toFixed(2)),
+    final_round_starter_optionality_score: Number(analytics.finalRoundStarterOptionalityScore.toFixed(2)),
+    final_round_early_fixture_players: analytics.finalRoundEarlyFixturePlayers,
+    final_round_late_fixture_players: analytics.finalRoundLateFixturePlayers,
+    final_round_early_fixture_starters: analytics.finalRoundEarlyFixtureStarters,
+    final_round_late_fixture_starters: analytics.finalRoundLateFixtureStarters,
+    final_round_viable_early_fixture_candidates: analytics.finalRoundViableEarlyFixtureCandidates,
+    final_round_missing_early_fixture: analytics.finalRoundMissingEarlyFixture,
     top_country: {
       country: countryCountLabel(analytics.topCountry[0]),
       count: analytics.topCountry[1],

@@ -1428,45 +1428,145 @@ function modeRows(rows, mode) {
   const candidates = rows.filter((row) => row.selectable_status === "playing");
   const scoreForMode = (row) => {
     if (mode === "captain") return Number(row.captain_score || 0);
+    if (mode === "early_option") return finalRoundStrategicMetrics(row).recommendation_score;
+    if (mode === "third_place_risk") return row.fixture_stage === "third_place"
+      ? finalRoundStrategicMetrics(row).recommendation_score - finalRoundStrategicMetrics(row).thirdPlaceRiskPenalty
+      : -Infinity;
     if (mode === "upside") return Number(row.ceiling_points || 0) * 11 + Number(row.captain_score || 0);
     if (mode === "safe") return Number(row.risk_adjusted_points || 0) * 17 + Number(row.start_probability || 0) * 28 - (row.majorRoleCaution ? 15 : 0);
     if (mode === "differential") return Number(row.value_score || 0) * 5 + Number(row.risk_adjusted_points || 0) * 12 + (row.third_place_rotation_risk ? 2 : 0);
-    return Number(row.risk_adjusted_points || 0) * 16 + Number(row.start_probability || 0) * 32 + Number(row.captain_score || 0) * 0.2 - (row.majorRoleCaution ? 20 : 0);
+    return finalRoundStrategicMetrics(row).recommendation_score;
   };
-  const filtered = mode === "balanced"
+  const filtered = (mode === "balanced" || mode === "early_option")
     ? candidates.filter((row) => row.allowedCorePick)
     : candidates;
-  return filtered.slice().sort((a, b) => scoreForMode(b) - scoreForMode(a)).slice(0, 25).map((row, index) => ({ row, score: round(scoreForMode(row)), rank: index + 1 }));
+  return filtered
+    .map((row) => ({ row, score: scoreForMode(row) }))
+    .filter((entry) => Number.isFinite(entry.score))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 25)
+    .map(({ row, score }, index) => ({ row, score: round(score), rank: index + 1 }));
+}
+
+function finalRoundStrategicMetrics(row) {
+  const raw = Number(row.risk_adjusted_points || 0);
+  const start = Number(row.start_probability || 0);
+  const minutes = Number(row.expected_minutes || 0);
+  const captain = Number(row.captain_score || 0);
+  const ceiling = Number(row.ceiling_points || raw || 0);
+  const floor = Number(row.floor_points || 0);
+  const roleVolatility = Number(row.role_volatility_score || (row.third_place_rotation_risk ? 0.24 : 0.08));
+  const fixture = row.fixture_context || {};
+  const teamXg = Number(fixture.expected_goals ?? row.team_expected_goals ?? 0);
+  const opponentXg = Number(fixture.expected_goals_against ?? row.team_expected_goals_against ?? 0);
+  const cleanSheet = Number(fixture.clean_sheet_probability ?? row.team_clean_sheet_probability ?? 0);
+  const goalEnvironment = teamXg + opponentXg;
+  const isEarlyFixture = row.fixture_stage === "third_place";
+  const earlyFixtureOptionalityBonus = isEarlyFixture
+    ? Math.min(2.35, Math.max(0, raw - 1.6) * 0.36 + start * 0.75 + Math.min(1, minutes / 90) * 0.45)
+    : 0;
+  const replacementOptionValue = isEarlyFixture
+    ? earlyFixtureOptionalityBonus + Math.max(0, ceiling - raw) * 0.18 + Math.max(0, floor) * 0.04
+    : 0;
+  const lateFixtureReplacementValue = isEarlyFixture
+    ? 0
+    : Math.min(0.45, Math.max(0, raw - 2.5) * 0.08 + start * 0.12);
+  const thirdPlaceUpsideModifier = isEarlyFixture
+    ? Math.max(0, goalEnvironment - 2.45) * 0.75 + Math.max(0, ceiling - raw) * 0.16
+    : 0;
+  const thirdPlaceRiskPenalty = isEarlyFixture
+    ? 0.55 + Math.max(0, 0.72 - start) * 1.25 + roleVolatility * 1.9
+    : 0;
+  const roleVolatilityPenalty = roleVolatility * 2.5 + (row.majorRoleCaution ? 1.4 : 0);
+  const cleanSheetContextValue = ["GK", "DEF"].includes(row.position)
+    ? Math.max(0, cleanSheet - 0.22) * 1.4
+    : 0;
+  const fixtureGoalEnvironmentValue = Math.max(0, goalEnvironment - 2.25) * 0.7;
+  const strategicCompositeScore = raw * 12 +
+    start * 10 +
+    minutes * 0.055 +
+    captain * 0.12 +
+    earlyFixtureOptionalityBonus * 6.5 +
+    replacementOptionValue * 3.8 +
+    lateFixtureReplacementValue * 1.3 +
+    thirdPlaceUpsideModifier * 4.2 +
+    cleanSheetContextValue * 2.4 +
+    fixtureGoalEnvironmentValue * 2.2 -
+    thirdPlaceRiskPenalty * 4.1 -
+    roleVolatilityPenalty * 2.2;
+  const recommendationScore = strategicCompositeScore + (row.allowedCorePick ? 8 : 0);
+
+  return {
+    kickoff_order: isEarlyFixture ? 1 : 2,
+    fixture_timing: isEarlyFixture ? "early" : "late",
+    fixture_stage: row.fixture_stage,
+    rawProjectedPoints: round(raw),
+    startProbability: round(start),
+    expectedMinutes: round(minutes),
+    roleVolatility: round(roleVolatility),
+    teamXg: round(teamXg),
+    opponentXg: round(opponentXg),
+    cleanSheetProbability: round(cleanSheet),
+    goalEnvironment: round(goalEnvironment),
+    earlyFixtureOptionalityBonus: round(earlyFixtureOptionalityBonus),
+    replacementOptionValue: round(replacementOptionValue),
+    lateFixtureReplacementValue: round(lateFixtureReplacementValue),
+    fixtureDiversificationValue: isEarlyFixture ? 0.65 : 0.2,
+    thirdPlaceRiskPenalty: round(thirdPlaceRiskPenalty),
+    thirdPlaceUpsideModifier: round(thirdPlaceUpsideModifier),
+    roleVolatilityPenalty: round(roleVolatilityPenalty),
+    strategicCompositeScore: round(strategicCompositeScore),
+    recommendation_score: round(recommendationScore)
+  };
+}
+
+function finalRoundStrategicLabels(row) {
+  const metrics = finalRoundStrategicMetrics(row);
+  return [
+    metrics.fixture_timing === "early" ? "Early game option" : null,
+    metrics.fixture_timing === "early" ? "Replacement flexibility" : null,
+    row.third_place_rotation_risk ? "Third Place risk" : null,
+    row.roleCaution ? "Role caution" : null
+  ].filter(Boolean);
 }
 
 function buildRecommendations({ projections }) {
-  const modes = [["balanced", "Core Picks"], ["safe", "High-Floor Picks"], ["upside", "Upside Picks"], ["differential", "Differential Picks"], ["captain", "Captain Watchlist"]];
+  const modes = [["balanced", "Core Picks"], ["safe", "High-Floor Picks"], ["upside", "Upside Picks"], ["differential", "Differential Picks"], ["early_option", "Early-Game Options"], ["third_place_risk", "High-Risk Third Place Picks"], ["captain", "Captain Watchlist"]];
   const recommendationCandidates = modes.flatMap(([mode, label]) =>
-    modeRows(projections.playerMatchdayProjections, mode).map(({ row, score, rank }) => ({
-      ...row,
-      mode,
-      mode_label: label,
-      pickType: label,
-      recommendation_surface: mode,
-      rank,
-      recommendation_score: score,
-      recommendation_tier: rank <= 10 ? "top_pick_candidate" : "rotation_candidate",
-      why_pick: [
-        `${row.risk_adjusted_points} projected Final Round points`,
-        `${Math.round(Number(row.start_probability || 0) * 100)}% start chance`,
-        row.sfStarted ? "source-backed SF starter" : "not SF starter; use with caution",
-        row.third_place_rotation_risk ? "Third Place goal environment but rotation risk" : "Final fixture context"
-      ],
-      why_careful: [
-        row.roleCaution || null,
-        row.thin_profile ? "Thin-profile guardrail." : null,
-        "Verify official locks/deadlines/lineups in FIFA."
-      ].filter(Boolean),
-      source_model_version: "recommendation-final-round-v1"
-    }))
+    modeRows(projections.playerMatchdayProjections, mode).map(({ row, score, rank }) => {
+      const strategy = finalRoundStrategicMetrics(row);
+      const tags = finalRoundStrategicLabels(row);
+      return {
+        ...row,
+        mode,
+        mode_label: label,
+        pickType: label,
+        recommendation_surface: mode,
+        rank,
+        recommendation_score: score,
+        recommendation_tier: rank <= 10 ? "top_pick_candidate" : "rotation_candidate",
+        final_round_strategy: strategy,
+        recommendation_tags: tags,
+        why_pick: [
+          `${row.risk_adjusted_points} projected Final Round points`,
+          `${Math.round(Number(row.start_probability || 0) * 100)}% start chance`,
+          row.sfStarted ? "source-backed SF starter" : "not SF starter; use with caution",
+          strategy.fixture_timing === "early" ? "Earlier kickoff can add manual-substitution flexibility if FIFA rules allow it" : "Final fixture context",
+          strategy.thirdPlaceUpsideModifier > 0 ? "Third Place goal environment adds upside" : null
+        ].filter(Boolean),
+        why_careful: [
+          row.roleCaution || null,
+          row.thin_profile ? "Thin-profile guardrail." : null,
+          strategy.fixture_timing === "early" ? "Verify FIFA substitution, captain, and lock rules before relying on replacement flexibility." : null,
+          "Verify official locks/deadlines/lineups in FIFA."
+        ].filter(Boolean),
+        source_model_version: "recommendation-final-round-v1"
+      };
+    })
   );
   const captainRows = recommendationCandidates.filter((row) => row.mode === "captain");
   const coreRows = recommendationCandidates.filter((row) => row.mode === "balanced");
+  const thirdPlaceRows = recommendationCandidates.filter((row) => row.fixture_stage === "third_place");
   return {
     schema_version: "fantasy_pool_matchday_recommendations_final_round_v1",
     generated_at: GENERATED_AT,
@@ -1475,7 +1575,7 @@ function buildRecommendations({ projections }) {
     model_version: "recommendation-final-round-v1",
     model_stage: "active_final_round_recommendations",
     data_status: "active_final_round_recommendations_v1_pass",
-    safety_labels: ["Final Round fantasy setup", "Includes Final and Third Place game", "Core Picks require explicit SF starter evidence", "Third Place rotation risk included", "ownership not used as signal", "final squads not source-backed"],
+    safety_labels: ["Final Round fantasy setup", "Includes Final and Third Place game", "Core Picks require explicit SF starter evidence", "Third Place rotation risk included", "early-game optionality is strategic and rule-check dependent", "ownership not used as signal", "final squads not source-backed"],
     input_files: ["data/fantasyPoolMatchdayProjections_finalRound_v1.json", "data/sfLineupEvidenceForFinalRound_v1.json", "data/finalRoundFixtureAuthority_v1.json"],
     model: {
       defaultMatchday: MATCHDAY_ID,
@@ -1483,7 +1583,9 @@ function buildRecommendations({ projections }) {
       explicit_sf_starter_required_for_core_pick: true,
       points_can_imply_starter: false,
       eliminated_teams_excluded_from_main_public_picks: true,
-      third_place_rotation_risk_included: true
+      third_place_rotation_risk_included: true,
+      early_fixture_optionality_included: true,
+      substitution_value_is_rule_check_dependent: true
     },
     summary: {
       recommendationCandidates: recommendationCandidates.length,
@@ -1491,6 +1593,13 @@ function buildRecommendations({ projections }) {
       corePickRows: coreRows.length,
       corePickRowsWithoutExplicitSfStart: coreRows.filter((row) => !row.sfStarted).length,
       modes: modes.map(([mode]) => mode),
+      recommendationCountBySurface: modes.reduce((counts, [mode]) => {
+        counts[mode] = recommendationCandidates.filter((row) => row.mode === mode).length;
+        return counts;
+      }, {}),
+      thirdPlaceRecommendationRows: thirdPlaceRows.length,
+      thirdPlaceCorePickRows: coreRows.filter((row) => row.fixture_stage === "third_place").length,
+      earlyOptionRows: recommendationCandidates.filter((row) => row.mode === "early_option").length,
       knownFinalRoundFixturesUsed: 2,
       defaultMatchday: MATCHDAY_ID,
       ownershipUsedAsSignal: false,
@@ -1527,68 +1636,110 @@ function buildTeamBuilder({ projections, recommendations, authority }) {
     /lerma|raphinha|raphael dias belloli|vinicius|vinicius|vini/i.test(String(row.name || row.display_name || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "")) ||
     ["brazil", "colombia"].includes(String(row.team_id || "").toLowerCase())
   );
-  const rowScore = (row) =>
+  const rawRowScore = (row) =>
     Number(row.risk_adjusted_points || 0) * 12 +
     Number(row.start_probability || 0) * 8 +
     Number(row.captain_score || 0) * 0.12;
+  const strategicRowScore = (row) => finalRoundStrategicMetrics(row).strategicCompositeScore;
+  const countByFixture = (rows) => rows.reduce((counts, row) => {
+    const fixture = row.fixture_stage || "unknown";
+    counts[fixture] = (counts[fixture] || 0) + 1;
+    return counts;
+  }, {});
+  const sumMetric = (rows, field) => round(rows.reduce((sum, row) => sum + Number(finalRoundStrategicMetrics(row)[field] || 0), 0));
+  const sumRawProjected = (rows) => round(rows.reduce((sum, row) => sum + Number(row.risk_adjusted_points || 0), 0));
+  const sumComposite = (rows) => round(rows.reduce((sum, row) => sum + strategicRowScore(row), 0));
+  const candidateReason = (row) => {
+    if (!row) return "No eligible candidate.";
+    if (row.start_probability < 0.45) return "Below Team Builder start-probability pool threshold.";
+    if (row.thin_profile) return "Thin-profile guardrail.";
+    if (row.third_place_rotation_risk) return "Third Place rotation risk and position/country/budget tradeoff.";
+    return "Position, country-limit, budget, or squad-balance tradeoff.";
+  };
   const candidateRows = projections.playerMatchdayProjections
     .filter((row) => row.matchday === MATCHDAY_ID)
     .filter((row) => row.selectable_status === "playing" && !row.thin_profile)
     .filter(isEligibleTeamRow);
   const eliminatedCandidateRows = knownEliminatedPlayerRows(candidateRows);
-  const pool = candidateRows
-    .filter((row) => row.start_probability >= 0.45)
-    .sort((a, b) => rowScore(b) - rowScore(a));
-  const squad = [];
-  for (const [position, count] of Object.entries(byPositionNeeded)) {
-    squad.push(...pool.filter((row) => row.position === position).slice(0, count));
-  }
-  const minimumThirdPlacePlayers = 4;
-  const thirdPlacePool = pool.filter((row) => row.fixture_stage === "third_place" && row.sfStarted && row.third_place_rotation_risk);
-  for (const thirdPlaceCandidate of thirdPlacePool) {
-    const currentThirdPlaceCount = squad.filter((row) => row.fixture_stage === "third_place").length;
-    if (currentThirdPlaceCount >= minimumThirdPlacePlayers) break;
-    if (squad.some((row) => row.official_fantasy_player_id === thirdPlaceCandidate.official_fantasy_player_id)) continue;
-    const samePositionFinalRows = squad
-      .filter((row) => row.position === thirdPlaceCandidate.position && row.fixture_stage === "final")
-      .sort((a, b) => Number(a.risk_adjusted_points || 0) - Number(b.risk_adjusted_points || 0));
-    const replaceTarget = samePositionFinalRows[0];
-    if (!replaceTarget) continue;
-    const replaceIndex = squad.findIndex((row) => row.official_fantasy_player_id === replaceTarget.official_fantasy_player_id);
-    if (replaceIndex >= 0) squad[replaceIndex] = thirdPlaceCandidate;
-  }
-  let countryLimitChanged = true;
-  while (countryLimitChanged) {
-    countryLimitChanged = false;
-    const selectedByTeam = countByTeam(squad);
-    const overLimitTeam = Object.keys(selectedByTeam).find((teamName) => selectedByTeam[teamName] > finalCountryLimit);
-    if (!overLimitTeam) break;
-    const overLimitTeamId = Object.keys(TEAM_INFO).find((teamId) => TEAM_INFO[teamId].team === overLimitTeam) || overLimitTeam.toLowerCase();
-    const replaceTargets = squad
-      .filter((row) => row.team_id === overLimitTeamId || row.country === overLimitTeam)
-      .sort((a, b) => rowScore(a) - rowScore(b));
-    for (const replaceTarget of replaceTargets) {
-      const selectedIds = new Set(squad.map((row) => String(row.official_fantasy_player_id)));
-      const replacement = pool
-        .filter((row) => row.position === replaceTarget.position)
-        .filter((row) => !selectedIds.has(String(row.official_fantasy_player_id)))
-        .filter((row) => row.team_id !== replaceTarget.team_id)
-        .filter((row) => (selectedByTeam[row.country] || 0) < finalCountryLimit)
-        .sort((a, b) => rowScore(b) - rowScore(a))[0];
-      if (!replacement) continue;
-      const replaceIndex = squad.findIndex((row) => row.official_fantasy_player_id === replaceTarget.official_fantasy_player_id);
-      if (replaceIndex >= 0) {
-        squad[replaceIndex] = replacement;
-        countryLimitChanged = true;
-        break;
+  const buildSquadByScore = (scoredPool, minimumEarlyFixturePlayers = 0) => {
+    const selected = [];
+    for (const [position, count] of Object.entries(byPositionNeeded)) {
+      selected.push(...scoredPool.filter((row) => row.position === position).slice(0, count));
+    }
+    for (const earlyCandidate of scoredPool.filter((row) => row.fixture_stage === "third_place" && row.sfStarted)) {
+      const currentEarlyCount = selected.filter((row) => row.fixture_stage === "third_place").length;
+      if (currentEarlyCount >= minimumEarlyFixturePlayers) break;
+      if (selected.some((row) => row.official_fantasy_player_id === earlyCandidate.official_fantasy_player_id)) continue;
+      const samePositionLateRows = selected
+        .filter((row) => row.position === earlyCandidate.position && row.fixture_stage !== "third_place")
+        .sort((a, b) => scoredPool.indexOf(b) - scoredPool.indexOf(a));
+      const replaceTarget = samePositionLateRows[0];
+      if (!replaceTarget) continue;
+      const replaceIndex = selected.findIndex((row) => row.official_fantasy_player_id === replaceTarget.official_fantasy_player_id);
+      if (replaceIndex >= 0) selected[replaceIndex] = earlyCandidate;
+    }
+
+    let countryLimitChanged = true;
+    while (countryLimitChanged) {
+      countryLimitChanged = false;
+      const selectedByTeam = countByTeam(selected);
+      const overLimitTeam = Object.keys(selectedByTeam).find((teamName) => selectedByTeam[teamName] > finalCountryLimit);
+      if (!overLimitTeam) break;
+      const overLimitTeamId = Object.keys(TEAM_INFO).find((teamId) => TEAM_INFO[teamId].team === overLimitTeam) || overLimitTeam.toLowerCase();
+      const replaceTargets = selected
+        .filter((row) => row.team_id === overLimitTeamId || row.country === overLimitTeam)
+        .sort((a, b) => strategicRowScore(a) - strategicRowScore(b));
+      for (const replaceTarget of replaceTargets) {
+        const selectedIds = new Set(selected.map((row) => String(row.official_fantasy_player_id)));
+        const replacement = scoredPool
+          .filter((row) => row.position === replaceTarget.position)
+          .filter((row) => !selectedIds.has(String(row.official_fantasy_player_id)))
+          .filter((row) => row.team_id !== replaceTarget.team_id)
+          .filter((row) => (selectedByTeam[row.country] || 0) < finalCountryLimit)[0];
+        if (!replacement) continue;
+        const replaceIndex = selected.findIndex((row) => row.official_fantasy_player_id === replaceTarget.official_fantasy_player_id);
+        if (replaceIndex >= 0) {
+          selected[replaceIndex] = replacement;
+          countryLimitChanged = true;
+          break;
+        }
       }
     }
-  }
+    return selected;
+  };
+  const rawPool = candidateRows
+    .filter((row) => row.start_probability >= 0.45)
+    .sort((a, b) => rawRowScore(b) - rawRowScore(a));
+  const pool = candidateRows
+    .filter((row) => row.start_probability >= 0.45)
+    .sort((a, b) => strategicRowScore(b) - strategicRowScore(a));
+  const rawExpectedSquad = buildSquadByScore(rawPool, 0);
+  const viableEarlyFixturePlayers = pool.filter((row) =>
+    row.fixture_stage === "third_place" &&
+    row.sfStarted &&
+    Number(row.risk_adjusted_points || 0) >= 2.6 &&
+    Number(row.start_probability || 0) >= 0.52
+  ).length;
+  const minimumEarlyFixturePlayers = Math.min(4, Math.max(2, Math.floor(viableEarlyFixturePlayers / 8)));
+  const squad = buildSquadByScore(pool, minimumEarlyFixturePlayers);
   const captain = squad.slice().sort((a, b) => Number(b.captain_score || 0) - Number(a.captain_score || 0))[0] || null;
   const viceCaptain = squad.slice().filter((row) => row.official_fantasy_player_id !== captain?.official_fantasy_player_id).sort((a, b) => Number(b.captain_score || 0) - Number(a.captain_score || 0))[0] || null;
   const eliminatedSelectedRows = knownEliminatedPlayerRows(squad);
   const captainTeamEligible = captain ? isEligibleTeamRow(captain) : false;
   const viceCaptainTeamEligible = viceCaptain ? isEligibleTeamRow(viceCaptain) : false;
+  const selectedIds = new Set(squad.map((row) => String(row.official_fantasy_player_id)));
+  const topOmittedByTeam = eligibleTeamNames.map((teamName) => {
+    const row = pool.find((candidate) => candidate.country === teamName && !selectedIds.has(String(candidate.official_fantasy_player_id))) ||
+      candidateRows.find((candidate) => candidate.country === teamName && !selectedIds.has(String(candidate.official_fantasy_player_id)));
+    return {
+      team: teamName,
+      player: row?.name || null,
+      position: row?.position || null,
+      projectedPoints: row ? row.risk_adjusted_points : null,
+      compositeScore: row ? finalRoundStrategicMetrics(row).strategicCompositeScore : null,
+      reason: candidateReason(row)
+    };
+  });
   const omittedStars = recommendations.recommendationCandidates
     .filter((row) => row.mode === "captain")
     .filter((row) => !squad.some((pick) => pick.official_fantasy_player_id === row.official_fantasy_player_id))
@@ -1625,6 +1776,21 @@ function buildTeamBuilder({ projections, recommendations, authority }) {
       eligible_teams: eligibleTeamNames,
       candidate_count_by_team: countByTeam(candidateRows),
       selected_count_by_team: countByTeam(squad),
+      raw_expected_selected_count_by_team: countByTeam(rawExpectedSquad),
+      selected_count_by_fixture: countByFixture(squad),
+      raw_expected_selected_count_by_fixture: countByFixture(rawExpectedSquad),
+      early_fixture_selected_count: squad.filter((row) => row.fixture_stage === "third_place").length,
+      late_fixture_selected_count: squad.filter((row) => row.fixture_stage !== "third_place").length,
+      raw_projected_points_before: sumRawProjected(rawExpectedSquad),
+      raw_projected_points_after: sumRawProjected(squad),
+      raw_projected_points_delta: round(sumRawProjected(squad) - sumRawProjected(rawExpectedSquad)),
+      optionality_score: sumMetric(squad, "replacementOptionValue"),
+      optionality_score_before: sumMetric(rawExpectedSquad, "replacementOptionValue"),
+      optionality_gain: round(sumMetric(squad, "replacementOptionValue") - sumMetric(rawExpectedSquad, "replacementOptionValue")),
+      composite_score: sumComposite(squad),
+      composite_score_before: sumComposite(rawExpectedSquad),
+      composite_score_gain: round(sumComposite(squad) - sumComposite(rawExpectedSquad)),
+      minimum_early_fixture_players_when_viable: minimumEarlyFixturePlayers,
       eliminated_player_candidates: eliminatedCandidateRows.length,
       eliminated_player_selected: eliminatedSelectedRows.length,
       captain_team_eligible: captainTeamEligible,
@@ -1649,12 +1815,23 @@ function buildTeamBuilder({ projections, recommendations, authority }) {
       captainScore: row.captain_score,
       lineupEvidenceType: row.lineupEvidenceType,
       thirdPlaceRisk: row.third_place_rotation_risk,
-      roleCaution: row.roleCaution || ""
+      roleCaution: row.roleCaution || "",
+      finalRoundStrategy: finalRoundStrategicMetrics(row)
+    })),
+    rawExpectedPointsSquad: rawExpectedSquad.map((row) => ({
+      official_fantasy_player_id: row.official_fantasy_player_id,
+      name: row.name,
+      country: row.country,
+      position: row.position,
+      fixture_stage: row.fixture_stage,
+      projectedPoints: row.risk_adjusted_points,
+      finalRoundStrategy: finalRoundStrategicMetrics(row)
     })),
     captain: captain ? { id: captain.official_fantasy_player_id, name: captain.name, country: captain.country } : null,
     viceCaptain: viceCaptain ? { id: viceCaptain.official_fantasy_player_id, name: viceCaptain.name, country: viceCaptain.country } : null,
     eliminatedCandidateDiagnostics: eliminatedCandidateRows.map((row) => ({ id: row.official_fantasy_player_id, name: row.name, country: row.country, team_id: row.team_id })),
     eliminatedSelectedDiagnostics: eliminatedSelectedRows.map((row) => ({ id: row.official_fantasy_player_id, name: row.name, country: row.country, team_id: row.team_id })),
+    topOmittedByTeam,
     omittedStarDiagnostics: omittedStars,
     roleVolatilityDiagnostics: squad.filter((row) => row.roleCaution).map((row) => ({
       name: row.name,
@@ -2216,5 +2393,12 @@ export async function validateTeamBuilderFinalRound() {
   if ((qa.summary?.eliminated_player_selected || 0) !== 0) errors.push("Final Round Team Builder selected squad includes eliminated players.");
   if (qa.summary?.captain_team_eligible !== true) errors.push("Team Builder captain team is not Final Round eligible.");
   if (qa.summary?.vice_team_eligible !== true) errors.push("Team Builder vice captain team is not Final Round eligible.");
+  if (!qa.summary || qa.summary.optionality_score === undefined) errors.push("Team Builder QA is missing optionality score.");
+  if (!qa.summary || qa.summary.composite_score === undefined) errors.push("Team Builder QA is missing composite score.");
+  if (!qa.summary || !qa.summary.selected_count_by_fixture) errors.push("Team Builder QA is missing fixture exposure counts.");
+  if ((qa.summary?.early_fixture_selected_count || 0) === 0 && (qa.summary?.minimum_early_fixture_players_when_viable || 0) > 0) errors.push("Balanced Squad has 0 earlier-fixture exposure without passing the viability explanation gate.");
+  if ((qa.summary?.selected_count_by_team?.France || 0) === 0 && (qa.summary?.selected_count_by_team?.England || 0) === 0) errors.push("France and England are both absent from the selected squad.");
+  if (!Array.isArray(qa.rawExpectedPointsSquad) || !qa.rawExpectedPointsSquad.length) errors.push("Team Builder QA is missing raw expected-points comparison squad.");
+  if (!Array.isArray(qa.topOmittedByTeam) || qa.topOmittedByTeam.length < 4) errors.push("Team Builder QA is missing top omitted player reasons by team.");
   return { status: errors.length ? "fail" : "pass", errors, qa };
 }

@@ -1,0 +1,1137 @@
+{
+  "schema_version": "final_round_fixture_exposure_strategy_audit_v1",
+  "generated_at": "2026-07-18T11:18:04.700Z",
+  "status": "pass",
+  "summary": {
+    "eligible_teams": [
+      "France",
+      "England",
+      "Spain",
+      "Argentina"
+    ],
+    "raw_expected_selected_count_by_team": {
+      "France": 1,
+      "Spain": 6,
+      "Argentina": 8
+    },
+    "selected_count_by_team": {
+      "France": 2,
+      "Spain": 4,
+      "Argentina": 8,
+      "England": 1
+    },
+    "selected_count_by_fixture": {
+      "third_place": 3,
+      "final": 12
+    },
+    "raw_expected_selected_count_by_fixture": {
+      "third_place": 1,
+      "final": 14
+    },
+    "raw_projected_points_before": 60.681,
+    "raw_projected_points_after": 58.689,
+    "optionality_score": 6.814,
+    "optionality_gain": 5.291,
+    "composite_score_gain": 5.027,
+    "third_place_recommendation_rows": 72,
+    "early_option_rows": 25,
+    "france_england_before": 1,
+    "france_england_after": 3,
+    "builder_optimizes_raw_points_only_before_fix": true,
+    "early_kickoff_optionality_was_ignored_before_fix": true,
+    "public_substitution_copy_cautious": true,
+    "active_eliminated_player_leak_count": 0
+  },
+  "explanations": {
+    "france_zero_before_or_low_exposure": "France entered the eligible candidate pool, but raw points plus country/position constraints favored the Final teams. Optionality now promotes viable earlier-fixture France rows while keeping Third Place rotation cautions.",
+    "england_zero_before_or_low_exposure": "England entered the eligible candidate pool, but raw points ranked most England rows behind Argentina/Spain and France. Optionality now gives Harry Kane enough strategic value for exposure while preserving role-risk caution.",
+    "builder_objective_after_fix": "Balanced Squad optimizes a composite of projected points, start probability, minutes, captain upside, earlier kickoff option value, fixture diversification, Third Place upside, and role-volatility penalties.",
+    "substitution_rule_caution": "Official rules include manual substitutions for unlocked bench players, but live locks and played/unplayed state must be verified in FIFA before acting."
+  },
+  "teams": [
+    {
+      "team": "France",
+      "team_id": "france",
+      "fixture": "Third Place",
+      "fixture_stage": "third_place",
+      "kickoff_order": 1,
+      "kickoff_label": "Jul 18, 2026 · 5:00 PM ET",
+      "projected_team_xg": 1.464,
+      "opponent_xg": 1.451,
+      "clean_sheet_probability": 0.279,
+      "role_volatility_average": 0.182,
+      "third_place_modifier": true,
+      "top_10_projected_players": [
+        {
+          "name": "Kylian Mbappé",
+          "position": "FWD",
+          "points": 4.104,
+          "captain_score": 35.798,
+          "start_probability": 0.591,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Ousmane Dembélé",
+          "position": "MID",
+          "points": 3.317,
+          "captain_score": 31.179,
+          "start_probability": 0.591,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Adrien Rabiot",
+          "position": "MID",
+          "points": 3.317,
+          "captain_score": 31.179,
+          "start_probability": 0.591,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Michael Olise",
+          "position": "MID",
+          "points": 3.317,
+          "captain_score": 31.179,
+          "start_probability": 0.591,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Aurélien Tchouaméni",
+          "position": "MID",
+          "points": 3.182,
+          "captain_score": 30.217,
+          "start_probability": 0.551,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Bradley Barcola",
+          "position": "MID",
+          "points": 3.182,
+          "captain_score": 30.217,
+          "start_probability": 0.551,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Dayot Upamecano",
+          "position": "DEF",
+          "points": 2.692,
+          "captain_score": 27.111,
+          "start_probability": 0.591,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Lucas Digne",
+          "position": "DEF",
+          "points": 2.692,
+          "captain_score": 27.111,
+          "start_probability": 0.591,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "William Saliba",
+          "position": "DEF",
+          "points": 2.692,
+          "captain_score": 27.111,
+          "start_probability": 0.591,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Jules Koundé",
+          "position": "DEF",
+          "points": 2.692,
+          "captain_score": 27.111,
+          "start_probability": 0.591,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        }
+      ],
+      "top_10_captain_upside_players": [
+        {
+          "name": "Kylian Mbappé",
+          "position": "FWD",
+          "points": 4.104,
+          "captain_score": 35.798,
+          "start_probability": 0.591,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Ousmane Dembélé",
+          "position": "MID",
+          "points": 3.317,
+          "captain_score": 31.179,
+          "start_probability": 0.591,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Adrien Rabiot",
+          "position": "MID",
+          "points": 3.317,
+          "captain_score": 31.179,
+          "start_probability": 0.591,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Michael Olise",
+          "position": "MID",
+          "points": 3.317,
+          "captain_score": 31.179,
+          "start_probability": 0.591,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Aurélien Tchouaméni",
+          "position": "MID",
+          "points": 3.182,
+          "captain_score": 30.217,
+          "start_probability": 0.551,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Bradley Barcola",
+          "position": "MID",
+          "points": 3.182,
+          "captain_score": 30.217,
+          "start_probability": 0.551,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Dayot Upamecano",
+          "position": "DEF",
+          "points": 2.692,
+          "captain_score": 27.111,
+          "start_probability": 0.591,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Lucas Digne",
+          "position": "DEF",
+          "points": 2.692,
+          "captain_score": 27.111,
+          "start_probability": 0.591,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "William Saliba",
+          "position": "DEF",
+          "points": 2.692,
+          "captain_score": 27.111,
+          "start_probability": 0.591,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Jules Koundé",
+          "position": "DEF",
+          "points": 2.692,
+          "captain_score": 27.111,
+          "start_probability": 0.591,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        }
+      ],
+      "recommendation_count_by_surface": {
+        "balanced": 6,
+        "safe": 2,
+        "upside": 6,
+        "differential": 4,
+        "early_option": 6,
+        "third_place_risk": 13,
+        "captain": 4
+      },
+      "team_builder_candidate_count": 26,
+      "team_builder_selected_count": 2,
+      "team_builder_starter_count": 2,
+      "team_builder_bench_count": 0,
+      "omitted_top_player": {
+        "name": "Ousmane Dembélé",
+        "position": "MID",
+        "projected_points": 3.317,
+        "captain_score": 31.179,
+        "reason": "Third Place role volatility plus position/country/budget tradeoff."
+      }
+    },
+    {
+      "team": "England",
+      "team_id": "england",
+      "fixture": "Third Place",
+      "fixture_stage": "third_place",
+      "kickoff_order": 1,
+      "kickoff_label": "Jul 18, 2026 · 5:00 PM ET",
+      "projected_team_xg": 1.451,
+      "opponent_xg": 1.464,
+      "clean_sheet_probability": 0.276,
+      "role_volatility_average": 0.273,
+      "third_place_modifier": true,
+      "top_10_projected_players": [
+        {
+          "name": "Harry Kane",
+          "position": "FWD",
+          "points": 4.055,
+          "captain_score": 35.472,
+          "start_probability": 0.586,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Anthony Gordon",
+          "position": "MID",
+          "points": 3.277,
+          "captain_score": 30.897,
+          "start_probability": 0.586,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Elliot Anderson",
+          "position": "MID",
+          "points": 3.277,
+          "captain_score": 30.897,
+          "start_probability": 0.586,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Declan Rice",
+          "position": "MID",
+          "points": 3.277,
+          "captain_score": 30.897,
+          "start_probability": 0.586,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Jude Bellingham",
+          "position": "MID",
+          "points": 3.277,
+          "captain_score": 30.897,
+          "start_probability": 0.586,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Morgan Rogers",
+          "position": "MID",
+          "points": 3.143,
+          "captain_score": 29.94,
+          "start_probability": 0.546,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Marc Guéhi",
+          "position": "DEF",
+          "points": 2.659,
+          "captain_score": 26.863,
+          "start_probability": 0.586,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "John Stones",
+          "position": "DEF",
+          "points": 2.659,
+          "captain_score": 26.863,
+          "start_probability": 0.586,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Djed Spence",
+          "position": "DEF",
+          "points": 2.54,
+          "captain_score": 25.979,
+          "start_probability": 0.546,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Reece James",
+          "position": "DEF",
+          "points": 2.54,
+          "captain_score": 25.979,
+          "start_probability": 0.546,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        }
+      ],
+      "top_10_captain_upside_players": [
+        {
+          "name": "Harry Kane",
+          "position": "FWD",
+          "points": 4.055,
+          "captain_score": 35.472,
+          "start_probability": 0.586,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Anthony Gordon",
+          "position": "MID",
+          "points": 3.277,
+          "captain_score": 30.897,
+          "start_probability": 0.586,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Elliot Anderson",
+          "position": "MID",
+          "points": 3.277,
+          "captain_score": 30.897,
+          "start_probability": 0.586,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Declan Rice",
+          "position": "MID",
+          "points": 3.277,
+          "captain_score": 30.897,
+          "start_probability": 0.586,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Jude Bellingham",
+          "position": "MID",
+          "points": 3.277,
+          "captain_score": 30.897,
+          "start_probability": 0.586,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Morgan Rogers",
+          "position": "MID",
+          "points": 3.143,
+          "captain_score": 29.94,
+          "start_probability": 0.546,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Marc Guéhi",
+          "position": "DEF",
+          "points": 2.659,
+          "captain_score": 26.863,
+          "start_probability": 0.586,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "John Stones",
+          "position": "DEF",
+          "points": 2.659,
+          "captain_score": 26.863,
+          "start_probability": 0.586,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Djed Spence",
+          "position": "DEF",
+          "points": 2.54,
+          "captain_score": 25.979,
+          "start_probability": 0.546,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Reece James",
+          "position": "DEF",
+          "points": 2.54,
+          "captain_score": 25.979,
+          "start_probability": 0.546,
+          "fixture_stage": "third_place",
+          "tags": [],
+          "optionality": null
+        }
+      ],
+      "recommendation_count_by_surface": {
+        "balanced": 5,
+        "safe": 1,
+        "upside": 6,
+        "differential": 1,
+        "early_option": 5,
+        "third_place_risk": 12,
+        "captain": 1
+      },
+      "team_builder_candidate_count": 24,
+      "team_builder_selected_count": 1,
+      "team_builder_starter_count": 1,
+      "team_builder_bench_count": 0,
+      "omitted_top_player": {
+        "name": "Anthony Gordon",
+        "position": "MID",
+        "projected_points": 3.277,
+        "captain_score": 30.897,
+        "reason": "Third Place role volatility plus position/country/budget tradeoff."
+      }
+    },
+    {
+      "team": "Spain",
+      "team_id": "spain",
+      "fixture": "Final",
+      "fixture_stage": "final",
+      "kickoff_order": 2,
+      "kickoff_label": "Jul 19, 2026 · 3:00 PM ET",
+      "projected_team_xg": 1.341,
+      "opponent_xg": 1.399,
+      "clean_sheet_probability": 0.247,
+      "role_volatility_average": 0,
+      "third_place_modifier": false,
+      "top_10_projected_players": [
+        {
+          "name": "Mikel Oyarzabal",
+          "position": "FWD",
+          "points": 5.05,
+          "captain_score": 41.852,
+          "start_probability": 0.89,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Álex Baena",
+          "position": "MID",
+          "points": 4.25,
+          "captain_score": 37.225,
+          "start_probability": 0.89,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Lamine Yamal Nasraoui Ebana",
+          "position": "MID",
+          "points": 4.25,
+          "captain_score": 37.225,
+          "start_probability": 0.89,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Rodrigo Hernández Cascante",
+          "position": "MID",
+          "points": 4.25,
+          "captain_score": 37.225,
+          "start_probability": 0.89,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Dani Olmo",
+          "position": "MID",
+          "points": 4.25,
+          "captain_score": 37.225,
+          "start_probability": 0.89,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Fabián Ruiz",
+          "position": "MID",
+          "points": 4.25,
+          "captain_score": 37.225,
+          "start_probability": 0.89,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Pedro Porro",
+          "position": "DEF",
+          "points": 3.636,
+          "captain_score": 33.249,
+          "start_probability": 0.89,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Aymeric Laporte",
+          "position": "DEF",
+          "points": 3.636,
+          "captain_score": 33.249,
+          "start_probability": 0.89,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Marc Cucurella",
+          "position": "DEF",
+          "points": 3.636,
+          "captain_score": 33.249,
+          "start_probability": 0.89,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Pau Cubarsí",
+          "position": "DEF",
+          "points": 3.636,
+          "captain_score": 33.249,
+          "start_probability": 0.89,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        }
+      ],
+      "top_10_captain_upside_players": [
+        {
+          "name": "Mikel Oyarzabal",
+          "position": "FWD",
+          "points": 5.05,
+          "captain_score": 41.852,
+          "start_probability": 0.89,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Álex Baena",
+          "position": "MID",
+          "points": 4.25,
+          "captain_score": 37.225,
+          "start_probability": 0.89,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Lamine Yamal Nasraoui Ebana",
+          "position": "MID",
+          "points": 4.25,
+          "captain_score": 37.225,
+          "start_probability": 0.89,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Rodrigo Hernández Cascante",
+          "position": "MID",
+          "points": 4.25,
+          "captain_score": 37.225,
+          "start_probability": 0.89,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Dani Olmo",
+          "position": "MID",
+          "points": 4.25,
+          "captain_score": 37.225,
+          "start_probability": 0.89,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Fabián Ruiz",
+          "position": "MID",
+          "points": 4.25,
+          "captain_score": 37.225,
+          "start_probability": 0.89,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Pedro Porro",
+          "position": "DEF",
+          "points": 3.636,
+          "captain_score": 33.249,
+          "start_probability": 0.89,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Aymeric Laporte",
+          "position": "DEF",
+          "points": 3.636,
+          "captain_score": 33.249,
+          "start_probability": 0.89,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Marc Cucurella",
+          "position": "DEF",
+          "points": 3.636,
+          "captain_score": 33.249,
+          "start_probability": 0.89,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Pau Cubarsí",
+          "position": "DEF",
+          "points": 3.636,
+          "captain_score": 33.249,
+          "start_probability": 0.89,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        }
+      ],
+      "recommendation_count_by_surface": {
+        "balanced": 6,
+        "safe": 11,
+        "upside": 6,
+        "differential": 10,
+        "early_option": 6,
+        "captain": 10
+      },
+      "team_builder_candidate_count": 26,
+      "team_builder_selected_count": 4,
+      "team_builder_starter_count": 4,
+      "team_builder_bench_count": 0,
+      "omitted_top_player": {
+        "name": "Mikel Oyarzabal",
+        "position": "FWD",
+        "projected_points": 5.05,
+        "captain_score": 41.852,
+        "reason": "Projection, position, country-limit, budget, or squad-balance tradeoff."
+      }
+    },
+    {
+      "team": "Argentina",
+      "team_id": "argentina",
+      "fixture": "Final",
+      "fixture_stage": "final",
+      "kickoff_order": 2,
+      "kickoff_label": "Jul 19, 2026 · 3:00 PM ET",
+      "projected_team_xg": 1.399,
+      "opponent_xg": 1.341,
+      "clean_sheet_probability": 0.262,
+      "role_volatility_average": 0.091,
+      "third_place_modifier": false,
+      "top_10_projected_players": [
+        {
+          "name": "Lionel Messi",
+          "position": "FWD",
+          "points": 5.19,
+          "captain_score": 42.725,
+          "start_probability": 0.888,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Julián Alvarez",
+          "position": "FWD",
+          "points": 5.19,
+          "captain_score": 42.725,
+          "start_probability": 0.888,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Leandro Paredes",
+          "position": "MID",
+          "points": 4.358,
+          "captain_score": 37.949,
+          "start_probability": 0.888,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Alexis Mac Allister",
+          "position": "MID",
+          "points": 4.358,
+          "captain_score": 37.949,
+          "start_probability": 0.888,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Enzo Fernández",
+          "position": "MID",
+          "points": 4.358,
+          "captain_score": 37.949,
+          "start_probability": 0.888,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Giuliano Simeone",
+          "position": "MID",
+          "points": 4.073,
+          "captain_score": 36.052,
+          "start_probability": 0.818,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Cristian Romero",
+          "position": "DEF",
+          "points": 3.725,
+          "captain_score": 33.881,
+          "start_probability": 0.888,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Nahuel Molina",
+          "position": "DEF",
+          "points": 3.725,
+          "captain_score": 33.881,
+          "start_probability": 0.888,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Nicolás Tagliafico",
+          "position": "DEF",
+          "points": 3.725,
+          "captain_score": 33.881,
+          "start_probability": 0.888,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Lisandro Martínez",
+          "position": "DEF",
+          "points": 3.725,
+          "captain_score": 33.881,
+          "start_probability": 0.888,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        }
+      ],
+      "top_10_captain_upside_players": [
+        {
+          "name": "Lionel Messi",
+          "position": "FWD",
+          "points": 5.19,
+          "captain_score": 42.725,
+          "start_probability": 0.888,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Julián Alvarez",
+          "position": "FWD",
+          "points": 5.19,
+          "captain_score": 42.725,
+          "start_probability": 0.888,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Leandro Paredes",
+          "position": "MID",
+          "points": 4.358,
+          "captain_score": 37.949,
+          "start_probability": 0.888,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Alexis Mac Allister",
+          "position": "MID",
+          "points": 4.358,
+          "captain_score": 37.949,
+          "start_probability": 0.888,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Enzo Fernández",
+          "position": "MID",
+          "points": 4.358,
+          "captain_score": 37.949,
+          "start_probability": 0.888,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Giuliano Simeone",
+          "position": "MID",
+          "points": 4.073,
+          "captain_score": 36.052,
+          "start_probability": 0.818,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Cristian Romero",
+          "position": "DEF",
+          "points": 3.725,
+          "captain_score": 33.881,
+          "start_probability": 0.888,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Nahuel Molina",
+          "position": "DEF",
+          "points": 3.725,
+          "captain_score": 33.881,
+          "start_probability": 0.888,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Nicolás Tagliafico",
+          "position": "DEF",
+          "points": 3.725,
+          "captain_score": 33.881,
+          "start_probability": 0.888,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        },
+        {
+          "name": "Lisandro Martínez",
+          "position": "DEF",
+          "points": 3.725,
+          "captain_score": 33.881,
+          "start_probability": 0.888,
+          "fixture_stage": "final",
+          "tags": [],
+          "optionality": null
+        }
+      ],
+      "recommendation_count_by_surface": {
+        "balanced": 8,
+        "safe": 11,
+        "upside": 7,
+        "differential": 10,
+        "early_option": 8,
+        "captain": 10
+      },
+      "team_builder_candidate_count": 25,
+      "team_builder_selected_count": 8,
+      "team_builder_starter_count": 8,
+      "team_builder_bench_count": 0,
+      "omitted_top_player": {
+        "name": "Julián Alvarez",
+        "position": "FWD",
+        "projected_points": 5.19,
+        "captain_score": 42.725,
+        "reason": "Projection, position, country-limit, budget, or squad-balance tradeoff."
+      }
+    }
+  ],
+  "selected_squad": [
+    {
+      "name": "Mike Maignan",
+      "country": "France",
+      "position": "GK",
+      "fixture_stage": "third_place",
+      "projected_points": 2.147,
+      "optionality": 1.523,
+      "composite_score": 48.272
+    },
+    {
+      "name": "Unai Simón",
+      "country": "Spain",
+      "position": "GK",
+      "fixture_stage": "final",
+      "projected_points": 3.083,
+      "optionality": 0,
+      "composite_score": 54.361
+    },
+    {
+      "name": "Cristian Romero",
+      "country": "Argentina",
+      "position": "DEF",
+      "fixture_stage": "final",
+      "projected_points": 3.725,
+      "optionality": 0,
+      "composite_score": 62.509
+    },
+    {
+      "name": "Nahuel Molina",
+      "country": "Argentina",
+      "position": "DEF",
+      "fixture_stage": "final",
+      "projected_points": 3.725,
+      "optionality": 0,
+      "composite_score": 62.509
+    },
+    {
+      "name": "Nicolás Tagliafico",
+      "country": "Argentina",
+      "position": "DEF",
+      "fixture_stage": "final",
+      "projected_points": 3.725,
+      "optionality": 0,
+      "composite_score": 62.509
+    },
+    {
+      "name": "Lisandro Martínez",
+      "country": "Argentina",
+      "position": "DEF",
+      "fixture_stage": "final",
+      "projected_points": 3.725,
+      "optionality": 0,
+      "composite_score": 62.509
+    },
+    {
+      "name": "Pedro Porro",
+      "country": "Spain",
+      "position": "DEF",
+      "fixture_stage": "final",
+      "projected_points": 3.636,
+      "optionality": 0,
+      "composite_score": 61.392
+    },
+    {
+      "name": "Leandro Paredes",
+      "country": "Argentina",
+      "position": "MID",
+      "fixture_stage": "final",
+      "projected_points": 4.358,
+      "optionality": 0,
+      "composite_score": 70.518
+    },
+    {
+      "name": "Alexis Mac Allister",
+      "country": "Argentina",
+      "position": "MID",
+      "fixture_stage": "final",
+      "projected_points": 4.358,
+      "optionality": 0,
+      "composite_score": 70.518
+    },
+    {
+      "name": "Enzo Fernández",
+      "country": "Argentina",
+      "position": "MID",
+      "fixture_stage": "final",
+      "projected_points": 4.358,
+      "optionality": 0,
+      "composite_score": 70.518
+    },
+    {
+      "name": "Álex Baena",
+      "country": "Spain",
+      "position": "MID",
+      "fixture_stage": "final",
+      "projected_points": 4.25,
+      "optionality": 0,
+      "composite_score": 69.21
+    },
+    {
+      "name": "Lamine Yamal Nasraoui Ebana",
+      "country": "Spain",
+      "position": "MID",
+      "fixture_stage": "final",
+      "projected_points": 4.25,
+      "optionality": 0,
+      "composite_score": 69.21
+    },
+    {
+      "name": "Kylian Mbappé",
+      "country": "France",
+      "position": "FWD",
+      "fixture_stage": "third_place",
+      "projected_points": 4.104,
+      "optionality": 2.658,
+      "composite_score": 83.353
+    },
+    {
+      "name": "Harry Kane",
+      "country": "England",
+      "position": "FWD",
+      "fixture_stage": "third_place",
+      "projected_points": 4.055,
+      "optionality": 2.633,
+      "composite_score": 81.166
+    },
+    {
+      "name": "Lionel Messi",
+      "country": "Argentina",
+      "position": "FWD",
+      "fixture_stage": "final",
+      "projected_points": 5.19,
+      "optionality": 0,
+      "composite_score": 81.161
+    }
+  ],
+  "active_eliminated_player_leaks": []
+}

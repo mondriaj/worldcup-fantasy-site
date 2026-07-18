@@ -8,11 +8,11 @@ Status: pass
 | --- | --- |
 | eligible_teams | ["France","England","Spain","Argentina"] |
 | active_projection_rows | 134 |
-| active_recommendation_rows | 125 |
+| active_recommendation_rows | 175 |
 | core_pick_rows | 25 |
 | captain_watchlist_rows | 25 |
 | team_builder_candidate_count_by_team | {"Argentina":25,"Spain":26,"France":26,"England":24} |
-| team_builder_selected_count_by_team | {"France":4,"Spain":2,"Argentina":8,"England":1} |
+| team_builder_selected_count_by_team | {"France":2,"Spain":4,"Argentina":8,"England":1} |
 | eliminated_player_candidates | 0 |
 | eliminated_player_selected | 0 |
 | picks_eliminated_player_count | 0 |

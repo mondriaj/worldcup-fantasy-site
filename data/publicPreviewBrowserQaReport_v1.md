@@ -1,6 +1,6 @@
 # Public Preview Browser QA Report v1
 
-Generated: 2026-07-18T03:16:40.483Z
+Generated: 2026-07-18T11:13:36.635Z
 
 ## Verdict
 
@@ -12,7 +12,7 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 
 | Item | Result |
 | --- | --- |
-| Base URL | http://127.0.0.1:8770 |
+| Base URL | http://127.0.0.1:8771 |
 | Runner | scripts/runPublicPreviewBrowserQa.mjs |
 | Browser executable | /Users/jordimondria/Library/Caches/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-mac-arm64/chrome-headless-shell |
 | Index viewports | 5 |
@@ -35,6 +35,8 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | Team Builder builds Final Round squad | pass |
 | Team Builder selected players eligible | pass |
 | Team Builder excludes known eliminated names | pass |
+| Team Builder explains fixture exposure | pass |
+| Third Place strategy visible | pass |
 | Balanced Squad is visible | pass |
 | France Player Profile opens | pass |
 | Spain Player Profile opens | pass |
@@ -62,13 +64,16 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | Eliminated selected | 0 |
 | Known eliminated text in builder | no |
 | Known eliminated text in picker | no |
-| France selected / starters / bench | 0 / 0 / 0 |
-| Spain selected / starters / bench | 7 / 3 / 4 |
+| Fixture exposure explanation | yes |
+| Third Place strategy text | yes |
+| Optionality text | Optionality Score 2.2 earlier kickoff flexibility; verify FIFA locks |
+| France selected / starters / bench | 1 / 0 / 1 |
+| Spain selected / starters / bench | 7 / 4 / 3 |
 | England selected / starters / bench | 0 / 0 / 0 |
-| Argentina selected / starters / bench | 8 / 8 / 0 |
+| Argentina selected / starters / bench | 7 / 7 / 0 |
 | Brazil selected | 0 |
 | Colombia selected | 0 |
-| Top country | Balanced Squad, Balanced safety, Final Round. Top country: Argentina 8/8. Fixture spread: Final Round: 0 hard, 0 favorable, 11 high-uncertainty. |
+| Top country | Balanced Squad, Balanced safety, Final Round. Top country: Argentina 7/8. Fixture spread: Final Round: 0 hard, 0 favorable, 11 high-uncertainty. Early fixture: 1 squad / 0 starters. Optionality 2.2. |
 
 ## Team Builder Selected Squad
 
@@ -80,22 +85,22 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | Starter | 4 | Alexis Mac Allister | Midfielder | Argentina |
 | Starter | 5 | Enzo Fernández | Midfielder | Argentina |
 | Starter | 6 | Fabián Ruiz | Midfielder | Spain |
-| Starter | 7 | Nicolás Tagliafico | Defender | Argentina |
-| Starter | 8 | Nahuel Molina | Defender | Argentina |
-| Starter | 9 | Lisandro Martínez | Defender | Argentina |
-| Starter | 10 | Marc Cucurella | Defender | Spain |
+| Starter | 7 | Lisandro Martínez | Defender | Argentina |
+| Starter | 8 | Nicolás Tagliafico | Defender | Argentina |
+| Starter | 9 | Marc Cucurella | Defender | Spain |
+| Starter | 10 | Aymeric Laporte | Defender | Spain |
 | Starter | 11 | Emiliano Martínez | Goalkeeper | Argentina |
 | Bench | 1 | Unai Simón | Goalkeeper | Spain |
 | Bench | 2 | Pau Cubarsí | Defender | Spain |
 | Bench | 3 | Rodrigo Hernández Cascante | Midfielder | Spain |
-| Bench | 4 | Álex Baena | Midfielder | Spain |
+| Bench | 4 | Adrien Rabiot | Midfielder | France |
 
 ## Data Loaded
 
 | Dataset | Rows |
 | --- | --- |
 | Players sample | 100 |
-| Recommendation candidates | 625 |
+| Recommendation candidates | 675 |
 | Projection rows | 1659 |
 | Final Round projection rows | 134 |
 | SF projection rows | 100 |
@@ -114,9 +119,9 @@ The public preview browser QA exercised `index.html` and `world-cup.html` across
 | --- | --- |
 | Console/page errors | 0 |
 | Console warnings | 0 |
-| Failed requests | 5 |
+| Failed requests | 6 |
 | Blocking failed requests | 0 |
-| Ignored non-blocking failed requests | 5 |
+| Ignored non-blocking failed requests | 6 |
 | Index overflow viewports | 0 |
 | World Cup overflow viewports | 0 |
 | Profile click failures | 0 |
