@@ -1,6 +1,6 @@
 {
   "schema_version": "final_round_builder_browser_equivalence_qa_v1",
-  "generated_at": "2026-07-18T11:52:26.573Z",
+  "generated_at": "2026-07-18T16:10:16.398Z",
   "status": "pass",
   "baseUrl": "http://127.0.0.1:8772",
   "checks": {
@@ -15,7 +15,9 @@
     "candidate_pool_by_team_matches_generated_qa": true,
     "optionality_visible": true,
     "old_globals_absent": true,
-    "no_console_or_page_errors": true
+    "no_console_or_page_errors": true,
+    "golden_selected_squad_matches_generated_artifact": true,
+    "golden_selected_squad_matches_browser_visible": true
   },
   "errors": [],
   "generated_artifact": {
@@ -123,6 +125,61 @@
       "France": 26,
       "England": 24
     }
+  },
+  "golden_comparison": {
+    "golden_file": "data/teamBuilderGoldenFinalRound_v1.json",
+    "golden_selected_squad": [
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Pau Cubarsí",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Álex Baena",
+      "Fabián Ruiz",
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal"
+    ],
+    "current_artifact_squad": [
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Pau Cubarsí",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Álex Baena",
+      "Fabián Ruiz",
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal"
+    ],
+    "browser_visible_squad": [
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Pau Cubarsí",
+      "Álex Baena",
+      "Fabián Ruiz"
+    ],
+    "all_three_match": true
   },
   "player_diff": {
     "only_left": [],

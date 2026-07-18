@@ -1,6 +1,6 @@
 # Active Stage Manifest QA Report v1
 
-Generated: 2026-07-18T12:26:49.268Z
+Generated: 2026-07-18T16:10:15.734Z
 
 Status: **pass**
 
@@ -12,8 +12,8 @@ Status: **pass**
 | Public version | 20260718-final-round |
 | Pages | index.html, world-cup.html |
 | Source files | 13 |
-| Wrappers | 15 |
-| Validators | 15 |
+| Wrappers | 16 |
+| Validators | 17 |
 | Blocked globals | 6 |
 
 ## Checks
@@ -29,6 +29,7 @@ Status: **pass**
 | required_manifest_entries_present | pass |
 | html_references_expected_active_wrappers | pass |
 | team_builder_artifact_wrapper_loaded_by_index | pass |
+| team_builder_public_helper_loaded_before_script | pass |
 | manifest_stage_matches_script_default | pass |
 | cache_bust_matches_html_for_manifest_scripts | pass |
 | browser_equivalence_validator_listed | pass |
@@ -38,6 +39,13 @@ Status: **pass**
 | known_caveats_present | pass |
 | forbidden_refereeing_conspiracy_surface_listed | pass |
 | forbidden_refereeing_conspiracy_absent_from_public_pages | pass |
+| qa_runner_section_present | pass |
+| qa_runner_script_exists | pass |
+| qa_runner_required_command_checks_present | pass |
+| qa_runner_syntax_checks_present | pass |
+| qa_runner_search_checks_present | pass |
+| qa_runner_public_preview_uses_local_server | pass |
+| public_payload_contract_listed | pass |
 
 ## Loaded Scripts
 
@@ -61,7 +69,8 @@ Status: **pass**
 | 14 | sfFixtureAuthorityData.js | 20260718-final-round |
 | 15 | finalRoundFixtureAuthorityData.js | 20260718-final-round |
 | 16 | teamBuilderFinalRoundArtifactData.js | 20260718-builder-artifact-equivalence |
-| 17 | script.js | 20260718-builder-artifact-equivalence |
+| 17 | teamBuilderPublicHelpers.js | 20260718-team-builder-display-labels |
+| 18 | script.js | 20260718-builder-artifact-equivalence |
 
 ### world-cup.html
 

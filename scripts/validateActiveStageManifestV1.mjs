@@ -123,6 +123,7 @@ const requiredFiles = [
 const requiredQaRunnerCommandIds = [
   "manifest_validation",
   "team_builder_browser_equivalence",
+  "team_builder_golden_final_round",
   "eligible_players",
   "fixture_exposure_strategy",
   "team_builder_final_round",
@@ -156,6 +157,8 @@ const requiredSyntaxChecks = [
   "scripts/lib/publicPayloadSlimming.mjs",
   "scripts/validatePublicPayloadContractV1.mjs",
   "scripts/runActiveStageQaFromManifestV1.mjs",
+  "scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs",
+  "scripts/validateTeamBuilderGoldenFinalRoundV1.mjs",
   "scripts/validateActiveStageManifestV1.mjs",
   "scripts/lib/readActiveStageManifest.mjs"
 ];

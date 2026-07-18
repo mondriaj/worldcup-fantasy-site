@@ -13,6 +13,7 @@ const outputPath = process.env.BUILDER_EQUIVALENCE_QA_OUTPUT || "data/finalRound
 const reportPath = process.env.BUILDER_EQUIVALENCE_QA_REPORT || "data/finalRoundBuilderBrowserEquivalenceQaReport_v1.md";
 const mismatchPath = process.env.BUILDER_MISMATCH_OUTPUT || "data/finalRoundBuilderArtifactBrowserMismatch_v1.json";
 const mismatchReportPath = process.env.BUILDER_MISMATCH_REPORT || "data/finalRoundBuilderArtifactBrowserMismatchReport_v1.md";
+const goldenPath = "data/teamBuilderGoldenFinalRound_v1.json";
 const executableCandidates = [
   process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE,
   "/Users/jordimondria/Library/Caches/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-mac-arm64/chrome-headless-shell",
@@ -190,9 +191,12 @@ async function browserSnapshot() {
 
 const generatedQa = readJson(manifestFile(manifest, "teamBuilderQa"));
 const artifact = readJson(manifestFile(manifest, "teamBuilderArtifact"));
+const golden = fs.existsSync(goldenPath) ? readJson(goldenPath) : null;
 const browser = await browserSnapshot();
 const artifactSelectedNames = nameSet(artifact.selectedSquad || []);
 const browserSelectedNames = nameSet(browser.selected || []);
+const goldenSelectedNames = (golden?.selectedPlayers || []).map((row) => row.name);
+const goldenSelectedNameSet = nameSet(golden?.selectedPlayers || []);
 const playerDiff = diffSets(artifactSelectedNames, browserSelectedNames);
 const browserSelectedByArtifact = browser.selected.map((row) =>
   (artifact.selectedSquad || []).find((artifactRow) => normalize(artifactRow.name) === row.normalizedName)
@@ -217,7 +221,15 @@ const checks = {
   candidate_pool_by_team_matches_generated_qa: sameJson(browser.candidateCountByTeam, generatedQa.summary.candidate_count_by_team),
   optionality_visible: new RegExp(`Optionality Score\\s+${expectedOptionalityDisplay.replace(".", "\\.")}`, "i").test(browser.optionalityText),
   old_globals_absent: browser.oldGlobalsPresent.length === 0,
-  no_console_or_page_errors: browser.consoleErrors.length === 0 && browser.pageErrors.length === 0
+  no_console_or_page_errors: browser.consoleErrors.length === 0 && browser.pageErrors.length === 0,
+  golden_selected_squad_matches_generated_artifact: !golden || sameJson(
+    (artifact.selectedSquad || []).map((row) => row.name),
+    goldenSelectedNames
+  ),
+  golden_selected_squad_matches_browser_visible: !golden || (() => {
+    const diff = diffSets(goldenSelectedNameSet, browserSelectedNames);
+    return diff.only_left.length === 0 && diff.only_right.length === 0;
+  })()
 };
 const errors = Object.entries(checks)
   .filter(([, ok]) => !ok)
@@ -346,6 +358,14 @@ const result = {
     bench: browser.bench.map((row) => row.name),
     candidate_count_by_team: browser.candidateCountByTeam
   },
+  golden_comparison: golden ? {
+    golden_file: goldenPath,
+    golden_selected_squad: goldenSelectedNames,
+    current_artifact_squad: (artifact.selectedSquad || []).map((row) => row.name),
+    browser_visible_squad: browser.selected.map((row) => row.name),
+    all_three_match: checks.golden_selected_squad_matches_generated_artifact &&
+      checks.golden_selected_squad_matches_browser_visible
+  } : null,
   player_diff: playerDiff,
   console_errors: browser.consoleErrors,
   page_errors: browser.pageErrors
@@ -370,6 +390,12 @@ fs.writeFileSync(reportPath, [
   "## Browser Default",
   "",
   mdTable(["Metric", "Value"], Object.entries(result.browser_default).map(([key, value]) => [key, Array.isArray(value) || typeof value === "object" ? JSON.stringify(value) : value])),
+  "",
+  "## Golden Comparison",
+  "",
+  result.golden_comparison
+    ? mdTable(["Metric", "Value"], Object.entries(result.golden_comparison).map(([key, value]) => [key, Array.isArray(value) || typeof value === "object" ? JSON.stringify(value) : value]))
+    : "Golden file not present.",
   "",
   "## Diff",
   "",

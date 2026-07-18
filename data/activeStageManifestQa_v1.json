@@ -1,6 +1,6 @@
 {
   "schema_version": "active_stage_manifest_qa_v1",
-  "generated_at": "2026-07-18T12:26:49.268Z",
+  "generated_at": "2026-07-18T16:10:15.734Z",
   "status": "pass",
   "manifest": "data/activeStageManifest_v1.json",
   "activeStage": "finalRound",
@@ -33,6 +33,7 @@
     "fantasyPoolRecommendationsData.js",
     "fantasyPoolScorePredictionsData.js",
     "teamBuilderFinalRoundArtifactData.js",
+    "teamBuilderPublicHelpers.js",
     "liveMatchdayStatusData.js",
     "livePlayerStatusData.js",
     "knockoutBracketPredictionData.js",
@@ -44,6 +45,7 @@
   "validators": [
     "scripts/validateActiveStageManifestV1.mjs",
     "scripts/validateTeamBuilderFinalRoundV1.mjs",
+    "scripts/validateTeamBuilderGoldenFinalRoundV1.mjs",
     "scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs",
     "scripts/validateFinalRoundEligiblePlayersV1.mjs",
     "scripts/validateFinalRoundFixtureExposureStrategyV1.mjs",
@@ -56,8 +58,163 @@
     "scripts/validateFinalRoundFixtureAuthorityV1.mjs",
     "scripts/validateBracketPathIntegrityV1.mjs",
     "scripts/validateKnockoutBracketPredictionV1.mjs",
-    "scripts/runPublicPreviewBrowserQa.mjs"
+    "scripts/runPublicPreviewBrowserQa.mjs",
+    "scripts/validatePublicPayloadContractV1.mjs"
   ],
+  "qaRunner": {
+    "script": "scripts/runActiveStageQaFromManifestV1.mjs",
+    "outputJson": "data/activeStageQaRun_v1.json",
+    "outputReport": "data/activeStageQaRunReport_v1.md",
+    "localServer": {
+      "port": 8772,
+      "baseUrl": "http://127.0.0.1:8772"
+    },
+    "requiredCommandChecks": [
+      {
+        "id": "manifest_validation",
+        "command": "node scripts/validateActiveStageManifestV1.mjs"
+      },
+      {
+        "id": "team_builder_browser_equivalence",
+        "command": "node scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs",
+        "requiresLocalServer": true
+      },
+      {
+        "id": "team_builder_golden_final_round",
+        "command": "node scripts/validateTeamBuilderGoldenFinalRoundV1.mjs"
+      },
+      {
+        "id": "eligible_players",
+        "command": "node scripts/validateFinalRoundEligiblePlayersV1.mjs"
+      },
+      {
+        "id": "fixture_exposure_strategy",
+        "command": "node scripts/validateFinalRoundFixtureExposureStrategyV1.mjs"
+      },
+      {
+        "id": "team_builder_final_round",
+        "command": "node scripts/validateTeamBuilderFinalRoundV1.mjs"
+      },
+      {
+        "id": "core_pick_lineup_evidence",
+        "command": "node scripts/validateFinalRoundCorePickLineupEvidence.mjs"
+      },
+      {
+        "id": "active_fantasy_data_flow",
+        "command": "node scripts/validateActiveFantasyDataFlow.mjs",
+        "fallbackCommand": "node scripts/validateActiveMd2DataFlow.mjs"
+      },
+      {
+        "id": "live_fixture_mapping",
+        "command": "node scripts/validateLiveFixtureMapping.mjs"
+      },
+      {
+        "id": "match_environment_live_scores",
+        "command": "node scripts/validateMatchEnvironmentLiveScores.mjs"
+      },
+      {
+        "id": "world_cup_fixtures_page_live_scores",
+        "command": "node scripts/validateWorldCupFixturesPageLiveScores.mjs"
+      },
+      {
+        "id": "final_round_fixture_authority",
+        "command": "node scripts/validateFinalRoundFixtureAuthorityV1.mjs"
+      },
+      {
+        "id": "bracket_path_integrity",
+        "command": "node scripts/validateBracketPathIntegrityV1.mjs"
+      },
+      {
+        "id": "knockout_bracket_prediction",
+        "command": "node scripts/validateKnockoutBracketPredictionV1.mjs"
+      },
+      {
+        "id": "public_payload_contract",
+        "command": "node scripts/validatePublicPayloadContractV1.mjs"
+      },
+      {
+        "id": "public_preview_browser_qa",
+        "command": "node scripts/runPublicPreviewBrowserQa.mjs",
+        "requiresLocalServer": true
+      },
+      {
+        "id": "git_diff_whitespace",
+        "command": "git diff --check"
+      }
+    ],
+    "optionalCommandChecks": [],
+    "syntaxChecks": [
+      "script.js",
+      "worldCupPage.js",
+      "worldCupData.js",
+      "knockoutBracketPredictionData.js",
+      "fantasyPoolRecommendationsData.js",
+      "fantasyPoolMatchdayProjectionsData.js",
+      "fantasyPoolScorePredictionsData.js",
+      "fantasyPoolOfficialDataStatusData.js",
+      "liveMatchdayStatusData.js",
+      "livePlayerStatusData.js",
+      "teamBuilderFinalRoundArtifactData.js",
+      "teamBuilderPublicHelpers.js",
+      "scripts/lib/teamBuilderPublicModel.mjs",
+      "scripts/auditPublicPayloadSlimmingV1.mjs",
+      "scripts/lib/publicPayloadSlimming.mjs",
+      "scripts/validatePublicPayloadContractV1.mjs",
+      "scripts/runActiveStageQaFromManifestV1.mjs",
+      "scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs",
+      "scripts/validateTeamBuilderGoldenFinalRoundV1.mjs",
+      "scripts/validateActiveStageManifestV1.mjs",
+      "scripts/lib/readActiveStageManifest.mjs"
+    ],
+    "searchChecks": [
+      {
+        "id": "old_globals_legacy_paths_public_files",
+        "policy": "zero_hits_required",
+        "pattern": "financePlayersData|matchdayProjectionsData|scorePredictionsData|scorePredictions_v0|scorePredictions_v1|scorePredictions_v2|20260603|official-final|window\\.FINANCE_PLAYERS_DATA|window\\.PLAYER_MATCHDAY_PROJECTIONS_DATA|window\\.MATCHDAY_MODEL_SUMMARY|window\\.FINANCE_MODEL_SUMMARY|window\\.SCORE_FIXTURE_PREDICTIONS_DATA|window\\.SCORE_PREDICTIONS_SUMMARY",
+        "files": [
+          "index.html",
+          "script.js",
+          "world-cup.html",
+          "worldCupPage.js"
+        ]
+      },
+      {
+        "id": "active_eliminated_player_leakage",
+        "policy": "historical_hits_allowed_with_explanation",
+        "pattern": "Lerma|Raphinha|Vinicius|Vinícius|Brazil|Colombia|BRA|COL",
+        "files": [
+          "index.html",
+          "script.js",
+          "fantasyPoolRecommendationsData.js",
+          "fantasyPoolMatchdayProjectionsData.js",
+          "teamBuilderFinalRoundArtifactData.js"
+        ],
+        "explanation": "France, England, Spain, and Argentina active Final Round hits are expected; Brazil/Colombia historical wrapper rows are allowed only outside active finalRound rows and are covered by eligible-player QA."
+      },
+      {
+        "id": "public_refereeing_conspiracy_leakage",
+        "policy": "zero_hits_required",
+        "pattern": "Refereeing Outcomes|conspiracy|referee fairness|fouls received|yellow-card propensity|No unusual team-level pattern",
+        "files": [
+          "index.html",
+          "world-cup.html",
+          "script.js",
+          "worldCupPage.js"
+        ]
+      }
+    ],
+    "expectedPublicBehaviorAssertions": [
+      "public behavior unchanged",
+      "active stage remains finalRound",
+      "Team Builder remains artifact-backed",
+      "Team Builder budget remains 94.8 / 105",
+      "Team Builder golden squad, captain/vice, counts, and scores remain unchanged",
+      "active eligible teams remain France, England, Spain, Argentina",
+      "no active eliminated players",
+      "no old globals",
+      "no public refereeing/conspiracy section"
+    ]
+  },
   "blockedGlobals": [
     "FINANCE_PLAYERS_DATA",
     "PLAYER_MATCHDAY_PROJECTIONS_DATA",
@@ -166,6 +323,12 @@
       },
       {
         "order": 17,
+        "src": "teamBuilderPublicHelpers.js?v=20260718-team-builder-display-labels",
+        "file": "teamBuilderPublicHelpers.js",
+        "cacheBust": "20260718-team-builder-display-labels"
+      },
+      {
+        "order": 18,
         "src": "script.js?v=20260718-builder-artifact-equivalence",
         "file": "script.js",
         "cacheBust": "20260718-builder-artifact-equivalence"
@@ -252,6 +415,7 @@
           "default": "20260718-final-round",
           "overrides": {
             "teamBuilderFinalRoundArtifactData.js": "20260718-builder-artifact-equivalence",
+            "teamBuilderPublicHelpers.js": "20260718-team-builder-display-labels",
             "script.js": "20260718-builder-artifact-equivalence"
           }
         }
@@ -344,6 +508,33 @@
           "sfFixtureAuthorityData.js",
           "finalRoundFixtureAuthorityData.js",
           "teamBuilderFinalRoundArtifactData.js",
+          "teamBuilderPublicHelpers.js",
+          "script.js"
+        ]
+      }
+    },
+    {
+      "id": "team_builder_public_helper_loaded_before_script",
+      "status": "pass",
+      "details": {
+        "indexScripts": [
+          "https://www.googletagmanager.com/gtag/js",
+          "playersData.js",
+          "fantasyRulesData.js",
+          "fantasyPoolRecommendationsData.js",
+          "fantasyPoolMatchdayProjectionsData.js",
+          "fantasyPoolFinanceMetricsData.js",
+          "fantasyPoolScorePredictionsData.js",
+          "knockoutBracketPredictionData.js",
+          "fantasyPoolOfficialDataStatusData.js",
+          "liveMatchdayStatusData.js",
+          "livePlayerStatusData.js",
+          "r16FixtureAuthorityData.js",
+          "qfFixtureAuthorityData.js",
+          "sfFixtureAuthorityData.js",
+          "finalRoundFixtureAuthorityData.js",
+          "teamBuilderFinalRoundArtifactData.js",
+          "teamBuilderPublicHelpers.js",
           "script.js"
         ]
       }
@@ -411,6 +602,74 @@
       "status": "pass",
       "details": {
         "forbiddenHits": []
+      }
+    },
+    {
+      "id": "qa_runner_section_present",
+      "status": "pass",
+      "details": {
+        "script": "scripts/runActiveStageQaFromManifestV1.mjs",
+        "outputJson": "data/activeStageQaRun_v1.json",
+        "outputReport": "data/activeStageQaRunReport_v1.md"
+      }
+    },
+    {
+      "id": "qa_runner_script_exists",
+      "status": "pass",
+      "details": {
+        "script": "scripts/runActiveStageQaFromManifestV1.mjs"
+      }
+    },
+    {
+      "id": "qa_runner_required_command_checks_present",
+      "status": "pass",
+      "details": {
+        "missingQaRunnerCommandIds": []
+      }
+    },
+    {
+      "id": "qa_runner_syntax_checks_present",
+      "status": "pass",
+      "details": {
+        "missingSyntaxChecks": []
+      }
+    },
+    {
+      "id": "qa_runner_search_checks_present",
+      "status": "pass",
+      "details": {
+        "missingSearchChecks": []
+      }
+    },
+    {
+      "id": "qa_runner_public_preview_uses_local_server",
+      "status": "pass",
+      "details": {
+        "localServer": {
+          "port": 8772,
+          "baseUrl": "http://127.0.0.1:8772"
+        }
+      }
+    },
+    {
+      "id": "public_payload_contract_listed",
+      "status": "pass",
+      "details": {
+        "publicPayloads": {
+          "contract": "data/publicPayloadContract_v1.json",
+          "contractReport": "data/publicPayloadContractReport_v1.md",
+          "slimmingAudit": "data/publicPayloadSlimmingAudit_v1.json",
+          "slimmingAuditReport": "data/publicPayloadSlimmingAuditReport_v1.md",
+          "slimmingDiff": "data/publicPayloadSlimmingDiff_v1.json",
+          "slimmingDiffReport": "data/publicPayloadSlimmingDiffReport_v1.md",
+          "slimmedWrappers": {
+            "fantasyPoolRecommendationsData.js": 1933970,
+            "fantasyPoolMatchdayProjectionsData.js": 3597075,
+            "fantasyPoolScorePredictionsData.js": 343711,
+            "teamBuilderFinalRoundArtifactData.js": 27526
+          }
+        },
+        "validator": "scripts/validatePublicPayloadContractV1.mjs"
       }
     }
   ]

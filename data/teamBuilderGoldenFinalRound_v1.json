@@ -1,0 +1,89 @@
+{
+  "schema_version": "team_builder_golden_final_round_v1",
+  "generatedAt": "2026-07-18T00:00:00.000Z",
+  "activeStage": "finalRound",
+  "sourceArtifactPath": "data/teamBuilderFinalRoundArtifact_v1.json",
+  "sourceBrowserWrapperPath": "teamBuilderFinalRoundArtifactData.js",
+  "sourceGeneratedAt": "2026-07-18T11:51:53.035Z",
+  "modelVersion": "team-builder-final-round-v1",
+  "strategy": {
+    "id": "balancedSquad",
+    "name": "Recommended Balanced Squad",
+    "label": "Recommended Balanced Squad",
+    "matchday": "finalRound",
+    "formation": "4-3-3"
+  },
+  "budgetUsed": 94.8,
+  "budgetLimit": 105,
+  "teamCounts": {
+    "Argentina": 8,
+    "Spain": 5,
+    "France": 1,
+    "England": 1
+  },
+  "fixtureCounts": {
+    "final": 13,
+    "third_place": 2
+  },
+  "captain": "Mikel Oyarzabal",
+  "viceCaptain": "Leandro Paredes",
+  "rawProjectedPoints": 59.552,
+  "optionalityScore": 5.291,
+  "compositeScore": 1014.93,
+  "selectedPlayers": [
+    { "official_fantasy_player_id": "45", "name": "Emiliano Martínez", "country": "Argentina", "position": "GK", "price": 5, "fixture_stage": "final", "projectedPoints": 3.15 },
+    { "official_fantasy_player_id": "1099", "name": "Unai Simón", "country": "Spain", "position": "GK", "price": 5, "fixture_stage": "final", "projectedPoints": 3.083 },
+    { "official_fantasy_player_id": "34", "name": "Nicolás Tagliafico", "country": "Argentina", "position": "DEF", "price": 4.3, "fixture_stage": "final", "projectedPoints": 3.725 },
+    { "official_fantasy_player_id": "30", "name": "Nahuel Molina", "country": "Argentina", "position": "DEF", "price": 4.4, "fixture_stage": "final", "projectedPoints": 3.725 },
+    { "official_fantasy_player_id": "1318", "name": "Lisandro Martínez", "country": "Argentina", "position": "DEF", "price": 4.6, "fixture_stage": "final", "projectedPoints": 3.725 },
+    { "official_fantasy_player_id": "28", "name": "Cristian Romero", "country": "Argentina", "position": "DEF", "price": 4.9, "fixture_stage": "final", "projectedPoints": 3.725 },
+    { "official_fantasy_player_id": "1089", "name": "Pau Cubarsí", "country": "Spain", "position": "DEF", "price": 5, "fixture_stage": "final", "projectedPoints": 3.636 },
+    { "official_fantasy_player_id": "48", "name": "Leandro Paredes", "country": "Argentina", "position": "MID", "price": 5.6, "fixture_stage": "final", "projectedPoints": 4.358 },
+    { "official_fantasy_player_id": "56", "name": "Alexis Mac Allister", "country": "Argentina", "position": "MID", "price": 6.6, "fixture_stage": "final", "projectedPoints": 4.358 },
+    { "official_fantasy_player_id": "57", "name": "Enzo Fernández", "country": "Argentina", "position": "MID", "price": 7.5, "fixture_stage": "final", "projectedPoints": 4.358 },
+    { "official_fantasy_player_id": "1082", "name": "Álex Baena", "country": "Spain", "position": "MID", "price": 6, "fixture_stage": "final", "projectedPoints": 4.25 },
+    { "official_fantasy_player_id": "1998", "name": "Fabián Ruiz", "country": "Spain", "position": "MID", "price": 6.8, "fixture_stage": "final", "projectedPoints": 4.25 },
+    { "official_fantasy_player_id": "500", "name": "Kylian Mbappé", "country": "France", "position": "FWD", "price": 10.5, "fixture_stage": "third_place", "projectedPoints": 4.104 },
+    { "official_fantasy_player_id": "468", "name": "Harry Kane", "country": "England", "position": "FWD", "price": 10.5, "fixture_stage": "third_place", "projectedPoints": 4.055 },
+    { "official_fantasy_player_id": "1094", "name": "Mikel Oyarzabal", "country": "Spain", "position": "FWD", "price": 8.1, "fixture_stage": "final", "projectedPoints": 5.05 }
+  ],
+  "starters": [
+    { "official_fantasy_player_id": "45", "name": "Emiliano Martínez", "country": "Argentina", "position": "GK", "price": 5, "fixture_stage": "final", "projectedPoints": 3.15 },
+    { "official_fantasy_player_id": "34", "name": "Nicolás Tagliafico", "country": "Argentina", "position": "DEF", "price": 4.3, "fixture_stage": "final", "projectedPoints": 3.725 },
+    { "official_fantasy_player_id": "30", "name": "Nahuel Molina", "country": "Argentina", "position": "DEF", "price": 4.4, "fixture_stage": "final", "projectedPoints": 3.725 },
+    { "official_fantasy_player_id": "1318", "name": "Lisandro Martínez", "country": "Argentina", "position": "DEF", "price": 4.6, "fixture_stage": "final", "projectedPoints": 3.725 },
+    { "official_fantasy_player_id": "28", "name": "Cristian Romero", "country": "Argentina", "position": "DEF", "price": 4.9, "fixture_stage": "final", "projectedPoints": 3.725 },
+    { "official_fantasy_player_id": "48", "name": "Leandro Paredes", "country": "Argentina", "position": "MID", "price": 5.6, "fixture_stage": "final", "projectedPoints": 4.358 },
+    { "official_fantasy_player_id": "56", "name": "Alexis Mac Allister", "country": "Argentina", "position": "MID", "price": 6.6, "fixture_stage": "final", "projectedPoints": 4.358 },
+    { "official_fantasy_player_id": "57", "name": "Enzo Fernández", "country": "Argentina", "position": "MID", "price": 7.5, "fixture_stage": "final", "projectedPoints": 4.358 },
+    { "official_fantasy_player_id": "500", "name": "Kylian Mbappé", "country": "France", "position": "FWD", "price": 10.5, "fixture_stage": "third_place", "projectedPoints": 4.104 },
+    { "official_fantasy_player_id": "468", "name": "Harry Kane", "country": "England", "position": "FWD", "price": 10.5, "fixture_stage": "third_place", "projectedPoints": 4.055 },
+    { "official_fantasy_player_id": "1094", "name": "Mikel Oyarzabal", "country": "Spain", "position": "FWD", "price": 8.1, "fixture_stage": "final", "projectedPoints": 5.05 }
+  ],
+  "bench": [
+    { "official_fantasy_player_id": "1099", "name": "Unai Simón", "country": "Spain", "position": "GK", "price": 5, "fixture_stage": "final", "projectedPoints": 3.083 },
+    { "official_fantasy_player_id": "1089", "name": "Pau Cubarsí", "country": "Spain", "position": "DEF", "price": 5, "fixture_stage": "final", "projectedPoints": 3.636 },
+    { "official_fantasy_player_id": "1082", "name": "Álex Baena", "country": "Spain", "position": "MID", "price": 6, "fixture_stage": "final", "projectedPoints": 4.25 },
+    { "official_fantasy_player_id": "1998", "name": "Fabián Ruiz", "country": "Spain", "position": "MID", "price": 6.8, "fixture_stage": "final", "projectedPoints": 4.25 }
+  ],
+  "eligibleTeams": [
+    "France",
+    "England",
+    "Spain",
+    "Argentina"
+  ],
+  "noEliminatedPlayerNames": [
+    "Lerma",
+    "Raphinha",
+    "Vinicius",
+    "Vinícius"
+  ],
+  "publicBehaviorNotes": [
+    "Final Round remains the active default stage.",
+    "The public Team Builder default remains artifact-backed.",
+    "Fantasy points remain projections only and do not imply starter status.",
+    "Final squads and confirmed XIs are not claimed as source-backed.",
+    "Refereeing/conspiracy analysis is not a public surface."
+  ],
+  "intentionalUpdateInstruction": "If this failure is intentional after a model change, regenerate the golden file and explain the model change in a separate commit."
+}

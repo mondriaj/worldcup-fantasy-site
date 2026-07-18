@@ -88,6 +88,7 @@
   "validators": {
     "manifest": "scripts/validateActiveStageManifestV1.mjs",
     "teamBuilderFinalRound": "scripts/validateTeamBuilderFinalRoundV1.mjs",
+    "teamBuilderGoldenFinalRound": "scripts/validateTeamBuilderGoldenFinalRoundV1.mjs",
     "teamBuilderBrowserEquivalence": "scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs",
     "eligiblePlayers": "scripts/validateFinalRoundEligiblePlayersV1.mjs",
     "fixtureExposureStrategy": "scripts/validateFinalRoundFixtureExposureStrategyV1.mjs",
@@ -128,6 +129,7 @@
     "requiredCommandChecks": [
       { "id": "manifest_validation", "command": "node scripts/validateActiveStageManifestV1.mjs" },
       { "id": "team_builder_browser_equivalence", "command": "node scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs", "requiresLocalServer": true },
+      { "id": "team_builder_golden_final_round", "command": "node scripts/validateTeamBuilderGoldenFinalRoundV1.mjs" },
       { "id": "eligible_players", "command": "node scripts/validateFinalRoundEligiblePlayersV1.mjs" },
       { "id": "fixture_exposure_strategy", "command": "node scripts/validateFinalRoundFixtureExposureStrategyV1.mjs" },
       { "id": "team_builder_final_round", "command": "node scripts/validateTeamBuilderFinalRoundV1.mjs" },
@@ -166,6 +168,8 @@
       "scripts/lib/publicPayloadSlimming.mjs",
       "scripts/validatePublicPayloadContractV1.mjs",
       "scripts/runActiveStageQaFromManifestV1.mjs",
+      "scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs",
+      "scripts/validateTeamBuilderGoldenFinalRoundV1.mjs",
       "scripts/validateActiveStageManifestV1.mjs",
       "scripts/lib/readActiveStageManifest.mjs"
     ],
@@ -195,6 +199,7 @@
       "active stage remains finalRound",
       "Team Builder remains artifact-backed",
       "Team Builder budget remains 94.8 / 105",
+      "Team Builder golden squad, captain/vice, counts, and scores remain unchanged",
       "active eligible teams remain France, England, Spain, Argentina",
       "no active eliminated players",
       "no old globals",

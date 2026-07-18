@@ -1,0 +1,653 @@
+{
+  "schema_version": "team_builder_golden_final_round_qa_v1",
+  "generated_at": "2026-07-18T16:10:16.425Z",
+  "status": "pass",
+  "activeStage": "finalRound",
+  "tolerances": {
+    "rawProjectedPoints": 0.001,
+    "optionalityScore": 0.001,
+    "compositeScore": 0.01
+  },
+  "sourceArtifactPath": "data/teamBuilderFinalRoundArtifact_v1.json",
+  "sourceBrowserWrapperPath": "teamBuilderFinalRoundArtifactData.js",
+  "checks": [
+    {
+      "id": "golden_file_has_required_keys",
+      "status": "pass",
+      "details": {
+        "missing": []
+      }
+    },
+    {
+      "id": "active_stage_matches",
+      "status": "pass",
+      "details": {
+        "manifest": "finalRound",
+        "artifact": "finalRound",
+        "golden": "finalRound"
+      }
+    },
+    {
+      "id": "source_artifact_path_matches_manifest",
+      "status": "pass",
+      "details": {
+        "artifactPath": "data/teamBuilderFinalRoundArtifact_v1.json",
+        "golden": "data/teamBuilderFinalRoundArtifact_v1.json"
+      }
+    },
+    {
+      "id": "source_browser_wrapper_path_matches_manifest",
+      "status": "pass",
+      "details": {
+        "wrapperPath": "teamBuilderFinalRoundArtifactData.js",
+        "golden": "teamBuilderFinalRoundArtifactData.js"
+      }
+    },
+    {
+      "id": "model_version_matches",
+      "status": "pass",
+      "details": {
+        "artifact": "team-builder-final-round-v1",
+        "golden": "team-builder-final-round-v1"
+      }
+    },
+    {
+      "id": "budget_used_matches",
+      "status": "pass",
+      "details": {
+        "artifact": 94.8,
+        "golden": 94.8
+      }
+    },
+    {
+      "id": "budget_limit_matches",
+      "status": "pass",
+      "details": {
+        "artifact": 105,
+        "golden": 105
+      }
+    },
+    {
+      "id": "team_counts_match",
+      "status": "pass",
+      "details": {
+        "artifact": {
+          "Argentina": 8,
+          "Spain": 5,
+          "France": 1,
+          "England": 1
+        },
+        "golden": {
+          "Argentina": 8,
+          "Spain": 5,
+          "France": 1,
+          "England": 1
+        }
+      }
+    },
+    {
+      "id": "fixture_counts_match",
+      "status": "pass",
+      "details": {
+        "artifact": {
+          "final": 13,
+          "third_place": 2
+        },
+        "golden": {
+          "final": 13,
+          "third_place": 2
+        }
+      }
+    },
+    {
+      "id": "captain_matches",
+      "status": "pass",
+      "details": {
+        "artifact": "Mikel Oyarzabal",
+        "golden": "Mikel Oyarzabal"
+      }
+    },
+    {
+      "id": "vice_captain_matches",
+      "status": "pass",
+      "details": {
+        "artifact": "Leandro Paredes",
+        "golden": "Leandro Paredes"
+      }
+    },
+    {
+      "id": "raw_projected_points_match",
+      "status": "pass",
+      "details": {
+        "artifact": 59.552,
+        "golden": 59.552,
+        "tolerance": 0.001
+      }
+    },
+    {
+      "id": "optionality_score_matches",
+      "status": "pass",
+      "details": {
+        "artifact": 5.291,
+        "golden": 5.291,
+        "tolerance": 0.001
+      }
+    },
+    {
+      "id": "composite_score_matches",
+      "status": "pass",
+      "details": {
+        "artifact": 1014.93,
+        "golden": 1014.93,
+        "tolerance": 0.01
+      }
+    },
+    {
+      "id": "selected_player_list_matches",
+      "status": "pass",
+      "details": {
+        "artifactNames": [
+          "Emiliano Martínez",
+          "Unai Simón",
+          "Nicolás Tagliafico",
+          "Nahuel Molina",
+          "Lisandro Martínez",
+          "Cristian Romero",
+          "Pau Cubarsí",
+          "Leandro Paredes",
+          "Alexis Mac Allister",
+          "Enzo Fernández",
+          "Álex Baena",
+          "Fabián Ruiz",
+          "Kylian Mbappé",
+          "Harry Kane",
+          "Mikel Oyarzabal"
+        ],
+        "goldenNames": [
+          "Emiliano Martínez",
+          "Unai Simón",
+          "Nicolás Tagliafico",
+          "Nahuel Molina",
+          "Lisandro Martínez",
+          "Cristian Romero",
+          "Pau Cubarsí",
+          "Leandro Paredes",
+          "Alexis Mac Allister",
+          "Enzo Fernández",
+          "Álex Baena",
+          "Fabián Ruiz",
+          "Kylian Mbappé",
+          "Harry Kane",
+          "Mikel Oyarzabal"
+        ]
+      }
+    },
+    {
+      "id": "selected_player_ids_match",
+      "status": "pass",
+      "details": {
+        "artifactIds": [
+          "45",
+          "1099",
+          "34",
+          "30",
+          "1318",
+          "28",
+          "1089",
+          "48",
+          "56",
+          "57",
+          "1082",
+          "1998",
+          "500",
+          "468",
+          "1094"
+        ],
+        "goldenIds": [
+          "45",
+          "1099",
+          "34",
+          "30",
+          "1318",
+          "28",
+          "1089",
+          "48",
+          "56",
+          "57",
+          "1082",
+          "1998",
+          "500",
+          "468",
+          "1094"
+        ]
+      }
+    },
+    {
+      "id": "starters_list_matches",
+      "status": "pass",
+      "details": {
+        "artifactNames": [
+          "Emiliano Martínez",
+          "Nicolás Tagliafico",
+          "Nahuel Molina",
+          "Lisandro Martínez",
+          "Cristian Romero",
+          "Leandro Paredes",
+          "Alexis Mac Allister",
+          "Enzo Fernández",
+          "Kylian Mbappé",
+          "Harry Kane",
+          "Mikel Oyarzabal"
+        ],
+        "goldenNames": [
+          "Emiliano Martínez",
+          "Nicolás Tagliafico",
+          "Nahuel Molina",
+          "Lisandro Martínez",
+          "Cristian Romero",
+          "Leandro Paredes",
+          "Alexis Mac Allister",
+          "Enzo Fernández",
+          "Kylian Mbappé",
+          "Harry Kane",
+          "Mikel Oyarzabal"
+        ]
+      }
+    },
+    {
+      "id": "bench_list_matches",
+      "status": "pass",
+      "details": {
+        "artifactNames": [
+          "Unai Simón",
+          "Pau Cubarsí",
+          "Álex Baena",
+          "Fabián Ruiz"
+        ],
+        "goldenNames": [
+          "Unai Simón",
+          "Pau Cubarsí",
+          "Álex Baena",
+          "Fabián Ruiz"
+        ]
+      }
+    },
+    {
+      "id": "eligible_teams_match_fixture_authority",
+      "status": "pass",
+      "details": {
+        "fixtureAuthority": [
+          "France",
+          "England",
+          "Spain",
+          "Argentina"
+        ],
+        "golden": [
+          "France",
+          "England",
+          "Spain",
+          "Argentina"
+        ]
+      }
+    },
+    {
+      "id": "no_eliminated_players_appear",
+      "status": "pass",
+      "details": {
+        "eliminatedHits": [],
+        "eliminated_player_selected": 0
+      }
+    },
+    {
+      "id": "public_wrapper_artifact_matches_source_artifact",
+      "status": "pass",
+      "details": {
+        "wrapperBudget": 94.8,
+        "artifactBudget": 94.8,
+        "wrapperSelectedNames": [
+          "Emiliano Martínez",
+          "Unai Simón",
+          "Nicolás Tagliafico",
+          "Nahuel Molina",
+          "Lisandro Martínez",
+          "Cristian Romero",
+          "Pau Cubarsí",
+          "Leandro Paredes",
+          "Alexis Mac Allister",
+          "Enzo Fernández",
+          "Álex Baena",
+          "Fabián Ruiz",
+          "Kylian Mbappé",
+          "Harry Kane",
+          "Mikel Oyarzabal"
+        ],
+        "artifactSelectedNames": [
+          "Emiliano Martínez",
+          "Unai Simón",
+          "Nicolás Tagliafico",
+          "Nahuel Molina",
+          "Lisandro Martínez",
+          "Cristian Romero",
+          "Pau Cubarsí",
+          "Leandro Paredes",
+          "Alexis Mac Allister",
+          "Enzo Fernández",
+          "Álex Baena",
+          "Fabián Ruiz",
+          "Kylian Mbappé",
+          "Harry Kane",
+          "Mikel Oyarzabal"
+        ]
+      }
+    },
+    {
+      "id": "public_wrapper_artifact_matches_golden",
+      "status": "pass",
+      "details": {
+        "wrapperSelectedNames": [
+          "Emiliano Martínez",
+          "Unai Simón",
+          "Nicolás Tagliafico",
+          "Nahuel Molina",
+          "Lisandro Martínez",
+          "Cristian Romero",
+          "Pau Cubarsí",
+          "Leandro Paredes",
+          "Alexis Mac Allister",
+          "Enzo Fernández",
+          "Álex Baena",
+          "Fabián Ruiz",
+          "Kylian Mbappé",
+          "Harry Kane",
+          "Mikel Oyarzabal"
+        ],
+        "goldenSelectedNames": [
+          "Emiliano Martínez",
+          "Unai Simón",
+          "Nicolás Tagliafico",
+          "Nahuel Molina",
+          "Lisandro Martínez",
+          "Cristian Romero",
+          "Pau Cubarsí",
+          "Leandro Paredes",
+          "Alexis Mac Allister",
+          "Enzo Fernández",
+          "Álex Baena",
+          "Fabián Ruiz",
+          "Kylian Mbappé",
+          "Harry Kane",
+          "Mikel Oyarzabal"
+        ]
+      }
+    },
+    {
+      "id": "browser_equivalence_validator_available",
+      "status": "pass",
+      "details": {
+        "validator": "scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs"
+      }
+    },
+    {
+      "id": "browser_equivalence_output_matches_golden_when_present",
+      "status": "pass",
+      "details": {
+        "present": true,
+        "status": "pass",
+        "generated": [
+          "Emiliano Martínez",
+          "Unai Simón",
+          "Nicolás Tagliafico",
+          "Nahuel Molina",
+          "Lisandro Martínez",
+          "Cristian Romero",
+          "Pau Cubarsí",
+          "Leandro Paredes",
+          "Alexis Mac Allister",
+          "Enzo Fernández",
+          "Álex Baena",
+          "Fabián Ruiz",
+          "Kylian Mbappé",
+          "Harry Kane",
+          "Mikel Oyarzabal"
+        ],
+        "browser": [
+          "Kylian Mbappé",
+          "Harry Kane",
+          "Mikel Oyarzabal",
+          "Leandro Paredes",
+          "Alexis Mac Allister",
+          "Enzo Fernández",
+          "Nicolás Tagliafico",
+          "Nahuel Molina",
+          "Lisandro Martínez",
+          "Cristian Romero",
+          "Emiliano Martínez",
+          "Unai Simón",
+          "Pau Cubarsí",
+          "Álex Baena",
+          "Fabián Ruiz"
+        ],
+        "golden": [
+          "Emiliano Martínez",
+          "Unai Simón",
+          "Nicolás Tagliafico",
+          "Nahuel Molina",
+          "Lisandro Martínez",
+          "Cristian Romero",
+          "Pau Cubarsí",
+          "Leandro Paredes",
+          "Alexis Mac Allister",
+          "Enzo Fernández",
+          "Álex Baena",
+          "Fabián Ruiz",
+          "Kylian Mbappé",
+          "Harry Kane",
+          "Mikel Oyarzabal"
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "protectedValues": {
+    "budget": "94.8 / 105",
+    "captain": "Mikel Oyarzabal",
+    "viceCaptain": "Leandro Paredes",
+    "teamCounts": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "fixtureCounts": {
+      "final": 13,
+      "third_place": 2
+    },
+    "rawProjectedPoints": 59.552,
+    "optionalityScore": 5.291,
+    "compositeScore": 1014.93,
+    "selectedSquad": [
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Pau Cubarsí",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Álex Baena",
+      "Fabián Ruiz",
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal"
+    ]
+  },
+  "currentArtifact": {
+    "activeStage": "finalRound",
+    "modelVersion": "team-builder-final-round-v1",
+    "budgetUsed": 94.8,
+    "budgetLimit": 105,
+    "teamCounts": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "fixtureCounts": {
+      "final": 13,
+      "third_place": 2
+    },
+    "captain": "Mikel Oyarzabal",
+    "viceCaptain": "Leandro Paredes",
+    "rawProjectedPoints": 59.552,
+    "optionalityScore": 5.291,
+    "compositeScore": 1014.93,
+    "selectedPlayers": [
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Pau Cubarsí",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Álex Baena",
+      "Fabián Ruiz",
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal"
+    ],
+    "starters": [
+      "Emiliano Martínez",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal"
+    ],
+    "bench": [
+      "Unai Simón",
+      "Pau Cubarsí",
+      "Álex Baena",
+      "Fabián Ruiz"
+    ],
+    "strategy": {
+      "id": "balancedSquad",
+      "name": "Recommended Balanced Squad",
+      "label": "Recommended Balanced Squad",
+      "matchday": "finalRound",
+      "formation": "4-3-3"
+    }
+  },
+  "currentBrowserWrapper": {
+    "activeStage": "finalRound",
+    "modelVersion": "team-builder-final-round-v1",
+    "budgetUsed": 94.8,
+    "budgetLimit": 105,
+    "teamCounts": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "fixtureCounts": {
+      "final": 13,
+      "third_place": 2
+    },
+    "captain": "Mikel Oyarzabal",
+    "viceCaptain": "Leandro Paredes",
+    "rawProjectedPoints": 59.552,
+    "optionalityScore": 5.291,
+    "compositeScore": 1014.93,
+    "selectedPlayers": [
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Pau Cubarsí",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Álex Baena",
+      "Fabián Ruiz",
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal"
+    ],
+    "starters": [
+      "Emiliano Martínez",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal"
+    ],
+    "bench": [
+      "Unai Simón",
+      "Pau Cubarsí",
+      "Álex Baena",
+      "Fabián Ruiz"
+    ],
+    "strategy": {
+      "id": "balancedSquad",
+      "name": "Recommended Balanced Squad",
+      "label": "Recommended Balanced Squad",
+      "matchday": "finalRound",
+      "formation": "4-3-3"
+    }
+  },
+  "browserEquivalence": {
+    "status": "pass",
+    "generatedSelectedSquad": [
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Pau Cubarsí",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Álex Baena",
+      "Fabián Ruiz",
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal"
+    ],
+    "browserVisibleSquad": [
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Pau Cubarsí",
+      "Álex Baena",
+      "Fabián Ruiz"
+    ],
+    "allThreeMatchGolden": true
+  },
+  "overrideInstruction": "If this failure is intentional after a model change, regenerate the golden file and explain the model change in a separate commit."
+}

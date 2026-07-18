@@ -18,6 +18,8 @@ Status: pass
 | optionality_visible | pass |
 | old_globals_absent | pass |
 | no_console_or_page_errors | pass |
+| golden_selected_squad_matches_generated_artifact | pass |
+| golden_selected_squad_matches_browser_visible | pass |
 
 ## Generated Artifact
 
@@ -48,6 +50,16 @@ Status: pass
 | starters | ["Kylian Mbappé","Harry Kane","Mikel Oyarzabal","Leandro Paredes","Alexis Mac Allister","Enzo Fernández","Nicolás Tagliafico","Nahuel Molina","Lisandro Martínez","Cristian Romero","Emiliano Martínez"] |
 | bench | ["Unai Simón","Pau Cubarsí","Álex Baena","Fabián Ruiz"] |
 | candidate_count_by_team | {"Argentina":25,"Spain":26,"France":26,"England":24} |
+
+## Golden Comparison
+
+| Metric | Value |
+| --- | --- |
+| golden_file | data/teamBuilderGoldenFinalRound_v1.json |
+| golden_selected_squad | ["Emiliano Martínez","Unai Simón","Nicolás Tagliafico","Nahuel Molina","Lisandro Martínez","Cristian Romero","Pau Cubarsí","Leandro Paredes","Alexis Mac Allister","Enzo Fernández","Álex Baena","Fabián Ruiz","Kylian Mbappé","Harry Kane","Mikel Oyarzabal"] |
+| current_artifact_squad | ["Emiliano Martínez","Unai Simón","Nicolás Tagliafico","Nahuel Molina","Lisandro Martínez","Cristian Romero","Pau Cubarsí","Leandro Paredes","Alexis Mac Allister","Enzo Fernández","Álex Baena","Fabián Ruiz","Kylian Mbappé","Harry Kane","Mikel Oyarzabal"] |
+| browser_visible_squad | ["Kylian Mbappé","Harry Kane","Mikel Oyarzabal","Leandro Paredes","Alexis Mac Allister","Enzo Fernández","Nicolás Tagliafico","Nahuel Molina","Lisandro Martínez","Cristian Romero","Emiliano Martínez","Unai Simón","Pau Cubarsí","Álex Baena","Fabián Ruiz"] |
+| all_three_match | true |
 
 ## Diff
 
