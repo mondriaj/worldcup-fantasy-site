@@ -1,0 +1,124 @@
+{
+  "schema_version": "final_round_freeze_checklist_v1",
+  "generated_at": "2026-07-19T00:00:00-04:00",
+  "status": "GREEN",
+  "branch": "main",
+  "source_commit_before_freeze_checkpoint": "3cbc18e Audit final code readiness",
+  "active_stage": "finalRound",
+  "public_url": "https://mondriaj.github.io/worldcup-fantasy-site/",
+  "canonical_url_observed": "https://fantasyeconomist.com/",
+  "team_builder_default_source": "generated_final_round_artifact",
+  "rules_source": "current-implementation-backed",
+  "public_behavior_changed": false,
+  "model_outputs_changed": false,
+  "freeze_recommended": true,
+  "golden_team_builder_values": {
+    "budget": "94.8 / 105",
+    "captain": "Mikel Oyarzabal",
+    "vice": "Leandro Paredes",
+    "team_counts": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "raw_projected": 59.552,
+    "optionality": 5.291,
+    "composite": 1014.93,
+    "selected_squad_unchanged": true
+  },
+  "items": [
+    {
+      "id": "branch_main",
+      "status": "pass",
+      "evidence": "git branch --show-current returned main."
+    },
+    {
+      "id": "tracked_worktree_clean_at_start",
+      "status": "pass",
+      "evidence": "Initial git status showed no tracked dirty files."
+    },
+    {
+      "id": "private_untracked_groups_only_at_start",
+      "status": "pass",
+      "evidence": "Initial untracked files were known private analysis/refereeing groups only."
+    },
+    {
+      "id": "active_qa_runner",
+      "status": "pass",
+      "evidence": "node scripts/runActiveStageQaFromManifestV1.mjs passed 56/56."
+    },
+    {
+      "id": "local_public_preview_browser_qa",
+      "status": "pass",
+      "evidence": "node scripts/runPublicPreviewBrowserQa.mjs passed against http://127.0.0.1:8772 with 5 index viewports, 5 world-cup viewports, 0 console errors, 0 console warnings, and 0 blocking failed requests."
+    },
+    {
+      "id": "team_builder_golden_and_helper_validators",
+      "status": "pass",
+      "evidence": "Team Builder golden, rules helper, constraint helper, artifact/browser unification readiness, optimizer utilities, eligibility helpers, and shared model helper validators passed."
+    },
+    {
+      "id": "exact_browser_assertions",
+      "status": "pass",
+      "evidence": "validateFinalRoundBuilderBrowserEquivalenceV1 passed locally and deployed; generated artifact, golden file, and visible browser squad match."
+    },
+    {
+      "id": "eligible_players_and_browser_content_contract",
+      "status": "pass",
+      "evidence": "validateFinalRoundEligiblePlayersV1 and validateFinalRoundBrowserContentContractV1 passed; active eligible teams remain France, England, Spain, Argentina."
+    },
+    {
+      "id": "syntax_sweep",
+      "status": "pass",
+      "evidence": "node --check passed for script.js, teamBuilderPublicHelpers.js, scripts/lib/teamBuilderPublicModel.mjs, worldCupPage.js, worldCupData.js, knockoutBracketPredictionData.js, fantasyPoolRecommendationsData.js, fantasyPoolMatchdayProjectionsData.js, fantasyPoolScorePredictionsData.js, fantasyPoolOfficialDataStatusData.js, liveMatchdayStatusData.js, livePlayerStatusData.js, and teamBuilderFinalRoundArtifactData.js."
+    },
+    {
+      "id": "legacy_path_check",
+      "status": "pass",
+      "evidence": "Legacy old-global/path rg check returned zero hits."
+    },
+    {
+      "id": "active_eliminated_player_leakage_search",
+      "status": "pass",
+      "evidence": "Raw search has historical/static wrapper hits, but eligible-player QA reports zero active eliminated candidates, selections, Picks, Captain Watchlist, or profile leakage."
+    },
+    {
+      "id": "public_refereeing_conspiracy_exposure_search",
+      "status": "pass",
+      "evidence": "Public-page search returned no public hits; only data/activeStageManifest_v1.json guardrail/blocklist text matched."
+    },
+    {
+      "id": "deployed_http_checks",
+      "status": "pass",
+      "evidence": "Homepage, world-cup page, and teamBuilderPublicHelpers.js returned 200; GitHub Pages URL redirects to fantasyeconomist.com."
+    },
+    {
+      "id": "deployed_public_preview_browser_qa",
+      "status": "pass",
+      "evidence": "Production public preview browser QA passed with 5 index viewports, 5 world-cup viewports, 0 console errors, 0 console warnings, and 0 blocking failed requests."
+    },
+    {
+      "id": "deployed_exact_browser_assertions",
+      "status": "pass",
+      "evidence": "Deployed exact Team Builder browser assertions passed; artifact-backed default, selected squad, captain, vice, team counts, fixture counts, and objective values match."
+    },
+    {
+      "id": "git_diff_check",
+      "status": "pass",
+      "evidence": "git diff --check passed."
+    }
+  ],
+  "deferred_technical_debt": [
+    "optimizer scoring extraction",
+    "captain/vice ranking extraction",
+    "generated-artifact/browser unification implementation",
+    "further script.js reduction",
+    "public payload cleanup",
+    "generated browser helper wrapper",
+    "official final squad source-backing if available",
+    "future user locks/substitutions/boosters support",
+    "post-tournament refereeing section decision"
+  ],
+  "final_conclusion": "Freeze recommended for current Final Round public use. Do not continue optimizer/captain-ranking extraction before current public use unless a bug is found. Future refactors should happen after the current stage or on a separate branch."
+}
