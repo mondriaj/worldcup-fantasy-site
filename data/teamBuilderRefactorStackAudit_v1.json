@@ -1,0 +1,316 @@
+{
+  "schema": "teamBuilderRefactorStackAudit_v1",
+  "generated_at": "2026-07-18",
+  "status": "GREEN",
+  "scope": "audit-only review of the Team Builder helper extraction stack after shared model, eligibility, optimizer utility, artifact/browser readiness, and constraint helper passes",
+  "baseline_commit": "4aecdb5 Extract Team Builder constraint helpers",
+  "cleanup_edits_made": false,
+  "public_behavior_changed": false,
+  "model_outputs_changed": false,
+  "current_line_counts": {
+    "script.js": 15351,
+    "teamBuilderPublicHelpers.js": 1124,
+    "scripts/lib/teamBuilderPublicModel.mjs": 1051,
+    "scripts/validateTeamBuilderSharedModelHelpersV1.mjs": 215,
+    "scripts/validateTeamBuilderEligibilityHelpersV1.mjs": 393,
+    "scripts/validateTeamBuilderOptimizerUtilitiesV1.mjs": 243,
+    "scripts/validateTeamBuilderConstraintHelpersV1.mjs": 252,
+    "scripts/validateTeamBuilderArtifactBrowserUnificationReadinessV1.mjs": 280,
+    "data/activeStageManifest_v1.json": 281
+  },
+  "line_count_trend": [
+    {
+      "commit": "eef0696",
+      "label": "before helper stack",
+      "script_js": 15423,
+      "teamBuilderPublicHelpers_js": 168,
+      "teamBuilderPublicModel_mjs": 149
+    },
+    {
+      "commit": "9d8fc23",
+      "label": "early public wrapper extraction",
+      "script_js": 15286,
+      "teamBuilderPublicHelpers_js": 374,
+      "teamBuilderPublicModel_mjs": 347
+    },
+    {
+      "commit": "54c8ec6",
+      "label": "shared model helper extraction",
+      "script_js": 15305,
+      "teamBuilderPublicHelpers_js": 507,
+      "teamBuilderPublicModel_mjs": 467
+    },
+    {
+      "commit": "b6f506f",
+      "label": "eligibility helper extraction",
+      "script_js": 15273,
+      "teamBuilderPublicHelpers_js": 653,
+      "teamBuilderPublicModel_mjs": 602
+    },
+    {
+      "commit": "530a782",
+      "label": "optimizer utility extraction",
+      "script_js": 15273,
+      "teamBuilderPublicHelpers_js": 788,
+      "teamBuilderPublicModel_mjs": 730
+    },
+    {
+      "commit": "5eda0a2",
+      "label": "artifact/browser readiness audit",
+      "script_js": 15273,
+      "teamBuilderPublicHelpers_js": 788,
+      "teamBuilderPublicModel_mjs": 730
+    },
+    {
+      "commit": "4aecdb5",
+      "label": "constraint helper extraction",
+      "script_js": 15351,
+      "teamBuilderPublicHelpers_js": 1124,
+      "teamBuilderPublicModel_mjs": 1051
+    }
+  ],
+  "helper_areas": [
+    {
+      "area": "strategy copy and labels",
+      "result": "centralized",
+      "risk_reduction": "high",
+      "notes": "The shared constants prevent browser copy, artifact copy, and validators from drifting on strategy names, aliases, objective labels, and status messages."
+    },
+    {
+      "area": "fixture-authority eligibility",
+      "result": "centralized for active candidate gates and browser checks",
+      "risk_reduction": "high",
+      "notes": "Final-round eligible teams and active-stage projection checks now flow through shared helper logic used by both browser code and Node validators."
+    },
+    {
+      "area": "artifact summary and golden comparison",
+      "result": "centralized",
+      "risk_reduction": "high",
+      "notes": "Budget, captain, team counts, fixture counts, objective score reading, and golden comparisons are now shared for stable regression checks."
+    },
+    {
+      "area": "squad constraints",
+      "result": "partially centralized",
+      "risk_reduction": "medium",
+      "notes": "Pure validators for size, duplicates, budget, position, team cap, fixture cap, eligible teams, captain/vice, locked, excluded, and starter/bench checks exist in the shared model. Browser code still has adapter glue and live-optimizer-specific checks."
+    },
+    {
+      "area": "optimizer utilities",
+      "result": "partially centralized",
+      "risk_reduction": "medium",
+      "notes": "Counting and label helpers reduced some duplicated display and validation logic, but scoring and ranking remain browser-local and should stay untouched until protected by deeper score fixtures."
+    }
+  ],
+  "helper_exports_inventory": {
+    "constants": [
+      "TEAM_BUILDER_PUBLIC_ARTIFACT_SCHEMA",
+      "TEAM_BUILDER_PUBLIC_STAGE_LABELS",
+      "TEAM_BUILDER_PUBLIC_OBJECTIVE_COMPONENT_LABELS",
+      "TEAM_BUILDER_STRATEGY_OPTION_KEYS",
+      "TEAM_BUILDER_STRATEGY_OPTIONS",
+      "TEAM_BUILDER_STRATEGY_ALIASES",
+      "TEAM_BUILDER_COMPARISON_STRATEGY_KEYS",
+      "TEAM_BUILDER_PUBLIC_SOURCE_OF_TRUTH_NOTE"
+    ],
+    "functions": [
+      "formatTeamBuilderScoreNumber",
+      "budgetDisplay",
+      "normalizeTeamBuilderTeamName",
+      "normalizeTeamBuilderFixtureKey",
+      "normalizeTeamBuilderEligibleTeam",
+      "countSummaryText",
+      "objectiveSummaryText",
+      "teamEligibilityKeys",
+      "getTeamBuilderEligibleFixtureKey",
+      "getFixtureAuthorityFixtureTeams",
+      "getFixtureAuthorityEligibleTeams",
+      "eligibleTeamKeysFromFixtureAuthority",
+      "isFinalRoundEligibleTeam",
+      "recordMatchesEligibleTeam",
+      "isActiveStageProjection",
+      "hasActiveTeamBuilderProjection",
+      "explainTeamBuilderEligibilityDecision",
+      "isFinalRoundTeamBuilderCandidate",
+      "filterFinalRoundTeamBuilderCandidates",
+      "assertNoEliminatedActiveCandidates",
+      "isFinalRoundTeamBuilderArtifact",
+      "countByField",
+      "countByTeam",
+      "countByFixture",
+      "getTeamBuilderSelectedPlayerNames",
+      "getTeamBuilderStarterNames",
+      "getTeamBuilderBenchNames",
+      "getTeamBuilderBudgetSummary",
+      "getTeamBuilderTeamCounts",
+      "getTeamBuilderFixtureCounts",
+      "getTeamBuilderCaptainSummary",
+      "getTeamBuilderObjectiveSummary",
+      "getTeamBuilderSquadRows",
+      "normalizeTeamBuilderPositionCode",
+      "getTeamBuilderPositionCounts",
+      "getTeamBuilderBudgetFeasibility",
+      "getTeamBuilderRowId",
+      "validateTeamBuilderSquadSize",
+      "validateTeamBuilderDuplicatePlayers",
+      "validateTeamBuilderBudgetConstraint",
+      "validateTeamBuilderPositionConstraints",
+      "validateTeamBuilderTeamConstraint",
+      "validateTeamBuilderFixtureConstraint",
+      "validateTeamBuilderEligibleTeamsConstraint",
+      "getTeamBuilderCaptainViceValidation",
+      "validateTeamBuilderCaptainVice",
+      "validateTeamBuilderLockedPlayersPresent",
+      "validateTeamBuilderExcludedPlayersAbsent",
+      "validateTeamBuilderStarterBenchStructure",
+      "getTeamBuilderSquadConstraintSummary",
+      "getTeamBuilderConstraintSummary",
+      "buildTeamBuilderConstraintReport",
+      "validateTeamBuilderSquadConstraints",
+      "validateTeamBuilderSelectedSquadConstraints",
+      "selectedSquadSummary",
+      "summarizeTeamBuilderArtifact",
+      "compareTeamBuilderSummaryToGolden",
+      "optionalityLabel",
+      "riskLabel",
+      "artifactLoadedMessage",
+      "teamBuilderStatusMessage",
+      "squadStrategyFitText"
+    ],
+    "browser_used": [
+      "eligibleTeamKeysFromFixtureAuthority",
+      "isFinalRoundEligibleTeam",
+      "hasActiveTeamBuilderProjection",
+      "isFinalRoundTeamBuilderCandidate",
+      "TEAM_BUILDER_STRATEGY_OPTION_KEYS",
+      "TEAM_BUILDER_STRATEGY_OPTIONS",
+      "TEAM_BUILDER_STRATEGY_ALIASES",
+      "TEAM_BUILDER_COMPARISON_STRATEGY_KEYS",
+      "countByTeam",
+      "validateTeamBuilderPositionConstraints",
+      "validateTeamBuilderSquadConstraints",
+      "squadStrategyFitText",
+      "isFinalRoundTeamBuilderArtifact",
+      "teamBuilderStatusMessage",
+      "getTeamBuilderObjectiveSummary"
+    ],
+    "validator_or_report_only": [
+      "getFixtureAuthorityFixtureTeams",
+      "getFixtureAuthorityEligibleTeams",
+      "filterFinalRoundTeamBuilderCandidates",
+      "assertNoEliminatedActiveCandidates",
+      "countByField",
+      "countByFixture",
+      "getTeamBuilderSelectedPlayerNames",
+      "getTeamBuilderStarterNames",
+      "getTeamBuilderBenchNames",
+      "getTeamBuilderBudgetSummary",
+      "getTeamBuilderTeamCounts",
+      "getTeamBuilderFixtureCounts",
+      "getTeamBuilderCaptainSummary",
+      "getTeamBuilderSquadRows",
+      "getTeamBuilderPositionCounts",
+      "getTeamBuilderBudgetFeasibility",
+      "getTeamBuilderRowId",
+      "validateTeamBuilderSquadSize",
+      "validateTeamBuilderDuplicatePlayers",
+      "validateTeamBuilderBudgetConstraint",
+      "validateTeamBuilderTeamConstraint",
+      "validateTeamBuilderFixtureConstraint",
+      "validateTeamBuilderEligibleTeamsConstraint",
+      "getTeamBuilderCaptainViceValidation",
+      "validateTeamBuilderCaptainVice",
+      "validateTeamBuilderLockedPlayersPresent",
+      "validateTeamBuilderExcludedPlayersAbsent",
+      "validateTeamBuilderStarterBenchStructure",
+      "getTeamBuilderSquadConstraintSummary",
+      "getTeamBuilderConstraintSummary",
+      "buildTeamBuilderConstraintReport",
+      "validateTeamBuilderSelectedSquadConstraints",
+      "selectedSquadSummary",
+      "summarizeTeamBuilderArtifact",
+      "compareTeamBuilderSummaryToGolden",
+      "optionalityLabel",
+      "riskLabel",
+      "artifactLoadedMessage"
+    ],
+    "small_but_useful": [
+      "formatTeamBuilderScoreNumber",
+      "budgetDisplay",
+      "normalizeTeamBuilderFixtureKey",
+      "normalizeTeamBuilderEligibleTeam",
+      "countSummaryText",
+      "objectiveSummaryText"
+    ],
+    "duplicated_or_adapter_logic_remaining_in_script_js": [
+      "countryLimitForMatchday",
+      "budgetLimitForMatchday",
+      "squadRequirements",
+      "countryCountsFromPlayers",
+      "countryLimitViolations",
+      "canAddCountry",
+      "incrementCountryCount",
+      "teamBuilderConstraintRows",
+      "teamBuilderSharedSquadConstraintReport",
+      "teamBuilderStrategyPlayerScore",
+      "optimizerStateRank",
+      "captainRecommendationScore"
+    ]
+  },
+  "parallel_logic_risks": [
+    {
+      "risk": "manual browser wrapper mirror",
+      "severity": "medium_high",
+      "files": [
+        "teamBuilderPublicHelpers.js",
+        "scripts/lib/teamBuilderPublicModel.mjs"
+      ],
+      "detail": "The public browser helper wrapper manually mirrors the Node shared model. Current validators protect parity, but future edits can still forget one side."
+    },
+    {
+      "risk": "constraint adapter glue in script.js",
+      "severity": "medium",
+      "files": [
+        "script.js"
+      ],
+      "detail": "Constraint helpers are useful, but the last extraction added browser adapter code and did not produce a net script.js reduction."
+    },
+    {
+      "risk": "optimizer scoring remains duplicated by design",
+      "severity": "high",
+      "files": [
+        "script.js",
+        "scripts/buildTeamBuilderPublicArtifactsV1.mjs"
+      ],
+      "detail": "Strategy player scoring, optimizer ranking, captain ranking, and artifact scoring are still separate high-risk areas. They should not be extracted without exact score fixtures."
+    }
+  ],
+  "validator_overlap_assessment": {
+    "acceptable_overlap": [
+      "golden final-round squad assertions versus browser equivalence assertions",
+      "eligibility helper semantics versus active eligible-player surface checks",
+      "constraint unit checks versus public preview/browser contract checks"
+    ],
+    "watch_items": [
+      "shared helper, optimizer utility, and constraint helper validators all touch budget/team/fixture/captain facts; keep future additions focused so these do not become three full duplicate suites"
+    ]
+  },
+  "direct_answers": {
+    "does_refactor_stack_reduce_risk": true,
+    "does_refactor_stack_reduce_duplication": "partially",
+    "did_any_pass_just_add_parallel_logic": "the constraint extraction added useful shared pure validators but also added browser adapter glue; net complexity is mixed",
+    "are_helpers_too_small_to_keep": "no",
+    "helpers_that_should_remain_validator_only": [
+      "assertNoEliminatedActiveCandidates",
+      "compareTeamBuilderSummaryToGolden",
+      "buildTeamBuilderConstraintReport",
+      "validateTeamBuilderSelectedSquadConstraints"
+    ],
+    "browser_wrapper_exports_clean": true,
+    "dependency_direction_correct": true,
+    "script_js_helper_dependency_has_no_circular_assumptions": true,
+    "should_scoring_be_extracted_now": false,
+    "safe_cleanup_available_now": false
+  },
+  "recommended_next_extraction": "Centralize budget, country-limit, and formation/squad-requirement derivation from the rules data, or generate/sync the browser helper wrapper from scripts/lib/teamBuilderPublicModel.mjs. Defer optimizer scoring and captain ranking until exact score fixtures exist.",
+  "final_recommendation": "commit audit artifacts only; do not change public code or model outputs in this pass"
+}

@@ -1,0 +1,56 @@
+{
+  "schema": "teamBuilderRefactorStackNoBehaviorChange_v1",
+  "generated_at": "2026-07-18",
+  "status": "GREEN",
+  "public_behavior_changed": false,
+  "model_outputs_changed": false,
+  "public_wrappers_changed": false,
+  "public_copy_changed": false,
+  "optimizer_scoring_changed": false,
+  "team_builder_changes_in_this_audit": false,
+  "cleanup_edits_made": false,
+  "script_js_line_count": {
+    "before_audit": 15351,
+    "after_audit": 15351,
+    "delta": 0
+  },
+  "protected_final_round_values": {
+    "budget_summary": "94.8 / 105",
+    "captain": "Mikel Oyarzabal",
+    "vice_captain": "Leandro Paredes",
+    "team_counts": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "fixture_counts": {
+      "final": 13,
+      "third_place": 2
+    },
+    "objective_components": {
+      "raw": 59.552,
+      "optionality": 5.291,
+      "composite": 1014.93
+    },
+    "active_candidate_count": 101,
+    "helper_seed_candidate_count": 104,
+    "active_eligible_teams": [
+      "France",
+      "England",
+      "Spain",
+      "Argentina"
+    ]
+  },
+  "unchanged_surfaces": [
+    "public site files",
+    "public wrapper behavior",
+    "model outputs",
+    "player recommendations",
+    "score predictions",
+    "matchday projections",
+    "Team Builder optimizer scoring",
+    "Team Builder copy"
+  ],
+  "qa_expectation": "All existing helper, golden, browser-equivalence, public preview, and active manifest QA gates should pass with no public behavior changes."
+}

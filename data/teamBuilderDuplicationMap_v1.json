@@ -1,0 +1,129 @@
+{
+  "schema": "teamBuilderDuplicationMap_v1",
+  "generated_at": "2026-07-18",
+  "status": "GREEN",
+  "entries": [
+    {
+      "area": "strategy copy, labels, and aliases",
+      "current_state": "centralized",
+      "primary_files": [
+        "scripts/lib/teamBuilderPublicModel.mjs",
+        "teamBuilderPublicHelpers.js",
+        "script.js"
+      ],
+      "duplication_risk": "low",
+      "notes": "Browser code reads shared constants through TEAM_BUILDER_PUBLIC_HELPERS. Validators protect the public wrapper mirror."
+    },
+    {
+      "area": "final-round eligible teams and fixture authority",
+      "current_state": "centralized",
+      "primary_files": [
+        "scripts/lib/teamBuilderPublicModel.mjs",
+        "teamBuilderPublicHelpers.js",
+        "script.js",
+        "scripts/validateFinalRoundEligiblePlayersV1.mjs"
+      ],
+      "duplication_risk": "low",
+      "notes": "Active candidate leakage checks now use shared eligibility helpers and active QA assertions."
+    },
+    {
+      "area": "active-stage projection presence",
+      "current_state": "centralized",
+      "primary_files": [
+        "scripts/lib/teamBuilderPublicModel.mjs",
+        "teamBuilderPublicHelpers.js",
+        "script.js"
+      ],
+      "duplication_risk": "low",
+      "notes": "The browser active-stage filter delegates to shared projection checks."
+    },
+    {
+      "area": "artifact summary and objective display",
+      "current_state": "centralized",
+      "primary_files": [
+        "scripts/lib/teamBuilderPublicModel.mjs",
+        "teamBuilderPublicHelpers.js",
+        "script.js",
+        "scripts/validateTeamBuilderGoldenFinalRoundV1.mjs"
+      ],
+      "duplication_risk": "low",
+      "notes": "Budget, captain, objective components, team counts, and fixture counts are summarized through shared helpers."
+    },
+    {
+      "area": "selected squad constraint validation",
+      "current_state": "partially centralized",
+      "primary_files": [
+        "scripts/lib/teamBuilderPublicModel.mjs",
+        "teamBuilderPublicHelpers.js",
+        "script.js",
+        "scripts/validateTeamBuilderConstraintHelpersV1.mjs"
+      ],
+      "duplication_risk": "medium",
+      "notes": "Pure validation is centralized. Browser adapter rows and live-state wiring remain local to script.js."
+    },
+    {
+      "area": "country-limit and budget-limit derivation by matchday",
+      "current_state": "duplicated",
+      "primary_files": [
+        "script.js",
+        "fantasyRules.json",
+        "fantasyRulesData.js"
+      ],
+      "duplication_risk": "medium_high",
+      "notes": "Live browser helpers still derive matchday limits locally. This is a good next extraction because it is rules-derived and lower-risk than optimizer scoring."
+    },
+    {
+      "area": "formation and squad requirement parsing",
+      "current_state": "duplicated",
+      "primary_files": [
+        "script.js",
+        "scripts/lib/teamBuilderPublicModel.mjs"
+      ],
+      "duplication_risk": "medium",
+      "notes": "Shared position validation exists, but browser-specific formation and requirement parsing still lives beside UI state."
+    },
+    {
+      "area": "optimizer scoring and ranking",
+      "current_state": "duplicated",
+      "primary_files": [
+        "script.js",
+        "scripts/buildTeamBuilderPublicArtifactsV1.mjs"
+      ],
+      "duplication_risk": "high",
+      "notes": "Strategy player score, optimizer state ranking, captain recommendation score, and artifact strategic score should remain untouched until exact score fixtures are added."
+    },
+    {
+      "area": "captain and vice-captain ranking",
+      "current_state": "duplicated",
+      "primary_files": [
+        "script.js",
+        "scripts/buildTeamBuilderPublicArtifactsV1.mjs"
+      ],
+      "duplication_risk": "high",
+      "notes": "Validation of captain/vice presence is centralized, but ranking/recommendation logic is still behavior-sensitive and should be deferred."
+    },
+    {
+      "area": "browser helper wrapper",
+      "current_state": "manual mirror",
+      "primary_files": [
+        "teamBuilderPublicHelpers.js",
+        "scripts/lib/teamBuilderPublicModel.mjs"
+      ],
+      "duplication_risk": "medium_high",
+      "notes": "A generated or sync-checked wrapper would remove the clearest remaining non-scoring drift risk."
+    },
+    {
+      "area": "validator report and markdown formatting",
+      "current_state": "intentionally local",
+      "primary_files": [
+        "scripts/validateTeamBuilderSharedModelHelpersV1.mjs",
+        "scripts/validateTeamBuilderEligibilityHelpersV1.mjs",
+        "scripts/validateTeamBuilderOptimizerUtilitiesV1.mjs",
+        "scripts/validateTeamBuilderConstraintHelpersV1.mjs"
+      ],
+      "duplication_risk": "low",
+      "notes": "Small local formatter duplication in validators is acceptable because it does not affect public behavior."
+    }
+  ],
+  "recommended_next_extraction": "Rules-derived budget, country-limit, and formation/squad-requirement helpers, or a generated/synced browser helper wrapper. Scoring and captain ranking should wait."
+}
