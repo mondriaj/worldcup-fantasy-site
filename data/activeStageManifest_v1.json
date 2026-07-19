@@ -91,6 +91,7 @@
     "teamBuilderGoldenFinalRound": "scripts/validateTeamBuilderGoldenFinalRoundV1.mjs",
     "teamBuilderSharedModelHelpers": "scripts/validateTeamBuilderSharedModelHelpersV1.mjs",
     "teamBuilderEligibilityHelpers": "scripts/validateTeamBuilderEligibilityHelpersV1.mjs",
+    "teamBuilderOptimizerUtilities": "scripts/validateTeamBuilderOptimizerUtilitiesV1.mjs",
     "teamBuilderBrowserEquivalence": "scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs",
     "finalRoundBrowserContentContract": "scripts/validateFinalRoundBrowserContentContractV1.mjs",
     "eligiblePlayers": "scripts/validateFinalRoundEligiblePlayersV1.mjs",
@@ -136,6 +137,7 @@
       { "id": "team_builder_golden_final_round", "command": "node scripts/validateTeamBuilderGoldenFinalRoundV1.mjs" },
       { "id": "team_builder_shared_model_helpers", "command": "node scripts/validateTeamBuilderSharedModelHelpersV1.mjs" },
       { "id": "team_builder_eligibility_helpers", "command": "node scripts/validateTeamBuilderEligibilityHelpersV1.mjs" },
+      { "id": "team_builder_optimizer_utilities", "command": "node scripts/validateTeamBuilderOptimizerUtilitiesV1.mjs" },
       { "id": "eligible_players", "command": "node scripts/validateFinalRoundEligiblePlayersV1.mjs" },
       { "id": "fixture_exposure_strategy", "command": "node scripts/validateFinalRoundFixtureExposureStrategyV1.mjs" },
       { "id": "team_builder_final_round", "command": "node scripts/validateTeamBuilderFinalRoundV1.mjs" },
@@ -179,6 +181,7 @@
       "scripts/validateTeamBuilderGoldenFinalRoundV1.mjs",
       "scripts/validateTeamBuilderSharedModelHelpersV1.mjs",
       "scripts/validateTeamBuilderEligibilityHelpersV1.mjs",
+      "scripts/validateTeamBuilderOptimizerUtilitiesV1.mjs",
       "scripts/validateActiveStageManifestV1.mjs",
       "scripts/lib/readActiveStageManifest.mjs"
     ],

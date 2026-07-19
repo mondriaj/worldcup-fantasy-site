@@ -1,0 +1,221 @@
+{
+  "schema_version": "team_builder_optimizer_utilities_qa_v1",
+  "generated_at": "2026-07-19T00:43:18.277Z",
+  "status": "pass",
+  "checks_run": 16,
+  "checks": [
+    {
+      "id": "golden_squad_satisfies_budget_limit",
+      "status": "pass",
+      "details": {
+        "used": 94.8,
+        "limit": 105,
+        "remaining": 10.2,
+        "isWithinBudget": true,
+        "display": "94.8 / 105"
+      }
+    },
+    {
+      "id": "golden_squad_budget_used_matches",
+      "status": "pass",
+      "details": {
+        "used": 94.8,
+        "expected": 94.8
+      }
+    },
+    {
+      "id": "golden_squad_team_counts_match",
+      "status": "pass",
+      "details": {
+        "actual": {
+          "Argentina": 8,
+          "Spain": 5,
+          "France": 1,
+          "England": 1
+        },
+        "expected": {
+          "Argentina": 8,
+          "Spain": 5,
+          "France": 1,
+          "England": 1
+        }
+      }
+    },
+    {
+      "id": "golden_squad_fixture_counts_match",
+      "status": "pass",
+      "details": {
+        "actual": {
+          "final": 13,
+          "third_place": 2
+        },
+        "expected": {
+          "final": 13,
+          "third_place": 2
+        }
+      }
+    },
+    {
+      "id": "golden_squad_position_counts_match",
+      "status": "pass",
+      "details": {
+        "actual": {
+          "GK": 2,
+          "DEF": 5,
+          "MID": 5,
+          "FWD": 3
+        },
+        "expected": {
+          "GK": 2,
+          "DEF": 5,
+          "MID": 5,
+          "FWD": 3
+        }
+      }
+    },
+    {
+      "id": "golden_squad_captain_vice_valid",
+      "status": "pass",
+      "details": {
+        "captain": "Mikel Oyarzabal",
+        "viceCaptain": "Leandro Paredes",
+        "captainInSelectedSquad": true,
+        "viceCaptainInSelectedSquad": true,
+        "captainInStarters": true,
+        "viceCaptainInStarters": true,
+        "captainDifferentFromVice": true,
+        "captainIsNotGoalkeeper": true,
+        "viceCaptainIsNotGoalkeeper": true
+      }
+    },
+    {
+      "id": "golden_squad_has_no_eliminated_active_players",
+      "status": "pass",
+      "details": {
+        "eligibleTeams": [
+          "France",
+          "England",
+          "Spain",
+          "Argentina"
+        ]
+      }
+    },
+    {
+      "id": "utility_functions_are_deterministic",
+      "status": "pass",
+      "details": {
+        "leftStatus": "pass",
+        "rightStatus": "pass"
+      }
+    },
+    {
+      "id": "utility_functions_do_not_mutate_inputs",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "malformed_rows_fail_with_useful_error",
+      "status": "pass",
+      "details": {
+        "malformedRowsError": "Invalid Team Builder squad: expected a selectedSquad array or squad row array."
+      }
+    },
+    {
+      "id": "malformed_budget_fails_with_useful_error",
+      "status": "pass",
+      "details": {
+        "malformedBudgetError": "Invalid Team Builder budget: expected a finite budget limit."
+      }
+    },
+    {
+      "id": "helper_output_matches_artifact_summary",
+      "status": "pass",
+      "details": {
+        "constraintStatus": "pass",
+        "goldenComparisonStatus": "pass"
+      }
+    },
+    {
+      "id": "browser_helper_summary_matches_module",
+      "status": "pass",
+      "details": {
+        "browserHelperAvailable": true
+      }
+    },
+    {
+      "id": "browser_helper_constraints_match_module",
+      "status": "pass",
+      "details": {
+        "browserHelperAvailable": true
+      }
+    },
+    {
+      "id": "position_normalizer_handles_display_and_code_values",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "summary_counts_match_existing_artifact_counts",
+      "status": "pass",
+      "details": {
+        "teamCounts": {
+          "Argentina": 8,
+          "Spain": 5,
+          "France": 1,
+          "England": 1
+        },
+        "fixtureCounts": {
+          "final": 13,
+          "third_place": 2
+        }
+      }
+    }
+  ],
+  "summary": {
+    "budget": {
+      "used": 94.8,
+      "limit": 105,
+      "remaining": 10.2,
+      "isWithinBudget": true,
+      "display": "94.8 / 105"
+    },
+    "positionCounts": {
+      "GK": 2,
+      "DEF": 5,
+      "MID": 5,
+      "FWD": 3
+    },
+    "teamCounts": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "fixtureCounts": {
+      "final": 13,
+      "third_place": 2
+    },
+    "captain": "Mikel Oyarzabal",
+    "viceCaptain": "Leandro Paredes",
+    "selectedCount": 15,
+    "selectedCountByTeamFromRows": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "selectedCountByFixtureFromRows": {
+      "final": 13,
+      "third_place": 2
+    },
+    "eligibleTeams": [
+      "France",
+      "England",
+      "Spain",
+      "Argentina"
+    ],
+    "optimizerBehaviorChanged": false,
+    "scriptJsWiredIntoOptimizerLoop": false
+  },
+  "failed_checks": []
+}

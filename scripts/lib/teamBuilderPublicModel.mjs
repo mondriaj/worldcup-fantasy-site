@@ -423,6 +423,134 @@ export function getTeamBuilderObjectiveSummary(artifact) {
   };
 }
 
+export function getTeamBuilderSquadRows(squadOrArtifact, label = "Team Builder squad") {
+  if (Array.isArray(squadOrArtifact)) {
+    return squadOrArtifact;
+  }
+
+  if (Array.isArray(squadOrArtifact?.selectedSquad)) {
+    return squadOrArtifact.selectedSquad;
+  }
+
+  throw new Error(`Invalid ${label}: expected a selectedSquad array or squad row array.`);
+}
+
+export function normalizeTeamBuilderPositionCode(value) {
+  const normalized = normalizeText(value);
+  if (normalized === "gk" || normalized === "goalkeeper") return "GK";
+  if (normalized === "def" || normalized === "defender") return "DEF";
+  if (normalized === "mid" || normalized === "midfielder") return "MID";
+  if (normalized === "fwd" || normalized === "forward") return "FWD";
+  return String(value || "").trim().toUpperCase() || "UNKNOWN";
+}
+
+export function getTeamBuilderPositionCounts(squadOrArtifact) {
+  return getTeamBuilderSquadRows(squadOrArtifact).reduce((counts, row) => {
+    const key = normalizeTeamBuilderPositionCode(row?.position || row?.official_fantasy_position);
+    counts[key] = (counts[key] || 0) + 1;
+    return counts;
+  }, { GK: 0, DEF: 0, MID: 0, FWD: 0 });
+}
+
+export function getTeamBuilderBudgetFeasibility(squadOrArtifact, options = {}) {
+  const rows = getTeamBuilderSquadRows(squadOrArtifact);
+  const used = Number(rows.reduce((sum, row) => sum + (Number(row?.price) || 0), 0).toFixed(1));
+  const limit = Number(
+    options.budgetLimit ??
+    squadOrArtifact?.constraintsUsed?.initial_budget ??
+    squadOrArtifact?.summary?.budget_limit
+  );
+  const tolerance = Number(options.tolerance ?? 0.001);
+
+  if (!Number.isFinite(limit)) {
+    throw new Error("Invalid Team Builder budget: expected a finite budget limit.");
+  }
+
+  return {
+    used,
+    limit,
+    remaining: Number((limit - used).toFixed(1)),
+    isWithinBudget: used <= limit + tolerance,
+    display: budgetDisplay(used, limit)
+  };
+}
+
+function sameCountMap(left = {}, right = {}) {
+  const keys = new Set([...Object.keys(left || {}), ...Object.keys(right || {})]);
+  return [...keys].every((key) => Number(left?.[key] || 0) === Number(right?.[key] || 0));
+}
+
+export function getTeamBuilderCaptainViceValidation(artifact) {
+  const selectedRows = getTeamBuilderSquadRows(artifact);
+  const starterRows = Array.isArray(artifact?.starters) ? artifact.starters : [];
+  const captain = artifact?.captain || {};
+  const viceCaptain = artifact?.viceCaptain || {};
+  const captainName = captain.name || artifact?.summary?.captain || null;
+  const viceCaptainName = viceCaptain.name || artifact?.summary?.viceCaptain || null;
+  const selectedNames = new Set(selectedRows.map((row) => row?.name).filter(Boolean));
+  const starterNames = new Set(starterRows.map((row) => row?.name).filter(Boolean));
+  const selectedByName = new Map(selectedRows.map((row) => [row?.name, row]).filter(([name]) => Boolean(name)));
+  const captainRow = selectedByName.get(captainName);
+  const viceCaptainRow = selectedByName.get(viceCaptainName);
+
+  return {
+    captain: captainName,
+    viceCaptain: viceCaptainName,
+    captainInSelectedSquad: Boolean(captainName && selectedNames.has(captainName)),
+    viceCaptainInSelectedSquad: Boolean(viceCaptainName && selectedNames.has(viceCaptainName)),
+    captainInStarters: Boolean(captainName && starterNames.has(captainName)),
+    viceCaptainInStarters: Boolean(viceCaptainName && starterNames.has(viceCaptainName)),
+    captainDifferentFromVice: Boolean(captainName && viceCaptainName && captainName !== viceCaptainName),
+    captainIsNotGoalkeeper: normalizeTeamBuilderPositionCode(captainRow?.position || captainRow?.official_fantasy_position) !== "GK",
+    viceCaptainIsNotGoalkeeper: normalizeTeamBuilderPositionCode(viceCaptainRow?.position || viceCaptainRow?.official_fantasy_position) !== "GK"
+  };
+}
+
+export function getTeamBuilderSquadConstraintSummary(artifact, options = {}) {
+  const rows = getTeamBuilderSquadRows(artifact);
+  const budget = getTeamBuilderBudgetFeasibility(artifact, options);
+
+  return {
+    selectedCount: rows.length,
+    budget,
+    positionCounts: getTeamBuilderPositionCounts(rows),
+    teamCounts: getTeamBuilderTeamCounts({ selectedSquad: rows }),
+    fixtureCounts: getTeamBuilderFixtureCounts({ selectedSquad: rows }),
+    captain: getTeamBuilderCaptainViceValidation(artifact)
+  };
+}
+
+export function validateTeamBuilderSelectedSquadConstraints(artifact, options = {}) {
+  const summary = getTeamBuilderSquadConstraintSummary(artifact, options);
+  const positionRequirements = options.positionRequirements || artifact?.constraintsUsed?.position_requirements || null;
+  const expectedTeamCounts = options.expectedTeamCounts || artifact?.summary?.selected_count_by_team || null;
+  const expectedFixtureCounts = options.expectedFixtureCounts || artifact?.summary?.selected_count_by_fixture || null;
+  const squadSize = Number(options.squadSize ?? 15);
+  const countryLimit = Number(options.countryLimit ?? artifact?.constraintsUsed?.country_limit ?? Infinity);
+  const captain = summary.captain;
+  const checks = {
+    selected_count_matches: !Number.isFinite(squadSize) || summary.selectedCount === squadSize,
+    budget_within_limit: summary.budget.isWithinBudget,
+    position_counts_match: positionRequirements ? sameCountMap(summary.positionCounts, positionRequirements) : true,
+    team_counts_match: expectedTeamCounts ? sameCountMap(summary.teamCounts, expectedTeamCounts) : true,
+    fixture_counts_match: expectedFixtureCounts ? sameCountMap(summary.fixtureCounts, expectedFixtureCounts) : true,
+    country_limit_satisfied: Object.values(summary.teamCounts).every((count) => Number(count || 0) <= countryLimit),
+    captain_vice_valid: captain.captainInSelectedSquad &&
+      captain.viceCaptainInSelectedSquad &&
+      captain.captainInStarters &&
+      captain.viceCaptainInStarters &&
+      captain.captainDifferentFromVice &&
+      captain.captainIsNotGoalkeeper &&
+      captain.viceCaptainIsNotGoalkeeper
+  };
+
+  return {
+    status: Object.values(checks).every(Boolean) ? "pass" : "fail",
+    checks,
+    summary
+  };
+}
+
 export function selectedSquadSummary(artifact) {
   const budget = getTeamBuilderBudgetSummary(artifact);
   const captain = getTeamBuilderCaptainSummary(artifact);

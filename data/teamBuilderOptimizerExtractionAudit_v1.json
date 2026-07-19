@@ -1,0 +1,146 @@
+{
+  "schema_version": "team_builder_optimizer_extraction_audit_v1",
+  "generated_at": "2026-07-19T00:43:18.277Z",
+  "status": "green",
+  "scope": "Audit optimizer flow and extract only read-only selected-squad optimizer utility helpers.",
+  "public_behavior_change": false,
+  "model_outputs_changed": false,
+  "optimizer_behavior_changed": false,
+  "script_js_line_count_before": 15273,
+  "script_js_line_count_after": 15273,
+  "script_js_optimizer_loop_wired_to_new_helpers": false,
+  "optimizer_flow": {
+    "input_artifacts": [
+      "playersData.js",
+      "fantasyRulesData.js",
+      "fantasyPoolRecommendationsData.js",
+      "fantasyPoolMatchdayProjectionsData.js",
+      "fantasyPoolFinanceMetricsData.js",
+      "fantasyPoolOfficialDataStatusData.js",
+      "finalRoundFixtureAuthorityData.js",
+      "teamBuilderFinalRoundArtifactData.js",
+      "teamBuilderPublicHelpers.js"
+    ],
+    "active_candidate_pool": "script.js playerAllowedForActiveMatchday, priceMatchesFilters, playerMatchesBuilderCountryFilter, playerMatchesBuilderRiskControls, trustFilteredPlayers, optimizerCandidatePools",
+    "user_locks": "lockedPlayerIds and getValidLockedSquadPlayers keep valid locks first while enforcing position and country limits.",
+    "exclusions": "excludedPlayerIds are checked before candidate pool inclusion.",
+    "budget_handling": "initialBudget, optimizerPriceFloorsByPosition, optimizerCheapestRemainingCost, optimizerCanAffordCompletion, and optimizerStateIsValidFullSquad.",
+    "position_constraints": "squadRequirements, tactics, countsByPosition, optimizerRemainingNeeds, optimizerSlotOrder, positionsMatchRequirements.",
+    "team_constraints": "countryCountsFromPlayers, canAddCountry, countryLimitViolations.",
+    "fixture_diversification": "portfolioOptimizerAdjustment and strategy scoring profiles inside optimizerStateRank.",
+    "optionality_adjustment": "Final Round artifact/objective summary contains optionality; live optimizer scoring remains in script.js strategy profile and portfolio logic.",
+    "third_place_risk_adjustment": "playerMatchesBuilderRiskControls, strategy scoring profile, role/risk fields, and portfolio analytics remain in script.js.",
+    "role_trust_adjustment": "activeTrustMode, trustFilteredPlayers, trustAdjustedScore, qaReviewCount, and risk controls remain in script.js.",
+    "captain_vice_selection": "optimizerStateRank uses captainRecommendationScore for rank bonus; display/user captain and vice behavior remain in script.js.",
+    "objective_scoring": "teamBuilderStrategyPlayerScore, optimizerStateRank, portfolioOptimizerAdjustment, and strategy profiles remain in script.js.",
+    "tie_breaking": "sortPlayersForBuilderStrategy, optimizerCandidatePools sorted lists, uniqueOptimizerCandidates, pruneOptimizerStates, and optimizerStateRank remain in script.js.",
+    "final_squad_rendering": "generatedFinalRoundBalancedSquad uses the artifact by default; renderTeam, renderRuleChecks, renderPortfolioAnalytics, and renderSquadStrategyReport remain in script.js."
+  },
+  "classification": {
+    "already_covered_by_shared_helpers": [
+      "artifact summary",
+      "budget display",
+      "team counts",
+      "fixture counts",
+      "captain and vice labels",
+      "objective summary",
+      "fixture-authority eligibility",
+      "active Final Round projection availability"
+    ],
+    "safe_tiny_utility_extraction_now": [
+      "selected squad row reader",
+      "position code normalization",
+      "position count summary",
+      "budget feasibility summary",
+      "captain/vice membership validation",
+      "selected squad constraint summary",
+      "selected squad constraint validation"
+    ],
+    "safe_extraction_later_after_more_tests": [
+      "display-only warning message assembly",
+      "portfolio report display summaries",
+      "non-ranking constraint explanation copy"
+    ],
+    "risky_optimizer_core_logic": [
+      "optimizerCandidatePools",
+      "optimizerStateRank",
+      "pruneOptimizerStates",
+      "buildSuggestedSquad",
+      "teamBuilderStrategyPlayerScore",
+      "portfolioOptimizerAdjustment",
+      "captainRecommendationScore",
+      "trustFilteredPlayers",
+      "playerMatchesBuilderRiskControls"
+    ],
+    "should_remain_in_script_js": [
+      "DOM/user state reads",
+      "locks and avoids",
+      "price filters",
+      "country filter UI",
+      "risk controls",
+      "optimizer path search",
+      "rendering",
+      "saved squad interactions"
+    ],
+    "duplicated_logic": [
+      "selected squad budget/count summaries now also available through shared helper utilities for validators",
+      "browser wrapper mirrors Node helper utilities"
+    ],
+    "dead_or_legacy_logic": []
+  },
+  "direct_answers": {
+    "where_is_optimizer_loop": "script.js buildSuggestedSquad around lines 12944-13035, with supporting state/pool/rank helpers around lines 12470-12932.",
+    "functions_select_or_reorder_candidates": [
+      "sortPlayersForBuilderStrategy",
+      "getValidLockedSquadPlayers",
+      "chooseStartersFromSquad",
+      "optimizerCandidatePools",
+      "uniqueOptimizerCandidates",
+      "pruneOptimizerStates",
+      "buildSuggestedSquad"
+    ],
+    "functions_affect_selected_squad": [
+      "playerAllowedForActiveMatchday",
+      "priceMatchesFilters",
+      "playerMatchesBuilderCountryFilter",
+      "playerMatchesBuilderRiskControls",
+      "trustFilteredPlayers",
+      "teamBuilderStrategyPlayerScore",
+      "optimizerStateRank",
+      "optimizerCanAffordCompletion",
+      "optimizerStateIsValidFullSquad",
+      "buildSuggestedSquad",
+      "generatedFinalRoundBalancedSquad"
+    ],
+    "functions_affect_only_summaries_display": [
+      "getTeamBuilderBudgetSummary",
+      "getTeamBuilderTeamCounts",
+      "getTeamBuilderFixtureCounts",
+      "getTeamBuilderCaptainSummary",
+      "getTeamBuilderObjectiveSummary",
+      "getTeamBuilderSquadConstraintSummary",
+      "validateTeamBuilderSelectedSquadConstraints",
+      "renderWarning",
+      "renderPortfolioAnalytics",
+      "renderSquadStrategyReport"
+    ],
+    "pure_and_deterministic_functions": [
+      "new selected-squad utility helpers in scripts/lib/teamBuilderPublicModel.mjs and teamBuilderPublicHelpers.js",
+      "artifact summary helpers",
+      "fixture-authority eligibility helpers"
+    ],
+    "dom_or_user_state_readers": [
+      "activeBuilderStrategyOption",
+      "builderRiskSettings",
+      "activeTrustMode",
+      "priceFilterValue",
+      "defaultFinalRoundArtifactInputsActive",
+      "buildSuggestedSquad"
+    ],
+    "mutates_candidates_or_artifacts": "The new helpers do not mutate inputs. Existing optimizer state helpers create new state objects; UI render functions mutate DOM and app state.",
+    "budget_positions_team_constraints": "Budget, positions, and country limits are enforced in optimizerStateIsValidFullSquad, optimizerCanAffordCompletion, optimizerRemainingNeeds, optimizerSlotOrder, canAddCountry, and countryLimitViolations.",
+    "locks": "getValidLockedSquadPlayers filters lockedPlayerIds and preserves valid locked players before the path search.",
+    "captain_vice": "optimizerStateRank uses captainRecommendationScore for ranking bonus; captain/vice validation is now available as read-only helper output but not wired into selection.",
+    "smallest_safe_extraction": "Read-only selected-squad constraint utility helpers for audit and validation only."
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "schema_version": "team_builder_optimizer_utilities_no_behavior_change_v1",
+  "generated_at": "2026-07-19T00:43:18.277Z",
+  "status": "pass",
+  "public_behavior_unchanged": true,
+  "model_outputs_unchanged": true,
+  "optimizer_behavior_changed": false,
+  "script_js_optimizer_loop_changed": false,
+  "script_js_line_count_before": 15273,
+  "script_js_line_count_after": 15273,
+  "public_copy_changed": false,
+  "public_data_wrappers_changed": false,
+  "generated_team_builder_artifact_changed": false,
+  "recommendations_changed": false,
+  "projections_changed": false,
+  "score_predictions_changed": false,
+  "fixtures_changed": false,
+  "active_candidate_count_changed": false,
+  "active_eligible_teams": [
+    "France",
+    "England",
+    "Spain",
+    "Argentina"
+  ],
+  "protected_values": {
+    "budget": "94.8 / 105",
+    "captain": "Mikel Oyarzabal",
+    "viceCaptain": "Leandro Paredes",
+    "teamCounts": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "fixtureCounts": {
+      "final": 13,
+      "third_place": 2
+    },
+    "rawProjectedPoints": 59.552,
+    "optionalityScore": 5.291,
+    "compositeScore": 1014.93,
+    "selectedSquad": [
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Pau Cubarsí",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Álex Baena",
+      "Fabián Ruiz",
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal"
+    ]
+  },
+  "optimizer_utility_validator": {
+    "status": "pass",
+    "checks_run": 16,
+    "budget": "94.8 / 105",
+    "selected_count": 15,
+    "position_counts": {
+      "GK": 2,
+      "DEF": 5,
+      "MID": 5,
+      "FWD": 3
+    }
+  },
+  "unchanged_model_output_paths": [
+    "data/teamBuilderFinalRoundArtifact_v1.json",
+    "teamBuilderFinalRoundArtifactData.js",
+    "fantasyPoolRecommendationsData.js",
+    "fantasyPoolMatchdayProjectionsData.js",
+    "fantasyPoolScorePredictionsData.js"
+  ],
+  "public_refereeing_conspiracy_exposure": false,
+  "notes": [
+    "New helpers are read-only utility functions for validators and audits.",
+    "script.js was not wired into the new helpers, so the live optimizer loop remains unchanged.",
+    "Public helper wrapper changed only to mirror Node utility helpers for browser-wrapper parity tests."
+  ]
+}
