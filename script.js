@@ -9513,7 +9513,43 @@ function incrementCountryCount(countryCounts, player) {
 }
 
 function positionsMatchRequirements(positionCounts, requirements) {
+  if (typeof TEAM_BUILDER_PUBLIC_HELPERS.validateTeamBuilderPositionConstraints === "function") {
+    return TEAM_BUILDER_PUBLIC_HELPERS.validateTeamBuilderPositionConstraints([], {
+      positionCounts,
+      positionRequirements: requirements
+    }).status === "pass";
+  }
+
   return positionOrder.every((position) => positionCounts[position] === requirements[position]);
+}
+
+function teamBuilderConstraintRows(playerList = []) {
+  return playerList.map((player) => ({
+    ...player,
+    id: player.id,
+    official_fantasy_player_id: player.official_fantasy_player_id || player.id,
+    country: playerCountryKey(player),
+    position: player.position,
+    price: value(player.price),
+    fixture_stage: activeProjection(player)?.fixture_stage || player.fixture_stage || "unknown"
+  }));
+}
+
+function teamBuilderSharedSquadConstraintReport(squad, options = {}) {
+  if (typeof TEAM_BUILDER_PUBLIC_HELPERS.validateTeamBuilderSquadConstraints !== "function") {
+    return null;
+  }
+
+  return TEAM_BUILDER_PUBLIC_HELPERS.validateTeamBuilderSquadConstraints(teamBuilderConstraintRows(squad), {
+    squadSize: squadTotalPlayers,
+    budgetLimit: initialBudget,
+    positionRequirements: squadRequirements,
+    countryLimit: groupStageCountryLimit,
+    eligibleTeamKeys: getActiveStageEligibleTeams(activeMatchdayId),
+    activeStage: activeMatchdayId,
+    projectionResolver: projectionForPlayerMatchday,
+    ...options
+  });
 }
 
 function validationItem(label, passed, detail) {
@@ -9529,33 +9565,46 @@ function buildRuleValidations(starters, bench, tacticName) {
   const startingCounts = countsByPosition(starters);
   const tacticRequirements = tactics[tacticName];
   const formationAllowed = Boolean(tacticRequirements) && positionsMatchRequirements(startingCounts, tacticRequirements);
+  const constraintReport = teamBuilderSharedSquadConstraintReport(squad, {
+    positionCounts,
+    teamCounts: countryCounts,
+    starterRequirements: tacticRequirements,
+    starters: teamBuilderConstraintRows(starters),
+    bench: teamBuilderConstraintRows(bench),
+    activeStage: "group_stage_full"
+  });
+  const sharedChecks = constraintReport?.checks || {};
+  const squadSizePassed = sharedChecks.squad_size?.status === "pass";
+  const positionsPassed = sharedChecks.positions?.status === "pass";
+  const budgetPassed = sharedChecks.budget?.status === "pass";
+  const countryPassed = sharedChecks.team_limit?.status === "pass";
 
   return [
     validationItem(
       "Squad size",
-      squad.length === squadTotalPlayers,
-      squad.length === squadTotalPlayers
+      squadSizePassed,
+      squadSizePassed
         ? `Squad has exactly ${squadTotalPlayers} players.`
         : `Squad has ${squad.length} of ${squadTotalPlayers} players.`
     ),
     validationItem(
       "Positions",
-      positionsMatchRequirements(positionCounts, squadRequirements),
-      positionsMatchRequirements(positionCounts, squadRequirements)
+      positionsPassed,
+      positionsPassed
         ? `Position counts match ${compactPositionRequirementText()}.`
         : `Current positions are ${compactPositionRequirementText(positionCounts)}; required is ${compactPositionRequirementText()}.`
     ),
     validationItem(
       "Budget",
-      totalPrice <= initialBudget + 0.001,
-      totalPrice <= initialBudget + 0.001
+      budgetPassed,
+      budgetPassed
         ? `Total price is ${budgetText(totalPrice)} of ${budgetText(initialBudget)}.`
         : `Total price is ${budgetText(totalPrice)}, which is over the ${budgetText(initialBudget)} budget.`
     ),
     validationItem(
       "Country limit",
-      countryViolations.length === 0,
-      countryViolations.length === 0
+      countryPassed,
+      countryPassed
         ? `No country has more than ${groupStageCountryLimit} players.`
         : `${countryViolations.map(([countryKey, count]) => `${countryCountLabel(countryKey)} has ${count}`).join(", ")}; max is ${groupStageCountryLimit}.`
     ),
@@ -12561,6 +12610,21 @@ function optimizerStateWithPlayer(state, player, measure) {
 }
 
 function optimizerStateIsValidFullSquad(state) {
+  const constraintReport = teamBuilderSharedSquadConstraintReport(state.squad, {
+    positionCounts: state.positionCounts,
+    teamCounts: state.countryCounts,
+    activeStage: "group_stage_full"
+  });
+
+  if (constraintReport) {
+    return (
+      constraintReport.checks.squad_size.status === "pass" &&
+      constraintReport.checks.budget.status === "pass" &&
+      constraintReport.checks.positions.status === "pass" &&
+      constraintReport.checks.team_limit.status === "pass"
+    );
+  }
+
   return (
     state.squad.length === squadTotalPlayers &&
     state.totalPrice <= initialBudget + 0.001 &&
@@ -13087,12 +13151,26 @@ function generatedFinalRoundBalancedSquad() {
     playerAllowedForActiveMatchday(player, "finalRound") &&
     recordMatchesActiveStageEligibleTeam(player, "finalRound")
   );
-  const artifactHasValidShape =
-    starters.length === startingLineupTotal &&
-    squad.length === squadTotalPlayers &&
-    positionsMatchRequirements(countsByPosition(squad), squadRequirements) &&
-    positionsMatchRequirements(countsByPosition(starters), tactics[artifact.strategy?.formation || "4-3-3"] || {}) &&
-    countryLimitViolations(countryCountsFromPlayers(squad)).length === 0;
+  const formation = artifact.strategy?.formation || "4-3-3";
+  const artifactConstraintReport = teamBuilderSharedSquadConstraintReport(squad, {
+    starters: teamBuilderConstraintRows(starters),
+    bench: teamBuilderConstraintRows(bench),
+    starterSize: startingLineupTotal,
+    benchSize: squadTotalPlayers - startingLineupTotal,
+    starterRequirements: tactics[formation] || {},
+    activeStage: "finalRound"
+  });
+  const artifactHasValidShape = artifactConstraintReport
+    ? artifactConstraintReport.checks.starter_bench_structure.status === "pass" &&
+      artifactConstraintReport.checks.squad_size.status === "pass" &&
+      artifactConstraintReport.checks.positions.status === "pass" &&
+      artifactConstraintReport.checks.team_limit.status === "pass" &&
+      artifactConstraintReport.checks.eligible_teams.status === "pass"
+    : starters.length === startingLineupTotal &&
+      squad.length === squadTotalPlayers &&
+      positionsMatchRequirements(countsByPosition(squad), squadRequirements) &&
+      positionsMatchRequirements(countsByPosition(starters), tactics[formation] || {}) &&
+      countryLimitViolations(countryCountsFromPlayers(squad)).length === 0;
 
   if (!selectedRowsResolved || !finalRoundEligible || !artifactHasValidShape) {
     return null;

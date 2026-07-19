@@ -475,9 +475,167 @@ export function getTeamBuilderBudgetFeasibility(squadOrArtifact, options = {}) {
   };
 }
 
+export function getTeamBuilderRowId(row) {
+  return String(row?.id || row?.player_id || row?.official_fantasy_player_id || row?.name || "").trim();
+}
+
+function normalizeTeamBuilderCountMap(counts = {}) {
+  return Object.entries(counts || {}).reduce((normalized, [key, count]) => {
+    normalized[normalizeTeamBuilderPositionCode(key)] = Number(count || 0);
+    return normalized;
+  }, {});
+}
+
 function sameCountMap(left = {}, right = {}) {
   const keys = new Set([...Object.keys(left || {}), ...Object.keys(right || {})]);
   return [...keys].every((key) => Number(left?.[key] || 0) === Number(right?.[key] || 0));
+}
+
+export function validateTeamBuilderSquadSize(squadOrArtifact, options = {}) {
+  const rows = getTeamBuilderSquadRows(squadOrArtifact);
+  const expected = Number(options.squadSize ?? options.expectedSize ?? 15);
+  const passed = !Number.isFinite(expected) || rows.length === expected;
+
+  return {
+    status: passed ? "pass" : "fail",
+    actual: rows.length,
+    expected,
+    errors: passed ? [] : [`Expected ${expected} Team Builder squad players, found ${rows.length}.`],
+    warnings: []
+  };
+}
+
+export function validateTeamBuilderDuplicatePlayers(squadOrArtifact) {
+  const rows = getTeamBuilderSquadRows(squadOrArtifact);
+  const seen = new Set();
+  const duplicates = [];
+
+  rows.forEach((row) => {
+    const id = getTeamBuilderRowId(row);
+    if (!id) return;
+    if (seen.has(id)) {
+      duplicates.push(id);
+    }
+    seen.add(id);
+  });
+
+  return {
+    status: duplicates.length ? "fail" : "pass",
+    duplicates,
+    errors: duplicates.length ? [`Duplicate Team Builder players found: ${duplicates.join(", ")}.`] : [],
+    warnings: []
+  };
+}
+
+export function validateTeamBuilderBudgetConstraint(squadOrArtifact, options = {}) {
+  const budget = getTeamBuilderBudgetFeasibility(squadOrArtifact, options);
+
+  return {
+    status: budget.isWithinBudget ? "pass" : "fail",
+    ...budget,
+    errors: budget.isWithinBudget ? [] : [`Team Builder squad costs ${budget.display}, over the budget limit.`],
+    warnings: []
+  };
+}
+
+export function validateTeamBuilderPositionConstraints(squadOrArtifact, options = {}) {
+  const counts = options.positionCounts
+    ? normalizeTeamBuilderCountMap(options.positionCounts)
+    : getTeamBuilderPositionCounts(squadOrArtifact);
+  const requirements = normalizeTeamBuilderCountMap(options.positionRequirements || {});
+  const exact = options.exact !== false;
+  const checkedPositions = Object.keys(requirements);
+  const missingRequirements = checkedPositions.length === 0;
+  const mismatches = checkedPositions.filter((position) => {
+    const actual = Number(counts[position] || 0);
+    const expected = Number(requirements[position] || 0);
+    return exact ? actual !== expected : actual > expected;
+  });
+  const passed = !missingRequirements && mismatches.length === 0;
+
+  return {
+    status: passed ? "pass" : "fail",
+    counts,
+    requirements,
+    exact,
+    mismatches,
+    errors: passed ? [] : [
+      missingRequirements
+        ? "Missing Team Builder position requirements."
+        : `Team Builder position constraints failed for ${mismatches.join(", ")}.`
+    ],
+    warnings: []
+  };
+}
+
+export function validateTeamBuilderTeamConstraint(squadOrArtifact, options = {}) {
+  const rows = getTeamBuilderSquadRows(squadOrArtifact);
+  const counts = options.teamCounts || getTeamBuilderTeamCounts({ selectedSquad: rows });
+  const countryLimit = Number(options.countryLimit ?? Infinity);
+  const expectedTeamCounts = options.expectedTeamCounts || null;
+  const limitViolations = Object.entries(counts)
+    .filter(([, count]) => Number(count || 0) > countryLimit)
+    .map(([team, count]) => ({ team, count: Number(count || 0), limit: countryLimit }));
+  const expectedCountsMatch = expectedTeamCounts ? sameCountMap(counts, expectedTeamCounts) : true;
+  const passed = limitViolations.length === 0 && expectedCountsMatch;
+
+  return {
+    status: passed ? "pass" : "fail",
+    counts,
+    countryLimit,
+    expectedTeamCounts,
+    limitViolations,
+    expectedCountsMatch,
+    errors: [
+      ...limitViolations.map((entry) => `${entry.team} has ${entry.count}; max is ${entry.limit}.`),
+      expectedCountsMatch ? "" : "Team Builder team counts do not match expected counts."
+    ].filter(Boolean),
+    warnings: []
+  };
+}
+
+export function validateTeamBuilderFixtureConstraint(squadOrArtifact, options = {}) {
+  const rows = getTeamBuilderSquadRows(squadOrArtifact);
+  const counts = options.fixtureCounts || getTeamBuilderFixtureCounts({ selectedSquad: rows });
+  const expectedFixtureCounts = options.expectedFixtureCounts || null;
+  const expectedCountsMatch = expectedFixtureCounts ? sameCountMap(counts, expectedFixtureCounts) : true;
+
+  return {
+    status: expectedCountsMatch ? "pass" : "fail",
+    counts,
+    expectedFixtureCounts,
+    errors: expectedCountsMatch ? [] : ["Team Builder fixture counts do not match expected counts."],
+    warnings: []
+  };
+}
+
+export function validateTeamBuilderEligibleTeamsConstraint(squadOrArtifact, options = {}) {
+  const rows = getTeamBuilderSquadRows(squadOrArtifact);
+  const eligibleTeamKeys = options.eligibleTeamKeys || (
+    options.fixtureAuthority ? eligibleTeamKeysFromFixtureAuthority(options.fixtureAuthority) : null
+  );
+  const activeStage = options.activeStage || "finalRound";
+  const rejected = rows
+    .map((row) => ({ row, decision: explainTeamBuilderEligibilityDecision(row, {
+      eligibleTeamKeys,
+      activeStage,
+      projectionResolver: options.projectionResolver
+    }) }))
+    .filter(({ decision }) => !decision.eligible);
+
+  return {
+    status: rejected.length ? "fail" : "pass",
+    rejected: rejected.map(({ row, decision }) => ({
+      id: getTeamBuilderRowId(row),
+      name: row?.name || row?.display_name || null,
+      team: row?.country || row?.team || row?.team_id || null,
+      reason: decision.reason
+    })),
+    errors: rejected.length
+      ? [`Ineligible Team Builder players found: ${rejected.slice(0, 5).map(({ row }) => row?.name || getTeamBuilderRowId(row) || "unknown").join(", ")}.`]
+      : [],
+    warnings: []
+  };
 }
 
 export function getTeamBuilderCaptainViceValidation(artifact) {
@@ -506,6 +664,103 @@ export function getTeamBuilderCaptainViceValidation(artifact) {
   };
 }
 
+export function validateTeamBuilderCaptainVice(artifact, options = {}) {
+  const candidateArtifact = {
+    selectedSquad: getTeamBuilderSquadRows(artifact),
+    starters: Array.isArray(options.starters) ? options.starters : artifact?.starters,
+    captain: options.captain ? { name: options.captain } : artifact?.captain,
+    viceCaptain: options.viceCaptain ? { name: options.viceCaptain } : artifact?.viceCaptain,
+    summary: {
+      ...(artifact?.summary || {}),
+      captain: options.captain ?? artifact?.summary?.captain,
+      viceCaptain: options.viceCaptain ?? artifact?.summary?.viceCaptain
+    }
+  };
+  const validation = getTeamBuilderCaptainViceValidation(candidateArtifact);
+  const checks = {
+    captain_present: Boolean(validation.captain),
+    vice_captain_present: Boolean(validation.viceCaptain),
+    captain_in_selected_squad: validation.captainInSelectedSquad,
+    vice_captain_in_selected_squad: validation.viceCaptainInSelectedSquad,
+    captain_in_starters: validation.captainInStarters,
+    vice_captain_in_starters: validation.viceCaptainInStarters,
+    captain_different_from_vice: validation.captainDifferentFromVice,
+    captain_is_not_goalkeeper: validation.captainIsNotGoalkeeper,
+    vice_captain_is_not_goalkeeper: validation.viceCaptainIsNotGoalkeeper
+  };
+  const failed = Object.entries(checks).filter(([, passed]) => !passed).map(([id]) => id);
+
+  return {
+    status: failed.length ? "fail" : "pass",
+    ...validation,
+    checks,
+    errors: failed.map((id) => `Captain/vice constraint failed: ${id}.`),
+    warnings: []
+  };
+}
+
+export function validateTeamBuilderLockedPlayersPresent(squadOrArtifact, options = {}) {
+  const rows = getTeamBuilderSquadRows(squadOrArtifact);
+  const rowIds = new Set(rows.map(getTeamBuilderRowId).filter(Boolean));
+  const lockedIds = [...(options.lockedPlayerIds || [])].map(String);
+  const missing = lockedIds.filter((id) => !rowIds.has(id));
+
+  return {
+    status: missing.length ? "fail" : "pass",
+    lockedIds,
+    missing,
+    errors: missing.length ? [`Locked Team Builder players missing: ${missing.join(", ")}.`] : [],
+    warnings: []
+  };
+}
+
+export function validateTeamBuilderExcludedPlayersAbsent(squadOrArtifact, options = {}) {
+  const rows = getTeamBuilderSquadRows(squadOrArtifact);
+  const excludedIds = new Set([...(options.excludedPlayerIds || [])].map(String));
+  const present = rows
+    .map((row) => ({ id: getTeamBuilderRowId(row), name: row?.name || row?.display_name || null }))
+    .filter((row) => row.id && excludedIds.has(row.id));
+
+  return {
+    status: present.length ? "fail" : "pass",
+    excludedIds: [...excludedIds],
+    present,
+    errors: present.length ? [`Excluded Team Builder players present: ${present.map((row) => row.name || row.id).join(", ")}.`] : [],
+    warnings: []
+  };
+}
+
+export function validateTeamBuilderStarterBenchStructure({ starters = [], bench = [] } = {}, options = {}) {
+  const starterSize = Number(options.starterSize ?? 11);
+  const benchSize = Number(options.benchSize ?? 4);
+  const starterRequirements = options.starterRequirements || null;
+  const benchRequirements = options.benchRequirements || null;
+  const starterSizePass = starters.length === starterSize;
+  const benchSizePass = bench.length === benchSize;
+  const starterPositions = starterRequirements
+    ? validateTeamBuilderPositionConstraints(starters, { positionRequirements: starterRequirements })
+    : { status: "pass", errors: [], warnings: [] };
+  const benchPositions = benchRequirements
+    ? validateTeamBuilderPositionConstraints(bench, { positionRequirements: benchRequirements })
+    : { status: "pass", errors: [], warnings: [] };
+  const passed = starterSizePass && benchSizePass && starterPositions.status === "pass" && benchPositions.status === "pass";
+
+  return {
+    status: passed ? "pass" : "fail",
+    starterSize: { actual: starters.length, expected: starterSize, passed: starterSizePass },
+    benchSize: { actual: bench.length, expected: benchSize, passed: benchSizePass },
+    starterPositions,
+    benchPositions,
+    errors: [
+      starterSizePass ? "" : `Expected ${starterSize} starters, found ${starters.length}.`,
+      benchSizePass ? "" : `Expected ${benchSize} bench players, found ${bench.length}.`,
+      ...starterPositions.errors,
+      ...benchPositions.errors
+    ].filter(Boolean),
+    warnings: []
+  };
+}
+
 export function getTeamBuilderSquadConstraintSummary(artifact, options = {}) {
   const rows = getTeamBuilderSquadRows(artifact);
   const budget = getTeamBuilderBudgetFeasibility(artifact, options);
@@ -517,6 +772,72 @@ export function getTeamBuilderSquadConstraintSummary(artifact, options = {}) {
     teamCounts: getTeamBuilderTeamCounts({ selectedSquad: rows }),
     fixtureCounts: getTeamBuilderFixtureCounts({ selectedSquad: rows }),
     captain: getTeamBuilderCaptainViceValidation(artifact)
+  };
+}
+
+export function getTeamBuilderConstraintSummary(squadOrArtifact, options = {}) {
+  const rows = getTeamBuilderSquadRows(squadOrArtifact);
+  const budget = getTeamBuilderBudgetFeasibility(squadOrArtifact, options);
+
+  return {
+    selectedCount: rows.length,
+    budget,
+    positionCounts: getTeamBuilderPositionCounts(rows),
+    teamCounts: getTeamBuilderTeamCounts({ selectedSquad: rows }),
+    fixtureCounts: getTeamBuilderFixtureCounts({ selectedSquad: rows }),
+    duplicatePlayers: validateTeamBuilderDuplicatePlayers(rows).duplicates,
+    lockedPlayers: validateTeamBuilderLockedPlayersPresent(rows, options),
+    excludedPlayers: validateTeamBuilderExcludedPlayersAbsent(rows, options)
+  };
+}
+
+export function buildTeamBuilderConstraintReport(checks = {}) {
+  const entries = Object.entries(checks).map(([id, result]) => ({
+    id,
+    status: result?.status === "pass" ? "pass" : "fail",
+    errors: result?.errors || [],
+    warnings: result?.warnings || []
+  }));
+
+  return {
+    status: entries.every((entry) => entry.status === "pass") ? "pass" : "fail",
+    entries,
+    errors: entries.flatMap((entry) => entry.errors.map((error) => ({ id: entry.id, error }))),
+    warnings: entries.flatMap((entry) => entry.warnings.map((warning) => ({ id: entry.id, warning })))
+  };
+}
+
+export function validateTeamBuilderSquadConstraints(squadOrArtifact, options = {}) {
+  const rows = getTeamBuilderSquadRows(squadOrArtifact);
+  const checks = {
+    squad_size: validateTeamBuilderSquadSize(rows, options),
+    duplicate_players: validateTeamBuilderDuplicatePlayers(rows),
+    budget: validateTeamBuilderBudgetConstraint(rows, options),
+    positions: validateTeamBuilderPositionConstraints(rows, options),
+    team_limit: validateTeamBuilderTeamConstraint(rows, options),
+    fixtures: validateTeamBuilderFixtureConstraint(rows, options),
+    eligible_teams: validateTeamBuilderEligibleTeamsConstraint(rows, options),
+    locked_players: validateTeamBuilderLockedPlayersPresent(rows, options),
+    excluded_players: validateTeamBuilderExcludedPlayersAbsent(rows, options)
+  };
+
+  if (options.captain || options.viceCaptain || squadOrArtifact?.captain || squadOrArtifact?.summary?.captain) {
+    checks.captain_vice = validateTeamBuilderCaptainVice(squadOrArtifact, options);
+  }
+
+  if (Array.isArray(options.starters) || Array.isArray(options.bench) || Array.isArray(squadOrArtifact?.starters) || Array.isArray(squadOrArtifact?.bench)) {
+    checks.starter_bench_structure = validateTeamBuilderStarterBenchStructure({
+      starters: options.starters || squadOrArtifact?.starters || [],
+      bench: options.bench || squadOrArtifact?.bench || []
+    }, options);
+  }
+
+  const report = buildTeamBuilderConstraintReport(checks);
+
+  return {
+    ...report,
+    checks,
+    summary: getTeamBuilderConstraintSummary(rows, options)
   };
 }
 

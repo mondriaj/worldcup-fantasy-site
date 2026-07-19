@@ -1,0 +1,160 @@
+{
+  "schema_version": "team_builder_constraint_extraction_audit_v1",
+  "generated_at": "2026-07-19T02:05:00.000Z",
+  "status": "green",
+  "scope": {
+    "public_behavior_changed": false,
+    "model_outputs_changed": false,
+    "optimizer_scoring_changed": false,
+    "candidate_ordering_changed": false,
+    "selected_squad_changed": false,
+    "default_team_builder_artifact_backed": true
+  },
+  "functions_that_reject_invalid_squads": [
+    "script.js getValidLockedSquadPlayers rejects locked players that exceed position/country limits before seeding the optimizer",
+    "script.js optimizerStateIsValidFullSquad rejects incomplete, over-budget, wrong-position, or over-country-limit states after path search",
+    "script.js generatedFinalRoundBalancedSquad rejects an artifact-backed squad when selected rows fail to resolve, active eligibility fails, or shape constraints fail",
+    "script.js swapStarterWithBench rejects starter/bench swaps that create an unsupported formation",
+    "script.js buildRuleValidations marks invalid rendered squads for user-visible rule checks"
+  ],
+  "constraint_blocks": [
+    {
+      "area": "budget limit",
+      "current_functions": ["optimizerStateIsValidFullSquad", "buildSuggestedSquad", "buildRuleValidations", "renderWarning"],
+      "classification": "pure constraint check safe to extract now",
+      "safe_action": "validateTeamBuilderBudgetConstraint and validateTeamBuilderSquadConstraints added; script.js now uses shared helper for full-squad validation and rule-check booleans."
+    },
+    {
+      "area": "position counts",
+      "current_functions": ["positionsMatchRequirements", "optimizerStateIsValidFullSquad", "buildRuleValidations", "generatedFinalRoundBalancedSquad"],
+      "classification": "pure constraint check safe to extract now",
+      "safe_action": "validateTeamBuilderPositionConstraints added and used by positionsMatchRequirements."
+    },
+    {
+      "area": "squad size",
+      "current_functions": ["optimizerStateIsValidFullSquad", "buildRuleValidations", "generatedFinalRoundBalancedSquad"],
+      "classification": "pure constraint check safe to extract now",
+      "safe_action": "validateTeamBuilderSquadSize added and used through validateTeamBuilderSquadConstraints."
+    },
+    {
+      "area": "team caps",
+      "current_functions": ["countryLimitViolations", "canAddCountry", "getValidLockedSquadPlayers", "optimizerStateIsValidFullSquad", "buildRuleValidations"],
+      "classification": "pure check plus candidate-selection guard",
+      "safe_action": "validateTeamBuilderTeamConstraint added; canAddCountry remains in script.js because it affects path expansion and candidate selection."
+    },
+    {
+      "area": "fixture counts",
+      "current_functions": ["portfolio analytics", "artifact/golden validators"],
+      "classification": "duplicate of existing shared helper",
+      "safe_action": "validateTeamBuilderFixtureConstraint added for report-level validation only."
+    },
+    {
+      "area": "eligible teams and active projections",
+      "current_functions": ["playerAllowedForActiveMatchday", "generatedFinalRoundBalancedSquad", "optimizerCandidatePools"],
+      "classification": "pure helper exists; candidate filtering remains selection-affecting",
+      "safe_action": "validateTeamBuilderEligibleTeamsConstraint added; filter functions stay in script.js."
+    },
+    {
+      "area": "duplicate players",
+      "current_functions": ["optimizer state usedIds", "generatedFinalRoundBalancedSquad selectedRowsResolved"],
+      "classification": "pure constraint check safe to extract now",
+      "safe_action": "validateTeamBuilderDuplicatePlayers added; used in helper validator and shared report."
+    },
+    {
+      "area": "locked players",
+      "current_functions": ["lockedPlayerIds", "getValidLockedSquadPlayers", "chooseStartersFromSquad"],
+      "classification": "depends on DOM/user state, keep in script.js",
+      "safe_action": "validateTeamBuilderLockedPlayersPresent accepts plain locked IDs, but DOM state collection remains in script.js."
+    },
+    {
+      "area": "excluded players",
+      "current_functions": ["excludedPlayerIds", "optimizerCandidatePools", "availableFillCandidates"],
+      "classification": "depends on DOM/user state, keep in script.js",
+      "safe_action": "validateTeamBuilderExcludedPlayersAbsent accepts plain excluded IDs, but filtering remains in script.js."
+    },
+    {
+      "area": "captain/vice validity",
+      "current_functions": ["captainRecommendationScore", "export flow", "golden validators"],
+      "classification": "pure validation safe; ranking not safe",
+      "safe_action": "validateTeamBuilderCaptainVice added; captain/vice ranking remains unchanged."
+    },
+    {
+      "area": "bench/starter structure",
+      "current_functions": ["chooseStartersFromSquad", "buildRuleValidations", "generatedFinalRoundBalancedSquad", "swapStarterWithBench"],
+      "classification": "pure structure check safe; starter choice is selection-affecting",
+      "safe_action": "validateTeamBuilderStarterBenchStructure added; chooseStartersFromSquad and swap logic stay in script.js."
+    },
+    {
+      "area": "constraint warnings",
+      "current_functions": ["renderWarning", "renderRuleChecks"],
+      "classification": "display-only warning, safe later",
+      "safe_action": "Rule-check booleans use shared helper while public copy remains unchanged; warning text remains in script.js."
+    }
+  ],
+  "answers": {
+    "constraints_checked_before_optimization": [
+      "locked players are filtered by active stage, exclusions, position slots, and team cap",
+      "candidate pools are filtered by active stage, exclusions, price, country filter, trust, risk controls, and country cap"
+    ],
+    "constraints_checked_after_optimization": [
+      "squad size",
+      "budget",
+      "position counts",
+      "team cap",
+      "starter/bench shape for artifact/default rendering",
+      "active eligibility for artifact/default rendering"
+    ],
+    "display_only_warnings": [
+      "price filter inversion",
+      "ignored locked players",
+      "locked country-filter conflicts",
+      "missing starter or squad slots",
+      "budget could not fit",
+      "country limit could not fit",
+      "optimizer did not find a full legal squad",
+      "risk-control warnings"
+    ],
+    "checks_that_mutate_candidate_or_squad": [
+      "getValidLockedSquadPlayers builds validLockedPlayers and ignoredLockedPlayers",
+      "optimizerStateWithPlayer appends players into candidate states",
+      "chooseStartersFromSquad assigns starters before bench",
+      "swapStarterWithBench mutates current rendered starter/bench layout"
+    ],
+    "checks_that_read_dom_or_user_locks": [
+      "defaultFinalRoundArtifactInputsActive",
+      "priceMatchesFilters",
+      "builderRiskSettings",
+      "lockedCountryFilterConflicts",
+      "getValidLockedSquadPlayers",
+      "chooseStartersFromSquad",
+      "buildSuggestedSquad",
+      "swapStarterWithBench"
+    ],
+    "already_available_in_shared_helpers": [
+      "fixture-authority eligible teams",
+      "active projection eligibility",
+      "budget feasibility",
+      "position counts",
+      "team counts",
+      "fixture counts",
+      "captain/vice validation",
+      "selected-squad artifact summary"
+    ],
+    "safe_to_replace_now": [
+      "position count comparison",
+      "post-search full-squad legality booleans",
+      "artifact-backed default shape validation",
+      "rule-check validation booleans"
+    ]
+  },
+  "final_recommendation": {
+    "status": "green",
+    "constraint_extraction_completed": "partial",
+    "defer": [
+      "optimizer scoring extraction",
+      "candidate ordering extraction",
+      "captain/vice ranking extraction",
+      "DOM/user-state collection extraction"
+    ]
+  }
+}

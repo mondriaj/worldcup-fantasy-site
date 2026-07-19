@@ -1,0 +1,86 @@
+{
+  "schema_version": "team_builder_constraint_extraction_no_behavior_change_v1",
+  "generated_at": "2026-07-19T02:10:00.000Z",
+  "status": "green",
+  "public_behavior_changed": false,
+  "model_outputs_changed": false,
+  "optimizer_behavior_changed": false,
+  "selected_squad_changed": false,
+  "public_data_wrappers_changed": false,
+  "team_builder_public_helpers_changed": true,
+  "public_copy_changed": false,
+  "recommendations_changed": false,
+  "projections_changed": false,
+  "score_predictions_changed": false,
+  "fixtures_changed": false,
+  "frozen_public_default": {
+    "budget": "94.8 / 105",
+    "captain": "Mikel Oyarzabal",
+    "viceCaptain": "Leandro Paredes",
+    "team_counts": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "fixture_counts": {
+      "final": 13,
+      "third_place": 2
+    },
+    "raw_projected_points": 59.552,
+    "optionality_score": 5.291,
+    "composite_score": 1014.93,
+    "selected_players": [
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Pau Cubarsí",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Álex Baena",
+      "Fabián Ruiz",
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal"
+    ]
+  },
+  "candidate_eligibility": {
+    "active_candidate_count": 101,
+    "active_candidate_count_by_team": {
+      "Argentina": 25,
+      "Spain": 26,
+      "France": 26,
+      "England": 24
+    },
+    "active_eligible_teams": ["France", "England", "Spain", "Argentina"],
+    "eliminated_active_player_leakage": false
+  },
+  "script_js_line_count_before": 15273,
+  "script_js_line_count_after": 15351,
+  "changed_behavior_surfaces": [],
+  "moved_out_of_script_js": [
+    "generic squad-size validation",
+    "generic duplicate-player validation",
+    "generic budget validation",
+    "generic position-count validation",
+    "generic team-cap validation",
+    "generic fixture-count validation",
+    "plain locked/excluded player validation",
+    "captain/vice validity checks",
+    "starter/bench structure validation"
+  ],
+  "remaining_in_script_js": [
+    "DOM/user state collection",
+    "locks and exclusions sets",
+    "price, trust, risk, and country filters",
+    "candidate scoring and ordering",
+    "optimizer path expansion and pruning",
+    "captain/vice ranking",
+    "starter/bench swap mutation",
+    "public rendering and warning copy"
+  ]
+}

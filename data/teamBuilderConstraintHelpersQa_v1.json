@@ -1,0 +1,143 @@
+{
+  "schema_version": "team_builder_constraint_helpers_qa_v1",
+  "generated_at": "2026-07-19T01:35:57.145Z",
+  "status": "pass",
+  "activeStage": "finalRound",
+  "checks_run": 18,
+  "checks": [
+    {
+      "id": "golden_squad_passes_all_constraints",
+      "status": "pass",
+      "details": {
+        "status": "pass",
+        "errors": []
+      }
+    },
+    {
+      "id": "over_budget_squad_fails_budget_constraint",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "duplicate_player_squad_fails_duplicate_constraint",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "squad_missing_captain_fails_captain_vice_constraint",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "captain_equal_to_vice_fails_captain_vice_constraint",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "eliminated_player_squad_fails_eligibility_constraint",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "invalid_team_count_squad_fails_team_constraint",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "invalid_position_count_squad_fails_position_constraint",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "locked_player_missing_fails_locked_player_constraint",
+      "status": "pass",
+      "details": {
+        "lockedMissingId": "45"
+      }
+    },
+    {
+      "id": "excluded_player_present_fails_excluded_player_constraint",
+      "status": "pass",
+      "details": {
+        "excludedPresentId": "1099"
+      }
+    },
+    {
+      "id": "squad_size_helper_passes_and_fails",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "starter_bench_structure_passes_golden",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "helper_output_is_deterministic",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "helper_does_not_mutate_inputs",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "malformed_inputs_fail_with_useful_errors",
+      "status": "pass",
+      "details": {
+        "malformedError": "Invalid Team Builder squad: expected a selectedSquad array or squad row array."
+      }
+    },
+    {
+      "id": "browser_helper_summary_matches_node",
+      "status": "pass",
+      "details": {
+        "browserHelperAvailable": true
+      }
+    },
+    {
+      "id": "browser_helper_report_matches_node",
+      "status": "pass",
+      "details": {
+        "browserHelperAvailable": true
+      }
+    },
+    {
+      "id": "public_behavior_not_changed_by_constraint_helpers",
+      "status": "pass",
+      "details": {
+        "optimizerBehaviorChanged": false,
+        "selectedSquadChanged": false,
+        "modelOutputsChanged": false
+      }
+    }
+  ],
+  "failed_checks": [],
+  "summary": {
+    "budget": "94.8 / 105",
+    "selectedCount": 15,
+    "teamCounts": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "fixtureCounts": {
+      "final": 13,
+      "third_place": 2
+    },
+    "positionCounts": {
+      "GK": 2,
+      "DEF": 5,
+      "MID": 5,
+      "FWD": 3
+    },
+    "captain": "Mikel Oyarzabal",
+    "viceCaptain": "Leandro Paredes",
+    "optimizerBehaviorChanged": false,
+    "selectedSquadChanged": false,
+    "modelOutputsChanged": false,
+    "browserHelperParity": true
+  }
+}
