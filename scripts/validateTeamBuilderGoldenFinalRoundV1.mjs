@@ -167,6 +167,11 @@ function readBrowserEquivalence() {
   }
 }
 
+function browserEquivalenceNames(section) {
+  if (!section || typeof section !== "object") return [];
+  return section.selected_players || section.selected_players_ordered || [];
+}
+
 const manifest = readActiveStageManifest();
 const golden = readJson(goldenPath);
 const artifactPath = manifestFile(manifest, "teamBuilderArtifact");
@@ -188,8 +193,8 @@ const eliminatedHits = (artifact.selectedSquad || []).filter((row) => {
   return eliminatedNeedles.some((needle) => needle && name.includes(needle));
 }).map((row) => row.name);
 const browserAvailable = fs.existsSync(projectPath(manifest.validators?.teamBuilderBrowserEquivalence || ""));
-const browserGeneratedNames = browserEquivalence?.generated_artifact?.selected_players || [];
-const browserVisibleNames = browserEquivalence?.browser_default?.selected_players || [];
+const browserGeneratedNames = browserEquivalenceNames(browserEquivalence?.generated_artifact);
+const browserVisibleNames = browserEquivalenceNames(browserEquivalence?.browser_default);
 const requiredGoldenMissing = requiredGoldenKeys.filter((key) => golden[key] === undefined);
 
 const checks = [

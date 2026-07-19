@@ -1,0 +1,263 @@
+{
+  "schema_version": "team_builder_artifact_browser_unification_readiness_qa_v1",
+  "generated_at": "2026-07-19T01:19:30.918Z",
+  "status": "pass",
+  "activeStage": "finalRound",
+  "checks_run": 20,
+  "checks": [
+    {
+      "id": "team_builder_artifact_exists",
+      "status": "pass",
+      "details": {
+        "artifactPath": "data/teamBuilderFinalRoundArtifact_v1.json"
+      }
+    },
+    {
+      "id": "team_builder_public_wrapper_exists",
+      "status": "pass",
+      "details": {
+        "wrapperPath": "teamBuilderFinalRoundArtifactData.js"
+      }
+    },
+    {
+      "id": "team_builder_public_helpers_wrapper_exists",
+      "status": "pass",
+      "details": {
+        "publicHelpersPath": "teamBuilderPublicHelpers.js"
+      }
+    },
+    {
+      "id": "golden_file_exists",
+      "status": "pass",
+      "details": {
+        "goldenPath": "data/teamBuilderGoldenFinalRound_v1.json"
+      }
+    },
+    {
+      "id": "browser_equivalence_qa_latest_passes",
+      "status": "pass",
+      "details": {
+        "path": "data/finalRoundBuilderBrowserEquivalenceQa_v1.json",
+        "status": "pass"
+      }
+    },
+    {
+      "id": "golden_qa_latest_passes",
+      "status": "pass",
+      "details": {
+        "path": "data/teamBuilderGoldenFinalRoundQa_v1.json",
+        "status": "pass"
+      }
+    },
+    {
+      "id": "shared_model_helpers_qa_latest_passes",
+      "status": "pass",
+      "details": {
+        "path": "data/teamBuilderSharedModelHelpersQa_v1.json",
+        "status": "pass"
+      }
+    },
+    {
+      "id": "eligibility_helpers_qa_latest_passes",
+      "status": "pass",
+      "details": {
+        "path": "data/teamBuilderEligibilityHelpersQa_v1.json",
+        "status": "pass"
+      }
+    },
+    {
+      "id": "optimizer_utilities_qa_latest_passes",
+      "status": "pass",
+      "details": {
+        "path": "data/teamBuilderOptimizerUtilitiesQa_v1.json",
+        "status": "pass"
+      }
+    },
+    {
+      "id": "eligible_players_qa_latest_passes",
+      "status": "pass",
+      "details": {
+        "path": "data/finalRoundEligiblePlayersQa_v1.json",
+        "status": "pass"
+      }
+    },
+    {
+      "id": "equivalence_matrix_valid",
+      "status": "pass",
+      "details": {
+        "schemaVersion": "team_builder_artifact_browser_equivalence_matrix_v1",
+        "rows": 20
+      }
+    },
+    {
+      "id": "high_risk_duplicated_rows_have_validator_coverage",
+      "status": "pass",
+      "details": {
+        "highRiskUncoveredRows": [],
+        "declaredHighRiskUncoveredRows": 0
+      }
+    },
+    {
+      "id": "browser_only_and_user_interaction_divergence_documented",
+      "status": "pass",
+      "details": {
+        "divergentRows": [
+          "role/trust filters",
+          "price filters",
+          "locks/exclusions"
+        ]
+      }
+    },
+    {
+      "id": "unification_audit_has_direct_answers",
+      "status": "pass",
+      "details": {
+        "status": "green",
+        "directAnswerKeys": [
+          "artifact_json_builder",
+          "artifact_wrapper_builder",
+          "browser_default_path",
+          "browser_locks_and_substitutions_path",
+          "browser_artifact_bypass_conditions"
+        ]
+      }
+    },
+    {
+      "id": "unification_audit_rejects_main_optimizer_extraction_now",
+      "status": "pass",
+      "details": {
+        "status": "green",
+        "extract_main_optimizer_loop_now": false,
+        "commit_audit_and_readiness_validator": true,
+        "smallest_safe_next_step": "Keep the public default artifact-backed, add the equivalence matrix and readiness validator, and defer deeper extraction until isolated optimizer fixtures cover path search, scoring, tie-breaking, and user-state divergence."
+      }
+    },
+    {
+      "id": "artifact_selected_squad_matches_golden",
+      "status": "pass",
+      "details": {
+        "selectedNames": [
+          "Emiliano Martínez",
+          "Unai Simón",
+          "Nicolás Tagliafico",
+          "Nahuel Molina",
+          "Lisandro Martínez",
+          "Cristian Romero",
+          "Pau Cubarsí",
+          "Leandro Paredes",
+          "Alexis Mac Allister",
+          "Enzo Fernández",
+          "Álex Baena",
+          "Fabián Ruiz",
+          "Kylian Mbappé",
+          "Harry Kane",
+          "Mikel Oyarzabal"
+        ],
+        "goldenNames": [
+          "Emiliano Martínez",
+          "Unai Simón",
+          "Nicolás Tagliafico",
+          "Nahuel Molina",
+          "Lisandro Martínez",
+          "Cristian Romero",
+          "Pau Cubarsí",
+          "Leandro Paredes",
+          "Alexis Mac Allister",
+          "Enzo Fernández",
+          "Álex Baena",
+          "Fabián Ruiz",
+          "Kylian Mbappé",
+          "Harry Kane",
+          "Mikel Oyarzabal"
+        ]
+      }
+    },
+    {
+      "id": "frozen_budget_team_fixture_captain_objective_match",
+      "status": "pass",
+      "details": {
+        "budget": "94.8 / 105",
+        "captain": "Mikel Oyarzabal",
+        "viceCaptain": "Leandro Paredes",
+        "teamCounts": {
+          "Argentina": 8,
+          "Spain": 5,
+          "France": 1,
+          "England": 1
+        },
+        "fixtureCounts": {
+          "final": 13,
+          "third_place": 2
+        },
+        "rawProjectedPoints": 59.552,
+        "optionalityScore": 5.291,
+        "compositeScore": 1014.93
+      }
+    },
+    {
+      "id": "no_eliminated_active_player_leakage",
+      "status": "pass",
+      "details": {
+        "eliminatedLeaks": []
+      }
+    },
+    {
+      "id": "no_public_refereeing_conspiracy_exposure",
+      "status": "pass",
+      "details": {
+        "publicHits": []
+      }
+    },
+    {
+      "id": "public_behavior_not_changed_by_readiness_audit",
+      "status": "pass",
+      "details": {
+        "publicFilesEdited": false,
+        "modelOutputsEdited": false,
+        "optimizerLoopEdited": false
+      }
+    }
+  ],
+  "failed_checks": [],
+  "summary": {
+    "artifactPath": "data/teamBuilderFinalRoundArtifact_v1.json",
+    "wrapperPath": "teamBuilderFinalRoundArtifactData.js",
+    "publicHelpersPath": "teamBuilderPublicHelpers.js",
+    "matrixPath": "data/teamBuilderArtifactBrowserEquivalenceMatrix_v1.json",
+    "auditPath": "data/teamBuilderArtifactBrowserUnificationAudit_v1.json",
+    "highRiskDuplicatedRows": [
+      "candidate pool",
+      "fixture diversification",
+      "optionality",
+      "Third Place risk",
+      "captain/vice selection",
+      "tie-breaking"
+    ],
+    "highRiskUncoveredRows": [],
+    "documentedDivergentRows": [
+      "role/trust filters",
+      "price filters",
+      "locks/exclusions"
+    ],
+    "selectedCount": 15,
+    "budget": "94.8 / 105",
+    "captain": "Mikel Oyarzabal",
+    "viceCaptain": "Leandro Paredes",
+    "teamCounts": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "fixtureCounts": {
+      "final": 13,
+      "third_place": 2
+    },
+    "rawProjectedPoints": 59.552,
+    "optionalityScore": 5.291,
+    "compositeScore": 1014.93,
+    "mainOptimizerLoopReadyForExtraction": false,
+    "publicBehaviorChanged": false,
+    "modelOutputsChanged": false
+  }
+}

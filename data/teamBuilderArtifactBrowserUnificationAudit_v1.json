@@ -1,0 +1,86 @@
+{
+  "schema_version": "team_builder_artifact_browser_unification_audit_v1",
+  "generated_at": "2026-07-19T01:20:00.000Z",
+  "status": "green",
+  "scope": {
+    "public_behavior_changed": false,
+    "model_outputs_changed": false,
+    "public_wrappers_changed": false,
+    "script_js_changed": false,
+    "main_optimizer_loop_extracted": false,
+    "tiny_helper_extraction_completed": false
+  },
+  "direct_answers": {
+    "artifact_json_builder": "scripts/lib/finalRoundArtifacts.mjs writeBrowserArtifacts builds data/teamBuilderFinalRoundArtifact_v1.json from buildTeamBuilderArtifact(buildTeamBuilder(...)).",
+    "artifact_wrapper_builder": "scripts/lib/finalRoundArtifacts.mjs writeBrowserArtifacts writes teamBuilderFinalRoundArtifactData.js through publicWrapperText(\"teamBuilderArtifact\", slimTeamBuilderArtifact).",
+    "browser_default_path": "script.js buildTeam uses generatedFinalRoundBalancedSquad() before buildSuggestedSquad(); generatedFinalRoundBalancedSquad is active only when defaultFinalRoundArtifactInputsActive() is true.",
+    "browser_locks_and_substitutions_path": "script.js buildSuggestedSquad, lockedPlayerIds, excludedPlayerIds, getValidLockedSquadPlayers, render/export flows, and swapStarterWithBench remain the browser user-interaction path.",
+    "browser_artifact_bypass_conditions": "Locks, exclusions, non-balanced strategy, non-4-3-3 formation, non-All country, price filters, minutes/start filters, risk controls, trust controls, and non-Final Round states bypass the generated artifact default."
+  },
+  "generated_but_not_browser": [
+    "Static Final Round artifact generation",
+    "Final Round strategic-composite objective construction",
+    "rawRowScore and strategicRowScore candidate scoring",
+    "buildSquadByScore static search",
+    "rawExpectedPointsSquad and omitted-player diagnostics",
+    "Slim public wrapper emission"
+  ],
+  "browser_but_not_generated": [
+    "DOM state and rendering",
+    "User locks and removals",
+    "Country, price, trust, minutes, start-probability, and risk filters",
+    "Substitution advisor and starter-bench swap interactions",
+    "Saved export/import state",
+    "Manual captain and vice-captain export state"
+  ],
+  "duplicated_equivalent": [
+    "Active stage selection",
+    "Fixture authority and eligible-team derivation",
+    "Active projection availability",
+    "Budget limit and budget usage checks",
+    "Position requirements",
+    "Team caps",
+    "Summary count display"
+  ],
+  "duplicated_risky": [
+    "Candidate pool construction",
+    "Fixture diversification",
+    "Optionality scoring",
+    "Third Place rotation-risk treatment",
+    "Role/trust handling",
+    "Captain and vice-captain ranking",
+    "Objective formula",
+    "Tie-breaking"
+  ],
+  "safe_to_extract_now": [],
+  "unsafe_to_extract_now": [
+    "Main optimizer loop",
+    "Scoring, risk, trust, optionality, and tie-breaking behavior",
+    "Captain and vice-captain ranking",
+    "Locks, removals, substitutions, filters, and user-interaction behavior"
+  ],
+  "frozen_public_default": {
+    "budget": "94.8 / 105",
+    "captain": "Mikel Oyarzabal",
+    "viceCaptain": "Leandro Paredes",
+    "team_counts": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "fixture_counts": {
+      "final": 13,
+      "third_place": 2
+    },
+    "raw_projected_points": 59.552,
+    "optionality_score": 5.291,
+    "composite_score": 1014.93
+  },
+  "final_recommendation": {
+    "status": "green",
+    "extract_main_optimizer_loop_now": false,
+    "commit_audit_and_readiness_validator": true,
+    "smallest_safe_next_step": "Keep the public default artifact-backed, add the equivalence matrix and readiness validator, and defer deeper extraction until isolated optimizer fixtures cover path search, scoring, tie-breaking, and user-state divergence."
+  }
+}

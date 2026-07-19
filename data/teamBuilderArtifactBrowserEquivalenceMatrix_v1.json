@@ -1,0 +1,195 @@
+{
+  "schema_version": "team_builder_artifact_browser_equivalence_matrix_v1",
+  "generated_at": "2026-07-19T01:05:00.000Z",
+  "status": "green",
+  "summary": {
+    "artifact_builder": "scripts/lib/finalRoundArtifacts.mjs buildTeamBuilder and buildTeamBuilderArtifact",
+    "artifact_wrapper_builder": "scripts/lib/finalRoundArtifacts.mjs writeBrowserArtifacts writes teamBuilderFinalRoundArtifactData.js through publicWrapperText",
+    "browser_default": "script.js generatedFinalRoundBalancedSquad when defaultFinalRoundArtifactInputsActive is true",
+    "browser_interactive_fallback": "script.js buildSuggestedSquad for locks, avoids, filters, non-default strategy/trust/risk settings, and non-artifact states",
+    "high_risk_uncovered_rows": 0,
+    "tiny_helper_extraction_completed": false
+  },
+  "rows": [
+    {
+      "area": "active stage selection",
+      "classification": "duplicated and equivalent",
+      "artifact_reference": "scripts/lib/finalRoundArtifacts.mjs MATCHDAY_ID and constraintsUsed.matchday",
+      "browser_reference": "script.js defaultFinalRoundArtifactInputsActive and activeMatchdayId",
+      "risk": "medium",
+      "validator_coverage": ["validateFinalRoundBuilderBrowserEquivalenceV1", "validateTeamBuilderGoldenFinalRoundV1", "validateActiveStageManifestV1"],
+      "recommended_next_action": "Keep manifest-owned; do not unify with live optimizer until stage-promotion harness exists."
+    },
+    {
+      "area": "fixture authority",
+      "classification": "shared already",
+      "artifact_reference": "scripts/lib/finalRoundArtifacts.mjs buildTeamBuilder authority argument",
+      "browser_reference": "finalRoundFixtureAuthorityData.js and TEAM_BUILDER_PUBLIC_HELPERS fixture helpers",
+      "risk": "low",
+      "validator_coverage": ["validateFinalRoundBrowserContentContractV1", "validateTeamBuilderEligibilityHelpersV1"],
+      "recommended_next_action": "Keep shared helper checks."
+    },
+    {
+      "area": "eligible teams",
+      "classification": "shared already",
+      "artifact_reference": "scripts/lib/finalRoundArtifacts.mjs eligibleTeamIds from authority fixtures",
+      "browser_reference": "script.js getActiveStageEligibleTeams through TEAM_BUILDER_PUBLIC_HELPERS.eligibleTeamKeysFromFixtureAuthority",
+      "risk": "low",
+      "validator_coverage": ["validateTeamBuilderEligibilityHelpersV1", "validateFinalRoundEligiblePlayersV1"],
+      "recommended_next_action": "Keep authority-derived eligibility."
+    },
+    {
+      "area": "active projections",
+      "classification": "duplicated and equivalent",
+      "artifact_reference": "scripts/lib/finalRoundArtifacts.mjs candidateRows filters row.matchday === finalRound",
+      "browser_reference": "script.js playerAllowedForActiveMatchday through hasActiveTeamBuilderProjection",
+      "risk": "medium",
+      "validator_coverage": ["validateTeamBuilderEligibilityHelpersV1", "validateFinalRoundEligiblePlayersV1"],
+      "recommended_next_action": "Unify projection lookup only after browser seed-row construction is separately tested."
+    },
+    {
+      "area": "candidate pool",
+      "classification": "duplicated and risky",
+      "artifact_reference": "scripts/lib/finalRoundArtifacts.mjs candidateRows, rawPool, pool",
+      "browser_reference": "script.js optimizerCandidatePools plus trust/risk/price/country filters",
+      "risk": "high",
+      "validator_coverage": ["validateFinalRoundBuilderBrowserEquivalenceV1", "validateTeamBuilderEligibilityHelpersV1", "validateTeamBuilderOptimizerUtilitiesV1"],
+      "recommended_next_action": "Do not unify now; add path-search fixtures before implementation."
+    },
+    {
+      "area": "budget limit",
+      "classification": "duplicated and equivalent",
+      "artifact_reference": "scripts/lib/finalRoundArtifacts.mjs initialBudget from officialFantasyRules plus knockoutIncrease",
+      "browser_reference": "script.js budgetLimitForMatchday and initialBudget",
+      "risk": "medium",
+      "validator_coverage": ["validateTeamBuilderGoldenFinalRoundV1", "validateTeamBuilderOptimizerUtilitiesV1"],
+      "recommended_next_action": "Consider shared budget helper later; not necessary in this audit."
+    },
+    {
+      "area": "budget usage",
+      "classification": "shared already",
+      "artifact_reference": "data/teamBuilderFinalRoundArtifact_v1.json selectedSquad prices",
+      "browser_reference": "TEAM_BUILDER_PUBLIC_HELPERS.getTeamBuilderBudgetFeasibility",
+      "risk": "low",
+      "validator_coverage": ["validateTeamBuilderOptimizerUtilitiesV1"],
+      "recommended_next_action": "Keep read-only helper coverage."
+    },
+    {
+      "area": "positions",
+      "classification": "duplicated and equivalent",
+      "artifact_reference": "scripts/lib/finalRoundArtifacts.mjs byPositionNeeded and starterRequirements",
+      "browser_reference": "script.js squadRequirements and tactics",
+      "risk": "medium",
+      "validator_coverage": ["validateTeamBuilderGoldenFinalRoundV1", "validateTeamBuilderOptimizerUtilitiesV1"],
+      "recommended_next_action": "Extract constants only after checking historical stage compatibility."
+    },
+    {
+      "area": "team caps",
+      "classification": "duplicated and equivalent",
+      "artifact_reference": "scripts/lib/finalRoundArtifacts.mjs finalCountryLimit",
+      "browser_reference": "script.js canAddCountry and countryLimitViolations",
+      "risk": "medium",
+      "validator_coverage": ["validateTeamBuilderOptimizerUtilitiesV1", "validateFinalRoundEligiblePlayersV1"],
+      "recommended_next_action": "Leave live browser checks in place until country-limit rules are centralized."
+    },
+    {
+      "area": "fixture diversification",
+      "classification": "duplicated and risky",
+      "artifact_reference": "scripts/lib/finalRoundArtifacts.mjs minimumEarlyFixturePlayers and earlyCount tie-break",
+      "browser_reference": "script.js portfolioOptimizerAdjustment and optimizerStateRank",
+      "risk": "high",
+      "validator_coverage": ["validateFinalRoundBuilderBrowserEquivalenceV1", "validateFinalRoundFixtureExposureStrategyV1"],
+      "recommended_next_action": "Do not unify without isolated portfolio fixtures."
+    },
+    {
+      "area": "optionality",
+      "classification": "duplicated and risky",
+      "artifact_reference": "scripts/lib/finalRoundArtifacts.mjs sumMetric replacementOptionValue and strategicCompositeScore",
+      "browser_reference": "script.js renderPortfolioAnalytics and portfolioOptimizerAdjustment",
+      "risk": "high",
+      "validator_coverage": ["validateFinalRoundBuilderBrowserEquivalenceV1", "validateFinalRoundFixtureExposureStrategyV1"],
+      "recommended_next_action": "Keep artifact as public default; document formulas before extraction."
+    },
+    {
+      "area": "Third Place risk",
+      "classification": "duplicated and risky",
+      "artifact_reference": "scripts/lib/finalRoundArtifacts.mjs third_place_rotation_risk and candidateReason",
+      "browser_reference": "script.js playerMatchesBuilderRiskControls and risk display",
+      "risk": "high",
+      "validator_coverage": ["validateFinalRoundEligiblePlayersV1", "validateFinalRoundBuilderBrowserEquivalenceV1"],
+      "recommended_next_action": "Leave divergent user-risk controls untouched."
+    },
+    {
+      "area": "role/trust filters",
+      "classification": "browser-only",
+      "artifact_reference": "scripts/lib/finalRoundArtifacts.mjs uses source projection rows and lineup evidence only",
+      "browser_reference": "script.js activeTrustMode, trustFilteredPlayers, QA review risk controls",
+      "risk": "high",
+      "validator_coverage": ["validateTeamBuilderOptimizerUtilitiesV1"],
+      "recommended_next_action": "Should remain divergent because of user interaction."
+    },
+    {
+      "area": "price filters",
+      "classification": "browser-only",
+      "artifact_reference": "none for default artifact generation",
+      "browser_reference": "script.js priceMatchesFilters and defaultFinalRoundArtifactInputsActive",
+      "risk": "medium",
+      "validator_coverage": ["validateFinalRoundBuilderBrowserEquivalenceV1"],
+      "recommended_next_action": "Keep browser-only; user filters must bypass artifact default."
+    },
+    {
+      "area": "locks/exclusions",
+      "classification": "should remain divergent because of user interaction",
+      "artifact_reference": "none",
+      "browser_reference": "script.js lockedPlayerIds, excludedPlayerIds, getValidLockedSquadPlayers, buildSuggestedSquad",
+      "risk": "high",
+      "validator_coverage": ["validateFinalRoundBuilderBrowserEquivalenceV1"],
+      "recommended_next_action": "Do not move into generated artifact builder."
+    },
+    {
+      "area": "captain/vice selection",
+      "classification": "duplicated and risky",
+      "artifact_reference": "scripts/lib/finalRoundArtifacts.mjs captain_score sort",
+      "browser_reference": "script.js captainRecommendationScore and export/user captain handling",
+      "risk": "high",
+      "validator_coverage": ["validateTeamBuilderGoldenFinalRoundV1", "validateFinalRoundBuilderBrowserEquivalenceV1"],
+      "recommended_next_action": "Keep frozen by golden tests before extracting ranking."
+    },
+    {
+      "area": "objective formula",
+      "classification": "generated-only for public default",
+      "artifact_reference": "scripts/lib/finalRoundArtifacts.mjs finalRoundStrategicMetrics and sumComposite",
+      "browser_reference": "script.js shows artifact objective for default and has separate live optimizer ranking for user builds",
+      "risk": "high",
+      "validator_coverage": ["validateTeamBuilderGoldenFinalRoundV1", "validateFinalRoundBuilderBrowserEquivalenceV1"],
+      "recommended_next_action": "Do not unify until objective formula is made an isolated module with golden fixtures."
+    },
+    {
+      "area": "tie-breaking",
+      "classification": "duplicated and risky",
+      "artifact_reference": "scripts/lib/finalRoundArtifacts.mjs state sort score, earlyCount, price",
+      "browser_reference": "script.js pruneOptimizerStates and optimizerStateRank",
+      "risk": "high",
+      "validator_coverage": ["validateFinalRoundBuilderBrowserEquivalenceV1"],
+      "recommended_next_action": "Add exhaustive deterministic fixtures before changing."
+    },
+    {
+      "area": "final squad serialization",
+      "classification": "duplicated and equivalent",
+      "artifact_reference": "scripts/lib/finalRoundArtifacts.mjs buildTeamBuilderArtifact",
+      "browser_reference": "script.js export flow after generatedFinalRoundBalancedSquad",
+      "risk": "medium",
+      "validator_coverage": ["validateFinalRoundBuilderBrowserEquivalenceV1", "validateTeamBuilderGoldenFinalRoundV1"],
+      "recommended_next_action": "Consider shared serializer only after export schema tests."
+    },
+    {
+      "area": "display summary",
+      "classification": "shared already",
+      "artifact_reference": "data/teamBuilderFinalRoundArtifact_v1.json summary",
+      "browser_reference": "TEAM_BUILDER_PUBLIC_HELPERS artifact and objective summary helpers",
+      "risk": "low",
+      "validator_coverage": ["validateTeamBuilderSharedModelHelpersV1", "validateFinalRoundBuilderBrowserEquivalenceV1"],
+      "recommended_next_action": "Keep shared helper layer."
+    }
+  ]
+}

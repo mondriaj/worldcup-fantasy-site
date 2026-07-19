@@ -191,6 +191,7 @@ async function browserSnapshot() {
 
 const generatedQa = readJson(manifestFile(manifest, "teamBuilderQa"));
 const artifact = readJson(manifestFile(manifest, "teamBuilderArtifact"));
+const fixtureAuthority = readJson(manifestFile(manifest, "finalRoundFixtureAuthority"));
 const golden = fs.existsSync(goldenPath) ? readJson(goldenPath) : null;
 const browser = await browserSnapshot();
 const artifactSelectedNames = nameSet(artifact.selectedSquad || []);
@@ -235,6 +236,56 @@ const errors = Object.entries(checks)
   .filter(([, ok]) => !ok)
   .map(([key]) => key);
 const status = errors.length ? "fail" : "pass";
+const fixtureAuthorityEligibleTeams = (fixtureAuthority.fixtures || [])
+  .flatMap((fixture) => [fixture.team_a?.team, fixture.team_b?.team])
+  .filter(Boolean);
+const objectiveSummary = {
+  raw_projected_points: artifact.summary.raw_projected_points,
+  optionality_score: artifact.summary.optionality_score,
+  composite_score: artifact.summary.composite_score
+};
+const browserVisibleSummary = {
+  selected_count_by_team: browserTeamCounts,
+  selected_count_by_fixture: browserFixtureCounts,
+  captain: browserCaptain,
+  viceCaptain: browserViceCaptain,
+  selected_players_ordered: browser.selected.map((row) => row.name),
+  starters_ordered: browser.starters.map((row) => row.name),
+  bench_ordered: browser.bench.map((row) => row.name),
+  objective_text: browser.message,
+  optionality_text: browser.optionalityText,
+  candidate_count_by_team: browser.candidateCountByTeam
+};
+const generatedArtifactSummary = {
+  strategy: artifact.strategy,
+  eligible_team_source: "data/finalRoundFixtureAuthority_v1.json",
+  eligible_teams: fixtureAuthorityEligibleTeams,
+  selected_count_by_team: artifact.summary.selected_count_by_team,
+  selected_count_by_fixture: artifact.summary.selected_count_by_fixture,
+  captain: artifact.captain?.name || null,
+  viceCaptain: artifact.viceCaptain?.name || null,
+  objective: objectiveSummary,
+  selected_players_ordered: (artifact.selectedSquad || []).map((row) => row.name),
+  starters_ordered: (artifact.starters || []).map((row) => row.name),
+  bench_ordered: (artifact.bench || []).map((row) => row.name),
+  candidate_count_by_team: generatedQa.summary.candidate_count_by_team
+};
+const goldenSummary = golden ? {
+  golden_file: goldenPath,
+  budget: `${golden.budgetUsed} / ${golden.budgetLimit}`,
+  selected_count_by_team: golden.teamCounts,
+  selected_count_by_fixture: golden.fixtureCounts,
+  captain: golden.captain,
+  viceCaptain: golden.viceCaptain,
+  objective: {
+    raw_projected_points: golden.rawProjectedPoints,
+    optionality_score: golden.optionalityScore,
+    composite_score: golden.compositeScore
+  },
+  selected_players_ordered: goldenSelectedNames,
+  starters_ordered: (golden.starters || []).map((row) => row.name),
+  bench_ordered: (golden.bench || []).map((row) => row.name)
+} : null;
 const observedPreFixBrowser = {
   selected_count_by_team: { France: 1, Spain: 7, England: 0, Argentina: 7 },
   selected_count_by_fixture: { third_place: 1, final: 14 },
@@ -334,30 +385,22 @@ const result = {
   baseUrl,
   checks,
   errors,
-  generated_artifact: {
-    strategy: artifact.strategy,
-    selected_count_by_team: artifact.summary.selected_count_by_team,
-    selected_count_by_fixture: artifact.summary.selected_count_by_fixture,
-    captain: artifact.captain?.name || null,
-    viceCaptain: artifact.viceCaptain?.name || null,
-    raw_projected_points: artifact.summary.raw_projected_points,
-    optionality_score: artifact.summary.optionality_score,
-    composite_score: artifact.summary.composite_score,
-    selected_players: (artifact.selectedSquad || []).map((row) => row.name)
+  generated_artifact: generatedArtifactSummary,
+  browser_default: browserVisibleSummary,
+  equivalence_details: {
+    eligible_team_source: "fixture_authority",
+    fixture_authority_eligible_teams: fixtureAuthorityEligibleTeams,
+    selected_squad_order_exact_match: sameJson(
+      generatedArtifactSummary.selected_players_ordered,
+      browserVisibleSummary.selected_players_ordered
+    ),
+    selected_squad_set_match: checks.generated_and_browser_selected_players_match,
+    objective_component_summary: objectiveSummary,
+    captain_vice_match: checks.captain_matches && checks.vice_captain_matches,
+    budget_team_fixture_match: checks.selected_count_by_team_matches && checks.selected_count_by_fixture_matches,
+    candidate_count_match: checks.candidate_pool_by_team_matches_generated_qa
   },
-  browser_default: {
-    strategy: browser.artifactStrategy,
-    selected_count_by_team: browserTeamCounts,
-    selected_count_by_fixture: browserFixtureCounts,
-    captain: browserCaptain,
-    viceCaptain: browserViceCaptain,
-    optionality_text: browser.optionalityText,
-    message: browser.message,
-    selected_players: browser.selected.map((row) => row.name),
-    starters: browser.starters.map((row) => row.name),
-    bench: browser.bench.map((row) => row.name),
-    candidate_count_by_team: browser.candidateCountByTeam
-  },
+  golden_summary: goldenSummary,
   golden_comparison: golden ? {
     golden_file: goldenPath,
     golden_selected_squad: goldenSelectedNames,
@@ -396,6 +439,10 @@ fs.writeFileSync(reportPath, [
   result.golden_comparison
     ? mdTable(["Metric", "Value"], Object.entries(result.golden_comparison).map(([key, value]) => [key, Array.isArray(value) || typeof value === "object" ? JSON.stringify(value) : value]))
     : "Golden file not present.",
+  "",
+  "## Equivalence Details",
+  "",
+  mdTable(["Metric", "Value"], Object.entries(result.equivalence_details).map(([key, value]) => [key, Array.isArray(value) || typeof value === "object" ? JSON.stringify(value) : value])),
   "",
   "## Diff",
   "",

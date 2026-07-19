@@ -19,6 +19,7 @@ The site had the right Final Round behavior, but the active-stage contract was s
 - Final Round Team Builder shared-model helper validator
 - Final Round Team Builder eligibility helper validator
 - Final Round Team Builder optimizer utility validator
+- Final Round Team Builder artifact/browser unification readiness validator
 - Final Round Team Builder public helper wrapper loaded before `script.js`
 - Required active validators and browser assertions
 - Final Round browser content contract for Picks, Captain Watchlist, Match Environment, Player Profile, and Team Builder golden visibility
@@ -37,7 +38,7 @@ The site had the right Final Round behavior, but the active-stage contract was s
 
 ## Future Stage Promotion
 
-Promotion should change the manifest first, then update builders, wrappers, and validators to match. A future stage is not ready until the manifest validator, active data-flow validator, browser content contract validator, Team Builder artifact validator, Team Builder golden-score validator, Team Builder shared-model helper validator, Team Builder eligibility helper validator, Team Builder optimizer utility validator, browser equivalence validator, and public browser QA all pass.
+Promotion should change the manifest first, then update builders, wrappers, and validators to match. A future stage is not ready until the manifest validator, active data-flow validator, browser content contract validator, Team Builder artifact validator, Team Builder golden-score validator, Team Builder shared-model helper validator, Team Builder eligibility helper validator, Team Builder optimizer utility validator, Team Builder artifact/browser unification readiness validator, browser equivalence validator, and public browser QA all pass.
 
 ## Past Bug Prevention
 
@@ -47,6 +48,7 @@ Promotion should change the manifest first, then update builders, wrappers, and 
 - Shared helper drift: the Team Builder shared-model helper validator freezes artifact summary helpers against the golden Final Round output and the browser wrapper.
 - Eligibility drift: the Team Builder eligibility helper validator freezes fixture-authority team eligibility and active-projection requirements so eliminated teams cannot re-enter active Team Builder candidates through historical fallback rows.
 - Optimizer utility drift: the Team Builder optimizer utility validator freezes read-only budget, position, team, fixture, and captain/vice constraint helpers against the generated artifact and golden Final Round output before any future optimizer-loop extraction.
+- Artifact/browser extraction drift: the Team Builder artifact/browser unification readiness validator records which generated and browser behaviors are equivalent, divergent, or risky before any deeper optimizer-loop extraction.
 - Wrong budget: the active Team Builder artifact and validator are tied to `finalRound`.
 - Source fixture ID/bracket slot confusion: fixture authority is an explicit manifest-owned source.
 - Render-only browser QA gaps: the browser content contract requires exact Final Round Picks, Captain Watchlist, Match Environment, and Player Profile content.
@@ -63,6 +65,7 @@ Wired now:
 - `scripts/validateTeamBuilderSharedModelHelpersV1.mjs`
 - `scripts/validateTeamBuilderEligibilityHelpersV1.mjs`
 - `scripts/validateTeamBuilderOptimizerUtilitiesV1.mjs`
+- `scripts/validateTeamBuilderArtifactBrowserUnificationReadinessV1.mjs`
 - `scripts/runPublicPreviewBrowserQa.mjs`
 
 Skipped for now:
@@ -73,7 +76,7 @@ Skipped for now:
 
 `scripts/runActiveStageQaFromManifestV1.mjs` reads the `qaRunner` section and provides the single active-stage gate for future cleanup prompts. The runner owns:
 
-- Required command checks for manifest validation, Final Round data validators, browser content contract validation, Team Builder artifact/browser equivalence, Team Builder golden-score validation, Team Builder shared-model helper validation, Team Builder eligibility helper validation, Team Builder optimizer utility validation, live score checks, bracket checks, public preview browser QA, and `git diff --check`.
+- Required command checks for manifest validation, Final Round data validators, browser content contract validation, Team Builder artifact/browser equivalence, Team Builder golden-score validation, Team Builder shared-model helper validation, Team Builder eligibility helper validation, Team Builder optimizer utility validation, Team Builder artifact/browser unification readiness validation, live score checks, bracket checks, public preview browser QA, and `git diff --check`.
 - Syntax checks for active public app scripts, active public wrappers, the manifest validator, and the manifest helper.
 - Search checks for old globals/legacy paths, active eliminated-player leakage, and public refereeing/conspiracy leakage.
 - A local static server for browser QA checks that need a real URL.
@@ -83,6 +86,10 @@ The runner does not rebuild models, tune weights, change recommendations, change
 ## Team Builder Public Helpers
 
 `scripts/lib/teamBuilderPublicModel.mjs` and `teamBuilderPublicHelpers.js` hold the safe public Team Builder helper layer for artifact validation, fixture-authority eligible-team keys, active Final Round candidate eligibility, selected-squad summaries, read-only optimizer constraint utilities, budget/team/fixture/captain/objective helpers, golden artifact comparison, count summaries, strategy display copy, objective summary labels, and artifact-backed explanation copy. The browser wrapper is loaded after `teamBuilderFinalRoundArtifactData.js` and before `script.js`, so the public default can keep rendering the generated artifact without turning the legacy app bundle into a module.
+
+## Team Builder Artifact Browser Unification
+
+`data/teamBuilderArtifactBrowserEquivalenceMatrix_v1.json` and `scripts/validateTeamBuilderArtifactBrowserUnificationReadinessV1.mjs` make deeper extraction safer by separating shared/equivalent behavior from browser-only user interaction and high-risk duplicated optimizer logic. The readiness validator deliberately does not change public behavior, rebuild outputs, or wire the browser into a new optimizer module.
 
 ## Public Payload Contract
 
