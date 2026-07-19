@@ -1,0 +1,173 @@
+{
+  "schema_version": "final_code_elegance_audit_v1",
+  "generated_at": "2026-07-19T00:00:00-04:00",
+  "status": "GREEN",
+  "scope": "audit-only",
+  "cleanup_edits_made": false,
+  "public_behavior_changed": false,
+  "model_outputs_changed": false,
+  "rules_source": "current-implementation-backed",
+  "summary": {
+    "public_site_safe_to_show": true,
+    "team_builder_safe_enough_for_public_use": true,
+    "active_final_round_data_path_protected": true,
+    "stale_stage_paths_blocked_from_active_surfaces": true,
+    "active_eliminated_player_leakage": false,
+    "private_refereeing_artifacts_isolated": true,
+    "script_js_still_too_large": true,
+    "helper_layer_assessment": "useful, with current browser duplication accepted until wrapper generation is implemented",
+    "optimizer_scoring_extraction_now": false,
+    "captain_ranking_extraction_now": false,
+    "generated_artifact_browser_unification_urgency": "optional after current Final Round public use; not urgent",
+    "recommended_stopping_point": "Stop at audit-only readiness. Preserve the current artifact-backed Final Round experience and defer deeper optimizer/captain extraction."
+  },
+  "frozen_team_builder_values": {
+    "budget": "94.8 / 105",
+    "captain": "Mikel Oyarzabal",
+    "vice_captain": "Leandro Paredes",
+    "team_counts": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "raw_projected": 59.552,
+    "optionality": 5.291,
+    "composite": 1014.93,
+    "selected_squad_unchanged": true
+  },
+  "scores": [
+    {
+      "area": "public correctness",
+      "score": 5,
+      "evidence": "Active-stage manifest and active QA runner pass 56/56; deployed public preview browser QA and exact Team Builder browser assertions passed after commit 66fcc22.",
+      "remaining_risks": "Live FIFA locks, deadlines, boosters, and final XIs are manual checks.",
+      "material_before_final_use": false,
+      "recommended_action": "Ship with caveats visible; do not rebuild models.",
+      "priority": "P3"
+    },
+    {
+      "area": "stale-data protection",
+      "score": 5,
+      "evidence": "Manifest search checks block old globals and active eliminated-player leakage; default matchday is finalRound.",
+      "remaining_risks": "Historical stage data remains loaded for context and can create noisy text-search hits.",
+      "material_before_final_use": false,
+      "recommended_action": "Keep validator explanations for historical hits.",
+      "priority": "P3"
+    },
+    {
+      "area": "active-stage manifest discipline",
+      "score": 5,
+      "evidence": "data/activeStageManifest_v1.json declares activeStage finalRound, required command checks, syntax checks, search checks, public wiring, and expected public behavior assertions.",
+      "remaining_risks": "Manifest maintenance is manual when adding new validators or wrappers.",
+      "material_before_final_use": false,
+      "recommended_action": "Continue treating the manifest as the release gate.",
+      "priority": "P2"
+    },
+    {
+      "area": "Team Builder safety",
+      "score": 5,
+      "evidence": "Team Builder remains artifact-backed by default; golden, browser equivalence, eligibility, rules helper, constraint helper, and unification readiness validators pass.",
+      "remaining_risks": "User locks, substitutions, boosters, and played/unplayed official game state are not imported.",
+      "material_before_final_use": false,
+      "recommended_action": "Ship with existing manual-check caveats.",
+      "priority": "P3"
+    },
+    {
+      "area": "Team Builder maintainability",
+      "score": 4,
+      "evidence": "Rules-derived limits moved into shared helpers; script.js line count reduced from 15351 to 15258.",
+      "remaining_risks": "Optimizer scoring and captain/vice ranking are still browser-side and should not be casually changed.",
+      "material_before_final_use": false,
+      "recommended_action": "Defer optimizer/captain extraction until exact scoring fixtures exist.",
+      "priority": "P2"
+    },
+    {
+      "area": "helper/module structure",
+      "score": 4,
+      "evidence": "scripts/lib/teamBuilderPublicModel.mjs and teamBuilderPublicHelpers.js share concepts and validators prove wrapper parity.",
+      "remaining_risks": "Browser helper wrapper is manually mirrored from the Node helper, which creates future drift risk.",
+      "material_before_final_use": false,
+      "recommended_action": "Add generated browser wrapper later.",
+      "priority": "P2"
+    },
+    {
+      "area": "browser QA strength",
+      "score": 5,
+      "evidence": "Local and deployed Playwright QA cover index and world-cup pages across five viewports, exact Team Builder assertions, profile clicks, old globals, console errors, and blocking failed requests.",
+      "remaining_risks": "Browser QA depends on Playwright availability and environment variables for the bundled runtime in sandboxed sessions.",
+      "material_before_final_use": false,
+      "recommended_action": "Keep using the active QA runner plus deployed reruns after public JS changes.",
+      "priority": "P3"
+    },
+    {
+      "area": "public payload size",
+      "score": 4,
+      "evidence": "Public payload contract passes and slimmed wrapper sizes are tracked in the manifest; current main wrappers total about 6.56 MB including recommendations, projections, score predictions, Team Builder artifact, helper, and script.",
+      "remaining_risks": "Projection and recommendation wrappers remain large for a static site.",
+      "material_before_final_use": false,
+      "recommended_action": "Defer further slimming unless page load metrics become a client concern.",
+      "priority": "P2"
+    },
+    {
+      "area": "public copy trustworthiness",
+      "score": 5,
+      "evidence": "Homepage and world-cup page include Final Round framing, manual lock/lineup caveats, and final-squad source-backing caveats.",
+      "remaining_risks": "Users can still overinterpret projections as certainty.",
+      "material_before_final_use": false,
+      "recommended_action": "Keep current caveats; avoid new claims.",
+      "priority": "P3"
+    },
+    {
+      "area": "private/refereeing leak protection",
+      "score": 5,
+      "evidence": "Private files remain untracked; active manifest search checks block refereeing/conspiracy terms in public pages.",
+      "remaining_risks": "Untracked private files remain present locally and must not be staged.",
+      "material_before_final_use": false,
+      "recommended_action": "Leave private artifacts untracked until there is an explicit publication decision.",
+      "priority": "P1"
+    },
+    {
+      "area": "static-site simplicity",
+      "score": 4,
+      "evidence": "The site uses static browser-ready wrappers and no runtime fetch for players or rules, matching AGENTS.md.",
+      "remaining_risks": "Static wrappers duplicate readable JSON and require careful sync discipline.",
+      "material_before_final_use": false,
+      "recommended_action": "Keep static architecture for current use; automate wrapper generation only in a separate safe pass.",
+      "priority": "P2"
+    },
+    {
+      "area": "consulting-client presentation quality",
+      "score": 5,
+      "evidence": "Final Round default, fixture context, Team Builder, caveats, and browser QA indicate the experience is presentable for a client-facing fantasy planning demo.",
+      "remaining_risks": "The tool is still planning help, not official advice.",
+      "material_before_final_use": false,
+      "recommended_action": "Present as an independent planning aid with caveats.",
+      "priority": "P3"
+    }
+  ],
+  "top_findings": [
+    "The public site is safe to show with existing caveats.",
+    "The Team Builder is safe enough for public use because the default path remains generated-artifact-backed and exact browser assertions pass.",
+    "The active Final Round data path is protected by manifest wiring, validators, browser QA, and leakage searches.",
+    "script.js remains large, but the remaining extraction targets are not tiny and should be deferred.",
+    "The helper layer is useful, but generated browser wrapper parity should be a later maintainability improvement."
+  ],
+  "changed_files": [
+    "data/finalCodeEleganceAudit_v1.json",
+    "data/finalCodeEleganceAuditReport_v1.md",
+    "data/finalPublicReadinessChecklist_v1.json",
+    "data/finalPublicReadinessChecklistReport_v1.md",
+    "data/finalTechnicalDebtRegister_v1.md",
+    "data/finalCodeEleganceNoBehaviorChange_v1.json",
+    "data/finalCodeEleganceNoBehaviorChangeReport_v1.md",
+    "data/activeStageQaRun_v1.json",
+    "data/activeStageQaRunReport_v1.md"
+  ],
+  "recommendation": {
+    "commit_recommended": true,
+    "cleanup_edits_recommended_now": false,
+    "optimizer_scoring_extraction_should_happen_now": false,
+    "captain_ranking_extraction_should_happen_now": false
+  }
+}

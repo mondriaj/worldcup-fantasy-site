@@ -1,0 +1,151 @@
+{
+  "schema_version": "final_public_readiness_checklist_v1",
+  "generated_at": "2026-07-19T00:00:00-04:00",
+  "status": "GREEN",
+  "items": [
+    {
+      "item": "active stage is Final Round",
+      "status": "pass",
+      "evidence": "data/activeStageManifest_v1.json activeStage is finalRound.",
+      "validator_or_file": "data/activeStageManifest_v1.json"
+    },
+    {
+      "item": "homepage loads",
+      "status": "pass",
+      "evidence": "Local and deployed public preview browser QA passed; deployed homepage returned 200 and redirects to fantasyeconomist.com.",
+      "validator_or_file": "scripts/runPublicPreviewBrowserQa.mjs"
+    },
+    {
+      "item": "world-cup page loads",
+      "status": "pass",
+      "evidence": "Public preview browser QA covers world-cup.html across five viewports; deployed route verification is required in this prompt.",
+      "validator_or_file": "scripts/runPublicPreviewBrowserQa.mjs"
+    },
+    {
+      "item": "Final and Third Place fixtures present",
+      "status": "pass",
+      "evidence": "Final Round fixture authority is listed in the manifest and browser content contract passed.",
+      "validator_or_file": "scripts/validateFinalRoundBrowserContentContractV1.mjs"
+    },
+    {
+      "item": "SF scores present",
+      "status": "pass",
+      "evidence": "Browser content contract validates completed semifinal scores against fixture authority.",
+      "validator_or_file": "scripts/validateFinalRoundBrowserContentContractV1.mjs"
+    },
+    {
+      "item": "Picks assertions pass",
+      "status": "pass",
+      "evidence": "Active QA runner includes exact browser content assertions.",
+      "validator_or_file": "data/activeStageQaRunReport_v1.md"
+    },
+    {
+      "item": "Captain Watchlist assertions pass",
+      "status": "pass",
+      "evidence": "Active QA runner includes exact browser content assertions.",
+      "validator_or_file": "data/activeStageQaRunReport_v1.md"
+    },
+    {
+      "item": "Match Environment assertions pass",
+      "status": "pass",
+      "evidence": "Active QA runner includes exact browser content assertions.",
+      "validator_or_file": "data/activeStageQaRunReport_v1.md"
+    },
+    {
+      "item": "Player Profile assertions pass",
+      "status": "pass",
+      "evidence": "Public preview browser QA reports zero profile click failures.",
+      "validator_or_file": "scripts/runPublicPreviewBrowserQa.mjs"
+    },
+    {
+      "item": "Team Builder artifact-backed default",
+      "status": "pass",
+      "evidence": "Browser equivalence validator confirms artifact_loaded_in_browser and browser_default_uses_generated_artifact_objective.",
+      "validator_or_file": "scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs"
+    },
+    {
+      "item": "Team Builder golden values pass",
+      "status": "pass",
+      "evidence": "Golden validator and browser equivalence checks pass with budget 94.8 / 105, captain Mikel Oyarzabal, vice Leandro Paredes.",
+      "validator_or_file": "scripts/validateTeamBuilderGoldenFinalRoundV1.mjs"
+    },
+    {
+      "item": "Team Builder selected squad unchanged",
+      "status": "pass",
+      "evidence": "Browser equivalence confirms golden, generated artifact, and visible browser squad match.",
+      "validator_or_file": "scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs"
+    },
+    {
+      "item": "budget limit unchanged",
+      "status": "pass",
+      "evidence": "Rules helper validator reports budget limit 105.",
+      "validator_or_file": "scripts/validateTeamBuilderRulesHelpersV1.mjs"
+    },
+    {
+      "item": "eligible teams from fixture authority",
+      "status": "pass",
+      "evidence": "Eligible-player QA uses finalRoundFixtureAuthority and active eligible teams France, England, Spain, Argentina.",
+      "validator_or_file": "scripts/validateFinalRoundEligiblePlayersV1.mjs"
+    },
+    {
+      "item": "no eliminated active players",
+      "status": "pass",
+      "evidence": "Eligible-player QA reports eliminated_player_candidates 0, eliminated_player_selected 0, and no active surface leakage.",
+      "validator_or_file": "scripts/validateFinalRoundEligiblePlayersV1.mjs"
+    },
+    {
+      "item": "no old globals",
+      "status": "pass",
+      "evidence": "Manifest search check old_globals_legacy_paths_public_files passes with zero hits.",
+      "validator_or_file": "data/activeStageQaRunReport_v1.md"
+    },
+    {
+      "item": "no stale MD2/MD3/Semifinal default copy",
+      "status": "pass",
+      "evidence": "Default matchday remains finalRound and public copy frames the current setup as Final Round.",
+      "validator_or_file": "index.html, script.js"
+    },
+    {
+      "item": "no public refereeing/conspiracy exposure",
+      "status": "pass",
+      "evidence": "Manifest public_refereeing_conspiracy_leakage search check passes with zero public-page hits.",
+      "validator_or_file": "data/activeStageQaRunReport_v1.md"
+    },
+    {
+      "item": "final squad caveat present",
+      "status": "pass",
+      "evidence": "Public copy states independently source-backed final squads are not verified.",
+      "validator_or_file": "index.html"
+    },
+    {
+      "item": "official locks/lineups caveat present",
+      "status": "pass",
+      "evidence": "Homepage and world-cup page instruct users to verify official FIFA locks, substitutions, and lineups.",
+      "validator_or_file": "index.html, world-cup.html"
+    },
+    {
+      "item": "public payload contract passes",
+      "status": "pass",
+      "evidence": "Public payload contract QA passes all checks.",
+      "validator_or_file": "scripts/validatePublicPayloadContractV1.mjs"
+    },
+    {
+      "item": "deployed QA passes",
+      "status": "pass",
+      "evidence": "Previous deployed QA passed after 66fcc22; this prompt requires rerun after commit because audit files do not affect public JS.",
+      "validator_or_file": "scripts/runPublicPreviewBrowserQa.mjs"
+    },
+    {
+      "item": "tracked worktree clean except audit files",
+      "status": "pass",
+      "evidence": "Clean-scope gate showed no tracked dirty files before audit artifacts were created.",
+      "validator_or_file": "git status --short"
+    },
+    {
+      "item": "private untracked files documented",
+      "status": "pass",
+      "evidence": "Known private groups remain untracked: analysis/, data/refereeingOutcomes*, data/refereeingOutcomes*/, scripts/*RefereeingOutcomes*.",
+      "validator_or_file": "git ls-files --others --exclude-standard"
+    }
+  ]
+}
