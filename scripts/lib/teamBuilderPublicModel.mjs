@@ -118,6 +118,29 @@ export const TEAM_BUILDER_COMPARISON_STRATEGY_KEYS = [
 export const TEAM_BUILDER_PUBLIC_SOURCE_OF_TRUTH_NOTE =
   "The saved Final Round Team Builder output is the public source of truth.";
 
+export const TEAM_BUILDER_RULE_POSITION_CODE_LABELS = {
+  GK: "Goalkeeper",
+  DEF: "Defender",
+  MID: "Midfielder",
+  FWD: "Forward"
+};
+
+export const TEAM_BUILDER_RULE_POSITION_ORDER = Object.values(TEAM_BUILDER_RULE_POSITION_CODE_LABELS);
+
+const TEAM_BUILDER_RULE_KNOCKOUT_LIMIT_KEYS = {
+  r32: "round_of_32",
+  round_of_32: "round_of_32",
+  r16: "round_of_16",
+  round_of_16: "round_of_16",
+  qf: "quarter_final",
+  quarter_final: "quarter_final",
+  sf: "semi_final",
+  semi_final: "semi_final",
+  finalround: "final",
+  final_round: "final",
+  final: "final"
+};
+
 function normalizeText(value) {
   return String(value || "")
     .normalize("NFD")
@@ -138,6 +161,360 @@ export function formatTeamBuilderScoreNumber(value) {
 
 export function budgetDisplay(used, limit) {
   return `${displayNumber(used)} / ${displayNumber(limit)}`;
+}
+
+function clonePlain(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function finiteNumber(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+
+function normalizedRulesStageKey(activeStage = "group_stage_full") {
+  return String(activeStage || "group_stage_full").toLowerCase().replace(/[^a-z0-9]+/g, "_");
+}
+
+function rulesMatchdayKey(activeStage = "group_stage_full") {
+  return normalizedRulesStageKey(activeStage).replace(/_/g, "");
+}
+
+function requirementsTotal(requirements = {}) {
+  return Object.values(requirements).reduce((sum, count) => sum + Number(count || 0), 0);
+}
+
+function positionRequirementsByCodeFromRules(positionRules = {}) {
+  return Object.keys(TEAM_BUILDER_RULE_POSITION_CODE_LABELS).reduce((requirements, code) => {
+    const count = finiteNumber(positionRules?.[code]);
+
+    if (count === null) {
+      throw new Error(`Missing Team Builder squad position rule for ${code}.`);
+    }
+
+    requirements[code] = count;
+    return requirements;
+  }, {});
+}
+
+function positionRequirementsByLabel(positionRequirementsByCode = {}) {
+  return Object.entries(TEAM_BUILDER_RULE_POSITION_CODE_LABELS).reduce((requirements, [code, label]) => {
+    requirements[label] = Number(positionRequirementsByCode?.[code] || 0);
+    return requirements;
+  }, {});
+}
+
+function formationToRequirementsByCode(formation) {
+  const match = String(formation || "").match(/^(\d)-(\d)-(\d)$/);
+
+  if (!match) {
+    throw new Error(`Unsupported Team Builder formation rule: ${formation}.`);
+  }
+
+  return {
+    GK: 1,
+    DEF: Number(match[1]),
+    MID: Number(match[2]),
+    FWD: Number(match[3])
+  };
+}
+
+function formationRulesFromAllowedFormations(allowedFormations = [], starterTotal) {
+  if (!Array.isArray(allowedFormations) || !allowedFormations.length) {
+    throw new Error("Team Builder rules are missing starting_lineup.allowed_formations.");
+  }
+
+  return allowedFormations.reduce((formations, formation) => {
+    const byCode = formationToRequirementsByCode(formation);
+
+    if (finiteNumber(starterTotal) !== null && requirementsTotal(byCode) !== Number(starterTotal)) {
+      throw new Error(`Team Builder formation ${formation} does not match starting_lineup.total_players.`);
+    }
+
+    formations.requirementsByCode[formation] = byCode;
+    formations.requirementsByFormation[formation] = positionRequirementsByLabel(byCode);
+    return formations;
+  }, {
+    allowedFormations: [...allowedFormations],
+    requirementsByCode: {},
+    requirementsByFormation: {}
+  });
+}
+
+function budgetLimitFromRules(rules, activeStage) {
+  const baseBudget = finiteNumber(rules?.budget?.initial_budget);
+  const knockoutIncrease = finiteNumber(rules?.budget?.knockout_increase) || 0;
+  const knockoutMatchday = TEAM_BUILDER_RULE_KNOCKOUT_LIMIT_KEYS[rulesMatchdayKey(activeStage)];
+
+  if (baseBudget === null) {
+    throw new Error("Team Builder rules are missing budget.initial_budget.");
+  }
+
+  return knockoutMatchday ? baseBudget + knockoutIncrease : baseBudget;
+}
+
+function countryLimitFromRules(rules, activeStage) {
+  const groupLimit = finiteNumber(rules?.country_limits?.group_stage_max_per_country);
+  const knockoutKey = TEAM_BUILDER_RULE_KNOCKOUT_LIMIT_KEYS[rulesMatchdayKey(activeStage)];
+  const knockoutLimit = knockoutKey ? finiteNumber(rules?.country_limits?.knockout_limits?.[knockoutKey]) : null;
+
+  if (knockoutLimit !== null) {
+    return knockoutLimit;
+  }
+
+  if (groupLimit === null) {
+    throw new Error("Team Builder rules are missing country_limits.group_stage_max_per_country.");
+  }
+
+  return groupLimit;
+}
+
+function artifactConstraints(artifact) {
+  return artifact?.constraintsUsed && typeof artifact.constraintsUsed === "object"
+    ? artifact.constraintsUsed
+    : {};
+}
+
+function rulesConfigSourceDetail(rules, artifact, activeStage, field, rulesValue, artifactValue = null) {
+  const artifactBacked = activeStage === "finalRound" && artifactValue !== null && artifactValue !== undefined;
+  const source = artifactBacked ? "artifact_constraints" : "official_rules_data";
+
+  return {
+    field,
+    source,
+    officialSourceBacked: Boolean(rules),
+    currentImplementationBacked: true,
+    artifactBacked,
+    rulesValue,
+    artifactValue,
+    value: artifactBacked ? artifactValue : rulesValue,
+    matchesOfficialRules: artifactValue === null || artifactValue === undefined || Number(artifactValue) === Number(rulesValue) ||
+      JSON.stringify(artifactValue) === JSON.stringify(rulesValue)
+  };
+}
+
+function buildRulesConfigFromInput(input = {}) {
+  const rules = input.rules || input.fantasyRules || input;
+  const activeStage = input.activeStage || input.matchday || input.matchdayId || artifactConstraints(input.artifact).matchday || "group_stage_full";
+  const constraints = artifactConstraints(input.artifact);
+  const rulesSquadSize = finiteNumber(rules?.squad?.total_players);
+  const rulesStarterSize = finiteNumber(rules?.starting_lineup?.total_players);
+  const rulesPositionRequirementsByCode = positionRequirementsByCodeFromRules(rules?.squad?.positions);
+  const artifactPositionRequirementsByCode = constraints.position_requirements || null;
+  const positionRequirementsByCode = artifactPositionRequirementsByCode && activeStage === "finalRound"
+    ? clonePlain(artifactPositionRequirementsByCode)
+    : rulesPositionRequirementsByCode;
+  const formation = formationRulesFromAllowedFormations(rules?.starting_lineup?.allowed_formations, rulesStarterSize);
+  const artifactStarterRequirementsByCode = constraints.starter_requirements || null;
+  const activeFormation = input.formation || input.artifact?.strategy?.formation || "4-3-3";
+  const activeStarterRequirementsByCode = artifactStarterRequirementsByCode && activeStage === "finalRound"
+    ? clonePlain(artifactStarterRequirementsByCode)
+    : formation.requirementsByCode[activeFormation] || formation.requirementsByCode[formation.allowedFormations[0]];
+  const budgetFromRules = budgetLimitFromRules(rules, activeStage);
+  const countryLimitFromRuleData = countryLimitFromRules(rules, activeStage);
+  const budgetDetail = rulesConfigSourceDetail(rules, input.artifact, activeStage, "budget_limit", budgetFromRules, constraints.initial_budget ?? null);
+  const countryDetail = rulesConfigSourceDetail(rules, input.artifact, activeStage, "country_limit", countryLimitFromRuleData, constraints.country_limit ?? null);
+
+  if (rulesSquadSize === null || rulesStarterSize === null) {
+    throw new Error("Team Builder rules are missing squad or starting-lineup totals.");
+  }
+
+  if (requirementsTotal(positionRequirementsByCode) !== rulesSquadSize) {
+    throw new Error("Team Builder squad position counts do not match total_players.");
+  }
+
+  if (requirementsTotal(activeStarterRequirementsByCode) !== rulesStarterSize) {
+    throw new Error("Team Builder starter requirements do not match starting_lineup.total_players.");
+  }
+
+  return {
+    schema_version: "team_builder_rules_config_v1",
+    activeStage,
+    sourceClassification: "current-implementation-backed",
+    rulesStatus: rules?.rules_status || rules?.rulesStatus || null,
+    sourceChecked: rules?.source_checked || rules?.sourceChecked || null,
+    budget: {
+      limit: budgetDetail.value,
+      currencyLabel: rules?.budget?.currency_label || "fantasy units",
+      detail: budgetDetail
+    },
+    squad: {
+      totalPlayers: rulesSquadSize,
+      positionOrder: [...TEAM_BUILDER_RULE_POSITION_ORDER],
+      positionRequirements: positionRequirementsByLabel(positionRequirementsByCode),
+      positionRequirementsByCode,
+      detail: rulesConfigSourceDetail(rules, input.artifact, activeStage, "position_requirements", rulesPositionRequirementsByCode, artifactPositionRequirementsByCode)
+    },
+    starterBench: {
+      starterSize: rulesStarterSize,
+      benchSize: Math.max(0, rulesSquadSize - rulesStarterSize),
+      activeFormation,
+      starterRequirements: positionRequirementsByLabel(activeStarterRequirementsByCode),
+      starterRequirementsByCode: activeStarterRequirementsByCode,
+      detail: rulesConfigSourceDetail(rules, input.artifact, activeStage, "starter_requirements", formation.requirementsByCode[activeFormation] || null, artifactStarterRequirementsByCode)
+    },
+    formation: {
+      ...formation,
+      activeFormation
+    },
+    countryLimit: {
+      limit: countryDetail.value,
+      label: activeStage === "finalRound" ? "Final Round" : activeStage,
+      detail: countryDetail
+    },
+    captain: {
+      captainRequired: rules?.captain?.captain_required !== false,
+      viceCaptainRequired: rules?.captain?.vice_captain_required !== false,
+      captainPointsMultiplier: finiteNumber(rules?.captain?.captain_points_multiplier) || 2,
+      captainMustBeInSelectedSquad: true,
+      viceCaptainMustBeInSelectedSquad: true,
+      captainMustBeStarter: true,
+      viceCaptainMustBeStarter: true,
+      captainMustDifferFromVice: true,
+      goalkeeperAllowed: false,
+      source: "official_rules_data_and_current_validator_contract"
+    },
+    lockRemoval: {
+      lockedPlayersMustRemainPresent: true,
+      excludedPlayersMustRemainAbsent: true,
+      liveLockStateManualCheckRequired: true,
+      source: "current_browser_state_and_official_manual_check_caveat"
+    },
+    warnings: [
+      "Rules config is current-implementation-backed for Team Builder behavior.",
+      "Live deadlines, locks, substitutions, boosters, and played/unplayed state remain manual FIFA checks."
+    ]
+  };
+}
+
+export function normalizeTeamBuilderRulesConfig(input = {}) {
+  if (input?.schema_version === "team_builder_rules_config_v1") {
+    return clonePlain(input);
+  }
+
+  return buildRulesConfigFromInput(input);
+}
+
+export function validateTeamBuilderRulesConfig(input = {}) {
+  const errors = [];
+  let config = null;
+
+  try {
+    config = normalizeTeamBuilderRulesConfig(input);
+  } catch (error) {
+    errors.push(String(error?.message || error));
+  }
+
+  if (config) {
+    if (finiteNumber(config.budget?.limit) === null || config.budget.limit <= 0) {
+      errors.push("Team Builder rules config budget.limit must be a positive number.");
+    }
+
+    if (finiteNumber(config.squad?.totalPlayers) === null || config.squad.totalPlayers <= 0) {
+      errors.push("Team Builder rules config squad.totalPlayers must be a positive number.");
+    }
+
+    if (finiteNumber(config.starterBench?.starterSize) === null || config.starterBench.starterSize <= 0) {
+      errors.push("Team Builder rules config starterBench.starterSize must be a positive number.");
+    }
+
+    if (requirementsTotal(config.squad?.positionRequirements) !== config.squad?.totalPlayers) {
+      errors.push("Team Builder rules config position requirements do not sum to squad.totalPlayers.");
+    }
+
+    if (requirementsTotal(config.starterBench?.starterRequirements) !== config.starterBench?.starterSize) {
+      errors.push("Team Builder rules config starter requirements do not sum to starterBench.starterSize.");
+    }
+
+    if (finiteNumber(config.countryLimit?.limit) === null || config.countryLimit.limit <= 0) {
+      errors.push("Team Builder rules config countryLimit.limit must be a positive number.");
+    }
+
+    if (!config.sourceClassification) {
+      errors.push("Team Builder rules config must include sourceClassification.");
+    }
+  }
+
+  return {
+    status: errors.length ? "fail" : "pass",
+    config,
+    errors,
+    warnings: config?.warnings || []
+  };
+}
+
+export function getTeamBuilderRulesConfig(input = {}) {
+  const validation = validateTeamBuilderRulesConfig(input);
+
+  if (validation.status !== "pass") {
+    throw new Error(`Invalid Team Builder rules config: ${validation.errors.join(" ")}`);
+  }
+
+  return validation.config;
+}
+
+export function getTeamBuilderBudgetLimit(input = {}, activeStage = "group_stage_full") {
+  const source = input?.schema_version || input?.rules || input?.fantasyRules || input?.artifact || input?.activeStage
+    ? input
+    : { rules: input, activeStage };
+  return getTeamBuilderRulesConfig(source).budget.limit;
+}
+
+export function getTeamBuilderSquadSizeRules(input = {}) {
+  const config = getTeamBuilderRulesConfig(input);
+
+  return {
+    totalPlayers: config.squad.totalPlayers,
+    starterSize: config.starterBench.starterSize,
+    benchSize: config.starterBench.benchSize,
+    source: config.sourceClassification
+  };
+}
+
+export function getTeamBuilderPositionRules(input = {}) {
+  const config = getTeamBuilderRulesConfig(input);
+
+  return {
+    positionOrder: [...config.squad.positionOrder],
+    positionRequirements: clonePlain(config.squad.positionRequirements),
+    positionRequirementsByCode: clonePlain(config.squad.positionRequirementsByCode),
+    source: config.squad.detail.source
+  };
+}
+
+export function getTeamBuilderFormationRules(input = {}) {
+  const config = getTeamBuilderRulesConfig(input);
+
+  return {
+    activeFormation: config.formation.activeFormation,
+    allowedFormations: [...config.formation.allowedFormations],
+    requirementsByFormation: clonePlain(config.formation.requirementsByFormation),
+    requirementsByCode: clonePlain(config.formation.requirementsByCode),
+    source: "official_rules_data"
+  };
+}
+
+export function getTeamBuilderCountryLimit(input = {}, activeStage = "group_stage_full") {
+  if (input?.schema_version === "team_builder_rules_config_v1") {
+    return input.countryLimit.limit;
+  }
+
+  const source = input?.rules || input?.fantasyRules || input?.artifact || input?.activeStage
+    ? input
+    : { rules: input, activeStage };
+  return getTeamBuilderRulesConfig(source).countryLimit.limit;
+}
+
+export function getTeamBuilderCaptainRules(input = {}) {
+  return clonePlain(getTeamBuilderRulesConfig(input).captain);
+}
+
+export function getTeamBuilderStarterBenchRules(input = {}) {
+  return clonePlain(getTeamBuilderRulesConfig(input).starterBench);
+}
+
+export function getTeamBuilderLockRemovalRules(input = {}) {
+  return clonePlain(getTeamBuilderRulesConfig(input).lockRemoval);
 }
 
 export function normalizeTeamBuilderTeamName(value) {

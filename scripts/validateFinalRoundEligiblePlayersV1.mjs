@@ -4,6 +4,7 @@ import { manifestFile, manifestWrapper, readActiveStageManifest } from "./lib/re
 import {
   eligibleTeamKeysFromFixtureAuthority,
   getFixtureAuthorityEligibleTeams,
+  getTeamBuilderRulesConfig,
   isFinalRoundEligibleTeam,
   normalizeTeamBuilderEligibleTeam,
   recordMatchesEligibleTeam
@@ -91,10 +92,13 @@ function check(id, passed, details = {}) {
 
 const authority = readJson(manifestFile(manifest, "finalRoundFixtureAuthority"));
 const teamBuilderQa = readJson(manifestFile(manifest, "teamBuilderQa"));
+const teamBuilderArtifact = readJson(manifestFile(manifest, "teamBuilderArtifact"));
+const rules = readJson(manifestFile(manifest, "rules"));
 const projectionSource = readJson(manifestFile(manifest, "matchdayProjections"));
 const recommendationSource = readJson(manifestFile(manifest, "recommendations"));
 const projectionWindow = loadBrowserWrapper(manifestWrapper(manifest, "matchdayProjections"));
 const recommendationWindow = loadBrowserWrapper(manifestWrapper(manifest, "recommendations"));
+const teamBuilderHelpersWindow = loadBrowserWrapper(manifestWrapper(manifest, "teamBuilderPublicHelpers"));
 const financeWindow = loadBrowserWrapper("fantasyPoolFinanceMetricsData.js");
 const scriptSource = fs.readFileSync("script.js", "utf8");
 
@@ -109,6 +113,10 @@ const captainWatchlistRows = activeRecommendationRows.filter((row) => row.mode =
 const teamBuilderSelectedRows = teamBuilderQa.balancedSquad || [];
 const teamBuilderCandidateCountByTeam = teamBuilderQa.summary?.candidate_count_by_team || {};
 const teamBuilderSelectedCountByTeam = teamBuilderQa.summary?.selected_count_by_team || {};
+const teamBuilderRulesConfig = getTeamBuilderRulesConfig({ rules, artifact: teamBuilderArtifact, activeStage });
+const browserTeamBuilderRulesConfig = typeof teamBuilderHelpersWindow.TEAM_BUILDER_PUBLIC_HELPERS?.getTeamBuilderRulesConfig === "function"
+  ? teamBuilderHelpersWindow.TEAM_BUILDER_PUBLIC_HELPERS.getTeamBuilderRulesConfig({ rules, artifact: teamBuilderArtifact, activeStage })
+  : null;
 
 const activeProjectionOutside = rowsOutsideEligibleTeams(activeProjectionRows, eligibleTeamKeys);
 const activeRecommendationOutside = rowsOutsideEligibleTeams(activeRecommendationRows, eligibleTeamKeys);
@@ -136,7 +144,8 @@ const scriptGuardChecks = {
   finalRoundAuthorityLoaded: /finalRoundFixtureAuthority:\s*window\.FINAL_ROUND_FIXTURE_AUTHORITY_DATA/.test(scriptSource),
   activeEligibleTeamHelper: /function getActiveStageEligibleTeams/.test(scriptSource),
   activePlayerFilterHelper: /function playerAllowedForActiveMatchday/.test(scriptSource),
-  finalRoundCountryLimitMapsToFinal: /finalround:\s*"final"/.test(scriptSource),
+  finalRoundCountryLimitMapsToFinal: teamBuilderRulesConfig.countryLimit.limit === 8 &&
+    browserTeamBuilderRulesConfig?.countryLimit?.limit === 8,
   builderPickerFiltered: /\.filter\(\(player\) => playerAllowedForActiveMatchday\(player\)\)/.test(scriptSource),
   optimizerPoolsFiltered: /function optimizerCandidatePools[\s\S]*playerAllowedForActiveMatchday\(player\)/.test(scriptSource),
   lockedPlayersFiltered: /function getValidLockedSquadPlayers[\s\S]*playerAllowedForActiveMatchday\(player\)/.test(scriptSource)

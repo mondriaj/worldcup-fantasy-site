@@ -1325,41 +1325,6 @@ function emptyPositionCounts() {
   }, {});
 }
 
-function positionRequirementsFromRules(positionRules) {
-  const requirements = {};
-
-  Object.entries(positionCodeLabels).forEach(([code, label]) => {
-    const count = Number(positionRules?.[code]);
-
-    if (!Number.isFinite(count)) {
-      throw new Error(`Missing squad rule for ${code}`);
-    }
-
-    requirements[label] = count;
-  });
-
-  return requirements;
-}
-
-function formationToRequirements(formation) {
-  const match = String(formation).match(/^(\d)-(\d)-(\d)$/);
-
-  if (!match) {
-    throw new Error(`Unsupported formation in rules file: ${formation}`);
-  }
-
-  return {
-    Goalkeeper: 1,
-    Defender: Number(match[1]),
-    Midfielder: Number(match[2]),
-    Forward: Number(match[3])
-  };
-}
-
-function requirementsTotal(requirements) {
-  return Object.values(requirements).reduce((sum, count) => sum + Number(count), 0);
-}
-
 function budgetUnitLabel() {
   return budgetCurrencyLabel === "fantasy units" ? "units" : budgetCurrencyLabel;
 }
@@ -1384,45 +1349,20 @@ function loadFantasyRules() {
   return ACTIVE_DATA.rules;
 }
 
+function teamBuilderRulesConfigForMatchday(rules, matchdayId = activeMatchdayId) {
+  return TEAM_BUILDER_PUBLIC_HELPERS.getTeamBuilderRulesConfig({
+    rules,
+    activeStage: matchdayId,
+    artifact: matchdayId === "finalRound" ? finalRoundTeamBuilderArtifact() : null
+  });
+}
+
 function countryLimitForMatchday(rules, matchdayId = activeMatchdayId) {
-  const groupLimit = Number(rules?.country_limits?.group_stage_max_per_country);
-  const fallbackLimit = Number.isFinite(groupLimit) ? groupLimit : 0;
-  const knockoutLimits = rules?.country_limits?.knockout_limits || {};
-  const id = String(matchdayId || "").toLowerCase();
-  const knockoutKeyByMatchday = {
-    r32: "round_of_32",
-    r16: "round_of_16",
-    qf: "quarter_final",
-    quarter_final: "quarter_final",
-    sf: "semi_final",
-    semi_final: "semi_final",
-    finalround: "final",
-    final: "final"
-  };
-  const knockoutKey = knockoutKeyByMatchday[id];
-
-  if (knockoutKey) {
-    const knockoutLimit = Number(knockoutLimits[knockoutKey]);
-
-    if (Number.isFinite(knockoutLimit)) {
-      return knockoutLimit;
-    }
-  }
-
-  return fallbackLimit;
+  return TEAM_BUILDER_PUBLIC_HELPERS.getTeamBuilderCountryLimit(teamBuilderRulesConfigForMatchday(rules, matchdayId));
 }
 
 function budgetLimitForMatchday(rules, matchdayId = activeMatchdayId) {
-  const baseBudget = Number(rules?.budget?.initial_budget);
-  const knockoutIncrease = Number(rules?.budget?.knockout_increase || 0);
-  const id = String(matchdayId || "").toLowerCase();
-  const knockoutMatchdays = new Set(["r32", "r16", "qf", "quarter_final", "sf", "semi_final", "finalround", "final"]);
-
-  if (!Number.isFinite(baseBudget)) {
-    return 0;
-  }
-
-  return knockoutMatchdays.has(id) ? baseBudget + knockoutIncrease : baseBudget;
+  return TEAM_BUILDER_PUBLIC_HELPERS.getTeamBuilderBudgetLimit(teamBuilderRulesConfigForMatchday(rules, matchdayId));
 }
 
 function refreshActiveCountryLimit() {
@@ -1438,54 +1378,21 @@ function activeCountryLimitLabel() {
 }
 
 function applyFantasyRules(rules) {
-  const totalPlayers = Number(rules?.squad?.total_players);
-  const starterTotal = Number(rules?.starting_lineup?.total_players);
-  const budgetLimit = Number(rules?.budget?.initial_budget);
-  const countryLimit = Number(rules?.country_limits?.group_stage_max_per_country);
-  const allowedFormations = rules?.starting_lineup?.allowed_formations;
-  const nextSquadRequirements = positionRequirementsFromRules(rules?.squad?.positions);
-
-  if (!Number.isFinite(totalPlayers) || !Number.isFinite(starterTotal)) {
-    throw new Error("Fantasy rules are missing squad or starting-lineup totals.");
-  }
-
-  if (!Number.isFinite(budgetLimit)) {
-    throw new Error("Fantasy rules are missing budget.initial_budget.");
-  }
-
-  if (!Number.isFinite(countryLimit)) {
-    throw new Error("Fantasy rules are missing country_limits.group_stage_max_per_country.");
-  }
-
-  if (!Array.isArray(allowedFormations) || !allowedFormations.length) {
-    throw new Error("Fantasy rules are missing allowed formations.");
-  }
-
-  if (requirementsTotal(nextSquadRequirements) !== totalPlayers) {
-    throw new Error("Fantasy squad position counts do not match total_players.");
-  }
-
-  const nextTactics = allowedFormations.reduce((formations, formation) => {
-    const requirements = formationToRequirements(formation);
-
-    if (requirementsTotal(requirements) !== starterTotal) {
-      throw new Error(`Formation ${formation} does not match starting_lineup.total_players.`);
-    }
-
-    formations[formation] = requirements;
-    return formations;
-  }, {});
+  const rulesConfig = teamBuilderRulesConfigForMatchday(rules, activeMatchdayId);
+  const sizeRules = TEAM_BUILDER_PUBLIC_HELPERS.getTeamBuilderSquadSizeRules(rulesConfig);
+  const positionRules = TEAM_BUILDER_PUBLIC_HELPERS.getTeamBuilderPositionRules(rulesConfig);
+  const formationRules = TEAM_BUILDER_PUBLIC_HELPERS.getTeamBuilderFormationRules(rulesConfig);
 
   fantasyRules = rules;
-  tactics = nextTactics;
-  squadRequirements = nextSquadRequirements;
-  squadTotalPlayers = totalPlayers;
-  startingLineupTotal = starterTotal;
-  benchTotalPlayers = Math.max(0, squadTotalPlayers - startingLineupTotal);
-  initialBudget = budgetLimitForMatchday(rules, activeMatchdayId);
-  budgetCurrencyLabel = rules?.budget?.currency_label || "fantasy units";
-  groupStageCountryLimit = countryLimitForMatchday(rules, activeMatchdayId);
-  positionOrder = Object.values(positionCodeLabels);
+  tactics = formationRules.requirementsByFormation;
+  squadRequirements = positionRules.positionRequirements;
+  squadTotalPlayers = sizeRules.totalPlayers;
+  startingLineupTotal = sizeRules.starterSize;
+  benchTotalPlayers = sizeRules.benchSize;
+  initialBudget = rulesConfig.budget.limit;
+  budgetCurrencyLabel = rulesConfig.budget.currencyLabel;
+  groupStageCountryLimit = rulesConfig.countryLimit.limit;
+  positionOrder = positionRules.positionOrder;
 }
 
 function squadLabel() {

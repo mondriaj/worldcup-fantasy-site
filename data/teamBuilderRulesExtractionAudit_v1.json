@@ -1,0 +1,157 @@
+{
+  "schema_version": "team_builder_rules_extraction_audit_v1",
+  "generated_at": "2026-07-18",
+  "status": "GREEN",
+  "scope": "Centralize Team Builder rules-derived limits and squad requirements into shared helpers without changing public behavior, model outputs, optimizer scoring, candidate ordering, or the generated Team Builder artifact.",
+  "baseline_commit": "5b9c222 Audit Team Builder refactor stack",
+  "files_inspected": [
+    "script.js",
+    "scripts/lib/teamBuilderPublicModel.mjs",
+    "teamBuilderPublicHelpers.js",
+    "scripts/validateTeamBuilderConstraintHelpersV1.mjs",
+    "scripts/validateTeamBuilderOptimizerUtilitiesV1.mjs",
+    "scripts/validateTeamBuilderGoldenFinalRoundV1.mjs",
+    "scripts/validateTeamBuilderSharedModelHelpersV1.mjs",
+    "scripts/validateTeamBuilderEligibilityHelpersV1.mjs",
+    "data/teamBuilderFinalRoundArtifact_v1.json",
+    "data/teamBuilderGoldenFinalRound_v1.json",
+    "fantasyRules.json",
+    "fantasyRulesData.js",
+    "data/activeStageManifest_v1.json",
+    "scripts/validateFinalRoundBrowserContentContractV1.mjs"
+  ],
+  "line_counts": {
+    "script_js_before": 15351,
+    "script_js_after": 15258,
+    "script_js_delta": -93,
+    "teamBuilderPublicHelpers_js_after": 1514,
+    "teamBuilderPublicModel_mjs_after": 1428,
+    "validateTeamBuilderRulesHelpers_mjs_after": 272
+  },
+  "rule_sources": [
+    {
+      "rule": "budget limit",
+      "current_value": 105,
+      "browser_before": "budgetLimitForMatchday() computed budget.initial_budget + budget.knockout_increase for finalRound",
+      "browser_after": "TEAM_BUILDER_PUBLIC_HELPERS.getTeamBuilderRulesConfig(...).budget.limit",
+      "source_classification": "current-implementation-backed",
+      "source_detail": "Official rules data provides 100 initial budget plus 5 knockout increase; the active artifact also records constraintsUsed.initial_budget 105."
+    },
+    {
+      "rule": "country/team cap",
+      "current_value": 8,
+      "browser_before": "countryLimitForMatchday() mapped finalRound to country_limits.knockout_limits.final",
+      "browser_after": "TEAM_BUILDER_PUBLIC_HELPERS.getTeamBuilderRulesConfig(...).countryLimit.limit",
+      "source_classification": "current-implementation-backed",
+      "source_detail": "Official rules data and active artifact both expose final cap 8."
+    },
+    {
+      "rule": "squad size",
+      "current_value": 15,
+      "browser_before": "applyFantasyRules() read rules.squad.total_players",
+      "browser_after": "getTeamBuilderSquadSizeRules(rulesConfig).totalPlayers",
+      "source_classification": "official rules data-backed and current-implementation-backed"
+    },
+    {
+      "rule": "starter count",
+      "current_value": 11,
+      "browser_before": "applyFantasyRules() read rules.starting_lineup.total_players",
+      "browser_after": "getTeamBuilderSquadSizeRules(rulesConfig).starterSize",
+      "source_classification": "official rules data-backed and current-implementation-backed"
+    },
+    {
+      "rule": "bench count",
+      "current_value": 4,
+      "browser_before": "applyFantasyRules() derived squadTotalPlayers - startingLineupTotal",
+      "browser_after": "getTeamBuilderSquadSizeRules(rulesConfig).benchSize",
+      "source_classification": "current-implementation-backed"
+    },
+    {
+      "rule": "position requirements",
+      "current_value": { "GK": 2, "DEF": 5, "MID": 5, "FWD": 3 },
+      "browser_before": "positionRequirementsFromRules() converted rules.squad.positions to display-label keys",
+      "browser_after": "getTeamBuilderPositionRules(rulesConfig) returns code and browser-label maps",
+      "source_classification": "official rules data-backed and active-artifact-confirmed"
+    },
+    {
+      "rule": "formation requirements",
+      "current_value": { "activeFormation": "4-3-3", "starterRequirements": { "GK": 1, "DEF": 4, "MID": 3, "FWD": 3 } },
+      "browser_before": "formationToRequirements() parsed allowed formation strings locally in script.js",
+      "browser_after": "getTeamBuilderFormationRules(rulesConfig) and getTeamBuilderStarterBenchRules(rulesConfig)",
+      "source_classification": "official rules data-backed and active-artifact-confirmed"
+    },
+    {
+      "rule": "captain/vice requirements",
+      "current_value": {
+        "captain_required": true,
+        "vice_captain_required": true,
+        "captain_must_be_selected": true,
+        "vice_must_be_selected": true,
+        "captain_must_be_starter": true,
+        "vice_must_be_starter": true,
+        "captain_must_differ_from_vice": true,
+        "goalkeeper_allowed": false
+      },
+      "browser_before": "validated by shared captain/vice constraint helper and browser decision tools; no standalone rules config existed",
+      "browser_after": "getTeamBuilderCaptainRules(rulesConfig) documents the shared validator contract",
+      "source_classification": "official rules data plus current validator contract"
+    },
+    {
+      "rule": "lock/removal constraints",
+      "current_value": {
+        "locked_players_must_remain_present": true,
+        "excluded_players_must_remain_absent": true,
+        "live_lock_state_manual_check_required": true
+      },
+      "browser_before": "browser state sets plus constraint helpers",
+      "browser_after": "getTeamBuilderLockRemovalRules(rulesConfig) documents current guardrails",
+      "source_classification": "current browser state and manual FIFA live-state caveat"
+    }
+  ],
+  "hardcoded_rule_number_audit": {
+    "safe_to_centralize_now": [
+      "budget limit",
+      "country/team cap",
+      "squad size",
+      "starter count",
+      "bench count",
+      "position requirements",
+      "formation requirements",
+      "captain/vice validity requirements",
+      "lock/removal guardrails"
+    ],
+    "kept_as_golden_assertions": [
+      "94.8 budget used",
+      "105 budget limit",
+      "8 country/team cap",
+      "selected squad player names and ids",
+      "captain Mikel Oyarzabal",
+      "vice captain Leandro Paredes",
+      "raw projected 59.552",
+      "optionality 5.291",
+      "composite 1014.93"
+    ],
+    "risky_or_not_moved": [
+      "optimizer scoring weights",
+      "candidate ordering",
+      "captain ranking",
+      "live FIFA played/unplayed lock state",
+      "public copy strings"
+    ]
+  },
+  "explicit_answers": {
+    "browser_budget_source": "Shared getTeamBuilderRulesConfig, using current Final Round implementation-backed value 105 from official rules formula and active artifact constraints.",
+    "browser_country_cap_source": "Shared getTeamBuilderRulesConfig, using current Final Round value 8 from official knockout final limit and active artifact constraints.",
+    "browser_formation_position_source": "Shared rules helpers derive allowed formations and display/code position maps from fantasyRules.json, with active artifact confirmation for Final Round 4-3-3 starter requirements.",
+    "browser_squad_size_source": "Shared getTeamBuilderSquadSizeRules reads the normalized rules config.",
+    "browser_captain_vice_source": "Shared getTeamBuilderCaptainRules documents the same captain/vice validator contract already enforced by constraint helpers.",
+    "duplicated_rule_values_remaining": "Golden assertions intentionally freeze expected values; optimizer scoring and ranking remain separate.",
+    "risky_hardcoded_values": "No newly risky public rule constants were introduced. Golden values remain hardcoded only as regression assertions.",
+    "rules_source": "current-implementation-backed"
+  },
+  "public_behavior_changed": false,
+  "model_outputs_changed": false,
+  "optimizer_behavior_changed": false,
+  "selected_squad_changed": false,
+  "final_recommendation": "Proceed with scoped refactor commit if all QA gates pass."
+}

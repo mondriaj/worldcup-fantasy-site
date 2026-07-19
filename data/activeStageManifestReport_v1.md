@@ -65,6 +65,7 @@ Wired now:
 - `scripts/validateFinalRoundBuilderBrowserEquivalenceV1.mjs`
 - `scripts/validateTeamBuilderGoldenFinalRoundV1.mjs`
 - `scripts/validateTeamBuilderSharedModelHelpersV1.mjs`
+- `scripts/validateTeamBuilderRulesHelpersV1.mjs`
 - `scripts/validateTeamBuilderEligibilityHelpersV1.mjs`
 - `scripts/validateTeamBuilderOptimizerUtilitiesV1.mjs`
 - `scripts/validateTeamBuilderConstraintHelpersV1.mjs`
@@ -97,6 +98,10 @@ The runner does not rebuild models, tune weights, change recommendations, change
 ## Team Builder Constraint Helpers
 
 `scripts/lib/teamBuilderPublicModel.mjs` and `teamBuilderPublicHelpers.js` now expose pure squad constraint helpers for squad size, budget, positions, team caps, fixture counts, duplicate players, eligibility, locks/removals, captain/vice validity, and starter/bench structure. `scripts/validateTeamBuilderConstraintHelpersV1.mjs` covers passing and failing fixtures while leaving candidate scoring, ordering, DOM state, and public rendering in `script.js`.
+
+## Team Builder Rules Helpers
+
+`scripts/lib/teamBuilderPublicModel.mjs` and `teamBuilderPublicHelpers.js` now expose pure rules-derived helper config for Team Builder budget limit, country/team cap, squad size, position requirements, allowed formations, starter/bench requirements, captain/vice requirements, and lock/removal guardrails. `scripts/validateTeamBuilderRulesHelpersV1.mjs` freezes the current Final Round implementation-backed values before deeper optimizer extraction: budget limit `105`, country cap `8`, 15-player squad, 11 starters, 4 bench players, active `4-3-3` starter requirements, and captain/vice validity. It does not rebuild artifacts, tune models, rank candidates, or claim live FIFA lock/deadline state is verified.
 
 ## Public Payload Contract
 

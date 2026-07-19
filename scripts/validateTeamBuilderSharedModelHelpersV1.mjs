@@ -7,6 +7,7 @@ import {
   getTeamBuilderCaptainSummary,
   getTeamBuilderFixtureCounts,
   getTeamBuilderObjectiveSummary,
+  getTeamBuilderRulesConfig,
   getTeamBuilderSelectedPlayerNames,
   getTeamBuilderStarterNames,
   getTeamBuilderTeamCounts,
@@ -76,8 +77,10 @@ function parseBrowserHelpers(relativePath) {
 
 const manifest = readActiveStageManifest();
 const artifactPath = manifestFile(manifest, "teamBuilderArtifact");
+const rulesPath = manifestFile(manifest, "rules");
 const wrapperPath = manifestWrapper(manifest, "teamBuilderPublicHelpers");
 const artifact = readJson(artifactPath);
+const rules = readJson(rulesPath);
 const golden = readJson(goldenPath);
 const artifactBefore = JSON.stringify(artifact);
 const summary = summarizeTeamBuilderArtifact(artifact);
@@ -86,6 +89,10 @@ const artifactAfter = JSON.stringify(artifact);
 const comparison = compareTeamBuilderSummaryToGolden(summary, golden, tolerances);
 const browserHelpers = parseBrowserHelpers(wrapperPath);
 const browserSummary = browserHelpers.summarizeTeamBuilderArtifact(artifact);
+const rulesConfig = getTeamBuilderRulesConfig({ rules, artifact, activeStage: manifest.activeStage });
+const browserRulesConfig = typeof browserHelpers.getTeamBuilderRulesConfig === "function"
+  ? browserHelpers.getTeamBuilderRulesConfig({ rules, artifact, activeStage: manifest.activeStage })
+  : null;
 let malformedError = "";
 
 try {
@@ -153,13 +160,30 @@ const checks = [
     "getTeamBuilderFixtureCounts",
     "getTeamBuilderCaptainSummary",
     "getTeamBuilderObjectiveSummary",
-    "compareTeamBuilderSummaryToGolden"
+    "compareTeamBuilderSummaryToGolden",
+    "getTeamBuilderRulesConfig",
+    "getTeamBuilderBudgetLimit",
+    "getTeamBuilderCountryLimit",
+    "validateTeamBuilderRulesConfig"
   ].every((key) => typeof browserHelpers[key] === "function"), {
     exportedKeys: Object.keys(browserHelpers).sort()
   }),
   check("browser_wrapper_summary_matches_module_summary", sameJson(browserSummary, summary), {
     browserSummary,
     moduleSummary: summary
+  }),
+  check("rules_config_matches_golden_values", rulesConfig.budget.limit === golden.budgetLimit &&
+    rulesConfig.countryLimit.limit === artifact.constraintsUsed?.country_limit &&
+    rulesConfig.squad.totalPlayers === golden.selectedPlayers.length &&
+    rulesConfig.starterBench.starterSize === golden.starters.length &&
+    rulesConfig.starterBench.benchSize === golden.bench.length, {
+    budgetLimit: rulesConfig.budget.limit,
+    countryLimit: rulesConfig.countryLimit.limit,
+    squadSize: rulesConfig.squad.totalPlayers
+  }),
+  check("browser_wrapper_rules_config_matches_module", sameJson(browserRulesConfig, rulesConfig), {
+    browserRulesConfig,
+    moduleRulesConfig: rulesConfig
   })
 ];
 
@@ -170,8 +194,10 @@ const report = {
   status: failed.length ? "fail" : "pass",
   activeStage: manifest.activeStage,
   artifactPath,
+  rulesPath,
   browserHelperWrapperPath: wrapperPath,
   summary,
+  rulesConfig,
   comparison,
   checks
 };
@@ -188,8 +214,14 @@ Status: **${report.status}**
 ${mdTable(["Metric", "Value"], [
   ["Active stage", manifest.activeStage],
   ["Artifact", artifactPath],
+  ["Rules", rulesPath],
   ["Browser helper wrapper", wrapperPath],
   ["Budget", summary.budget.display],
+  ["Rules budget limit", rulesConfig.budget.limit],
+  ["Rules budget source", rulesConfig.budget.detail.source],
+  ["Rules country/team cap", rulesConfig.countryLimit.limit],
+  ["Rules country/team cap source", rulesConfig.countryLimit.detail.source],
+  ["Rules source", rulesConfig.sourceClassification],
   ["Captain", summary.captain.captain],
   ["Vice captain", summary.captain.viceCaptain],
   ["Raw projected", summary.objective.rawProjectedPoints],

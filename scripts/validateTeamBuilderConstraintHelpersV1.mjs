@@ -3,6 +3,7 @@ import vm from "node:vm";
 import {
   eligibleTeamKeysFromFixtureAuthority,
   getTeamBuilderConstraintSummary,
+  getTeamBuilderRulesConfig,
   validateTeamBuilderBudgetConstraint,
   validateTeamBuilderCaptainVice,
   validateTeamBuilderDuplicatePlayers,
@@ -74,24 +75,29 @@ function check(id, passed, details = {}) {
 const manifest = readActiveStageManifest();
 const artifact = readJson(manifestFile(manifest, "teamBuilderArtifact"));
 const golden = readJson("data/teamBuilderGoldenFinalRound_v1.json");
+const rules = readJson(manifestFile(manifest, "rules"));
 const fixtureAuthority = readJson(manifestFile(manifest, "finalRoundFixtureAuthority"));
 const browserHelpers = parseWrapper(manifestWrapper(manifest, "teamBuilderPublicHelpers"), "TEAM_BUILDER_PUBLIC_HELPERS") || {};
 const eligibleTeamKeys = eligibleTeamKeysFromFixtureAuthority(fixtureAuthority);
+const rulesConfig = getTeamBuilderRulesConfig({ rules, artifact, activeStage: manifest.activeStage });
+const browserRulesConfig = typeof browserHelpers.getTeamBuilderRulesConfig === "function"
+  ? browserHelpers.getTeamBuilderRulesConfig({ rules, artifact, activeStage: manifest.activeStage })
+  : null;
 const baseOptions = {
-  squadSize: golden.selectedPlayers.length,
-  budgetLimit: golden.budgetLimit,
-  positionRequirements: artifact.constraintsUsed?.position_requirements,
+  squadSize: rulesConfig.squad.totalPlayers,
+  budgetLimit: rulesConfig.budget.limit,
+  positionRequirements: rulesConfig.squad.positionRequirementsByCode,
   expectedTeamCounts: golden.teamCounts,
   expectedFixtureCounts: golden.fixtureCounts,
-  countryLimit: artifact.constraintsUsed?.country_limit,
+  countryLimit: rulesConfig.countryLimit.limit,
   activeStage: manifest.activeStage,
   eligibleTeamKeys,
   projectionResolver: () => ({ matchday: manifest.activeStage }),
   starters: artifact.starters,
   bench: artifact.bench,
-  starterSize: artifact.starters.length,
-  benchSize: artifact.bench.length,
-  starterRequirements: artifact.constraintsUsed?.starter_requirements,
+  starterSize: rulesConfig.starterBench.starterSize,
+  benchSize: rulesConfig.starterBench.benchSize,
+  starterRequirements: rulesConfig.starterBench.starterRequirementsByCode,
   captain: golden.captain,
   viceCaptain: golden.viceCaptain
 };
@@ -139,6 +145,18 @@ try {
 }
 
 const checks = [
+  check("rules_config_matches_golden_values", rulesConfig.budget.limit === golden.budgetLimit &&
+    rulesConfig.countryLimit.limit === artifact.constraintsUsed?.country_limit &&
+    rulesConfig.squad.totalPlayers === golden.selectedPlayers.length &&
+    rulesConfig.starterBench.starterSize === golden.starters.length &&
+    rulesConfig.starterBench.benchSize === golden.bench.length, {
+    budgetLimit: rulesConfig.budget.limit,
+    countryLimit: rulesConfig.countryLimit.limit,
+    squadSize: rulesConfig.squad.totalPlayers,
+    starterSize: rulesConfig.starterBench.starterSize,
+    benchSize: rulesConfig.starterBench.benchSize
+  }),
+  check("browser_rules_config_matches_module", sameJson(browserRulesConfig, rulesConfig), { browserHelperAvailable: Boolean(browserRulesConfig) }),
   check("golden_squad_passes_all_constraints", goldenReport.status === "pass", { status: goldenReport.status, errors: goldenReport.errors }),
   check("over_budget_squad_fails_budget_constraint", validateTeamBuilderBudgetConstraint(overBudget, baseOptions).status === "fail", {}),
   check("duplicate_player_squad_fails_duplicate_constraint", validateTeamBuilderDuplicatePlayers(duplicateSquad).status === "fail", {}),
@@ -201,7 +219,14 @@ const result = {
     optimizerBehaviorChanged: false,
     selectedSquadChanged: false,
     modelOutputsChanged: false,
-    browserHelperParity: Boolean(browserSummary && browserReport)
+    browserHelperParity: Boolean(browserSummary && browserReport),
+    rulesSource: rulesConfig.sourceClassification,
+    budgetLimitSource: rulesConfig.budget.detail.source,
+    squadSizeSource: rulesConfig.squad.detail.source,
+    positionRulesSource: rulesConfig.squad.detail.source,
+    countryLimitSource: rulesConfig.countryLimit.detail.source,
+    captainRuleSource: rulesConfig.captain.source,
+    rulesConfigMatchesGoldenValues: checks.find((entry) => entry.id === "rules_config_matches_golden_values")?.status === "pass"
   }
 };
 
@@ -222,6 +247,13 @@ ${mdTable(["Item", "Value"], [
   ["Position counts", JSON.stringify(result.summary.positionCounts)],
   ["Captain", result.summary.captain],
   ["Vice captain", result.summary.viceCaptain],
+  ["Rules source", result.summary.rulesSource],
+  ["Budget limit source", result.summary.budgetLimitSource],
+  ["Squad size source", result.summary.squadSizeSource],
+  ["Position rules source", result.summary.positionRulesSource],
+  ["Country/team cap source", result.summary.countryLimitSource],
+  ["Captain/vice rule source", result.summary.captainRuleSource],
+  ["Rules config matches golden", result.summary.rulesConfigMatchesGoldenValues ? "yes" : "no"],
   ["Optimizer behavior changed", "no"],
   ["Selected squad changed", "no"],
   ["Model outputs changed", "no"]

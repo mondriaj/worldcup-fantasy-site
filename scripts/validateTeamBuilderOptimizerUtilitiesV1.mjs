@@ -9,6 +9,7 @@ import {
   getTeamBuilderCaptainViceValidation,
   getTeamBuilderFixtureCounts,
   getTeamBuilderPositionCounts,
+  getTeamBuilderRulesConfig,
   getTeamBuilderSquadConstraintSummary,
   getTeamBuilderTeamCounts,
   normalizeTeamBuilderPositionCode,
@@ -82,54 +83,39 @@ function countBy(rows = [], field) {
 const manifest = readActiveStageManifest();
 const artifact = readJson(manifestFile(manifest, "teamBuilderArtifact"));
 const golden = readJson("data/teamBuilderGoldenFinalRound_v1.json");
+const rules = readJson(manifestFile(manifest, "rules"));
 const fixtureAuthority = readJson(manifestFile(manifest, "finalRoundFixtureAuthority"));
 const browserHelpers = parseWrapper(manifestWrapper(manifest, "teamBuilderPublicHelpers"), "TEAM_BUILDER_PUBLIC_HELPERS") || {};
 const eligibleTeamKeys = eligibleTeamKeysFromFixtureAuthority(fixtureAuthority);
 const eligibleTeams = getFixtureAuthorityEligibleTeams(fixtureAuthority);
+const rulesConfig = getTeamBuilderRulesConfig({ rules, artifact, activeStage: manifest.activeStage });
+const rulesOptions = {
+  squadSize: rulesConfig.squad.totalPlayers,
+  budgetLimit: rulesConfig.budget.limit,
+  positionRequirements: rulesConfig.squad.positionRequirementsByCode,
+  expectedTeamCounts: golden.teamCounts,
+  expectedFixtureCounts: golden.fixtureCounts,
+  countryLimit: rulesConfig.countryLimit.limit
+};
 const beforeArtifact = JSON.stringify(artifact);
 const beforeFixtureAuthority = JSON.stringify(fixtureAuthority);
 const summary = summarizeTeamBuilderArtifact(artifact);
 const goldenComparison = compareTeamBuilderSummaryToGolden(summary, golden);
 const constraintSummary = getTeamBuilderSquadConstraintSummary(artifact);
-const constraints = validateTeamBuilderSelectedSquadConstraints(artifact, {
-  squadSize: golden.selectedPlayers.length,
-  budgetLimit: golden.budgetLimit,
-  positionRequirements: artifact.constraintsUsed?.position_requirements,
-  expectedTeamCounts: golden.teamCounts,
-  expectedFixtureCounts: golden.fixtureCounts,
-  countryLimit: artifact.constraintsUsed?.country_limit
-});
+const constraints = validateTeamBuilderSelectedSquadConstraints(artifact, rulesOptions);
 const captain = getTeamBuilderCaptainViceValidation(artifact);
-const budget = getTeamBuilderBudgetFeasibility(artifact, { budgetLimit: golden.budgetLimit });
+const budget = getTeamBuilderBudgetFeasibility(artifact, { budgetLimit: rulesConfig.budget.limit });
 const positionCounts = getTeamBuilderPositionCounts(artifact);
-const deterministicLeft = validateTeamBuilderSelectedSquadConstraints(clone(artifact), {
-  squadSize: golden.selectedPlayers.length,
-  budgetLimit: golden.budgetLimit,
-  positionRequirements: artifact.constraintsUsed?.position_requirements,
-  expectedTeamCounts: golden.teamCounts,
-  expectedFixtureCounts: golden.fixtureCounts,
-  countryLimit: artifact.constraintsUsed?.country_limit
-});
-const deterministicRight = validateTeamBuilderSelectedSquadConstraints(clone(artifact), {
-  squadSize: golden.selectedPlayers.length,
-  budgetLimit: golden.budgetLimit,
-  positionRequirements: artifact.constraintsUsed?.position_requirements,
-  expectedTeamCounts: golden.teamCounts,
-  expectedFixtureCounts: golden.fixtureCounts,
-  countryLimit: artifact.constraintsUsed?.country_limit
-});
+const deterministicLeft = validateTeamBuilderSelectedSquadConstraints(clone(artifact), rulesOptions);
+const deterministicRight = validateTeamBuilderSelectedSquadConstraints(clone(artifact), rulesOptions);
 const browserConstraintSummary = typeof browserHelpers.getTeamBuilderSquadConstraintSummary === "function"
   ? browserHelpers.getTeamBuilderSquadConstraintSummary(artifact)
   : null;
 const browserConstraints = typeof browserHelpers.validateTeamBuilderSelectedSquadConstraints === "function"
-  ? browserHelpers.validateTeamBuilderSelectedSquadConstraints(artifact, {
-    squadSize: golden.selectedPlayers.length,
-    budgetLimit: golden.budgetLimit,
-    positionRequirements: artifact.constraintsUsed?.position_requirements,
-    expectedTeamCounts: golden.teamCounts,
-    expectedFixtureCounts: golden.fixtureCounts,
-    countryLimit: artifact.constraintsUsed?.country_limit
-  })
+  ? browserHelpers.validateTeamBuilderSelectedSquadConstraints(artifact, rulesOptions)
+  : null;
+const browserRulesConfig = typeof browserHelpers.getTeamBuilderRulesConfig === "function"
+  ? browserHelpers.getTeamBuilderRulesConfig({ rules, artifact, activeStage: manifest.activeStage })
   : null;
 let malformedRowsError = "";
 let malformedBudgetError = "";
@@ -153,6 +139,16 @@ assertNoEliminatedActiveCandidates(artifact.selectedSquad, {
 });
 
 const checks = [
+  check("rules_config_matches_golden_values", rulesConfig.budget.limit === golden.budgetLimit &&
+    rulesConfig.countryLimit.limit === artifact.constraintsUsed?.country_limit &&
+    rulesConfig.squad.totalPlayers === golden.selectedPlayers.length &&
+    rulesConfig.starterBench.starterSize === golden.starters.length &&
+    rulesConfig.starterBench.benchSize === golden.bench.length, {
+    budgetLimit: rulesConfig.budget.limit,
+    countryLimit: rulesConfig.countryLimit.limit,
+    squadSize: rulesConfig.squad.totalPlayers
+  }),
+  check("browser_rules_config_matches_module", sameJson(browserRulesConfig, rulesConfig), { browserHelperAvailable: Boolean(browserRulesConfig) }),
   check("golden_squad_satisfies_budget_limit", budget.isWithinBudget, budget),
   check("golden_squad_budget_used_matches", Math.abs(budget.used - golden.budgetUsed) <= 0.001, { used: budget.used, expected: golden.budgetUsed }),
   check("golden_squad_team_counts_match", sameJson(getTeamBuilderTeamCounts(artifact), golden.teamCounts), { actual: getTeamBuilderTeamCounts(artifact), expected: golden.teamCounts }),
@@ -192,6 +188,12 @@ const result = {
     selectedCountByTeamFromRows: countBy(artifact.selectedSquad, "country"),
     selectedCountByFixtureFromRows: countBy(artifact.selectedSquad, "fixture_stage"),
     eligibleTeams,
+    rulesSource: rulesConfig.sourceClassification,
+    budgetLimitSource: rulesConfig.budget.detail.source,
+    squadSizeSource: rulesConfig.squad.detail.source,
+    positionRulesSource: rulesConfig.squad.detail.source,
+    countryLimitSource: rulesConfig.countryLimit.detail.source,
+    captainRuleSource: rulesConfig.captain.source,
     optimizerBehaviorChanged: false,
     scriptJsWiredIntoOptimizerLoop: false
   },
@@ -214,6 +216,12 @@ ${mdTable(["Item", "Value"], [
   ["Fixture counts", Object.entries(constraintSummary.fixtureCounts).map(([fixture, count]) => `${fixture} ${count}`).join(", ")],
   ["Captain", captain.captain],
   ["Vice captain", captain.viceCaptain],
+  ["Rules source", rulesConfig.sourceClassification],
+  ["Budget limit source", rulesConfig.budget.detail.source],
+  ["Squad size source", rulesConfig.squad.detail.source],
+  ["Position rules source", rulesConfig.squad.detail.source],
+  ["Country/team cap source", rulesConfig.countryLimit.detail.source],
+  ["Captain/vice rule source", rulesConfig.captain.source],
   ["Optimizer behavior changed", "no"],
   ["Script optimizer loop wired", "no"]
 ])}

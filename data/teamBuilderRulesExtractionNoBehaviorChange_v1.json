@@ -1,0 +1,83 @@
+{
+  "schema_version": "team_builder_rules_extraction_no_behavior_change_v1",
+  "generated_at": "2026-07-18",
+  "status": "GREEN",
+  "public_behavior_changed": false,
+  "model_outputs_changed": false,
+  "optimizer_behavior_changed": false,
+  "candidate_ordering_changed": false,
+  "selected_squad_changed": false,
+  "public_copy_changed": false,
+  "public_data_wrappers_changed": false,
+  "generated_artifact_changed": false,
+  "rules_source": "current-implementation-backed",
+  "script_js_line_count": {
+    "before": 15351,
+    "after": 15258,
+    "delta": -93
+  },
+  "protected_values": {
+    "budget_used": 94.8,
+    "budget_limit": 105,
+    "country_limit": 8,
+    "squad_size": 15,
+    "starter_size": 11,
+    "bench_size": 4,
+    "active_formation": "4-3-3",
+    "position_requirements": { "GK": 2, "DEF": 5, "MID": 5, "FWD": 3 },
+    "starter_requirements": { "GK": 1, "DEF": 4, "MID": 3, "FWD": 3 },
+    "captain": "Mikel Oyarzabal",
+    "vice_captain": "Leandro Paredes",
+    "team_counts": {
+      "Argentina": 8,
+      "Spain": 5,
+      "France": 1,
+      "England": 1
+    },
+    "fixture_counts": {
+      "final": 13,
+      "third_place": 2
+    },
+    "raw_projected_points": 59.552,
+    "optionality_score": 5.291,
+    "composite_score": 1014.93,
+    "active_candidate_count": 101,
+    "active_eligible_teams": [
+      "France",
+      "England",
+      "Spain",
+      "Argentina"
+    ],
+    "selected_squad": [
+      "Emiliano Martínez",
+      "Unai Simón",
+      "Nicolás Tagliafico",
+      "Nahuel Molina",
+      "Lisandro Martínez",
+      "Cristian Romero",
+      "Pau Cubarsí",
+      "Leandro Paredes",
+      "Alexis Mac Allister",
+      "Enzo Fernández",
+      "Álex Baena",
+      "Fabián Ruiz",
+      "Kylian Mbappé",
+      "Harry Kane",
+      "Mikel Oyarzabal"
+    ]
+  },
+  "unchanged_surfaces": [
+    "Team Builder generated artifact",
+    "visible Team Builder squad",
+    "golden file",
+    "recommendations",
+    "projections",
+    "score predictions",
+    "fixtures",
+    "public copy",
+    "optimizer scoring",
+    "candidate ordering",
+    "captain ranking"
+  ],
+  "qa_expectation": "Rules helper, constraint, optimizer utility, shared helper, golden, exact browser, public preview, and active manifest QA pass with active QA count increasing from 54 to 55."
+}

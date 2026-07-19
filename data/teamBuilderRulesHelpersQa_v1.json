@@ -1,0 +1,311 @@
+{
+  "schema_version": "team_builder_rules_helpers_qa_v1",
+  "generated_at": "2026-07-19T02:24:37.920Z",
+  "status": "pass",
+  "activeStage": "finalRound",
+  "rulesPath": "fantasyRules.json",
+  "artifactPath": "data/teamBuilderFinalRoundArtifact_v1.json",
+  "browserHelperWrapperPath": "teamBuilderPublicHelpers.js",
+  "checks_run": 15,
+  "checks": [
+    {
+      "id": "final_round_budget_limit_equals_105",
+      "status": "pass",
+      "details": {
+        "budgetLimit": 105,
+        "source": "artifact_constraints"
+      }
+    },
+    {
+      "id": "golden_squad_budget_used_remains_94_8",
+      "status": "pass",
+      "details": {
+        "used": 94.8,
+        "limit": 105,
+        "remaining": 10.2,
+        "isWithinBudget": true,
+        "display": "94.8 / 105"
+      }
+    },
+    {
+      "id": "golden_squad_passes_squad_size_rules",
+      "status": "pass",
+      "details": {
+        "totalPlayers": 15,
+        "starterSize": 11,
+        "benchSize": 4,
+        "source": "current-implementation-backed"
+      }
+    },
+    {
+      "id": "golden_squad_passes_starter_bench_rules",
+      "status": "pass",
+      "details": {
+        "status": "pass",
+        "starterSize": {
+          "actual": 11,
+          "expected": 11,
+          "passed": true
+        },
+        "benchSize": {
+          "actual": 4,
+          "expected": 4,
+          "passed": true
+        },
+        "starterPositions": {
+          "status": "pass",
+          "counts": {
+            "GK": 1,
+            "DEF": 4,
+            "MID": 3,
+            "FWD": 3
+          },
+          "requirements": {
+            "GK": 1,
+            "DEF": 4,
+            "MID": 3,
+            "FWD": 3
+          },
+          "exact": true,
+          "mismatches": [],
+          "errors": [],
+          "warnings": []
+        },
+        "benchPositions": {
+          "status": "pass",
+          "errors": [],
+          "warnings": []
+        },
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "id": "golden_squad_passes_position_rules",
+      "status": "pass",
+      "details": {
+        "status": "pass",
+        "counts": {
+          "GK": 2,
+          "DEF": 5,
+          "MID": 5,
+          "FWD": 3
+        },
+        "requirements": {
+          "GK": 2,
+          "DEF": 5,
+          "MID": 5,
+          "FWD": 3
+        },
+        "exact": true,
+        "mismatches": [],
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "id": "golden_squad_passes_captain_vice_rules",
+      "status": "pass",
+      "details": {
+        "captainRules": {
+          "captainRequired": true,
+          "viceCaptainRequired": true,
+          "captainPointsMultiplier": 2,
+          "captainMustBeInSelectedSquad": true,
+          "viceCaptainMustBeInSelectedSquad": true,
+          "captainMustBeStarter": true,
+          "viceCaptainMustBeStarter": true,
+          "captainMustDifferFromVice": true,
+          "goalkeeperAllowed": false,
+          "source": "official_rules_data_and_current_validator_contract"
+        },
+        "captainValidation": {
+          "status": "pass",
+          "captain": "Mikel Oyarzabal",
+          "viceCaptain": "Leandro Paredes",
+          "captainInSelectedSquad": true,
+          "viceCaptainInSelectedSquad": true,
+          "captainInStarters": true,
+          "viceCaptainInStarters": true,
+          "captainDifferentFromVice": true,
+          "captainIsNotGoalkeeper": true,
+          "viceCaptainIsNotGoalkeeper": true,
+          "checks": {
+            "captain_present": true,
+            "vice_captain_present": true,
+            "captain_in_selected_squad": true,
+            "vice_captain_in_selected_squad": true,
+            "captain_in_starters": true,
+            "vice_captain_in_starters": true,
+            "captain_different_from_vice": true,
+            "captain_is_not_goalkeeper": true,
+            "vice_captain_is_not_goalkeeper": true
+          },
+          "errors": [],
+          "warnings": []
+        }
+      }
+    },
+    {
+      "id": "team_country_limit_matches_current_implementation",
+      "status": "pass",
+      "details": {
+        "countryLimit": 8,
+        "teamLimitValidation": {
+          "status": "pass",
+          "counts": {
+            "Argentina": 8,
+            "Spain": 5,
+            "France": 1,
+            "England": 1
+          },
+          "countryLimit": 8,
+          "expectedTeamCounts": {
+            "Argentina": 8,
+            "Spain": 5,
+            "France": 1,
+            "England": 1
+          },
+          "limitViolations": [],
+          "expectedCountsMatch": true,
+          "errors": [],
+          "warnings": []
+        }
+      }
+    },
+    {
+      "id": "formation_rules_include_active_4_3_3",
+      "status": "pass",
+      "details": {
+        "activeFormation": "4-3-3",
+        "allowedFormations": [
+          "4-4-2",
+          "4-3-3",
+          "4-5-1",
+          "3-4-3",
+          "3-5-2",
+          "5-4-1",
+          "5-3-2"
+        ]
+      }
+    },
+    {
+      "id": "malformed_rules_config_fails_with_useful_error",
+      "status": "pass",
+      "details": {
+        "status": "fail",
+        "config": null,
+        "errors": [
+          "Team Builder rules are missing budget.initial_budget."
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "id": "explicit_bad_normalized_config_fails_with_useful_errors",
+      "status": "pass",
+      "details": {
+        "status": "fail",
+        "config": {
+          "schema_version": "team_builder_rules_config_v1",
+          "sourceClassification": "",
+          "budget": {
+            "limit": -1
+          },
+          "squad": {
+            "totalPlayers": 15,
+            "positionRequirements": {
+              "Goalkeeper": 2
+            }
+          },
+          "starterBench": {
+            "starterSize": 11,
+            "starterRequirements": {
+              "Goalkeeper": 1
+            }
+          },
+          "countryLimit": {
+            "limit": 0
+          },
+          "warnings": []
+        },
+        "errors": [
+          "Team Builder rules config budget.limit must be a positive number.",
+          "Team Builder rules config position requirements do not sum to squad.totalPlayers.",
+          "Team Builder rules config starter requirements do not sum to starterBench.starterSize.",
+          "Team Builder rules config countryLimit.limit must be a positive number.",
+          "Team Builder rules config must include sourceClassification."
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "id": "helper_output_is_deterministic",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "helpers_do_not_mutate_inputs",
+      "status": "pass",
+      "details": {}
+    },
+    {
+      "id": "rule_source_classification_is_present",
+      "status": "pass",
+      "details": {
+        "sourceClassification": "current-implementation-backed",
+        "budgetSource": "artifact_constraints",
+        "countryLimitSource": "artifact_constraints",
+        "squadSource": "artifact_constraints"
+      }
+    },
+    {
+      "id": "browser_rules_helper_matches_module",
+      "status": "pass",
+      "details": {
+        "browserHelperAvailable": true
+      }
+    },
+    {
+      "id": "lock_removal_rules_are_manual_check_guardrails",
+      "status": "pass",
+      "details": {
+        "lockedPlayersMustRemainPresent": true,
+        "excludedPlayersMustRemainAbsent": true,
+        "liveLockStateManualCheckRequired": true,
+        "source": "current_browser_state_and_official_manual_check_caveat"
+      }
+    }
+  ],
+  "failed_checks": [],
+  "summary": {
+    "rulesSource": "current-implementation-backed",
+    "budgetLimit": 105,
+    "budgetLimitSource": "artifact_constraints",
+    "countryLimit": 8,
+    "countryLimitSource": "artifact_constraints",
+    "squadSize": 15,
+    "starterSize": 11,
+    "benchSize": 4,
+    "positionRequirements": {
+      "GK": 2,
+      "DEF": 5,
+      "MID": 5,
+      "FWD": 3
+    },
+    "activeFormation": "4-3-3",
+    "starterRequirements": {
+      "GK": 1,
+      "DEF": 4,
+      "MID": 3,
+      "FWD": 3
+    },
+    "captainRulesSource": "official_rules_data_and_current_validator_contract",
+    "lockRemovalRulesSource": "current_browser_state_and_official_manual_check_caveat",
+    "officialSourceBacked": true,
+    "currentImplementationBacked": true,
+    "selectedSquadChanged": false,
+    "optimizerBehaviorChanged": false,
+    "modelOutputsChanged": false
+  }
+}
